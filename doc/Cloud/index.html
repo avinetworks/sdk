@@ -1,0 +1,3334 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi Cloud Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi Cloud Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 17.1.2</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#cloudGet"><code><span class="http-method">get</span> /cloud</code></a></li>
+  <li><a href="#cloudListPost"><code><span class="http-method">post</span> /cloud/list</code></a></li>
+  <li><a href="#cloudPost"><code><span class="http-method">post</span> /cloud</code></a></li>
+  <li><a href="#cloudUuidAutoscalegroupGet"><code><span class="http-method">get</span> /cloud/{uuid}/autoscalegroup/</code></a></li>
+  <li><a href="#cloudUuidAutoscalegroupserversGet"><code><span class="http-method">get</span> /cloud/{uuid}/autoscalegroupservers/</code></a></li>
+  <li><a href="#cloudUuidDelete"><code><span class="http-method">delete</span> /cloud/{uuid}</code></a></li>
+  <li><a href="#cloudUuidGcPatch"><code><span class="http-method">patch</span> /cloud/{uuid}/gc/</code></a></li>
+  <li><a href="#cloudUuidGcPut"><code><span class="http-method">put</span> /cloud/{uuid}/gc/</code></a></li>
+  <li><a href="#cloudUuidGet"><code><span class="http-method">get</span> /cloud/{uuid}</code></a></li>
+  <li><a href="#cloudUuidHealthGet"><code><span class="http-method">get</span> /cloud/{uuid}/health/</code></a></li>
+  <li><a href="#cloudUuidHostsGet"><code><span class="http-method">get</span> /cloud/{uuid}/hosts/</code></a></li>
+  <li><a href="#cloudUuidInternalsGet"><code><span class="http-method">get</span> /cloud/{uuid}/internals/</code></a></li>
+  <li><a href="#cloudUuidPatch"><code><span class="http-method">patch</span> /cloud/{uuid}</code></a></li>
+  <li><a href="#cloudUuidPut"><code><span class="http-method">put</span> /cloud/{uuid}</code></a></li>
+  <li><a href="#cloudUuidStatusGet"><code><span class="http-method">get</span> /cloud/{uuid}/status/</code></a></li>
+  </ol>
+
+  <div class="method"><a name="cloudGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#CloudApiResponse">CloudApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "vtype" : "aeiou",
+    "apic_configuration" : {
+      "apic_admin_tenant" : "aeiou",
+      "apic_vendor" : "aeiou",
+      "avi_controller_username" : "aeiou",
+      "minor" : "aeiou",
+      "context_aware" : "aeiou",
+      "apic_domain" : "aeiou",
+      "apic_product" : "aeiou",
+      "managed_mode" : true,
+      "apic_username" : "aeiou",
+      "version" : "aeiou",
+      "apic_password" : "aeiou",
+      "avi_controller_password" : "aeiou",
+      "apic_name" : [ "aeiou" ],
+      "deployment" : "aeiou"
+    },
+    "ipam_provider_ref" : "aeiou",
+    "aws_configuration" : {
+      "access_key_id" : "aeiou",
+      "iam_assume_role" : "aeiou",
+      "vpc_id" : "aeiou",
+      "route53_integration" : true,
+      "use_iam_roles" : true,
+      "secret_access_key" : "aeiou",
+      "vpc" : "aeiou",
+      "region" : "aeiou",
+      "zones" : [ {
+        "availability_zone" : "aeiou",
+        "mgmt_network_name" : "aeiou",
+        "mgmt_network_uuid" : "aeiou"
+      } ],
+      "free_elasticips" : true
+    },
+    "east_west_ipam_provider_ref" : "aeiou",
+    "uuid" : "aeiou",
+    "mesos_configuration" : {
+      "feproxy_container_port_as_service" : true,
+      "disable_auto_backend_service_sync" : true,
+      "se_volume" : "aeiou",
+      "node_availability_zone_label" : "aeiou",
+      "http_container_ports" : [ "" ],
+      "se_spawn_rate" : 123,
+      "marathon_se_deployment" : {
+        "uris" : [ "aeiou" ],
+        "host_os" : "aeiou",
+        "resource_roles" : [ "aeiou" ],
+        "docker_image" : "aeiou"
+      },
+      "nuage_controller" : {
+        "se_zone" : "aeiou",
+        "nuage_username" : "aeiou",
+        "nuage_password" : "aeiou",
+        "nuage_organization" : "aeiou",
+        "nuage_port" : 123,
+        "se_domain" : "aeiou",
+        "se_enterprise" : "aeiou",
+        "se_policy_group" : "aeiou",
+        "nuage_vsd_host" : "aeiou",
+        "se_network" : "aeiou",
+        "se_user" : "aeiou"
+      },
+      "feproxy_bridge_name" : "aeiou",
+      "fleet_endpoint" : "aeiou",
+      "all_vses_are_feproxy" : true,
+      "ssh_user_ref" : "aeiou",
+      "use_controller_image" : true,
+      "use_container_ip_port" : true,
+      "container_port_match_http_service" : true,
+      "disable_auto_gs_sync" : true,
+      "vip" : "",
+      "disable_auto_se_creation" : true,
+      "se_include_attributes" : [ "" ],
+      "feproxy_route_publish" : {
+        "mode" : "aeiou",
+        "subnet" : 123,
+        "publisher_port" : 123,
+        "token" : "aeiou"
+      },
+      "se_deployment_method" : "aeiou",
+      "services_accessible_all_interfaces" : true,
+      "disable_auto_frontend_service_sync" : true,
+      "use_vips_for_east_west_services" : true,
+      "use_bridge_ip_as_vip" : true,
+      "app_sync_frequency" : 123,
+      "feproxy_vips_enable_proxy_arp" : true,
+      "ssh_se_deployment" : "",
+      "enable_event_subscription" : true,
+      "marathon_configurations" : [ {
+        "vs_name_tag_framework" : true,
+        "marathon_url" : "aeiou",
+        "public_port_range" : "",
+        "marathon_username" : "aeiou",
+        "use_token_auth" : true,
+        "private_port_range" : {
+          "start" : 123,
+          "end" : 123
+        },
+        "framework_tag" : "aeiou",
+        "marathon_password" : "aeiou",
+        "tenant" : "aeiou"
+      } ],
+      "se_resources" : [ {
+        "memory" : 123,
+        "attribute_key" : "aeiou",
+        "cpu" : 1.3579000000000001069366817318950779736042022705078125,
+        "attribute_value" : "aeiou"
+      } ],
+      "coredump_directory" : "aeiou",
+      "docker_registry_se" : "",
+      "se_exclude_attributes" : [ "" ],
+      "east_west_placement_subnet" : "",
+      "mesos_url" : "aeiou"
+    },
+    "docker_configuration" : {
+      "feproxy_container_port_as_service" : true,
+      "disable_auto_backend_service_sync" : true,
+      "se_volume" : "aeiou",
+      "http_container_ports" : [ "" ],
+      "se_spawn_rate" : 123,
+      "ca_tls_key_and_certificate_ref" : "aeiou",
+      "fleet_endpoint" : "aeiou",
+      "client_tls_key_and_certificate_ref" : "aeiou",
+      "ssh_user_ref" : "aeiou",
+      "use_controller_image" : true,
+      "use_container_ip_port" : true,
+      "container_port_match_http_service" : true,
+      "disable_auto_se_creation" : true,
+      "se_include_attributes" : [ "" ],
+      "se_deployment_method" : "aeiou",
+      "services_accessible_all_interfaces" : true,
+      "disable_auto_frontend_service_sync" : true,
+      "ucp_nodes" : [ "aeiou" ],
+      "app_sync_frequency" : 123,
+      "feproxy_vips_enable_proxy_arp" : true,
+      "ssh_se_deployment" : {
+        "password" : "aeiou",
+        "host_os" : "aeiou",
+        "ssh_user" : "aeiou",
+        "sudo_user" : "aeiou"
+      },
+      "enable_event_subscription" : true,
+      "coredump_directory" : "aeiou",
+      "docker_registry_se" : {
+        "registry" : "aeiou",
+        "password" : "aeiou",
+        "private" : true,
+        "oshift_registry" : {
+          "registry_vip" : {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          },
+          "registry_namespace" : "aeiou",
+          "registry_service" : "aeiou"
+        },
+        "se_repository_push" : true,
+        "username" : "aeiou"
+      },
+      "se_exclude_attributes" : [ {
+        "attribute" : "aeiou",
+        "value" : "aeiou"
+      } ],
+      "east_west_placement_subnet" : {
+        "ip_addr" : "",
+        "mask" : 123
+      }
+    },
+    "vca_configuration" : {
+      "vca_password" : "aeiou",
+      "vca_instance" : "aeiou",
+      "vca_orgnization" : "aeiou",
+      "vca_username" : "aeiou",
+      "vca_mgmt_network" : "aeiou",
+      "vca_host" : "aeiou",
+      "vca_vdc" : "aeiou",
+      "privilege" : "aeiou"
+    },
+    "nsx_configuration" : {
+      "nsx_manager_username" : "aeiou",
+      "nsx_manager_name" : "aeiou",
+      "avi_nsx_prefix" : "aeiou",
+      "nsx_manager_password" : "aeiou",
+      "nsx_poll_time" : 123
+    },
+    "dns_provider_ref" : "aeiou",
+    "oshiftk8s_configuration" : {
+      "l4_health_monitoring" : true,
+      "disable_auto_backend_service_sync" : true,
+      "se_volume" : "aeiou",
+      "node_availability_zone_label" : "aeiou",
+      "http_container_ports" : [ "" ],
+      "se_spawn_rate" : 123,
+      "ca_tls_key_and_certificate_ref" : "aeiou",
+      "nuage_controller" : "",
+      "service_account_token" : "aeiou",
+      "fleet_endpoint" : "aeiou",
+      "client_tls_key_and_certificate_ref" : "aeiou",
+      "ssh_user_ref" : "aeiou",
+      "master_nodes" : [ "aeiou" ],
+      "use_controller_image" : true,
+      "sdn_overlay" : true,
+      "container_port_match_http_service" : true,
+      "disable_auto_se_creation" : true,
+      "se_include_attributes" : [ "" ],
+      "use_service_cluster_ip_as_ew_vip" : true,
+      "se_deployment_method" : "aeiou",
+      "default_shared_virtualservice" : {
+        "virtualservice_name" : "aeiou"
+      },
+      "disable_auto_frontend_service_sync" : true,
+      "app_sync_frequency" : 123,
+      "feproxy_vips_enable_proxy_arp" : true,
+      "ssh_se_deployment" : "",
+      "enable_event_subscription" : true,
+      "secure_egress_mode" : true,
+      "coredump_directory" : "aeiou",
+      "docker_registry_se" : "",
+      "routes_share_virtualservice" : true,
+      "se_exclude_attributes" : [ "" ],
+      "east_west_placement_subnet" : "",
+      "avi_bridge_subnet" : "",
+      "default_service_as_east_west_service" : true,
+      "use_scheduling_disabled_nodes" : true
+    },
+    "proxy_configuration" : {
+      "password" : "aeiou",
+      "port" : 123,
+      "host" : "aeiou",
+      "username" : "aeiou"
+    },
+    "apic_mode" : true,
+    "license_type" : "aeiou",
+    "cloudstack_configuration" : {
+      "access_key_id" : "aeiou",
+      "cntr_public_ip" : "aeiou",
+      "api_url" : "aeiou",
+      "hypervisor" : "aeiou",
+      "mgmt_network_name" : "aeiou",
+      "secret_access_key" : "aeiou",
+      "mgmt_network_uuid" : "aeiou"
+    },
+    "enable_vip_static_routes" : true,
+    "east_west_dns_provider_ref" : "aeiou",
+    "url" : "aeiou",
+    "mtu" : 123,
+    "dhcp_enabled" : true,
+    "obj_name_prefix" : "aeiou",
+    "openstack_configuration" : {
+      "import_keystone_tenants" : true,
+      "allowed_address_pairs" : true,
+      "nuage_password" : "aeiou",
+      "privilege" : "aeiou",
+      "mgmt_network_uuid" : "aeiou",
+      "contrail_plugin" : true,
+      "port_security" : true,
+      "nuage_vsd_host" : "aeiou",
+      "se_group_ref" : "aeiou",
+      "usable_network_uuids" : [ "aeiou" ],
+      "anti_affinity" : true,
+      "password" : "aeiou",
+      "hypervisor" : "aeiou",
+      "nuage_username" : "aeiou",
+      "tenant_se" : true,
+      "img_format" : "aeiou",
+      "insecure" : true,
+      "mgmt_network_name" : "aeiou",
+      "nuage_port" : 123,
+      "admin_tenant_uuid" : "aeiou",
+      "free_floatingips" : true,
+      "name_owner" : true,
+      "contrail_endpoint" : "aeiou",
+      "use_keystone_auth" : true,
+      "keystone_host" : "aeiou",
+      "external_networks" : true,
+      "use_internal_endpoints" : true,
+      "security_groups" : true,
+      "config_drive" : true,
+      "intf_sec_ips" : true,
+      "prov_name" : [ "aeiou" ],
+      "map_admin_to_cloudadmin" : true,
+      "neutron_rbac" : true,
+      "admin_tenant" : "aeiou",
+      "nuage_organization" : "aeiou",
+      "role_mapping" : [ {
+        "os_role" : "aeiou",
+        "avi_role" : "aeiou"
+      } ],
+      "use_admin_url" : true,
+      "auth_url" : "aeiou",
+      "region" : "aeiou",
+      "username" : "aeiou"
+    },
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "prefer_static_routes" : true,
+    "vcenter_configuration" : {
+      "password" : "aeiou",
+      "management_ip_subnet" : "",
+      "vcenter_template_se_location" : "aeiou",
+      "datacenter" : "aeiou",
+      "management_network" : "aeiou",
+      "vcenter_url" : "aeiou",
+      "privilege" : "aeiou",
+      "username" : "aeiou"
+    },
+    "linuxserver_configuration" : {
+      "ssh_user_ref" : "aeiou",
+      "hosts" : [ {
+        "host_ip" : "",
+        "host_attr" : [ {
+          "attr_val" : "aeiou",
+          "attr_key" : "aeiou"
+        } ],
+        "node_availability_zone" : "aeiou"
+      } ],
+      "se_inband_mgmt" : true,
+      "se_sys_disk_path" : "aeiou",
+      "se_log_disk_size_GB" : 123,
+      "ssh_attr" : "",
+      "se_sys_disk_size_GB" : 123,
+      "docker_registry_se" : "",
+      "se_log_disk_path" : "aeiou"
+    },
+    "rancher_configuration" : {
+      "feproxy_container_port_as_service" : true,
+      "disable_auto_backend_service_sync" : true,
+      "se_volume" : "aeiou",
+      "http_container_ports" : [ "" ],
+      "se_spawn_rate" : 123,
+      "nuage_controller" : "",
+      "fleet_endpoint" : "aeiou",
+      "secret_key" : "aeiou",
+      "ssh_user_ref" : "aeiou",
+      "use_controller_image" : true,
+      "use_container_ip_port" : true,
+      "container_port_match_http_service" : true,
+      "disable_auto_se_creation" : true,
+      "se_include_attributes" : [ "" ],
+      "se_deployment_method" : "aeiou",
+      "services_accessible_all_interfaces" : true,
+      "disable_auto_frontend_service_sync" : true,
+      "app_sync_frequency" : 123,
+      "feproxy_vips_enable_proxy_arp" : true,
+      "ssh_se_deployment" : "",
+      "enable_event_subscription" : true,
+      "coredump_directory" : "aeiou",
+      "docker_registry_se" : "",
+      "rancher_servers" : [ "aeiou" ],
+      "se_exclude_attributes" : [ "" ],
+      "access_key" : "aeiou",
+      "east_west_placement_subnet" : ""
+    }
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#CloudApiResponse">CloudApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudListPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /cloud/list</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudListPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /cloud</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Cloud object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Cloud">Cloud</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "vtype" : "aeiou",
+  "apic_configuration" : {
+    "apic_admin_tenant" : "aeiou",
+    "apic_vendor" : "aeiou",
+    "avi_controller_username" : "aeiou",
+    "minor" : "aeiou",
+    "context_aware" : "aeiou",
+    "apic_domain" : "aeiou",
+    "apic_product" : "aeiou",
+    "managed_mode" : true,
+    "apic_username" : "aeiou",
+    "version" : "aeiou",
+    "apic_password" : "aeiou",
+    "avi_controller_password" : "aeiou",
+    "apic_name" : [ "aeiou" ],
+    "deployment" : "aeiou"
+  },
+  "ipam_provider_ref" : "aeiou",
+  "aws_configuration" : {
+    "access_key_id" : "aeiou",
+    "iam_assume_role" : "aeiou",
+    "vpc_id" : "aeiou",
+    "route53_integration" : true,
+    "use_iam_roles" : true,
+    "secret_access_key" : "aeiou",
+    "vpc" : "aeiou",
+    "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "mgmt_network_name" : "aeiou",
+      "mgmt_network_uuid" : "aeiou"
+    } ],
+    "free_elasticips" : true
+  },
+  "east_west_ipam_provider_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "mesos_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "marathon_se_deployment" : {
+      "uris" : [ "aeiou" ],
+      "host_os" : "aeiou",
+      "resource_roles" : [ "aeiou" ],
+      "docker_image" : "aeiou"
+    },
+    "nuage_controller" : {
+      "se_zone" : "aeiou",
+      "nuage_username" : "aeiou",
+      "nuage_password" : "aeiou",
+      "nuage_organization" : "aeiou",
+      "nuage_port" : 123,
+      "se_domain" : "aeiou",
+      "se_enterprise" : "aeiou",
+      "se_policy_group" : "aeiou",
+      "nuage_vsd_host" : "aeiou",
+      "se_network" : "aeiou",
+      "se_user" : "aeiou"
+    },
+    "feproxy_bridge_name" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "all_vses_are_feproxy" : true,
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
+    "vip" : "",
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "feproxy_route_publish" : {
+      "mode" : "aeiou",
+      "subnet" : 123,
+      "publisher_port" : 123,
+      "token" : "aeiou"
+    },
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "use_vips_for_east_west_services" : true,
+    "use_bridge_ip_as_vip" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "marathon_configurations" : [ {
+      "vs_name_tag_framework" : true,
+      "marathon_url" : "aeiou",
+      "public_port_range" : "",
+      "marathon_username" : "aeiou",
+      "use_token_auth" : true,
+      "private_port_range" : {
+        "start" : 123,
+        "end" : 123
+      },
+      "framework_tag" : "aeiou",
+      "marathon_password" : "aeiou",
+      "tenant" : "aeiou"
+    } ],
+    "se_resources" : [ {
+      "memory" : 123,
+      "attribute_key" : "aeiou",
+      "cpu" : 1.3579000000000001069366817318950779736042022705078125,
+      "attribute_value" : "aeiou"
+    } ],
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "mesos_url" : "aeiou"
+  },
+  "docker_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "ucp_nodes" : [ "aeiou" ],
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : {
+      "password" : "aeiou",
+      "host_os" : "aeiou",
+      "ssh_user" : "aeiou",
+      "sudo_user" : "aeiou"
+    },
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : {
+      "registry" : "aeiou",
+      "password" : "aeiou",
+      "private" : true,
+      "oshift_registry" : {
+        "registry_vip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "registry_namespace" : "aeiou",
+        "registry_service" : "aeiou"
+      },
+      "se_repository_push" : true,
+      "username" : "aeiou"
+    },
+    "se_exclude_attributes" : [ {
+      "attribute" : "aeiou",
+      "value" : "aeiou"
+    } ],
+    "east_west_placement_subnet" : {
+      "ip_addr" : "",
+      "mask" : 123
+    }
+  },
+  "vca_configuration" : {
+    "vca_password" : "aeiou",
+    "vca_instance" : "aeiou",
+    "vca_orgnization" : "aeiou",
+    "vca_username" : "aeiou",
+    "vca_mgmt_network" : "aeiou",
+    "vca_host" : "aeiou",
+    "vca_vdc" : "aeiou",
+    "privilege" : "aeiou"
+  },
+  "nsx_configuration" : {
+    "nsx_manager_username" : "aeiou",
+    "nsx_manager_name" : "aeiou",
+    "avi_nsx_prefix" : "aeiou",
+    "nsx_manager_password" : "aeiou",
+    "nsx_poll_time" : 123
+  },
+  "dns_provider_ref" : "aeiou",
+  "oshiftk8s_configuration" : {
+    "l4_health_monitoring" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "nuage_controller" : "",
+    "service_account_token" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "master_nodes" : [ "aeiou" ],
+    "use_controller_image" : true,
+    "sdn_overlay" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "use_service_cluster_ip_as_ew_vip" : true,
+    "se_deployment_method" : "aeiou",
+    "default_shared_virtualservice" : {
+      "virtualservice_name" : "aeiou"
+    },
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "secure_egress_mode" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "routes_share_virtualservice" : true,
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "avi_bridge_subnet" : "",
+    "default_service_as_east_west_service" : true,
+    "use_scheduling_disabled_nodes" : true
+  },
+  "proxy_configuration" : {
+    "password" : "aeiou",
+    "port" : 123,
+    "host" : "aeiou",
+    "username" : "aeiou"
+  },
+  "apic_mode" : true,
+  "license_type" : "aeiou",
+  "cloudstack_configuration" : {
+    "access_key_id" : "aeiou",
+    "cntr_public_ip" : "aeiou",
+    "api_url" : "aeiou",
+    "hypervisor" : "aeiou",
+    "mgmt_network_name" : "aeiou",
+    "secret_access_key" : "aeiou",
+    "mgmt_network_uuid" : "aeiou"
+  },
+  "enable_vip_static_routes" : true,
+  "east_west_dns_provider_ref" : "aeiou",
+  "url" : "aeiou",
+  "mtu" : 123,
+  "dhcp_enabled" : true,
+  "obj_name_prefix" : "aeiou",
+  "openstack_configuration" : {
+    "import_keystone_tenants" : true,
+    "allowed_address_pairs" : true,
+    "nuage_password" : "aeiou",
+    "privilege" : "aeiou",
+    "mgmt_network_uuid" : "aeiou",
+    "contrail_plugin" : true,
+    "port_security" : true,
+    "nuage_vsd_host" : "aeiou",
+    "se_group_ref" : "aeiou",
+    "usable_network_uuids" : [ "aeiou" ],
+    "anti_affinity" : true,
+    "password" : "aeiou",
+    "hypervisor" : "aeiou",
+    "nuage_username" : "aeiou",
+    "tenant_se" : true,
+    "img_format" : "aeiou",
+    "insecure" : true,
+    "mgmt_network_name" : "aeiou",
+    "nuage_port" : 123,
+    "admin_tenant_uuid" : "aeiou",
+    "free_floatingips" : true,
+    "name_owner" : true,
+    "contrail_endpoint" : "aeiou",
+    "use_keystone_auth" : true,
+    "keystone_host" : "aeiou",
+    "external_networks" : true,
+    "use_internal_endpoints" : true,
+    "security_groups" : true,
+    "config_drive" : true,
+    "intf_sec_ips" : true,
+    "prov_name" : [ "aeiou" ],
+    "map_admin_to_cloudadmin" : true,
+    "neutron_rbac" : true,
+    "admin_tenant" : "aeiou",
+    "nuage_organization" : "aeiou",
+    "role_mapping" : [ {
+      "os_role" : "aeiou",
+      "avi_role" : "aeiou"
+    } ],
+    "use_admin_url" : true,
+    "auth_url" : "aeiou",
+    "region" : "aeiou",
+    "username" : "aeiou"
+  },
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "prefer_static_routes" : true,
+  "vcenter_configuration" : {
+    "password" : "aeiou",
+    "management_ip_subnet" : "",
+    "vcenter_template_se_location" : "aeiou",
+    "datacenter" : "aeiou",
+    "management_network" : "aeiou",
+    "vcenter_url" : "aeiou",
+    "privilege" : "aeiou",
+    "username" : "aeiou"
+  },
+  "linuxserver_configuration" : {
+    "ssh_user_ref" : "aeiou",
+    "hosts" : [ {
+      "host_ip" : "",
+      "host_attr" : [ {
+        "attr_val" : "aeiou",
+        "attr_key" : "aeiou"
+      } ],
+      "node_availability_zone" : "aeiou"
+    } ],
+    "se_inband_mgmt" : true,
+    "se_sys_disk_path" : "aeiou",
+    "se_log_disk_size_GB" : 123,
+    "ssh_attr" : "",
+    "se_sys_disk_size_GB" : 123,
+    "docker_registry_se" : "",
+    "se_log_disk_path" : "aeiou"
+  },
+  "rancher_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "nuage_controller" : "",
+    "fleet_endpoint" : "aeiou",
+    "secret_key" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "rancher_servers" : [ "aeiou" ],
+    "se_exclude_attributes" : [ "" ],
+    "access_key" : "aeiou",
+    "east_west_placement_subnet" : ""
+  }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Cloud">Cloud</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidAutoscalegroupGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/autoscalegroup/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidAutoscalegroupGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidAutoscalegroupserversGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/autoscalegroupservers/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidAutoscalegroupserversGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /cloud/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidGcPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /cloud/{uuid}/gc/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidGcPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidGcPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cloud/{uuid}/gc/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidGcPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; empty </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Cloud">Cloud</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "vtype" : "aeiou",
+  "apic_configuration" : {
+    "apic_admin_tenant" : "aeiou",
+    "apic_vendor" : "aeiou",
+    "avi_controller_username" : "aeiou",
+    "minor" : "aeiou",
+    "context_aware" : "aeiou",
+    "apic_domain" : "aeiou",
+    "apic_product" : "aeiou",
+    "managed_mode" : true,
+    "apic_username" : "aeiou",
+    "version" : "aeiou",
+    "apic_password" : "aeiou",
+    "avi_controller_password" : "aeiou",
+    "apic_name" : [ "aeiou" ],
+    "deployment" : "aeiou"
+  },
+  "ipam_provider_ref" : "aeiou",
+  "aws_configuration" : {
+    "access_key_id" : "aeiou",
+    "iam_assume_role" : "aeiou",
+    "vpc_id" : "aeiou",
+    "route53_integration" : true,
+    "use_iam_roles" : true,
+    "secret_access_key" : "aeiou",
+    "vpc" : "aeiou",
+    "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "mgmt_network_name" : "aeiou",
+      "mgmt_network_uuid" : "aeiou"
+    } ],
+    "free_elasticips" : true
+  },
+  "east_west_ipam_provider_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "mesos_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "marathon_se_deployment" : {
+      "uris" : [ "aeiou" ],
+      "host_os" : "aeiou",
+      "resource_roles" : [ "aeiou" ],
+      "docker_image" : "aeiou"
+    },
+    "nuage_controller" : {
+      "se_zone" : "aeiou",
+      "nuage_username" : "aeiou",
+      "nuage_password" : "aeiou",
+      "nuage_organization" : "aeiou",
+      "nuage_port" : 123,
+      "se_domain" : "aeiou",
+      "se_enterprise" : "aeiou",
+      "se_policy_group" : "aeiou",
+      "nuage_vsd_host" : "aeiou",
+      "se_network" : "aeiou",
+      "se_user" : "aeiou"
+    },
+    "feproxy_bridge_name" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "all_vses_are_feproxy" : true,
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
+    "vip" : "",
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "feproxy_route_publish" : {
+      "mode" : "aeiou",
+      "subnet" : 123,
+      "publisher_port" : 123,
+      "token" : "aeiou"
+    },
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "use_vips_for_east_west_services" : true,
+    "use_bridge_ip_as_vip" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "marathon_configurations" : [ {
+      "vs_name_tag_framework" : true,
+      "marathon_url" : "aeiou",
+      "public_port_range" : "",
+      "marathon_username" : "aeiou",
+      "use_token_auth" : true,
+      "private_port_range" : {
+        "start" : 123,
+        "end" : 123
+      },
+      "framework_tag" : "aeiou",
+      "marathon_password" : "aeiou",
+      "tenant" : "aeiou"
+    } ],
+    "se_resources" : [ {
+      "memory" : 123,
+      "attribute_key" : "aeiou",
+      "cpu" : 1.3579000000000001069366817318950779736042022705078125,
+      "attribute_value" : "aeiou"
+    } ],
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "mesos_url" : "aeiou"
+  },
+  "docker_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "ucp_nodes" : [ "aeiou" ],
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : {
+      "password" : "aeiou",
+      "host_os" : "aeiou",
+      "ssh_user" : "aeiou",
+      "sudo_user" : "aeiou"
+    },
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : {
+      "registry" : "aeiou",
+      "password" : "aeiou",
+      "private" : true,
+      "oshift_registry" : {
+        "registry_vip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "registry_namespace" : "aeiou",
+        "registry_service" : "aeiou"
+      },
+      "se_repository_push" : true,
+      "username" : "aeiou"
+    },
+    "se_exclude_attributes" : [ {
+      "attribute" : "aeiou",
+      "value" : "aeiou"
+    } ],
+    "east_west_placement_subnet" : {
+      "ip_addr" : "",
+      "mask" : 123
+    }
+  },
+  "vca_configuration" : {
+    "vca_password" : "aeiou",
+    "vca_instance" : "aeiou",
+    "vca_orgnization" : "aeiou",
+    "vca_username" : "aeiou",
+    "vca_mgmt_network" : "aeiou",
+    "vca_host" : "aeiou",
+    "vca_vdc" : "aeiou",
+    "privilege" : "aeiou"
+  },
+  "nsx_configuration" : {
+    "nsx_manager_username" : "aeiou",
+    "nsx_manager_name" : "aeiou",
+    "avi_nsx_prefix" : "aeiou",
+    "nsx_manager_password" : "aeiou",
+    "nsx_poll_time" : 123
+  },
+  "dns_provider_ref" : "aeiou",
+  "oshiftk8s_configuration" : {
+    "l4_health_monitoring" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "nuage_controller" : "",
+    "service_account_token" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "master_nodes" : [ "aeiou" ],
+    "use_controller_image" : true,
+    "sdn_overlay" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "use_service_cluster_ip_as_ew_vip" : true,
+    "se_deployment_method" : "aeiou",
+    "default_shared_virtualservice" : {
+      "virtualservice_name" : "aeiou"
+    },
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "secure_egress_mode" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "routes_share_virtualservice" : true,
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "avi_bridge_subnet" : "",
+    "default_service_as_east_west_service" : true,
+    "use_scheduling_disabled_nodes" : true
+  },
+  "proxy_configuration" : {
+    "password" : "aeiou",
+    "port" : 123,
+    "host" : "aeiou",
+    "username" : "aeiou"
+  },
+  "apic_mode" : true,
+  "license_type" : "aeiou",
+  "cloudstack_configuration" : {
+    "access_key_id" : "aeiou",
+    "cntr_public_ip" : "aeiou",
+    "api_url" : "aeiou",
+    "hypervisor" : "aeiou",
+    "mgmt_network_name" : "aeiou",
+    "secret_access_key" : "aeiou",
+    "mgmt_network_uuid" : "aeiou"
+  },
+  "enable_vip_static_routes" : true,
+  "east_west_dns_provider_ref" : "aeiou",
+  "url" : "aeiou",
+  "mtu" : 123,
+  "dhcp_enabled" : true,
+  "obj_name_prefix" : "aeiou",
+  "openstack_configuration" : {
+    "import_keystone_tenants" : true,
+    "allowed_address_pairs" : true,
+    "nuage_password" : "aeiou",
+    "privilege" : "aeiou",
+    "mgmt_network_uuid" : "aeiou",
+    "contrail_plugin" : true,
+    "port_security" : true,
+    "nuage_vsd_host" : "aeiou",
+    "se_group_ref" : "aeiou",
+    "usable_network_uuids" : [ "aeiou" ],
+    "anti_affinity" : true,
+    "password" : "aeiou",
+    "hypervisor" : "aeiou",
+    "nuage_username" : "aeiou",
+    "tenant_se" : true,
+    "img_format" : "aeiou",
+    "insecure" : true,
+    "mgmt_network_name" : "aeiou",
+    "nuage_port" : 123,
+    "admin_tenant_uuid" : "aeiou",
+    "free_floatingips" : true,
+    "name_owner" : true,
+    "contrail_endpoint" : "aeiou",
+    "use_keystone_auth" : true,
+    "keystone_host" : "aeiou",
+    "external_networks" : true,
+    "use_internal_endpoints" : true,
+    "security_groups" : true,
+    "config_drive" : true,
+    "intf_sec_ips" : true,
+    "prov_name" : [ "aeiou" ],
+    "map_admin_to_cloudadmin" : true,
+    "neutron_rbac" : true,
+    "admin_tenant" : "aeiou",
+    "nuage_organization" : "aeiou",
+    "role_mapping" : [ {
+      "os_role" : "aeiou",
+      "avi_role" : "aeiou"
+    } ],
+    "use_admin_url" : true,
+    "auth_url" : "aeiou",
+    "region" : "aeiou",
+    "username" : "aeiou"
+  },
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "prefer_static_routes" : true,
+  "vcenter_configuration" : {
+    "password" : "aeiou",
+    "management_ip_subnet" : "",
+    "vcenter_template_se_location" : "aeiou",
+    "datacenter" : "aeiou",
+    "management_network" : "aeiou",
+    "vcenter_url" : "aeiou",
+    "privilege" : "aeiou",
+    "username" : "aeiou"
+  },
+  "linuxserver_configuration" : {
+    "ssh_user_ref" : "aeiou",
+    "hosts" : [ {
+      "host_ip" : "",
+      "host_attr" : [ {
+        "attr_val" : "aeiou",
+        "attr_key" : "aeiou"
+      } ],
+      "node_availability_zone" : "aeiou"
+    } ],
+    "se_inband_mgmt" : true,
+    "se_sys_disk_path" : "aeiou",
+    "se_log_disk_size_GB" : 123,
+    "ssh_attr" : "",
+    "se_sys_disk_size_GB" : 123,
+    "docker_registry_se" : "",
+    "se_log_disk_path" : "aeiou"
+  },
+  "rancher_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "nuage_controller" : "",
+    "fleet_endpoint" : "aeiou",
+    "secret_key" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "rancher_servers" : [ "aeiou" ],
+    "se_exclude_attributes" : [ "" ],
+    "access_key" : "aeiou",
+    "east_west_placement_subnet" : ""
+  }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Cloud">Cloud</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidHealthGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/health/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidHealthGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidHostsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/hosts/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidHostsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidInternalsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/internals/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidInternalsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /cloud/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Cloud object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Cloud">Cloud</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "vtype" : "aeiou",
+  "apic_configuration" : {
+    "apic_admin_tenant" : "aeiou",
+    "apic_vendor" : "aeiou",
+    "avi_controller_username" : "aeiou",
+    "minor" : "aeiou",
+    "context_aware" : "aeiou",
+    "apic_domain" : "aeiou",
+    "apic_product" : "aeiou",
+    "managed_mode" : true,
+    "apic_username" : "aeiou",
+    "version" : "aeiou",
+    "apic_password" : "aeiou",
+    "avi_controller_password" : "aeiou",
+    "apic_name" : [ "aeiou" ],
+    "deployment" : "aeiou"
+  },
+  "ipam_provider_ref" : "aeiou",
+  "aws_configuration" : {
+    "access_key_id" : "aeiou",
+    "iam_assume_role" : "aeiou",
+    "vpc_id" : "aeiou",
+    "route53_integration" : true,
+    "use_iam_roles" : true,
+    "secret_access_key" : "aeiou",
+    "vpc" : "aeiou",
+    "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "mgmt_network_name" : "aeiou",
+      "mgmt_network_uuid" : "aeiou"
+    } ],
+    "free_elasticips" : true
+  },
+  "east_west_ipam_provider_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "mesos_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "marathon_se_deployment" : {
+      "uris" : [ "aeiou" ],
+      "host_os" : "aeiou",
+      "resource_roles" : [ "aeiou" ],
+      "docker_image" : "aeiou"
+    },
+    "nuage_controller" : {
+      "se_zone" : "aeiou",
+      "nuage_username" : "aeiou",
+      "nuage_password" : "aeiou",
+      "nuage_organization" : "aeiou",
+      "nuage_port" : 123,
+      "se_domain" : "aeiou",
+      "se_enterprise" : "aeiou",
+      "se_policy_group" : "aeiou",
+      "nuage_vsd_host" : "aeiou",
+      "se_network" : "aeiou",
+      "se_user" : "aeiou"
+    },
+    "feproxy_bridge_name" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "all_vses_are_feproxy" : true,
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
+    "vip" : "",
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "feproxy_route_publish" : {
+      "mode" : "aeiou",
+      "subnet" : 123,
+      "publisher_port" : 123,
+      "token" : "aeiou"
+    },
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "use_vips_for_east_west_services" : true,
+    "use_bridge_ip_as_vip" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "marathon_configurations" : [ {
+      "vs_name_tag_framework" : true,
+      "marathon_url" : "aeiou",
+      "public_port_range" : "",
+      "marathon_username" : "aeiou",
+      "use_token_auth" : true,
+      "private_port_range" : {
+        "start" : 123,
+        "end" : 123
+      },
+      "framework_tag" : "aeiou",
+      "marathon_password" : "aeiou",
+      "tenant" : "aeiou"
+    } ],
+    "se_resources" : [ {
+      "memory" : 123,
+      "attribute_key" : "aeiou",
+      "cpu" : 1.3579000000000001069366817318950779736042022705078125,
+      "attribute_value" : "aeiou"
+    } ],
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "mesos_url" : "aeiou"
+  },
+  "docker_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "ucp_nodes" : [ "aeiou" ],
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : {
+      "password" : "aeiou",
+      "host_os" : "aeiou",
+      "ssh_user" : "aeiou",
+      "sudo_user" : "aeiou"
+    },
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : {
+      "registry" : "aeiou",
+      "password" : "aeiou",
+      "private" : true,
+      "oshift_registry" : {
+        "registry_vip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "registry_namespace" : "aeiou",
+        "registry_service" : "aeiou"
+      },
+      "se_repository_push" : true,
+      "username" : "aeiou"
+    },
+    "se_exclude_attributes" : [ {
+      "attribute" : "aeiou",
+      "value" : "aeiou"
+    } ],
+    "east_west_placement_subnet" : {
+      "ip_addr" : "",
+      "mask" : 123
+    }
+  },
+  "vca_configuration" : {
+    "vca_password" : "aeiou",
+    "vca_instance" : "aeiou",
+    "vca_orgnization" : "aeiou",
+    "vca_username" : "aeiou",
+    "vca_mgmt_network" : "aeiou",
+    "vca_host" : "aeiou",
+    "vca_vdc" : "aeiou",
+    "privilege" : "aeiou"
+  },
+  "nsx_configuration" : {
+    "nsx_manager_username" : "aeiou",
+    "nsx_manager_name" : "aeiou",
+    "avi_nsx_prefix" : "aeiou",
+    "nsx_manager_password" : "aeiou",
+    "nsx_poll_time" : 123
+  },
+  "dns_provider_ref" : "aeiou",
+  "oshiftk8s_configuration" : {
+    "l4_health_monitoring" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "nuage_controller" : "",
+    "service_account_token" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "master_nodes" : [ "aeiou" ],
+    "use_controller_image" : true,
+    "sdn_overlay" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "use_service_cluster_ip_as_ew_vip" : true,
+    "se_deployment_method" : "aeiou",
+    "default_shared_virtualservice" : {
+      "virtualservice_name" : "aeiou"
+    },
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "secure_egress_mode" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "routes_share_virtualservice" : true,
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "avi_bridge_subnet" : "",
+    "default_service_as_east_west_service" : true,
+    "use_scheduling_disabled_nodes" : true
+  },
+  "proxy_configuration" : {
+    "password" : "aeiou",
+    "port" : 123,
+    "host" : "aeiou",
+    "username" : "aeiou"
+  },
+  "apic_mode" : true,
+  "license_type" : "aeiou",
+  "cloudstack_configuration" : {
+    "access_key_id" : "aeiou",
+    "cntr_public_ip" : "aeiou",
+    "api_url" : "aeiou",
+    "hypervisor" : "aeiou",
+    "mgmt_network_name" : "aeiou",
+    "secret_access_key" : "aeiou",
+    "mgmt_network_uuid" : "aeiou"
+  },
+  "enable_vip_static_routes" : true,
+  "east_west_dns_provider_ref" : "aeiou",
+  "url" : "aeiou",
+  "mtu" : 123,
+  "dhcp_enabled" : true,
+  "obj_name_prefix" : "aeiou",
+  "openstack_configuration" : {
+    "import_keystone_tenants" : true,
+    "allowed_address_pairs" : true,
+    "nuage_password" : "aeiou",
+    "privilege" : "aeiou",
+    "mgmt_network_uuid" : "aeiou",
+    "contrail_plugin" : true,
+    "port_security" : true,
+    "nuage_vsd_host" : "aeiou",
+    "se_group_ref" : "aeiou",
+    "usable_network_uuids" : [ "aeiou" ],
+    "anti_affinity" : true,
+    "password" : "aeiou",
+    "hypervisor" : "aeiou",
+    "nuage_username" : "aeiou",
+    "tenant_se" : true,
+    "img_format" : "aeiou",
+    "insecure" : true,
+    "mgmt_network_name" : "aeiou",
+    "nuage_port" : 123,
+    "admin_tenant_uuid" : "aeiou",
+    "free_floatingips" : true,
+    "name_owner" : true,
+    "contrail_endpoint" : "aeiou",
+    "use_keystone_auth" : true,
+    "keystone_host" : "aeiou",
+    "external_networks" : true,
+    "use_internal_endpoints" : true,
+    "security_groups" : true,
+    "config_drive" : true,
+    "intf_sec_ips" : true,
+    "prov_name" : [ "aeiou" ],
+    "map_admin_to_cloudadmin" : true,
+    "neutron_rbac" : true,
+    "admin_tenant" : "aeiou",
+    "nuage_organization" : "aeiou",
+    "role_mapping" : [ {
+      "os_role" : "aeiou",
+      "avi_role" : "aeiou"
+    } ],
+    "use_admin_url" : true,
+    "auth_url" : "aeiou",
+    "region" : "aeiou",
+    "username" : "aeiou"
+  },
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "prefer_static_routes" : true,
+  "vcenter_configuration" : {
+    "password" : "aeiou",
+    "management_ip_subnet" : "",
+    "vcenter_template_se_location" : "aeiou",
+    "datacenter" : "aeiou",
+    "management_network" : "aeiou",
+    "vcenter_url" : "aeiou",
+    "privilege" : "aeiou",
+    "username" : "aeiou"
+  },
+  "linuxserver_configuration" : {
+    "ssh_user_ref" : "aeiou",
+    "hosts" : [ {
+      "host_ip" : "",
+      "host_attr" : [ {
+        "attr_val" : "aeiou",
+        "attr_key" : "aeiou"
+      } ],
+      "node_availability_zone" : "aeiou"
+    } ],
+    "se_inband_mgmt" : true,
+    "se_sys_disk_path" : "aeiou",
+    "se_log_disk_size_GB" : 123,
+    "ssh_attr" : "",
+    "se_sys_disk_size_GB" : 123,
+    "docker_registry_se" : "",
+    "se_log_disk_path" : "aeiou"
+  },
+  "rancher_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "nuage_controller" : "",
+    "fleet_endpoint" : "aeiou",
+    "secret_key" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "rancher_servers" : [ "aeiou" ],
+    "se_exclude_attributes" : [ "" ],
+    "access_key" : "aeiou",
+    "east_west_placement_subnet" : ""
+  }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Cloud">Cloud</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /cloud/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; Cloud object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Cloud">Cloud</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "vtype" : "aeiou",
+  "apic_configuration" : {
+    "apic_admin_tenant" : "aeiou",
+    "apic_vendor" : "aeiou",
+    "avi_controller_username" : "aeiou",
+    "minor" : "aeiou",
+    "context_aware" : "aeiou",
+    "apic_domain" : "aeiou",
+    "apic_product" : "aeiou",
+    "managed_mode" : true,
+    "apic_username" : "aeiou",
+    "version" : "aeiou",
+    "apic_password" : "aeiou",
+    "avi_controller_password" : "aeiou",
+    "apic_name" : [ "aeiou" ],
+    "deployment" : "aeiou"
+  },
+  "ipam_provider_ref" : "aeiou",
+  "aws_configuration" : {
+    "access_key_id" : "aeiou",
+    "iam_assume_role" : "aeiou",
+    "vpc_id" : "aeiou",
+    "route53_integration" : true,
+    "use_iam_roles" : true,
+    "secret_access_key" : "aeiou",
+    "vpc" : "aeiou",
+    "region" : "aeiou",
+    "zones" : [ {
+      "availability_zone" : "aeiou",
+      "mgmt_network_name" : "aeiou",
+      "mgmt_network_uuid" : "aeiou"
+    } ],
+    "free_elasticips" : true
+  },
+  "east_west_ipam_provider_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "mesos_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "marathon_se_deployment" : {
+      "uris" : [ "aeiou" ],
+      "host_os" : "aeiou",
+      "resource_roles" : [ "aeiou" ],
+      "docker_image" : "aeiou"
+    },
+    "nuage_controller" : {
+      "se_zone" : "aeiou",
+      "nuage_username" : "aeiou",
+      "nuage_password" : "aeiou",
+      "nuage_organization" : "aeiou",
+      "nuage_port" : 123,
+      "se_domain" : "aeiou",
+      "se_enterprise" : "aeiou",
+      "se_policy_group" : "aeiou",
+      "nuage_vsd_host" : "aeiou",
+      "se_network" : "aeiou",
+      "se_user" : "aeiou"
+    },
+    "feproxy_bridge_name" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "all_vses_are_feproxy" : true,
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_gs_sync" : true,
+    "vip" : "",
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "feproxy_route_publish" : {
+      "mode" : "aeiou",
+      "subnet" : 123,
+      "publisher_port" : 123,
+      "token" : "aeiou"
+    },
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "use_vips_for_east_west_services" : true,
+    "use_bridge_ip_as_vip" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "marathon_configurations" : [ {
+      "vs_name_tag_framework" : true,
+      "marathon_url" : "aeiou",
+      "public_port_range" : "",
+      "marathon_username" : "aeiou",
+      "use_token_auth" : true,
+      "private_port_range" : {
+        "start" : 123,
+        "end" : 123
+      },
+      "framework_tag" : "aeiou",
+      "marathon_password" : "aeiou",
+      "tenant" : "aeiou"
+    } ],
+    "se_resources" : [ {
+      "memory" : 123,
+      "attribute_key" : "aeiou",
+      "cpu" : 1.3579000000000001069366817318950779736042022705078125,
+      "attribute_value" : "aeiou"
+    } ],
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "mesos_url" : "aeiou"
+  },
+  "docker_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "ucp_nodes" : [ "aeiou" ],
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : {
+      "password" : "aeiou",
+      "host_os" : "aeiou",
+      "ssh_user" : "aeiou",
+      "sudo_user" : "aeiou"
+    },
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : {
+      "registry" : "aeiou",
+      "password" : "aeiou",
+      "private" : true,
+      "oshift_registry" : {
+        "registry_vip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "registry_namespace" : "aeiou",
+        "registry_service" : "aeiou"
+      },
+      "se_repository_push" : true,
+      "username" : "aeiou"
+    },
+    "se_exclude_attributes" : [ {
+      "attribute" : "aeiou",
+      "value" : "aeiou"
+    } ],
+    "east_west_placement_subnet" : {
+      "ip_addr" : "",
+      "mask" : 123
+    }
+  },
+  "vca_configuration" : {
+    "vca_password" : "aeiou",
+    "vca_instance" : "aeiou",
+    "vca_orgnization" : "aeiou",
+    "vca_username" : "aeiou",
+    "vca_mgmt_network" : "aeiou",
+    "vca_host" : "aeiou",
+    "vca_vdc" : "aeiou",
+    "privilege" : "aeiou"
+  },
+  "nsx_configuration" : {
+    "nsx_manager_username" : "aeiou",
+    "nsx_manager_name" : "aeiou",
+    "avi_nsx_prefix" : "aeiou",
+    "nsx_manager_password" : "aeiou",
+    "nsx_poll_time" : 123
+  },
+  "dns_provider_ref" : "aeiou",
+  "oshiftk8s_configuration" : {
+    "l4_health_monitoring" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "node_availability_zone_label" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "ca_tls_key_and_certificate_ref" : "aeiou",
+    "nuage_controller" : "",
+    "service_account_token" : "aeiou",
+    "fleet_endpoint" : "aeiou",
+    "client_tls_key_and_certificate_ref" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "master_nodes" : [ "aeiou" ],
+    "use_controller_image" : true,
+    "sdn_overlay" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "use_service_cluster_ip_as_ew_vip" : true,
+    "se_deployment_method" : "aeiou",
+    "default_shared_virtualservice" : {
+      "virtualservice_name" : "aeiou"
+    },
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "secure_egress_mode" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "routes_share_virtualservice" : true,
+    "se_exclude_attributes" : [ "" ],
+    "east_west_placement_subnet" : "",
+    "avi_bridge_subnet" : "",
+    "default_service_as_east_west_service" : true,
+    "use_scheduling_disabled_nodes" : true
+  },
+  "proxy_configuration" : {
+    "password" : "aeiou",
+    "port" : 123,
+    "host" : "aeiou",
+    "username" : "aeiou"
+  },
+  "apic_mode" : true,
+  "license_type" : "aeiou",
+  "cloudstack_configuration" : {
+    "access_key_id" : "aeiou",
+    "cntr_public_ip" : "aeiou",
+    "api_url" : "aeiou",
+    "hypervisor" : "aeiou",
+    "mgmt_network_name" : "aeiou",
+    "secret_access_key" : "aeiou",
+    "mgmt_network_uuid" : "aeiou"
+  },
+  "enable_vip_static_routes" : true,
+  "east_west_dns_provider_ref" : "aeiou",
+  "url" : "aeiou",
+  "mtu" : 123,
+  "dhcp_enabled" : true,
+  "obj_name_prefix" : "aeiou",
+  "openstack_configuration" : {
+    "import_keystone_tenants" : true,
+    "allowed_address_pairs" : true,
+    "nuage_password" : "aeiou",
+    "privilege" : "aeiou",
+    "mgmt_network_uuid" : "aeiou",
+    "contrail_plugin" : true,
+    "port_security" : true,
+    "nuage_vsd_host" : "aeiou",
+    "se_group_ref" : "aeiou",
+    "usable_network_uuids" : [ "aeiou" ],
+    "anti_affinity" : true,
+    "password" : "aeiou",
+    "hypervisor" : "aeiou",
+    "nuage_username" : "aeiou",
+    "tenant_se" : true,
+    "img_format" : "aeiou",
+    "insecure" : true,
+    "mgmt_network_name" : "aeiou",
+    "nuage_port" : 123,
+    "admin_tenant_uuid" : "aeiou",
+    "free_floatingips" : true,
+    "name_owner" : true,
+    "contrail_endpoint" : "aeiou",
+    "use_keystone_auth" : true,
+    "keystone_host" : "aeiou",
+    "external_networks" : true,
+    "use_internal_endpoints" : true,
+    "security_groups" : true,
+    "config_drive" : true,
+    "intf_sec_ips" : true,
+    "prov_name" : [ "aeiou" ],
+    "map_admin_to_cloudadmin" : true,
+    "neutron_rbac" : true,
+    "admin_tenant" : "aeiou",
+    "nuage_organization" : "aeiou",
+    "role_mapping" : [ {
+      "os_role" : "aeiou",
+      "avi_role" : "aeiou"
+    } ],
+    "use_admin_url" : true,
+    "auth_url" : "aeiou",
+    "region" : "aeiou",
+    "username" : "aeiou"
+  },
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "prefer_static_routes" : true,
+  "vcenter_configuration" : {
+    "password" : "aeiou",
+    "management_ip_subnet" : "",
+    "vcenter_template_se_location" : "aeiou",
+    "datacenter" : "aeiou",
+    "management_network" : "aeiou",
+    "vcenter_url" : "aeiou",
+    "privilege" : "aeiou",
+    "username" : "aeiou"
+  },
+  "linuxserver_configuration" : {
+    "ssh_user_ref" : "aeiou",
+    "hosts" : [ {
+      "host_ip" : "",
+      "host_attr" : [ {
+        "attr_val" : "aeiou",
+        "attr_key" : "aeiou"
+      } ],
+      "node_availability_zone" : "aeiou"
+    } ],
+    "se_inband_mgmt" : true,
+    "se_sys_disk_path" : "aeiou",
+    "se_log_disk_size_GB" : 123,
+    "ssh_attr" : "",
+    "se_sys_disk_size_GB" : 123,
+    "docker_registry_se" : "",
+    "se_log_disk_path" : "aeiou"
+  },
+  "rancher_configuration" : {
+    "feproxy_container_port_as_service" : true,
+    "disable_auto_backend_service_sync" : true,
+    "se_volume" : "aeiou",
+    "http_container_ports" : [ "" ],
+    "se_spawn_rate" : 123,
+    "nuage_controller" : "",
+    "fleet_endpoint" : "aeiou",
+    "secret_key" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "use_controller_image" : true,
+    "use_container_ip_port" : true,
+    "container_port_match_http_service" : true,
+    "disable_auto_se_creation" : true,
+    "se_include_attributes" : [ "" ],
+    "se_deployment_method" : "aeiou",
+    "services_accessible_all_interfaces" : true,
+    "disable_auto_frontend_service_sync" : true,
+    "app_sync_frequency" : 123,
+    "feproxy_vips_enable_proxy_arp" : true,
+    "ssh_se_deployment" : "",
+    "enable_event_subscription" : true,
+    "coredump_directory" : "aeiou",
+    "docker_registry_se" : "",
+    "rancher_servers" : [ "aeiou" ],
+    "se_exclude_attributes" : [ "" ],
+    "access_key" : "aeiou",
+    "east_west_placement_subnet" : ""
+  }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#Cloud">Cloud</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="cloudUuidStatusGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /cloud/{uuid}/status/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">cloudUuidStatusGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#APICConfiguration"><code>APICConfiguration</code></a></li>
+    <li><a href="#AwsConfiguration"><code>AwsConfiguration</code></a></li>
+    <li><a href="#AwsZoneConfig"><code>AwsZoneConfig</code></a></li>
+    <li><a href="#Cloud"><code>Cloud</code></a></li>
+    <li><a href="#CloudApiResponse"><code>CloudApiResponse</code></a></li>
+    <li><a href="#CloudStackConfiguration"><code>CloudStackConfiguration</code></a></li>
+    <li><a href="#DockerConfiguration"><code>DockerConfiguration</code></a></li>
+    <li><a href="#DockerRegistry"><code>DockerRegistry</code></a></li>
+    <li><a href="#FeProxyRoutePublishConfig"><code>FeProxyRoutePublishConfig</code></a></li>
+    <li><a href="#HostAttributes"><code>HostAttributes</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#LinuxServerConfiguration"><code>LinuxServerConfiguration</code></a></li>
+    <li><a href="#LinuxServerHost"><code>LinuxServerHost</code></a></li>
+    <li><a href="#MarathonConfiguration"><code>MarathonConfiguration</code></a></li>
+    <li><a href="#MarathonSeDeployment"><code>MarathonSeDeployment</code></a></li>
+    <li><a href="#MesosAttribute"><code>MesosAttribute</code></a></li>
+    <li><a href="#MesosConfiguration"><code>MesosConfiguration</code></a></li>
+    <li><a href="#MesosSeResources"><code>MesosSeResources</code></a></li>
+    <li><a href="#NsxConfiguration"><code>NsxConfiguration</code></a></li>
+    <li><a href="#NuageSDNController"><code>NuageSDNController</code></a></li>
+    <li><a href="#OShiftK8SConfiguration"><code>OShiftK8SConfiguration</code></a></li>
+    <li><a href="#OpenStackConfiguration"><code>OpenStackConfiguration</code></a></li>
+    <li><a href="#OpenStackRoleMapping"><code>OpenStackRoleMapping</code></a></li>
+    <li><a href="#OshiftDockerRegistryMetaData"><code>OshiftDockerRegistryMetaData</code></a></li>
+    <li><a href="#OshiftSharedVirtualService"><code>OshiftSharedVirtualService</code></a></li>
+    <li><a href="#PortRange"><code>PortRange</code></a></li>
+    <li><a href="#ProxyConfiguration"><code>ProxyConfiguration</code></a></li>
+    <li><a href="#RancherConfiguration"><code>RancherConfiguration</code></a></li>
+    <li><a href="#SSHSeDeployment"><code>SSHSeDeployment</code></a></li>
+    <li><a href="#vCenterConfiguration"><code>vCenterConfiguration</code></a></li>
+    <li><a href="#vCloudAirConfiguration"><code>vCloudAirConfiguration</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="APICConfiguration">APICConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">apic_admin_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Avi specific tenant created within APIC. </div>
+<div class="param">apic_domain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCenter&#39;s virtual machine manager domain within APIC. </div>
+<div class="param">apic_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The hostname or IP address of the APIC controller. </div>
+<div class="param">apic_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with APIC. </div>
+<div class="param">apic_product (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_product of APICConfiguration. </div>
+<div class="param">apic_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with APIC. </div>
+<div class="param">apic_vendor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_vendor of APICConfiguration. </div>
+<div class="param">avi_controller_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password APIC will use when authenticating with Avi Vantage. </div>
+<div class="param">avi_controller_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username APIC will use when authenticating with Avi Vantage. </div>
+<div class="param">context_aware (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Context aware for supporting Service Graphs across VRFs. Enum options - SINGLE_CONTEXT, MULTI_CONTEXT. </div>
+<div class="param">deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> deployment of APICConfiguration. </div>
+<div class="param">managed_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1. </div>
+<div class="param">minor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Minor Version. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Version. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AwsConfiguration">AwsConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">access_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS access key ID. </div>
+<div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
+<div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
+<div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS region. </div>
+<div class="param">route53_integration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, create/update DNS entries in Amazon Route 53 zones. </div>
+<div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
+<div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
+<div class="param">vpc (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC name. </div>
+<div class="param">vpc_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VPC ID. </div>
+<div class="param">zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsZoneConfig">array[AwsZoneConfig]</a></span> Placeholder for description of property zones of obj type AwsConfiguration field type str  type object </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AwsZoneConfig">AwsZoneConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">availability_zone </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone. </div>
+<div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name or CIDR of the network in the Availability Zone that will be used as management network. </div>
+<div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the network in the Availability Zone that will be used as management network. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Cloud">Cloud</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">apic_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#APICConfiguration">APICConfiguration</a></span> Placeholder for description of property apic_configuration of obj type Cloud field type str  type object </div>
+<div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean </div>
+<div class="param">aws_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsConfiguration">AwsConfiguration</a></span> Placeholder for description of property aws_configuration of obj type Cloud field type str  type object </div>
+<div class="param">cloudstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudStackConfiguration">CloudStackConfiguration</a></span> Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object </div>
+<div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select the IP address management scheme. </div>
+<div class="param">dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">docker_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerConfiguration">DockerConfiguration</a></span> Placeholder for description of property docker_configuration of obj type Cloud field type str  type object </div>
+<div class="param">east_west_dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">east_west_ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">enable_vip_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use static routes for VIP side network resolution during VirtualService placement. </div>
+<div class="param">ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS. </div>
+<div class="param">linuxserver_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerConfiguration">LinuxServerConfiguration</a></span> Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object </div>
+<div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span> Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object </div>
+<div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. format: int32</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
+<div class="param">obj_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template. </div>
+<div class="param">openstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackConfiguration">OpenStackConfiguration</a></span> Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object </div>
+<div class="param">oshiftk8s_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#OShiftK8SConfiguration">OShiftK8SConfiguration</a></span> Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object </div>
+<div class="param">prefer_static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Prefer static routes over interface routes during VirtualService placement. </div>
+<div class="param">proxy_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProxyConfiguration">ProxyConfiguration</a></span> Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object </div>
+<div class="param">rancher_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#RancherConfiguration">RancherConfiguration</a></span> Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+<div class="param">vca_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCloudAirConfiguration">vCloudAirConfiguration</a></span> Placeholder for description of property vca_configuration of obj type Cloud field type str  type object </div>
+<div class="param">vcenter_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#vCenterConfiguration">vCenterConfiguration</a></span> Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object </div>
+<div class="param">vtype </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CloudApiResponse">CloudApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#Cloud">array[Cloud]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CloudStackConfiguration">CloudStackConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">access_key_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CloudStack API Key. </div>
+<div class="param">api_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CloudStack API URL. </div>
+<div class="param">cntr_public_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If controller&#39;s management IP is in a private network, a publicly accessible IP to reach the controller. </div>
+<div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
+<div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
+<div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
+<div class="param">secret_access_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> CloudStack Secret Key. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DockerConfiguration">DockerConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">app_sync_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sync frequency in seconds with frameworks. format: int32</div>
+<div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. </div>
+<div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
+<div class="param">disable_auto_backend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for back end services. </div>
+<div class="param">disable_auto_frontend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for front end services. </div>
+<div class="param">disable_auto_se_creation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable SE creation. </div>
+<div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
+<div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs . </div>
+<div class="param">enable_event_subscription (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Docker event subscription. </div>
+<div class="param">feproxy_container_port_as_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> For Front End proxies, use container port as service port. </div>
+<div class="param">feproxy_vips_enable_proxy_arp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable proxy ARP from Host interface for Front End  proxies. </div>
+<div class="param">fleet_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Optional fleet remote endpoint if fleet is used for SE deployment. </div>
+<div class="param">http_container_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80. </div>
+<div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD. </div>
+<div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
+<div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
+<div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. format: int32</div>
+<div class="param">se_volume (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host volume to be used as a disk for Avi SE, This is a disruptive change. </div>
+<div class="param">services_accessible_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface. </div>
+<div class="param">ssh_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH SE deployment. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
+<div class="param">ucp_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of Docker UCP nodes; In case of a load balanced UCP cluster, use Virtual IP of the cluster. </div>
+<div class="param">use_container_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers. </div>
+<div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DockerRegistry">DockerRegistry</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">oshift_registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#OshiftDockerRegistryMetaData">OshiftDockerRegistryMetaData</a></span> Openshift integrated registry config. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for docker registry. Authorized &#39;regular user&#39; password if registry is Openshift integrated registry. </div>
+<div class="param">private (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set. </div>
+<div class="param">registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi ServiceEngine repository name. For private registry, it&#39;s registry port/repository, for public registry, it&#39;s registry/repository, for openshift registry, it&#39;s registry port/&lt;namespace&gt;/&lt;repo&gt;. </div>
+<div class="param">se_repository_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi Controller will push ServiceEngine image to docker repository. </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for docker registry. Authorized &#39;regular user&#39; if registry is Openshift integrated registry. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="FeProxyRoutePublishConfig">FeProxyRoutePublishConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Publish ECMP route to upstream router for VIP. Enum options - FE_PROXY_ROUTE_PUBLISH_NONE, FE_PROXY_ROUTE_PUBLISH_QUAGGA_WEBAPP. </div>
+<div class="param">publisher_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Listener port for publisher. format: int32</div>
+<div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Subnet for publisher. format: int32</div>
+<div class="param">token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token for tracking changes. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HostAttributes">HostAttributes</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attr_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> attr_key of HostAttributes. </div>
+<div class="param">attr_val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> attr_val of HostAttributes. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="LinuxServerConfiguration">LinuxServerConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Private docker registry for SE image storage. Field deprecated in 17.1.2. </div>
+<div class="param">hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerHost">array[LinuxServerHost]</a></span> Placeholder for description of property hosts of obj type LinuxServerConfiguration field type str  type object </div>
+<div class="param">se_inband_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag to notify the SE&#39;s in this cloud have an inband management interface, this can be overridden at SE host level by setting host_attr attr_key as SE_INBAND_MGMT with value of true or false. </div>
+<div class="param">se_log_disk_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SE Client Logs disk path for cloud. </div>
+<div class="param">se_log_disk_size_GB (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SE Client Log disk size for cloud. format: int32</div>
+<div class="param">se_sys_disk_path (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SE System Logs disk path for cloud. </div>
+<div class="param">se_sys_disk_size_GB (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SE System Logs disk size for cloud. format: int32</div>
+<div class="param">ssh_attr (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH to hosts. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="LinuxServerHost">LinuxServerHost</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host_attr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostAttributes">array[HostAttributes]</a></span> Placeholder for description of property host_attr of obj type LinuxServerHost field type str  type object </div>
+<div class="param">host_ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property host_ip of obj type LinuxServerHost field type str  type object </div>
+<div class="param">node_availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Node&#39;s availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MarathonConfiguration">MarathonConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">framework_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Framework tag to be used in Virtualservice name. Default is framework name from Mesos. If this tag is altered atruntime, Virtualservices will be deleted and re-created. </div>
+<div class="param">marathon_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for Marathon authentication. </div>
+<div class="param">marathon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Marathon API URL of the form http //host port. </div>
+<div class="param">marathon_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for Marathon authentication. </div>
+<div class="param">private_port_range (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortRange">PortRange</a></span> Private port range allocated to this Marathon framework instance. </div>
+<div class="param">public_port_range (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortRange">PortRange</a></span> Public port range allocated to this Marathon framework instance. </div>
+<div class="param">tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant to pin this Marathon instance to. If set, a tenant object will be created in Avi bearing this name and all applications created in this marathon will be associated with this tenant regardless of, if any, tenant configuration in marathon label for this application. </div>
+<div class="param">use_token_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Token based authentication instead of basic authentication. Token is refreshed every 5 minutes. </div>
+<div class="param">vs_name_tag_framework (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tag VS name with framework name or framework_tag. Useful in deployments with multiple frameworks. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MarathonSeDeployment">MarathonSeDeployment</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">docker_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Docker image to be used for Avi SE installation e.g. fedora, ubuntu. </div>
+<div class="param">host_os (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host OS distribution e.g. COREOS, UBUNTU, REDHAT. </div>
+<div class="param">resource_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Accepted resource roles for SEs. </div>
+<div class="param">uris (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> URIs to be resolved for starting the application. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MesosAttribute">MesosAttribute</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attribute </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute to match. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute value. If not set, match any value. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MesosConfiguration">MesosConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">all_vses_are_feproxy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Consider all Virtualservices as Front End Proxies. Front End proxies are placed on specific SEs as opposed to Back End proxies placed on all SEs. Applicable where each service has its own VIP and VIP is reachable from anywhere. </div>
+<div class="param">app_sync_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sync frequency in seconds with frameworks. format: int32</div>
+<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. </div>
+<div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
+<div class="param">disable_auto_backend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for back end services. </div>
+<div class="param">disable_auto_frontend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for front end services. </div>
+<div class="param">disable_auto_gs_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto sync for GSLB services. Field introduced in 17.1.2. </div>
+<div class="param">disable_auto_se_creation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable SE creation. </div>
+<div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
+<div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs (Mesos mode only). </div>
+<div class="param">enable_event_subscription (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Marathon event subscriptions. </div>
+<div class="param">feproxy_bridge_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of second Linux bridge on Host providing connectivity for Front End proxies. This is a disruptive change. </div>
+<div class="param">feproxy_container_port_as_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> For Front End proxies, use container port as service port. </div>
+<div class="param">feproxy_route_publish (optional)</div><div class="param-desc"><span class="param-type"><a href="#FeProxyRoutePublishConfig">FeProxyRoutePublishConfig</a></span> Publish ECMP route to upstream router for VIP. </div>
+<div class="param">feproxy_vips_enable_proxy_arp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable proxy ARP from Host interface for Front End  proxies. </div>
+<div class="param">fleet_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Optional fleet remote endpoint if fleet is used for SE deployment. </div>
+<div class="param">http_container_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80. </div>
+<div class="param">marathon_configurations (optional)</div><div class="param-desc"><span class="param-type"><a href="#MarathonConfiguration">array[MarathonConfiguration]</a></span> List of Marathon frameworks. </div>
+<div class="param">marathon_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#MarathonSeDeployment">MarathonSeDeployment</a></span> Options for Marathon SE deployment. </div>
+<div class="param">mesos_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mesos URL of the form http //host port. </div>
+<div class="param">node_availability_zone_label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mesos Node label to be used as Mesos Node&#39;s availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover. </div>
+<div class="param">nuage_controller (optional)</div><div class="param-desc"><span class="param-type"><a href="#NuageSDNController">NuageSDNController</a></span> Nuage Overlay SDN Controller information. </div>
+<div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use Fleet/SSH for deploying Service Engines. Enum options - MESOS_SE_CREATE_FLEET, MESOS_SE_CREATE_SSH, MESOS_SE_CREATE_MARATHON. </div>
+<div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
+<div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
+<div class="param">se_resources (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosSeResources">array[MesosSeResources]</a></span> Obsolete - ignored. </div>
+<div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. format: int32</div>
+<div class="param">se_volume (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host volume to be used as a disk for Avi SE, This is a disruptive change. </div>
+<div class="param">services_accessible_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS Mesos clusters to export East-West services on Host interface. </div>
+<div class="param">ssh_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH SE deployment. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
+<div class="param">use_bridge_ip_as_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Bridge IP on each Host as VIP. </div>
+<div class="param">use_container_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers. </div>
+<div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
+<div class="param">use_vips_for_east_west_services (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use unique virtual IP address for every east west service in Mesos/Marathon. &#39;use_bridge_ip_as_vip&#39; and &#39;vip&#39; fields , if set, will not be used if this field is set. </div>
+<div class="param">vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> VIP to be used by all East-West apps on all Hosts. Preferrably use an address from outside the subnet. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MesosSeResources">MesosSeResources</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attribute_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute (Fleet or Mesos) key of Hosts. </div>
+<div class="param">attribute_value </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute (Fleet or Mesos) value of Hosts. </div>
+<div class="param">cpu (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> Obsolete - ignored. format: float</div>
+<div class="param">memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Obsolete - ignored. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NsxConfiguration">NsxConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">avi_nsx_prefix </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This prefix will be added to the names of all NSX objects created by Avi Controller. It should be unique across all the Avi Controller clusters. Field introduced in 17.1.1. </div>
+<div class="param">nsx_manager_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The hostname or IP address of the NSX MGr. Field introduced in 17.1.1. </div>
+<div class="param">nsx_manager_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
+<div class="param">nsx_manager_username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with NSX Mgr. Field introduced in 17.1.1. </div>
+<div class="param">nsx_poll_time </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NuageSDNController">NuageSDNController</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">nuage_organization (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_organization of NuageSDNController. </div>
+<div class="param">nuage_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_password of NuageSDNController. </div>
+<div class="param">nuage_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of nuage_port. format: int32</div>
+<div class="param">nuage_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_username of NuageSDNController. </div>
+<div class="param">nuage_vsd_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nuage VSD host name or IP address. </div>
+<div class="param">se_domain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Domain to be used for SE creation. </div>
+<div class="param">se_enterprise (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enterprise to be used for SE creation. </div>
+<div class="param">se_network (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network to be used for SE creation. </div>
+<div class="param">se_policy_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Policy Group to be used for SE creation. </div>
+<div class="param">se_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User to be used for SE creation. </div>
+<div class="param">se_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Zone to be used for SE creation. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OShiftK8SConfiguration">OShiftK8SConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">app_sync_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sync frequency in seconds with frameworks. format: int32</div>
+<div class="param">avi_bridge_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Avi Linux bridge subnet on OpenShift/K8s nodes. </div>
+<div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate. </div>
+<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. </div>
+<div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
+<div class="param">default_service_as_east_west_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration. </div>
+<div class="param">default_shared_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#OshiftSharedVirtualService">OshiftSharedVirtualService</a></span> Default shared virtualservice that acts as the parent for all OpenShift Routes. Field introduced in 17.1.1. </div>
+<div class="param">disable_auto_backend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for back end services. </div>
+<div class="param">disable_auto_frontend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for front end services. </div>
+<div class="param">disable_auto_se_creation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable SE creation. </div>
+<div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
+<div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs . </div>
+<div class="param">enable_event_subscription (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Kubernetes event subscription. </div>
+<div class="param">feproxy_vips_enable_proxy_arp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable proxy ARP from Host interface for Front End  proxies. </div>
+<div class="param">fleet_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Optional fleet remote endpoint if fleet is used for SE deployment. </div>
+<div class="param">http_container_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80. </div>
+<div class="param">l4_health_monitoring (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools. </div>
+<div class="param">master_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed. </div>
+<div class="param">node_availability_zone_label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> OpenShift/K8S Node label to be used as OpenShift/K8S Node&#39;s availability zone in a dual availability zone deployment. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover. </div>
+<div class="param">nuage_controller (optional)</div><div class="param-desc"><span class="param-type"><a href="#NuageSDNController">NuageSDNController</a></span> Nuage Overlay SDN Controller information. </div>
+<div class="param">routes_share_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Routes use shared virtualservices. If configured, all OpenShift Routes will be created under a parent VirtualService. OpenShift Services will not trigger a VirtualService creation. Field introduced in 17.1.1. </div>
+<div class="param">sdn_overlay (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode. </div>
+<div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD. </div>
+<div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
+<div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
+<div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. format: int32</div>
+<div class="param">se_volume (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host volume to be used as a disk for Avi SE, This is a disruptive change. </div>
+<div class="param">secure_egress_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow Avi Vantage to create Security Context Constraints and Service Accounts which allow Egress Pods to run in privileged mode in an Openshift environment. Assumption is that credentials provided have cluster-admin role when this mode is enabled. Field introduced in 17.1.1. </div>
+<div class="param">service_account_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Authorization token for service account instead of client certificate. One of client certificate or token is required. </div>
+<div class="param">ssh_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH SE deployment. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
+<div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
+<div class="param">use_scheduling_disabled_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled. </div>
+<div class="param">use_service_cluster_ip_as_ew_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OpenStackConfiguration">OpenStackConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">admin_tenant </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> OpenStack admin tenant (or project) information. For Keystone v3, provide the project information in project@domain format. Domain need not be specified if the project belongs to the &#39;Default&#39; domain. </div>
+<div class="param">admin_tenant_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> admin-tenant&#39;s UUID in OpenStack. </div>
+<div class="param">allowed_address_pairs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If false, allowed-address-pairs extension will not be used. . </div>
+<div class="param">anti_affinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, an anti-affinity policy will be applied to all SEs of a SE-Group, else no such policy will be applied. </div>
+<div class="param">auth_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth URL for connecting to keystone. If this is specified, any value provided for keystone_host is ignored. </div>
+<div class="param">config_drive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If false, metadata service will be used instead of  config-drive functionality to retrieve SE VM metadata. </div>
+<div class="param">contrail_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, &#39;http //&#39; scheme and 8082 port will be used if not provided in the url. </div>
+<div class="param">contrail_plugin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Contrail plugin mode. (deprecated). </div>
+<div class="param">external_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, allow selection of networks marked as &#39;external&#39; for management,  vip or data networks. </div>
+<div class="param">free_floatingips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused floating IPs. </div>
+<div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>
+<div class="param">img_format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT. </div>
+<div class="param">import_keystone_tenants (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Import keystone tenants list into Avi. </div>
+<div class="param">insecure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow self-signed certificates when communicating with https service endpoints. </div>
+<div class="param">intf_sec_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, interface-secondary-ips method will be used for VIP association. </div>
+<div class="param">keystone_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Keystone&#39;s hostname or IP address. (Deprecated) Use auth_url instead. </div>
+<div class="param">map_admin_to_cloudadmin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, map Avi &#39;admin&#39; tenant to the admin_tenant of the Cloud. Else map Avi &#39;admin&#39; to OpenStack &#39;admin&#39; tenant. </div>
+<div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name or cidr. </div>
+<div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
+<div class="param">name_owner (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, embed owner info in VIP port &#39;name&#39;, else embed owner info in &#39;device_id&#39; field. </div>
+<div class="param">neutron_rbac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, enable neutron rbac discovery of networks shared across tenants/projects. </div>
+<div class="param">nuage_organization (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_organization of OpenStackConfiguration. </div>
+<div class="param">nuage_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_password of OpenStackConfiguration. </div>
+<div class="param">nuage_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of nuage_port. format: int32</div>
+<div class="param">nuage_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> nuage_username of OpenStackConfiguration. </div>
+<div class="param">nuage_vsd_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nuage VSD host name or IP address. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating to Keystone. </div>
+<div class="param">port_security (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, port-security extension (if detected) will be used instead of security-groups, allowed-address-pairs or interface-secondary-ips. If false, port-security extension is skipped. </div>
+<div class="param">privilege </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Access privilege. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
+<div class="param">prov_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> LBaaS provider name. </div>
+<div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Region name. </div>
+<div class="param">role_mapping (optional)</div><div class="param-desc"><span class="param-type"><a href="#OpenStackRoleMapping">array[OpenStackRoleMapping]</a></span> Defines the mapping from OpenStack role names to avi local role names. For an OpenStack role, this mapping is consulted only if there is no local Avi role with the same name as the OpenStack role. This is an ordered list and only the first matching entry is used. You can use &#39;*&#39; to match all OpenStack role names. </div>
+<div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. </div>
+<div class="param">security_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If false, security-groups extension will not be used. . </div>
+<div class="param">tenant_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant. </div>
+<div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1. </div>
+<div class="param">use_admin_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False. </div>
+<div class="param">use_internal_endpoints (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use internalURL for OpenStack endpoints instead of the default publicURL endpoints. </div>
+<div class="param">use_keystone_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use keystone for user authentication. </div>
+<div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating to Keystone. For Keystone v3, provide the user information in user@domain format, unless that user belongs to the Default domain. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OpenStackRoleMapping">OpenStackRoleMapping</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">avi_role </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Role name in Avi. </div>
+<div class="param">os_role </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Role name in OpenStack. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OshiftDockerRegistryMetaData">OshiftDockerRegistryMetaData</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">registry_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Namespace for the ServiceEngine image to be hosted in Openshift Integrated registry. </div>
+<div class="param">registry_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Integrated registry Service in Openshift. </div>
+<div class="param">registry_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Static VIP for &#39;docker-registry&#39; service in Openshift if Avi is proxying for this service.This VIP should be outside the cluster IP subnet in Kubernetes and within the subnet configured (but outside the available pool of IPs) in the East West IPAM profile configuration for this Cloud. For example, if kubernetes cluster VIP range is 172.30.0.0/16 and subnet configured in East West IPAM profile is 172.50.0.0/16, then 172.50.0.2 can be used for this vip and IP pool can start from 172.50.0.3 onwards. Use this static VIP in &#39;--insecure-registry &lt;this-vip&gt; 5000&#39; docker config if using an insecure registry or add this to the list of IPs/hostnames when generating certificates if using a secure TLS registry. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="OshiftSharedVirtualService">OshiftSharedVirtualService</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">virtualservice_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of shared virtualservice. VirtualService will be created automatically by Cloud Connector. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PortRange">PortRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range end (inclusive). Allowed values are 1-65535. format: int32</div>
+<div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range start (inclusive). Allowed values are 1-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ProxyConfiguration">ProxyConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Proxy hostname or IP address. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for proxy. </div>
+<div class="param">port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Proxy port. format: int32</div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for proxy. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RancherConfiguration">RancherConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Access key. </div>
+<div class="param">app_sync_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sync frequency in seconds with frameworks. format: int32</div>
+<div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. </div>
+<div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
+<div class="param">disable_auto_backend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for back end services. </div>
+<div class="param">disable_auto_frontend_service_sync (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable auto service sync for front end services. </div>
+<div class="param">disable_auto_se_creation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable SE creation. </div>
+<div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
+<div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs . </div>
+<div class="param">enable_event_subscription (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Docker event subscription. </div>
+<div class="param">feproxy_container_port_as_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> For Front End proxies, use container port as service port. </div>
+<div class="param">feproxy_vips_enable_proxy_arp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable proxy ARP from Host interface for Front End  proxies. </div>
+<div class="param">fleet_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Optional fleet remote endpoint if fleet is used for SE deployment. </div>
+<div class="param">http_container_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80. </div>
+<div class="param">nuage_controller (optional)</div><div class="param-desc"><span class="param-type"><a href="#NuageSDNController">NuageSDNController</a></span> Nuage Overlay SDN Controller information. </div>
+<div class="param">rancher_servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> List of Rancher servers; In case of a load balanced Rancher multi cluster, use Virtual IP of the cluster. </div>
+<div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use Fleet/SSH for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD. </div>
+<div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
+<div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
+<div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. format: int32</div>
+<div class="param">se_volume (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host volume to be used as a disk for Avi SE, This is a disruptive change. </div>
+<div class="param">secret_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Secret key. </div>
+<div class="param">services_accessible_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP. Usually enabled AWS clusters to export East-West services on Host interface. </div>
+<div class="param">ssh_se_deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSHSeDeployment">SSHSeDeployment</a></span> Parameters for SSH SE deployment. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
+<div class="param">use_container_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers. </div>
+<div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSHSeDeployment">SSHSeDeployment</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host_os (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host OS distribution e.g. COREOS, UBUNTU, REDHAT. Field deprecated in 17.1.1. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for ssh and/or sudo. Field deprecated in 17.1.1. </div>
+<div class="param">ssh_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for SSH access to hosts. Field deprecated in 17.1.1. </div>
+<div class="param">sudo_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for sudo. Field deprecated in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="vCenterConfiguration">vCenterConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">datacenter (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Datacenter for virtual infrastructure discovery. </div>
+<div class="param">management_ip_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Management subnet to use for Avi Service Engines. </div>
+<div class="param">management_network (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network to use for Avi Service Engines. It is a reference to an object of type VIMgrNWRuntime. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with vCenter. </div>
+<div class="param">privilege </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the access mode to vCenter as either Read, which allows Avi to discover networks and servers, or Write, which also allows Avi to create Service Engines and configure their network properties. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
+<div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with vCenter. </div>
+<div class="param">vcenter_template_se_location (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Service Engine Template in vCenter to be used for creating Service Engines. </div>
+<div class="param">vcenter_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCenter hostname or IP address. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="vCloudAirConfiguration">vCloudAirConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">privilege </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir access mode. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
+<div class="param">vca_host </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir host address. </div>
+<div class="param">vca_instance </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir instance ID. </div>
+<div class="param">vca_mgmt_network </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir management network. </div>
+<div class="param">vca_orgnization </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir orgnization ID. </div>
+<div class="param">vca_password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir password. </div>
+<div class="param">vca_username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir username. </div>
+<div class="param">vca_vdc </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCloudAir virtual data center name. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
