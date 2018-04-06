@@ -4,7 +4,7 @@ package models
 // Please contact avi-sdk@avinetworks.com for any change requests.
 
 // AwsEncryption aws encryption
-// swagger:model aws_encryption
+// swagger:model AwsEncryption
 type AwsEncryption struct {
 
 	// AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3.

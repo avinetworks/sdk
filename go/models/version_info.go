@@ -7,6 +7,9 @@ package models
 // swagger:model VersionInfo
 type VersionInfo struct {
 
+	// Identifies the datastore table . Field introduced in 17.2.7.
+	DsName string `json:"ds_name,omitempty"`
+
 	// Name of the object.
 	Name string `json:"name,omitempty"`
 

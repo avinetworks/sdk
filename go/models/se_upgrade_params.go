@@ -16,6 +16,9 @@ type SeUpgradeParams struct {
 	// Upgrade System with patch upgrade. Field introduced in 17.2.2.
 	Patch bool `json:"patch,omitempty"`
 
+	// Rollback System with patch upgrade.
+	PatchRollback bool `json:"patch_rollback,omitempty"`
+
 	// Placeholder for description of property rollback of obj type SeUpgradeParams field type str  type boolean
 	Rollback bool `json:"rollback,omitempty"`
 
