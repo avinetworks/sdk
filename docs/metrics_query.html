@@ -438,7 +438,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of bytes received per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_rx_goodput </td>
@@ -452,7 +452,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of packets received per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_server_count </td>
@@ -487,7 +487,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of bytes transmitted per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_tx_goodput </td>
@@ -501,7 +501,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of packets transmitted per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_uptime </td>
@@ -1076,28 +1076,28 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes received per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_rx_bytes_dropped </td>
 <td> Average rate of received bytes dropped per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_rx_pkts </td>
 <td> Average rate of packets received per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_rx_pkts_dropped </td>
 <td> Average rate of received packets dropped per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_syns </td>
@@ -1125,14 +1125,14 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes transmitted per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_tx_pkts </td>
 <td> Average rate of packets transmitted per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
-<td> False </td>
+<td> True </td>
 </tr>
 <tr>
 <td> l4_client.max_num_active_se </td>
@@ -7476,6 +7476,27 @@ Metrics for source of traffic to a VS
 <tr>
 <td> source_insights.avg_total_requests </td>
 <td> Rate of requests </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> source_insights.avg_waf_attacks </td>
+<td> Average number of transactions per second identified by WAF as attacks. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> source_insights.avg_waf_flagged </td>
+<td> Average number of transactions per second flagged by WAF. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> source_insights.avg_waf_rejected </td>
+<td> Average number of transactions per second rejected by WAF. </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>

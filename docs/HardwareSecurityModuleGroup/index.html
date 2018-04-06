@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure hardwaresecuritymodulegroup <key> - show hardwaresecuritymodulegroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,6 +254,14 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "hsm" : {
+      "cloudhsm" : {
+        "crypto_user_password" : "aeiou",
+        "client_config" : "aeiou",
+        "cluster_cert" : "aeiou",
+        "mgmt_config" : "aeiou",
+        "crypto_user_name" : "aeiou",
+        "hsm_ip" : [ "aeiou" ]
+      },
       "sluna" : {
         "server" : [ {
           "server_cert" : "aeiou",
@@ -351,6 +359,14 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "hsm" : {
+    "cloudhsm" : {
+      "crypto_user_password" : "aeiou",
+      "client_config" : "aeiou",
+      "cluster_cert" : "aeiou",
+      "mgmt_config" : "aeiou",
+      "crypto_user_name" : "aeiou",
+      "hsm_ip" : [ "aeiou" ]
+    },
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
@@ -517,6 +533,14 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "hsm" : {
+    "cloudhsm" : {
+      "crypto_user_password" : "aeiou",
+      "client_config" : "aeiou",
+      "cluster_cert" : "aeiou",
+      "mgmt_config" : "aeiou",
+      "crypto_user_name" : "aeiou",
+      "hsm_ip" : [ "aeiou" ]
+    },
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
@@ -625,6 +649,14 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "hsm" : {
+    "cloudhsm" : {
+      "crypto_user_password" : "aeiou",
+      "client_config" : "aeiou",
+      "cluster_cert" : "aeiou",
+      "mgmt_config" : "aeiou",
+      "crypto_user_name" : "aeiou",
+      "hsm_ip" : [ "aeiou" ]
+    },
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
@@ -733,6 +765,14 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "hsm" : {
+    "cloudhsm" : {
+      "crypto_user_password" : "aeiou",
+      "client_config" : "aeiou",
+      "cluster_cert" : "aeiou",
+      "mgmt_config" : "aeiou",
+      "crypto_user_name" : "aeiou",
+      "hsm_ip" : [ "aeiou" ]
+    },
     "sluna" : {
       "server" : [ {
         "server_cert" : "aeiou",
@@ -800,6 +840,7 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#HSMAwsCloudHsm"><code>HSMAwsCloudHsm</code></a></li>
     <li><a href="#HSMSafenetClientInfo"><code>HSMSafenetClientInfo</code></a></li>
     <li><a href="#HSMSafenetLuna"><code>HSMSafenetLuna</code></a></li>
     <li><a href="#HSMSafenetLunaServer"><code>HSMSafenetLunaServer</code></a></li>
@@ -811,6 +852,17 @@ font-style: italic;
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="HSMAwsCloudHsm">HSMAwsCloudHsm</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.7. </div>
+<div class="param">cluster_cert (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS CloudHSM Cluster Certificate. Field introduced in 17.2.7. </div>
+<div class="param">crypto_user_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7. </div>
+<div class="param">crypto_user_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7. </div>
+<div class="param">hsm_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> IP address of the HSM in the cluster. If there are more than one HSMs, only one is sufficient. Field introduced in 17.2.7. </div>
+<div class="param">mgmt_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="HSMSafenetClientInfo">HSMSafenetClientInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -864,10 +916,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HardwareSecurityModule">HardwareSecurityModule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">nethsm (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMThalesNetHsm">array[HSMThalesNetHsm]</a></span> Thales netHSM specific configuration. </div>
+      <div class="param">cloudhsm (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMAwsCloudHsm">HSMAwsCloudHsm</a></span> AWS CloudHSM specific configuration. Field introduced in 17.2.7. </div>
+<div class="param">nethsm (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMThalesNetHsm">array[HSMThalesNetHsm]</a></span> Thales netHSM specific configuration. </div>
 <div class="param">rfs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMThalesRFS">HSMThalesRFS</a></span> Thales Remote File Server (RFS), used for the netHSMs, configuration. </div>
 <div class="param">sluna (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMSafenetLuna">HSMSafenetLuna</a></span> Safenet/Gemalto Luna/Gem specific configuration. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -891,7 +944,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   </body>
