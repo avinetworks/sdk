@@ -40,6 +40,7 @@ type Network struct {
 	VcenterDvs bool `json:"vcenter_dvs,omitempty"`
 
 	//  It is a reference to an object of type VIMgrNWRuntime.
+	// Read Only: true
 	VimgrnwRef string `json:"vimgrnw_ref,omitempty"`
 
 	//  It is a reference to an object of type VrfContext.

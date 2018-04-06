@@ -130,6 +130,9 @@ type EventDetails struct {
 	// Placeholder for description of property config_password_change_request_details of obj type EventDetails field type str  type object
 	ConfigPasswordChangeRequestDetails *ConfigUserPasswordChangeRequest `json:"config_password_change_request_details,omitempty"`
 
+	// Placeholder for description of property config_se_grp_flv_update_details of obj type EventDetails field type str  type object
+	ConfigSeGrpFlvUpdateDetails *ConfigSeGrpFlvUpdate `json:"config_se_grp_flv_update_details,omitempty"`
+
 	// Placeholder for description of property config_update_details of obj type EventDetails field type str  type object
 	ConfigUpdateDetails *ConfigUpdateDetails `json:"config_update_details,omitempty"`
 
