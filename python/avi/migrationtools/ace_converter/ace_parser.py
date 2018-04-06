@@ -113,7 +113,7 @@ class Parser():
         rserver_name = Word(printables)
 
         grammer_4_1 = Group(rserver_key + host + rserver_name)
-        grammer_4_2 = Group(Keyword('description') + Word(printables))
+        grammer_4_2 = Group(Keyword('description') + restOfLine)
         grammer_4_3 = Group(Keyword('ip address') + ipaddress)
         grammer_4_4 = Group(Keyword('probe') + Word(printables))
         grammer_4_5 = Group(Keyword('inservice'))

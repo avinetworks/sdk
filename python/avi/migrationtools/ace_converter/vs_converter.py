@@ -221,7 +221,8 @@ class VSConverter(object):
                                 })
                             if pool != '':
                                 pool_ref = self.common_utils.get_object_ref(
-                                    pool, 'pool', tenant=self.tenant)
+                                    pool, 'pool', tenant=self.tenant,
+                                    cloud_name=self.cloud)
                 if not pool:
                     msg = 'No Pool configured for VS {}'.format(name)
                     # continue
@@ -367,9 +368,9 @@ class VSConverter(object):
                     vs_ip = class_map['desc'][0].get('virtual-address', [])
                     if vs_ip:
                         vs_ip_temp = '{}-vip'.format(vs_ip)
-                        vs_ref = self.common_utils.get_object_ref(vs_ip_temp,
-                                                                  'vsvip',
-                                                                  tenant=self.tenant)
+                        vs_ref = self.common_utils.get_object_ref(
+                            vs_ip_temp, 'vsvip', tenant=self.tenant,
+                            cloud_name=self.cloud)
         return vs_ref, port, vs_ip, l4_type
 
     def virtual_service_conversion(self, data):
