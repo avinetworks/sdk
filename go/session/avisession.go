@@ -475,6 +475,7 @@ type ApiOptions struct {
 	cloud       string
 	cloudUUID   string
 	skipDefault bool
+	includeName bool
 	result      interface{}
 }
 
@@ -522,6 +523,17 @@ func (opts *ApiOptions) setSkipDefault(skipDefault bool) error {
 	return nil
 }
 
+func SetIncludeName(includeName bool) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setIncludeName(includeName)
+	}
+}
+
+func (opts *ApiOptions) setIncludeName(includeName bool) error {
+	opts.includeName = includeName
+	return nil
+}
+
 func SetResult(result interface{}) func(*ApiOptions) error {
 	return func(opts *ApiOptions) error {
 		return opts.setResult(result)
@@ -559,6 +571,9 @@ func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) er
 	}
 	if opts.skipDefault {
 		uri = uri + "&skip_default=true"
+	}
+	if opts.includeName {
+		uri = uri + "&include_name=true"
 	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {
