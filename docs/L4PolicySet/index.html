@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi NetworkSecurityPolicy Object API</title>
+    <title>Avi L4PolicySet Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi NetworkSecurityPolicy Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure networksecuritypolicy <key> - show networksecuritypolicy <key> ``` </div>
+  <h1>Avi L4PolicySet Object API</h1>
+    <div class="app-desc">##CLI## ``` - configure l4policyset <key> - show l4policyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 17.2.8</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#networksecuritypolicyGet"><code><span class="http-method">get</span> /networksecuritypolicy</code></a></li>
-  <li><a href="#networksecuritypolicyPost"><code><span class="http-method">post</span> /networksecuritypolicy</code></a></li>
-  <li><a href="#networksecuritypolicyUuidDelete"><code><span class="http-method">delete</span> /networksecuritypolicy/{uuid}</code></a></li>
-  <li><a href="#networksecuritypolicyUuidGet"><code><span class="http-method">get</span> /networksecuritypolicy/{uuid}</code></a></li>
-  <li><a href="#networksecuritypolicyUuidPatch"><code><span class="http-method">patch</span> /networksecuritypolicy/{uuid}</code></a></li>
-  <li><a href="#networksecuritypolicyUuidPut"><code><span class="http-method">put</span> /networksecuritypolicy/{uuid}</code></a></li>
+  <li><a href="#l4policysetGet"><code><span class="http-method">get</span> /l4policyset</code></a></li>
+  <li><a href="#l4policysetPost"><code><span class="http-method">post</span> /l4policyset</code></a></li>
+  <li><a href="#l4policysetUuidDelete"><code><span class="http-method">delete</span> /l4policyset/{uuid}</code></a></li>
+  <li><a href="#l4policysetUuidGet"><code><span class="http-method">get</span> /l4policyset/{uuid}</code></a></li>
+  <li><a href="#l4policysetUuidPatch"><code><span class="http-method">patch</span> /l4policyset/{uuid}</code></a></li>
+  <li><a href="#l4policysetUuidPut"><code><span class="http-method">put</span> /l4policyset/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="networksecuritypolicyGet"/>
+  <div class="method"><a name="l4policysetGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /networksecuritypolicy</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /l4policyset</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -242,7 +242,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#NetworkSecurityPolicyApiResponse">NetworkSecurityPolicyApiResponse</a>
+      <a href="#L4PolicySetApiResponse">L4PolicySetApiResponse</a>
       
     </div>
 
@@ -253,24 +253,126 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "l4_connection_policy" : {
+      "rules" : [ {
+        "enable" : true,
+        "match" : {
+          "protocol" : {
+            "match_criteria" : "aeiou",
+            "protocol" : "aeiou"
+          },
+          "port" : {
+            "match_criteria" : "aeiou",
+            "ports" : [ "" ],
+            "port_ranges" : [ {
+              "start" : 123,
+              "end" : 123
+            } ]
+          },
+          "client_ip" : {
+            "group_refs" : [ "aeiou" ],
+            "match_criteria" : "aeiou",
+            "prefixes" : [ {
+              "ip_addr" : "",
+              "mask" : 123
+            } ],
+            "ranges" : [ {
+              "end" : "",
+              "begin" : ""
+            } ],
+            "addrs" : [ {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            } ]
+          }
+        },
+        "name" : "aeiou",
+        "action" : {
+          "select_pool" : {
+            "pool_ref" : "aeiou",
+            "action_type" : "aeiou",
+            "pool_group_ref" : "aeiou"
+          }
+        },
+        "index" : 123
+      } ]
+    },
     "tenant_ref" : "aeiou",
+    "is_internal_policy" : true,
     "name" : "aeiou",
     "description" : "aeiou",
+    "created_by" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#L4PolicySetApiResponse">L4PolicySetApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="l4policysetPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /l4policyset</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; L4PolicySet object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#L4PolicySet">L4PolicySet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "l4_connection_policy" : {
     "rules" : [ {
-      "rl_param" : {
-        "burst_size" : 123,
-        "max_rate" : 123
-      },
-      "log" : true,
       "enable" : true,
       "match" : {
-        "microservice" : {
+        "protocol" : {
           "match_criteria" : "aeiou",
-          "group_ref" : "aeiou"
+          "protocol" : "aeiou"
         },
-        "vs_port" : {
+        "port" : {
           "match_criteria" : "aeiou",
-          "ports" : [ "" ]
+          "ports" : [ "" ],
+          "port_ranges" : [ {
+            "start" : 123,
+            "end" : 123
+          } ]
         },
         "client_ip" : {
           "group_refs" : [ "aeiou" ],
@@ -290,112 +392,20 @@ font-style: italic;
         }
       },
       "name" : "aeiou",
-      "action" : "aeiou",
-      "index" : 123,
-      "created_by" : "aeiou",
-      "age" : 123
-    } ],
-    "cloud_config_cksum" : "aeiou",
-    "created_by" : "aeiou",
-    "uuid" : "aeiou",
-    "url" : "aeiou"
-  } ]
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    OK
-        <a href="#NetworkSecurityPolicyApiResponse">NetworkSecurityPolicyApiResponse</a>
-    <h4 class="field-label">401</h4>
-    log in failed
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="networksecuritypolicyPost"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /networksecuritypolicy</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyPost</span>)</div>
-    <div class="method-notes"></div>
-
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkSecurityPolicy object creation </div>
-    </div>  <!-- field-items -->
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
+      "action" : {
+        "select_pool" : {
+          "pool_ref" : "aeiou",
+          "action_type" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        }
+      },
+      "index" : 123
+    } ]
+  },
   "tenant_ref" : "aeiou",
+  "is_internal_policy" : true,
   "name" : "aeiou",
   "description" : "aeiou",
-  "rules" : [ {
-    "rl_param" : {
-      "burst_size" : 123,
-      "max_rate" : 123
-    },
-    "log" : true,
-    "enable" : true,
-    "match" : {
-      "microservice" : {
-        "match_criteria" : "aeiou",
-        "group_ref" : "aeiou"
-      },
-      "vs_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
-      },
-      "client_ip" : {
-        "group_refs" : [ "aeiou" ],
-        "match_criteria" : "aeiou",
-        "prefixes" : [ {
-          "ip_addr" : "",
-          "mask" : 123
-        } ],
-        "ranges" : [ {
-          "end" : "",
-          "begin" : ""
-        } ],
-        "addrs" : [ {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        } ]
-      }
-    },
-    "name" : "aeiou",
-    "action" : "aeiou",
-    "index" : 123,
-    "created_by" : "aeiou",
-    "age" : 123
-  } ],
-  "cloud_config_cksum" : "aeiou",
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
@@ -411,17 +421,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+        <a href="#L4PolicySet">L4PolicySet</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="networksecuritypolicyUuidDelete"/>
+  <div class="method"><a name="l4policysetUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /networksecuritypolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /l4policyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -475,11 +485,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="networksecuritypolicyUuidGet"/>
+  <div class="method"><a name="l4policysetUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /networksecuritypolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /l4policyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -513,7 +523,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+      <a href="#L4PolicySet">L4PolicySet</a>
       
     </div>
 
@@ -522,49 +532,54 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "l4_connection_policy" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocol" : "aeiou"
+        },
+        "port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ],
+          "port_ranges" : [ {
+            "start" : 123,
+            "end" : 123
+          } ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "select_pool" : {
+          "pool_ref" : "aeiou",
+          "action_type" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        }
+      },
+      "index" : 123
+    } ]
+  },
   "tenant_ref" : "aeiou",
+  "is_internal_policy" : true,
   "name" : "aeiou",
   "description" : "aeiou",
-  "rules" : [ {
-    "rl_param" : {
-      "burst_size" : 123,
-      "max_rate" : 123
-    },
-    "log" : true,
-    "enable" : true,
-    "match" : {
-      "microservice" : {
-        "match_criteria" : "aeiou",
-        "group_ref" : "aeiou"
-      },
-      "vs_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
-      },
-      "client_ip" : {
-        "group_refs" : [ "aeiou" ],
-        "match_criteria" : "aeiou",
-        "prefixes" : [ {
-          "ip_addr" : "",
-          "mask" : 123
-        } ],
-        "ranges" : [ {
-          "end" : "",
-          "begin" : ""
-        } ],
-        "addrs" : [ {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        } ]
-      }
-    },
-    "name" : "aeiou",
-    "action" : "aeiou",
-    "index" : 123,
-    "created_by" : "aeiou",
-    "age" : 123
-  } ],
-  "cloud_config_cksum" : "aeiou",
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
@@ -580,17 +595,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+        <a href="#L4PolicySet">L4PolicySet</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="networksecuritypolicyUuidPatch"/>
+  <div class="method"><a name="l4policysetUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /networksecuritypolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /l4policyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -610,7 +625,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkSecurityPolicy object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; L4PolicySet object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -624,7 +639,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+      <a href="#L4PolicySet">L4PolicySet</a>
       
     </div>
 
@@ -633,49 +648,54 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "l4_connection_policy" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocol" : "aeiou"
+        },
+        "port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ],
+          "port_ranges" : [ {
+            "start" : 123,
+            "end" : 123
+          } ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "select_pool" : {
+          "pool_ref" : "aeiou",
+          "action_type" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        }
+      },
+      "index" : 123
+    } ]
+  },
   "tenant_ref" : "aeiou",
+  "is_internal_policy" : true,
   "name" : "aeiou",
   "description" : "aeiou",
-  "rules" : [ {
-    "rl_param" : {
-      "burst_size" : 123,
-      "max_rate" : 123
-    },
-    "log" : true,
-    "enable" : true,
-    "match" : {
-      "microservice" : {
-        "match_criteria" : "aeiou",
-        "group_ref" : "aeiou"
-      },
-      "vs_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
-      },
-      "client_ip" : {
-        "group_refs" : [ "aeiou" ],
-        "match_criteria" : "aeiou",
-        "prefixes" : [ {
-          "ip_addr" : "",
-          "mask" : 123
-        } ],
-        "ranges" : [ {
-          "end" : "",
-          "begin" : ""
-        } ],
-        "addrs" : [ {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        } ]
-      }
-    },
-    "name" : "aeiou",
-    "action" : "aeiou",
-    "index" : 123,
-    "created_by" : "aeiou",
-    "age" : 123
-  } ],
-  "cloud_config_cksum" : "aeiou",
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
@@ -691,17 +711,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+        <a href="#L4PolicySet">L4PolicySet</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="networksecuritypolicyUuidPut"/>
+  <div class="method"><a name="l4policysetUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /networksecuritypolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">networksecuritypolicyUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /l4policyset/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">l4policysetUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -721,7 +741,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkSecurityPolicy object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; L4PolicySet object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -735,7 +755,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+      <a href="#L4PolicySet">L4PolicySet</a>
       
     </div>
 
@@ -744,49 +764,54 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "l4_connection_policy" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocol" : "aeiou"
+        },
+        "port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ],
+          "port_ranges" : [ {
+            "start" : 123,
+            "end" : 123
+          } ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "select_pool" : {
+          "pool_ref" : "aeiou",
+          "action_type" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        }
+      },
+      "index" : 123
+    } ]
+  },
   "tenant_ref" : "aeiou",
+  "is_internal_policy" : true,
   "name" : "aeiou",
   "description" : "aeiou",
-  "rules" : [ {
-    "rl_param" : {
-      "burst_size" : 123,
-      "max_rate" : 123
-    },
-    "log" : true,
-    "enable" : true,
-    "match" : {
-      "microservice" : {
-        "match_criteria" : "aeiou",
-        "group_ref" : "aeiou"
-      },
-      "vs_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
-      },
-      "client_ip" : {
-        "group_refs" : [ "aeiou" ],
-        "match_criteria" : "aeiou",
-        "prefixes" : [ {
-          "ip_addr" : "",
-          "mask" : 123
-        } ],
-        "ranges" : [ {
-          "end" : "",
-          "begin" : ""
-        } ],
-        "addrs" : [ {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        } ]
-      }
-    },
-    "name" : "aeiou",
-    "action" : "aeiou",
-    "index" : 123,
-    "created_by" : "aeiou",
-    "age" : 123
-  } ],
-  "cloud_config_cksum" : "aeiou",
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou"
@@ -802,7 +827,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#NetworkSecurityPolicy">NetworkSecurityPolicy</a>
+        <a href="#L4PolicySet">L4PolicySet</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -819,13 +844,16 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
-    <li><a href="#MicroServiceMatch"><code>MicroServiceMatch</code></a></li>
-    <li><a href="#NetworkSecurityMatchTarget"><code>NetworkSecurityMatchTarget</code></a></li>
-    <li><a href="#NetworkSecurityPolicy"><code>NetworkSecurityPolicy</code></a></li>
-    <li><a href="#NetworkSecurityPolicyActionRLParam"><code>NetworkSecurityPolicyActionRLParam</code></a></li>
-    <li><a href="#NetworkSecurityPolicyApiResponse"><code>NetworkSecurityPolicyApiResponse</code></a></li>
-    <li><a href="#NetworkSecurityRule"><code>NetworkSecurityRule</code></a></li>
-    <li><a href="#PortMatch"><code>PortMatch</code></a></li>
+    <li><a href="#L4ConnectionPolicy"><code>L4ConnectionPolicy</code></a></li>
+    <li><a href="#L4PolicySet"><code>L4PolicySet</code></a></li>
+    <li><a href="#L4PolicySetApiResponse"><code>L4PolicySetApiResponse</code></a></li>
+    <li><a href="#L4Rule"><code>L4Rule</code></a></li>
+    <li><a href="#L4RuleAction"><code>L4RuleAction</code></a></li>
+    <li><a href="#L4RuleActionSelectPool"><code>L4RuleActionSelectPool</code></a></li>
+    <li><a href="#L4RuleMatchTarget"><code>L4RuleMatchTarget</code></a></li>
+    <li><a href="#L4RulePortMatch"><code>L4RulePortMatch</code></a></li>
+    <li><a href="#L4RuleProtocolMatch"><code>L4RuleProtocolMatch</code></a></li>
+    <li><a href="#PortRange"><code>PortRange</code></a></li>
   </ol>
 
   <div class="model">
@@ -860,66 +888,83 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="MicroServiceMatch">MicroServiceMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="L4ConnectionPolicy">L4ConnectionPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">group_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of Micro Service group(s). It is a reference to an object of type MicroServiceGroup. </div>
-<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for Micro Service matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+      <div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Rule">array[L4Rule]</a></span> Rules to apply when a new transport connection is setup. Field introduced in 17.2.7. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="NetworkSecurityMatchTarget">NetworkSecurityMatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="L4PolicySet">L4PolicySet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Placeholder for description of property client_ip of obj type NetworkSecurityMatchTarget field type str  type object </div>
-<div class="param">microservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#MicroServiceMatch">MicroServiceMatch</a></span> Placeholder for description of property microservice of obj type NetworkSecurityMatchTarget field type str  type object </div>
-<div class="param">vs_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Placeholder for description of property vs_port of obj type NetworkSecurityMatchTarget field type str  type object </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="NetworkSecurityPolicy">NetworkSecurityPolicy</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Network Sec Policy. Internally set by cloud connector. </div>
-<div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#NetworkSecurityRule">array[NetworkSecurityRule]</a></span> Placeholder for description of property rules of obj type NetworkSecurityPolicy field type str  type object </div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+      <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.2.7. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.7. </div>
+<div class="param">is_internal_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.2.7. </div>
+<div class="param">l4_connection_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4ConnectionPolicy">L4ConnectionPolicy</a></span> Policy to apply when a new transport connection is setup. Field introduced in 17.2.7. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the L4 Policy Set. Field introduced in 17.2.7. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.7. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the L4 Policy Set. Field introduced in 17.2.7. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="NetworkSecurityPolicyActionRLParam">NetworkSecurityPolicyActionRLParam</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">burst_size </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be rate limited instantaneously. format: int32</div>
-<div class="param">max_rate </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. format: int32</div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="NetworkSecurityPolicyApiResponse">NetworkSecurityPolicyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="L4PolicySetApiResponse">L4PolicySetApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#NetworkSecurityPolicy">array[NetworkSecurityPolicy]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#L4PolicySet">array[L4PolicySet]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="NetworkSecurityRule">NetworkSecurityRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="L4Rule">L4Rule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW, NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY, NETWORK_SECURITY_POLICY_ACTION_TYPE_RATE_LIMIT. </div>
-<div class="param">age (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- &#39;blocked for ever&#39;. Units(MIN). format: int32</div>
-<div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
-<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enable of obj type NetworkSecurityRule field type str  type boolean </div>
-<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
-<div class="param">log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property log of obj type NetworkSecurityRule field type str  type boolean </div>
-<div class="param">match </div><div class="param-desc"><span class="param-type"><a href="#NetworkSecurityMatchTarget">NetworkSecurityMatchTarget</a></span> Placeholder for description of property match of obj type NetworkSecurityRule field type str  type object </div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">rl_param (optional)</div><div class="param-desc"><span class="param-type"><a href="#NetworkSecurityPolicyActionRLParam">NetworkSecurityPolicyActionRLParam</a></span> Placeholder for description of property rl_param of obj type NetworkSecurityRule field type str  type object </div>
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4RuleAction">L4RuleAction</a></span> Action to be performed upon successful rule match. Field introduced in 17.2.7. </div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. Field introduced in 17.2.7. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. Field introduced in 17.2.7. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4RuleMatchTarget">L4RuleMatchTarget</a></span> Match criteria of the rule. Field introduced in 17.2.7. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 17.2.7. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="PortMatch">PortMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="L4RuleAction">L4RuleAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. </div>
+      <div class="param">select_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4RuleActionSelectPool">L4RuleActionSelectPool</a></span> Indicates pool or pool-group selection on rule match. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="L4RuleActionSelectPool">L4RuleActionSelectPool</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Indicates action to take on rule match. Enum options - L4_RULE_ACTION_SELECT_POOL, L4_RULE_ACTION_SELECT_POOLGROUP. Field introduced in 17.2.7. </div>
+<div class="param">pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the pool group to serve the request. It is a reference to an object of type PoolGroup. Field introduced in 17.2.7. </div>
+<div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the pool of servers to serve the request. It is a reference to an object of type Pool. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="L4RuleMatchTarget">L4RuleMatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> IP addresses to match against client IP. Field introduced in 17.2.7. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4RulePortMatch">L4RulePortMatch</a></span> Port number to match against Virtual Service listner port. Field introduced in 17.2.7. </div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4RuleProtocolMatch">L4RuleProtocolMatch</a></span> TCP/UDP/ICMP protocol to match against transport protocol. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="L4RulePortMatch">L4RulePortMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for Virtual Service port matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7. </div>
+<div class="param">port_ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortRange">array[PortRange]</a></span> Range of TCP/UDP port numbers of the Virtual Service. Field introduced in 17.2.7. </div>
+<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Virtual Service&#39;s listening port(s). Allowed values are 1-65535. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="L4RuleProtocolMatch">L4RuleProtocolMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for transport protocol matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7. </div>
+<div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Transport protocol to match. Enum options - PROTOCOL_ICMP, PROTOCOL_TCP, PROTOCOL_UDP. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PortRange">PortRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range end (inclusive). Allowed values are 1-65535. format: int32</div>
+<div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP/UDP port range start (inclusive). Allowed values are 1-65535. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
