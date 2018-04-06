@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\n##Examples##\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -580,6 +580,23 @@
                 }
             }
         }, 
+        "HealthMonitorSIP": {
+            "required": [
+                "sip_request_code"
+            ], 
+            "type": "object", 
+            "properties": {
+                "sip_request_code": {
+                    "type": "string", 
+                    "description": "Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8."
+                }, 
+                "sip_response": {
+                    "default": "SIP/2.0", 
+                    "type": "string", 
+                    "description": "String to match in server response, max length is 512 characters. By default it checks for SIP/2.0 in payload. Field introduced in 17.2.8."
+                }
+            }
+        }, 
         "HealthMonitorExternal": {
             "required": [
                 "command_code"
@@ -644,6 +661,10 @@
                     "description": "Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - 'Use server port'.", 
                     "format": "int32"
                 }, 
+                "sip_monitor": {
+                    "description": "Health monitor for SIP. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/HealthMonitorSIP"
+                }, 
                 "uuid": {
                     "type": "string", 
                     "description": "UUID of the health monitor."
@@ -691,7 +712,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB."
+                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP."
                 }
             }
         }, 

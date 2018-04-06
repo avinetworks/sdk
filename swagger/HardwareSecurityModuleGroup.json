@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HardwareSecurityModuleGroup Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure hardwaresecuritymodulegroup <key>\n- show hardwaresecuritymodulegroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -569,7 +569,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -636,6 +636,40 @@
                 }
             }
         }, 
+        "HSMAwsCloudHsm": {
+            "type": "object", 
+            "properties": {
+                "cluster_cert": {
+                    "type": "string", 
+                    "description": "AWS CloudHSM Cluster Certificate. Field introduced in 17.2.7."
+                }, 
+                "client_config": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.7."
+                }, 
+                "crypto_user_name": {
+                    "type": "string", 
+                    "description": "Username of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
+                }, 
+                "crypto_user_password": {
+                    "type": "string", 
+                    "description": "Password of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
+                }, 
+                "hsm_ip": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address of the HSM in the cluster. If there are more than one HSMs, only one is sufficient. Field introduced in 17.2.7."
+                }, 
+                "mgmt_config": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.7."
+                }
+            }
+        }, 
         "HSMSafenetLunaServer": {
             "required": [
                 "index", 
@@ -683,7 +717,11 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA."
+                    "description": "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM."
+                }, 
+                "cloudhsm": {
+                    "description": "AWS CloudHSM specific configuration. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/HSMAwsCloudHsm"
                 }, 
                 "nethsm": {
                     "items": {

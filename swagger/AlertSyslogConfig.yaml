@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi AlertSyslogConfig Object API
     contact:
         name: Avi Networks Inc.
@@ -425,6 +425,10 @@ definitions:
             -   syslog_server
             -   udp
         properties:
+            format:
+                description: "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
+                type: string
+                default: "SYSLOG_LEGACY"
             syslog_server:
                 description: "The destination Syslog server IP address or hostname."
                 type: string

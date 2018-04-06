@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi PoolGroupDeploymentPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -74,14 +74,6 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: cloud_uuid
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
-                    type: string
-                -   name: cloud_ref.name
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
-                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -364,9 +356,6 @@ definitions:
                 description: "It will automatically disable old production pools once there is a new production candidate."
                 type: boolean
                 default: True
-            cloud_ref:
-                description: " It is a reference to an object of type Cloud."
-                type: string
             description:
                 description: "User defined description for the object."
                 type: string

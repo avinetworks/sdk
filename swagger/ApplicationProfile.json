@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -794,22 +794,22 @@
                 }
             }
         }, 
-        "URIParam": {
+        "ApplicationProfileApiResponse": {
             "required": [
-                "type"
+                "count", 
+                "results"
             ], 
             "type": "object", 
             "properties": {
-                "tokens": {
-                    "items": {
-                        "$ref": "#/definitions/URIParamToken"
-                    }, 
-                    "type": "array", 
-                    "description": "Token config either for the URI components or a constant string."
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
                 }, 
-                "type": {
-                    "type": "string", 
-                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ApplicationProfile"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
@@ -926,25 +926,6 @@
                 }
             }
         }, 
-        "ApplicationProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/ApplicationProfile"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
         "DosThresholdProfile": {
             "required": [
                 "thresh_period"
@@ -1025,6 +1006,36 @@
                 }
             }
         }, 
+        "URIParam": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tokens": {
+                    "items": {
+                        "$ref": "#/definitions/URIParamToken"
+                    }, 
+                    "type": "array", 
+                    "description": "Token config either for the URI components or a constant string."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                }
+            }
+        }, 
+        "SipServiceApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "transaction_timeout": {
+                    "default": 32, 
+                    "type": "integer", 
+                    "description": "SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8. Units(SEC).", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "IpAddr": {
             "required": [
                 "addr", 
@@ -1034,7 +1045,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -1142,9 +1153,9 @@
                     "description": "Specifies the TCP application proxy profile parameters.", 
                     "$ref": "#/definitions/TCPApplicationProfile"
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "The name of the application profile."
+                    "description": "UUID of the application profile."
                 }, 
                 "dns_service_profile": {
                     "description": "Specifies various DNS service related controls for virtual service.", 
@@ -1162,9 +1173,17 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "sip_service_profile": {
+                    "description": "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/SipServiceApplicationProfile"
+                }, 
                 "http_profile": {
                     "description": "Specifies the HTTP application proxy profile parameters.", 
                     "$ref": "#/definitions/HTTPApplicationProfile"
+                }, 
+                "preserve_client_port": {
+                    "type": "boolean", 
+                    "description": "Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -1177,11 +1196,11 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL."
+                    "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP."
                 }, 
-                "uuid": {
+                "name": {
                     "type": "string", 
-                    "description": "UUID of the application profile."
+                    "description": "The name of the application profile."
                 }
             }
         }, 
@@ -1246,6 +1265,10 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "The client's original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi's source NAT address used in the Avi to server IP connection."
+                }, 
+                "allow_dots_in_header_name": {
+                    "type": "boolean", 
+                    "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
                 }, 
                 "disable_keepalive_posts_msie6": {
                     "default": true, 
@@ -1332,9 +1355,10 @@
                     "description": "Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
-                "allow_dots_in_header_name": {
+                "respond_with_100_continue": {
+                    "default": true, 
                     "type": "boolean", 
-                    "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
+                    "description": "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 }, 
                 "client_header_timeout": {
                     "default": 10000, 
