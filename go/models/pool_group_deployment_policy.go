@@ -10,9 +10,6 @@ type PoolGroupDeploymentPolicy struct {
 	// It will automatically disable old production pools once there is a new production candidate.
 	AutoDisableOldProdPools bool `json:"auto_disable_old_prod_pools,omitempty"`
 
-	//  It is a reference to an object of type Cloud.
-	CloudRef string `json:"cloud_ref,omitempty"`
-
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 

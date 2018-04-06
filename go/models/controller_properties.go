@@ -46,6 +46,9 @@ type ControllerProperties struct {
 	// Number of dummy.
 	Dummy int32 `json:"dummy,omitempty"`
 
+	// Enable/Disable Memory Balancer. Field introduced in 17.2.8.
+	EnableMemoryBalancer bool `json:"enable_memory_balancer,omitempty"`
+
 	// . Units(SEC).
 	FatalErrorLeaseTime int32 `json:"fatal_error_lease_time,omitempty"`
 

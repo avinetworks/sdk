@@ -34,6 +34,9 @@ type AwsConfiguration struct {
 	// AWS secret access key.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
+	// Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.
+	SqsEncryption *AwsEncryption `json:"sqs_encryption,omitempty"`
+
 	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).
 	TTL int32 `json:"ttl,omitempty"`
 
