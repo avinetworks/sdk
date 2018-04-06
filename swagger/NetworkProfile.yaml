@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -423,12 +423,15 @@ definitions:
                 description: "Placeholder for description of property tcp_proxy_profile of obj type NetworkProfileUnion field type str  type object"
                 $ref: '#/definitions/TCPProxyProfile'
             type:
-                description: "Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH."
+                description: "Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY."
                 type: string
                 default: "PROTOCOL_TYPE_TCP_PROXY"
             udp_fast_path_profile:
                 description: "Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object"
                 $ref: '#/definitions/UDPFastPathProfile'
+            udp_proxy_profile:
+                description: " Field introduced in 17.2.8."
+                $ref: '#/definitions/UDPProxyProfile'
     TCPFastPathProfile:
         type: object
         properties:
@@ -484,6 +487,10 @@ definitions:
                 type: integer
                 default: 8
                 format: int32
+            min_rexmt_timeout:
+                description: "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. Units(MILLISECONDS)."
+                type: integer
+                format: int32
             nagles_algorithm:
                 description: "Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH."
                 type: boolean
@@ -491,6 +498,10 @@ definitions:
                 description: "Size of the receive window. Allowed values are 32-65536. Units(KB)."
                 type: integer
                 default: 64
+                format: int32
+            reorder_threshold:
+                description: "Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7."
+                type: integer
                 format: int32
             time_wait_delay:
                 description: "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS)."
@@ -508,7 +519,7 @@ definitions:
                 description: "When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. Units(SEC)."
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC)."
                 type: integer
                 default: 10
                 format: int32
@@ -516,3 +527,11 @@ definitions:
                 description: "When disabled, Source NAT will not be performed for all client UDP packets."
                 type: boolean
                 default: True
+    UDPProxyProfile:
+        type: object
+        properties:
+            session_idle_timeout:
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8. Units(SEC)."
+                type: integer
+                default: 10
+                format: int32

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -546,7 +546,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -670,7 +670,7 @@ definitions:
                 description: "SSL handshakes will be handled by dedicated SSL Threads."
                 type: boolean
             async_ssl_threads:
-                description: "Number of Async SSL threads per se_dp. Allowed values are 1-4."
+                description: "Number of Async SSL threads per se_dp. Allowed values are 1-16."
                 type: integer
                 default: 1
                 format: int32
@@ -742,9 +742,11 @@ definitions:
             disable_gro:
                 description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
                 type: boolean
+                default: True
             disable_tso:
                 description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
                 type: boolean
+                default: True
             disk_per_se:
                 description: "Amount of disk space for each of the Service Engine virtual machines. Units(GB)."
                 type: integer
@@ -752,6 +754,12 @@ definitions:
                 format: int32
             distribute_load_active_standby:
                 description: "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
+                type: boolean
+            distribute_queues:
+                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8."
+                type: boolean
+            enable_hsm_priming:
+                description: "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7."
                 type: boolean
             enable_routing:
                 description: "Enable routing for this ServiceEngineGroup ."
@@ -973,6 +981,9 @@ definitions:
                 type: integer
                 default: 1
                 format: int32
+            se_tracert_port_range:
+                description: "Traceroute port range. Field introduced in 17.2.8."
+                $ref: '#/definitions/PortRange'
             se_tunnel_mode:
                 description: "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1."
                 type: integer

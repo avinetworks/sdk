@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -497,6 +497,41 @@
                 }
             }
         }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
         "WafRuleGroup": {
             "required": [
                 "enable", 
@@ -605,21 +640,43 @@
                 }
             }
         }, 
-        "IpAddrPrefix": {
+        "WafExclusionType": {
             "required": [
-                "ip_addr", 
-                "mask"
+                "match_case", 
+                "match_op"
             ], 
             "type": "object", 
             "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
+                "match_case": {
+                    "default": "SENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 17.2.8."
                 }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
+                "match_op": {
+                    "default": "EQUALS", 
+                    "type": "string", 
+                    "description": "String Operation to use for matching the Exclusion. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Field introduced in 17.2.8."
+                }
+            }
+        }, 
+        "WafExcludeListEntry": {
+            "type": "object", 
+            "properties": {
+                "uri_path": {
+                    "type": "string", 
+                    "description": "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
+                }, 
+                "client_subnet": {
+                    "description": "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "match_element": {
+                    "type": "string", 
+                    "description": "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                }, 
+                "uri_match_criteria": {
+                    "description": "Criteria for URI matching. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/WafExclusionType"
                 }
             }
         }, 
@@ -659,40 +716,6 @@
                 "rule": {
                     "type": "string", 
                     "description": "Rule as per Modsec language. Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "WafExcludeListEntry": {
-            "type": "object", 
-            "properties": {
-                "uri_path": {
-                    "type": "string", 
-                    "description": "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
-                }, 
-                "client_subnet": {
-                    "description": "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "match_element": {
-                    "type": "string", 
-                    "description": "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 }
             }
         }

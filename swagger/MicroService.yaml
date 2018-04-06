@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi MicroService Object API
     contact:
         name: Avi Networks Inc.
@@ -424,7 +424,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     MicroService:
         type: object
@@ -435,6 +435,9 @@ definitions:
         properties:
             application_name:
                 description: "application_name of MicroService."
+                type: string
+            cloud_config_cksum:
+                description: "Checksum of cloud configuration for Microservice. Internally set by cloud connector. Field introduced in 17.2.8."
                 type: string
             containers:
                 description: "The list of containers for this microservice."

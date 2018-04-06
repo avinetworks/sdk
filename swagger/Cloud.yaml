@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -767,16 +767,6 @@ definitions:
                 description: "AVI Device Package Version."
                 type: string
                 default: "1.0"
-    aws_encryption:
-        type: object
-        properties:
-            master_key:
-                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
-                type: string
-            mode:
-                description: "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
-                type: string
-                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsConfiguration:
         type: object
         required:
@@ -792,7 +782,7 @@ definitions:
                 format: int32
             ebs_encryption:
                 description: "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3."
-                $ref: '#/definitions/aws_encryption'
+                $ref: '#/definitions/AwsEncryption'
             free_elasticips:
                 description: "Free unused elastic IP addresses."
                 type: boolean
@@ -809,10 +799,13 @@ definitions:
                 type: boolean
             s3_encryption:
                 description: "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3."
-                $ref: '#/definitions/aws_encryption'
+                $ref: '#/definitions/AwsEncryption'
             secret_access_key:
                 description: "AWS secret access key."
                 type: string
+            sqs_encryption:
+                description: "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8."
+                $ref: '#/definitions/AwsEncryption'
             ttl:
                 description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC)."
                 type: integer
@@ -839,6 +832,16 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/AwsZoneConfig'
+    AwsEncryption:
+        type: object
+        properties:
+            master_key:
+                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
+                type: string
+            mode:
+                description: "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                type: string
+                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsZoneConfig:
         type: object
         required:
@@ -889,6 +892,9 @@ definitions:
                 description: "Use Azure managed disks for SE storage. Field introduced in 17.2.2."
                 type: boolean
                 default: True
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
+                type: boolean
     AzureNetworkInfo:
         type: object
         properties:
@@ -1227,7 +1233,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -1794,6 +1800,10 @@ definitions:
                 type: integer
                 default: 60
                 format: int32
+            auto_assign_fqdn:
+                description: "Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8."
+                type: boolean
+                default: True
             avi_bridge_subnet:
                 description: "Avi Linux bridge subnet on OpenShift/K8s nodes."
                 $ref: '#/definitions/IpAddrPrefix'

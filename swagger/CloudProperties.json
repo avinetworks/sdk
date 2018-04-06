@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CloudProperties Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure cloudproperties\n- show cloudproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1015,6 +1015,11 @@
                     "type": "integer", 
                     "description": "Maximum number of pcap files stored per tenant.", 
                     "format": "int32"
+                }, 
+                "enable_memory_balancer": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable/Disable Memory Balancer. Field introduced in 17.2.8."
                 }, 
                 "vs_se_bootup_fail": {
                     "default": 480, 
