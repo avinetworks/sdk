@@ -34,6 +34,9 @@ type VirtualService struct {
 	// (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1.
 	AviAllocatedVip bool `json:"avi_allocated_vip,omitempty"`
 
+	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1.
+	BulkSyncKvcache bool `json:"bulk_sync_kvcache,omitempty"`
+
 	// HTTP authentication configuration for protected resources.
 	ClientAuth *HTTPClientAuthenticationParams `json:"client_auth,omitempty"`
 
@@ -126,6 +129,9 @@ type VirtualService struct {
 
 	// Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1.
 	IPAMNetworkSubnet *IPNetworkSubnet `json:"ipam_network_subnet,omitempty"`
+
+	// L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7.
+	L4Policies []*L4Policies `json:"l4_policies,omitempty"`
 
 	// Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while.
 	LimitDoser bool `json:"limit_doser,omitempty"`
@@ -222,6 +228,9 @@ type VirtualService struct {
 	// Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1.
 	TrafficCloneProfileRef string `json:"traffic_clone_profile_ref,omitempty"`
 
+	// Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8.
+	TrafficEnabled bool `json:"traffic_enabled,omitempty"`
+
 	// Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.
 	Type string `json:"type,omitempty"`
 
@@ -253,7 +262,7 @@ type VirtualService struct {
 	// Datascripts applied on the data traffic of the Virtual Service.
 	VsDatascripts []*VSDataScripts `json:"vs_datascripts,omitempty"`
 
-	// Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1.
+	// Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1.
 	VsvipRef string `json:"vsvip_ref,omitempty"`
 
 	// WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1.
