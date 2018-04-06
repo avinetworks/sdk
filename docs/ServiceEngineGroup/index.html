@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  ##Examples## - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -340,6 +340,7 @@ font-style: italic;
     "least_load_core_selection" : true,
     "hardwaresecuritymodulegroup_ref" : "aeiou",
     "uuid" : "aeiou",
+    "enable_hsm_priming" : true,
     "se_udp_encap_ipc" : 123,
     "udf_log_throttle" : 123,
     "enable_vip_on_all_interfaces" : true,
@@ -389,6 +390,7 @@ font-style: italic;
     "max_vs_per_se" : 123,
     "description" : "aeiou",
     "significant_log_throttle" : 123,
+    "se_tracert_port_range" : "",
     "async_ssl_threads" : 123,
     "realtime_se_metrics" : {
       "duration" : 123,
@@ -403,6 +405,7 @@ font-style: italic;
     "cpu_reserve" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
+    "distribute_queues" : true,
     "se_deprovision_delay" : 123,
     "mgmt_network_ref" : "aeiou",
     "async_ssl" : true,
@@ -550,6 +553,7 @@ font-style: italic;
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
@@ -599,6 +603,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "significant_log_throttle" : 123,
+  "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
   "realtime_se_metrics" : {
     "duration" : 123,
@@ -613,6 +618,7 @@ font-style: italic;
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
+  "distribute_queues" : true,
   "se_deprovision_delay" : 123,
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
@@ -887,6 +893,7 @@ font-style: italic;
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
@@ -936,6 +943,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "significant_log_throttle" : 123,
+  "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
   "realtime_se_metrics" : {
     "duration" : 123,
@@ -950,6 +958,7 @@ font-style: italic;
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
+  "distribute_queues" : true,
   "se_deprovision_delay" : 123,
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
@@ -1108,6 +1117,7 @@ font-style: italic;
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
@@ -1157,6 +1167,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "significant_log_throttle" : 123,
+  "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
   "realtime_se_metrics" : {
     "duration" : 123,
@@ -1171,6 +1182,7 @@ font-style: italic;
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
+  "distribute_queues" : true,
   "se_deprovision_delay" : 123,
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
@@ -1329,6 +1341,7 @@ font-style: italic;
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
   "enable_vip_on_all_interfaces" : true,
@@ -1378,6 +1391,7 @@ font-style: italic;
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "significant_log_throttle" : 123,
+  "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
   "realtime_se_metrics" : {
     "duration" : 123,
@@ -1392,6 +1406,7 @@ font-style: italic;
   "cpu_reserve" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
+  "distribute_queues" : true,
   "se_deprovision_delay" : 123,
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
@@ -1583,7 +1598,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1640,7 +1655,7 @@ font-style: italic;
 <div class="param">allow_burst (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow SEs to be created using burst license. Field introduced in 17.2.5. </div>
 <div class="param">archive_shm_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB). format: int32</div>
 <div class="param">async_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> SSL handshakes will be handled by dedicated SSL Threads. </div>
-<div class="param">async_ssl_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Async SSL threads per se_dp. Allowed values are 1-4. format: int32</div>
+<div class="param">async_ssl_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Async SSL threads per se_dp. Allowed values are 1-16. format: int32</div>
 <div class="param">auto_rebalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set. </div>
 <div class="param">auto_rebalance_capacity_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4. </div>
 <div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3. </div>
@@ -1661,6 +1676,8 @@ font-style: italic;
 <div class="param">disable_tso (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5. </div>
 <div class="param">disk_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of disk space for each of the Service Engine virtual machines. Units(GB). format: int32</div>
 <div class="param">distribute_load_active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. </div>
+<div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8. </div>
+<div class="param">enable_hsm_priming (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7. </div>
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing for this ServiceEngineGroup . </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of SE. Field introduced in 17.1.1. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. </div>
@@ -1716,6 +1733,7 @@ font-style: italic;
 <div class="param">se_sb_dedicated_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3. </div>
 <div class="param">se_sb_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3. format: int32</div>
 <div class="param">se_thread_multiplier (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Multiplier for SE threads based on vCPU. Allowed values are 1-10. format: int32</div>
+<div class="param">se_tracert_port_range (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortRange">PortRange</a></span> Traceroute port range. Field introduced in 17.2.8. </div>
 <div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_tunnel_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3. format: int32</div>
 <div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don&#39;t use UDP encap. Field introduced in 17.1.2. format: int32</div>

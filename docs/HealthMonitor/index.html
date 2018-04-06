@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure healthmonitor <key> - show healthmonitor <key> ```  ##Examples## - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -296,6 +296,10 @@ font-style: italic;
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "receive_timeout" : 123,
+    "sip_monitor" : {
+      "sip_request_code" : "aeiou",
+      "sip_response" : "aeiou"
+    },
     "udp_monitor" : {
       "udp_request" : "aeiou",
       "udp_response" : "aeiou",
@@ -399,6 +403,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "receive_timeout" : 123,
+  "sip_monitor" : {
+    "sip_request_code" : "aeiou",
+    "sip_response" : "aeiou"
+  },
   "udp_monitor" : {
     "udp_request" : "aeiou",
     "udp_response" : "aeiou",
@@ -623,6 +631,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "receive_timeout" : 123,
+  "sip_monitor" : {
+    "sip_request_code" : "aeiou",
+    "sip_response" : "aeiou"
+  },
   "udp_monitor" : {
     "udp_request" : "aeiou",
     "udp_response" : "aeiou",
@@ -737,6 +749,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "receive_timeout" : 123,
+  "sip_monitor" : {
+    "sip_request_code" : "aeiou",
+    "sip_response" : "aeiou"
+  },
   "udp_monitor" : {
     "udp_request" : "aeiou",
     "udp_response" : "aeiou",
@@ -851,6 +867,10 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "receive_timeout" : 123,
+  "sip_monitor" : {
+    "sip_request_code" : "aeiou",
+    "sip_response" : "aeiou"
+  },
   "udp_monitor" : {
     "udp_request" : "aeiou",
     "udp_response" : "aeiou",
@@ -888,6 +908,7 @@ font-style: italic;
     <li><a href="#HealthMonitorDNS"><code>HealthMonitorDNS</code></a></li>
     <li><a href="#HealthMonitorExternal"><code>HealthMonitorExternal</code></a></li>
     <li><a href="#HealthMonitorHttp"><code>HealthMonitorHttp</code></a></li>
+    <li><a href="#HealthMonitorSIP"><code>HealthMonitorSIP</code></a></li>
     <li><a href="#HealthMonitorSSLAttributes"><code>HealthMonitorSSLAttributes</code></a></li>
     <li><a href="#HealthMonitorTcp"><code>HealthMonitorTcp</code></a></li>
     <li><a href="#HealthMonitorUdp"><code>HealthMonitorUdp</code></a></li>
@@ -907,10 +928,11 @@ font-style: italic;
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user friendly name for this health monitor. </div>
 <div class="param">receive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC). format: int32</div>
 <div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC). format: int32</div>
+<div class="param">sip_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorSIP">HealthMonitorSIP</a></span> Health monitor for SIP. Field introduced in 17.2.8. </div>
 <div class="param">successful_checks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of continuous successful health checks before server is marked up. Allowed values are 1-50. format: int32</div>
 <div class="param">tcp_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorTcp">HealthMonitorTcp</a></span> Placeholder for description of property tcp_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP. </div>
 <div class="param">udp_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorUdp">HealthMonitorUdp</a></span> Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the health monitor. </div>
@@ -951,6 +973,13 @@ font-style: italic;
 <div class="param">maintenance_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down. Allowed values are 101-599. </div>
 <div class="param">maintenance_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down. </div>
 <div class="param">ssl_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorSSLAttributes">HealthMonitorSSLAttributes</a></span> SSL attributes for HTTPS health monitor. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HealthMonitorSIP">HealthMonitorSIP</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">sip_request_code </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8. </div>
+<div class="param">sip_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to match in server response, max length is 512 characters. By default it checks for SIP/2.0 in payload. Field introduced in 17.2.8. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

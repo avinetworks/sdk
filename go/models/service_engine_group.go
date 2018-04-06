@@ -28,7 +28,7 @@ type ServiceEngineGroup struct {
 	// SSL handshakes will be handled by dedicated SSL Threads.
 	AsyncSsl bool `json:"async_ssl,omitempty"`
 
-	// Number of Async SSL threads per se_dp. Allowed values are 1-4.
+	// Number of Async SSL threads per se_dp. Allowed values are 1-16.
 	AsyncSslThreads int32 `json:"async_ssl_threads,omitempty"`
 
 	// If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set.
@@ -37,7 +37,7 @@ type ServiceEngineGroup struct {
 	// Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4.
 	AutoRebalanceCapacityPerSe []int64 `json:"auto_rebalance_capacity_per_se,omitempty,omitempty"`
 
-	// Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3.
+	// Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3.
 	AutoRebalanceCriteria []string `json:"auto_rebalance_criteria,omitempty"`
 
 	// Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC).
@@ -90,6 +90,12 @@ type ServiceEngineGroup struct {
 
 	// Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.
 	DistributeLoadActiveStandby bool `json:"distribute_load_active_standby,omitempty"`
+
+	// Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8.
+	DistributeQueues bool `json:"distribute_queues,omitempty"`
+
+	// (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7.
+	EnableHsmPriming bool `json:"enable_hsm_priming,omitempty"`
 
 	// Enable routing for this ServiceEngineGroup .
 	EnableRouting bool `json:"enable_routing,omitempty"`
@@ -256,6 +262,9 @@ type ServiceEngineGroup struct {
 
 	// Multiplier for SE threads based on vCPU. Allowed values are 1-10.
 	SeThreadMultiplier int32 `json:"se_thread_multiplier,omitempty"`
+
+	// Traceroute port range. Field introduced in 17.2.8.
+	SeTracertPortRange *PortRange `json:"se_tracert_port_range,omitempty"`
 
 	// Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.
 	SeTunnelMode int32 `json:"se_tunnel_mode,omitempty"`

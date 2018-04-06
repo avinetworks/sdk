@@ -7,6 +7,9 @@ package models
 // swagger:model AlertSyslogServer
 type AlertSyslogServer struct {
 
+	// Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8.
+	Format string `json:"format,omitempty"`
+
 	// The destination Syslog server IP address or hostname.
 	// Required: true
 	SyslogServer string `json:"syslog_server"`
