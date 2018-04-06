@@ -11,7 +11,7 @@ type IPAddr struct {
 	// Required: true
 	Addr string `json:"addr"`
 
-	//  Enum options - V4, DNS.
+	//  Enum options - V4, DNS, V6.
 	// Required: true
 	Type string `json:"type"`
 }

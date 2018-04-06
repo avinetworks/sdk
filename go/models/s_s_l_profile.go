@@ -47,6 +47,9 @@ type SSLProfile struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
+	// SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8.
+	Type string `json:"type,omitempty"`
+
 	// url
 	// Read Only: true
 	URL string `json:"url,omitempty"`

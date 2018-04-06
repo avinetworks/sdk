@@ -3,7 +3,7 @@
  * AVI CONFIDENTIAL
  * __________________
  *
- * [2013] - [2017] Avi Networks Incorporated
+ * [2013] - [2018] Avi Networks Incorporated
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains the property
@@ -68,6 +68,7 @@ type AviClient struct {
 	IPAMDNSProviderProfile         *IPAMDNSProviderProfileClient
 	IPAddrGroup                    *IPAddrGroupClient
 	JobEntry                       *JobEntryClient
+	L4PolicySet                    *L4PolicySetClient
 	LogControllerMapping           *LogControllerMappingClient
 	MicroService                   *MicroServiceClient
 	MicroServiceGroup              *MicroServiceGroupClient
@@ -170,6 +171,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.IPAMDNSProviderProfile = NewIPAMDNSProviderProfileClient(aviSession)
 	aviClient.IPAddrGroup = NewIPAddrGroupClient(aviSession)
 	aviClient.JobEntry = NewJobEntryClient(aviSession)
+	aviClient.L4PolicySet = NewL4PolicySetClient(aviSession)
 	aviClient.LogControllerMapping = NewLogControllerMappingClient(aviSession)
 	aviClient.MicroService = NewMicroServiceClient(aviSession)
 	aviClient.MicroServiceGroup = NewMicroServiceGroupClient(aviSession)
