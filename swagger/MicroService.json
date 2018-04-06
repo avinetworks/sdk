@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi MicroService Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure microservice <key>\n- show microservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -616,30 +616,34 @@
                     "type": "string", 
                     "description": "orchestrator_name of MicroService."
                 }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
+                "ip_list": {
+                    "type": "boolean", 
+                    "description": "Flag to indicate if container IP list is provided by cloud connectorThis is applicable for overlay cases."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
                 }, 
                 "created_by": {
                     "type": "string", 
                     "description": "Creator name."
                 }, 
-                "ip_list": {
-                    "type": "boolean", 
-                    "description": "Flag to indicate if container IP list is provided by cloud connectorThis is applicable for overlay cases."
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "cloud_config_cksum": {
+                    "type": "string", 
+                    "description": "Checksum of cloud configuration for Microservice. Internally set by cloud connector. Field introduced in 17.2.8."
                 }, 
                 "application_name": {
                     "type": "string", 
@@ -652,9 +656,9 @@
                     "type": "array", 
                     "description": "The list of containers for this microservice."
                 }, 
-                "description": {
+                "uuid": {
                     "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "Unique object identifier of the object."
                 }
             }
         }, 
@@ -696,7 +700,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
