@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  ##Examples## - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -225,6 +225,7 @@ font-style: italic;
   <li><a href="#virtualserviceUuidHttpstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httpstats/</code></a></li>
   <li><a href="#virtualserviceUuidKeyvalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/keyval/</code></a></li>
   <li><a href="#virtualserviceUuidKeyvalsummaryGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/keyvalsummary/</code></a></li>
+  <li><a href="#virtualserviceUuidL4policysetstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/l4policysetstats/</code></a></li>
   <li><a href="#virtualserviceUuidMigratePost"><code><span class="http-method">post</span> /virtualservice/{uuid}/migrate</code></a></li>
   <li><a href="#virtualserviceUuidNetworksecuritypolicyDetailGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/networksecuritypolicy/detail/</code></a></li>
   <li><a href="#virtualserviceUuidNetworksecuritypolicystatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/networksecuritypolicystats/</code></a></li>
@@ -308,6 +309,10 @@ font-style: italic;
       "dns_policy_ref" : "aeiou",
       "index" : 123
     } ],
+    "l4_policies" : [ {
+      "l4_policy_set_ref" : "aeiou",
+      "index" : 123
+    } ],
     "enable_autogw" : true,
     "vrf_context_ref" : "aeiou",
     "flow_dist" : "aeiou",
@@ -337,6 +342,7 @@ font-style: italic;
       "response_rewrite_enabled" : true
     },
     "type" : "aeiou",
+    "traffic_enabled" : true,
     "uuid" : "aeiou",
     "vh_domain_name" : [ "aeiou" ],
     "pool_ref" : "aeiou",
@@ -463,6 +469,7 @@ font-style: italic;
     } ],
     "subnet_uuid" : "aeiou",
     "fqdn" : "aeiou",
+    "bulk_sync_kvcache" : true,
     "weight" : 123,
     "auto_allocate_floating_ip" : true,
     "waf_policy_ref" : "aeiou",
@@ -634,6 +641,10 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -663,6 +674,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -789,6 +801,7 @@ font-style: italic;
   } ],
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -1769,6 +1782,10 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -1798,6 +1815,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -1924,6 +1942,7 @@ font-style: italic;
   } ],
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -2516,6 +2535,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="virtualserviceUuidL4policysetstatsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/l4policysetstats/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidL4policysetstatsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="virtualserviceUuidMigratePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2736,6 +2807,10 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -2765,6 +2840,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -2891,6 +2967,7 @@ font-style: italic;
   } ],
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -3125,6 +3202,10 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -3154,6 +3235,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -3280,6 +3362,7 @@ font-style: italic;
   } ],
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -4149,6 +4232,7 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#L4Policies"><code>L4Policies</code></a></li>
     <li><a href="#Lif"><code>Lif</code></a></li>
     <li><a href="#MatchReplacePair"><code>MatchReplacePair</code></a></li>
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
@@ -4381,7 +4465,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4409,6 +4493,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="L4Policies">L4Policies</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the virtual service L4 policy set. Field introduced in 17.2.7. format: int32</div>
+<div class="param">l4_policy_set_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="Lif">Lif</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cifs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Cif">array[Cif]</a></span> Placeholder for description of property cifs of obj type Lif field type str  type object </div>
@@ -4420,7 +4511,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MatchReplacePair">MatchReplacePair</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">match_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to be matched. </div>
+      <div class="param">match_string </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to be matched. </div>
 <div class="param">replacement_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#ReplaceStringVar">ReplaceStringVar</a></span> Replacement string. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4492,7 +4583,7 @@ font-style: italic;
 <div class="param">service_pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Pool. </div>
 <div class="param">service_port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool based destination port. Allowed values are 1-65535. format: int32</div>
 <div class="param">service_port_range_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The end of the Service port number range. Allowed values are 1-65535. Special values are 0- &#39;single port&#39;. Field introduced in 17.2.4. format: int32</div>
-<div class="param">service_protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH. </div>
+<div class="param">service_protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4571,6 +4662,7 @@ font-style: italic;
 <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability-zone to place the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
+<div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. </div>
 <div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
@@ -4602,6 +4694,7 @@ font-style: italic;
 <div class="param">ign_pool_net_reach (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore Pool servers network reachability constraints for Virtual Service placement. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
+<div class="param">l4_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Policies">array[L4Policies]</a></span> L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>
@@ -4633,6 +4726,7 @@ font-style: italic;
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> It represents subnet for the Virtual Service IP address allocation when auto_allocate_ip is True.It is only applicable in OpenStack or AWS cloud. This field is required if auto_allocate_ip is True. Field deprecated in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">traffic_clone_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1. </div>
+<div class="param">traffic_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_bridge_ip_as_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Bridge IP as VIP on each Host in Mesos deployments. </div>
@@ -4643,7 +4737,7 @@ font-style: italic;
 <div class="param">vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#Vip">array[Vip]</a></span> List of Virtual Service IPs. While creating a &#39;Shared VS&#39;,please use vsvip_ref to point to the shared entities. Field introduced in 17.1.1. </div>
 <div class="param">vrf_context_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. </div>
 <div class="param">vs_datascripts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VSDataScripts">array[VSDataScripts]</a></span> Datascripts applied on the data traffic of the Virtual Service. </div>
-<div class="param">vsvip_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1. </div>
+<div class="param">vsvip_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1. </div>
 <div class="param">waf_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1. </div>
 <div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128. format: int32</div>
     </div>  <!-- field-items -->

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -326,6 +326,7 @@ font-style: italic;
     "azure_profile" : {
       "subscription_id" : "aeiou",
       "use_enhanced_ha" : true,
+      "use_standard_alb" : true,
       "resource_group" : "aeiou",
       "azure_userpass" : {
         "password" : "aeiou",
@@ -338,6 +339,7 @@ font-style: italic;
         "authentication_token" : "aeiou",
         "application_id" : "aeiou"
       },
+      "egress_service_subnets" : [ "aeiou" ],
       "usable_domains" : [ "aeiou" ],
       "usable_network_uuids" : [ "aeiou" ]
     },
@@ -476,6 +478,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -488,6 +491,7 @@ font-style: italic;
       "authentication_token" : "aeiou",
       "application_id" : "aeiou"
     },
+    "egress_service_subnets" : [ "aeiou" ],
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
@@ -695,6 +699,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -707,6 +712,7 @@ font-style: italic;
       "authentication_token" : "aeiou",
       "application_id" : "aeiou"
     },
+    "egress_service_subnets" : [ "aeiou" ],
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
@@ -856,6 +862,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -868,6 +875,7 @@ font-style: italic;
       "authentication_token" : "aeiou",
       "application_id" : "aeiou"
     },
+    "egress_service_subnets" : [ "aeiou" ],
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
@@ -1017,6 +1025,7 @@ font-style: italic;
   "azure_profile" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "azure_userpass" : {
       "password" : "aeiou",
@@ -1029,6 +1038,7 @@ font-style: italic;
       "authentication_token" : "aeiou",
       "application_id" : "aeiou"
     },
+    "egress_service_subnets" : [ "aeiou" ],
     "usable_domains" : [ "aeiou" ],
     "usable_network_uuids" : [ "aeiou" ]
   },
@@ -1129,7 +1139,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1160,11 +1170,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">azure_serviceprincipal (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureServicePrincipalCredentials">AzureServicePrincipalCredentials</a></span> Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1. </div>
 <div class="param">azure_userpass (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureUserPassCredentials">AzureUserPassCredentials</a></span> User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1. </div>
+<div class="param">egress_service_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Used for allocating egress service source IPs. Field introduced in 17.2.8. </div>
 <div class="param">resource_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1. </div>
 <div class="param">subscription_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subscription Id for the Azure subscription. Field introduced in 17.2.1. </div>
 <div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Azure DNS. Field introduced in 17.2.1. </div>
 <div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1. </div>
 <div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1. </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7. </div>
 <div class="param">virtual_network_ids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>

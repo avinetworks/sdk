@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,7 +254,34 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "dns_service_profile" : {
+      "authoritative_domain_names" : [ "aeiou" ],
+      "dns_over_tcp_enabled" : true,
+      "negative_caching_ttl" : 123,
+      "error_response" : "aeiou",
+      "aaaa_empty_response" : true,
+      "edns" : true,
+      "num_dns_ip" : 123,
+      "ecs_stripping_enabled" : true,
+      "edns_client_subnet_prefix_len" : 123,
+      "ttl" : 123,
+      "domain_names" : [ "aeiou" ]
+    },
+    "tcp_app_profile" : {
+      "proxy_protocol_enabled" : true,
+      "proxy_protocol_version" : "aeiou"
+    },
+    "preserve_client_ip" : true,
+    "description" : "aeiou",
+    "preserve_client_port" : true,
+    "sip_service_profile" : {
+      "transaction_timeout" : 123
+    },
+    "type" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
     "http_profile" : {
+      "respond_with_100_continue" : true,
       "secure_cookie_enabled" : true,
       "server_side_redirect_to_https" : true,
       "compression_profile" : {
@@ -345,19 +372,6 @@ font-style: italic;
       "use_app_keepalive_timeout" : true,
       "websockets_enabled" : true
     },
-    "dns_service_profile" : {
-      "authoritative_domain_names" : [ "aeiou" ],
-      "dns_over_tcp_enabled" : true,
-      "negative_caching_ttl" : 123,
-      "error_response" : "aeiou",
-      "aaaa_empty_response" : true,
-      "edns" : true,
-      "num_dns_ip" : 123,
-      "ecs_stripping_enabled" : true,
-      "edns_client_subnet_prefix_len" : 123,
-      "ttl" : 123,
-      "domain_names" : [ "aeiou" ]
-    },
     "dos_rl_profile" : {
       "rl_profile" : {
         "client_ip_requests_rate_limit" : "",
@@ -412,17 +426,8 @@ font-style: italic;
         } ]
       }
     },
-    "tcp_app_profile" : {
-      "proxy_protocol_enabled" : true,
-      "proxy_protocol_version" : "aeiou"
-    },
-    "preserve_client_ip" : true,
     "tenant_ref" : "aeiou",
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "type" : "aeiou",
-    "uuid" : "aeiou",
-    "url" : "aeiou"
+    "name" : "aeiou"
   } ]
 }</code></pre>
 
@@ -477,7 +482,34 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -568,19 +600,6 @@ font-style: italic;
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
   },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
-  },
   "dos_rl_profile" : {
     "rl_profile" : {
       "client_ip_requests_rate_limit" : "",
@@ -635,17 +654,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -769,7 +779,34 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -860,19 +897,6 @@ font-style: italic;
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
   },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
-  },
   "dos_rl_profile" : {
     "rl_profile" : {
       "client_ip_requests_rate_limit" : "",
@@ -927,17 +951,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1003,7 +1018,34 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -1094,19 +1136,6 @@ font-style: italic;
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
   },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
-  },
   "dos_rl_profile" : {
     "rl_profile" : {
       "client_ip_requests_rate_limit" : "",
@@ -1161,17 +1190,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1237,7 +1257,34 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -1328,19 +1375,6 @@ font-style: italic;
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
   },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
-  },
   "dos_rl_profile" : {
     "rl_profile" : {
       "client_ip_requests_rate_limit" : "",
@@ -1395,17 +1429,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1503,6 +1528,7 @@ font-style: italic;
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#SSLClientCertificateAction"><code>SSLClientCertificateAction</code></a></li>
     <li><a href="#SSLClientRequestHeader"><code>SSLClientRequestHeader</code></a></li>
+    <li><a href="#SipServiceApplicationProfile"><code>SipServiceApplicationProfile</code></a></li>
     <li><a href="#TCPApplicationProfile"><code>TCPApplicationProfile</code></a></li>
     <li><a href="#URIParam"><code>URIParam</code></a></li>
     <li><a href="#URIParamToken"><code>URIParamToken</code></a></li>
@@ -1517,9 +1543,11 @@ font-style: italic;
 <div class="param">http_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPApplicationProfile">HTTPApplicationProfile</a></span> Specifies the HTTP application proxy profile parameters. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the application profile. </div>
 <div class="param">preserve_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing. </div>
+<div class="param">preserve_client_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7. </div>
+<div class="param">sip_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SipServiceApplicationProfile">SipServiceApplicationProfile</a></span> Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8. </div>
 <div class="param">tcp_app_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPApplicationProfile">TCPApplicationProfile</a></span> Specifies the TCP application proxy profile parameters. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the application profile. </div>
     </div>  <!-- field-items -->
@@ -1626,6 +1654,7 @@ font-style: italic;
 <div class="param">max_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. </div>
 <div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS). format: int32</div>
+<div class="param">respond_with_100_continue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8. </div>
 <div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
 <div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
 <div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. . </div>
@@ -1682,7 +1711,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1748,6 +1777,12 @@ font-style: italic;
     <div class="field-items">
       <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If this header exists, reset the connection. If the ssl variable is specified, add a header with this value. </div>
 <div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SipServiceApplicationProfile">SipServiceApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">transaction_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
