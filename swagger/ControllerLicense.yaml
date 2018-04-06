@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi ControllerLicense Object API
     contact:
         name: Avi Networks Inc.
@@ -364,10 +364,6 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/BurstResource'
-            backend_servers:
-                description: "Number of backend_servers."
-                type: integer
-                format: int32
             burst_cores:
                 description: "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5."
                 type: integer
@@ -405,16 +401,8 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/SingleLicense'
-            max_apps:
-                description: "Number of max_apps."
-                type: integer
-                format: int32
             max_ses:
                 description: "Number of Service Engines hosts in container clouds."
-                type: integer
-                format: int32
-            max_vses:
-                description: "Deprecated."
                 type: integer
                 format: int32
             name:
@@ -432,10 +420,6 @@ definitions:
             start_on:
                 description: "start_on of ControllerLicense."
                 type: string
-            throughput:
-                description: "Number of throughput."
-                type: integer
-                format: int32
             url:
                 description: "url"
                 readOnly: True
@@ -503,10 +487,6 @@ definitions:
             -   license_name
             -   valid_until
         properties:
-            backend_servers:
-                description: "Number of backend_servers."
-                type: integer
-                format: int32
             burst_cores:
                 description: "Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5."
                 type: integer
@@ -546,10 +526,6 @@ definitions:
             license_type:
                 description: "license_type of SingleLicense."
                 type: string
-            max_apps:
-                description: "Number of max_apps."
-                type: integer
-                format: int32
             max_ses:
                 description: "Number of Service Engines hosts in container clouds."
                 type: integer
@@ -566,10 +542,6 @@ definitions:
             start_on:
                 description: "start_on of SingleLicense."
                 type: string
-            throughput:
-                description: "Number of throughput."
-                type: integer
-                format: int32
             tier_type:
                 description: "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
                 type: string

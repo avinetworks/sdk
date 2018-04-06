@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -484,7 +484,7 @@
                 "distribute_queues": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1."
+                    "description": "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
                 }, 
                 "se_dpdk_pmd": {
                     "type": "integer", 
@@ -814,7 +814,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -1422,9 +1422,11 @@
                     "description": ". Units(MILLISECONDS).", 
                     "format": "int32"
                 }, 
-                "se_handle_interface_routes": {
-                    "type": "boolean", 
-                    "description": "Accept/ignore interface routes (i.e, no next hop IP address)."
+                "lb_batch_push_frequency": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.", 
+                    "format": "int32"
                 }, 
                 "mcache_enabled": {
                     "type": "boolean", 
@@ -1453,6 +1455,10 @@
                     "type": "integer", 
                     "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.", 
                     "format": "int32"
+                }, 
+                "se_handle_interface_routes": {
+                    "type": "boolean", 
+                    "description": "Accept/ignore interface routes (i.e, no next hop IP address)."
                 }, 
                 "log_agent_sleep_interval": {
                     "default": 10, 

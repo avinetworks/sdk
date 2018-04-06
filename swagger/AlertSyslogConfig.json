@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -571,6 +571,11 @@
                 "syslog_server": {
                     "type": "string", 
                     "description": "The destination Syslog server IP address or hostname."
+                }, 
+                "format": {
+                    "default": "SYSLOG_LEGACY", 
+                    "type": "string", 
+                    "description": "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
                 }
             }
         }, 
