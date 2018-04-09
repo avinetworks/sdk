@@ -84,21 +84,17 @@ class Parser():
                             Keyword('status') + Word(nums) + Word(nums)) |  
                             (Keyword('expect') +
                             Keyword('regex') + Word(printables)))
-        grammer_3_6 = Group(Keyword('passdetect') + Keyword('interval') + num)
-        grammer_3_7 = Group(Keyword('open') + num)
-        grammer_3_8 = Group(Keyword('ssl') + Keyword('version') + Keyword('all'))
-
-        request_key = Keyword('request')
-        method_key = Keyword('method')
-        get = Keyword('get')
-        url_key = Keyword('url')
-        url = Word(printables)
-        grammer_3_6 = Group(request_key + method_key + get + url_key + url)
-
+        # grammer_3_6 = Group(Keyword('passdetect') + Keyword('interval') + num)
+        #grammer_3_7 = Group(Keyword('open') + num)
+        grammer_3_6 = Group(Keyword('ssl') + Keyword('version') + Keyword('all'))
+        grammer_3_7 = Group(Keyword('request') + Keyword('method') + Keyword('get') + Keyword('url') + Word(printables))
+        grammer_3_8 = Group(Keyword('request') + Keyword('method') + Word(printables))
+        grammer_3_9 = Group(Keyword('header') + Keyword('Host') + Keyword('header-value') + Word(printables))
         grammer_3 = Group(grammer_3_1 + ZeroOrMore(grammer_3_2 | grammer_3_3 |
                                                    grammer_3_4 | grammer_3_5 |
                                                    grammer_3_6 | grammer_3_7 |
-                                                   grammer_3_8))
+                                                   grammer_3_8 | grammer_3_9 ))
+
 
         # grammer 4:
         # rserver host rs_Test123
@@ -113,7 +109,7 @@ class Parser():
         rserver_name = Word(printables)
 
         grammer_4_1 = Group(rserver_key + host + rserver_name)
-        grammer_4_2 = Group(Keyword('description') + restOfLine)
+        grammer_4_2 = Group(Keyword('description') + Word(printables))
         grammer_4_3 = Group(Keyword('ip address') + ipaddress)
         grammer_4_4 = Group(Keyword('probe') + Word(printables))
         grammer_4_5 = Group(Keyword('inservice'))
@@ -388,11 +384,13 @@ class Parser():
         grammer_ssl = Group(Keyword('ssl-proxy') + Keyword('service') + name)
         grammer_ssl_key = Group(Keyword('key') + name)
         grammer_ssl_cert = Group(Keyword('cert') + name)
+        grammer_ssl_chaingroup = Group(Keyword('chaingroup') + name)
         grammer_ssl_opt = Group(Keyword('ssl') + Keyword('advanced-options') +
                                 name)
 
         grammer_ssl_comp = Group(grammer_ssl + ZeroOrMore(grammer_ssl_key |
                                                           grammer_ssl_cert |
+                                                          grammer_ssl_chaingroup |
                                                           grammer_ssl_opt))
 
         # crypto chaingroup test_group
@@ -400,7 +398,25 @@ class Parser():
         grammer_crypto_1 = Group(
             Keyword('crypto') + Keyword('chaingroup') + name)
         grammer_crypto_2 = Group(Keyword('cert') + name)
-        grammer_crypto = Group(grammer_crypto_1 + ZeroOrMore(grammer_crypto_2))
+        grammer_crypto_3 = Group(grammer_crypto_1 + ZeroOrMore(grammer_crypto_2))
+
+
+        #crypto csr-params
+        grammer_crypto_4 = Group(
+            Keyword('crypto') + Keyword('csr-params') + name)
+        grammer_crypto_5 = Group(Keyword('country') + name)
+        grammer_crypto_6 = Group(Keyword('state') + name)
+        grammer_crypto_7 = Group(Keyword('organization-name') + name)
+        grammer_crypto_8 = Group(Keyword('organization-unit') + name)
+        grammer_crypto_9 = Group(Keyword('common-name') + name)
+        grammer_crypto_10 = Group(grammer_crypto_4 + ZeroOrMore(grammer_crypto_5 |
+                                                                grammer_crypto_6 | grammer_crypto_7 | grammer_crypto_8 |
+                                                                grammer_crypto_9))
+        #grammer_3 = Group(grammer_3_1 + ZeroOrMore(grammer_3_2 | grammer_3_3 |
+#                                                   grammer_3_4 | grammer_3_5 |
+#                                                   grammer_3_6 | grammer_3_7 |
+#                                                   grammer_3_8))
+        #grammer_crypto_11 = ZeroOrMore(grammer_crypto_10)
 
         # aaa authentication login default group TAC_PLUS local
         # aaa accounting default group TAC_PLUS
@@ -444,8 +460,7 @@ class Parser():
         grammer = Group(grammer_1 | grammer_2 | grammer_3 | grammer_4 |
                         grammer_5 | grammer_6 | grammer_7 | grammer_8 |
                         grammer_9 | grammer_10 | grammer_11 | grammer_12 |
-                        grammer_ssl_comp | grammer_aaa | grammer_crypto |
-                        grammer_al)
+                        grammer_ssl_comp | grammer_aaa | grammer_crypto_3  | grammer_crypto_10 | grammer_al)
 
         print "Grammer created .."
         LOG.info("Grammer created ..")
@@ -493,7 +508,7 @@ class Parser():
             name_to_log = None
             type_to_log = ['logging', 'access-list', 'rserver', 'serverfarm',
                            'parameter-map', 'class-map', 'policy-map', 'sticky',
-                           'probe', 'action-list']
+                           'probe', 'action-list','crypto']
 
             if key == 'logging':
                 matched = matched[0][0]
@@ -575,12 +590,25 @@ class Parser():
                         temp_dict = {
                             match[0]: match[1]
                         }
-                    else:
-                        temp_dict = {
-                            match[0]: match[1],
-                            'type': match[2]
-                        }
-                    extra_dict['desc'].append(temp_dict)
+                    elif 'rserver' in match:
+                        if len(match) == 4:
+                            temp_dict = {
+                                match[0]: match[1],
+                                'port': match[2],
+                                'enabled': match[3]
+                            }
+                        else:
+                            temp_dict = {
+                                match[0]: match[1],
+                                'enabled': match[2]
+                            }
+
+
+
+                    if len(temp_dict.keys()) > 1:
+                        extra_dict['desc'].append(temp_dict)
+
+
 
                 LOG.info('parsing: server farm for value : {}'.format(name_to_log))
                 # LOG.debug('serverfarm value {}'.format(extra_dict))
@@ -768,10 +796,18 @@ class Parser():
                             match[0]: match[1]
                         }
                     if len(match) == 4:
-                        temp_dict = {
-                            'status': match[2],
-                            'status1': match[3]
-                        }
+                        if 'status' in match:
+                            temp_dict = {
+                                'status': match[2],
+                                'status1': match[3]
+                            }
+                        elif 'header' in match:
+                            temp_dict = {
+                                'host': match[1],
+                                'header-value': match[3]
+                            }
+
+
                     if len(match) == 3:
                         if 'regex' in match:
                             temp_dict = {
@@ -784,6 +820,32 @@ class Parser():
                         }
                     extra_dict.update(temp_dict)
                 LOG.info('parsing: probe for value : {}'.format(name_to_log))
+
+            if key == 'crypto':
+                matched = matched[0][0]
+                name_to_log = matched[0][2]
+                for match in matched[1:]:
+                    temp_dict = dict()
+                    temp_dict = {
+                                'certificate':[]
+                            }
+                    if len(match) == 2:
+                        if 'cert' in match:
+                            temp_dict['certificate'].append(match[1])
+                        else:
+                            temp_dict = {
+                                match[0]: match[1]
+                            }
+
+
+                    if len(match) == 3:
+                        if 'chaingroup' in match:
+                            temp_dict = {
+                                'root/intermediate_ca': match[2]
+                            }
+                    extra_dict.update(temp_dict)
+                LOG.info('parsing: probe for value : {}'.format(name_to_log))
+
 
             # updating excel sheet
             if key in type_to_log and name_to_log:
