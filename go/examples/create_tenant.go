@@ -5,6 +5,7 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
+	"os"
 )
 
 
@@ -16,7 +17,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		return
+		os.Exit(1)
 	}
 
 	cv, err := aviClient.AviSession.GetControllerVersion()
@@ -28,7 +29,7 @@ func main() {
 	tobj, err := aviClient.Tenant.Create(&tenantobj)
 	if err != nil {
 	    fmt.Println("Tenant creation failed: ", err)
-		return
+		os.Exit(1)
 	}
 	fmt.Println("Tenant created successfully.  ",tobj)
 
@@ -37,7 +38,7 @@ func main() {
 	tenobj, err := aviClient.Tenant.Create(&tenantobj)
 	if err != nil {
 	    fmt.Println("Tenant creation failed: ", err)
-		return
+		os.Exit(1)
 	}
 	fmt.Println("Tenant created successfully. ",tenobj)
 }

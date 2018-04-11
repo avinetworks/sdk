@@ -6,6 +6,7 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
+	"os"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		return
+		os.Exit(1)
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
@@ -34,7 +35,7 @@ func main() {
 	npobj, err := aviClient.ApplicationPersistenceProfile.Create(&profileobj)
 	if err != nil {
 		fmt.Println("Application persistence profile creation failed: ", err)
-		return
+		os.Exit(1)
 	}
 	fmt.Println("Application persistence profile ", npobj)
 
@@ -51,9 +52,9 @@ func main() {
 	sslobj.AcceptedVersions = append(sslobj.AcceptedVersions, &vobj)
 
 	profobj, err := aviClient.SSLProfile.Create(&sslobj)
-	if err == nil {
+	if err != nil {
 		fmt.Println("Ssl profile creation failed: ", err)
-		return
+		os.Exit(1)
 	} else {
 		fmt.Println("Ssl profile ", profobj)
 	}

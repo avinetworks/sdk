@@ -6,6 +6,7 @@ import (
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
 	"fmt"
+	"os"
 )
 
 
@@ -18,6 +19,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
+		os.Exit(1)
 		return
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
@@ -34,13 +36,10 @@ func main() {
 	cloudobj.Mtu = 1300
 
 	tobj, err := aviClient.Cloud.Create(&cloudobj)
-
-	var obj interface{}
-	err = aviClient.AviSession.GetObjectByName("tenant", "webapp", &obj)
-	if err == nil {
-		fmt.Printf("### VS obj: %v\n %s", obj)
-		uuid := obj.(map[string]interface{})["uuid"]
-		fmt.Printf("### VS uuid: %v\n %s", uuid)
+	if err != nil {
+		fmt.Printf("[ERROR]: %v\n %s", err)
+		os.Exit(1)
+		return
 	}
 	fmt.Println("Cloud created successfully. ",tobj)
 }

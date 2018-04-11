@@ -5,6 +5,7 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/session"
 	"github.com/avinetworks/sdk/go/models"
+	"os"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		return
+		os.Exit(1)
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
@@ -28,7 +29,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		return
+		os.Exit(1)
 	}
 	cv1, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv1, err)
@@ -97,7 +98,7 @@ func main() {
 	nvsobj, err := aviClient.VirtualService.Create(&vsobj)
 	if err != nil {
 		fmt.Println("VS creation failed: ", err)
-		return
+		os.Exit(1)
 	}
 	fmt.Printf("VS obj: ", nvsobj.TenantRef)
 
