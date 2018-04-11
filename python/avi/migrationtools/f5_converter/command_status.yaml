@@ -378,6 +378,7 @@ VERSION_11:
     - 'ip-tos-to-client'
     - 'server-sack'
     - 'receive-window-size'
+    - 'reassemble-fragments'
 
     Profile_supported_fh:
     - "description"
@@ -802,6 +803,7 @@ VERSION_10:
     - 'ip tos to client'
     - 'server sack'
     - 'receive window size'
+    - 'reassemble fragments'
 
     profile_na_l4:
     - "hardware syn cookie"
