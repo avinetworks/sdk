@@ -60,6 +60,6 @@ func main() {
 	}
 
 	// Delete healthmonitor
-	res := aviClient.HealthMonitor.Delete(profobj.UUID)
-	fmt.Printf("Healthmonitor obj: %+v", res)
+	//res := aviClient.HealthMonitor.Delete(profobj.UUID)
+	//fmt.Printf("Healthmonitor obj: %+v", res)
 }

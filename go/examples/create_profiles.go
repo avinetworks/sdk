@@ -2,7 +2,6 @@ package main
 
 
 import (
-	//"flag"
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
@@ -24,7 +23,7 @@ func main() {
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
 
 
-	// Create health monitor in avinetworks tenant
+	// Create application persistence in avinetworks tenant
 	profileobj := models.ApplicationPersistenceProfile{}
 	profileobj.IsFederated = false
 	profileobj.PersistenceType = "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS"
@@ -39,6 +38,7 @@ func main() {
 	}
 	fmt.Println("Application persistence profile ", npobj)
 
+	// Create ssl profile in avinetworks tenant
 	sslobj := models.SSLProfile{}
 	sslobj.Name= "Test-Ssl-Profile"
 	sslobj.TenantRef= "/api/tenant?name=webapp"
@@ -51,9 +51,11 @@ func main() {
 	sslobj.AcceptedVersions = append(sslobj.AcceptedVersions, &vobj)
 
 	profobj, err := aviClient.SSLProfile.Create(&sslobj)
-	if err != nil {
+	if err == nil {
 		fmt.Println("Ssl profile creation failed: ", err)
 		return
+	} else {
+		fmt.Println("Ssl profile ", profobj)
 	}
-	fmt.Println("Ssl profile ", profobj)
+
 }
