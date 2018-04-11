@@ -18,6 +18,7 @@ func TestCreateCloud(t *testing.T) {
 	err1 := cmd.Run()
 	if err1 != nil {
 		panic(err1)
+		t.Fail()
 	}
 }
 
@@ -32,6 +33,7 @@ func TestCreateTenant(t *testing.T) {
 	err := cmd.Run()
 	if err != nil {
 		panic(err)
+		t.Fail()
 	}
 }
 
@@ -46,6 +48,7 @@ func TestCreateHealthMonitor(t *testing.T) {
 	err := cmd.Run()
 	if err != nil {
 		panic(err)
+		t.Fail()
 	}
 }
 
@@ -60,6 +63,7 @@ func TestCreateProfiles(t *testing.T) {
 	err := cmd.Run()
 	if err != nil {
 		panic(err)
+		t.Fail()
 	}
 }
 
@@ -74,5 +78,6 @@ func TestCreateVirtualservice(t *testing.T) {
 	err := cmd.Run()
 	if err != nil {
 		panic(err)
+		t.Fail()
 	}
 }

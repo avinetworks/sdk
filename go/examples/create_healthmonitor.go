@@ -6,6 +6,7 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
+	"os"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
+		os.Exit(1)
 		return
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
@@ -37,6 +39,7 @@ func main() {
 	nvsobj, err := aviClient.HealthMonitor.Create(&hmobj)
 	if err != nil {
 		fmt.Println("Healthmonitor creation failed: ", err)
+		os.Exit(1)
 		return
 	}
 	fmt.Printf("Healthmonitor obj: %+v", *nvsobj)
@@ -54,6 +57,7 @@ func main() {
 		upObj , err := aviClient.HealthMonitor.Update(&profobj)
 		if err != nil {
 			fmt.Println("Healthmonitor Updation failed: ", err)
+			os.Exit(1)
 			return
 		}
 		fmt.Printf("Healthmonitor obj: %+v", *upObj)
