@@ -261,7 +261,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
         d_x_absent_ks = []
         for k, v in x.items():
             if v is None:
-                x.pop(k)
+                d_x_absent_ks.append(k)
                 continue
             if isinstance(v, dict):
                 if ('state' in v) and (v['state'] == 'absent'):
