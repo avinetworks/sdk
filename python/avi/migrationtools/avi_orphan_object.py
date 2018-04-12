@@ -212,6 +212,14 @@ def get_vs_ref():
     return vs_ref_dict_g
 
 
+def get_full_name(ele, key):
+    tenant = None
+    if 'tenant_ref' in ele:
+        link, tenant = get_name_and_entity(ele['tenant_ref'])
+    name = '%s-%s-%s' % (ele['name'], key, tenant)
+    return name
+
+
 def wipe_out_not_in_use(avi_config):
     """
 
@@ -219,15 +227,11 @@ def wipe_out_not_in_use(avi_config):
     :return:
     """
     use_obj = filter_for_vs(avi_config)
-    for obj in DEFAULT_META_ORDER:
-        if obj not in avi_config:
+    for key in DEFAULT_META_ORDER:
+        if key not in avi_config:
             continue
-        for ele in avi_config[obj]:
-            tenant = None
-            if 'tenant_ref' in ele:
-                link, tenant = get_name_and_entity(ele['tenant_ref'])
-            name = '%s-%s-%s' % (ele['name'], obj, tenant)
-            if name not in use_obj:
-                avi_config[obj].remove(ele)
-
+        obj_list = avi_config[key]
+        new_list = [obj for obj in obj_list if
+                    get_full_name(obj, key) in use_obj]
+        avi_config[key] = new_list
     return avi_config
