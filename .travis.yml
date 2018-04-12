@@ -29,7 +29,8 @@ install:
 - export PYTHONPATH=$PWD/python/
 - echo $PYTHONPATH
 - go env
-
+- export GOPATH=/home/travis/gopath
+- export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 # command to execute unit tests
 script:
 
