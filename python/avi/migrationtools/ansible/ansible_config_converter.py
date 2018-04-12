@@ -12,6 +12,8 @@ import argparse
 import re
 import requests
 import os
+import urlparse
+from urllib import urlencode
 from copy import deepcopy
 from avi.migrationtools.avi_orphan_object import \
     filter_for_vs, get_vs_ref, get_name_and_entity
@@ -40,7 +42,8 @@ class AviAnsibleConverter(object):
     skip_types = set(DEFAULT_SKIP_TYPES)
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
-    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
+    REL_REF_MATCH = re.compile(
+        '/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None, ns_vs_name_dict=None, test_vip=None):
@@ -94,15 +97,18 @@ class AviAnsibleConverter(object):
             for p in ref_parts[1].split('&'):
                 k, v = p.split('=')
                 # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
-                if k.strip() == 'cloud' or 'cloud' in ref_parts[0]:
-                    obj['cloud_ref'] = '/api/cloud?name=%s' % v.strip()
-                elif k.strip() == 'tenant' or 'tenant' in ref_parts[0]:
-                    obj['tenant_ref'] = '/api/tenant?name=%s' % v.strip()
+                if k.strip() == 'cloud' or 'cloud'in ref_parts[0]:
+                    obj['cloud_ref'] = '/api/cloud?name=%s' % v
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
-        else:
-            LOG.info('%s did not match ref' % x)
+
+        u = urlparse.urlparse(x)
+        query = {'name': urlparse.parse_qs(u.query)['name']}
+        # query.pop('tenant', None)
+        # query.pop('cloud', None)
+        u = u._replace(query=urlencode(query, True))
+        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):
