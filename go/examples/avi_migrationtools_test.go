@@ -7,6 +7,20 @@ import (
 	"os/exec"
 )
 
+func init() {
+
+	command := "nohup python app.py &"
+	parts := strings.Fields(command)
+	cmd := exec.Command(parts[0], parts[1:]...)
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+	err1 := cmd.Run()
+	return
+	if err1 != nil {
+		panic(err1)
+
+	}
+}
 
 func TestCreateCloud(t *testing.T) {
 
