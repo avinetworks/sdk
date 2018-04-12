@@ -3,7 +3,7 @@ package main
 import (
 
 	"github.com/avinetworks/sdk/go/clients"
-	"github.com/avinetworks/sdk/go/models"
+	//"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
 	"fmt"
 	"os"
