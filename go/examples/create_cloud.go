@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	aviClient, err := clients.NewAviClient("localhost:5003", "admin",
+	aviClient, err := clients.NewAviClient("localhost:5003//", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
