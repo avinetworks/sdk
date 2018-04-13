@@ -1,15 +1,15 @@
-package main
+package test
 
 import (
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"os"
+	"testing"
 )
 
 
-func main() {
+func TestCreateTenant(t *testing.T) {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
@@ -17,7 +17,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		os.Exit(1)
+		t.Fail()
 	}
 
 	cv, err := aviClient.AviSession.GetControllerVersion()
@@ -28,17 +28,17 @@ func main() {
 	tenantobj.Name = "avinetworks"
 	tobj, err := aviClient.Tenant.Create(&tenantobj)
 	if err != nil {
-	    fmt.Println("Tenant creation failed: ", err)
-		os.Exit(1)
+	    fmt.Println("\n Tenant creation failed: ", err)
+		t.Fail()
 	}
-	fmt.Println("Tenant created successfully.  ",tobj)
+	fmt.Println("\n Tenant created successfully.  ",tobj)
 
 	// Create tenant webapp
 	tenantobj.Name = "webapp"
 	tenobj, err := aviClient.Tenant.Create(&tenantobj)
 	if err != nil {
 	    fmt.Println("Tenant creation failed: ", err)
-		os.Exit(1)
+		t.Fail()
 	}
-	fmt.Println("Tenant created successfully. ",tenobj)
+	fmt.Println("\n Tenant created successfully. ",tenobj)
 }

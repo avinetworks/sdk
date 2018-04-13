@@ -1,14 +1,14 @@
-package main
+package test
 
 import (
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/session"
 	"github.com/avinetworks/sdk/go/models"
-	"os"
+	"testing"
 )
 
-func main() {
+func TestCreateVirtualservice(t *testing.T) {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("avinetworks"),
@@ -16,7 +16,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		os.Exit(1)
+		t.Fail()
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
@@ -28,11 +28,11 @@ func main() {
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
 	if err != nil {
-		fmt.Println("Couldn't create session: ", err)
-		os.Exit(1)
+		fmt.Println("\n Couldn't create session: ", err)
+		t.Fail()
 	}
 	cv1, err := aviClient.AviSession.GetControllerVersion()
-	fmt.Printf("Avi Controller Version: %v:%v\n", cv1, err)
+	fmt.Printf("\n Avi Controller Version: %v:%v\n", cv1, err)
 
 	// get healthmonitor uuid
 	var obj interface{}
@@ -43,6 +43,7 @@ func main() {
 		fmt.Printf("\n Healthmonitor uuid: %v\n %s", uuid)
 	} else {
 		fmt.Printf("\n [ERROR] : ", err)
+		t.Fail()
 	}
 
 	var profobj interface{}
@@ -53,6 +54,7 @@ func main() {
 		fmt.Printf("\n Application persistence profile uuid: %v\n %s", profuuid)
 	} else {
 		fmt.Printf("\n [ERROR] : ", err)
+		t.Fail()
 	}
 	fmt.Printf("\n APPLICATION PERSISTENCE PROFILE : ", profuuid)
 
@@ -65,6 +67,7 @@ func main() {
 		fmt.Printf("\n Cloud uuid: %v\n %s", cuuid)
 	} else {
 		fmt.Printf("\n [ERROR] : ", err)
+		t.Fail()
 	}
 
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
@@ -80,9 +83,10 @@ func main() {
 	pobj.HealthMonitorRefs = append(pobj.HealthMonitorRefs, uuid.(string))
 	npobj, err := aviClient.Pool.Create(&pobj)
 	if err == nil {
-		fmt.Println("POOL Created sussfully : ", npobj)
+		fmt.Println("\n POOL Created sussfully : ", npobj)
 	} else {
 		fmt.Printf("\n [ERROR] : ", err)
+		t.Fail()
 	}
 
 	// Create a virtual service and use the pool created above
@@ -97,9 +101,22 @@ func main() {
 
 	nvsobj, err := aviClient.VirtualService.Create(&vsobj)
 	if err != nil {
-		fmt.Println("VS creation failed: ", err)
-		os.Exit(1)
+		fmt.Println("\n VS creation failed: ", err)
+		t.Fail()
 	}
-	fmt.Printf("VS obj: ", nvsobj.TenantRef)
+	fmt.Printf("\n VS obj: ", nvsobj.TenantRef)
 
+	// Update VirtualService
+	vservice:= models.VirtualService{}
+	err = aviClient.AviSession.GetObjectByName("virtualservice", "my-test-vs", &vservice)
+	if err == nil {
+		vservice.Name = "Test-vs"
+		vservice.Services = append(vsobj.Services, &models.Service{Port: 443})
+		upObj , err := aviClient.VirtualService.Update(&vservice)
+		if err != nil {
+			fmt.Println("\n Virtualservice Updation failed: ", err)
+			t.Fail()
+		}
+		fmt.Printf("\n Virtualservice obj: %+v", *upObj)
+	}
 }

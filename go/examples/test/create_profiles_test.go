@@ -1,4 +1,4 @@
-package main
+package test
 
 
 import (
@@ -6,10 +6,10 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"os"
+	"testing"
 )
 
-func main() {
+func TestCreateProfiles(t *testing.T) {
 
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
@@ -18,7 +18,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		os.Exit(1)
+		t.Fail()
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
@@ -34,10 +34,10 @@ func main() {
 	profileobj.IPPersistenceProfile = &ipobj
 	npobj, err := aviClient.ApplicationPersistenceProfile.Create(&profileobj)
 	if err != nil {
-		fmt.Println("Application persistence profile creation failed: ", err)
-		os.Exit(1)
+		fmt.Println("\n Application persistence profile creation failed: ", err)
+		t.Fail()
 	}
-	fmt.Println("Application persistence profile ", npobj)
+	fmt.Println("\n Application persistence profile ", npobj)
 
 	// Create ssl profile in avinetworks tenant
 	sslobj := models.SSLProfile{}
@@ -53,8 +53,8 @@ func main() {
 
 	profobj, err := aviClient.SSLProfile.Create(&sslobj)
 	if err != nil {
-		fmt.Println("Ssl profile creation failed: ", err)
-		os.Exit(1)
+		fmt.Println("\n Ssl profile creation failed: ", err)
+		t.Fail()
 	} else {
 		fmt.Println("Ssl profile ", profobj)
 	}
