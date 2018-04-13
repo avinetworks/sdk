@@ -25,7 +25,7 @@ branches:
 
 # command to install dependencies
 install:
-#- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist
+- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist flask
 - export PYTHONPATH=$PWD/python/
 - echo $PYTHONPATH
 - go env
@@ -39,7 +39,8 @@ script:
 #- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
 #- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
 #- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
- - go test ./go/examples/avi_migrationtools_test.go -v
+ - nohup python ./go/examples/app.py &
+ - go test ./go/examples/test/create_cloud_test.go -v
 
 
 
