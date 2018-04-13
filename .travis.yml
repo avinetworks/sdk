@@ -25,7 +25,8 @@ branches:
 
 # command to install dependencies
 install:
-- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist flask
+#- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist flask
+- sudo pip install flask
 - export PYTHONPATH=$PWD/python/
 - echo $PYTHONPATH
 - go env
