@@ -1,4 +1,4 @@
-package main
+package test
 
 
 import (
@@ -6,10 +6,10 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"os"
+	"testing"
 )
 
-func main() {
+func TestCreateHealthmonitor(t *testing.T) {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("webapp"),
@@ -17,8 +17,7 @@ func main() {
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
-		os.Exit(1)
-		return
+		t.Fail()
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
@@ -38,11 +37,10 @@ func main() {
 	hmobj.HTTPMonitor = &httpmonitor
 	nvsobj, err := aviClient.HealthMonitor.Create(&hmobj)
 	if err != nil {
-		fmt.Println("Healthmonitor creation failed: ", err)
-		os.Exit(1)
-		return
+		fmt.Println("\n Healthmonitor creation failed: ", err)
+		t.Fail()
 	}
-	fmt.Printf("Healthmonitor obj: %+v", *nvsobj)
+	fmt.Printf("\n Healthmonitor obj: %+v", *nvsobj)
 
 	// Update healthmonitor
 	profobj:= models.HealthMonitor{}
@@ -56,14 +54,10 @@ func main() {
 
 		upObj , err := aviClient.HealthMonitor.Update(&profobj)
 		if err != nil {
-			fmt.Println("Healthmonitor Updation failed: ", err)
-			os.Exit(1)
-			return
+			fmt.Println("\n Healthmonitor Updation failed: ", err)
+			t.Fail()
 		}
-		fmt.Printf("Healthmonitor obj: %+v", *upObj)
+		fmt.Printf("\n Healthmonitor obj: %+v", *upObj)
 	}
 
-	// Delete healthmonitor
-	//res := aviClient.HealthMonitor.Delete(profobj.UUID)
-	//fmt.Printf("Healthmonitor obj: %+v", res)
 }
