@@ -13,7 +13,7 @@ func TestCreateProfiles(t *testing.T) {
 
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
-		session.SetTenant("webapp"),
+		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
 	if err != nil {
@@ -29,7 +29,7 @@ func TestCreateProfiles(t *testing.T) {
 	profileobj.IsFederated = false
 	profileobj.PersistenceType = "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS"
 	profileobj.Name = "Test-Persistece-Profile"
-	profileobj.TenantRef = "/api/tenant?name=webapp"
+	profileobj.TenantRef = "/api/tenant?name=admin"
 	ipobj := models.IPPersistenceProfile{IPPersistentTimeout: 5}
 	profileobj.IPPersistenceProfile = &ipobj
 	npobj, err := aviClient.ApplicationPersistenceProfile.Create(&profileobj)
@@ -42,7 +42,7 @@ func TestCreateProfiles(t *testing.T) {
 	// Create ssl profile in avinetworks tenant
 	sslobj := models.SSLProfile{}
 	sslobj.Name= "Test-Ssl-Profile"
-	sslobj.TenantRef= "/api/tenant?name=webapp"
+	sslobj.TenantRef= "/api/tenant?name=admin"
 	sslobj.EnableSslSessionReuse = true
 	sslobj.SslSessionTimeout = 86400
 	sslobj.PreferClientCipherOrdering = false

@@ -155,7 +155,7 @@ def index():
     }
     return jsonify(d)
 
-@app.route("/api/cloud", methods=['POST','GET'])
+@app.route("/api/cloud", methods=['POST'])
 def create_cloud():
     res = {"url": "https://10.10.28.91/api/cloud/cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c#Default-Cloud",
          "uuid": "cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c", "name": "Default-Cloud",
@@ -165,6 +165,31 @@ def create_cloud():
          "mtu": 1500}
     return json.dumps(res)
 
+
+@app.route("/api/cloud", methods=['GET'])
+def get_cloud():
+    res = {
+        "count": 1,
+        "results": [
+            {
+                "vtype": "CLOUD_NONE",
+                "license_tier": "ENTERPRISE_18",
+                "_last_modified": "1523857464132583",
+                "enable_vip_static_routes": False,
+                "url": "https://10.10.28.91/api/cloud/cloud-a1c23bff-deae-4e4b-b530-5fbeb9914adb",
+                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                "uuid": "cloud-a1c23bff-deae-4e4b-b530-5fbeb9914adb",
+                "dhcp_enabled": False,
+                "prefer_static_routes": False,
+                "license_type": "LIC_CORES",
+                "mtu": 1300,
+                "apic_mode": False,
+                "state_based_dns_registration": True,
+                "name": "Test-vcenter-cloud"
+            }
+        ]
+        }
+    return json.dumps(res)
 
 @app.route("/api/tenant", methods=['POST','GET'])
 def tenant1():
@@ -198,9 +223,10 @@ def tenant1():
             }
         return json.dumps(d)
 
-@app.route("/api/healthmonitor", methods=['POST','GET'])
+@app.route("/api/healthmonitor", methods=['POST'])
 def create_healthmonitor():
     data = request.get_json(force=True)
+
     if data['name'] == "Test-Hm":
         res = {
             "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-d1f13516-0f2f-4318-9286-c3ee978eac40#Test-Healthmonitor",
@@ -220,7 +246,7 @@ def create_healthmonitor():
             "successful_checks": 10,
             "type": "HEALTH_MONITOR_HTTP"
         }
-        return jsonify(data)
+        return jsonify(res)
     else:
         res = {
             "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
@@ -232,7 +258,7 @@ def create_healthmonitor():
             "receive_timeout": 3,
             "failed_checks": 2,
             "send_interval": 4,
-            "http_monitor": {
+            "http_monitor": {   
                 "exact_http_request": False,
                 "http_request": "HEAD / HTTP/1.0",
                 "http_response_code": ["HTTP_3XX"]
@@ -242,30 +268,44 @@ def create_healthmonitor():
         }
         return jsonify(res)
 
-@app.route("/api/healthmonitor?", methods=['GET'])
+@app.route("/api/healthmonitor", methods=['GET'])
 def get_healthmonitor():
+
     res = {
-        "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-d1f13516-0f2f-4318-9286-c3ee978eac40#Test-Healthmonitor",
-        "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
-        "name": "Test-Hm",
-        "is_federated": False,
-        "tenant_ref": "https://10.10.28.91/api/tenant/tenant-f38b305a-b5a5-4dc1-943d-450c052713c4#webapp",
-        "_last_modified": "1523616122171852",
-        "receive_timeout": 2,
-        "failed_checks": 2,
-        "send_interval": 3,
-        "http_monitor": {
-            "exact_http_request": False,
-            "http_request": "HEAD / HTTP/1.0",
-            "http_response_code": ["HTTP_3XX"]
-        },
-        "successful_checks": 10,
-        "type": "HEALTH_MONITOR_HTTP"
+        "count": 1,
+        "results": [
+            {
+                "uuid": "healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                "receive_timeout": 2,
+                "_last_modified": "1523889827791133",
+                "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                "is_federated": False,
+                "failed_checks": 2,
+                "send_interval": 3,
+                "http_monitor": {
+                "exact_http_request": False,
+                "http_request": "HEAD / HTTP/1.0",
+                "http_response_code": [
+                "HTTP_3XX"
+                ]
+                },
+                "successful_checks": 10,
+                "type": "HEALTH_MONITOR_HTTP",
+                "name": "Test-Hm"
+            }
+        ]
     }
     return json.dumps(res)
 
-@app.route("/api/healthmonitor?name=Test-Healthmonitoris", methods=['GET'])
+# @app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
+# def get_name(name):
+#     return name
+
+
+@app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
 def get_healthmonitor_by_name():
+
     res = {
         "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
         "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
@@ -284,9 +324,10 @@ def get_healthmonitor_by_name():
         "successful_checks": 10,
         "type": "HEALTH_MONITOR_HTTP"
     }
+
     return jsonify(res)
 
-@app.route("/api/applicationpersistenceprofile", methods=['POST','GET'])
+@app.route("/api/applicationpersistenceprofile", methods=['POST'])
 def create_applicationPersistenceprofile():
     responce = {
         "url": "https://10.10.28.91/api/applicationpersistenceprofile/applicationpersistenceprofile-d6a3f83b-b4d1-48ee-a751-9cc3679c816c#Test-Persistece-Profile",
@@ -303,7 +344,31 @@ def create_applicationPersistenceprofile():
     }
     return jsonify(responce)
 
-@app.route("/api/sslprofile", methods=['POST','GET'])
+
+@app.route("/api/applicationpersistenceprofile", methods=['GET'])
+def get_applicationPersistenceprofile():
+    responce = {
+        "count": 1,
+        "results": [
+            {
+                "_last_modified": "1523947144759552",
+                "name": "Test-Persistece-Profile",
+                "url": "https://10.10.28.91/api/applicationpersistenceprofile/applicationpersistenceprofile-15e02603-ada0-4ce3-9840-38bf35f673e7",
+                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                "is_federated": False,
+                "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
+                "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+                "ip_persistence_profile": {
+                "ip_persistent_timeout": 5
+                },
+                "uuid": "applicationpersistenceprofile-15e02603-ada0-4ce3-9840-38bf35f673e7"
+            }
+        ]
+    }
+    return jsonify(responce)
+
+
+@app.route("/api/sslprofile", methods=['POST'])
 def create_sslprofile():
     responce = {
         "url": "https://10.10.28.91/api/sslprofile/sslprofile-f5af46be-ef2e-4e88-9ce3-8eeb4b056485#Test-Ssl-Profile",
@@ -328,6 +393,41 @@ def create_sslprofile():
         "type": "SSL_PROFILE_TYPE_APPLICATION"
     }
     return jsonify(responce)
+
+@app.route("/api/sslprofile", methods=['GET'])
+def get_sslprofile():
+    responce = {
+        "count": 1,
+        "results": [
+            {
+                "ssl_session_timeout": 86400,
+                "accepted_ciphers": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA",
+                "prefer_client_cipher_ordering": False,
+                "_last_modified": "1523947146240811",
+                "url": "https://10.10.28.91/api/sslprofile/sslprofile-820ef5cc-7a02-4c9c-8a9f-f795b3e457d9",
+                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                "accepted_versions": [
+                    {
+                        "type": "SSL_VERSION_TLS1"
+                    }
+                ],
+                "uuid": "sslprofile-820ef5cc-7a02-4c9c-8a9f-f795b3e457d9",
+                "enable_ssl_session_reuse": True,
+                "send_close_notify": True,
+                "type": "SSL_PROFILE_TYPE_APPLICATION",
+                "dhparam": "-----BEGIN DH PARAMETERS----- MIIBCAKCAQEAohUmEGbnPo1dxqvGg7zslnKTZAPPNnE7l1SdTbuPbsYF83J+VDkE pUorADcUydwdPM9nTLEk4qKGnNsbt0S+WXf6EcP0oa+rjRFXsvb4B+tD4VHGmtDA /iivo51hKu93xaoS0xe9TjI9ZZBcirzyz3V55u/OICgNwRM6nL/Fxx3RXG3LGHP4 JF73p/kR5cNB9ebYuKYaEzkTOg6pmCyguBEBdg40br+I59rQLgzn2WMRb1bZRUzy qSIIAMyok9/bsaxyCCsgVzkTPTtlYM9ooJzSGarlNaBhP3AerMdCV6rAQFYfP9vw KvbiJcx+IEdHViJLl2LAFl/gYxOnIBHAswIBAg== -----END DH PARAMETERS----- ",
+                "ssl_rating": {
+                    "compatibility_rating": "SSL_SCORE_AVERAGE",
+                    "security_score": "100.0",
+                    "performance_rating": "SSL_SCORE_AVERAGE"
+                },
+                "name": "Test-Ssl-Profile"
+            }
+        ]
+    }
+    return jsonify(responce)
+
+
 
 @app.route("/api/pool", methods=['POST','GET'])
 def create_pool():

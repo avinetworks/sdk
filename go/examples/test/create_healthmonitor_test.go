@@ -12,7 +12,7 @@ import (
 func TestCreateHealthmonitor(t *testing.T) {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
-		session.SetTenant("webapp"),
+		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
 	if err != nil {
@@ -29,7 +29,7 @@ func TestCreateHealthmonitor(t *testing.T) {
 	hmobj.ReceiveTimeout = 2
 	hmobj.SendInterval = 3
 	hmobj.SuccessfulChecks = 10
-	hmobj.TenantRef = "/api/tenant?name=webapp"
+	hmobj.TenantRef = "/api/tenant?name=admin"
 	httpmonitor := models.HealthMonitorHTTP{}
 	httpmonitor.ExactHTTPRequest = false
 	httpmonitor.HTTPRequest = "HEAD / HTTP/1.0"
@@ -54,10 +54,13 @@ func TestCreateHealthmonitor(t *testing.T) {
 
 		upObj , err := aviClient.HealthMonitor.Update(&profobj)
 		if err != nil {
-			fmt.Println("\n Healthmonitor Updation failed: ", err)
+			fmt.Println("\n [ERROR] : ", err)
 			t.Fail()
 		}
-		fmt.Printf("\n Healthmonitor obj: %+v", *upObj)
+		fmt.Printf("\n\nUpdated Healthmonitor obj: %+v", *upObj)
+	} else {
+		fmt.Println("\n [%%%%%% ERROR] : ", err)
+		t.Fail()
 	}
 
 }

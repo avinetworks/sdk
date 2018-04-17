@@ -33,12 +33,4 @@ func TestCreateTenant(t *testing.T) {
 	}
 	fmt.Println("\n Tenant created successfully.  ",tobj)
 
-	// Create tenant webapp
-	tenantobj.Name = "webapp"
-	tenobj, err := aviClient.Tenant.Create(&tenantobj)
-	if err != nil {
-	    fmt.Println("Tenant creation failed: ", err)
-		t.Fail()
-	}
-	fmt.Println("\n Tenant created successfully. ",tenobj)
 }
