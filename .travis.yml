@@ -41,7 +41,7 @@ script:
 #- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
 #- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
  - nohup python ./go/examples/app.py &
- - go test ./go/examples/test/create_cloud_test.go -v
+ - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go -v
 
 
 
