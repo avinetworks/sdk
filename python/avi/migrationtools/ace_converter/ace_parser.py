@@ -602,9 +602,6 @@ class Parser():
                                 match[0]: match[1],
                                 'enabled': match[2]
                             }
-
-
-
                     if len(temp_dict.keys()) > 1:
                         extra_dict['desc'].append(temp_dict)
 
@@ -806,8 +803,6 @@ class Parser():
                                 'host': match[1],
                                 'header-value': match[3]
                             }
-
-
                     if len(match) == 3:
                         if 'regex' in match:
                             temp_dict = {
@@ -830,7 +825,6 @@ class Parser():
                         matched[0][1]: matched[0][2]
                     }
 
-
                 for match in matched[0:]:
                     temp_dict = dict()
                     if len(match) == 2:
@@ -840,21 +834,14 @@ class Parser():
                             temp_dict = {
                                 match[0]: match[1]
                             }
-
-
                     if len(match) == 3:
                         if 'csr-params' in match:
                             temp_dict = {
                                 match[1]: match[2]
                             }
 
-
-
-
-
                     extra_dict.update(temp_dict)
                 LOG.info('parsing: probe for value : {}'.format(name_to_log))
-
 
             # updating excel sheet
             if key in type_to_log and name_to_log:

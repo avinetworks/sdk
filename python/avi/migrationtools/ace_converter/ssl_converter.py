@@ -180,7 +180,6 @@ class SSLConverter(object):
                 cert_loc = None
             if cert_loc:
                 cert = self.get_cert_obj(name, cert_file, self.in_path)
-
             if cert and name:
                 ca_cert = {
                     "type": "SSL_CERTIFICATE_TYPE_CA",
@@ -188,18 +187,14 @@ class SSLConverter(object):
                     "tenant_ref": self.tenant_ref,
                     "name": name,
                 }
-
             if ca_cert:
                 certificate_list.append(ca_cert)
-
-
-
         for obj in crypto_obj:
             if obj.has_key("chaingroup"):
                 name = obj["chaingroup"]
             if obj.has_key("csr-params"):
                 name = obj["csr-params"]
-
             update_excel('crypto', name, avi_obj=obj)
 
         return certificate_list
+        
