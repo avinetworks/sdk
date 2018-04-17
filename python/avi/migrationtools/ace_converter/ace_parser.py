@@ -824,14 +824,18 @@ class Parser():
             if key == 'crypto':
                 matched = matched[0][0]
                 name_to_log = matched[0][2]
-                for match in matched[1:]:
+                if matched[0][1] == 'chaingroup':
+                    extra_dict = {
+                        'cert': [],
+                        matched[0][1]: matched[0][2]
+                    }
+
+
+                for match in matched[0:]:
                     temp_dict = dict()
-                    temp_dict = {
-                                'certificate':[]
-                            }
                     if len(match) == 2:
                         if 'cert' in match:
-                            temp_dict['certificate'].append(match[1])
+                            extra_dict['cert'].append(match[1])
                         else:
                             temp_dict = {
                                 match[0]: match[1]
@@ -839,10 +843,15 @@ class Parser():
 
 
                     if len(match) == 3:
-                        if 'chaingroup' in match:
+                        if 'csr-params' in match:
                             temp_dict = {
-                                'root/intermediate_ca': match[2]
+                                match[1]: match[2]
                             }
+
+
+
+
+
                     extra_dict.update(temp_dict)
                 LOG.info('parsing: probe for value : {}'.format(name_to_log))
 

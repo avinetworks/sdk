@@ -97,6 +97,9 @@ class ConfigConverter(object):
         data['httppolicyset'] = http_list
         data['VirtualService'] = vs_list
         data['Pool'].extend(cloned_pool_list)
+        root_inter_certs = self.ssl.crypto_chaingroup()
+        if root_inter_certs:
+            data['SSLKeyAndCertificate'].extend(root_inter_certs)
 
         if self.tenant != 'admin':
             data['Tenant'] = [
