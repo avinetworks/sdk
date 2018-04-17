@@ -11,7 +11,7 @@ import (
 
 func TestCreateProfiles(t *testing.T) {
 
-	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
+	aviClient, err := clients.NewAviClient("localhost:8080//", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
