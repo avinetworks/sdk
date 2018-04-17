@@ -8,7 +8,7 @@ import (
 )
 
 func TestDeleteConfigurations(t *testing.T) {
-	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
+	aviClient, err := clients.NewAviClient("localhost:8080//", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
@@ -29,7 +29,7 @@ func TestDeleteConfigurations(t *testing.T) {
 	fmt.Printf("\n Healthmonitor deleted successfully: %+v", res)
 
 	// Create session for webapp tenant
-	aviClient1, err := clients.NewAviClient("10.10.28.91", "admin",
+	aviClient1, err := clients.NewAviClient("localhost:8080//", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("webapp"),
 		session.SetVersion("17.2.8"),
