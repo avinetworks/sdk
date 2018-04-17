@@ -195,7 +195,6 @@ class SSLConverter(object):
 
 
         for obj in crypto_obj:
-            print obj
             if obj.has_key("chaingroup"):
                 name = obj["chaingroup"]
             if obj.has_key("csr-params"):
