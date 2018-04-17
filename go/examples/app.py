@@ -298,34 +298,53 @@ def get_healthmonitor():
     }
     return json.dumps(res)
 
-# @app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
-# def get_name(name):
-#     return name
-
-
-@app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
-def get_healthmonitor_by_name():
-
+@app.route("/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2", methods=['PUT'])
+def get_name():
     res = {
-        "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
-        "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
-        "name": "Test-Healthmonitor",
-        "is_federated": False,
-        "tenant_ref": "https://10.10.28.91/api/tenant/tenant-9d97ae61-950e-4c1b-ac8b-567d82b8311f#webapp",
-        "_last_modified": "1523857484277433",
-        "receive_timeout": 3,
-        "failed_checks": 2,
-        "send_interval": 4,
-        "http_monitor": {
-            "exact_http_request": False,
-            "http_request": "HEAD / HTTP/1.0",
-            "http_response_code": ["HTTP_3XX"]
-        },
-        "successful_checks": 10,
-        "type": "HEALTH_MONITOR_HTTP"
-    }
+            "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
+            "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
+            "name": "Test-Healthmonitor",
+            "is_federated": False,
+            "tenant_ref": "https://10.10.28.91/api/tenant/tenant-9d97ae61-950e-4c1b-ac8b-567d82b8311f#webapp",
+            "_last_modified": "1523857484277433",
+            "receive_timeout": 3,
+            "failed_checks": 2,
+            "send_interval": 4,
+            "http_monitor": {
+                "exact_http_request": False,
+                "http_request": "HEAD / HTTP/1.0",
+                "http_response_code": ["HTTP_3XX"]
+            },
+            "successful_checks": 10,
+            "type": "HEALTH_MONITOR_HTTP"
+        }
 
     return jsonify(res)
+
+
+# @app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
+# def get_healthmonitor_by_name():
+#
+#     res = {
+#         "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
+#         "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
+#         "name": "Test-Healthmonitor",
+#         "is_federated": False,
+#         "tenant_ref": "https://10.10.28.91/api/tenant/tenant-9d97ae61-950e-4c1b-ac8b-567d82b8311f#webapp",
+#         "_last_modified": "1523857484277433",
+#         "receive_timeout": 3,
+#         "failed_checks": 2,
+#         "send_interval": 4,
+#         "http_monitor": {
+#             "exact_http_request": False,
+#             "http_request": "HEAD / HTTP/1.0",
+#             "http_response_code": ["HTTP_3XX"]
+#         },
+#         "successful_checks": 10,
+#         "type": "HEALTH_MONITOR_HTTP"
+#     }
+#
+#     return jsonify(res)
 
 @app.route("/api/applicationpersistenceprofile", methods=['POST'])
 def create_applicationPersistenceprofile():
