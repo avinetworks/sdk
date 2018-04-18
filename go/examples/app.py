@@ -157,12 +157,14 @@ def index():
 
 @app.route("/api/cloud", methods=['POST'])
 def create_cloud():
-    res = {"url": "https://10.10.28.91/api/cloud/cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c#Default-Cloud",
-         "uuid": "cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c", "name": "Default-Cloud",
-         "tenant_ref": "https://10.10.28.91/api/tenant/admin#admin", "dhcp_enabled": False,
-         "vtype": "CLOUD_NONE", "license_tier": "ENTERPRISE_18", "enable_vip_static_routes": False,
-         "state_based_dns_registration": True, "prefer_static_routes": False, "license_type": "LIC_CORES", "apic_mode": False,
-         "mtu": 1500}
+    res = {
+        "url": "https://10.10.28.91/api/cloud/cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c#Default-Cloud",
+        "uuid": "cloud-6f0e7fad-4f60-4b20-b11f-69c39a88022c", "name": "Default-Cloud",
+        "tenant_ref": "https://10.10.28.91/api/tenant/admin#admin", "dhcp_enabled": False,
+        "vtype": "CLOUD_NONE", "license_tier": "ENTERPRISE_18", "enable_vip_static_routes": False,
+        "state_based_dns_registration": True, "prefer_static_routes": False, "license_type": "LIC_CORES", "apic_mode": False,
+        "mtu": 1500
+    }
     return json.dumps(res)
 
 
@@ -188,45 +190,44 @@ def get_cloud():
                 "name": "Test-vcenter-cloud"
             }
         ]
-        }
+    }
     return json.dumps(res)
 
-@app.route("/api/tenant", methods=['POST','GET'])
+@app.route("/api/tenant", methods=['POST'])
 def tenant1():
     data = request.get_json(force=True)
     if data['name'] == 'avinetworks':
         d = {
-                "url": "https://10.10.28.91/api/tenant/tenant-528473ea-d6a6-40e9-b1dc-2ab4617d8101#avinetworks",
-                "uuid": "tenant-528473ea-d6a6-40e9-b1dc-2ab4617d8101",
-                "name": "avinetworks",
-                "_last_modified": "1523616109131728",
-                "config_settings": {
-                    "se_in_provider_context": True,
-                    "tenant_access_to_provider_se": True,
-                    "tenant_vrf": False
-                },
-                "local": True
-            }
+            "url": "https://10.10.28.91/api/tenant/tenant-528473ea-d6a6-40e9-b1dc-2ab4617d8101#avinetworks",
+            "uuid": "tenant-528473ea-d6a6-40e9-b1dc-2ab4617d8101",
+            "name": "avinetworks",
+            "_last_modified": "1523616109131728",
+            "config_settings": {
+                "se_in_provider_context": True,
+                "tenant_access_to_provider_se": True,
+                "tenant_vrf": False
+            },
+            "local": True
+        }
         return json.dumps(d)
     else:
         d = {
-                "url": "https://10.10.28.91/api/tenant/tenant-f38b305a-b5a5-4dc1-943d-450c052713c4#webapp",
-                "uuid": "tenant-f38b305a-b5a5-4dc1-943d-450c052713c4",
-                "name": "webapp",
-                "_last_modified": "1523616112381490",
-                "config_settings": {
-                    "se_in_provider_context": True,
-                    "tenant_access_to_provider_se": False,
-                    "tenant_vrf": False
-                },
-                "local": True
-            }
+            "url": "https://10.10.28.91/api/tenant/tenant-f38b305a-b5a5-4dc1-943d-450c052713c4#webapp",
+            "uuid": "tenant-f38b305a-b5a5-4dc1-943d-450c052713c4",
+            "name": "admin",
+            "_last_modified": "1523616112381490",
+            "config_settings": {
+                "se_in_provider_context": True,
+                "tenant_access_to_provider_se": False,
+                "tenant_vrf": False
+            },
+            "local": True
+        }
         return json.dumps(d)
 
 @app.route("/api/healthmonitor", methods=['POST'])
 def create_healthmonitor():
     data = request.get_json(force=True)
-
     if data['name'] == "Test-Hm":
         res = {
             "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-d1f13516-0f2f-4318-9286-c3ee978eac40#Test-Healthmonitor",
@@ -267,6 +268,27 @@ def create_healthmonitor():
             "type": "HEALTH_MONITOR_HTTP"
         }
         return jsonify(res)
+
+@app.route("/api/tenant", methods=['GET'])
+def get_tenant():
+    data = {
+        "count": 1,
+        "results": [
+            {
+                "_last_modified": "1524030682894729",
+                "url": "https://10.10.28.91/api/tenant/tenant-0e125e6b-a6a5-4a36-9d95-5e350844de2e",
+                "uuid": "tenant-0e125e6b-a6a5-4a36-9d95-5e350844de2e",
+                "name": "avinetworks",
+                "local": True,
+                "config_settings": {
+                    "se_in_provider_context": True,
+                    "tenant_access_to_provider_se": True,
+                    "tenant_vrf": False
+                }
+            }
+        ]
+    }
+    return jsonify(data)
 
 @app.route("/api/healthmonitor", methods=['GET'])
 def get_healthmonitor():
@@ -320,31 +342,6 @@ def get_name():
         }
 
     return jsonify(res)
-
-
-# @app.route("/api/healthmonitor?name=Test-Healthmonitor", methods=['GET'])
-# def get_healthmonitor_by_name():
-#
-#     res = {
-#         "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a#Test-Healthmonitor",
-#         "uuid": "healthmonitor-1b17c992-2004-4670-9f05-f267c99fc19a",
-#         "name": "Test-Healthmonitor",
-#         "is_federated": False,
-#         "tenant_ref": "https://10.10.28.91/api/tenant/tenant-9d97ae61-950e-4c1b-ac8b-567d82b8311f#webapp",
-#         "_last_modified": "1523857484277433",
-#         "receive_timeout": 3,
-#         "failed_checks": 2,
-#         "send_interval": 4,
-#         "http_monitor": {
-#             "exact_http_request": False,
-#             "http_request": "HEAD / HTTP/1.0",
-#             "http_response_code": ["HTTP_3XX"]
-#         },
-#         "successful_checks": 10,
-#         "type": "HEALTH_MONITOR_HTTP"
-#     }
-#
-#     return jsonify(res)
 
 @app.route("/api/applicationpersistenceprofile", methods=['POST'])
 def create_applicationPersistenceprofile():
@@ -766,6 +763,33 @@ def create_virtualservice():
         "shared_vs_refs": []
     }
     return jsonify(responce)
+
+
+@app.route("/api/cloud/cloud-a1c23bff-deae-4e4b-b530-5fbeb9914adb", methods=['DELETE'])
+def delete_cloud():
+    data = {}
+    return jsonify(data)
+
+@app.route("/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2", methods=['DELETE'])
+def delete_healthmonitor():
+    data = {}
+    return jsonify(data)
+
+@app.route("/api/sslprofile/sslprofile-820ef5cc-7a02-4c9c-8a9f-f795b3e457d9", methods=['DELETE'])
+def delete_sslprofile():
+    data = {}
+    return jsonify(data)
+
+@app.route("/api/applicationpersistenceprofile/applicationpersistenceprofile-15e02603-ada0-4ce3-9840-38bf35f673e7", methods=['DELETE'])
+def delete_persistenceprofile():
+    data = {}
+    return jsonify(data)
+
+
+@app.route("/api/tenant/tenant-0e125e6b-a6a5-4a36-9d95-5e350844de2e", methods=['DELETE'])
+def delete_tenant():
+    data = {}
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.debug = True

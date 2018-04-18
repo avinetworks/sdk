@@ -40,20 +40,13 @@ func TestCreateVirtualservice(t *testing.T) {
 	// get healthmonitor uuid
 	var obj interface{}
 	err = aviClient1.AviSession.GetObjectByName("healthmonitor", "Test-Healthmonitor", &obj)
-	if err == nil {
-		uuid := obj.(map[string]interface{})["uuid"]
-		fmt.Printf("\n Healthmonitor uuid: %v\n %s", uuid)
-	} else {
+	if err != nil {
 		fmt.Printf("\n [ERROR] : ", err)
 		t.Fail()
 	}
-
 	var profobj interface{}
 	err = aviClient1.AviSession.GetObjectByName("applicationpersistenceprofile", "Test-Persistece-Profile", &profobj)
-	if err == nil {
-		profuuid := profobj.(map[string]interface{})["uuid"]
-		fmt.Printf("\n Application persistence profile uuid: %v\n %s", profuuid)
-	} else {
+	if err != nil {
 		fmt.Printf("\n [ERROR] : ", err)
 		t.Fail()
 	}
@@ -66,14 +59,13 @@ func TestCreateVirtualservice(t *testing.T) {
 		t.Fail()
 	}
 
-	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	cuuid = fmt.Sprint("/api/cloud?name=",cloudobj.(map[string]interface{})["name"])
 	profuuid = fmt.Sprint("/api/applicationpersistenceprofile?name=",profobj.(map[string]interface{})["name"])
 	uuid = fmt.Sprint("/api/healthmonitor?name=",obj.(map[string]interface{})["name"])
 
-
+	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
-	pobj.Name = "my-test-pool"
+	pobj.Name = "Test-pool"
 	serverobj := models.Server{}
 	serverobj.Enabled = true
 	serverobj.IP = &models.IPAddr{Type: "V4", Addr: "10.90.20.12"}
@@ -82,10 +74,9 @@ func TestCreateVirtualservice(t *testing.T) {
 	pobj.CloudRef = cuuid
 	pobj.ApplicationPersistenceProfileRef = profuuid
 	pobj.HealthMonitorRefs = append(pobj.HealthMonitorRefs, uuid)
-	fmt.Printf("\n ### :", pobj.CloudRef)
-	fmt.Printf("\n ### :", pobj.TenantRef)
-	fmt.Printf("\n ### :", pobj.Name)
-	fmt.Printf("\n ### :", pobj.HealthMonitorRefs)
+	fmt.Printf("\n ### :", profuuid)
+	fmt.Printf("\n ### :", cuuid)
+	fmt.Printf("\n ### :", uuid)
 
 	npobj, err := aviClient.Pool.Create(&pobj)
 	if err == nil {
@@ -98,7 +89,7 @@ func TestCreateVirtualservice(t *testing.T) {
 	//// Create a virtual service and use the pool created above
 	vsobj := models.VirtualService{}
 	vsobj.Name = "my-test-vs"
-	vipip := models.IPAddr{Type: "V4", Addr: "10.90.20.52"}
+	vipip := models.IPAddr{Type: "V4", Addr: "10.10.18.67"}
 	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: "myvip", IPAddress: &vipip})
 	vsobj.TenantRef = "/api/tenant?name=avinetworks"
 	vsobj.PoolRef = npobj.UUID
@@ -119,6 +110,7 @@ func TestCreateVirtualservice(t *testing.T) {
 		vservice.Name = "Test-vs"
 		vservice.Services = append(vsobj.Services, &models.Service{Port: 443})
 		upObj , err := aviClient.VirtualService.Update(&vservice)
+		vsobj.PoolRef = npobj.UUID
 		if err != nil {
 			fmt.Println("\n Virtualservice Updation failed: ", err)
 			t.Fail()
