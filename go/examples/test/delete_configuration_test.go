@@ -21,17 +21,16 @@ func TestDeleteConfigurations(t *testing.T) {
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
 
 	// Delete Virtualservice
-	vsres := aviClient.VirtualService.DeleteByName("Test-vs")
-	fmt.Printf("\n Virtualservice deleted successfully : %+v", vsres)
+	vsRes := aviClient.VirtualService.DeleteByName("Test-vs")
+	fmt.Printf("\n Virtualservice deleted successfully : %+v", vsRes)
 
-	// Delete healthmonitor
-	res := aviClient.HealthMonitor.DeleteByName("Test-Healthmonitor")
-	fmt.Printf("\n Healthmonitor deleted successfully: %+v", res)
-
+	// Delete Pool
+	poolRes := aviClient.Pool.DeleteByName("Test-pool")
+	fmt.Printf("Pool Deleted Successfully, : %+v", poolRes)
 	// Create session for webapp tenant
 	aviClient1, err := clients.NewAviClient("localhost:8080//", "admin",
 		session.SetPassword("avi123"),
-		session.SetTenant("webapp"),
+		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
 
@@ -42,5 +41,18 @@ func TestDeleteConfigurations(t *testing.T) {
 	// Delete healthmonitor
 	sslProfRes := aviClient1.SSLProfile.DeleteByName("Test-Ssl-Profile")
 	fmt.Printf("\n Ssl profile deleted successfully: %+v", sslProfRes)
+
+	// Delete healthmonitor
+	res := aviClient1.HealthMonitor.DeleteByName("Test-Healthmonitor")
+	fmt.Printf("\n Healthmonitor deleted successfully: %+v", res)
+
+	// Delete tenant
+	tenantRes := aviClient1.Tenant.DeleteByName("avinetworks")
+	fmt.Printf("Tenant avinetworks deleted successfully %+v", tenantRes)
+
+	// Delete cloud
+	cloudRes := aviClient1.Cloud.DeleteByName("Test-vcenter-cloud")
+	fmt.Printf("\n Cloud deleted successfully : %-v", cloudRes)
+
 
 }
