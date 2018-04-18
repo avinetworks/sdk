@@ -5,10 +5,11 @@ import (
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/session"
 	"testing"
+	"os"
 )
 
 func TestDeleteConfigurations(t *testing.T) {
-	aviClient, err := clients.NewAviClient("localhost:8080//", "admin",
+	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
@@ -28,7 +29,7 @@ func TestDeleteConfigurations(t *testing.T) {
 	poolRes := aviClient.Pool.DeleteByName("Test-pool")
 	fmt.Printf("Pool Deleted Successfully, : %+v", poolRes)
 	// Create session for webapp tenant
-	aviClient1, err := clients.NewAviClient("localhost:8080//", "admin",
+	aviClient1, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
