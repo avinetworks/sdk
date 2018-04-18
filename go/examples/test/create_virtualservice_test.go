@@ -6,13 +6,14 @@ import (
 	"github.com/avinetworks/sdk/go/session"
 	"testing"
 	"github.com/avinetworks/sdk/go/models"
+	"os"
 )
 
 var cuuid string
 var uuid string
 var profuuid string
 func TestCreateVirtualservice(t *testing.T) {
-	aviClient, err := clients.NewAviClient("localhost:8080//", "admin",
+	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
@@ -25,7 +26,7 @@ func TestCreateVirtualservice(t *testing.T) {
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
 
 
-	aviClient1, err := clients.NewAviClient("localhost:8080//", "admin",
+	aviClient1, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),

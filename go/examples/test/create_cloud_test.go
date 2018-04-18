@@ -6,6 +6,7 @@ import (
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -13,7 +14,7 @@ import (
 
 func TestCreateCloud(t *testing.T) {
 
-	aviClient, err := clients.NewAviClient("localhost:8080//", "admin",
+	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
