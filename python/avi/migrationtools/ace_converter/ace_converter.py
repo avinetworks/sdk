@@ -224,7 +224,7 @@ Optional:
                         help='location of key and cert file')
 
     parser.add_argument('-o', '--output_loc',
-                        help='Out file location',default='.')
+                        help='Out file location', default='.')
 
     # Auto Upload Options
     parser.add_argument('-O', '--option',

@@ -508,7 +508,7 @@ class Parser():
             name_to_log = None
             type_to_log = ['logging', 'access-list', 'rserver', 'serverfarm',
                            'parameter-map', 'class-map', 'policy-map', 'sticky',
-                           'probe', 'action-list','crypto']
+                           'probe', 'action-list', 'crypto']
 
             if key == 'logging':
                 matched = matched[0][0]
@@ -581,7 +581,7 @@ class Parser():
                 matched = matched[0][0]
                 name_to_log = matched[0][2]
                 extra_dict = {
-                    matched[0][1]: matched[0][2],
+                    matched[0][1]: matched[0][2],   #getting serverfarm name
                     'desc': []
                 }
                 for match in matched[1:]:
@@ -590,18 +590,20 @@ class Parser():
                         temp_dict = {
                             match[0]: match[1]
                         }
+                    #Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input configuration file.
                     elif 'rserver' in match:
                         if len(match) == 4:
                             temp_dict = {
                                 match[0]: match[1],
-                                'port': match[2],
-                                'enabled': match[3]
+                                'port': match[2],       #if port no is present in configuration.
+                                'enabled': match[3]     #inservice keyword
                             }
                         else:
                             temp_dict = {
                                 match[0]: match[1],
                                 'enabled': match[2]
                             }
+                    #Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add that filed into serverfarm otherwise just ignore.
                     if len(temp_dict.keys()) > 1:
                         extra_dict['desc'].append(temp_dict)
 
@@ -822,26 +824,23 @@ class Parser():
                 if matched[0][1] == 'chaingroup':
                     extra_dict = {
                         'cert': [],
-                        matched[0][1]: matched[0][2]
+                        matched[0][1]: matched[0][2],
                     }
 
                 for match in matched[0:]:
                     temp_dict = dict()
-                    if len(match) == 2:
-                        if 'cert' in match:
-                            extra_dict['cert'].append(match[1])
-                        else:
-                            temp_dict = {
-                                match[0]: match[1]
-                            }
-                    if len(match) == 3:
-                        if 'csr-params' in match:
-                            temp_dict = {
-                                match[1]: match[2]
-                            }
-
+                    if 'cert' in match:
+                        extra_dict['cert'].append(match[1]) #getting chaingroup certs
+                    elif 'csr-params' in match:
+                        temp_dict = {
+                            match[1]: match[2]  #getting CSR params such as country,state, organization name.
+                        }
+                    else:
+                        temp_dict = {
+                            match[0]: match[1]
+                        }
                     extra_dict.update(temp_dict)
-                LOG.info('parsing: probe for value : {}'.format(name_to_log))
+                LOG.info('parsing: crypto for value : {}'.format(name_to_log))
 
             # updating excel sheet
             if key in type_to_log and name_to_log:
