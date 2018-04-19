@@ -27,7 +27,7 @@ env:
 
 # command to install dependencies
 install:
-- sudo pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist
+#- sudo pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist
 - sudo pip install flask
 - export PYTHONPATH=$PWD/python/
 - echo $PYTHONPATH
@@ -36,10 +36,10 @@ install:
 # command to execute unit tests
 script:
 
-- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
-- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
-- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
-- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
-- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
+#- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
+#- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
+#- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
+#- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+#- pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
 - nohup python ./go/examples/web_service.py &
 - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go -v
