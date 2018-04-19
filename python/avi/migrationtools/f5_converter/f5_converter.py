@@ -367,7 +367,7 @@ if __name__ == "__main__":
     parser.add_argument('--cloud_name', help='cloud name for auto upload',
                         default='Default-Cloud')
     parser.add_argument('--controller_version',
-                        help='Target Avi controller version', default='17.1.1')
+                        help='Target Avi controller version', default='17.2.1')
     # Added snatpool conversion option
     parser.add_argument('--convertsnat',
                         help='Flag for converting snatpool into '
