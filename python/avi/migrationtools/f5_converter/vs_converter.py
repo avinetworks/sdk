@@ -218,6 +218,8 @@ class VSConfigConv(object):
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
+            if not tenant_ref == 'admin':
+                p_tenant = tenant_ref
             persist_ref = self.get_persist_ref(f5_vs)
             avi_persistence = avi_config['ApplicationPersistenceProfile']
             syspersist = sys_dict['ApplicationPersistenceProfile']
