@@ -1,7 +1,6 @@
 package test
 
 import (
-
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
@@ -10,10 +9,7 @@ import (
 	"testing"
 )
 
-
-
 func TestCreateCloud(t *testing.T) {
-
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),

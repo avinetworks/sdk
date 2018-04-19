@@ -9,7 +9,6 @@ import (
 	"os"
 )
 
-
 func TestCreateTenant(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),

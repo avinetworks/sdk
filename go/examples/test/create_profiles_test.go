@@ -1,6 +1,5 @@
 package test
 
-
 import (
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"
@@ -11,7 +10,6 @@ import (
 )
 
 func TestCreateProfiles(t *testing.T) {
-
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
@@ -23,7 +21,6 @@ func TestCreateProfiles(t *testing.T) {
 	}
 	cv, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("Avi Controller Version: %v:%v\n", cv, err)
-
 
 	// Create application persistence in avinetworks tenant
 	profileobj := models.ApplicationPersistenceProfile{}

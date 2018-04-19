@@ -1,6 +1,5 @@
 package test
 
-
 import (
 	"fmt"
 	"github.com/avinetworks/sdk/go/clients"

@@ -12,6 +12,7 @@ import (
 var cuuid string
 var uuid string
 var profuuid string
+
 func TestCreateVirtualservice(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("avi123"),
@@ -38,13 +39,15 @@ func TestCreateVirtualservice(t *testing.T) {
 	cv1, err := aviClient.AviSession.GetControllerVersion()
 	fmt.Printf("\n Avi Controller Version: %v:%v\n", cv1, err)
 
-	// get healthmonitor uuid
+	// get healthmonitor object.
 	var obj interface{}
 	err = aviClient1.AviSession.GetObjectByName("healthmonitor", "Test-Healthmonitor", &obj)
 	if err != nil {
 		fmt.Printf("\n [ERROR] : ", err)
 		t.Fail()
 	}
+
+	// Get application persistence profile object.
 	var profobj interface{}
 	err = aviClient1.AviSession.GetObjectByName("applicationpersistenceprofile", "Test-Persistece-Profile", &profobj)
 	if err != nil {
@@ -75,9 +78,6 @@ func TestCreateVirtualservice(t *testing.T) {
 	pobj.CloudRef = cuuid
 	pobj.ApplicationPersistenceProfileRef = profuuid
 	pobj.HealthMonitorRefs = append(pobj.HealthMonitorRefs, uuid)
-	fmt.Printf("\n ### :", profuuid)
-	fmt.Printf("\n ### :", cuuid)
-	fmt.Printf("\n ### :", uuid)
 
 	npobj, err := aviClient.Pool.Create(&pobj)
 	if err == nil {
@@ -87,7 +87,7 @@ func TestCreateVirtualservice(t *testing.T) {
 		t.Fail()
 	}
 
-	//// Create a virtual service and use the pool created above
+	// Create a virtual service and use the pool created above
 	vsobj := models.VirtualService{}
 	vsobj.Name = "my-test-vs"
 	vipip := models.IPAddr{Type: "V4", Addr: "10.10.18.67"}
