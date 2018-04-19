@@ -32,7 +32,6 @@ matrix:
 
     - language: go
       go: "1.9"
-      python: "2.7"
       env: controller="localhost:8080//"
       install:
       - sudo pip install flask
