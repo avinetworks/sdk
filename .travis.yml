@@ -1,3 +1,4 @@
+language: python
 language: go
 
 python:
