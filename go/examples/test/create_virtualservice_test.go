@@ -9,9 +9,9 @@ import (
 	"os"
 )
 
-var cuuid string
-var uuid string
-var profuuid string
+var cloudRef string
+var monitorRef string
+var profRef string
 
 func TestCreateVirtualservice(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
@@ -63,9 +63,9 @@ func TestCreateVirtualservice(t *testing.T) {
 		t.Fail()
 	}
 
-	cuuid = fmt.Sprint("/api/cloud?name=",cloudobj.(map[string]interface{})["name"])
-	profuuid = fmt.Sprint("/api/applicationpersistenceprofile?name=",profobj.(map[string]interface{})["name"])
-	uuid = fmt.Sprint("/api/healthmonitor?name=",obj.(map[string]interface{})["name"])
+	cloudRef = fmt.Sprint("/api/cloud?name=",cloudobj.(map[string]interface{})["name"])
+	profRef = fmt.Sprint("/api/applicationpersistenceprofile?name=",profobj.(map[string]interface{})["name"])
+	monitorRef = fmt.Sprint("/api/healthmonitor?name=",obj.(map[string]interface{})["name"])
 
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
@@ -75,9 +75,9 @@ func TestCreateVirtualservice(t *testing.T) {
 	serverobj.IP = &models.IPAddr{Type: "V4", Addr: "10.90.20.12"}
 	pobj.Servers = append(pobj.Servers, &serverobj)
 	pobj.TenantRef = "/api/tenant?name=avinetworks"
-	pobj.CloudRef = cuuid
-	pobj.ApplicationPersistenceProfileRef = profuuid
-	pobj.HealthMonitorRefs = append(pobj.HealthMonitorRefs, uuid)
+	pobj.CloudRef = cloudRef
+	pobj.ApplicationPersistenceProfileRef = profRef
+	pobj.HealthMonitorRefs = append(pobj.HealthMonitorRefs, monitorRef)
 
 	npobj, err := aviClient.Pool.Create(&pobj)
 	if err == nil {
@@ -94,7 +94,7 @@ func TestCreateVirtualservice(t *testing.T) {
 	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: "myvip", IPAddress: &vipip})
 	vsobj.TenantRef = "/api/tenant?name=avinetworks"
 	vsobj.PoolRef = npobj.UUID
-	vsobj.CloudRef = cuuid
+	vsobj.CloudRef = cloudRef
 	vsobj.Services = append(vsobj.Services, &models.Service{Port: 80})
 
 	nvsobj, err := aviClient.VirtualService.Create(&vsobj)
