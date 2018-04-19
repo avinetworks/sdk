@@ -33,6 +33,7 @@ install:
 - echo $PYTHONPATH
 - export GOPATH=/home/travis/gopath
 - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+- go env
 # command to execute unit tests
 script:
 
