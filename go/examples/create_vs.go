@@ -11,7 +11,7 @@ import (
 func main() {
 	// flag.Lookup("logtostderr").Value.Set("false")
 	// Create a session and a generic client to Avi Controller
-	aviClient, err := clients.NewAviClient("10.10.25.42", "admin",
+	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("avi123"),
 		session.SetTenant("admin"),
 		session.SetInsecure)
