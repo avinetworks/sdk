@@ -230,6 +230,9 @@ class MigrationUtil(object):
                 tenants.append(object_name)
         elif object_type == 'cloud':
             ref = '/api/%s/?tenant=admin&name=%s' % (object_type, object_name)
+        elif object_type == 'vrfcontext':
+            ref = '/api/%s/?tenant=admin&name=%s&cloud=%s' % (
+                object_type, object_name, cloud_name)
         elif object_type in cloud_supported_types:
             ref = '/api/%s/?tenant=%s&name=%s&cloud=%s' % (
                 object_type, tenant, object_name, cloud_name)
