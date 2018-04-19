@@ -11,7 +11,7 @@ import (
 
 func TestCreateTenant(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("admin"),
 	    	session.SetVersion("17.2.8"),
 		session.SetInsecure)

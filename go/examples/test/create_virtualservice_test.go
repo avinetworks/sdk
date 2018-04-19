@@ -15,7 +15,7 @@ var profuuid string
 
 func TestCreateVirtualservice(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
@@ -28,7 +28,7 @@ func TestCreateVirtualservice(t *testing.T) {
 
 
 	aviClient1, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)

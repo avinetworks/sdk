@@ -12,7 +12,7 @@ func main() {
 	// flag.Lookup("logtostderr").Value.Set("false")
 	// Create a session and a generic client to Avi Controller
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("admin"),
 		session.SetInsecure)
 	if err != nil {

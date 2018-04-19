@@ -10,7 +10,7 @@ import (
 
 func TestDeleteConfigurations(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
@@ -30,7 +30,7 @@ func TestDeleteConfigurations(t *testing.T) {
 	fmt.Printf("Pool Deleted Successfully, : %+v", poolRes)
 	// Create session for webapp tenant
 	aviClient1, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("avi123"),
+		session.SetPassword("fr3sca$%^"),
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
