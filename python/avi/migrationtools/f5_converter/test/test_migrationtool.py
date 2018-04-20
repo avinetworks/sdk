@@ -2,14 +2,14 @@
 This testsuite contains the initial test cases for testing the
 f5 converter tool along with its options / parameters
 """
-
+import json
 import logging
 import os
 import subprocess
 import sys
 import pytest
 import yaml
-from avi.migrationtools.avi_migration_utils import get_count, set_update_count
+from avi.migrationtools.avi_migration_utils import MigrationUtil, get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
@@ -854,6 +854,47 @@ class TestF5Converter:
 
         assert get_count('error') == 0
         assert get_count('warning') == 0
+
+    def test_pool_sharing_on_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'))
+
+        with open(output_file+"/bigip_v11-Output.json") as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+
+            vsData = [data for data in vsObject if data['name'] == "vs_1_up"]
+            vsData2 = [data for data in vsObject if data['name'] == "EngVIP"]
+
+            pool = vsData[0]['pool_ref'].split('name=')[1].split('&')[0]
+            pool2 = vsData2[0]['pool_ref'].split('name=')[1].split('&')[0]
+            assert pool == pool2
+
+    def test_pool_without_sharing_on_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'))
+
+        with open(output_file + "/bigip_v11-Output.json") as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+
+            vsData = [data for data in vsObject if data['name'] == "vs_1_up"]
+            vsData2 = [data for data in vsObject if data['name'] == "gtmlistener1"]
+
+            pool = vsData[0]['pool_ref'].split('name=')[1].split('&')[0]
+            pool2 = vsData2[0]['pool_ref'].split('name=')[1].split('&')[0]
+            assert pool != pool2
+
 
 def teardown():
     pass

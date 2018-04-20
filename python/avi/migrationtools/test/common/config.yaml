@@ -1,6 +1,6 @@
 ---
 controller_version_v16: 16.4.4
-controller_version_v17: 17.1.1
+controller_version_v17: 17.2.1
 version: True
 option: auto-upload
 controller_ip_17_1_1: 10.10.29.56
