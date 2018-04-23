@@ -22,7 +22,7 @@ pool_name = "test_farm"
 server_name = "test_server"
 health_moniter_name = "test_monitor"
 persistance_moniter_name = "test_persistance"
-
+port = "test_port"
 
 class TestModulesAce(unittest2.TestCase):
 
@@ -106,14 +106,14 @@ class TestModulesAce(unittest2.TestCase):
 
 
     def test_server_converter_true(self):
-        self.assertTrue(self.pool_obj_app.server_converter(server_name))
+        self.assertTrue(self.pool_obj_app.server_converter(server_name, port))
 
     def test_server_converter_invalid(self):
-        self.assertFalse(self.pool_obj_app.server_converter("invalid"))
+        self.assertFalse(self.pool_obj_app.server_converter("invalid","invalid"))
 
     def test_server_converter_empty(self):
         self.assertNotEquals(
-            self.pool_obj_app_empty.server_converter(server_name), server_name)
+            self.pool_obj_app_empty.server_converter(server_name, port), server_name, port)
 
     def test_pool_with_vrf_ref(self):
         self.assert_(self.pool_obj_app_vrf.pool_conversion(self.data)
