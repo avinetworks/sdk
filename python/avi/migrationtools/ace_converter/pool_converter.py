@@ -41,6 +41,7 @@ class PoolConverter(object):
             Pool Contains:
             - servers
         """
+        default_port = "80"
         pool_list = list()
         for pool in self.parsed.get('serverfarm', ''):
             probe = None
@@ -65,7 +66,14 @@ class PoolConverter(object):
                 if skipped_list_temp:
                     skipped_list.extend(skipped_list_temp)
                 if "rserver" in pools.keys():
-                    server.extend(self.server_converter(pools['rserver']))
+                    if 'port' in pools.keys():
+                        use_port = pools['port']
+                        server.extend(self.server_converter(pools['rserver'], use_port))
+                    else:
+                        use_port = default_port
+                        server.extend(self.server_converter(pools['rserver'], use_port))
+
+
 
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
@@ -102,9 +110,10 @@ class PoolConverter(object):
                 pool_list.append(temp_pool)
         return pool_list
 
-    def server_converter(self, name):
+    def server_converter(self, name, port):
         """ Server Conversion \n
             :param @name: Server name
+            :param @port: Service Port
             * Get -  the server name
             * Reply - with server avi object
         """
@@ -123,7 +132,6 @@ class PoolConverter(object):
         server_list = list()
         server = ''
         desc = ''
-        default_port = 8080
         enabled = False
 
         # server conversion
@@ -137,6 +145,7 @@ class PoolConverter(object):
             # checking for server enabled or not ?
             if 'type' in serv.keys():
                 enabled = (True if serv['type'] == 'inservice' else False)
+
         if server != '':
             server_list.append({
                 "ip": {
@@ -145,7 +154,7 @@ class PoolConverter(object):
                 },
                 "enabled": enabled,
                 "description": desc,
-                "port": default_port
+                "port": port
             })
 
         # Update Excel Sheet

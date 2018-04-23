@@ -141,3 +141,60 @@ class SSLConverter(object):
                 temp_ssl_profile.update({'cipher_enums': ciphers_enums})
             ssl_profile_list.append(temp_ssl_profile)
         return ssl_profile_list
+
+    def get_cert_obj(self, name, cert_file_name, input_dir):
+        """
+        :param name:name of ssl cert.
+        :param cert_file_name: certificate file name
+        :param input_dir: input directory for certificate file name
+        :return: returns dict of ssl object
+        """
+        folder_path = input_dir + os.path.sep
+        cert = self.upload_file(folder_path + cert_file_name)
+        ssl_c_obj = None
+        if cert:
+            ssl_c_obj = {
+                'certificate': cert,
+            }
+        return ssl_c_obj
+
+    def crypto_chaingroup(self):
+
+        """Add Root/Intermediate certificates to SSLKeyAndCertificates Object.
+        :return: Certificate list for type CA.
+        """
+
+        chaingroup_list = list()
+        crypto_obj = self.parsed.get('crypto', '')
+        #name = crypto[0]['chaingroup']
+        certificate_list = list()
+        for cert_name in crypto_obj[0]['cert']:
+            ssl_c_obj = None
+            cert = None
+            ca_cert = None
+            name = cert_name.split('.')[0]
+            key_and_cert = None
+            cert_file = cert_name
+            cert_loc = '%s/%s' % (self.in_path, cert_name)
+            if not os.path.isfile(cert_loc):
+                cert_loc = None
+            if cert_loc:
+                cert = self.get_cert_obj(name, cert_file, self.in_path)
+            if cert and name:
+                ca_cert = {
+                    "type": "SSL_CERTIFICATE_TYPE_CA",
+                    "certificate": cert,
+                    "tenant_ref": self.tenant_ref,
+                    "name": name,
+                }
+            if ca_cert:
+                certificate_list.append(ca_cert)
+        for obj in crypto_obj:
+            if obj.has_key("chaingroup"):
+                name = obj["chaingroup"]
+            if obj.has_key("csr-params"):
+                name = obj["csr-params"]
+            update_excel('crypto', name, avi_obj=obj)
+
+        return certificate_list
+        
