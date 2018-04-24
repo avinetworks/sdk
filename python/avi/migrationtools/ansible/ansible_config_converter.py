@@ -16,7 +16,7 @@ import urlparse
 from urllib import urlencode
 from copy import deepcopy
 from avi.migrationtools.avi_orphan_object import \
-    filter_for_vs, get_vs_ref, get_name_and_entity
+    filter_for_vs, get_vs_ref, get_name_and_entity, PATH_KEY_MAP
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -196,7 +196,11 @@ class AviAnsibleConverter(object):
             task.update({'api_context': "{{api_context | default(omit)}}"})
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
-            name = '%s-%s' % (obj['name'], obj_type)
+            tenant = None
+            if 'tenant_ref' in obj:
+                link, tenant = get_name_and_entity(obj['tenant_ref'])
+            key = PATH_KEY_MAP.get(obj_type, '')
+            name = '%s-%s-%s' % (obj['name'], key, tenant)
             if inuse_list and name not in inuse_list:
                 used_tag = 'not_in_use'
 
