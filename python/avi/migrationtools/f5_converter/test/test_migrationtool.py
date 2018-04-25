@@ -895,6 +895,47 @@ class TestF5Converter:
             pool2 = vsData2[0]['pool_ref'].split('name=')[1].split('&')[0]
             assert pool != pool2
 
+    def test_pool_sharing_on_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'))
+
+        with open(output_file + "/bigip_v10-Output.json") as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+
+            vsData = [data for data in vsObject if data['name'] == "F5-v10-VIP-443-002"]
+            vsData2 = [data for data in vsObject if data['name'] == "F5-v10-VIP-443-003"]
+
+            pool = vsData[0]['pool_ref'].split('name=')[1].split('&')[0]
+            pool2 = vsData2[0]['pool_ref'].split('name=')[1].split('&')[0]
+            assert pool == pool2
+
+    def test_pool_without_sharing_on_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'))
+
+        with open(output_file + "/bigip_v10-Output.json") as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+
+            vsData = [data for data in vsObject if data['name'] == "F5-v10-VIP-443-001"]
+            vsData2 = [data for data in vsObject if data['name'] == "F5-v10-VIP-443-002"]
+
+            pool = vsData[0]['pool_ref'].split('name=')[1].split('&')[0]
+            pool2 = vsData2[0]['pool_ref'].split('name=')[1].split('&')[0]
+            assert pool != pool2
+
+
 
 def teardown():
     pass
