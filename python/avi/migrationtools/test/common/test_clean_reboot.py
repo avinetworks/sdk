@@ -1,7 +1,8 @@
 import json
+import os
 import time
 from avi.sdk.avi_api import ApiSession
-
+import requests
 
 def verify_controller_is_up(controller_ip, username, password):
     """""
@@ -29,6 +30,8 @@ def clean_reboot(controller_ip, username, password, licensefile_path):
                         auth=(username, password))
     if res.status_code < 300:
         wait_until_node_ready (session)
+        session.clear_cached_sessions()
+        set_default_password(controller_ip,username)
     else:
         raise Exception("Failed with error %s" % res.content)
     with open(licensefile_path, 'r') as license:
@@ -36,6 +39,23 @@ def clean_reboot(controller_ip, username, password, licensefile_path):
         licensefile = json.dumps({"license_text": license_text})
     upload_license(session, licensefile)
 
+
+def set_default_password(controller_ip, username):
+    api = ApiSession.get_session(controller_ip, username, password=os.environ['default_password'], api_version='17.2.8')
+    passData = {
+        "username": "admin",
+        "password": "admin",
+        "old_password": os.environ['default_password'],
+        'full_name': 'System Administrator',
+    }
+    resp = api.get('systemconfiguration', tenant='admin')
+    r = resp.json()
+    data = r['portal_configuration']['password_strength_check'] = False
+    sysresp = api.put('systemconfiguration', data=data, tenant='admin')
+    if sysresp.status_code == 200:
+        api.put('useraccount', data=passData, tenant='admin')
+    else:
+        raise Exception("Failed with error %s" % sysresp.content)
 
 def upload_license(session, licensefile):
     """""
