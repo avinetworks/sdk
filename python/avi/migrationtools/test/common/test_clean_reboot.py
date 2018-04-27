@@ -30,6 +30,7 @@ def clean_reboot(controller_ip, username, password, licensefile_path):
                         auth=(username, password))
     if res.status_code < 300:
         wait_until_node_ready (session)
+
         session.clear_cached_sessions()
         set_default_password(controller_ip,username)
     else:
@@ -53,7 +54,12 @@ def set_default_password(controller_ip, username):
     data = r['portal_configuration']['password_strength_check'] = False
     sysresp = api.put('systemconfiguration', data=data, tenant='admin')
     if sysresp.status_code == 200:
-        api.put('useraccount', data=passData, tenant='admin')
+        res = api.put('useraccount', data=passData, tenant='admin')
+        if res.status_code == 200:
+            api.clear_cached_sessions()
+            return
+        else:
+            raise Exception("Controller password updation faild %s" % res.content)
     else:
         raise Exception("Failed with error %s" % sysresp.content)
 
