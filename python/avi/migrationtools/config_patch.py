@@ -24,6 +24,7 @@ import traceback
 
 import yaml
 import re
+import collections
 from copy import deepcopy
 from avi.migrationtools.avi_migration_utils import MigrationUtil
 
@@ -113,6 +114,29 @@ class ConfigPatch(object):
                 self.update_obj_refs(
                     obj_type, old_ref, new_ref, obj)
 
+    def update_tenant_references(self, avi_config, old_tenant, new_tenant):
+        for obj_type in avi_config.keys():
+            if obj_type == 'META':
+                avi_config[obj_type]['use_tenant'] = new_tenant
+                continue
+            for obj in avi_config[obj_type]:
+                for key in obj:
+                    if key == 'tenant_ref':
+                        obj[key] = '/api/tenant/?name=%s' % new_tenant
+                    if key.endswith('ref') and not key == 'tenant_ref':
+                        if not obj[key]:
+                            continue
+                        obj[key] = obj[key].replace(
+                            'tenant=%s' % old_tenant, 'tenant=%s' % new_tenant)
+                    elif key.endswith('refs'):
+                        new_refs = []
+                        for ref in obj[key]:
+                            new_refs.append(ref.replace(
+                                'tenant=%s' % old_tenant,
+                                'tenant=%s' % new_tenant))
+                        obj[key] = new_refs
+        return
+
     def apply_obj_patch(self, obj_type, obj, patch_data, avi_cfg):
         """
         :param obj_type: object type eg. VirtualService.
@@ -154,7 +178,7 @@ class ConfigPatch(object):
         else:
             log.debug('patching %s:%s with patch %s',
                       obj_type, obj.get('name', ''), patch_data)
-            obj.update(patch_data['patch'])
+            self.deep_update(obj, patch_data['patch'])
             if 'name' in obj:
                 new_obj_name = obj['name']
         if (('name' in patch_data['patch']) and old_obj_refs and
@@ -171,6 +195,22 @@ class ConfigPatch(object):
                 self.update_references(
                     obj_type, old_obj_ref, new_obj_ref, avi_cfg)
 
+    def deep_update(self, d, u):
+        for k, v in u.iteritems():
+            if isinstance(v, collections.Mapping):
+                d[k] = self.deep_update(d.get(k, {}), v)
+            elif isinstance(v, list):
+                for i in v:
+                    cnt = 0
+                    if isinstance(i, collections.Mapping):
+                        d[k][cnt] = self.deep_update(d[k][cnt], i)
+                    else:
+                        d[k][cnt] = i
+                    cnt += 1
+            else:
+                d[k] = v
+        return d
+
     def apply_patch(self, obj_type, patch_data, new_cfg):
         """
         For every patch in the patch data
@@ -183,6 +223,10 @@ class ConfigPatch(object):
         :return:
         """
         cfg_objs = new_cfg.get(obj_type, [])
+        if obj_type == 'Tenant' and 'match_name' in patch_data \
+                and 'name' in patch_data['patch']:
+            self.update_tenant_references(
+                new_cfg, patch_data['match_name'], patch_data['patch']['name'])
         if not cfg_objs:
             log.warn('Could not apply patch %s: %s as no matching obj found',
                      obj_type, patch_data)
