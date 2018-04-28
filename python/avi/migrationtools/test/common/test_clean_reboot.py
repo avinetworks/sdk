@@ -19,7 +19,7 @@ def verify_controller_is_up(controller_ip, username, password):
     return False
 
 
-def clean_reboot(controller_ip, username, password, licensefile_path):
+def clean_reboot(controller_ip, username, password, version, licensefile_path):
     """""
     Clean Reboot the given Controller by using AVI API and polls the
     controller status till the cluster up.
@@ -30,9 +30,9 @@ def clean_reboot(controller_ip, username, password, licensefile_path):
                         auth=(username, password))
     if res.status_code < 300:
         wait_until_node_ready (session)
-
-        session.clear_cached_sessions()
-        set_default_password(controller_ip,username)
+        if version > "16.5.4" :
+            session.clear_cached_sessions()
+            set_default_password(controller_ip,username)
     else:
         raise Exception("Failed with error %s" % res.content)
     with open(licensefile_path, 'r') as license:
