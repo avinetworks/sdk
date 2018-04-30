@@ -2,7 +2,6 @@ import json
 import os
 import time
 from avi.sdk.avi_api import ApiSession
-import requests
 
 def verify_controller_is_up(controller_ip, username, password):
     """""
