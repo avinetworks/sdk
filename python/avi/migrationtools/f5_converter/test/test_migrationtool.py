@@ -459,6 +459,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_17_1_1'],
                          file_attribute['controller_user_17_1_1'],
                          file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
@@ -494,6 +495,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_16_4_4'],
                          file_attribute['controller_user_16_4_4'],
                          file_attribute['controller_password_16_4_4'],
+                         file_attribute['controller_version_v16'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
@@ -529,6 +531,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_17_1_1'],
                          file_attribute['controller_user_17_1_1'],
                          file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
@@ -564,6 +567,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_16_4_4'],
                          file_attribute['controller_user_16_4_4'],
                          file_attribute['controller_password_16_4_4'],
+                         file_attribute['controller_version_v16'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
@@ -611,6 +615,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_17_1_1'],
                          file_attribute['controller_user_17_1_1'],
                          file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
@@ -664,6 +669,7 @@ class TestF5Converter:
             clean_reboot(file_attribute['controller_ip_16_4_4'],
                          file_attribute['controller_user_16_4_4'],
                          file_attribute['controller_password_16_4_4'],
+                         file_attribute['controller_version_v16'],
                          file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
