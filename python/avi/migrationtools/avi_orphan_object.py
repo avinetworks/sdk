@@ -14,7 +14,8 @@ PATH_KEY_MAP = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
                     'ApplicationPersistenceProfile', 'prioritylabels':
                     'PriorityLabels', 'vsvip': 'VsVip', 'tenant': "Tenant",
-                'serviceenginegroup': 'ServiceEngineGroup'}
+                'serviceenginegroup': 'ServiceEngineGroup',
+                'virtualservice': 'VirtualService'}
 
 DEFAULT_META_ORDER = [
         "ControllerLicense",
