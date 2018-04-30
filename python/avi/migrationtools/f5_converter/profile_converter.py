@@ -1497,8 +1497,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
         encpt_cookie = False if encpt_cookie == 'none' else True
         con_mltplxng = profile.get('oneconnect transformations', 'disabled')
         con_mltplxng = False if con_mltplxng == 'disabled' else True
-        http_profile['x_forwarded_proto_enabled'] = profile.get(
-            'insert xforwarded for', False)
+        insert_xff = profile.get('insert xforwarded for', 'disabled')
+        insert_xff = True if insert_xff == 'enabled' else False
+        http_profile['x_forwarded_proto_enabled'] = insert_xff
         http_profile['xff_alternate_name'] = profile.get(
             'xff alternative names', None)
         header_size = profile.get('max header size', final.DEFAULT_MAX_HEADER)
