@@ -178,8 +178,9 @@ class F5Util(MigrationUtil):
         :param protocol: protocol name
         :return: integer value for protocol
         """
-
-        if protocol == "https":
+        if protocol == 'http':
+            port = conv_const.HTTP_PORT
+        elif protocol == "https":
             port = conv_const.HTTPS_PORT
         elif protocol == "ftp":
             port = conv_const.FTP_PORT
@@ -199,6 +200,10 @@ class F5Util(MigrationUtil):
             port = conv_const.PCSYNC_HTTPS_PORT
         elif protocol == "macromedia-fcs":
             port = conv_const.MACROMEDIA_FCS_PORT
+        elif protocol == 'imap':
+            port = conv_const.IMAP_PORT
+        elif protocol == 'pop3':
+            port = conv_const.POP3_PORT
         elif protocol == "any":
             port = None
         else:
