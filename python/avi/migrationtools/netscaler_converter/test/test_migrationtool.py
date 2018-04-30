@@ -361,7 +361,8 @@ class TestNetscalerConverter:
                                         file_attribute['controller_password_17_1_1'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_17_1_1'], file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -392,7 +393,8 @@ class TestNetscalerConverter:
                                         file_attribute['controller_password_16_4_4'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_16_4_4'], file_attribute['controller_version_v16'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
@@ -424,7 +426,7 @@ class TestNetscalerConverter:
                        ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v11_16_4_4(self, cleanup):
+    def test_reboot_clean__ansible_v11_16_4_4(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -434,7 +436,8 @@ class TestNetscalerConverter:
                                         file_attribute['controller_password_16_4_4'])
         if is_up:
             clean_reboot(file_attribute['controller_ip_16_4_4'], file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'], file_attribute['license_file_path'])
+                         file_attribute['controller_password_16_4_4'], file_attribute['controller_version_v16'],
+                         file_attribute['license_file_path'])
             print "Controller is running properly."
         else:
             print "Controller is not running properly."
