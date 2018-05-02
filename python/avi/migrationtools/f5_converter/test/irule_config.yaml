@@ -1,12 +1,17 @@
+#iRule to be mapped to dummy datascript
 - rule_name: foo
   type: VSDataScriptSet
+#iRule to be mapped to dummy HTTPPolicy
 - rule_name: INSERT_SNP_HTTP_HEADER
   type: HTTPPolicySet
+#iRule to be mapped to given datascript
 - rule_name: foobar
   type: VSDataScriptSet
   avi_config: {'name': foobar, 'datascript':[{'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ','script': 'if avi.http.get_query("intro", "true") == "hello%20world" then avi.http.add_header("intro", "true") end'}]}
+#iRule to be mapped to given HTTPPolicy
 - rule_name: barfoo
   type: HTTPPolicySet
   avi_config: {'name': 'barfoo'}
+#iRule to be mapped to http to https redirect
 - rule_name: foo_redirect
   type: httptohttpsredirect
