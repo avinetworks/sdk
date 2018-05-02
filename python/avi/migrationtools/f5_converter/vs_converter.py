@@ -15,19 +15,23 @@ used_policy=[]
 
 class VSConfigConv(object):
     @classmethod
-    def get_instance(cls, version, f5_virtualservice_attributes, prefix, con_snatpool):
+    def get_instance(cls, version, f5_virtualservice_attributes, prefix,
+                     con_snatpool, rule_config):
         """
 
         :param version:  version of f5 instance
         :param f5_virtualservice_attributes: yaml attribute file for object
         :param prefix: prefix for objects
         :param con_snatpool: flag for converting snat into  individual address
+        :param rule_config: rule configuration to migrate irules
         :return:
         """
         if version == '10':
-            return VSConfigConvV10(f5_virtualservice_attributes, prefix, con_snatpool)
+            return VSConfigConvV10(f5_virtualservice_attributes, prefix,
+                                   con_snatpool, rule_config)
         if version in ['11', '12']:
-            return VSConfigConvV11(f5_virtualservice_attributes, prefix, con_snatpool)
+            return VSConfigConvV11(f5_virtualservice_attributes, prefix,
+                                   con_snatpool, rule_config)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -304,6 +308,7 @@ class VSConfigConv(object):
             vs_name += '-needs-ipv6-ip'
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
+
         # VIP object for virtual service
         vip = {
             'ip_address': {
@@ -352,51 +357,27 @@ class VSConfigConv(object):
         # Policy tracking starts from here
         vs_policies = [app_pol_name] if app_pol_name else []
         vs_ds_rules = None
+        vs_ds = None
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
                 vs_ds_rules = [conv_utils.get_tenant_ref(f5_vs['rules'])[1]]
             else:
                 vs_ds_rules = [conv_utils.get_tenant_ref(name)[1] for name in
                                f5_vs['rules'].keys()]
-            for index, rule in enumerate(vs_ds_rules):
-                # converted _sys_https_redirect data script to rule in
-                # http policy
-                if rule == '_sys_https_redirect':
-                    # Added prefix for objects
-                    if self.prefix:
-                        policy_name = self.prefix + '-' + rule + '-' + vs_name
-                    else:
-                        policy_name = rule + '-' + vs_name
-                    policy = {
-                        "name": policy_name,
-                        "http_request_policy": {
-                            "rules": [
-                                {
-                                    "index": 1,
-                                    "redirect_action": {
-                                        "keep_query": True,
-                                        "status_code":
-                                            "HTTP_REDIRECT_STATUS_CODE_302",
-                                        "protocol": "HTTPS",
-                                        "port": 443
-                                    },
-                                    "enable": True,
-                                    "name": policy_name + "-Redirect",
-                                    "match": {
-                                        "protocol": {
-                                            "protocols": "HTTP",
-                                            "match_criteria": "IS_IN"
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        'tenant_ref': conv_utils.get_object_ref(tenant,
-                                                                'tenant'),
-                        "is_internal_policy": False
-                    }
-                    vs_policies.append(policy_name)
-                    avi_config['HTTPPolicySet'].append(policy)
+
+            vs_ds, policies = conv_utils.convert_irules(
+                vs_ds_rules, self.rule_config, avi_config, self.prefix,
+                vs_name, tenant)
+            vs_policies = vs_policies + policies
+
+        if vs_ds:
+            vs_datascripts = []
+            for ds in vs_ds:
+                vs_datascripts.append(
+                    conv_utils.get_object_ref(ds, 'vsdatascriptset',
+                                              tenant=tenant))
+            vs_obj['vs_datascripts'] = vs_datascripts
+
         if 'policies' in f5_vs:
             if isinstance(f5_vs['policies'], basestring):
                 vs_policies.extend(['%s-%s' % (self.prefix,
@@ -618,7 +599,8 @@ class VSConfigConv(object):
 
 
 class VSConfigConvV11(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
+                 rule_config):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -637,6 +619,8 @@ class VSConfigConvV11(VSConfigConv):
         self.prefix = prefix
         # Added flag for snat conversion
         self.con_snatpool = con_snatpool
+        self.rule_config = rule_config if rule_config else dict()
+
 
     def get_persist_ref(self, f5_vs):
         """
@@ -672,7 +656,7 @@ class VSConfigConvV11(VSConfigConv):
 
 
 class VSConfigConvV10(VSConfigConv):
-    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool):
+    def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool, rule_config):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -691,6 +675,7 @@ class VSConfigConvV10(VSConfigConv):
         self.prefix = prefix
         # Added flag for snat conversion
         self.con_snatpool = con_snatpool
+        self.rule_config = rule_config if rule_config else dict()
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
