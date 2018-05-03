@@ -357,7 +357,7 @@ class VSConfigConv(object):
         # Policy tracking starts from here
         vs_policies = [app_pol_name] if app_pol_name else []
         vs_ds_rules = None
-        vs_ds = None
+        vs_ds = list()
         if 'rules' in f5_vs:
             if isinstance(f5_vs['rules'], basestring):
                 vs_ds_rules = [conv_utils.get_tenant_ref(f5_vs['rules'])[1]]
@@ -536,8 +536,8 @@ class VSConfigConv(object):
                                       if val in user_ignore]
 
         if vs_ds_rules:
-            skipped_rules = [rule for rule in vs_ds_rules
-                             if rule != '_sys_https_redirect']
+            vs_ds.append('_sys_https_redirect')
+            skipped_rules = [rule for rule in vs_ds_rules if rule not in vs_ds]
             if skipped_rules:
                 skipped.append('rules: %s' % skipped_rules)
         conv_status['na_list'] = [val for val in skipped if
