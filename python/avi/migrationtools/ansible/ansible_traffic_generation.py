@@ -190,7 +190,7 @@ class F5TrafficGen(TrafficGen):
                 WHEN: RESULT
             })
 
-    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None):
+    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None, verify=False):
         """
         This function is used for getting status for F5 virtualservice.
         :param vs_name: virtualservice name
@@ -202,7 +202,7 @@ class F5TrafficGen(TrafficGen):
         if self.prefix:
             vs_name = self.remove_prefix(vs_name)
         url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
-        status = requests.get(url, verify=False, auth=(username, password))
+        status = requests.get(url, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if status.pop(ENABLE, None):
             return True
@@ -271,7 +271,7 @@ class NetscalerTrafficGen(TrafficGen):
             }
         )
 
-    def get_status_vs(self, vs_name, f5server, username, password):
+    def get_status_vs(self, vs_name, f5server, username, password, verify=False):
         """
                 This function is used for getting status for F5 virtualservice.
                 :param vs_name: virtualservice name
@@ -291,7 +291,7 @@ class NetscalerTrafficGen(TrafficGen):
             vs_name = self.ns_vs_name_dict['csvs'][vs_name]
             api = 'http://%s/nitro/v1/config/csvserver/%s' % (
                 f5server, vs_name)
-        status = requests.get(api, verify=False, auth=(username, password))
+        status = requests.get(api, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if 'lbvserver' in status and status['lbvserver'][0]['curstate'] == 'UP':
             return True
