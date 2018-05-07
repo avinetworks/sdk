@@ -37,7 +37,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
             cloud_name='Default-Cloud', keypassphrase=None,
-            vs_level_status=False, vrf=None, segroup=None):
+            vs_level_status=False, vrf=None, segroup=None, rule_config=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -107,7 +107,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         policy_conv.convert(f5_config, avi_config_dict, tenant)
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
-                                            con_snatpool)
+                                            con_snatpool, rule_config)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup)
