@@ -9,8 +9,6 @@ import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
-from OpenSSL import crypto
-from socket import gethostname
 from pkg_resources import parse_version
 from avi.migrationtools.avi_migration_utils import MigrationUtil, tenants
 
@@ -134,6 +132,7 @@ class F5Util(MigrationUtil):
         :param f5_sub_type: Object sub type
         :param f5_id: Name of object
         :param status: conversion status
+        :param avi_obj: Converted avi object
         """
         global csv_writer_dict_list
         # Added space if f5_sub_type None for pivot table
@@ -148,7 +147,6 @@ class F5Util(MigrationUtil):
                 'Avi Object': str(avi_obj)
             })
         csv_writer_dict_list.append(row)
-
 
     def add_complete_conv_status(self, output_dir, avi_config, report_name,
                                  vs_level_status):
@@ -169,7 +167,6 @@ class F5Util(MigrationUtil):
             self.vs_complexity_level()
         self.write_status_report_and_pivot_table_in_xlsx(
             output_dir, report_name, vs_level_status)
-
 
     def get_port_by_protocol(self, protocol):
         """
@@ -222,6 +219,10 @@ class F5Util(MigrationUtil):
         :param converted_objs: Converted avi object or merged object name
         :param name: Name of the object
         :param default_profile_name : Name of root parent default profile
+        :param merge_object_mapping: merged object mappings
+        :param ent_type: Entity type
+        :param prefix: object name prefix
+        :param syslist: System object list
         :return:
         """
         dup_of = None
@@ -245,7 +246,6 @@ class F5Util(MigrationUtil):
             obj_list.append(obj)
             converted_objs.append({obj_type: obj})
 
-
     def get_content_string_group(self, name, content_types, tenant):
         """
         Creates Avi String group object
@@ -267,15 +267,16 @@ class F5Util(MigrationUtil):
         sg_obj['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
         return sg_obj
 
-
     def get_vs_ssl_profiles(self, profiles, avi_config, prefix,
                             merge_object_mapping, sys_dict):
         """
-        Searches for profile refs in converted profile config if not found creates
-        default profiles
+        Searches for profile refs in converted profile config if not found
+        creates default profiles
         :param profiles: profiles in f5 config assigned to VS
         :param avi_config: converted avi config
         :param prefix: prefix for objects
+        :param merge_object_mapping: Merged object mappings
+        :param sys_dict: System object dict
         :return: returns list of profile refs assigned to VS in avi config
         """
         vs_ssl_profile_names = []
@@ -294,17 +295,19 @@ class F5Util(MigrationUtil):
             ssl_profile_list = avi_config.get("SSLProfile", [])
             sys_ssl = sys_dict['SSLProfile']
             ssl_profiles = [ob for ob in sys_ssl if ob['name'] ==
-                            merge_object_mapping['ssl_profile'].get(name)] or [
-                            obj for obj in ssl_profile_list if (obj['name'] ==
-                            name or name in obj.get("dup_of", []))]
+                            merge_object_mapping['ssl_profile'].get(name)
+                            ] or [obj for obj in ssl_profile_list
+                                  if (obj['name'] == name or name in
+                                      obj.get("dup_of", []))]
             if ssl_profiles:
                 ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
                 sys_key_cert = sys_dict['SSLKeyAndCertificate']
                 key_cert = [ob for ob in sys_key_cert if ob['name'] ==
-                           merge_object_mapping['ssl_cert_key'].get(name)] or [
-                           obj for obj in ssl_key_cert_list if (obj['name'] ==
-                           name or obj['name'] == name + '-dummy' or name in
-                           obj.get("dup_of", []))]
+                            merge_object_mapping['ssl_cert_key'].get(name)
+                            ] or [obj for obj in ssl_key_cert_list if
+                                  (obj['name'] == name or obj['name'] ==
+                                   name + '-dummy' or name in
+                                   obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
                     key_cert = self.get_object_ref(
@@ -350,15 +353,21 @@ class F5Util(MigrationUtil):
                          "pki": pki_profile, 'mode': mode})
         return vs_ssl_profile_names, pool_ssl_profile_names
 
-
-    def get_vs_app_profiles(self, profiles, avi_config, tenant_ref, prefix, oc_prof,
-                            enable_ssl, merge_object_mapping, sys_dict):
+    def get_vs_app_profiles(self, profiles, avi_config, tenant_ref, prefix,
+                            oc_prof, enable_ssl, merge_object_mapping,
+                            sys_dict):
         """
-        Searches for profile refs in converted profile config if not found creates
-        default profiles
+        Searches for profile refs in converted profile config if not found
+        creates default profiles
         :param profiles: profiles in f5 config assigned to VS
         :param avi_config: converted avi config
-        :param: prefix: prefix for objects
+        :param tenant_ref: Tenant referance
+        :param prefix: prefix for objects
+        :param oc_prof: one connect profile
+        :param enable_ssl: VS ssl enabled flag
+        :param merge_object_mapping: Merged object mappings
+        :param sys_dict: System object dict
+
         :return: returns list of profile refs assigned to VS in avi config
         """
         app_profile_refs = []
@@ -429,18 +438,19 @@ class F5Util(MigrationUtil):
                 default_app_profile else '/api/tenant/?name=admin'
             app_profile_refs.append(
                 self.get_object_ref(default_app_profile[0]['name'],
-                               'applicationprofile', tenant=tenant))
+                                    'applicationprofile', tenant=tenant))
         return app_profile_refs, f_host, realm, policy_name
-
 
     def get_vs_ntwk_profiles(self, profiles, avi_config, prefix,
                              merge_object_mapping, sys_dict):
         """
-        Searches for profile refs in converted profile config if not found creates
-        default profiles
+        Searches for profile refs in converted profile config if not found
+        creates default profiles
         :param profiles: profiles in f5 config assigned to VS
         :param avi_config: converted avi config
-        :param: prefix: prefix for objects
+        :param prefix: prefix for objects
+        :param merge_object_mapping: merged object mappings
+        :param sys_dict: System object dict
         :return: returns list of profile refs assigned to VS in avi config
         """
         network_profile_names = []
@@ -457,19 +467,18 @@ class F5Util(MigrationUtil):
                 name = prefix + '-' + name
             ntwk_prof_lst = avi_config.get("NetworkProfile")
             sysnw = sys_dict['NetworkProfile']
-            network_profiles = [ob for ob in sysnw if ob['name'] ==
-                                merge_object_mapping['network_profile'].get(
-                                    name)] \
-                               or [obj for obj in ntwk_prof_lst if
-                                   (obj['name'] ==
-                                    name or name in obj.get("dup_of", []))]
+            network_profiles = [ob for ob in sysnw if
+                                ob['name'] == merge_object_mapping[
+                                    'network_profile'].get(name)] or \
+                               [obj for obj in ntwk_prof_lst if (
+                                       obj['name'] == name or name in
+                                       obj.get("dup_of", []))]
             if network_profiles:
                 network_profile_ref = self.get_object_ref(
                     network_profiles[0]['name'], 'networkprofile',
                     tenant=self.get_name(network_profiles[0]['tenant_ref']))
                 network_profile_names.append(network_profile_ref)
         return network_profile_names
-
 
     def update_service(self, port, vs, enable_ssl):
         """
@@ -481,7 +490,7 @@ class F5Util(MigrationUtil):
         :return: boolean if service is updated or not
         """
         service_updated = False
-        vs_new_service =[]
+        vs_new_service = []
         for service in vs['services']:
             port_end = service.get('port_range_end', None)
             if not port_end and int(service['port']) == int(port):
@@ -511,7 +520,6 @@ class F5Util(MigrationUtil):
         vs['services'].extend(vs_new_service)
         return service_updated
 
-
     def get_service_obj(self, destination, avi_config, enable_ssl,
                         controller_version, tenant_name, cloud_name, prefix,
                         vs_name, input_vrf=None):
@@ -523,6 +531,9 @@ class F5Util(MigrationUtil):
         :param controller_version: Version of controller
         :param tenant_name: Name of tenant
         :param cloud_name: Name of cloud
+        :param prefix: name prefix
+        :param vs_name: Name of VS
+        :param input_vrf: Vrf context name
         :return: services_obj, ip_addr of vs and ref of vsvip
         """
 
@@ -542,7 +553,7 @@ class F5Util(MigrationUtil):
         if not matches or ip_addr == '0.0.0.0':
             LOG.warning(
                 'Avi does not support IPv6 Generated random ipv4 for vs:'
-                ' %s' % (ip_addr))
+                ' %s' % ip_addr)
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
         port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
@@ -642,7 +653,6 @@ class F5Util(MigrationUtil):
         :param tenant: if pool is shared across partition then coned for tenant
         :return: new pool object
         """
-        pool_ref = None
         new_pool = None
         for pool in avi_pool_list:
             if pool["name"] == pool_name:
@@ -667,7 +677,6 @@ class F5Util(MigrationUtil):
             pool_ref = new_pool["name"]
             return pool_ref
 
-
     def remove_https_mon_from_pool(self, avi_config, pool_ref, tenant, sysdict):
         pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
         if pool:
@@ -675,15 +684,15 @@ class F5Util(MigrationUtil):
             for hm_ref in hm_refs:
                 hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
                     'HealthMonitor']) if
-                      self.get_object_ref(h['name'], 'healthmonitor',
-                                     tenant=tenant) == hm_ref]
+                      self.get_object_ref(
+                          h['name'], 'healthmonitor', tenant=tenant) == hm_ref]
                 if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTPS':
                     pool[0]['health_monitor_refs'].remove(hm_ref)
                     LOG.warning(
-                        'Skipping %s this reference from %s pool because of health '
-                        'monitor type is HTTPS and VS has no ssl profile.'
+                        'Skipping %s this reference from %s pool '
+                        'because of health monitor type is HTTPS and VS '
+                        'has no ssl profile.'
                         % (hm_ref, pool_ref))
-
 
     def remove_http_mon_from_pool(self, avi_config, pool_ref, tenant, sysdict):
         pool = [p for p in avi_config['Pool'] if p['name'] == pool_ref]
@@ -692,8 +701,8 @@ class F5Util(MigrationUtil):
             for hm_ref in hm_refs:
                 hm = [h for h in (sysdict['HealthMonitor'] + avi_config[
                     'HealthMonitor']) if
-                      self.get_object_ref(h['name'], 'healthmonitor',
-                                     tenant=tenant) == hm_ref]
+                      self.get_object_ref(
+                          h['name'], 'healthmonitor', tenant=tenant) == hm_ref]
 
                 if hm and hm[0]['type'] == 'HEALTH_MONITOR_HTTP':
                     pool[0]['health_monitor_refs'].remove(hm_ref)
@@ -702,9 +711,8 @@ class F5Util(MigrationUtil):
                         ' health monitor type is HTTPS and VS has no ssl '
                         'profile.' % (hm_ref, pool_ref))
 
-
-    def remove_https_mon_from_pool_group(self, avi_config, poolgroup_ref, tenant,
-                                         sysdict):
+    def remove_https_mon_from_pool_group(self, avi_config, poolgroup_ref,
+                                         tenant, sysdict):
         poolgroup = [p for p in avi_config['PoolGroup'] if self.get_object_ref(
             p['name'], 'poolgroup', tenant=tenant) == poolgroup_ref]
         if poolgroup:
@@ -712,8 +720,7 @@ class F5Util(MigrationUtil):
             for pool_ref in pool_members:
                 pool_ref = self.get_name(pool_ref)
                 self.remove_https_mon_from_pool(avi_config, pool_ref, tenant,
-                                           sysdict)
-
+                                                sysdict)
 
     def remove_http_mon_from_pool_group(self, avi_config, poolgroup_ref, tenant,
                                         sysdict):
@@ -723,9 +730,8 @@ class F5Util(MigrationUtil):
             pool_members = [p['pool_ref'] for p in poolgroup[0]['members']]
             for pool_ref in pool_members:
                 pool_name = self.get_name(pool_ref)
-                self.remove_http_mon_from_pool(avi_config, pool_name, tenant,
-                                          sysdict)
-
+                self.remove_http_mon_from_pool(
+                    avi_config, pool_name, tenant, sysdict)
 
     def add_ssl_to_pool(self, avi_pool_list, pool_ref, pool_ssl_profiles,
                         tenant='admin'):
@@ -735,6 +741,7 @@ class F5Util(MigrationUtil):
         :param avi_pool_list: List of pools to search pool object
         :param pool_ref: name of the pool
         :param pool_ssl_profiles: ssl profiles to be added to pool
+        :param tenant: tenant name
         """
         for pool in avi_pool_list:
             if pool_ref == pool["name"]:
@@ -745,7 +752,6 @@ class F5Util(MigrationUtil):
                 if pool_ssl_profiles["cert"]:
                     pool["ssl_key_and_certificate_ref"] = pool_ssl_profiles[
                         "cert"]
-
 
     def add_ssl_to_pool_group(self, avi_config, pool_group_ref, ssl_pool,
                               tenant_ref):
@@ -763,9 +769,8 @@ class F5Util(MigrationUtil):
             pool_group = pool_group[0]
             for member in pool_group['members']:
                 pool_name = self.get_name(member['pool_ref'])
-                self.add_ssl_to_pool(avi_config['Pool'], pool_name,
-                                ssl_pool, tenant_ref)
-
+                self.add_ssl_to_pool(
+                    avi_config['Pool'], pool_name, ssl_pool, tenant_ref)
 
     def update_pool_for_persist(self, avi_pool_list, pool_ref, persist_profile,
                                 hash_profiles, persist_config, tenant,
@@ -779,7 +784,10 @@ class F5Util(MigrationUtil):
         :param hash_profiles: list of profile name for which pool's lb algorithm
         updated to hash
         :param persist_config: list of all converted persistence profiles
+        :param tenant: tenant of a pool
         :param app_prof_type: type of application profile for the VS
+        :param merge_object_mapping: merged object mapping
+        :param syspersist: system persistence profile
         :return: Boolean of is pool updated successfully
         """
         pool_updated = True
@@ -793,14 +801,14 @@ class F5Util(MigrationUtil):
         persist_profile_obj = \
             [ob for ob in syspersist if ob['name'] ==
              merge_object_mapping['app_per_profile'].get(persist_profile)] or \
-            [obj for obj in persist_config if (obj["name"] == persist_profile
-                                               or persist_profile in obj.get
-                                               ("dup_of",[]))]
+            [obj for obj in persist_config if (
+                    obj["name"] == persist_profile or persist_profile
+                    in obj.get("dup_of", []))]
         persist_ref_key = "application_persistence_profile_ref"
         if persist_profile_obj:
-            if app_prof_type == 'APPLICATION_PROFILE_TYPE_L4' and \
-              persist_profile_obj[0]['persistence_type'] != \
-                            'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
+            if app_prof_type == 'APPLICATION_PROFILE_TYPE_L4' and (
+                    persist_profile_obj[0]['persistence_type'] !=
+                    'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'):
                 pool_obj[persist_ref_key] = self.get_object_ref(
                                                 'System-Persistence-Client-IP',
                                                 'applicationpersistenceprofile')
@@ -809,10 +817,11 @@ class F5Util(MigrationUtil):
                           "Pool in VS of L4 app type " % pool_ref)
             else:
                 obj_tenant = persist_profile_obj[0]['tenant_ref']
-                pool_obj[persist_ref_key] = self.get_object_ref(
-                                                persist_profile_obj[0]['name'],
-                                                'applicationpersistenceprofile',
-                                               tenant=self.get_name(obj_tenant))
+                pool_obj[persist_ref_key] = \
+                    self.get_object_ref(
+                        persist_profile_obj[0]['name'],
+                        'applicationpersistenceprofile',
+                        tenant=self.get_name(obj_tenant))
                 persist_type = persist_profile_obj[0]['persistence_type']
         elif persist_profile == "hash" or persist_profile in hash_profiles:
             del pool_obj["lb_algorithm"]
@@ -822,10 +831,10 @@ class F5Util(MigrationUtil):
             pool_updated = False
         return pool_updated, persist_type
 
-    def update_pool_group_for_persist(self, avi_config, pool_ref, persist_profile,
-                                      hash_profiles, persist_config, tenant,
-                                      merge_object_mapping, syspersist,
-                                      app_prof_type):
+    def update_pool_group_for_persist(
+            self, avi_config, pool_ref, persist_profile, hash_profiles,
+            persist_config, tenant, merge_object_mapping, syspersist,
+            app_prof_type):
         pool_group_updated = True
         persist_type = None
         pool_group = [obj for obj in avi_config['PoolGroup']
@@ -841,7 +850,6 @@ class F5Util(MigrationUtil):
                 if not pool_updated:
                     pool_group_updated = False
         return pool_group_updated, persist_type
-
 
     def update_pool_for_fallback(self, host, avi_pool_list, pool_ref):
         """
@@ -863,7 +871,6 @@ class F5Util(MigrationUtil):
                 "type": "FAIL_ACTION_HTTP_REDIRECT"
             }
             pool_obj["fail_action"] = fail_action
-
 
     def get_snat_list_for_vs(self, snat_pool):
         """
@@ -891,7 +898,6 @@ class F5Util(MigrationUtil):
             snat_list.append(snat_obj)
         return snat_list
 
-
     def cleanup_config(self, avi_config):
         self.remove_dup_key(avi_config["SSLKeyAndCertificate"])
         self.remove_dup_key(avi_config["ApplicationProfile"])
@@ -915,13 +921,12 @@ class F5Util(MigrationUtil):
                     avi_config['Tenant'].remove(tenant)
 
     def create_hdr_erase_rule(self, name, hdr_name, rule_index):
-        return self.create_header_rule(name, hdr_name, "HTTP_REMOVE_HDR",
-                                       None, rule_index)
-
+        return self.create_header_rule(
+            name, hdr_name, "HTTP_REMOVE_HDR", None, rule_index)
 
     def create_hdr_insert_rule(self, name, hdr_name, val, rule_index):
-        return self.create_header_rule(name, hdr_name, "HTTP_ADD_HDR",
-                                  val, rule_index)
+        return self.create_header_rule(
+            name, hdr_name, "HTTP_ADD_HDR", val, rule_index)
 
     def create_header_rule(self, name, hdr_name, action, val,
                            rule_index):
@@ -975,7 +980,6 @@ class F5Util(MigrationUtil):
         }
         return rule
 
-
     def add_vrf(self,  avi_config, vrf, cloud_ref):
         vrf_name = 'vrf-%s' % vrf
         vrf_list = avi_config['VrfContext']
@@ -990,7 +994,6 @@ class F5Util(MigrationUtil):
             if vrf_name == 'global':
                 vrf_obj['system_default'] = True
             vrf_list.append(vrf_obj)
-
 
     def get_tenant_ref(self, name):
         tenant = 'admin'
@@ -1041,13 +1044,14 @@ class F5Util(MigrationUtil):
                                   "monitor has no port", hm_name,
                                   pool_name)
                 if rem_hm:
-                    pool[0]['health_monitor_refs'] = [h_monitor for h_monitor in
-                                                  pool[0]['health_monitor_refs']
-                                                     if h_monitor not in rem_hm]
+                    pool[0]['health_monitor_refs'] = [
+                        h_monitor for h_monitor in pool[0]
+                        ['health_monitor_refs'] if h_monitor not in rem_hm]
+
                     rem_hm = [self.get_name(hmonitor) for hmonitor in rem_hm]
                     csv_row = [cl for cl in csv_writer_dict_list if cl[
-                               'F5 type'] == 'pool' and self.get_tenant_ref(cl[
-                               'F5 ID'])[1] == pool_name]
+                               'F5 type'] == 'pool' and self.get_tenant_ref(
+                        cl['F5 ID'])[1] == pool_name]
                     if csv_row:
                         if csv_row[0]['Skipped settings'] in ('[]', ''):
                             csv_row[0]['Skipped settings'] = str([{
@@ -1056,9 +1060,10 @@ class F5Util(MigrationUtil):
                             init_val = eval(csv_row[0]['Skipped settings'])
                             if not isinstance(init_val, list):
                                 init_val = [init_val]
-                            mon_val = [val['monitor'].extend(rem_hm) for val in
-                                      init_val if isinstance(val, dict) and
-                                      'monitor' in val]
+                            mon_val = [
+                                val['monitor'].extend(rem_hm) for val in
+                                init_val if isinstance(val, dict) and
+                                'monitor' in val]
                             if bool(mon_val):
                                 csv_row[0]['Skipped settings'] = str(init_val)
                             else:
@@ -1081,13 +1086,14 @@ class F5Util(MigrationUtil):
         clones pool or pool group if its shard between multiple VS or partitions
         in F5
         :param ref: reference of pool or pool group
-        :param avi_config: Avi configuration cloned pool or pool groups to be added
+        :param avi_config: Avi configuration cloned pool or pool groups to be
+        added
         :param vs_name: Name of the vs to be added
         :param tenant: tenant name of vs
         :param p_tenant: tenant name of pool
         :param persist_type: persistence profile type
         :param controller_version:
-        :param app_prof_type:
+        :param app_prof_ref: Application profile referance
         :param sysdict:
         :param cloud_name:
         :param prefix:
@@ -1103,8 +1109,8 @@ class F5Util(MigrationUtil):
         pool_obj = [pool for pool in avi_config['Pool'] if pool['name'] == ref
                     and pool['tenant_ref'] == self.get_object_ref(tenant,
                     'tenant')]
-        pool_per_ref = pool_obj[0].get('application_persistence_profile_ref') \
-                        if pool_obj else None
+        pool_per_ref = pool_obj[0].get(
+            'application_persistence_profile_ref') if pool_obj else None
         pool_per_name = self.get_name(pool_per_ref) if pool_per_ref else None
         pool_per_types = [obj['persistence_type'] for obj in (avi_config[
                           'ApplicationPersistenceProfile'] + sysdict[
@@ -1114,8 +1120,8 @@ class F5Util(MigrationUtil):
         if not pool_obj:
             pool_group_obj = [pool for pool in avi_config['PoolGroup']
                               if pool['name'] == ref and
-                              pool['tenant_ref'] == self.get_object_ref(tenant,
-                                                                   'tenant')]
+                              pool['tenant_ref'] == self.get_object_ref(
+                    tenant, 'tenant')]
         if pool_group_obj:
             is_pool_group = True
         if p_tenant:
@@ -1125,17 +1131,19 @@ class F5Util(MigrationUtil):
             if not shared_vs:
                 shared_vs = [obj for obj in avi_config['VirtualService']
                              if obj.get("pool_group_ref", "") ==
-                             self.get_object_ref( ref, 'poolgroup',
-                                                  tenant=p_tenant,
-                                                  cloud_name=cloud_name)]
+                             self.get_object_ref(
+                                 ref, 'poolgroup', tenant=p_tenant,
+                                 cloud_name=cloud_name)]
         else:
             shared_vs = [obj for obj in avi_config['VirtualService']
                          if obj.get("pool_ref", "") == self.get_object_ref(
                     ref, 'pool', tenant=tenant, cloud_name=cloud_name)]
             if not shared_vs:
                 shared_vs = [obj for obj in avi_config['VirtualService']
-                             if obj.get("pool_group_ref", "") == self.get_object_ref(
-                        ref, 'poolgroup', tenant=tenant, cloud_name=cloud_name)]
+                             if obj.get("pool_group_ref", "") ==
+                             self.get_object_ref(
+                                 ref, 'poolgroup', tenant=tenant,
+                                 cloud_name=cloud_name)]
         if not tenant == p_tenant:
             if is_pool_group:
                 ref = self.clone_pool_group(ref, vs_name, avi_config, True,
@@ -1158,7 +1166,7 @@ class F5Util(MigrationUtil):
                                       shared_appname]
                     shared_appobj = shared_appobjs[0] if shared_appobjs else {}
                     shared_apptype = shared_appobj['type'] if shared_appobj \
-                                        else None
+                        else None
                 app_prof_name = self.get_name(app_prof_ref)
                 app_prof_objs = [appob for appob in (avi_config[
                                  'ApplicationProfile'] + sysdict[
@@ -1166,9 +1174,10 @@ class F5Util(MigrationUtil):
                                  app_prof_name]
                 app_prof_obj = app_prof_objs[0] if app_prof_objs else {}
                 app_prof_type = app_prof_obj['type'] if app_prof_obj else None
-                if self.is_pool_clone_criteria(controller_version,
-                  app_prof_type, shared_apptype, persist_type, pool_per_type,
-                  shared_appobj, app_prof_obj):
+                if self.is_pool_clone_criteria(
+                        controller_version, app_prof_type, shared_apptype,
+                        persist_type, pool_per_type, shared_appobj,
+                        app_prof_obj):
                     LOG.debug('Cloned the pool %s for VS %s', ref, vs_name)
                     ref = self.clone_pool(ref, vs_name, avi_config['Pool'],
                                           True, tenant)
@@ -1182,12 +1191,14 @@ class F5Util(MigrationUtil):
                                shared_appobj, app_prof_obj):
         if parse_version(controller_version) < parse_version(
            '17.1.6') or app_prof_type != 'APPLICATION_PROFILE_TYPE_HTTP' \
-           or shared_apptype != app_prof_type or (persist_type and persist_type
-           != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (pool_per_type and
-           pool_per_type != 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
-           shared_appobj.get('http_profile', {}).get(
-           'connection_multiplexing_enabled') != app_prof_obj.get(
-           'http_profile', {}).get('connection_multiplexing_enabled')):
+           or shared_apptype != app_prof_type or (
+                persist_type and persist_type !=
+                'PERSISTENCE_TYPE_HTTP_COOKIE') or (
+                pool_per_type and pool_per_type !=
+                'PERSISTENCE_TYPE_HTTP_COOKIE') or (
+                shared_appobj.get('http_profile', {}).get(
+                    'connection_multiplexing_enabled') != app_prof_obj.get(
+                    'http_profile', {}).get('connection_multiplexing_enabled')):
             return True
         else:
             return False
@@ -1201,7 +1212,8 @@ class F5Util(MigrationUtil):
         :param clone_for: Name of the object/entity for pool group to be cloned
         :param avi_config: new pool to be added to avi config
         :param is_vs: True if clone is called for VS
-        :param tenant: if f5 pool is shared across partition then coned for tenant
+        :param tenant: if f5 pool is shared across partition then coned for
+        tenant
         :param cloud_name:
         :return: new pool group name
         """
@@ -1217,8 +1229,8 @@ class F5Util(MigrationUtil):
             else:
                 used_pool_groups[pool_group_name] = 1
             LOG.debug('Cloning pool group for %s', clone_for)
-            new_pool_group["name"] = '{}-{}'.format(pool_group_name,
-                                            used_pool_groups[pool_group_name])
+            new_pool_group["name"] = '{}-{}'.format(
+                pool_group_name, used_pool_groups[pool_group_name])
             pg_ref = new_pool_group["name"]
             new_pool_group["tenant_ref"] = self.get_object_ref(tenant, 'tenant')
             avi_config['PoolGroup'].append(new_pool_group)
@@ -1242,9 +1254,11 @@ class F5Util(MigrationUtil):
     def write_status_report_and_pivot_table_in_xlsx(
             self, output_dir, report_name, vs_level_status):
         """
-        This function defines that add status sheet and pivot table sheet in xlsx
-        format
+        This function defines that add status sheet and pivot table sheet in
+        xlsx format
         :param output_dir: Path of output directory
+        :param report_name: filename to write report
+        :param vs_level_status: Flag to include VS wise detailed status or not
         :return: None
         """
         global ppcount
@@ -1252,10 +1266,11 @@ class F5Util(MigrationUtil):
         # List of fieldnames for headers
         if vs_level_status:
             fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
-                      'Skipped settings', 'Indirect mapping', 'Not Applicable',
-                      'User Ignored', 'Skipped for defaults',
-                      'Complexity Level',
-                      'VS Reference', 'Overall skipped settings', 'Avi Object']
+                          'Skipped settings', 'Indirect mapping',
+                          'Not Applicable', 'User Ignored',
+                          'Skipped for defaults', 'Complexity Level',
+                          'VS Reference', 'Overall skipped settings',
+                          'Avi Object']
         else:
             fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                           'Skipped settings', 'Indirect mapping',
@@ -1303,7 +1318,6 @@ class F5Util(MigrationUtil):
         pivot_df.to_excel(master_writer, 'Pivot Sheet')
         master_writer.save()
 
-
     def format_string_to_json(self, avi_string):
         """
         This function defines that it convert string into json format to
@@ -1313,7 +1327,6 @@ class F5Util(MigrationUtil):
         """
         avi_string = avi_string.split('__/__')[0]
         return ast.literal_eval(avi_string)
-
 
     def get_csv_object_list(self, csv_writer_dict_list, command_list):
         """
@@ -1339,7 +1352,7 @@ class F5Util(MigrationUtil):
         """
 
         if 'VS Reference' in csv_object and \
-                        vs_ref not in csv_object['VS Reference']:
+                vs_ref not in csv_object['VS Reference']:
             csv_object['VS Reference'] += ',' + vs_ref
         else:
             csv_object['VS Reference'] = vs_ref
@@ -1348,7 +1361,6 @@ class F5Util(MigrationUtil):
             lambda a, kv: a.replace(*kv), repls, csv_object['Skipped settings'])
         if skipped_setting_csv:
             return [skipped_setting_csv]
-
 
     def get_csv_skipped_list(self, csv_objects, name_of_object, vs_ref,
                              field_key=None):
@@ -1371,9 +1383,9 @@ class F5Util(MigrationUtil):
                 object_found = False
                 if field_key:
                     if field_key in avi_object_json and 'Duplicate' not in \
-                            avi_object_json[field_key] and \
-                                    avi_object_json[field_key]['name'] == \
-                                    name_of_object:
+                            avi_object_json[field_key] and (
+                            avi_object_json[field_key]['name'] ==
+                            name_of_object):
                         object_found = True
                 else:
                     if avi_object_json.get('name') and \
@@ -1383,8 +1395,8 @@ class F5Util(MigrationUtil):
                 if object_found:
                     return self.get_and_update_csv_row(csv_object, vs_ref)
 
-
-    def get_ssl_profile_skipped(self, profile_csv_list, ssl_profile_ref, vs_ref):
+    def get_ssl_profile_skipped(self, profile_csv_list, ssl_profile_ref,
+                                vs_ref):
         """
         This functions defines that get the skipped list of CSV row
         :param profile_csv_list: List of profile(F5 type) csv rows
@@ -1398,7 +1410,6 @@ class F5Util(MigrationUtil):
             profile_csv_list, ssl_profile_name, vs_ref, field_key='ssl_profile')
         return ssl_profile_name, skipped_list
 
-
     def get_application_profile_skipped(self, profile_csv_list, app_profile_ref,
                                         vs_ref):
         """
@@ -1410,8 +1421,8 @@ class F5Util(MigrationUtil):
         """
 
         app_profile_name = self.get_name(app_profile_ref)
-        skipped_list = self.get_csv_skipped_list(profile_csv_list, app_profile_name,
-                                            vs_ref, field_key='app_profile')
+        skipped_list = self.get_csv_skipped_list(
+            profile_csv_list, app_profile_name, vs_ref, field_key='app_profile')
         return app_profile_name, skipped_list
 
     def get_network_profile_skipped(self, profile_csv_list, network_profile_ref,
@@ -1425,9 +1436,9 @@ class F5Util(MigrationUtil):
         """
 
         network_profile_name = self.get_name(network_profile_ref)
-        skipped_list = self.get_csv_skipped_list(profile_csv_list,
-                                            network_profile_name,
-                                            vs_ref, field_key='network_profile')
+        skipped_list = self.get_csv_skipped_list(
+            profile_csv_list, network_profile_name, vs_ref,
+            field_key='network_profile')
         return network_profile_name, skipped_list
 
     def get_policy_set_skipped(self, profile_csv_list, policy_set_ref, vs_ref):
@@ -1440,8 +1451,8 @@ class F5Util(MigrationUtil):
         """
 
         policy_set_name = self.get_name(policy_set_ref)
-        skipped_list = self.get_csv_skipped_list(profile_csv_list,
-                                policy_set_name, vs_ref, field_key='policy_set')
+        skipped_list = self.get_csv_skipped_list(
+            profile_csv_list, policy_set_name, vs_ref, field_key='policy_set')
         return policy_set_name, skipped_list
 
     def get_app_persistence_profile_skipped(self, csv_writer_dict_list,
@@ -1480,7 +1491,6 @@ class F5Util(MigrationUtil):
                 if pool_object:
                     return self.get_and_update_csv_row(csv_object, vs_ref)
 
-
     def get_pool_skipped_list(self, avi_config, pool_group_name, csv_pool_rows,
                               csv_writer_dict_list, vs_ref, profile_csv_list):
         """
@@ -1504,9 +1514,9 @@ class F5Util(MigrationUtil):
         }
         for pool_member in pool_members:
             pool_name = self.get_name(pool_member['pool_ref'])
-            self.get_skipped_pool(avi_config, pool_name, csv_pool_rows,
-                                 csv_writer_dict_list, vs_ref, profile_csv_list,
-                                 skipped_setting)
+            self.get_skipped_pool(
+                avi_config, pool_name, csv_pool_rows, csv_writer_dict_list,
+                vs_ref, profile_csv_list, skipped_setting)
         if skipped_setting['pools']:
             return skipped_setting
 
@@ -1566,13 +1576,14 @@ class F5Util(MigrationUtil):
                 for ssl_key_and_certificate_ref in \
                         virtual_service['ssl_key_and_certificate_refs']:
                     ssl_key_cert = self.get_name(ssl_key_and_certificate_ref)
-                    ssl_kc_skip = self.get_csv_skipped_list(profile_csv_list,
-                                 ssl_key_cert, vs_ref, field_key='ssl_cert_key')
+                    ssl_kc_skip = self.get_csv_skipped_list(
+                        profile_csv_list, ssl_key_cert, vs_ref,
+                        field_key='ssl_cert_key')
                     if ssl_kc_skip:
                         skipped_setting['ssl cert key'] = {}
                         skipped_setting['ssl cert key']['name'] = ssl_key_cert
-                        skipped_setting['ssl cert key']['skipped_list'] = \
-                                                                    ssl_kc_skip
+                        skipped_setting['ssl cert key'][
+                            'skipped_list'] = ssl_kc_skip
 
             # Get the skipped list for ssl profile name.
             # Changed ssl profile name to ssl profile ref.
@@ -1586,8 +1597,8 @@ class F5Util(MigrationUtil):
                     skipped_setting['ssl profile']['skipped_list'] = skipped
             # Get the skipped list for pool group.
             if 'pool_group_ref' in virtual_service:
-                pool_group_name = self.get_name(virtual_service['pool_group_ref']
-                                                )
+                pool_group_name = self.get_name(
+                    virtual_service['pool_group_ref'])
                 csv_pool_rows = self.get_csv_object_list(csv_writer_dict_list,
                                                          ['pool'])
                 pool_group_skipped_settings = self.get_pool_skipped_list(
@@ -1601,15 +1612,15 @@ class F5Util(MigrationUtil):
                 pool_name = self.get_name(virtual_service['pool_ref'])
                 csv_pool_rows = self.get_csv_object_list(csv_writer_dict_list,
                                                          ['pool'])
-                self.get_skipped_pool(avi_config, pool_name, csv_pool_rows,
-                                      csv_writer_dict_list, vs_ref,
-                                    profile_csv_list, pool_skipped_settings)
+                self.get_skipped_pool(
+                    avi_config, pool_name, csv_pool_rows, csv_writer_dict_list,
+                    vs_ref, profile_csv_list, pool_skipped_settings)
                 if pool_skipped_settings['pools']:
                     skipped_setting['Pool'] = pool_skipped_settings
             # Get the skipepd list for http policy.
             if 'http_policies' in virtual_service:
-                policy_csv_list = self.get_csv_object_list(csv_writer_dict_list,
-                                                        ['policy', 'profile'])
+                policy_csv_list = self.get_csv_object_list(
+                    csv_writer_dict_list, ['policy', 'profile'])
                 for http_ref in virtual_service['http_policies']:
                     policy_set_name, skipped_list = self.get_policy_set_skipped(
                         policy_csv_list, http_ref['http_policy_set_ref'],
@@ -1626,7 +1637,7 @@ class F5Util(MigrationUtil):
                         if each_http_policy['name'] == policy_set_name:
                             for http_req in each_http_policy[
                               'http_request_policy']['rules']:
-                                if http_req.get('switching_action',{}):
+                                if http_req.get('switching_action', {}):
                                     self.get_skip_pools_policy(
                                         policy_set_name, http_req,
                                         avi_config, pool_csv_rows, vs_ref,
@@ -1667,12 +1678,13 @@ class F5Util(MigrationUtil):
                 fully_migrated += 1
             # Added call for progress function.
             msg = "excel sheet conversion started..."
-            self.print_progress_bar(ppcount, ptotal_count, msg, prefix='Progress',
-                               suffix='')
+            self.print_progress_bar(ppcount, ptotal_count, msg,
+                                    prefix='Progress', suffix='')
         csv_objects = [row for row in csv_writer_dict_list
-                       if row['Status'] in [conv_const.STATUS_PARTIAL,
-                                            conv_const.STATUS_SUCCESSFUL]
-                       and row['F5 type'] not in ('virtual')]
+                       if row['Status'] in [
+                           conv_const.STATUS_PARTIAL,
+                           conv_const.STATUS_SUCCESSFUL]
+                       and row['F5 type'] != 'virtual']
 
         # Update the vs reference not in used if objects are not attached to
         # VS directly or indirectly
@@ -1680,15 +1692,16 @@ class F5Util(MigrationUtil):
             if 'VS Reference' not in row or row['VS Reference'] == '':
                 row['VS Reference'] = conv_const.STATUS_NOT_IN_USE
 
-
-    def create_update_vsvip(self, vip, vsvip_config, tenant_ref, cloud_ref, prefix,
-                            vrf_ref):
+    def create_update_vsvip(self, vip, vsvip_config, tenant_ref, cloud_ref,
+                            prefix, vrf_ref):
         """
         This functions defines that create or update VSVIP object.
         :param vip: vip of VS
         :param vsvip_config: List of vs object
         :param tenant_ref: tenant reference
         :param cloud_ref: cloud reference
+        :param prefix: Name prefix
+        :param vrf_ref: VRF reference
         :return: None
         """
 
@@ -1729,7 +1742,6 @@ class F5Util(MigrationUtil):
 
         return name
 
-
     def update_static_route(self, route):
         """
         This function defines that convert convert static routes
@@ -1746,8 +1758,8 @@ class F5Util(MigrationUtil):
         # Get the mask from subnet mask
         if ip_addr and '%' in ip_addr:
             ip_addr, vrf = ip_addr.split('%')
-            vrf = 'vrf-' + ('/' in vrf and vrf.split('/')[0] or vrf) if vrf \
-                    else None
+            vrf = 'vrf-' + (
+                    '/' in vrf and vrf.split('/')[0] or vrf) if vrf else None
         if ip_addr and '/' in ip_addr:
             ip_addr = ip_addr.split('/')[0]
 
@@ -1773,11 +1785,10 @@ class F5Util(MigrationUtil):
             }
             return static_route, vrf, msg
         else:
-            msg = ("Next hop ip is not present") if not next_hop_ip else ("Ip "
-                                                    "Address is not present")
+            msg = "Next hop ip is not present" if not next_hop_ip else (
+                "Ip Address is not present")
             LOG.debug(msg)
             return None, None, msg
-
 
     def get_vrf_context_ref(self, f5_entity_mem, vrf_config, entity_string,
                             entity_name, cloud):
@@ -1797,8 +1808,8 @@ class F5Util(MigrationUtil):
             if f5_entity_mem and '%' in f5_entity_mem else None
         vrf_obj = [obj for obj in vrf_config if vrf and obj["name"] == vrf]
         if vrf_obj:
-            vrf_ref = self.get_object_ref(vrf_obj[0]['name'], 'vrfcontext',
-                                     cloud_name=cloud)
+            vrf_ref = self.get_object_ref(
+                vrf_obj[0]['name'], 'vrfcontext', cloud_name=cloud)
         else:
             LOG.warning("VRF not found for %s %s" % (entity_string,
                                                      entity_name))
@@ -1831,9 +1842,11 @@ class F5Util(MigrationUtil):
                         else:
                             obj['static_routes'] = [static_route]
                 LOG.debug("Conversion completed for route '%s'" % key)
-                self.add_conv_status('route', None, key,
-                                     {'status': conv_const.STATUS_SUCCESSFUL},
-                                      [{'route': static_route}])
+                self.add_conv_status(
+                    'route', None, key,
+                    {'status': conv_const.STATUS_SUCCESSFUL},
+                    [{'route': static_route}]
+                )
             else:
                 LOG.debug("Conversion unsuccessful for route '%s'" % key)
                 self.add_conv_status('route', None, key,
@@ -1878,34 +1891,34 @@ class F5Util(MigrationUtil):
                 app_profile_obj = [app for app in sys_dict[
                         'ApplicationProfile'] + aviconfig['ApplicationProfile']
                                    if app['name'] == app_profile]
-                if app_profile_obj and app_profile_obj[0][
-                    'type'] == 'APPLICATION_PROFILE_TYPE_L4':
+                if app_profile_obj and app_profile_obj[0]['type'] == \
+                        'APPLICATION_PROFILE_TYPE_L4':
                     for service in vs_obj['services']:
                         if service['enable_ssl']:
                             vs_obj['application_profile_ref'] = \
-                                self.get_object_ref('System-HTTP',
-                                    conv_const.OBJECT_TYPE_APPLICATION_PROFILE)
+                                self.get_object_ref(
+                                'System-HTTP',
+                                conv_const.OBJECT_TYPE_APPLICATION_PROFILE)
                             LOG.debug('Changed the application profile '
                                       'reference from L4 to System-HTTP')
                             if vs_obj.get('network_profile_ref'):
-                                nw_profile = self.get_name(vs_obj[
-                                                         'network_profile_ref'])
-                                nw_profile_obj = [nw for nw in sys_dict[
-                                                  'NetworkProfile'] + aviconfig[
-                                                  'NetworkProfile'] if
-                                                  nw['name'] == nw_profile]
-                                if nw_profile_obj and nw_profile_obj[0][
-                                    'profile']['type'] != \
-                                        'PROTOCOL_TYPE_TCP_PROXY':
-                                    LOG.debug('Changed the network profile '
-                                              'reference from %s to TCP-Proxy '
-                                              'for VS %s', nw_profile_obj[0][
-                                              'profile']['type'], vs_obj[
-                                              'name'])
-                                    vs_obj['network_profile_ref'] = \
-                                        self.get_object_ref('System-TCP-Proxy',
-                                         conv_const.OBJECT_TYPE_NETWORK_PROFILE)
+                                self.update_nw_profile(
+                                    vs_obj, sys_dict, aviconfig)
                             break
+
+    def update_nw_profile(self, vs_obj, sys_dict, aviconfig):
+        nw_profile = self.get_name(vs_obj['network_profile_ref'])
+        nw_profile_obj = [nw for nw in sys_dict['NetworkProfile'] +
+                          aviconfig['NetworkProfile'] if nw['name'] ==
+                          nw_profile]
+        if nw_profile_obj and nw_profile_obj[0]['profile']['type'] != \
+                'PROTOCOL_TYPE_TCP_PROXY':
+            LOG.debug(
+                'Changed the network profile reference from %s to '
+                'TCP-Proxy for VS %s' % (nw_profile_obj[0]['profile']['type'],
+                                         vs_obj['name']))
+            vs_obj['network_profile_ref'] = self.get_object_ref(
+                'System-TCP-Proxy', conv_const.OBJECT_TYPE_NETWORK_PROFILE)
 
     def set_pool_group_vrf(self, pool_ref, vrf_ref, avi_config):
         """
@@ -1955,9 +1968,9 @@ class F5Util(MigrationUtil):
                 if rule['switching_action'].get('pool_group_ref'):
                     pool_group_ref = self.get_name(rule['switching_action'][
                                                        'pool_group_ref'])
-                    pool_group_ref = self.clone_pool_group(pool_group_ref,
-                                        policy_name, avi_config, False,
-                                        tenant_name, cloud_name)
+                    pool_group_ref = self.clone_pool_group(
+                        pool_group_ref, policy_name, avi_config, False,
+                        tenant_name, cloud_name)
                     if pool_group_ref:
                         updated_pool_group_ref = self.get_object_ref(
                             pool_group_ref, conv_const.OBJECT_TYPE_POOL_GROUP,
@@ -1967,13 +1980,13 @@ class F5Util(MigrationUtil):
                 elif rule['switching_action'].get('pool_ref'):
                     pool_ref = self.get_name(rule['switching_action'][
                                                  'pool_ref'])
-                    pool_ref = self.clone_pool(pool_ref, policy_name,
-                                               avi_config['Pool'],
-                                               False, tenant_name)
+                    pool_ref = self.clone_pool(
+                        pool_ref, policy_name, avi_config['Pool'],
+                        False, tenant_name)
                     if pool_ref:
-                        updated_pool_ref = self.get_object_ref(pool_ref,
-                                            conv_const.OBJECT_TYPE_POOL,
-                                            tenant_name, cloud_name)
+                        updated_pool_ref = self.get_object_ref(
+                            pool_ref, conv_const.OBJECT_TYPE_POOL, tenant_name,
+                            cloud_name)
                         rule['switching_action']['pool_ref'] = updated_pool_ref
         clone_policy['name'] += '-%s-clone' % vs_name
         return clone_policy
@@ -1984,12 +1997,13 @@ class F5Util(MigrationUtil):
         """
         This method get the skipped list for pool by going over the
         references attached to it
-        :param avi_config:
-        :param pool_name:
+        :param avi_config: Converted Avi configuration
+        :param pool_name: name of the pool
         :param pool_csv_rows:
-        :param csv_writer_dict_list:
-        :param vs_ref:
+        :param csv_writer_dict_list: Result report dict
+        :param vs_ref: VS reference
         :param profile_csv_list:
+        :param skipped_setting: User defined skipped settings
         :return: skipped setting for pool
         """
         pool_skipped_setting = {}
@@ -2021,8 +2035,9 @@ class F5Util(MigrationUtil):
                     pool_object[0]['ssl_key_and_certificate_ref']:
                 ssl_key_cert = self.get_name(
                     pool_object[0]['ssl_key_and_certificate_ref'])
-                sslkc_skip = self.get_csv_skipped_list(profile_csv_list,
-                                ssl_key_cert, vs_ref, field_key='ssl_cert_key')
+                sslkc_skip = self.get_csv_skipped_list(
+                    profile_csv_list, ssl_key_cert, vs_ref,
+                    field_key='ssl_cert_key')
                 if sslkc_skip:
                     pool_skipped_setting['pool_name'] = pool_name
                     pool_skipped_setting['ssl_key_and_certificate'] = sslkc_skip
@@ -2056,23 +2071,12 @@ class F5Util(MigrationUtil):
     def get_skip_pools_policy(self, policy_set_name, http_req, avi_config,
                               pool_csv_rows, vs_ref, profile_csv_list,
                               skipped_setting):
-        """
-        This method gets the skiplist for pool used in policy
-        :param http_req:
-        :param avi_config:
-        :param pool_csv_rows:
-        :param vs_ref:
-        :param profile_csv_list:
-        :param skipped_setting:
-        :return:
-        """
         if http_req['switching_action'].get('pool_group_ref'):
             pool_group_name = self.get_name(http_req['switching_action']
                                             ['pool_group_ref'])
-            pool_group_skipped_settings = self.get_pool_skipped_list(avi_config,
-                                            pool_group_name, pool_csv_rows,
-                                            csv_writer_dict_list, vs_ref,
-                                            profile_csv_list)
+            pool_group_skipped_settings = self.get_pool_skipped_list(
+                avi_config, pool_group_name, pool_csv_rows,
+                csv_writer_dict_list, vs_ref, profile_csv_list)
             if pool_group_skipped_settings:
                 if 'Httppolicy' not in skipped_setting:
                     skipped_setting['Httppolicy'] = {}
@@ -2132,7 +2136,8 @@ class F5Util(MigrationUtil):
                 app_profile_obj = [app for app in sys_dict['ApplicationProfile']
                                    + aviconfig['ApplicationProfile']
                                    if app['name'] == app_profile]
-                if app_profile_obj and (app_profile_obj[0]['type'] ==
+                if app_profile_obj and (
+                        app_profile_obj[0]['type'] ==
                         'APPLICATION_PROFILE_TYPE_HTTP' or app_profile_obj[
                         0]['name'] == 'System-HTTP'):
                     if vs_obj.get('network_profile_ref'):
@@ -2142,15 +2147,18 @@ class F5Util(MigrationUtil):
                                           'NetworkProfile'] + aviconfig[
                                           'NetworkProfile'] if
                                           nw['name'] == nw_profile]
-                        if nw_profile_obj and nw_profile_obj[0][
-                            'profile']['type'] != 'PROTOCOL_TYPE_TCP_PROXY':
-                            LOG.debug('Changed the network profile reference '
-                                      'from %s to TCP-Proxy as VS %s has HTTP '
-                                      'profile', nw_profile_obj[0]['profile'][
-                                      'type'], vs_obj['name'])
+                        if nw_profile_obj and (
+                                nw_profile_obj[0]['profile']['type']
+                                != 'PROTOCOL_TYPE_TCP_PROXY'):
+                            LOG.debug(
+                                'Changed the network profile reference from %s '
+                                'to TCP-Proxy as VS %s has HTTP profile',
+                                nw_profile_obj[0]['profile']['type'],
+                                vs_obj['name'])
                             vs_obj['network_profile_ref'] = \
-                                self.get_object_ref('System-TCP-Proxy',
-                                 conv_const.OBJECT_TYPE_NETWORK_PROFILE)
+                                self.get_object_ref(
+                                    'System-TCP-Proxy',
+                                    conv_const.OBJECT_TYPE_NETWORK_PROFILE)
 
     def correct_vs_ref(self, avi_config):
         """
@@ -2161,7 +2169,7 @@ class F5Util(MigrationUtil):
         global csv_writer_dict_list
         avi_graph = self.make_graph(avi_config)
         csv_dict_sub = [row for row in csv_writer_dict_list if row[
-                        'F5 type'] not in ('virtual') and row['Status'] in
+                        'F5 type'] != 'virtual' and row['Status'] in
                         (conv_const.STATUS_PARTIAL,
                          conv_const.STATUS_SUCCESSFUL)]
         for dict_row in csv_dict_sub:
@@ -2232,3 +2240,80 @@ class F5Util(MigrationUtil):
                 self.get_predecessor(nodelist, avi_graph, vs, tmplist)
         else:
             LOG.debug("No more predecessor")
+
+    def convert_irules(self, vs_ds_rules, rule_config, avi_config, prefix,
+                       vs_name, tenant):
+        vs_ds = list()
+        req_policies = list()
+        nw_policy = None
+        mapped_rules = []
+        converted_rules = []
+
+        for rule_mapping in rule_config:
+            mapped_rules.append(rule_mapping['rule_name'])
+
+        for index, rule in enumerate(vs_ds_rules):
+            rule_mapping = None
+            if rule in mapped_rules:
+                rule_mapping = [obj for obj in rule_config if
+                                obj['rule_name'] == rule][0]
+            if rule_mapping and rule_mapping['type'] == 'VSDataScriptSet':
+                if 'avi_config' in rule_mapping:
+                    ds_config = copy.deepcopy(rule_mapping['avi_config'])
+                else:
+                    ds_config = copy.deepcopy(conv_const.DUMMY_DS)
+                    ds_config['name'] = '%s-%s-dummy' % (
+                        ds_config['name'], vs_name)
+
+                ds_config['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
+                if prefix:
+                    ds_config['name'] = '%s-%s' % (prefix, ds_config['name'])
+                existing_ds = [obj for obj in avi_config['VSDataScriptSet']
+                               if obj['name'] == ds_config['name']]
+                if not existing_ds:
+                    avi_config['VSDataScriptSet'].append(ds_config)
+                vs_ds.append(ds_config['name'])
+                converted_rules.append(rule)
+            elif rule_mapping and rule_mapping['type'] == 'HTTPPolicySet':
+                if 'avi_config' in rule_mapping:
+                    policy = copy.deepcopy(rule_mapping['avi_config'])
+                    policy['name'] = '%s-%s' % (policy['name'], vs_name)
+                else:
+                    policy = copy.deepcopy(conv_const.DUMMY_REQ_POLICY)
+                    policy['name'] = '%s-%s-dummy' % (policy['name'], vs_name)
+
+                policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
+                if prefix:
+                    policy['name'] = '%s-%s' % (prefix, policy['name'])
+                avi_config['HTTPPolicySet'].append(policy)
+                req_policies.append(policy['name'])
+                converted_rules.append(rule)
+            elif rule_mapping and rule_mapping['type'] == \
+                    'NetworkSecurityPolicy':
+                if 'avi_config' in rule_mapping:
+                    policy = copy.deepcopy(rule_mapping['avi_config'])
+                    policy['name'] = '%s-%s' % (policy['name'], vs_name)
+                else:
+                    policy = copy.deepcopy(conv_const.DUMMY_NW_POLICY)
+                    policy['name'] = '%s-%s-dummy' % (policy['name'], vs_name)
+
+                policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
+                if prefix:
+                    policy['name'] = '%s-%s' % (prefix, policy['name'])
+                avi_config['NetworkSecurityPolicy'].append(policy)
+                nw_policy = policy['name']
+                converted_rules.append(rule)
+            elif (rule_mapping and rule_mapping['type'] ==
+                  'HTTPToHTTPSRedirect') or rule == '_sys_https_redirect':
+                # Added prefix for objects
+                if prefix:
+                    policy_name = '%s-%s-%s' % (prefix, rule, vs_name)
+                else:
+                    policy_name = '%s-%s' % (rule, vs_name)
+                policy = conv_const.HTTP_TO_HTTPS_REDIRECT_POL
+                policy["name"] = policy_name
+                policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
+                req_policies.append(policy_name)
+                avi_config['HTTPPolicySet'].append(policy)
+                converted_rules.append(rule)
+        return vs_ds, req_policies, nw_policy, converted_rules
