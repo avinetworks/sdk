@@ -76,6 +76,96 @@ COMPLEXITY_BASIC = 'BASIC'
 STATUS_NOT_SUPPORTED = 'NOT SUPPORTED'
 STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
                STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
+DUMMY_DS = {
+    'datascript': [
+        {
+            'evt': 'VS_DATASCRIPT_EVT_HTTP_REQ',
+            'script': 'if avi.http.get_query("intro", "true") == "hello%20world" then avi.http.add_header("intro", "true") end'
+        }
+    ]
+}
+
+DUMMY_REQ_POLICY = {
+    'http_request_policy': {
+        'rules': [
+            {
+                'index': 1,
+                'hdr_action': [
+                    {
+                        'action': "HTTP_REPLACE_HDR",
+                        'hdr': {
+                            'name': "dummy",
+                            'value': {
+                                'val': "dummy"
+                            }
+                        }
+                    }
+                ],
+                'all_headers': False,
+                'match':
+                {
+                    'hdrs': [
+                        {
+                            'hdr': "dummy",
+                            'match_criteria': "HDR_EXISTS"
+                        }
+                    ]
+                },
+                'name': "Rule 1"
+            }
+        ]
+    },
+    'is_internal_policy': False
+}
+
+DUMMY_NW_POLICY = {
+    'rules': [
+        {
+            'index': 1,
+            'enable': True,
+            'name': "Rule 1",
+            'action': "NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW",
+            'match': {
+                'client_ip': {
+                    'addrs': [
+                        {
+                            'type': "V4",
+                            'addr': "1.1.1.1"
+                        }
+                    ],
+                    'match_criteria': "IS_IN"
+                }
+            },
+            'log': False
+        }
+    ]
+}
+
+HTTP_TO_HTTPS_REDIRECT_POL = {
+    "http_request_policy": {
+        "rules": [
+            {
+                "index": 1,
+                "redirect_action": {
+                    "keep_query": True,
+                    "status_code":
+                        "HTTP_REDIRECT_STATUS_CODE_302",
+                    "protocol": "HTTPS",
+                    "port": 443
+                },
+                "enable": True,
+                "name": "HTTP-To-HTTPS-Redirect",
+                "match": {
+                    "protocol": {
+                        "protocols": "HTTP",
+                        "match_criteria": "IS_IN"
+                    }
+                }
+            }
+        ]
+    },
+"is_internal_policy": False
+}
 
 def init(version):
     """
