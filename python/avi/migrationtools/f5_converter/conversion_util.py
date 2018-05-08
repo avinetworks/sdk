@@ -2262,8 +2262,7 @@ class F5Util(MigrationUtil):
                     ds_config = copy.deepcopy(rule_mapping['avi_config'])
                 else:
                     ds_config = copy.deepcopy(conv_const.DUMMY_DS)
-                    ds_config['name'] = '%s-%s-dummy' % (
-                        ds_config['name'], vs_name)
+                    ds_config['name'] = '%s-dummy' % rule
 
                 ds_config['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
@@ -2280,7 +2279,7 @@ class F5Util(MigrationUtil):
                     policy['name'] = '%s-%s' % (policy['name'], vs_name)
                 else:
                     policy = copy.deepcopy(conv_const.DUMMY_REQ_POLICY)
-                    policy['name'] = '%s-%s-dummy' % (policy['name'], vs_name)
+                    policy['name'] = '%s-%s-dummy' % (rule, vs_name)
 
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
@@ -2295,7 +2294,7 @@ class F5Util(MigrationUtil):
                     policy['name'] = '%s-%s' % (policy['name'], vs_name)
                 else:
                     policy = copy.deepcopy(conv_const.DUMMY_NW_POLICY)
-                    policy['name'] = '%s-%s-dummy' % (policy['name'], vs_name)
+                    policy['name'] = '%s-%s-dummy' % (rule, vs_name)
 
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 if prefix:
