@@ -19,12 +19,13 @@ epg_contract_prov_xml = {'AddEPGContractProv.xml':['$TENANT','$APPPROFILE','$EPG
 epg_contract_cons_xml = {'AddEPGContractCons.xml':['$TENANT','$APPPROFILE','$EPG','$WEBCTRCT']}
 
 graph_config_xml = {'CreateGraphWithParams.xml':['$TENANT', '$VENDOR','$PRODUCT', '$WEBGRAPH', '$CONOUT', '$CONINT']}
-                     
+
 class APICClient(object):
-    def __init__(self, apic_ip, username, password):
+    def __init__(self, apic_ip, username, password, verify=False):
         self.apic_ip = apic_ip
         self.apic_user = username
         self.apic_password = password
+        self.verify = verify
         self.cookies = None
         self.connectToAPIC()
         return
@@ -44,7 +45,7 @@ class APICClient(object):
             while(1):
                 try:
                     r = requests.post( url, data=json.dumps(auth), timeout=5,
-                                       verify=False)
+                                       verify=self.verify)
                     break;
                 except Exception:
                     print(traceback.format_exc())
@@ -63,13 +64,13 @@ class APICClient(object):
         r = requests.post( url,
                            cookies=self.cookies,
                            data=data,
-                           verify=False)
+                           verify=self.verify)
         xml.dom.minidom.parseString( r.text )
         status = r.status_code
         #print '++++++++ RESPONSE (%s) ++++++++' % file
         #print '-------- RESPONSE (%s) --------' % file
         if( status==200):
-            time.sleep(WAIT_AFTER_REQ) 
+            time.sleep(WAIT_AFTER_REQ)
 
     def retrieveXmlFilePath(self, xml_file):
         xml_path =  xml_file
