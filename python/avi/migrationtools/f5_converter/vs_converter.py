@@ -478,6 +478,7 @@ class VSConfigConv(object):
                 old_policy = [obj for obj in avi_config['NetworkSecurityPolicy']
                               if obj['name'] == nw_policy][0]
                 policy['rules'][0]['index'] = 2
+                policy['rules'][0]['name'] = 'Rule 2'
                 old_policy['rules'].append(policy['rules'][0])
             else:
                 avi_config['NetworkSecurityPolicy'].append(policy)
