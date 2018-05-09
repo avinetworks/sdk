@@ -29,7 +29,7 @@
                 name: "dummy"
                 value:
                   val: "dummy"
-          all_headers: false,
+          all_headers: false
           match:
             hdrs:
               - hdr: "dummy"
