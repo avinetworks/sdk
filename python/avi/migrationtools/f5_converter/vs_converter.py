@@ -380,10 +380,16 @@ class VSConfigConv(object):
 
         if vs_ds:
             vs_datascripts = []
+            index = 1
             for ds in vs_ds:
                 vs_datascripts.append(
-                    conv_utils.get_object_ref(ds, 'vsdatascriptset',
-                                              tenant=tenant))
+                    {
+                        "index": index,
+                        "vs_datascript_set_ref": conv_utils.get_object_ref(
+                            ds, 'vsdatascriptset', tenant=tenant)
+                    }
+                )
+                index += 1
             vs_obj['vs_datascripts'] = vs_datascripts
 
         if 'policies' in f5_vs:
@@ -472,6 +478,7 @@ class VSConfigConv(object):
                 old_policy = [obj for obj in avi_config['NetworkSecurityPolicy']
                               if obj['name'] == nw_policy][0]
                 policy['rules'][0]['index'] = 2
+                policy['rules'][0]['name'] = 'Rule 2'
                 old_policy['rules'].append(policy['rules'][0])
             else:
                 avi_config['NetworkSecurityPolicy'].append(policy)
