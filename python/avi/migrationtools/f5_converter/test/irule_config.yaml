@@ -29,11 +29,11 @@
                 name: "dummy"
                 value:
                   val: "dummy"
-          all_headers: false,
+          all_headers: false
           match:
             hdrs:
-              - hdr': "dummy"
-                match_criteria': "HDR_EXISTS"
+              - hdr: "dummy"
+                match_criteria: "HDR_EXISTS"
 
           name: "Rule 1"
     is_internal_policy: false
@@ -46,7 +46,7 @@
       - index: 1
         enable: true
         name: "Rule 1"
-        age: 0,
+        age: 0
         action: "NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW"
         match:
           client_ip:
