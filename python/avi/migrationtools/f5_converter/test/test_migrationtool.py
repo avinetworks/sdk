@@ -32,6 +32,11 @@ input_file_v10 = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'bigip_v10.conf'))
 input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'bigip_v11.conf'))
+
+
+input_role_config_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'irule_config.yaml'))
+
 v10 = '10'
 v11 = '11'
 
@@ -93,7 +98,8 @@ setup = dict(
     test_vip=None,
     output_file_path=output_file,
     vrf = 'test_vrf',
-    segroup = 'test_se'
+    segroup = 'test_se',
+    rule_config_file = input_role_config_file
 )
 
 mylogger = logging.getLogger()
@@ -137,7 +143,7 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=None, segroup=None, rule_config=None)
+                     vrf=None, segroup=None, rule_config=rule_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -950,6 +956,131 @@ class TestF5Converter:
             assert firstPool != secondPool
 
 
+    @pytest.mark.travis
+    def test_rule_config_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                rule_config=setup.get('rule_config_file'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsDatascript = data['VSDataScriptSet']
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+            networkSecurityPolicy = data['NetworkSecurityPolicy']
+
+            vsData = [data for data in vsObject if data['name'] == "splunk-harsh"]
+            dataScript = vsData[0]['vs_datascripts']
+            for i in dataScript:
+                dsName = i['vs_datascript_set_ref'].split('name=')[1].split('&')[0]
+                scriptSet = [data['name'] for data in vsDatascript if data['name'] == dsName][0]
+                print scriptSet ," ", dsName
+                assert scriptSet == dsName
+
+            vsData = [data for data in vsObject if data['name'] == "test-asm-sideband"]
+            httppolicies = vsData[0]['http_policies']
+            for i in httppolicies:
+                policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+                httppolicy = [data['name'] for data in httpPolicySet if data['name'] == policyName][0]
+                print policyName ," ", httppolicy
+                assert policyName == httppolicy
+
+            vsDataForPolicySet = [data for data in vsObject if data['name'] == "vs_target_vs"]
+            vsdatascript = vsDataForPolicySet[0]['vs_datascripts']
+            for i in vsdatascript:
+                dsName = i['vs_datascript_set_ref'].split('name=')[1].split('&')[0]
+                scriptSet = [data['name'] for data in vsDatascript if data['name'] == dsName][0]
+                print scriptSet ," ", dsName
+                assert scriptSet == dsName
+
+            vsData = [data for data in vsObject if data['name'] == "EngVIP"]
+            httppolicy = vsData[0]['http_policies']
+            for i in httppolicy:
+                policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+                if policyName == '_sys_https_redirect-EngVIP':
+                    httppolicy = [data['name'] for data in httpPolicySet if
+                                  data['name'] == policyName and '_sys_https_redirect-EngVIP'][0]
+                    print policyName ," ", httppolicy
+                    assert policyName == httppolicy
+
+            vsData = [data for data in vsObject if data['name'] == "vs1"]
+            policyRef = vsData[0]['network_security_policy_ref']
+            policyName = policyRef.split('name=')[1].split('&')[0]
+            networkProfileName = [i['name'] for i in networkSecurityPolicy if i['name'] == policyName][0]
+            assert networkProfileName == policyName
+
+    @pytest.mark.travis
+    def test_singke_vs_rules_with_multiple_objects(self):
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                rule_config=setup.get('rule_config_file'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+            networkSecurityPolicy = data['NetworkSecurityPolicy']
+
+        vsData = [data for data in vsObject if data['name'] == "F5-VIP-443-004"]
+        httppolicy = vsData[0]['http_policies']
+        for i in httppolicy:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+            if policyName == 'Test-support-Profile-HTTP-HTTP-Policy-Set':
+                httppolicy = [data['name'] for data in httpPolicySet if
+                              data['name'] == policyName and 'Test-support-Profile-HTTP-HTTP-Policy-Set'][0]
+                print policyName, " ", httppolicy
+                assert policyName == httppolicy
+
+        vsData = [data for data in vsObject if data['name'] == "F5-VIP-443-004"]
+        policyRef = vsData[0]['network_security_policy_ref']
+        policyName = policyRef.split('name=')[1].split('&')[0]
+        networkProfileName = [i['name'] for i in networkSecurityPolicy if i['name'] == policyName][0]
+        assert networkProfileName == policyName
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v11_17_1_1_for_irule_config(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_irule_config_object_upload(self):
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'),
+                option=setup.get('option'),
+                output_file_path=setup.get('output_file_path'),
+                rule_config=setup.get('rule_config_file'))
 
 def teardown():
     pass
