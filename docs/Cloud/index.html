@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -302,6 +302,7 @@ font-style: italic;
       "asg_poll_interval" : 123,
       "route53_integration" : true,
       "s3_encryption" : "",
+      "sqs_encryption" : "",
       "use_iam_roles" : true,
       "region" : "aeiou",
       "free_elasticips" : true
@@ -476,6 +477,7 @@ font-style: italic;
       "sdn_overlay" : true,
       "container_port_match_http_service" : true,
       "disable_auto_gs_sync" : true,
+      "auto_assign_fqdn" : true,
       "disable_auto_se_creation" : true,
       "se_include_attributes" : [ "" ],
       "use_service_cluster_ip_as_ew_vip" : true,
@@ -588,6 +590,7 @@ font-style: italic;
     "azure_configuration" : {
       "subscription_id" : "aeiou",
       "use_enhanced_ha" : true,
+      "use_standard_alb" : true,
       "resource_group" : "aeiou",
       "use_azure_dns" : true,
       "availability_zones" : [ "aeiou" ],
@@ -806,6 +809,7 @@ font-style: italic;
     "asg_poll_interval" : 123,
     "route53_integration" : true,
     "s3_encryption" : "",
+    "sqs_encryption" : "",
     "use_iam_roles" : true,
     "region" : "aeiou",
     "free_elasticips" : true
@@ -980,6 +984,7 @@ font-style: italic;
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
     "disable_auto_gs_sync" : true,
+    "auto_assign_fqdn" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -1092,6 +1097,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -1541,6 +1547,7 @@ font-style: italic;
     "asg_poll_interval" : 123,
     "route53_integration" : true,
     "s3_encryption" : "",
+    "sqs_encryption" : "",
     "use_iam_roles" : true,
     "region" : "aeiou",
     "free_elasticips" : true
@@ -1715,6 +1722,7 @@ font-style: italic;
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
     "disable_auto_gs_sync" : true,
+    "auto_assign_fqdn" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -1827,6 +1835,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -2160,6 +2169,7 @@ font-style: italic;
     "asg_poll_interval" : 123,
     "route53_integration" : true,
     "s3_encryption" : "",
+    "sqs_encryption" : "",
     "use_iam_roles" : true,
     "region" : "aeiou",
     "free_elasticips" : true
@@ -2334,6 +2344,7 @@ font-style: italic;
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
     "disable_auto_gs_sync" : true,
+    "auto_assign_fqdn" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -2446,6 +2457,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -2623,6 +2635,7 @@ font-style: italic;
     "asg_poll_interval" : 123,
     "route53_integration" : true,
     "s3_encryption" : "",
+    "sqs_encryption" : "",
     "use_iam_roles" : true,
     "region" : "aeiou",
     "free_elasticips" : true
@@ -2797,6 +2810,7 @@ font-style: italic;
     "sdn_overlay" : true,
     "container_port_match_http_service" : true,
     "disable_auto_gs_sync" : true,
+    "auto_assign_fqdn" : true,
     "disable_auto_se_creation" : true,
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
@@ -2909,6 +2923,7 @@ font-style: italic;
   "azure_configuration" : {
     "subscription_id" : "aeiou",
     "use_enhanced_ha" : true,
+    "use_standard_alb" : true,
     "resource_group" : "aeiou",
     "use_azure_dns" : true,
     "availability_zones" : [ "aeiou" ],
@@ -3060,8 +3075,8 @@ font-style: italic;
   <ol>
     <li><a href="#APICConfiguration"><code>APICConfiguration</code></a></li>
     <li><a href="#AwsConfiguration"><code>AwsConfiguration</code></a></li>
+    <li><a href="#AwsEncryption"><code>AwsEncryption</code></a></li>
     <li><a href="#AwsZoneConfig"><code>AwsZoneConfig</code></a></li>
-    <li><a href="#aws_encryption"><code>aws_encryption</code></a></li>
     <li><a href="#AzureConfiguration"><code>AzureConfiguration</code></a></li>
     <li><a href="#AzureNetworkInfo"><code>AzureNetworkInfo</code></a></li>
     <li><a href="#Cloud"><code>Cloud</code></a></li>
@@ -3122,13 +3137,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">access_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS access key ID. </div>
 <div class="param">asg_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Units(SEC). format: int32</div>
-<div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
+<div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
 <div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
 <div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS region. </div>
 <div class="param">route53_integration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, create/update DNS entries in Amazon Route 53 zones. </div>
-<div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#aws_encryption">aws_encryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
+<div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
 <div class="param">secret_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS secret access key. </div>
+<div class="param">sqs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8. </div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC). format: int32</div>
 <div class="param">use_iam_roles (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use IAM roles instead of access and secret key. </div>
 <div class="param">use_sns_sqs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3. </div>
@@ -3139,18 +3155,18 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="AwsEncryption">AwsEncryption</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">master_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="AwsZoneConfig">AwsZoneConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">availability_zone </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone. </div>
 <div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name or CIDR of the network in the Availability Zone that will be used as management network. </div>
 <div class="param">mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the network in the Availability Zone that will be used as management network. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="aws_encryption">aws_encryption</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">master_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3. </div>
-<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3165,6 +3181,7 @@ font-style: italic;
 <div class="param">use_azure_dns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Azure is the DNS provider. Field introduced in 17.2.1. </div>
 <div class="param">use_enhanced_ha (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure&#39;s enhanced HA features. This needs a public IP to be associated with the VIP. . Field introduced in 17.2.1. </div>
 <div class="param">use_managed_disks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Azure managed disks for SE storage. Field introduced in 17.2.2. </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3300,7 +3317,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3443,6 +3460,7 @@ font-style: italic;
     <h3 class="field-label"><a name="OShiftK8SConfiguration">OShiftK8SConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">app_sync_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sync frequency in seconds with frameworks. format: int32</div>
+<div class="param">auto_assign_fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8. </div>
 <div class="param">avi_bridge_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Avi Linux bridge subnet on OpenShift/K8s nodes. </div>
 <div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate. </div>

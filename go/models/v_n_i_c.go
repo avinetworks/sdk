@@ -10,6 +10,9 @@ type VNIC struct {
 	// adapter of vNIC.
 	Adapter string `json:"adapter,omitempty"`
 
+	//  Field introduced in 17.2.7.
+	AggregatorChgd bool `json:"aggregator_chgd,omitempty"`
+
 	// Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean
 	CanSeDpTakeover bool `json:"can_se_dp_takeover,omitempty"`
 

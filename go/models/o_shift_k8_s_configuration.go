@@ -10,6 +10,9 @@ type OShiftK8SConfiguration struct {
 	// Sync frequency in seconds with frameworks.
 	AppSyncFrequency int32 `json:"app_sync_frequency,omitempty"`
 
+	// Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8.
+	AutoAssignFqdn bool `json:"auto_assign_fqdn,omitempty"`
+
 	// Avi Linux bridge subnet on OpenShift/K8s nodes.
 	AviBridgeSubnet *IPAddrPrefix `json:"avi_bridge_subnet,omitempty"`
 

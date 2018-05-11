@@ -7,9 +7,6 @@ package models
 // swagger:model SingleLicense
 type SingleLicense struct {
 
-	// Number of backend_servers.
-	BackendServers int32 `json:"backend_servers,omitempty"`
-
 	// Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5.
 	BurstCores int32 `json:"burst_cores,omitempty"`
 
@@ -45,9 +42,6 @@ type SingleLicense struct {
 	// license_type of SingleLicense.
 	LicenseType string `json:"license_type,omitempty"`
 
-	// Number of max_apps.
-	MaxApps int32 `json:"max_apps,omitempty"`
-
 	// Number of Service Engines hosts in container clouds.
 	MaxSes int32 `json:"max_ses,omitempty"`
 
@@ -59,9 +53,6 @@ type SingleLicense struct {
 
 	// start_on of SingleLicense.
 	StartOn string `json:"start_on,omitempty"`
-
-	// Number of throughput.
-	Throughput int32 `json:"throughput,omitempty"`
 
 	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
 	TierType string `json:"tier_type,omitempty"`

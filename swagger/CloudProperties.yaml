@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -877,6 +877,10 @@ definitions:
                 description: "Number of dummy."
                 type: integer
                 format: int32
+            enable_memory_balancer:
+                description: "Enable/Disable Memory Balancer. Field introduced in 17.2.8."
+                type: boolean
+                default: True
             fatal_error_lease_time:
                 description: ". Units(SEC)."
                 type: integer

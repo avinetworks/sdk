@@ -94,6 +94,9 @@ type HTTPApplicationProfile struct {
 	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS).
 	PostAcceptTimeout int32 `json:"post_accept_timeout,omitempty"`
 
+	// Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8.
+	RespondWith100Continue bool `json:"respond_with_100_continue,omitempty"`
+
 	// Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set.
 	SecureCookieEnabled bool `json:"secure_cookie_enabled,omitempty"`
 

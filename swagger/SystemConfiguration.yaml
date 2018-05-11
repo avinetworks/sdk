@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -504,7 +504,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrMatch:
         type: object
@@ -565,6 +565,9 @@ definitions:
             banner:
                 description: "Banner displayed before login to ssh, and UI."
                 type: string
+            cis_mode:
+                description: "Enforce CIS benchmark recommendations for Avi Controller and Service Engines. The enforcement is as per CIS DIL 1.0.1 level 2, for applicable controls. Field introduced in 17.2.8."
+                type: boolean
             motd:
                 description: "Message of the day, shown to users on login via the command line interface, web interface, or ssh."
                 type: string

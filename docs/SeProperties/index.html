@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -408,6 +408,7 @@ font-style: italic;
       "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
       "se_auth_ldap_connect_timeout" : 123,
       "mcache_store_in_enabled" : true,
+      "lb_batch_push_frequency" : 123,
       "app_headers" : [ {
         "hdr_name" : "aeiou",
         "hdr_string_op" : "aeiou",
@@ -677,6 +678,7 @@ font-style: italic;
     "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
     "se_auth_ldap_connect_timeout" : 123,
     "mcache_store_in_enabled" : true,
+    "lb_batch_push_frequency" : 123,
     "app_headers" : [ {
       "hdr_name" : "aeiou",
       "hdr_string_op" : "aeiou",
@@ -1015,6 +1017,7 @@ font-style: italic;
     "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
     "se_auth_ldap_connect_timeout" : 123,
     "mcache_store_in_enabled" : true,
+    "lb_batch_push_frequency" : 123,
     "app_headers" : [ {
       "hdr_name" : "aeiou",
       "hdr_string_op" : "aeiou",
@@ -1295,6 +1298,7 @@ font-style: italic;
     "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
     "se_auth_ldap_connect_timeout" : 123,
     "mcache_store_in_enabled" : true,
+    "lb_batch_push_frequency" : 123,
     "app_headers" : [ {
       "hdr_name" : "aeiou",
       "hdr_string_op" : "aeiou",
@@ -1575,6 +1579,7 @@ font-style: italic;
     "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
     "se_auth_ldap_connect_timeout" : 123,
     "mcache_store_in_enabled" : true,
+    "lb_batch_push_frequency" : 123,
     "app_headers" : [ {
       "hdr_name" : "aeiou",
       "hdr_string_op" : "aeiou",
@@ -1703,7 +1708,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1766,7 +1771,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SeBootupProperties">SeBootupProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1. </div>
+      <div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1. </div>
 <div class="param">distribute_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes vnic ownership among cores so multiple cores handle dispatcher duties. </div>
 <div class="param">docker_backend_portend (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> End of the Local TCP port range used by SE for backend connections in docker environment. format: int32</div>
 <div class="param">docker_backend_portstart (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Start of the Local TCP port range used by SE for backend connections in docker environment. format: int32</div>
@@ -1866,6 +1871,7 @@ font-style: italic;
 <div class="param">global_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used. format: int32</div>
 <div class="param">http_rum_console_log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Javascript console logs on the client browser when collecting client insights. </div>
 <div class="param">http_rum_min_content_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum response size content length to sample for client insights. format: int32</div>
+<div class="param">lb_batch_push_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8. format: int32</div>
 <div class="param">lb_fail_max_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 17.1.1. Units(SEC). format: int32</div>
 <div class="param">lbaction_num_requests_to_dispatch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of requests to dispatch from the request queue at a regular interval. format: int32</div>
 <div class="param">lbaction_rq_per_request_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum retries per request in the request queue. format: int32</div>

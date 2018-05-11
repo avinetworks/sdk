@@ -8,7 +8,8 @@ package models
 type MatchReplacePair struct {
 
 	// String to be matched.
-	MatchString string `json:"match_string,omitempty"`
+	// Required: true
+	MatchString string `json:"match_string"`
 
 	// Replacement string.
 	ReplacementString *ReplaceStringVar `json:"replacement_string,omitempty"`

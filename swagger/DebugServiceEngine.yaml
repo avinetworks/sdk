@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi DebugServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -339,6 +339,10 @@ definitions:
             -   sub_module
             -   trace_level
         properties:
+            log_every_n:
+                description: "Log every nth message. Field introduced in 17.2.7."
+                type: integer
+                format: int32
             log_level:
                 description: " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
                 type: string

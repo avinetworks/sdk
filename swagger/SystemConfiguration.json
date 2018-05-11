@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -773,7 +773,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -1016,6 +1016,10 @@
                 "banner": {
                     "type": "string", 
                     "description": "Banner displayed before login to ssh, and UI."
+                }, 
+                "cis_mode": {
+                    "type": "boolean", 
+                    "description": "Enforce CIS benchmark recommendations for Avi Controller and Service Engines. The enforcement is as per CIS DIL 1.0.1 level 2, for applicable controls. Field introduced in 17.2.8."
                 }, 
                 "motd": {
                     "type": "string", 
