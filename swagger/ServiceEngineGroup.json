@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -801,7 +801,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -822,6 +822,7 @@
                     "format": "int32"
                 }, 
                 "disable_tso": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
                 }, 
@@ -867,6 +868,7 @@
                     "format": "int32"
                 }, 
                 "disable_gro": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
                 }, 
@@ -1101,9 +1103,9 @@
                     "type": "boolean", 
                     "description": "Enable active health monitoring from the standby SE for all placed virtual services."
                 }, 
-                "se_sb_dedicated_core": {
+                "distribute_queues": {
                     "type": "boolean", 
-                    "description": "Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3."
+                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8."
                 }, 
                 "cpu_socket_affinity": {
                     "type": "boolean", 
@@ -1137,6 +1139,10 @@
                     "type": "array", 
                     "description": "Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name."
                 }, 
+                "se_tracert_port_range": {
+                    "description": "Traceroute port range. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
                 "floating_intf_ip_se_2": {
                     "items": {
                         "$ref": "#/definitions/IpAddr"
@@ -1155,6 +1161,10 @@
                     "type": "integer", 
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB).", 
                     "format": "int32"
+                }, 
+                "se_sb_dedicated_core": {
+                    "type": "boolean", 
+                    "description": "Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3."
                 }, 
                 "non_significant_log_throttle": {
                     "default": 100, 
@@ -1233,7 +1243,7 @@
                 "async_ssl_threads": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-4.", 
+                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-16.", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -1322,6 +1332,10 @@
                     "default": "VCENTER_DATASTORE_ANY", 
                     "type": "string", 
                     "description": " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
+                }, 
+                "enable_hsm_priming": {
+                    "type": "boolean", 
+                    "description": "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7."
                 }, 
                 "auto_rebalance_criteria": {
                     "items": {

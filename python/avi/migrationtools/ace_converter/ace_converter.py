@@ -72,7 +72,6 @@ class AceConvertor(AviConverter):
         # Parsing
         parser = Parser(self.in_file)
         parsed_output = parser.parse_ace()
-
         # Configuration Conversion
         print "configuration conversion started ..."
         cfgConvert = ConfigConverter(parsed_output,
@@ -225,7 +224,7 @@ Optional:
                         help='location of key and cert file')
 
     parser.add_argument('-o', '--output_loc',
-                        help='Out file location')
+                        help='Out file location', default='.')
 
     # Auto Upload Options
     parser.add_argument('-O', '--option',

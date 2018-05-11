@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "17.2.6", 
+        "version": "17.2.8", 
         "description": "##CLI##\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -725,7 +725,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 

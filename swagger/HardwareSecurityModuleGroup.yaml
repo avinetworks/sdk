@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi HardwareSecurityModuleGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -337,6 +337,9 @@ definitions:
         required:
             -   type
         properties:
+            cloudhsm:
+                description: "AWS CloudHSM specific configuration. Field introduced in 17.2.7."
+                $ref: '#/definitions/HSMAwsCloudHsm'
             nethsm:
                 description: "Thales netHSM specific configuration."
                 type: array
@@ -349,7 +352,7 @@ definitions:
                 description: "Safenet/Gemalto Luna/Gem specific configuration."
                 $ref: '#/definitions/HSMSafenetLuna'
             type:
-                description: "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA."
+                description: "HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM."
                 type: string
     HardwareSecurityModuleGroup:
         type: object
@@ -386,6 +389,31 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/HardwareSecurityModuleGroup"
+    HSMAwsCloudHsm:
+        type: object
+        properties:
+            client_config:
+                description: " Field introduced in 17.2.7."
+                readOnly: True
+                type: string
+            cluster_cert:
+                description: "AWS CloudHSM Cluster Certificate. Field introduced in 17.2.7."
+                type: string
+            crypto_user_name:
+                description: "Username of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
+                type: string
+            crypto_user_password:
+                description: "Password of the Crypto User. This will be used to access the keys on the HSM . Field introduced in 17.2.7."
+                type: string
+            hsm_ip:
+                description: "IP address of the HSM in the cluster. If there are more than one HSMs, only one is sufficient. Field introduced in 17.2.7."
+                type: array
+                items:
+                    type: string
+            mgmt_config:
+                description: " Field introduced in 17.2.7."
+                readOnly: True
+                type: string
     HSMSafenetClientInfo:
         type: object
         required:
@@ -516,5 +544,5 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.6'
+    version: '17.2.8'
     title: Avi SSLProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -393,6 +393,10 @@ definitions:
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
+            type:
+                description: "SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8."
+                type: string
+                default: "SSL_PROFILE_TYPE_APPLICATION"
             url:
                 description: "url"
                 readOnly: True

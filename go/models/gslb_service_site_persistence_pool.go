@@ -16,6 +16,9 @@ type GslbServiceSitePersistencePool struct {
 	// Number of servers operationally up in the pool. . Field introduced in 17.2.2.
 	NumServersUp int64 `json:"num_servers_up,omitempty"`
 
+	// Detailed information of the servers in the pool. . Field introduced in 17.2.8.
+	Servers []*ServerConfig `json:"servers,omitempty"`
+
 	// Site persistence pool's uuid. . Field introduced in 17.2.2.
 	UUID string `json:"uuid,omitempty"`
 }

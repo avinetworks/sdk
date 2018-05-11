@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.6</div>
+    <div class="app-desc">Version: 17.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -260,10 +260,12 @@ font-style: italic;
         "ip_dscp" : 123,
         "time_wait_delay" : 123,
         "idle_connection_timeout" : 123,
+        "min_rexmt_timeout" : 123,
         "automatic" : true,
         "max_retransmissions" : 123,
         "aggressive_congestion_avoidance" : true,
         "idle_connection_type" : "aeiou",
+        "reorder_threshold" : 123,
         "cc_algo" : "aeiou",
         "receive_window" : 123,
         "max_syn_retransmissions" : 123,
@@ -280,7 +282,10 @@ font-style: italic;
         "session_idle_timeout" : 123,
         "enable_syn_protection" : true
       },
-      "type" : "aeiou"
+      "type" : "aeiou",
+      "udp_proxy_profile" : {
+        "session_idle_timeout" : 123
+      }
     },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
@@ -347,10 +352,12 @@ font-style: italic;
       "ip_dscp" : 123,
       "time_wait_delay" : 123,
       "idle_connection_timeout" : 123,
+      "min_rexmt_timeout" : 123,
       "automatic" : true,
       "max_retransmissions" : 123,
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
+      "reorder_threshold" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -367,7 +374,10 @@ font-style: italic;
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "udp_proxy_profile" : {
+      "session_idle_timeout" : 123
+    }
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -503,10 +513,12 @@ font-style: italic;
       "ip_dscp" : 123,
       "time_wait_delay" : 123,
       "idle_connection_timeout" : 123,
+      "min_rexmt_timeout" : 123,
       "automatic" : true,
       "max_retransmissions" : 123,
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
+      "reorder_threshold" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -523,7 +535,10 @@ font-style: italic;
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "udp_proxy_profile" : {
+      "session_idle_timeout" : 123
+    }
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -601,10 +616,12 @@ font-style: italic;
       "ip_dscp" : 123,
       "time_wait_delay" : 123,
       "idle_connection_timeout" : 123,
+      "min_rexmt_timeout" : 123,
       "automatic" : true,
       "max_retransmissions" : 123,
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
+      "reorder_threshold" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -621,7 +638,10 @@ font-style: italic;
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "udp_proxy_profile" : {
+      "session_idle_timeout" : 123
+    }
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -699,10 +719,12 @@ font-style: italic;
       "ip_dscp" : 123,
       "time_wait_delay" : 123,
       "idle_connection_timeout" : 123,
+      "min_rexmt_timeout" : 123,
       "automatic" : true,
       "max_retransmissions" : 123,
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
+      "reorder_threshold" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -719,7 +741,10 @@ font-style: italic;
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
-    "type" : "aeiou"
+    "type" : "aeiou",
+    "udp_proxy_profile" : {
+      "session_idle_timeout" : 123
+    }
   },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -809,6 +834,7 @@ font-style: italic;
     <li><a href="#TCPFastPathProfile"><code>TCPFastPathProfile</code></a></li>
     <li><a href="#TCPProxyProfile"><code>TCPProxyProfile</code></a></li>
     <li><a href="#UDPFastPathProfile"><code>UDPFastPathProfile</code></a></li>
+    <li><a href="#UDPProxyProfile"><code>UDPProxyProfile</code></a></li>
   </ol>
 
   <div class="model">
@@ -834,8 +860,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">tcp_fast_path_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPFastPathProfile">TCPFastPathProfile</a></span> Placeholder for description of property tcp_fast_path_profile of obj type NetworkProfileUnion field type str  type object </div>
 <div class="param">tcp_proxy_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPProxyProfile">TCPProxyProfile</a></span> Placeholder for description of property tcp_proxy_profile of obj type NetworkProfileUnion field type str  type object </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY. </div>
 <div class="param">udp_fast_path_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#UDPFastPathProfile">UDPFastPathProfile</a></span> Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object </div>
+<div class="param">udp_proxy_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#UDPProxyProfile">UDPProxyProfile</a></span>  Field introduced in 17.2.8. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -858,8 +885,10 @@ font-style: italic;
 <div class="param">max_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The number of attempts at retransmit before closing the connection. Allowed values are 3-8. format: int32</div>
 <div class="param">max_segment_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - &#39;Use Interface MTU&#39;. Units(BYTES). format: int32</div>
 <div class="param">max_syn_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8. format: int32</div>
+<div class="param">min_rexmt_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. Units(MILLISECONDS). format: int32</div>
 <div class="param">nagles_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH. </div>
 <div class="param">receive_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the receive window. Allowed values are 32-65536. Units(KB). format: int32</div>
+<div class="param">reorder_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7. format: int32</div>
 <div class="param">time_wait_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - &#39;immediate&#39;. Units(MILLISECONDS). format: int32</div>
 <div class="param">use_interface_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the interface MTU to calculate the TCP max segment size. </div>
     </div>  <!-- field-items -->
@@ -868,8 +897,14 @@ font-style: italic;
     <h3 class="field-label"><a name="UDPFastPathProfile">UDPFastPathProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">per_pkt_loadbalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server. </div>
-<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300. Units(SEC). format: int32</div>
+<div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC). format: int32</div>
 <div class="param">snat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When disabled, Source NAT will not be performed for all client UDP packets. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UDPProxyProfile">UDPProxyProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8. Units(SEC). format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
