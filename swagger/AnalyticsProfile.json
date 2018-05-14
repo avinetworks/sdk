@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AnalyticsProfile Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.10", 
         "description": "##CLI##\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -494,10 +502,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -586,6 +602,63 @@
                     "type": "integer", 
                     "description": "Ending HTTP response status code.", 
                     "format": "int32"
+                }
+            }
+        }, 
+        "StringMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                }
+            }
+        }, 
+        "SensitiveLogProfile": {
+            "type": "object", 
+            "properties": {
+                "header_field_rules": {
+                    "items": {
+                        "$ref": "#/definitions/SensitiveFieldRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Match sensitive header fields in HTTP application log. Field introduced in 17.2.10."
+                }
+            }
+        }, 
+        "AnalyticsProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/AnalyticsProfile"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
@@ -961,6 +1034,10 @@
                     "description": "Maximum penalty that may be deducted from health score based on security assessment. Allowed values are 0-100.", 
                     "format": "int32"
                 }, 
+                "sensitive_log_profile": {
+                    "description": "Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10.", 
+                    "$ref": "#/definitions/SensitiveLogProfile"
+                }, 
                 "exclude_dns_policy_drop_as_significant": {
                     "type": "boolean", 
                     "description": "Exclude dns policy drops from the list of errors. Field introduced in 17.2.2."
@@ -993,22 +1070,30 @@
                 }
             }
         }, 
-        "AnalyticsProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
+        "SensitiveFieldRule": {
             "type": "object", 
             "properties": {
-                "count": {
+                "action": {
+                    "default": "LOG_FIELD_REMOVE", 
+                    "type": "string", 
+                    "description": "Action for the match. Enum options - LOG_FIELD_REMOVE, LOG_FIELD_MASKOFF. Field introduced in 17.2.10."
+                }, 
+                "index": {
                     "type": "integer", 
+                    "description": "Index of the rule. Field introduced in 17.2.10.", 
                     "format": "int32"
                 }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/AnalyticsProfile"
-                    }, 
-                    "type": "array"
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enable rule to match the sensitive fields. Field introduced in 17.2.10."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 17.2.10."
+                }, 
+                "match": {
+                    "description": "Criterion to use for matching in the Log. Field introduced in 17.2.10.", 
+                    "$ref": "#/definitions/StringMatch"
                 }
             }
         }

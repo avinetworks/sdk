@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.10", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -184,10 +184,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -566,10 +574,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -1370,20 +1386,20 @@
         "APICConfiguration": {
             "type": "object", 
             "properties": {
-                "apic_vendor": {
-                    "default": "Avi", 
-                    "type": "string", 
-                    "description": "apic_vendor of APICConfiguration."
+                "se_tunnel_mode": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Determines if DSR from secondary SE is active or not  False  Automatically determine based on hypervisor type. True  Disable DSR unconditionally. . Field introduced in 17.2.10."
                 }, 
-                "avi_controller_username": {
-                    "default": "admin", 
+                "version": {
+                    "default": "1.0", 
                     "type": "string", 
-                    "description": "The username APIC will use when authenticating with Avi Vantage."
+                    "description": "AVI Device Package Version. Field deprecated in 17.2.9,18.1.1."
                 }, 
                 "apic_product": {
                     "default": "ASP", 
                     "type": "string", 
-                    "description": "apic_product of APICConfiguration."
+                    "description": " Field deprecated in 17.2.9,18.1.1."
                 }, 
                 "apic_password": {
                     "type": "string", 
@@ -1405,16 +1421,16 @@
                 }, 
                 "avi_controller_password": {
                     "type": "string", 
-                    "description": "The password APIC will use when authenticating with Avi Vantage."
+                    "description": "The password APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1."
                 }, 
-                "version": {
-                    "default": "1.0", 
+                "apic_vendor": {
+                    "default": "Avi", 
                     "type": "string", 
-                    "description": "AVI Device Package Version."
+                    "description": " Field deprecated in 17.2.9,18.1.1."
                 }, 
                 "deployment": {
                     "type": "string", 
-                    "description": "deployment of APICConfiguration."
+                    "description": " Field deprecated in 17.2.9,18.1.1."
                 }, 
                 "apic_domain": {
                     "type": "string", 
@@ -1430,12 +1446,17 @@
                 "managed_mode": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                    "description": "Use Managed Mode for APIC Service Insertion. Field deprecated in 17.2.9,18.1.1. Field introduced in 17.1.1."
+                }, 
+                "avi_controller_username": {
+                    "default": "admin", 
+                    "type": "string", 
+                    "description": "The username APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1."
                 }, 
                 "minor": {
                     "default": "2", 
                     "type": "string", 
-                    "description": "AVI Device Package Minor Version."
+                    "description": "AVI Device Package Minor Version. Field deprecated in 17.2.9,18.1.1."
                 }
             }
         }, 
@@ -2233,7 +2254,7 @@
                 }, 
                 "intf_sec_ips": {
                     "type": "boolean", 
-                    "description": "If True, interface-secondary-ips method will be used for VIP association."
+                    "description": "If True, interface-secondary-ips method will be used for VIP association. This option is deprecated and will not be supported in future."
                 }, 
                 "admin_tenant_uuid": {
                     "type": "string", 
@@ -2572,6 +2593,10 @@
                 "sqs_encryption": {
                     "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
                     "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
                 }, 
                 "ebs_encryption": {
                     "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 

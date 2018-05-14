@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.10'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -50,7 +50,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -169,7 +175,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -731,21 +743,21 @@ definitions:
                 description: "The password Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_product:
-                description: "apic_product of APICConfiguration."
+                description: " Field deprecated in 17.2.9,18.1.1."
                 type: string
                 default: "ASP"
             apic_username:
                 description: "The username Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_vendor:
-                description: "apic_vendor of APICConfiguration."
+                description: " Field deprecated in 17.2.9,18.1.1."
                 type: string
                 default: "Avi"
             avi_controller_password:
-                description: "The password APIC will use when authenticating with Avi Vantage."
+                description: "The password APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1."
                 type: string
             avi_controller_username:
-                description: "The username APIC will use when authenticating with Avi Vantage."
+                description: "The username APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1."
                 type: string
                 default: "admin"
             context_aware:
@@ -753,18 +765,22 @@ definitions:
                 type: string
                 default: "SINGLE_CONTEXT"
             deployment:
-                description: "deployment of APICConfiguration."
+                description: " Field deprecated in 17.2.9,18.1.1."
                 type: string
             managed_mode:
-                description: "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                description: "Use Managed Mode for APIC Service Insertion. Field deprecated in 17.2.9,18.1.1. Field introduced in 17.1.1."
                 type: boolean
                 default: True
             minor:
-                description: "AVI Device Package Minor Version."
+                description: "AVI Device Package Minor Version. Field deprecated in 17.2.9,18.1.1."
                 type: string
                 default: "2"
+            se_tunnel_mode:
+                description: "Determines if DSR from secondary SE is active or not  False  Automatically determine based on hypervisor type. True  Disable DSR unconditionally. . Field introduced in 17.2.10."
+                type: boolean
+                default: True
             version:
-                description: "AVI Device Package Version."
+                description: "AVI Device Package Version. Field deprecated in 17.2.9,18.1.1."
                 type: string
                 default: "1.0"
     AwsConfiguration:
@@ -790,6 +806,9 @@ definitions:
             iam_assume_role:
                 description: "IAM assume role for cross-account access."
                 type: string
+            publish_vip_to_public_zone:
+                description: "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                type: boolean
             region:
                 description: "AWS region."
                 type: string
@@ -1652,7 +1671,7 @@ definitions:
                 type: boolean
                 default: True
             intf_sec_ips:
-                description: "If True, interface-secondary-ips method will be used for VIP association."
+                description: "If True, interface-secondary-ips method will be used for VIP association. This option is deprecated and will not be supported in future."
                 type: boolean
             keystone_host:
                 description: "Keystone's hostname or IP address. (Deprecated) Use auth_url instead."

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.10'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -365,12 +377,12 @@ definitions:
             client_file_upload_max_body_size:
                 description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB)."
                 type: integer
-                default: 1024
+                default: 32
                 format: int32
             client_nonfile_upload_max_body_size:
                 description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB)."
                 type: integer
-                default: 128
+                default: 32
                 format: int32
             cookie_format_version:
                 description: "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1."

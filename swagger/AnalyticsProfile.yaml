@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.10'
     title: Avi AnalyticsProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -667,6 +679,9 @@ definitions:
                 type: array
                 items:
                     type: string
+            sensitive_log_profile:
+                description: "Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10."
+                $ref: '#/definitions/SensitiveLogProfile'
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
@@ -745,3 +760,49 @@ definitions:
                 description: "Ending HTTP response status code."
                 type: integer
                 format: int32
+    SensitiveFieldRule:
+        type: object
+        properties:
+            action:
+                description: "Action for the match. Enum options - LOG_FIELD_REMOVE, LOG_FIELD_MASKOFF. Field introduced in 17.2.10."
+                type: string
+                default: "LOG_FIELD_REMOVE"
+            enabled:
+                description: "Enable rule to match the sensitive fields. Field introduced in 17.2.10."
+                type: boolean
+            index:
+                description: "Index of the rule. Field introduced in 17.2.10."
+                type: integer
+                format: int32
+            match:
+                description: "Criterion to use for matching in the Log. Field introduced in 17.2.10."
+                $ref: '#/definitions/StringMatch'
+            name:
+                description: "Name of the rule. Field introduced in 17.2.10."
+                type: string
+    SensitiveLogProfile:
+        type: object
+        properties:
+            header_field_rules:
+                description: "Match sensitive header fields in HTTP application log. Field introduced in 17.2.10."
+                type: array
+                items:
+                    $ref: '#/definitions/SensitiveFieldRule'
+    StringMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
+            match_str:
+                description: "String value(s)."
+                type: array
+                items:
+                    type: string
+            string_group_refs:
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                type: array
+                items:
+                    type: string

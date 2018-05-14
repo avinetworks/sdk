@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.10'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -62,7 +62,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -189,7 +195,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -761,6 +773,9 @@ definitions:
             enable_hsm_priming:
                 description: "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7."
                 type: boolean
+            enable_multi_lb:
+                description: "Applicable to Azure platform only. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10."
+                type: boolean
             enable_routing:
                 description: "Enable routing for this ServiceEngineGroup ."
                 type: boolean
@@ -792,6 +807,11 @@ definitions:
             flow_table_new_syn_max_entries:
                 description: "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5."
                 type: integer
+                format: int32
+            free_list_size:
+                description: "Number of entries in the free list. Field introduced in 17.2.10."
+                type: integer
+                default: 1024
                 format: int32
             ha_mode:
                 description: "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
@@ -925,7 +945,15 @@ definitions:
                 description: "Management network UUID."
                 type: string
             os_reserved_memory:
-                description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine."
+                description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Units(MB)."
+                type: integer
+                format: int32
+            pcap_reinit_frequency:
+                description: "Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.10."
+                type: integer
+                format: int32
+            pcap_reinit_threshold:
+                description: "Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10."
                 type: integer
                 format: int32
             per_app:

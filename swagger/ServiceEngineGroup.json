@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.10", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -401,10 +409,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -846,10 +862,21 @@
                     "type": "boolean", 
                     "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 }, 
+                "free_list_size": {
+                    "default": 1024, 
+                    "type": "integer", 
+                    "description": "Number of entries in the free list. Field introduced in 17.2.10.", 
+                    "format": "int32"
+                }, 
                 "disk_per_se": {
                     "default": 10, 
                     "type": "integer", 
                     "description": "Amount of disk space for each of the Service Engine virtual machines. Units(GB).", 
+                    "format": "int32"
+                }, 
+                "pcap_reinit_frequency": {
+                    "type": "integer", 
+                    "description": "Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.10.", 
                     "format": "int32"
                 }, 
                 "se_tunnel_mode": {
@@ -967,10 +994,9 @@
                     "description": "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
                     "format": "int32"
                 }, 
-                "os_reserved_memory": {
-                    "type": "integer", 
-                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
-                    "format": "int32"
+                "enable_multi_lb": {
+                    "type": "boolean", 
+                    "description": "Applicable to Azure platform only. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10."
                 }, 
                 "enable_routing": {
                     "type": "boolean", 
@@ -985,6 +1011,11 @@
                     "default": 1, 
                     "type": "integer", 
                     "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
+                    "format": "int32"
+                }, 
+                "pcap_reinit_threshold": {
+                    "type": "integer", 
+                    "description": "Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10.", 
                     "format": "int32"
                 }, 
                 "per_app": {
@@ -1239,6 +1270,11 @@
                     "type": "number", 
                     "description": "Multiplier for extra config to support large VS/Pool config.", 
                     "format": "double"
+                }, 
+                "os_reserved_memory": {
+                    "type": "integer", 
+                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Units(MB).", 
+                    "format": "int32"
                 }, 
                 "async_ssl_threads": {
                     "default": 1, 
