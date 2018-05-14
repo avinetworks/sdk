@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  ##Examples## - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 17.2.10</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -237,7 +237,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -283,6 +285,7 @@ font-style: italic;
     "active_standby" : true,
     "max_scaleout_per_vs" : 123,
     "min_scaleout_per_vs" : 123,
+    "enable_multi_lb" : true,
     "os_reserved_memory" : 123,
     "vcenter_clusters" : {
       "include" : true,
@@ -306,6 +309,7 @@ font-style: italic;
     "se_tunnel_udp_port" : 123,
     "ingress_access_data" : "aeiou",
     "auto_rebalance" : true,
+    "pcap_reinit_frequency" : 123,
     "ha_mode" : "aeiou",
     "se_sb_dedicated_core" : true,
     "disable_tso" : true,
@@ -328,6 +332,7 @@ font-style: italic;
     "openstack_mgmt_network_uuid" : "aeiou",
     "per_app" : true,
     "vcenter_folder" : "aeiou",
+    "pcap_reinit_threshold" : 123,
     "algo" : "aeiou",
     "ingress_access_mgmt" : "aeiou",
     "ignore_rtt_threshold" : 123,
@@ -360,6 +365,7 @@ font-style: italic;
     "auto_redistribute_active_standby_load" : true,
     "name" : "aeiou",
     "custom_securitygroups_data" : [ "aeiou" ],
+    "free_list_size" : 123,
     "min_cpu_usage" : 123,
     "iptables" : [ {
       "chain" : "aeiou",
@@ -496,6 +502,7 @@ font-style: italic;
   "active_standby" : true,
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
   "vcenter_clusters" : {
     "include" : true,
@@ -519,6 +526,7 @@ font-style: italic;
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
+  "pcap_reinit_frequency" : 123,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
@@ -541,6 +549,7 @@ font-style: italic;
   "openstack_mgmt_network_uuid" : "aeiou",
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "pcap_reinit_threshold" : 123,
   "algo" : "aeiou",
   "ingress_access_mgmt" : "aeiou",
   "ignore_rtt_threshold" : 123,
@@ -573,6 +582,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
@@ -796,7 +806,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -836,6 +848,7 @@ font-style: italic;
   "active_standby" : true,
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
   "vcenter_clusters" : {
     "include" : true,
@@ -859,6 +872,7 @@ font-style: italic;
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
+  "pcap_reinit_frequency" : 123,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
@@ -881,6 +895,7 @@ font-style: italic;
   "openstack_mgmt_network_uuid" : "aeiou",
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "pcap_reinit_threshold" : 123,
   "algo" : "aeiou",
   "ingress_access_mgmt" : "aeiou",
   "ignore_rtt_threshold" : 123,
@@ -913,6 +928,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
@@ -1060,6 +1076,7 @@ font-style: italic;
   "active_standby" : true,
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
   "vcenter_clusters" : {
     "include" : true,
@@ -1083,6 +1100,7 @@ font-style: italic;
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
+  "pcap_reinit_frequency" : 123,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
@@ -1105,6 +1123,7 @@ font-style: italic;
   "openstack_mgmt_network_uuid" : "aeiou",
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "pcap_reinit_threshold" : 123,
   "algo" : "aeiou",
   "ingress_access_mgmt" : "aeiou",
   "ignore_rtt_threshold" : 123,
@@ -1137,6 +1156,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
@@ -1284,6 +1304,7 @@ font-style: italic;
   "active_standby" : true,
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
   "vcenter_clusters" : {
     "include" : true,
@@ -1307,6 +1328,7 @@ font-style: italic;
   "se_tunnel_udp_port" : 123,
   "ingress_access_data" : "aeiou",
   "auto_rebalance" : true,
+  "pcap_reinit_frequency" : 123,
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
@@ -1329,6 +1351,7 @@ font-style: italic;
   "openstack_mgmt_network_uuid" : "aeiou",
   "per_app" : true,
   "vcenter_folder" : "aeiou",
+  "pcap_reinit_threshold" : 123,
   "algo" : "aeiou",
   "ingress_access_mgmt" : "aeiou",
   "ignore_rtt_threshold" : 123,
@@ -1361,6 +1384,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
     "chain" : "aeiou",
@@ -1678,6 +1702,7 @@ font-style: italic;
 <div class="param">distribute_load_active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. </div>
 <div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8. </div>
 <div class="param">enable_hsm_priming (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7. </div>
+<div class="param">enable_multi_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable to Azure platform only. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10. </div>
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing for this ServiceEngineGroup . </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of SE. Field introduced in 17.1.1. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. </div>
@@ -1686,6 +1711,7 @@ font-style: italic;
 <div class="param">floating_intf_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. </div>
 <div class="param">floating_intf_ip_se_2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. </div>
 <div class="param">flow_table_new_syn_max_entries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5. format: int32</div>
+<div class="param">free_list_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of entries in the free list. Field introduced in 17.2.10. format: int32</div>
 <div class="param">ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
 <div class="param">hardwaresecuritymodulegroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type HardwareSecurityModuleGroup. </div>
 <div class="param">hm_on_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable active health monitoring from the standby SE for all placed virtual services. </div>
@@ -1719,7 +1745,9 @@ font-style: italic;
 <div class="param">openstack_availability_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">openstack_mgmt_network_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
 <div class="param">openstack_mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
-<div class="param">os_reserved_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of extra memory to be reserved for use by the Operating System on a Service Engine. format: int32</div>
+<div class="param">os_reserved_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Units(MB). format: int32</div>
+<div class="param">pcap_reinit_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- &#39;disable&#39;. Field introduced in 17.2.10. format: int32</div>
+<div class="param">pcap_reinit_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10. format: int32</div>
 <div class="param">per_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. </div>
 <div class="param">placement_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If placement mode is &#39;Auto&#39;, Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO. </div>
 <div class="param">realtime_se_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Enable or disable real time SE metrics. </div>

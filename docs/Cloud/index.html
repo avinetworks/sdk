@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 17.2.10</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -243,7 +243,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -268,6 +270,7 @@ font-style: italic;
       "apic_vendor" : "aeiou",
       "avi_controller_username" : "aeiou",
       "minor" : "aeiou",
+      "se_tunnel_mode" : true,
       "context_aware" : "aeiou",
       "apic_domain" : "aeiou",
       "apic_product" : "aeiou",
@@ -293,6 +296,7 @@ font-style: italic;
       },
       "secret_access_key" : "aeiou",
       "vpc" : "aeiou",
+      "publish_vip_to_public_zone" : true,
       "zones" : [ {
         "availability_zone" : "aeiou",
         "mgmt_network_name" : "aeiou",
@@ -775,6 +779,7 @@ font-style: italic;
     "apic_vendor" : "aeiou",
     "avi_controller_username" : "aeiou",
     "minor" : "aeiou",
+    "se_tunnel_mode" : true,
     "context_aware" : "aeiou",
     "apic_domain" : "aeiou",
     "apic_product" : "aeiou",
@@ -800,6 +805,7 @@ font-style: italic;
     },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
+    "publish_vip_to_public_zone" : true,
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
@@ -1490,7 +1496,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1513,6 +1521,7 @@ font-style: italic;
     "apic_vendor" : "aeiou",
     "avi_controller_username" : "aeiou",
     "minor" : "aeiou",
+    "se_tunnel_mode" : true,
     "context_aware" : "aeiou",
     "apic_domain" : "aeiou",
     "apic_product" : "aeiou",
@@ -1538,6 +1547,7 @@ font-style: italic;
     },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
+    "publish_vip_to_public_zone" : true,
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
@@ -2135,6 +2145,7 @@ font-style: italic;
     "apic_vendor" : "aeiou",
     "avi_controller_username" : "aeiou",
     "minor" : "aeiou",
+    "se_tunnel_mode" : true,
     "context_aware" : "aeiou",
     "apic_domain" : "aeiou",
     "apic_product" : "aeiou",
@@ -2160,6 +2171,7 @@ font-style: italic;
     },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
+    "publish_vip_to_public_zone" : true,
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
@@ -2601,6 +2613,7 @@ font-style: italic;
     "apic_vendor" : "aeiou",
     "avi_controller_username" : "aeiou",
     "minor" : "aeiou",
+    "se_tunnel_mode" : true,
     "context_aware" : "aeiou",
     "apic_domain" : "aeiou",
     "apic_product" : "aeiou",
@@ -2626,6 +2639,7 @@ font-style: italic;
     },
     "secret_access_key" : "aeiou",
     "vpc" : "aeiou",
+    "publish_vip_to_public_zone" : true,
     "zones" : [ {
       "availability_zone" : "aeiou",
       "mgmt_network_name" : "aeiou",
@@ -3120,16 +3134,17 @@ font-style: italic;
 <div class="param">apic_domain (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vCenter&#39;s virtual machine manager domain within APIC. </div>
 <div class="param">apic_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> The hostname or IP address of the APIC controller. </div>
 <div class="param">apic_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password Avi Vantage will use when authenticating with APIC. </div>
-<div class="param">apic_product (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_product of APICConfiguration. </div>
+<div class="param">apic_product (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 17.2.9,18.1.1. </div>
 <div class="param">apic_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username Avi Vantage will use when authenticating with APIC. </div>
-<div class="param">apic_vendor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_vendor of APICConfiguration. </div>
-<div class="param">avi_controller_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password APIC will use when authenticating with Avi Vantage. </div>
-<div class="param">avi_controller_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username APIC will use when authenticating with Avi Vantage. </div>
+<div class="param">apic_vendor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 17.2.9,18.1.1. </div>
+<div class="param">avi_controller_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1. </div>
+<div class="param">avi_controller_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.9,18.1.1. </div>
 <div class="param">context_aware (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Context aware for supporting Service Graphs across VRFs. Enum options - SINGLE_CONTEXT, MULTI_CONTEXT. </div>
-<div class="param">deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> deployment of APICConfiguration. </div>
-<div class="param">managed_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1. </div>
-<div class="param">minor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Minor Version. </div>
-<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Version. </div>
+<div class="param">deployment (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 17.2.9,18.1.1. </div>
+<div class="param">managed_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Managed Mode for APIC Service Insertion. Field deprecated in 17.2.9,18.1.1. Field introduced in 17.1.1. </div>
+<div class="param">minor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Minor Version. Field deprecated in 17.2.9,18.1.1. </div>
+<div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Determines if DSR from secondary SE is active or not  False  Automatically determine based on hypervisor type. True  Disable DSR unconditionally. . Field introduced in 17.2.10. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AVI Device Package Version. Field deprecated in 17.2.9,18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3140,6 +3155,7 @@ font-style: italic;
 <div class="param">ebs_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3. </div>
 <div class="param">free_elasticips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused elastic IP addresses. </div>
 <div class="param">iam_assume_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IAM assume role for cross-account access. </div>
+<div class="param">publish_vip_to_public_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10. </div>
 <div class="param">region (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS region. </div>
 <div class="param">route53_integration (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, create/update DNS entries in Amazon Route 53 zones. </div>
 <div class="param">s3_encryption (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsEncryption">AwsEncryption</a></span> S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3. </div>
@@ -3521,7 +3537,7 @@ font-style: italic;
 <div class="param">img_format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If OS_IMG_FMT_RAW, use RAW images else use QCOW2 or streamOptimized/flat VMDK as appropriate. . Enum options - OS_IMG_FMT_AUTO, OS_IMG_FMT_QCOW2, OS_IMG_FMT_VMDK, OS_IMG_FMT_RAW, OS_IMG_FMT_FLAT. </div>
 <div class="param">import_keystone_tenants (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Import keystone tenants list into Avi. </div>
 <div class="param">insecure (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow self-signed certificates when communicating with https service endpoints. </div>
-<div class="param">intf_sec_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, interface-secondary-ips method will be used for VIP association. </div>
+<div class="param">intf_sec_ips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, interface-secondary-ips method will be used for VIP association. This option is deprecated and will not be supported in future. </div>
 <div class="param">keystone_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Keystone&#39;s hostname or IP address. (Deprecated) Use auth_url instead. </div>
 <div class="param">map_admin_to_cloudadmin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, map Avi &#39;admin&#39; tenant to the admin_tenant of the Cloud. Else map Avi &#39;admin&#39; to OpenStack &#39;admin&#39; tenant. </div>
 <div class="param">mgmt_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name or cidr. </div>
