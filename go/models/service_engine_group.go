@@ -97,6 +97,9 @@ type ServiceEngineGroup struct {
 	// (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7.
 	EnableHsmPriming bool `json:"enable_hsm_priming,omitempty"`
 
+	// Applicable to Azure platform only. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10.
+	EnableMultiLb bool `json:"enable_multi_lb,omitempty"`
+
 	// Enable routing for this ServiceEngineGroup .
 	EnableRouting bool `json:"enable_routing,omitempty"`
 
@@ -120,6 +123,9 @@ type ServiceEngineGroup struct {
 
 	// Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.
 	FlowTableNewSynMaxEntries int32 `json:"flow_table_new_syn_max_entries,omitempty"`
+
+	// Number of entries in the free list. Field introduced in 17.2.10.
+	FreeListSize int32 `json:"free_list_size,omitempty"`
 
 	// High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.
 	HaMode string `json:"ha_mode,omitempty"`
@@ -221,8 +227,14 @@ type ServiceEngineGroup struct {
 	// Management network UUID.
 	OpenstackMgmtNetworkUUID string `json:"openstack_mgmt_network_uuid,omitempty"`
 
-	// Amount of extra memory to be reserved for use by the Operating System on a Service Engine.
+	// Amount of extra memory to be reserved for use by the Operating System on a Service Engine. Units(MB).
 	OsReservedMemory int32 `json:"os_reserved_memory,omitempty"`
+
+	// Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.10.
+	PcapReinitFrequency int32 `json:"pcap_reinit_frequency,omitempty"`
+
+	// Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10.
+	PcapReinitThreshold int32 `json:"pcap_reinit_threshold,omitempty"`
 
 	// Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.
 	PerApp bool `json:"per_app,omitempty"`

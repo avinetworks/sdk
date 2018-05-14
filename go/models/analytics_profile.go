@@ -206,6 +206,9 @@ type AnalyticsProfile struct {
 	// Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX.
 	RespCodeBlock []string `json:"resp_code_block,omitempty"`
 
+	// Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10.
+	SensitiveLogProfile *SensitiveLogProfile `json:"sensitive_log_profile,omitempty"`
+
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 

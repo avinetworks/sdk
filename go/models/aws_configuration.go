@@ -22,6 +22,9 @@ type AwsConfiguration struct {
 	// IAM assume role for cross-account access.
 	IamAssumeRole string `json:"iam_assume_role,omitempty"`
 
+	// If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10.
+	PublishVipToPublicZone bool `json:"publish_vip_to_public_zone,omitempty"`
+
 	// AWS region.
 	Region string `json:"region,omitempty"`
 

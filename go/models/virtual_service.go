@@ -262,6 +262,9 @@ type VirtualService struct {
 	// Datascripts applied on the data traffic of the Virtual Service.
 	VsDatascripts []*VSDataScripts `json:"vs_datascripts,omitempty"`
 
+	// Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9.
+	VsvipCloudConfigCksum string `json:"vsvip_cloud_config_cksum,omitempty"`
+
 	// Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1.
 	VsvipRef string `json:"vsvip_ref,omitempty"`
 

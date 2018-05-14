@@ -14,7 +14,7 @@ type VsSeVnic struct {
 	// Required: true
 	Mac string `json:"mac"`
 
-	//  Enum options - VNIC_TYPE_FE, VNIC_TYPE_BE, VNIC_TYPE_INT_PRIMARY, VNIC_TYPE_INT_SECONDARY, VNIC_TYPE_INT.
+	//  Enum options - VNIC_TYPE_FE, VNIC_TYPE_BE.
 	// Required: true
 	Type string `json:"type"`
 }

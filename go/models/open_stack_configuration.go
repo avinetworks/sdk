@@ -53,7 +53,7 @@ type OpenStackConfiguration struct {
 	// Allow self-signed certificates when communicating with https service endpoints.
 	Insecure bool `json:"insecure,omitempty"`
 
-	// If True, interface-secondary-ips method will be used for VIP association.
+	// If True, interface-secondary-ips method will be used for VIP association. This option is deprecated and will not be supported in future.
 	IntfSecIps bool `json:"intf_sec_ips,omitempty"`
 
 	// Keystone's hostname or IP address. (Deprecated) Use auth_url instead.

@@ -28,6 +28,9 @@ type EventDetails struct {
 	// Placeholder for description of property avg_uptime_change_details of obj type EventDetails field type str  type object
 	AvgUptimeChangeDetails *AvgUptimeChangeDetails `json:"avg_uptime_change_details,omitempty"`
 
+	//  Field introduced in 17.2.10.
+	AwsAsgDeletionDetails *AWSASGDelete `json:"aws_asg_deletion_details,omitempty"`
+
 	// Placeholder for description of property aws_asg_notif_details of obj type EventDetails field type str  type object
 	AwsAsgNotifDetails *AWSASGNotifDetails `json:"aws_asg_notif_details,omitempty"`
 
@@ -336,6 +339,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property se_vnic_tx_queue_stall_event_details of obj type EventDetails field type str  type object
 	SeVnicTxQueueStallEventDetails *SeVnicTxQueueStallEventDetails `json:"se_vnic_tx_queue_stall_event_details,omitempty"`
+
+	// Placeholder for description of property se_vnic_up_event_details of obj type EventDetails field type str  type object
+	SeVnicUpEventDetails *SeVnicUpEventDetails `json:"se_vnic_up_event_details,omitempty"`
 
 	// Placeholder for description of property semigrate_event_details of obj type EventDetails field type str  type object
 	SemigrateEventDetails *SeMigrateEventDetails `json:"semigrate_event_details,omitempty"`

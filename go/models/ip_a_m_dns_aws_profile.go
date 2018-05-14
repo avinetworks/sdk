@@ -13,6 +13,9 @@ type IPAMDNSAwsProfile struct {
 	// IAM assume role for cross-account access. Field introduced in 17.1.1.
 	IamAssumeRole string `json:"iam_assume_role,omitempty"`
 
+	// If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10.
+	PublishVipToPublicZone bool `json:"publish_vip_to_public_zone,omitempty"`
+
 	// AWS region.
 	Region string `json:"region,omitempty"`
 
