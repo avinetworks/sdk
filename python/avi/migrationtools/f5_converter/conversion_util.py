@@ -2200,7 +2200,12 @@ class F5Util(MigrationUtil):
         :return:
         """
         tmplist = []
-        obj_name = obj.get('name', obj.get('hostname'))
+
+        if isinstance(obj, str) and obj.startswith('Duplicate of'):
+            obj_name = None
+            LOG.debug("Object has merged: %s" % obj)
+        else:
+            obj_name = obj.get('name', obj.get('hostname'))
         if obj_name:
             if avi_graph.has_node(obj_name):
                 LOG.debug("Checked predecessor for %s", obj_name)
