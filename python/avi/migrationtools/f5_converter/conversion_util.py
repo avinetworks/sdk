@@ -2314,7 +2314,7 @@ class F5Util(MigrationUtil):
                     policy_name = '%s-%s-%s' % (prefix, rule, vs_name)
                 else:
                     policy_name = '%s-%s' % (rule, vs_name)
-                policy = conv_const.HTTP_TO_HTTPS_REDIRECT_POL
+                policy = copy.deepcopy(conv_const.HTTP_TO_HTTPS_REDIRECT_POL)
                 policy["name"] = policy_name
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 req_policies.append(policy_name)
