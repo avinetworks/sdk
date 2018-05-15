@@ -120,13 +120,14 @@ class NetscalerConverter(AviConverter):
         vs_name_dict = dict()
         vs_name_dict['csvs'] = dict()
         vs_name_dict['lbvs'] = dict()
-        avi_config = ns_conf_converter.convert(meta, ns_config, self.tenant,
-                                               self.cloud_name, self.controller_version, output_dir,
-                                               input_dir, skipped_cmds, self.vs_state,
-                                               self.object_merge_check, report_name, self.prefix,
-                                               vs_name_dict, self.profile_path, self.redirect,
-                                               self.ns_passphrase_file, user_ignore, self.vs_level_status,
-                                               self.vrf, self.segroup)
+        avi_config = ns_conf_converter.convert(
+            meta, ns_config, self.tenant, self.cloud_name,
+            self.controller_version, output_dir, input_dir, skipped_cmds,
+            self.vs_state, self.object_merge_check, report_name, self.prefix,
+            vs_name_dict, self.profile_path, self.redirect,
+            self.ns_passphrase_file, user_ignore, self.vs_level_status,
+            self.vrf, self.segroup)
+
         avi_config = self.process_for_utils(
             avi_config)
         # Check if flag true then skip not in use object
@@ -185,6 +186,62 @@ if __name__ == "__main__":
         
         Example to patch the config after conversion:
           netscaler_converter.py -f ns.conf --patch test/patch.yaml
+          where patch.yaml file contains
+          <avi_object example Pool>:
+           - match_name: <existing name example p1>
+             patch:
+               name: <changed name example coolpool>
+         
+        Example to add the prefix to avi object name:
+          netscaler_converter.py -f ns.conf --prefix abc
+        Usecase: When two configuration is to be uploaded to same controller 
+                 then in order to differentiate between the objects that will
+                 be uploaded in second time.
+        
+        Example to use no object merge option:
+          netscaler_converter.py -f ns.conf --no_object_merge
+        Usecase: When we don't need to merge two same object (based on their
+                 attribute values except name)
+         
+        Example to use redirect option:
+          netscaler_converter.py -f ns.conf --redirect
+        Usecase: If a http VS has no pool assigned to it but has redirect to 
+                 https VS
+          
+        Example to use ansible option:
+          netscaler_converter.py -f ns.conf --ansible
+        Usecase: To generate the ansible playbook for the avi configuration
+                 which can be used for upload to controller
+          
+        Example to use vs level status option:
+          netscaler_converter.py -f ns.conf --vs_level_status
+        Usecase: To get the vs level status for the avi objects in excel sheet
+         
+        Example to use ignore config option:
+          netscaler_converter.py -f ns.conf --ignore_config
+        Usecase: The attributes mentioned in ignore_config.yaml will appear in 
+                 ignore column in excel sheet instead of skip.
+                 It will need an ignore_config.yaml file like below
+                 in the input directory defined by user
+                 <object example monitor>:
+                     <property example https>:
+                     - <attribute example 'destination'>
+        Example to use not_in_use option:
+          netscaler_converter.py -f ns.conf --not_in_use
+        Usecase: Dangling object which are not referenced by any avi object
+                 will be removed.
+                 
+        Example to use -s or --vs_state option:
+          netsacaler_converter.py -f ns.conf -s <enable or disable>
+        Usecase: To enable a VS after conversion to AVI.
+           
+        Example to use --controller_version option:
+          netscaler_converter.py -f ns.conf --controller_version <17.2.3>
+        Usecase: To provide the version of controller.
+
+        Example to use segroup flag
+            netscalar_converter.py -f ns.conf --segroup segroup_name
+        UseCase: To add / Change segroup reference of vs
 
         Example to use segroup flag 
             netscalar_converter.py -f ns.conf --segroup segroup_name
@@ -192,12 +249,13 @@ if __name__ == "__main__":
 
         Example to use vrf flag
             netscalar_converter.py -f ns.conf --vrf vrf_name
-        UseCase: Change all the vrf reference in the configuration while conversion
+        UseCase: Change all the vrf reference in the configuration while 
+        conversion
         '''
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        description=(HELP_STR))
+        description=HELP_STR)
 
     # Ansible tags
     parser.add_argument('--ansible', help='Flag for create ansible file',
