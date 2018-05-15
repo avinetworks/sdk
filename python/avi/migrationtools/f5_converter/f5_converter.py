@@ -307,35 +307,124 @@ class F5Converter(AviConverter):
 if __name__ == "__main__":
 
     HELP_STR = '''
-    Converts F5 Config to Avi config.
-    Example: to convert bigip conf file avi config json
-        f5_converter.py -f  bigip.conf
+    Converts F5 Config to avi config.
+    Example to convert F5 config file to avi config json:
+         f5_converter.py -f bigip.conf
 
-    Example to export a single VS:
-        f5_converter.py -f  bigip.conf --vs_filter cool_vs
+    Example to skip default file in f5:
+          f5_converter.py -f bigip.conf --skip_default_file
+    Usecase: To skip default profile and monitor configuration
 
-    Example to restrict duplicate profiles to merge
-        f5_converter.py -f  bigip.conf --no_profile_merge
+    Example to f5_config_version
+       f5_converter.py -f bigip.conf -v 10
 
-    Example to download config from F5 host and convert to avi config:
-        f5_converter.py --f5_host_ip "1.1.1.1" --f5_ssh_user
-        "username" --f5_ssh_password "password"
+    Example to download config from f5 host and convert to avi config:
+         f5_converter.py --f5_host_ip "1.1.1.1" --f5_ssh_user
+         username --f5_ssh_password password
 
     Example to auto upload to controller after conversion:
-            f5_converter.py -f  bigip.conf -O auto-upload -c 2.2.2.2 -u
-            username -p password -t tenant
-            
+        f5_converter.py -f bigip.conf -O auto-upload -c 2.2.2.2 -u
+        username -p password -t tenant
+
+    Example to use -s or --vs_state option:
+        f5_converter.py -f bigip.conf -s enable
+    Usecase: To enable a VS after conversion to AVI (default value is disable).
+
+    Example to use input file for certs and key
+        f5_converter.py -f bigip.conf -l /home/username
+
+    Example to use --controller_version option:
+     f5_converter.py -f bigip.conf --controller_version <17.2.3>
+    Usecase: To provide the version of controller for getting output in
+    respective controller format.
+
+    Example to use ignore config option:
+         f5_converter.py -f bigip.conf --ignore_config
+    Usecase: The attributes mentioned in ignore_config.yaml will appear in
+    ignore column in excel sheet instead of skip. It will need an ignore_config.yaml
+    file in the input directory defined by user
+    <object example monitor>:
+        <property example https>:
+        - <attribute example 'destination'>
+
+    Example to use --partition_config option:
+       f5_converter.py -f bigip.conf --partition_config /home/username/abc.txt
+    Usecase: When auto-download option enable. It download the files from
+    different f5 partitions with comma separated path provided with partition
+    config option.
+
+    Example to use no object merge option:
+        f5_converter.py -f bigip.conf --no_object_merge
+    Usecase: When we don't need to merge two same object (based on their
+     attribute values except name)
+
     Example to patch the config after conversion:
-        f5_converter.py -f bigip.conf --patch test/patch.yaml
+       f5_converter.py -f bigip.conf --patch test/patch.yaml
+       where patch.yaml file contains
+       <avi_object example Pool>:
+        - match_name: <existing name example p1>
+       patch:
+        name: <changed name example coolpool>
+
+    Example to export a single VS:
+         f5_converter.py -f bigip.conf --vs_filter cool_vs
+
+    Example to skip avi object during playbook creation
+         f5_converter.py -f bigip.conf  --ansible --ansible_skip_types DebugController
+    Usecase:
+         Comma separated list of Avi Object types to skip during conversion.
+         Eg. DebugController, ServiceEngineGroup will skip debugcontroller and
+         serviceengine objects
+
+    Example to filter ansible object
+         f5_converter.py -f bigip.conf  --ansible --ansible_filter_types
+         virtualservice, pool
+    Usecase:
+        Comma separated list of Avi Objects types to include during conversion.
+        Eg. VirtualService , Pool will do ansible conversion only for
+        Virtualservice and Pool objects
 
     Example to use ansible option:
         f5_converter.py -f bigip.conf --ansible
+    Usecase: To generate the ansible playbook for the avi configuration
+    which can be used for upload to controller
+
+    Example to add the prefix to avi object name:
+        f5_converter.py -f bigip.conf --prefix abc
+    Usecase: When two configuration is to be uploaded to same controller then
+     in order to differentiate between the objects that will be uploaded in
+     second time.
+
+    Example to convert snatpool into individual address
+     f5_converter.py -f bigip.conf --convertsnat
+    Usecase:
+        Flag to enable Source Network Address Translation in avi.
+
+    Example to use not_in_use option:
+        f5_converter.py -f bigip.conf --not_in_use
+    Usecase: Dangling object which are not referenced by any avi object will be removed
+
+    Example to provide baseline json file absolute location:
+        f5_converter.py -f bigip.conf --baseline_profile
+        /home/<'sys_conf.json' or 'bigip-Output.json'>
+     Usecase: Need to merge objects if there is migration of two
+     f5 instances/box to single controller.
+
+    Example to provide passpharse of encrypted certs and certkey file location
+         f5_converter.py -f bigip.conf -l /home/certs/
+         --f5_passphrase_file passphrase.yaml
+         passphrase.yaml file contains
+          <file_name>:<passphrase>
+          <file_name2>:<passphrase2>
+          Example:
+            mcqcim.key: ZcZawJ7ps0AJ+5TMDi7UA==
+            avi_key.pem : foobar
 
     Example to use vs level status option:
         f5_converter.py -f bigip.conf --vs_level_status
     Usecase: To get the vs level status for the avi objects in excel sheet
-
-    Example to use segroup flag 
+    
+    Example to use segroup flag
         f5_converter.py -f ns.conf --segroup segroup_name
     UseCase: To add / Change segroup reference of vs
 

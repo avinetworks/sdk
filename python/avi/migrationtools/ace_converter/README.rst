@@ -1,4 +1,26 @@
-# Ace Converter
+Avi Ace Config Converter
+==============================
+
+`Avi Ace Config Converter  <https://github.com/avinetworks/sdk/releases/tag/latest>`_
+is a Python Package that can convert Ace configurations into Avi Configurations.
+
+Ace converter takes input as Ace configuration outputs Avi configuration in JSON
+format which can be uploaded to Avi Vantage Controller for migrating
+applications and settings.
+
+Upon successful run the converter outputs the results in **ouput** directory
+with following contents:
+
+- **ConversionStatus.xlsx**: Status of the conversion. It is a Excel file with
+  each row representing Ace configuration object and its migration status and
+  corresponding Avi configuration.
+
+- **Output.json**: This is ouput of the migrated configuration in Avi Vantage
+  configuration JSON format. This configuration can be uploaded to the Avi
+  Vantage controller.
+
+- **converter.log**: This is troubleshooting log for Ace Converter useful for
+  debugging and logging purpose.
 
 Usage Examples
 --------------
@@ -11,7 +33,6 @@ usage: ace_converter.py [-h] [-f INPUT_FILE] [-o OUTPUT_LOC]
                         [--cloud_name CLOUD_NAME] [--ansible] [--patch PATCH]
                         [--vs_filter VS_FILTER] [--version]
                         [--vrf_name VRF_NAME]
-```
 
 Converts Ace config to avi config
 
@@ -68,3 +89,4 @@ Usage:
                             comma seperated names of virtualservices
     --version             Print product version and exit
     --vrf_name VRF_NAME   Attach the vrf reference to pool and vs
+
