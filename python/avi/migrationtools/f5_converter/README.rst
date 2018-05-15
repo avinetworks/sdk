@@ -17,7 +17,7 @@ There are two ways to input F5 configuration
 Upon successful run the converter outputs the results in **ouput** directory
 with following contents:
 
-- **ConversionStatus.csv**: Status of the conversion. It is a CSV file with
+- **ConversionStatus.xlsx**: Status of the conversion. It is a Excel file with
   each row representing F5 configuration object and its migration status and
   corresponding Avi configuration.
 
@@ -32,11 +32,13 @@ with following contents:
 F5 Object Migration status fields
 ---------------------------------
 
-+-----------+--------+----------+----------+------------+---------+---------+----------+--------+
-| F5 Config | status | skipped  | Indirect | Not        | User    | Skipped | Avi      |        |
-|           |        | settings | mapping  | Applicable | Ignored |         | Defaults | Object |
-+-----------+--------+----------+----------+------------+---------+---------+----------+--------+
-+-----------+--------+----------+----------+------------+---------+---------+----------+--------+
++---------+------------+-------+--------+----------+----------+------------+---------+----------+------------+-----------+----------+--------+
+| F5 Type | F5 SubType | F5 Id | status | skipped  | Indirect | Not        | User    | Skipped  | Complexity | VS        | Overall  | Avi    |
+|         |            |       |        | settings | mapping  | Applicable | Ignored | for      | Level      | Reference | skipped  | Object |
+|         |            |       |        |          |          |            |         | Defaults |            |           | settings |        |
++---------+------------+-------+--------+----------+----------+------------+---------+----------+------------+-----------+----------+--------+
++---------+------------+-------+--------+----------+----------+------------+---------+----------+------------+-----------+----------+--------+
+
 
  - **Status**: Overall status of the migration. If it is "successful"
    implies it was completely migrated to AVI Vantage and admin can expect
@@ -60,7 +62,18 @@ F5 Object Migration status fields
  - **Skipped for defaults**: These settings came from F5 configuration
    defaults. These have been mapped to Avi's default settings.
 
- - **Avi Object**: Converter Avi JSON object.
+ - **Complexity Level**: This column has value only in the rows of VS status to
+   identify if VS is of BASIC or ADVANCED type. If VS has policy or Data-Script
+   then it is considered as ADVANCED VS.
+
+ - **VS Reference**: This column contains list of VS names where the object is
+   referenced (This column appears only if --vs_level_status option is used)
+
+ - **Overall skipped settings**: This column contains list of related objects of
+   the VS and skipped values of those (This column appears only if
+   --vs_level_status option is used)
+
+ - **Avi Object**: Converter Avi JSON object
 
 
 Usage Examples
@@ -70,31 +83,34 @@ Usage Examples
 
    f5_converter.py -h
 
-   usage: f5_converter.py [-h] [-f BIGIP_CONFIG_FILE]
-                          [--skip_default_file][-v F5_CONFIG_VERSION]
-                          [-o OUTPUT_FILE_PATH] [-O option {cli-upload,
-                          auto-upload}][-u USER][-p PASSWORD][--cloud_name]
-                          [-t TENANT] [-c CONTROLLER_IP]
-                          [-s vs_state {enable,disable}] [-l INPUT_FOLDER_LOCATION]
-                          [--f5_host_ip F5_HOST_IP] [--f5_ssh_user F5_SSH_USER]
-                          [--f5_ssh_password F5_SSH_PASSWORD]
-                          [--f5_key_file F5_KEY_FILE]
-                          [--controller_version CONTROLLER_VERSION]
-                          [--ignore_config IGNORE_CONFIG]
-                          [--partition_config PARTITION_CONFIG]
-                          [--version][--no_object_merge][--patch][--vs_filter]
-                          [--ansible_skip_types][--ansible_filter_types
-                          ][--ansible][--prefix][--convertsnat][--not_in_use]
-                          [--baseline_profile][--f5_passphrase_file
-                          ][--vs_level_status]
-
+   usage: f5_converter.py [-h] [--ansible]
+                       [--ansible_skip_types ANSIBLE_SKIP_TYPES]
+                       [--ansible_filter_types ANSIBLE_FILTER_TYPES]
+                       [--baseline_profile BASELINE_PROFILE]
+                       [-c CONTROLLER_IP] [--cloud_name CLOUD_NAME]
+                       [--controller_version CONTROLLER_VERSION]
+                       [--convertsnat] [-f BIGIP_CONFIG_FILE]
+                       [--f5_host_ip F5_HOST_IP] [--f5_key_file F5_KEY_FILE]
+                       [--f5_passphrase_file F5_PASSPHRASE_FILE]
+                       [--f5_ssh_user F5_SSH_USER]
+                       [--f5_ssh_password F5_SSH_PASSWORD]
+                       [--ignore_config IGNORE_CONFIG]
+                       [-l INPUT_FOLDER_LOCATION] [--no_object_merge]
+                       [--not_in_use] [-o OUTPUT_FILE_PATH]
+                       [-O {cli-upload,auto-upload}] [-p PASSWORD]
+                       [--partition_config PARTITION_CONFIG] [--patch PATCH]
+                       [--prefix PREFIX] [-r RULE_CONFIG]
+                       [--skip_default_file] [-s {enable,disable}]
+                       [--segroup SEGROUP] [-t TENANT] [--test_vip TEST_VIP]
+                       [-u USER] [-v F5_CONFIG_VERSION] [--version]
+                       [--vrf VRF] [--vs_filter VS_FILTER] [--vs_level_status]
 
     Converts F5 Config to avi config.
     Example to convert F5 config file to avi config json:
          f5_converter.py -f bigip.conf
 
     Example to skip default file in f5:
-          f5_converter.py -f bigip.conf --skip_default_file True
+          f5_converter.py -f bigip.conf --skip_default_file
     Usecase: To skip default profile and monitor configuration
 
     Example to f5_config_version
@@ -206,65 +222,75 @@ Usage Examples
         f5_converter.py -f bigip.conf --vs_level_status
     Usecase: To get the vs level status for the avi objects in excel sheet
 
+    Example to use segroup flag
+        f5_converter.py -f ns.conf --segroup segroup_name
+    UseCase: To add / Change segroup reference of vs
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -f BIGIP_CONFIG_FILE, --bigip_config_file BIGIP_CONFIG_FILE
-                            absolute path for F5 config file
-      --skip_default_file Flag for skip default file
-      -v F5_CONFIG_VERSION, --f5_config_version F5_CONFIG_VERSION
-                            version of f5 config file
-      -o OUTPUT_FILE_PATH, --output_file_path OUTPUT_FILE_PATH
-                            Folder path for output files to be created in
-      -O {cli-upload,auto-upload}, --option {cli-upload,auto-upload}
-                            Upload option cli-upload genarates Avi config file
-                            auto upload will upload config to controller
-      -u USER, --user USER  controller username for auto upload
-      -p PASSWORD, --password PASSWORD
-                            controller password for auto upload
-      --cloud_name          cloud name for auto upload
-      -t TENANT, --tenant TENANT
-                            tenant name for auto upload
-      -c CONTROLLER_IP, --controller_ip CONTROLLER_IP
-                            controller ip for auto upload
-      -s {enable,disable}, --vs_state {enable,disable}
-                            state of VS created
-      -l INPUT_FOLDER_LOCATION, --input_folder_location INPUT_FOLDER_LOCATION
-                            location of input files like cert files external
-                            monitor scripts
-      --f5_host_ip F5_HOST_IP
-                            host ip of f5 instance
-      --f5_ssh_user F5_SSH_USER
-                            f5 host ssh username
-      --f5_ssh_password F5_SSH_PASSWORD
-                            f5 host ssh password if password based authentication
-      --f5_key_file F5_KEY_FILE
-                            f5 host key file location if key based authentication
-      --controller_version CONTROLLER_VERSION
-                            Target Avi controller version
-      --ignore_config IGNORE_CONFIG
-                            config json to skip the config in conversion
-      --partition_config PARTITION_CONFIG
-                            comma separated partition config files
-      --version             Print product version and exit
-      --no_object_merge     Flag for object merge
-      --patch PATCH         Run config_patch please provide location of patch.yaml
-      --vs_filter VS_FILTER
-                        comma seperated names of virtualservices
-      --ansible_skip_types ANSIBLE_SKIP_TYPES
+    Example to use vrf flag
+        f5_converter.py -f ns.conf --vrf vrf_name
+    UseCase: Change all the vrf reference in the configuration while conversion
+
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --ansible             Flag for create ansible file
+  --ansible_skip_types ANSIBLE_SKIP_TYPES
                         Comma separated list of Avi Object types to skip during conversion.
                           Eg. -s DebugController,ServiceEngineGroup will skip debugcontroller and serviceengine objects
-      --ansible_filter_types ANSIBLE_FILTER_TYPES
+  --ansible_filter_types ANSIBLE_FILTER_TYPES
                         Comma separated list of Avi Objects types to include during conversion.
                          Eg. -f VirtualService, Pool will do ansible conversion only for Virtualservice and Pool objects
-      --ansible             Flag for create ansible file
-      --prefix PREFIX       Prefix for objects
-      --convertsnat         Flag for converting snatpool into individual addresses
-      --not_in_use          Flag for skipping not in use object
-      --baseline_profile BASELINE_PROFILE
+  --baseline_profile BASELINE_PROFILE
                         asolute path for json file containing baseline profiles
-      --f5_passphrase_file F5_PASSPHRASE_FILE
+  -c CONTROLLER_IP, --controller_ip CONTROLLER_IP
+                        controller ip for auto upload
+  --cloud_name CLOUD_NAME
+                        cloud name for auto upload
+  --controller_version CONTROLLER_VERSION
+                        Target Avi controller version
+  --convertsnat         Flag for converting snatpool into individual addresses
+  -f BIGIP_CONFIG_FILE, --bigip_config_file BIGIP_CONFIG_FILE
+                        absolute path for F5 config file
+  --f5_host_ip F5_HOST_IP
+                        host ip of f5 instance
+  --f5_key_file F5_KEY_FILE
+                        f5 host key file location if key based authentication
+  --f5_passphrase_file F5_PASSPHRASE_FILE
                         F5 key passphrase yaml file path
-      --vs_level_status
-                        Add columns of vs reference and overall
-                        skipped settings in status excel sheet
+  --f5_ssh_user F5_SSH_USER
+                        f5 host ssh username
+  --f5_ssh_password F5_SSH_PASSWORD
+                        f5 host ssh password if password based authentication
+  --ignore_config IGNORE_CONFIG
+                        config json to skip the config in conversion
+  -l INPUT_FOLDER_LOCATION, --input_folder_location INPUT_FOLDER_LOCATION
+                        location of input files like cert files external monitor scripts
+  --no_object_merge     Flag for object merge
+  --not_in_use          Flag for skipping not in use object
+  -o OUTPUT_FILE_PATH, --output_file_path OUTPUT_FILE_PATH
+                        Folder path for output files to be created in
+  -O {cli-upload,auto-upload}, --option {cli-upload,auto-upload}
+                        Upload option cli-upload genarates Avi config file auto upload will upload config to controller
+  -p PASSWORD, --password PASSWORD
+                        controller password for auto upload
+  --partition_config PARTITION_CONFIG
+                        comma separated partition config files
+  --patch PATCH         Run config_patch please provide location of patch.yaml
+  --prefix PREFIX       Prefix for objects
+  -r RULE_CONFIG, --rule_config RULE_CONFIG
+                        iRule mapping yml file path
+  --skip_default_file   Flag for skip default file
+  -s {enable,disable}, --vs_state {enable,disable}
+                        state of VS created
+  --segroup SEGROUP     Update the available segroup ref with thecustom ref
+  -t TENANT, --tenant TENANT
+                        tenant name for auto upload
+  --test_vip TEST_VIP   Enable test vip for ansible generated file It will replace the original vip Note: The actual ip will vary from input to outputuse it with caution
+  -u USER, --user USER  controller username for auto upload
+  -v F5_CONFIG_VERSION, --f5_config_version F5_CONFIG_VERSION
+                        version of f5 config file
+  --version             Print product version and exit
+  --vrf VRF             Update the available vrf ref with the custom vrfreference
+  --vs_filter VS_FILTER
+                        comma seperated names of virtualservices
+  --vs_level_status     Add columns of vs reference and overall skipped settings in status excel sheet
