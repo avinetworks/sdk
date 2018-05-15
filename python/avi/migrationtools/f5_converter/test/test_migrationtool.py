@@ -1091,8 +1091,11 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 vs_level_status=setup.get('vs_level_status')
                 )
-        self.excel_path = os.path.abspath(os.path.join(output_file,
-                                                       'bigip_v11-ConversionStatus.xlsx'))
+        self.excel_path = os.path.abspath(
+            os.path.join(
+                output_file, 'bigip_v11-ConversionStatus.xlsx'
+            )
+        )
         assert output_vs_level_status(self.excel_path)
 
 
