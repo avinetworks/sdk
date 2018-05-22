@@ -16,8 +16,8 @@ from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
-    import create_tenant, create_cloud
-
+    import create_tenant, create_cloud, create_vrf_context
+from avi_api import ApiSession
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -143,7 +143,7 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=None, segroup=None, rule_config=rule_config)
+                     vrf=vrf, segroup=None, rule_config=rule_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -1098,7 +1098,24 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
+    def test_vrf_ref(self):
 
+        res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
+                     file_attribute['controller_user_17_1_1'],
+                     file_attribute['controller_password_17_1_1'],
+                     vrf_name="Test-vrf")
+        if res.status_code in [200, 201]:
+            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                    f5_config_version=setup.get('file_version_v11'),
+                    controller_version=setup.get('controller_version_v17'),
+                    output_file_path=setup.get('output_file_path'),
+                    controller_ip=setup.get('controller_ip_17_1_1'),
+                    user=setup.get('controller_user_17_1_1'),
+                    password=setup.get('controller_password_17_1_1'),
+                    option=setup.get('option'),
+                    vrf="Test-vrf")
+        else:
+            raise Exception("Controller vrf creation faild %s" % res.content)
 
 def teardown():
     pass
