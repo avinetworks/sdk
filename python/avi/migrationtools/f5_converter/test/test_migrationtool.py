@@ -1098,6 +1098,7 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
+    @pytest.mark.skip_travis
     def test_vrf_ref(self):
 
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
