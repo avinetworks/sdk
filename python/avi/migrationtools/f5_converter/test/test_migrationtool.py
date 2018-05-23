@@ -17,7 +17,6 @@ from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud, create_vrf_context
-from avi_api import ApiSession
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -1105,6 +1104,7 @@ class TestF5Converter:
                      file_attribute['controller_user_17_1_1'],
                      file_attribute['controller_password_17_1_1'],
                      vrf_name="Test-vrf")
+
         if res.status_code in [200, 201]:
             f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                     f5_config_version=setup.get('file_version_v11'),
