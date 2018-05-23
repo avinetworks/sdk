@@ -9,7 +9,7 @@ import subprocess
 import sys
 import pytest
 import yaml
-from avi.migrationtools.avi_migration_utils import MigrationUtil, get_count, set_update_count
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization, output_vs_level_status
