@@ -1124,7 +1124,7 @@ class TestF5Converter:
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
                      file_attribute['controller_user_17_1_1'],
                      file_attribute['controller_password_17_1_1'],
-                     vrf_name="Test-vrf")
+                     vrf_name=setup.get('vrf'))
 
         if res.status_code in [200, 201]:
             f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -1134,8 +1134,8 @@ class TestF5Converter:
                     controller_ip=setup.get('controller_ip_17_1_1'),
                     user=setup.get('controller_user_17_1_1'),
                     password=setup.get('controller_password_17_1_1'),
-                    option=setup.get('option'),
-                    vrf="Test-vrf")
+                    #option=setup.get('option'),
+                    vrf=setup.get('vrf'))
         else:
             raise Exception("Controller vrf creation faild %s" % res.content)
 
