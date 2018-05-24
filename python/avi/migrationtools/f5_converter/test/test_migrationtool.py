@@ -143,7 +143,7 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=None, segroup=None, rule_config=rule_config)
+                     vrf=None, segroup=segroup, rule_config=rule_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -1130,7 +1130,7 @@ class TestF5Converter:
                                      'controller_user_17_1_1'],
                                                       file_attribute[
                                      'controller_password_17_1_1'],
-                                                      segroup_name = "Test-vrf")
+                                    setup.get('segroup'))
 
 
         if res.status_code in [200, 201]:
@@ -1142,7 +1142,7 @@ class TestF5Converter:
                 controller_ip=setup.get('controller_ip_17_1_1'),
                 user=setup.get('controller_user_17_1_1'),
                 password=setup.get('controller_password_17_1_1'),
-                segroup="Testsegroup")
+                segroup=setup.get('segroup'))
         else:
            raise Exception("Controller vrf creation faild %s" % res.content)
 
