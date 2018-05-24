@@ -1098,6 +1098,27 @@ class TestF5Converter:
         assert output_vs_level_status(self.excel_path)
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
     def test_vrf_ref(self):
 
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
