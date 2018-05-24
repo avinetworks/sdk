@@ -16,7 +16,7 @@ from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
-    import create_tenant, create_cloud
+    import create_tenant, create_cloud, create_segroup
 
 
 config_file = pytest.config.getoption("--config")
@@ -122,7 +122,7 @@ def f5_conv(
         ansible_filter_types=None, ansible=None, prefix=None,
         convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
-        vrf=None, segroup=None, rule_config=None):
+        vrf=None, segroup="None", rule_config=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -1098,7 +1098,53 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
+    @pytest.mark.skip_travis
+    def test_reboot_clean_segroup_v11_17_1_1(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
 
+    @pytest.mark.skip_travis
+    def test_segroup_and_upload_v11_17_1_1(self, cleanup):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        res = create_segroup(file_attribute['controller_ip_17_1_1'],
+                                                      file_attribute[
+                                     'controller_user_17_1_1'],
+                                                      file_attribute[
+                                     'controller_password_17_1_1'],
+                                                      segroup_name = "Test-vrf")
+
+
+        if res.status_code in [200, 201]:
+            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                output_file_path=setup.get('output_file_path'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'),
+                segroup="Testsegroup")
+        else:
+           raise Exception("Controller vrf creation faild %s" % res.content)
 
 def teardown():
     pass
