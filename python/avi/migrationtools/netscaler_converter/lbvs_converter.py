@@ -89,6 +89,7 @@ class LbvsConverter(object):
         # get the total size of object.
         self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['HTTPPolicySet'] = []
+        avi_config['StringGroup'] = []
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config['VsVip'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',

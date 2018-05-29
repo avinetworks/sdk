@@ -90,7 +90,6 @@ class CsvsConverter(object):
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
-        avi_config['StringGroup'] = []
         # get the total size of object.
         self.progressbar_count = len(lb_vs_conf)
         self.total_size = len(lb_vs_conf) + len(cs_vs_conf)

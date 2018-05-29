@@ -651,6 +651,25 @@ class PolicyConverter(object):
                 string_group_ref, OBJECT_TYPE_STRING_GROUP, self.tenant_name)
             match["path"]["string_group_refs"].append(updated_string_group_ref)
 
+        elif ('HTTP.REQ.URL.PATH' in query.upper() and
+              'REGEX_MATCH' in query.upper()):
+            match = {"path": path_regex}
+            match["path"]["match_criteria"] = "REGEX_MATCH"
+            regex_match = None
+            if 're#' in query:
+                regex_match = query.split('re#')[1].split('#')[0]
+            if not regex_match:
+                LOG.warning(
+                    "%s Rule PATH for regex match did not start with 're#'" %
+                    query)
+
+            string_group_ref = self.add_string_group_for_policy(
+                '%s-string_group_object' % policy_name, [regex_match],
+                avi_config)
+            updated_string_group_ref = ns_util.get_object_ref(
+                string_group_ref, OBJECT_TYPE_STRING_GROUP, self.tenant_name)
+            match["path"]["string_group_refs"].append(updated_string_group_ref)
+
         elif 'HTTP.REQ.URL.PATH.GET' in query.upper() \
                 and 'EQ(' in query.upper():
             match = {"path": path_query}
@@ -785,17 +804,16 @@ class PolicyConverter(object):
             LOG.warning("%s Rule is not supported" % query)
             return None
         if match:
-            if match.get('path', None) and \
-                            match['path']['match_str'][0] == '/*':
+            if ('path' in match and 'match_str' in match['path'] and
+                    match['path']['match_str'][0] == '/*'):
                 match['path']['match_str'][0] = '/'
                 match['path']['match_criteria'] = 'CONTAINS'
-            elif match.get('path', None) and \
-                    match['path']['match_str'][0].endswith('*'):
+            elif('path' in match and 'match_str' in match['path'] and
+                 match['path']['match_str'][0].endswith('*')):
                 match['path']['match_criteria'] = 'BEGINS_WITH'
                 match['path']['match_str'][0] = \
                     match['path']['match_str'][0][:-1]
             return match
-
 
     def add_string_group_for_policy(self, string_group_name, matches,
                                     avi_config):
@@ -812,6 +830,7 @@ class PolicyConverter(object):
         stringgroup_object = {
             "name": string_group_name,
             "kv": [],
+            "type": "SG_TYPE_STRING",
             "tenant_ref": self.tenant_ref
         }
 
