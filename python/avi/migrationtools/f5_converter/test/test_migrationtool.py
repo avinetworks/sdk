@@ -72,6 +72,7 @@ setup = dict(
     f5_ssh_user=file_attribute['f5_ssh_user'],
     f5_ssh_user_10=file_attribute['f5_ssh_user_10'],
     f5_ssh_password=file_attribute['f5_ssh_password'],
+    f5_ssh_port=file_attribute['f5_ssh_port'],
     no_profile_merge=file_attribute['no_profile_merge'],
     prefix=file_attribute['prefix'],
     cloud_name=file_attribute['cloud_name'],
