@@ -16,7 +16,7 @@ from avi.migrationtools.test.common.excel_reader \
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
-    import create_tenant, create_cloud, create_vrf_context
+    import create_tenant, create_cloud, create_segroup, create_vrf_context
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -145,7 +145,7 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=vrf, segroup=None, rule_config=rule_config)
+                     vrf=vrf, segroup=segroup, rule_config=rule_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -1146,6 +1146,26 @@ class TestF5Converter:
         assert output_vs_level_status(self.excel_path)
 
     @pytest.mark.skip_travis
+    def test_reboot_clean_segroup_v11_17_1_1(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+    @pytest.mark.skip_travis
     def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1167,8 +1187,35 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_vrf_ref(self):
+    def test_segroup_and_upload_v11_17_1_1(self, cleanup):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        res = create_segroup(file_attribute['controller_ip_17_1_1'],
+                                                      file_attribute[
+                                     'controller_user_17_1_1'],
+                                                      file_attribute[
+                                     'controller_password_17_1_1'],
+                                    setup.get('segroup'))
 
+
+
+        if res.status_code in [200, 201]:
+            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                output_file_path=setup.get('output_file_path'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'),
+                segroup=setup.get('segroup'))
+        else:
+           raise Exception("Controller segroup creation faild %s" % res.content)
+
+    @pytest.mark.skip_travis
+    def test_vrf_ref(self):
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
                      file_attribute['controller_user_17_1_1'],
                      file_attribute['controller_password_17_1_1'],

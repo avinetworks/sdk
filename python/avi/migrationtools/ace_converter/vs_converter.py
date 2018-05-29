@@ -264,7 +264,7 @@ class VSConverter(object):
                                                                    'serviceenginegroup',
                                                                    tenant=self.tenant,
                                                                    cloud_name=self.cloud)
-                    temp_vs['segroup_ref'] = segroup_ref
+                    temp_vs['se_group_ref'] = segroup_ref
                 if pool_ref:
                     temp_vs['pool_ref'] = pool_ref
                 if l4_type:
