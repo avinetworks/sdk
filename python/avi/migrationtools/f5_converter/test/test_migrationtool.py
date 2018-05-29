@@ -1134,7 +1134,7 @@ class TestF5Converter:
                     controller_ip=setup.get('controller_ip_17_1_1'),
                     user=setup.get('controller_user_17_1_1'),
                     password=setup.get('controller_password_17_1_1'),
-                    #option=setup.get('option'),
+                    option=setup.get('option'),
                     vrf=setup.get('vrf'))
         else:
             raise Exception("Controller vrf creation faild %s" % res.content)
