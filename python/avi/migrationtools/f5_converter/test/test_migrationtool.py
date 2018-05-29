@@ -12,7 +12,7 @@ import yaml
 from avi.migrationtools.avi_migration_utils import MigrationUtil, get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
-    import percentage_success, output_sanitization
+    import percentage_success, output_sanitization, output_vs_level_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
@@ -1081,6 +1081,24 @@ class TestF5Converter:
                 option=setup.get('option'),
                 output_file_path=setup.get('output_file_path'),
                 rule_config=setup.get('rule_config_file'))
+
+    @pytest.mark.travis
+    def test_vs_level_status_with_v11(self):
+
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                output_file_path=setup.get('output_file_path'),
+                vs_level_status=setup.get('vs_level_status')
+                )
+        self.excel_path = os.path.abspath(
+            os.path.join(
+                output_file, 'bigip_v11-ConversionStatus.xlsx'
+            )
+        )
+        assert output_vs_level_status(self.excel_path)
+
+
 
 def teardown():
     pass

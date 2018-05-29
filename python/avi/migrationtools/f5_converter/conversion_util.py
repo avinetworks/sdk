@@ -2200,7 +2200,12 @@ class F5Util(MigrationUtil):
         :return:
         """
         tmplist = []
-        obj_name = obj.get('name', obj.get('hostname'))
+
+        if isinstance(obj, str) and obj.startswith('Duplicate of'):
+            obj_name = None
+            LOG.debug("Object has merged: %s" % obj)
+        else:
+            obj_name = obj.get('name', obj.get('hostname'))
         if obj_name:
             if avi_graph.has_node(obj_name):
                 LOG.debug("Checked predecessor for %s", obj_name)
@@ -2309,7 +2314,7 @@ class F5Util(MigrationUtil):
                     policy_name = '%s-%s-%s' % (prefix, rule, vs_name)
                 else:
                     policy_name = '%s-%s' % (rule, vs_name)
-                policy = conv_const.HTTP_TO_HTTPS_REDIRECT_POL
+                policy = copy.deepcopy(conv_const.HTTP_TO_HTTPS_REDIRECT_POL)
                 policy["name"] = policy_name
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 req_policies.append(policy_name)
