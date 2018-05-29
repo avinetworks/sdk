@@ -28,6 +28,17 @@ def create_cloud(controller_ip, username, password, cloud_name):
     print rsp1
     return json.loads (rsp1.content)
 
+
+def create_segroup(controller_ip, username, password, segroup_name):
+     session = ApiSession.get_session(controller_ip, username, password)
+     data = {"name": segroup_name}
+     json_data = json.dumps(data)
+     path = "/serviceenginegroup"
+     rsp1 = session.post(path, data=json_data)
+     print rsp1
+     return rsp1
+
+
 def create_vrf_context(controller_ip, username, password, vrf_name):
     session = ApiSession.get_session(controller_ip, username, password)
     data = {"name": vrf_name}
