@@ -71,6 +71,7 @@ setup = dict(
     f5_ssh_user=file_attribute['f5_ssh_user'],
     f5_ssh_user_10=file_attribute['f5_ssh_user_10'],
     f5_ssh_password=file_attribute['f5_ssh_password'],
+    f5_ssh_port=file_attribute['f5_ssh_port'],
     no_profile_merge=file_attribute['no_profile_merge'],
     prefix=file_attribute['prefix'],
     cloud_name=file_attribute['cloud_name'],
@@ -111,15 +112,16 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location='python/avi/migrationtools/f5_converter/test/certs', output_file_path=output_file,
-        option='cli-upload', user=None, password=None, controller_ip=None,
+        input_folder_location='python/avi/migrationtools/f5_converter/test/certs',
+        output_file_path=output_file, option='cli-upload', user=None,
+        password=None, controller_ip=None,
         tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
         controller_version=None, f5_host_ip=None, f5_ssh_user=None,
-        f5_ssh_password=None, f5_key_file=None, ignore_config=None,
-        partition_config=None, version=None, no_profile_merge=None, patch=None,
-        vs_filter=None, ansible_skip_types=None,
-        ansible_filter_types=None, ansible=None, prefix=None,
-        convertsnat=None, not_in_use=None, baseline_profile=None,
+        f5_ssh_password=None, f5_ssh_port=None, f5_key_file=None,
+        ignore_config=None, partition_config=None, version=None,
+        no_profile_merge=None, patch=None, vs_filter=None,
+        ansible_skip_types=None, ansible_filter_types=None, ansible=None,
+        prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
         vrf=None, segroup=None, rule_config=None):
 
@@ -132,7 +134,8 @@ def f5_conv(
                      tenant=tenant, cloud_name=cloud_name, vs_state=vs_state,
                      controller_version=controller_version,
                      f5_host_ip=f5_host_ip, f5_ssh_user=f5_ssh_user,
-                     f5_ssh_password=f5_ssh_password, f5_key_file=f5_key_file,
+                     f5_ssh_password=f5_ssh_password,
+                     f5_ssh_port=f5_ssh_port, f5_key_file=f5_key_file,
                      ignore_config=ignore_config,
                      partition_config=partition_config, version=version,
                      no_object_merge=no_profile_merge, patch=patch,
@@ -179,6 +182,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 f5_ssh_user=setup.get('f5_ssh_user'),
                 f5_ssh_password=setup.get('f5_ssh_password'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v11'))
 
     @pytest.mark.skip_travis
@@ -190,6 +194,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 f5_ssh_user=setup.get('f5_ssh_user_10'),
                 f5_ssh_password=setup.get('f5_ssh_password'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
@@ -197,6 +202,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         self.excel_path = os.path.abspath(os.path.join(output_file,
                                           'bigip_v10-ConversionStatus.xlsx'))
@@ -213,6 +219,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         self.excel_path = os.path.abspath(os.path.join(output_file,
                                             'bigip_v11-ConversionStatus.xlsx'))
@@ -229,6 +236,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         percentage_success(os.path.join(output_file,
                                         'bigip_v11-ConversionStatus.xlsx'))
@@ -240,6 +248,7 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.travis
@@ -249,7 +258,8 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                f5_config_version=setup.get('file_version_v11'))
+                f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
     def test_no_profile_merge_v10(self, cleanup):
@@ -260,6 +270,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
@@ -271,6 +282,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
@@ -282,6 +294,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
@@ -293,6 +306,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
@@ -304,6 +318,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
@@ -315,6 +330,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
@@ -326,6 +342,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
@@ -337,6 +354,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
@@ -348,6 +366,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
@@ -359,6 +378,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
@@ -370,6 +390,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
@@ -381,6 +402,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
@@ -392,6 +414,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
@@ -403,6 +426,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
@@ -414,6 +438,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
@@ -425,6 +450,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
@@ -436,6 +462,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.travis
@@ -447,6 +474,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
@@ -603,6 +631,7 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
@@ -657,6 +686,7 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
@@ -709,7 +739,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                vs_level_status=setup.get('vs_level_status'))
+                vs_level_status=setup.get('vs_level_status'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
     def test_vs_level_status_false_v10(self, cleanup):
@@ -718,7 +749,8 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                f5_config_version=setup.get('file_version_v10'))
+                f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.skip_travis
     def test_create_tenant_cloud_and_upload_controller_v11_16_4_4(self,
@@ -784,6 +816,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=setup.get('output_file_path'))
         fileName = output_file + '/bigip_v10-Output.json'
         with open(fileName) as f:
@@ -798,6 +831,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=setup.get('output_file_path'))
         fileName = output_file +'/bigip_v11-Output.json'
         with open(fileName) as f:
@@ -813,6 +847,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 vrf = setup.get('vrf'),
                 )
 
@@ -822,6 +857,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 segroup = setup.get('segroup')
                 )
 
@@ -831,6 +867,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 vrf = setup.get('vrf'),
                 )
 
@@ -840,6 +877,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 segroup = setup.get('segroup')
                 )
 
@@ -850,7 +888,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
         assert get_count('warning') == 6
@@ -861,7 +900,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
         assert get_count('warning') == 0
@@ -874,7 +914,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -896,7 +937,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" %(output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -918,7 +960,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v10-Output.json")
         with open(file) as json_file:
@@ -940,7 +983,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v10-Output.json")
         with open(file) as json_file:
@@ -963,7 +1007,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -1022,7 +1067,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -1079,7 +1125,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'),
                 option=setup.get('option'),
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
     def test_vs_level_status_with_v11(self):
@@ -1088,7 +1135,8 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
-                vs_level_status=setup.get('vs_level_status')
+                vs_level_status=setup.get('vs_level_status'),
+                f5_ssh_port=setup.get('f5_ssh_port')
                 )
         self.excel_path = os.path.abspath(
             os.path.join(

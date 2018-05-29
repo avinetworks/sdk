@@ -7,7 +7,7 @@ from avi.migrationtools.scp_util import SCPUtil
 LOG = logging.getLogger(__name__)
 
 
-def get_files_from_f5(local_path, host, username, pw=None, key=None):
+def get_files_from_f5(local_path, host, username, pw=None, key=None, port=22):
     """
 
     :param local_path: relative path to file
@@ -18,7 +18,7 @@ def get_files_from_f5(local_path, host, username, pw=None, key=None):
     :return:
     """
     local_path = local_path + os.path.sep
-    scp = SCPUtil(host, username, pw, key)
+    scp = SCPUtil(host, username, pw, key, port)
     scp.get_all_files('/config/ssl/ssl.crl/', local_path)
     scp.get_all_files('/config/ssl/ssl.crt/', local_path)
     scp.get_all_files('/config/ssl/ssl.csr/', local_path)
