@@ -127,3 +127,17 @@ def percentage_success(path_to_excel):
             report_dict[key].update({'percent': 100.0})
     for key in report_dict.keys():
         print key, " -> ", report_dict[key]['percent'], "%"
+
+def output_vs_level_status(path_to_excel):
+    path = path_to_excel
+    wb = open_workbook(path)
+    col_list = []
+    for s in wb.sheets():
+        for col in range(s.ncols):
+            if s.cell(0, col).value == "VS Reference":
+                col_list.append(col)
+            elif s.cell(0, col).value == "Overall skipped settings":
+                col_list.append(col)
+    if len(col_list) == 2:
+        return True
+    else: return False
