@@ -239,6 +239,11 @@ class AviAnsibleConverter(object):
             rsrc.pop(skip_param, None)
         for skip_field in self.skip_fields:
             rsrc.pop(skip_field, None)
+        for key in rsrc:
+            if isinstance(rsrc[key], str):
+                rsrc[key] = rsrc[key].encode('string-escape')
+            elif isinstance(rsrc[key], unicode):
+                rsrc[key] = rsrc[key].encode('unicode-escape')
         if rsrc_type == 'vsvip':
             # check for floating IP and normal IP
             for vip in rsrc.get('vip', []):
