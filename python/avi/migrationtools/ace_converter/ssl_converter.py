@@ -168,6 +168,8 @@ class SSLConverter(object):
         crypto_obj = self.parsed.get('crypto', '')
         #name = crypto[0]['chaingroup']
         certificate_list = list()
+        if not crypto_obj:
+            return certificate_list
         for cert_name in crypto_obj[0]['cert']:
             ssl_c_obj = None
             cert = None
