@@ -569,6 +569,18 @@ class PolicyConverter(object):
                     {"type": 'V4', "addr": element})
 
         elif ('HTTP.REQ.HEADER' in query.upper() and \
+              '.CONTAINS' in query.upper()) and '.NOT' in query.upper():
+            match = {"hdrs": [header]}
+            match["hdrs"][0]["match_criteria"] = "HDR_DOES_NOT_CONTAIN"
+
+            matches = re.findall('\\\\(.+?)\\\\', query)
+            if len(matches) < 2 or matches[0] is None or matches[1] is None:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            match["hdrs"][0]["hdr"] = matches[0]
+            match["hdrs"][0]["value"].append(matches[1])
+
+        elif ('HTTP.REQ.HEADER' in query.upper() and \
                           '.CONTAINS' in query.upper()) or \
                         'HTTP.REQ.FULL_HEADER.CONTAINS' in query.upper():
             match = {"hdrs": [header]}
