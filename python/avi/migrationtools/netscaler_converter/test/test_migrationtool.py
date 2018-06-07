@@ -8,9 +8,12 @@ import os
 import pytest
 import yaml
 import subprocess
+import json
 
 from avi.migrationtools.netscaler_converter.netscaler_converter \
     import NetscalerConverter
+from avi.migrationtools.netscaler_converter.netscaler_parser import \
+    get_ns_conf_dict
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization
 from avi.migrationtools.test.common.test_clean_reboot \
@@ -18,6 +21,7 @@ from avi.migrationtools.test.common.test_clean_reboot \
 from avi.migrationtools.test.common.test_tenant_cloud \
     import create_tenant, create_cloud
 from avi.migrationtools.avi_migration_utils import get_count, set_update_count
+from avi.migrationtools.netscaler_converter.ns_util import NsUtil
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -366,6 +370,36 @@ class TestNetscalerConverter:
 
         assert get_count('error') == 0
         assert get_count('warning') == 1
+
+    @pytest.mark.travis
+    def test_lb_algorithm_match(self):
+        set_update_count()
+        ns_config = get_ns_conf_dict(setup.get('config_file_name'))[0]
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        with open('./output/ns-Output.json', 'r') as file_strem:
+            avi_config = json.load(file_strem)
+            lb_vs_conf = ns_config.get('add lb vserver', {})
+            for vs_name in lb_vs_conf.keys():
+                pg_name = '%s-poolgroup' % vs_name
+                pg_obj = [pg for pg in avi_config['PoolGroup'] if
+                          pg['name'] == pg_name]
+                if not pg_obj:
+                    continue
+                pg_obj = pg_obj[0]
+                ns_util = NsUtil()
+                ns_algo = lb_vs_conf[vs_name].get(
+                    'lbMethod', 'LEASTCONNECTIONS')
+                algo = ns_util.get_avi_lb_algorithm(ns_algo)
+                for member in pg_obj['members']:
+                    pool_name = ns_util.get_name(member['pool_ref'])
+                    pool = [pool for pool in avi_config['Pool'] if
+                            pool['name'] == pool_name][0]
+                    assert pool['lb_algorithm'] == algo
+
 
 def teardown():
     pass
