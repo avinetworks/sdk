@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi ApplicationPersistenceProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure applicationpersistenceprofile <key> - show applicationpersistenceprofile <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure applicationpersistenceprofile <key> - show applicationpersistenceprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -254,6 +256,14 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "ip_persistence_profile" : {
+      "ip_persistent_timeout" : 123
+    },
+    "description" : "aeiou",
+    "persistence_type" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : 123456789,
     "hdr_persistence_profile" : {
       "prst_hdr_name" : "aeiou"
     },
@@ -268,22 +278,15 @@ font-style: italic;
       "timeout" : 123,
       "cookie_name" : "aeiou"
     },
-    "ip_persistence_profile" : {
-      "ip_persistent_timeout" : 123
-    },
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "server_hm_down_recovery" : "aeiou",
-    "description" : "aeiou",
-    "persistence_type" : "aeiou",
-    "uuid" : "aeiou",
     "app_cookie_persistence_profile" : {
       "prst_hdr_name" : "aeiou",
       "encryption_key" : "aeiou",
       "timeout" : 123
     },
-    "is_federated" : true,
-    "url" : "aeiou"
+    "is_federated" : true
   } ]
 }</code></pre>
 
@@ -338,6 +341,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "ip_persistence_profile" : {
+    "ip_persistent_timeout" : 123
+  },
+  "description" : "aeiou",
+  "persistence_type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "hdr_persistence_profile" : {
     "prst_hdr_name" : "aeiou"
   },
@@ -352,22 +363,15 @@ font-style: italic;
     "timeout" : 123,
     "cookie_name" : "aeiou"
   },
-  "ip_persistence_profile" : {
-    "ip_persistent_timeout" : 123
-  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "server_hm_down_recovery" : "aeiou",
-  "description" : "aeiou",
-  "persistence_type" : "aeiou",
-  "uuid" : "aeiou",
   "app_cookie_persistence_profile" : {
     "prst_hdr_name" : "aeiou",
     "encryption_key" : "aeiou",
     "timeout" : 123
   },
-  "is_federated" : true,
-  "url" : "aeiou"
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -526,7 +530,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -543,6 +549,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "ip_persistence_profile" : {
+    "ip_persistent_timeout" : 123
+  },
+  "description" : "aeiou",
+  "persistence_type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "hdr_persistence_profile" : {
     "prst_hdr_name" : "aeiou"
   },
@@ -557,22 +571,15 @@ font-style: italic;
     "timeout" : 123,
     "cookie_name" : "aeiou"
   },
-  "ip_persistence_profile" : {
-    "ip_persistent_timeout" : 123
-  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "server_hm_down_recovery" : "aeiou",
-  "description" : "aeiou",
-  "persistence_type" : "aeiou",
-  "uuid" : "aeiou",
   "app_cookie_persistence_profile" : {
     "prst_hdr_name" : "aeiou",
     "encryption_key" : "aeiou",
     "timeout" : 123
   },
-  "is_federated" : true,
-  "url" : "aeiou"
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -638,6 +645,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "ip_persistence_profile" : {
+    "ip_persistent_timeout" : 123
+  },
+  "description" : "aeiou",
+  "persistence_type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "hdr_persistence_profile" : {
     "prst_hdr_name" : "aeiou"
   },
@@ -652,22 +667,15 @@ font-style: italic;
     "timeout" : 123,
     "cookie_name" : "aeiou"
   },
-  "ip_persistence_profile" : {
-    "ip_persistent_timeout" : 123
-  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "server_hm_down_recovery" : "aeiou",
-  "description" : "aeiou",
-  "persistence_type" : "aeiou",
-  "uuid" : "aeiou",
   "app_cookie_persistence_profile" : {
     "prst_hdr_name" : "aeiou",
     "encryption_key" : "aeiou",
     "timeout" : 123
   },
-  "is_federated" : true,
-  "url" : "aeiou"
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -733,6 +741,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "ip_persistence_profile" : {
+    "ip_persistent_timeout" : 123
+  },
+  "description" : "aeiou",
+  "persistence_type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "hdr_persistence_profile" : {
     "prst_hdr_name" : "aeiou"
   },
@@ -747,22 +763,15 @@ font-style: italic;
     "timeout" : 123,
     "cookie_name" : "aeiou"
   },
-  "ip_persistence_profile" : {
-    "ip_persistent_timeout" : 123
-  },
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "server_hm_down_recovery" : "aeiou",
-  "description" : "aeiou",
-  "persistence_type" : "aeiou",
-  "uuid" : "aeiou",
   "app_cookie_persistence_profile" : {
     "prst_hdr_name" : "aeiou",
     "encryption_key" : "aeiou",
     "timeout" : 123
   },
-  "is_federated" : true,
-  "url" : "aeiou"
+  "is_federated" : true
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -802,13 +811,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">encryption_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key to use for cookie encryption. </div>
 <div class="param">prst_hdr_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header or cookie name for application cookie persistence. </div>
-<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. Units(MIN). format: int32</div>
+<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="ApplicationPersistenceProfile">ApplicationPersistenceProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">app_cookie_persistence_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppCookiePersistenceProfile">AppCookiePersistenceProfile</a></span> Specifies the Application Cookie Persistence profile parameters. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">app_cookie_persistence_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppCookiePersistenceProfile">AppCookiePersistenceProfile</a></span> Specifies the Application Cookie Persistence profile parameters. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">hdr_persistence_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrPersistenceProfile">HdrPersistenceProfile</a></span> Specifies the custom HTTP Header Persistence profile parameters. </div>
 <div class="param">http_cookie_persistence_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceProfile">HttpCookiePersistenceProfile</a></span> Specifies the HTTP Cookie Persistence profile parameters. </div>
@@ -850,13 +860,13 @@ font-style: italic;
 <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for cookie persistence. </div>
 <div class="param">encryption_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key name to use for cookie encryption. </div>
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Placeholder for description of property key of obj type HttpCookiePersistenceProfile field type str  type object </div>
-<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. No value or &#39;zero&#39; indicates no timeout. Allowed values are 1-14400. Special values are 0- &#39;No Timeout&#39;. Units(MIN). format: int32</div>
+<div class="param">timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. No value or &#39;zero&#39; indicates no timeout. Allowed values are 1-14400. Special values are 0- &#39;No Timeout&#39;. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="IPPersistenceProfile">IPPersistenceProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. Units(MIN). format: int32</div>
+      <div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
