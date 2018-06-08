@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi AuthProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure authprofile <key> - show authprofile <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure authprofile <key> - show authprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -325,7 +327,8 @@ font-style: italic;
       "service" : "aeiou"
     },
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -452,7 +455,8 @@ font-style: italic;
     "service" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -559,7 +563,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -648,7 +654,8 @@ font-style: italic;
     "service" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -786,7 +793,8 @@ font-style: italic;
     "service" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -924,7 +932,8 @@ font-style: italic;
     "service" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -967,7 +976,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthProfile">AuthProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">http (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a></span> HTTP user authentication params. </div>
 <div class="param">ldap (optional)</div><div class="param-desc"><span class="param-type"><a href="#LdapAuthSettings">LdapAuthSettings</a></span> LDAP server and directory settings. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Auth Profile. </div>
@@ -989,7 +999,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cache_expiration_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time a clients authentication is cached. Allowed values are 1-30. Units(SEC). format: int32</div>
+      <div class="param">cache_expiration_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time a clients authentication is cached. Allowed values are 1-30. format: int32</div>
 <div class="param">group_member_is_full_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Group member entries contain full DNs instead of just user id attribute values. </div>
 <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client&#39;s HTTP Auth user ID. </div>
 <div class="param">require_user_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A user should be a member of these groups.  Each group is defined by the DN.  For example, CN&#x3D;testgroup,OU&#x3D;groups,dc&#x3D;example,dc&#x3D;avinetworks,DC&#x3D;com. </div>

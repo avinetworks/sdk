@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi LogControllerMapping Object API</h1>
-    <div class="app-desc">##CLI## ``` - show logcontrollermapping ``` </div>
+    <div class="app-desc">CLI ``` - show logcontrollermapping ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -262,7 +264,8 @@ font-style: italic;
     "uuid" : "aeiou",
     "prev_controller_ip" : "aeiou",
     "static_mapping" : true,
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -326,7 +329,8 @@ font-style: italic;
   "uuid" : "aeiou",
   "prev_controller_ip" : "aeiou",
   "static_mapping" : true,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -433,7 +437,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -459,7 +465,8 @@ font-style: italic;
   "uuid" : "aeiou",
   "prev_controller_ip" : "aeiou",
   "static_mapping" : true,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -534,7 +541,8 @@ font-style: italic;
   "uuid" : "aeiou",
   "prev_controller_ip" : "aeiou",
   "static_mapping" : true,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -609,7 +617,8 @@ font-style: italic;
   "uuid" : "aeiou",
   "prev_controller_ip" : "aeiou",
   "static_mapping" : true,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -642,7 +651,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="LogControllerMapping">LogControllerMapping</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">controller_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> controller_ip of LogControllerMapping. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">controller_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> controller_ip of LogControllerMapping. </div>
 <div class="param">metrics_mgr_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_MGR_PORT_0, METRICS_MGR_PORT_1, METRICS_MGR_PORT_2, METRICS_MGR_PORT_3. </div>
 <div class="param">node_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of node. </div>
 <div class="param">prev_controller_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> prev_controller_ip of LogControllerMapping. </div>
