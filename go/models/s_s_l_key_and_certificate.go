@@ -7,6 +7,10 @@ package models
 // swagger:model SSLKeyAndCertificate
 type SSLKeyAndCertificate struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// CA certificates in certificate chain.
 	CaCerts []*CertificateAuthority `json:"ca_certs,omitempty"`
 

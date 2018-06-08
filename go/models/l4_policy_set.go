@@ -7,6 +7,10 @@ package models
 // swagger:model L4PolicySet
 type L4PolicySet struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Creator name. Field introduced in 17.2.7.
 	CreatedBy string `json:"created_by,omitempty"`
 

@@ -12,5 +12,6 @@ type PlacementNetwork struct {
 	NetworkRef string `json:"network_ref"`
 
 	// Placeholder for description of property subnet of obj type PlacementNetwork field type str  type object
-	Subnet *IPAddrPrefix `json:"subnet,omitempty"`
+	// Required: true
+	Subnet *IPAddrPrefix `json:"subnet"`
 }

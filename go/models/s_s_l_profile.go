@@ -7,6 +7,10 @@ package models
 // swagger:model SSLProfile
 type SSLProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html).
 	AcceptedCiphers string `json:"accepted_ciphers,omitempty"`
 
@@ -38,7 +42,7 @@ type SSLProfile struct {
 	// Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object
 	SslRating *SSLRating `json:"ssl_rating,omitempty"`
 
-	// The amount of time before an SSL session expires. Units(SEC).
+	// The amount of time before an SSL session expires.
 	SslSessionTimeout int32 `json:"ssl_session_timeout,omitempty"`
 
 	// Placeholder for description of property tags of obj type SSLProfile field type str  type object

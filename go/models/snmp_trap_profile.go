@@ -7,6 +7,10 @@ package models
 // swagger:model SnmpTrapProfile
 type SnmpTrapProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// A user-friendly name of the SNMP trap configuration.
 	// Required: true
 	Name string `json:"name"`

@@ -7,6 +7,10 @@ package models
 // swagger:model ServerAutoScalePolicy
 type ServerAutoScalePolicy struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
@@ -38,13 +42,13 @@ type ServerAutoScalePolicy struct {
 	// Trigger scalein when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig.
 	ScaleinAlertconfigRefs []string `json:"scalein_alertconfig_refs,omitempty"`
 
-	// Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Units(SEC).
+	// Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.
 	ScaleinCooldown int32 `json:"scalein_cooldown,omitempty"`
 
 	// Trigger scaleout when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig.
 	ScaleoutAlertconfigRefs []string `json:"scaleout_alertconfig_refs,omitempty"`
 
-	// Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Units(SEC).
+	// Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.
 	ScaleoutCooldown int32 `json:"scaleout_cooldown,omitempty"`
 
 	//  It is a reference to an object of type Tenant.

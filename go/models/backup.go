@@ -7,6 +7,10 @@ package models
 // swagger:model Backup
 type Backup struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// BackupConfiguration Information. It is a reference to an object of type BackupConfiguration.
 	BackupConfigRef string `json:"backup_config_ref,omitempty"`
 

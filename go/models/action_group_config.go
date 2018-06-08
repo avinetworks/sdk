@@ -7,6 +7,10 @@ package models
 // swagger:model ActionGroupConfig
 type ActionGroupConfig struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// reference of the action script configuration to be used. It is a reference to an object of type AlertScriptConfig.
 	ActionScriptConfigRef string `json:"action_script_config_ref,omitempty"`
 

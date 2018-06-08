@@ -7,6 +7,10 @@ package models
 // swagger:model VIMgrVcenterRuntime
 type VIMgrVcenterRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// api_version of VIMgrVcenterRuntime.
 	APIVersion string `json:"api_version,omitempty"`
 

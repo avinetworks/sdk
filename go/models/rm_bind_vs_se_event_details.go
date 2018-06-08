@@ -10,6 +10,9 @@ type RmBindVsSeEventDetails struct {
 	// ip of RmBindVsSeEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of RmBindVsSeEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// Placeholder for description of property primary of obj type RmBindVsSeEventDetails field type str  type boolean
 	Primary bool `json:"primary,omitempty"`
 

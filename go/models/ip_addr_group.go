@@ -7,6 +7,10 @@ package models
 // swagger:model IpAddrGroup
 type IPAddrGroup struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Configure IP address(es).
 	Addrs []*IPAddr `json:"addrs,omitempty"`
 
