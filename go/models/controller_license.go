@@ -7,6 +7,10 @@ package models
 // swagger:model ControllerLicense
 type ControllerLicense struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// List of active burst core license in use. Field introduced in 17.2.5.
 	ActiveBurstResources []*BurstResource `json:"active_burst_resources,omitempty"`
 

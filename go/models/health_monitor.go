@@ -7,6 +7,10 @@ package models
 // swagger:model HealthMonitor
 type HealthMonitor struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
@@ -35,10 +39,10 @@ type HealthMonitor struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC).
+	// A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.
 	ReceiveTimeout int32 `json:"receive_timeout,omitempty"`
 
-	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC).
+	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.
 	SendInterval int32 `json:"send_interval,omitempty"`
 
 	// Health monitor for SIP. Field introduced in 17.2.8.

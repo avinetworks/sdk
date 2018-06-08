@@ -7,6 +7,10 @@ package models
 // swagger:model Cloud
 type Cloud struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property apic_configuration of obj type Cloud field type str  type object
 	ApicConfiguration *APICConfiguration `json:"apic_configuration,omitempty"`
 
@@ -43,6 +47,9 @@ type Cloud struct {
 	// Use static routes for VIP side network resolution during VirtualService placement.
 	EnableVipStaticRoutes bool `json:"enable_vip_static_routes,omitempty"`
 
+	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
+	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+
 	// Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile.
 	IPAMProviderRef string `json:"ipam_provider_ref,omitempty"`
 
@@ -58,7 +65,7 @@ type Cloud struct {
 	// Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object
 	MesosConfiguration *MesosConfiguration `json:"mesos_configuration,omitempty"`
 
-	// MTU setting for the cloud. Units(BYTES).
+	// MTU setting for the cloud.
 	Mtu int32 `json:"mtu,omitempty"`
 
 	// Name of the object.

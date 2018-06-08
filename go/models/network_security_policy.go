@@ -7,6 +7,10 @@ package models
 // swagger:model NetworkSecurityPolicy
 type NetworkSecurityPolicy struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Checksum of cloud configuration for Network Sec Policy. Internally set by cloud connector.
 	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
 

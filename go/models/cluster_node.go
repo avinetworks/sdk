@@ -7,6 +7,9 @@ package models
 // swagger:model ClusterNode
 type ClusterNode struct {
 
+	// Optional service categories that a node can be assigned (e.g. SYSTEM, INFRASTRUCTURE or ANALYTICS). Field introduced in 18.1.1.
+	Categories []string `json:"categories,omitempty"`
+
 	// IP address of controller VM.
 	// Required: true
 	IP *IPAddr `json:"ip"`

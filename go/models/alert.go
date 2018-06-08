@@ -7,6 +7,10 @@ package models
 // swagger:model Alert
 type Alert struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Output of the alert action script.
 	ActionScriptOutput string `json:"action_script_output,omitempty"`
 

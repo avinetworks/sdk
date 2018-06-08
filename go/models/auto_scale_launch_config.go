@@ -7,6 +7,10 @@ package models
 // swagger:model AutoScaleLaunchConfig
 type AutoScaleLaunchConfig struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 

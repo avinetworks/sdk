@@ -13,13 +13,16 @@ type IPAMDNSAwsProfile struct {
 	// IAM assume role for cross-account access. Field introduced in 17.1.1.
 	IamAssumeRole string `json:"iam_assume_role,omitempty"`
 
+	// If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10.
+	PublishVipToPublicZone bool `json:"publish_vip_to_public_zone,omitempty"`
+
 	// AWS region.
 	Region string `json:"region,omitempty"`
 
 	// AWS secret access key.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
-	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).
+	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.
 	TTL int32 `json:"ttl,omitempty"`
 
 	// Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1.

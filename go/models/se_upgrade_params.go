@@ -19,11 +19,17 @@ type SeUpgradeParams struct {
 	// Rollback System with patch upgrade.
 	PatchRollback bool `json:"patch_rollback,omitempty"`
 
+	// Resume from suspended state.
+	ResumeFromSuspend bool `json:"resume_from_suspend,omitempty"`
+
 	// Placeholder for description of property rollback of obj type SeUpgradeParams field type str  type boolean
 	Rollback bool `json:"rollback,omitempty"`
 
 	//  It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.2.
 	SeGroupRefs []string `json:"se_group_refs,omitempty"`
+
+	// When set, this will skip upgrade on the Service Engine which is upgrade suspended state.
+	SkipSuspended bool `json:"skip_suspended,omitempty"`
 
 	// When set to true, if there is any failure during the SE upgrade, upgrade will be suspended for this SE group and manual intervention would be needed to resume the upgrade. Field introduced in 17.1.4.
 	SuspendOnFailure bool `json:"suspend_on_failure,omitempty"`

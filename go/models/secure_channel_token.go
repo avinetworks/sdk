@@ -7,6 +7,10 @@ package models
 // swagger:model SecureChannelToken
 type SecureChannelToken struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Expiry time for secure channel.
 	ExpiryTime float64 `json:"expiry_time,omitempty"`
 

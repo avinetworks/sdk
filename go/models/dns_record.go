@@ -22,6 +22,9 @@ type DNSRecord struct {
 	// Fully Qualified Domain Name.
 	Fqdn []string `json:"fqdn,omitempty"`
 
+	// IPv6 address in AAAA record. Field introduced in 18.1.1.
+	Ip6Address []*DNSAAAARdata `json:"ip6_address,omitempty"`
+
 	// IP address in A record.
 	IPAddress []*DNSARdata `json:"ip_address,omitempty"`
 

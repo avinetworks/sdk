@@ -7,6 +7,10 @@ package models
 // swagger:model BackupConfiguration
 type BackupConfiguration struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Prefix of the exported configuration file. Field introduced in 17.1.1.
 	BackupFilePrefix string `json:"backup_file_prefix,omitempty"`
 

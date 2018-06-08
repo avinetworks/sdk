@@ -7,6 +7,10 @@ package models
 // swagger:model ApplicationProfile
 type ApplicationProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
@@ -26,7 +30,7 @@ type ApplicationProfile struct {
 	// Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing.
 	PreserveClientIP bool `json:"preserve_client_ip,omitempty"`
 
-	// Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7.
+	// Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7.
 	PreserveClientPort bool `json:"preserve_client_port,omitempty"`
 
 	// Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8.

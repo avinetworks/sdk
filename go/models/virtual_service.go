@@ -7,6 +7,10 @@ package models
 // swagger:model VirtualService
 type VirtualService struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine's in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2.
 	ActiveStandbySeTag string `json:"active_standby_se_tag,omitempty"`
 
@@ -15,6 +19,9 @@ type VirtualService struct {
 
 	// Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile.
 	AnalyticsProfileRef string `json:"analytics_profile_ref,omitempty"`
+
+	// The name of the Contract/Graph associated with the Virtual Service. Should be in the <Contract name> <Graph name> format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2.
+	ApicContractGraph string `json:"apic_contract_graph,omitempty"`
 
 	// Enable application layer specific features for the Virtual Service. It is a reference to an object of type ApplicationProfile.
 	ApplicationProfileRef string `json:"application_profile_ref,omitempty"`
@@ -34,7 +41,11 @@ type VirtualService struct {
 	// (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1.
 	AviAllocatedVip bool `json:"avi_allocated_vip,omitempty"`
 
-	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1.
+	// (internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2.
+	// Read Only: true
+	AzureAvailabilitySet string `json:"azure_availability_set,omitempty"`
+
+	// (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 18.1.1.
 	BulkSyncKvcache bool `json:"bulk_sync_kvcache,omitempty"`
 
 	// HTTP authentication configuration for protected resources.
@@ -261,6 +272,9 @@ type VirtualService struct {
 
 	// Datascripts applied on the data traffic of the Virtual Service.
 	VsDatascripts []*VSDataScripts `json:"vs_datascripts,omitempty"`
+
+	// Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2.
+	VsvipCloudConfigCksum string `json:"vsvip_cloud_config_cksum,omitempty"`
 
 	// Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1.
 	VsvipRef string `json:"vsvip_ref,omitempty"`

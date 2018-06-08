@@ -7,6 +7,10 @@ package models
 // swagger:model SystemConfiguration
 type SystemConfiguration struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object
 	AdminAuthConfiguration *AdminAuthConfiguration `json:"admin_auth_configuration,omitempty"`
 

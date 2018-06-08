@@ -7,6 +7,10 @@ package models
 // swagger:model ServiceEngine
 type ServiceEngine struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// availability_zone of ServiceEngine.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
 

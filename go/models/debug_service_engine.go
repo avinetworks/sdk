@@ -7,8 +7,15 @@ package models
 // swagger:model DebugServiceEngine
 type DebugServiceEngine struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object
 	CPUShares []*DebugSeCPUShares `json:"cpu_shares,omitempty"`
+
+	// Params for SE fault injection. Field introduced in 18.1.2.
+	Fault *DebugSeFault `json:"fault,omitempty"`
 
 	// Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object
 	Flags []*DebugSeDataplane `json:"flags,omitempty"`

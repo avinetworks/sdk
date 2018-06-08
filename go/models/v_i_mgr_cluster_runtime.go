@@ -7,6 +7,10 @@ package models
 // swagger:model VIMgrClusterRuntime
 type VIMgrClusterRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
 

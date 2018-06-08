@@ -7,6 +7,10 @@ package models
 // swagger:model VIMgrSEVMRuntime
 type VIMgrSEVMRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified int64 `json:"_last_modified,omitempty"`
+
 	// availability_zone of VIMgrSEVMRuntime.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
 
