@@ -432,6 +432,15 @@ func (avisess *AviSession) Put(uri string, payload interface{}, response interfa
 	return avisess.restRequestInterfaceResponse("PUT", uri, payload, response)
 }
 
+// Post issues a PATCH request against the avisess REST API.
+// allowed patchOp - add, replace, remove
+func (avisess *AviSession) Patch(uri string, payload interface{}, patchOp string, response interface{}) error {
+	var patchPayload = make(map[string]interface{})
+	patchPayload[patchOp] = payload
+	glog.Info(" PATCH OP %v data %v", patchOp, payload)
+	return avisess.restRequestInterfaceResponse("PATCH", uri, patchPayload, response)
+}
+
 // Delete issues a DELETE request against the avisess REST API.
 func (avisess *AviSession) Delete(uri string) error {
 	return avisess.restRequestInterfaceResponse("DELETE", uri, nil, nil)
