@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi MicroServiceGroup Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure microservicegroup <key>\n- show microservicegroup <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure microservicegroup <key>\n- show microservicegroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -547,9 +563,32 @@
             ], 
             "type": "object", 
             "properties": {
-                "description": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "name": {
                     "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "Name of the MicroService group."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the MicroService group."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name."
                 }, 
                 "service_refs": {
                     "items": {
@@ -558,26 +597,9 @@
                     "type": "array", 
                     "description": "Configure MicroService(es). It is a reference to an object of type MicroService."
                 }, 
-                "url": {
-                    "readOnly": true, 
+                "description": {
                     "type": "string", 
-                    "description": "url"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the MicroService group."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator name."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the MicroService group."
+                    "description": "User defined description for the object."
                 }
             }
         }, 

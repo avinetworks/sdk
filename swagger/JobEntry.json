@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi JobEntry Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- show jobs\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show job <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -478,18 +494,40 @@
         }
     }, 
     "definitions": {
-        "JobEntry": {
+        "SubJob": {
             "required": [
                 "expires_at", 
-                "obj_key", 
-                "owner", 
                 "type"
             ], 
             "type": "object", 
             "properties": {
-                "uuid": {
+                "type": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": " Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS, JOB_TYPE_VS_ROTATE_KEYS, JOB_TYPE_POOL_DNS, JOB_TYPE_GSLB_SERVICE, JOB_TYPE_APP_PERSISTENCE, JOB_TYPE_PROCESS_LOCKED_USER_ACCOUNTS, JOB_TYPE_SESSION, JOB_TYPE_AUTHTOKEN, JOB_TYPE_CLUSTER, JOB_TYPE_SE_SECURE_CHANNEL_CLEANUP. Field introduced in 18.1.1."
+                }, 
+                "expires_at": {
+                    "type": "string", 
+                    "description": " Field introduced in 18.1.1."
+                }, 
+                "metadata": {
+                    "type": "string", 
+                    "description": " Field introduced in 18.1.1."
+                }
+            }
+        }, 
+        "JobEntry": {
+            "required": [
+                "expires_at", 
+                "name", 
+                "obj_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -504,21 +542,24 @@
                     "type": "string", 
                     "description": "expires_at of JobEntry."
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 18.1.2."
+                }, 
                 "obj_key": {
                     "type": "string", 
                     "description": "obj_key of JobEntry."
                 }, 
-                "cookie": {
-                    "type": "string", 
-                    "description": "cookie of JobEntry."
+                "subjobs": {
+                    "items": {
+                        "$ref": "#/definitions/SubJob"
+                    }, 
+                    "type": "array", 
+                    "description": " Field introduced in 18.1.1."
                 }, 
-                "owner": {
+                "uuid": {
                     "type": "string", 
-                    "description": " Enum options - JOB_OWNER_VIRTUALSERVICE, JOB_OWNER_SSL, JOB_OWNER_DEBUG_VIRTUALSERVICE, JOB_OWNER_CONSISTENCY_CHECKER, JOB_OWNER_TECHSUPPORT_UPLOADER, JOB_OWNER_PKI_PROFILE, JOB_OWNER_NETWORKSECURITYPOLICY, JOB_OWNER_SEGROUP, JOB_OWNER_POSTGRES_STATUS."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS."
+                    "description": "Unique object identifier of the object."
                 }
             }
         }, 

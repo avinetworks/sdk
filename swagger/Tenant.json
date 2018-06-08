@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi Tenant Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure tenant <key>\n- show tenant <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure tenant <key>\n- show tenant <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -522,14 +538,28 @@
             ], 
             "type": "object", 
             "properties": {
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator of this tenant."
                 }, 
                 "config_settings": {
                     "description": "Placeholder for description of property config_settings of obj type Tenant field type str  type object", 
@@ -540,17 +570,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property local of obj type Tenant field type str  type boolean"
                 }, 
-                "uuid": {
+                "name": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator of this tenant."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "Name of the object."
                 }
             }
         }

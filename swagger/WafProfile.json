@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -488,15 +504,21 @@
             "type": "object", 
             "properties": {
                 "client_nonfile_upload_max_body_size": {
-                    "default": 128, 
+                    "default": 32, 
                     "type": "integer", 
-                    "description": "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).", 
+                    "description": "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1.", 
                     "format": "int32"
                 }, 
                 "regex_match_limit": {
                     "default": 1500, 
                     "type": "integer", 
                     "description": "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "max_execution_time": {
+                    "default": 50, 
+                    "type": "integer", 
+                    "description": "The maximum period of time WAF processing is allowed to take for a single request. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In detection mode, failure mode 'Closed' means the request is flagged, whereas failure mode 'Open' means the request is allowed. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 1-5000. Field introduced in 17.2.12, 18.1.2.", 
                     "format": "int32"
                 }, 
                 "response_hdr_default_action": {
@@ -526,9 +548,9 @@
                     "description": "Enable to buffer response body for inspection. Field introduced in 17.2.3."
                 }, 
                 "client_file_upload_max_body_size": {
-                    "default": 1024, 
+                    "default": 32, 
                     "type": "integer", 
-                    "description": "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).", 
+                    "description": "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1.", 
                     "format": "int32"
                 }, 
                 "cookie_format_version": {
@@ -539,7 +561,7 @@
                 "server_response_max_body_size": {
                     "default": 128, 
                     "type": "integer", 
-                    "description": "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).", 
+                    "description": "Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1.", 
                     "format": "int32"
                 }, 
                 "argument_separator": {
@@ -559,7 +581,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. Field introduced in 17.2.1."
+                    "description": "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1."
                 }, 
                 "allowed_http_versions": {
                     "items": {
@@ -620,7 +642,22 @@
                     "type": "array", 
                     "description": "List of Data Files Used for WAF Rules. Field introduced in 17.2.1."
                 }, 
-                "description": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.1."
+                }, 
+                "uuid": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
                 }, 
@@ -628,20 +665,11 @@
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
                 }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
                 "config": {
                     "description": "Config params for WAF. Field introduced in 17.2.1.", 
                     "$ref": "#/definitions/WafConfig"
                 }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.1."
-                }, 
-                "uuid": {
+                "description": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
                 }

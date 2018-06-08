@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi ErrorPageBody Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure errorpagebody <key>\n- show errorpagebody <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure errorpagebody <key>\n- show errorpagebody <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -488,6 +504,16 @@
                     "type": "string", 
                     "description": "Error page body sent to client when match. Field introduced in 17.2.4."
                 }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.4."
+                }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
@@ -498,10 +524,6 @@
                     "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
                 }, 
                 "name": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.4."
-                }, 
-                "uuid": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.4."
                 }
