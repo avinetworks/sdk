@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi VIMgrVMRuntime Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- show vinfra virtualmachine <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show vinfra virtualmachine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -662,9 +678,11 @@
                     "description": "Number of vm_lb_weight.", 
                     "format": "int32"
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "vcenter_vAppVendor": {
                     "type": "string", 
@@ -735,6 +753,10 @@
                     "description": "Number of num_cpu.", 
                     "format": "int32"
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "vcenter_rm_cookie": {
                     "type": "string", 
                     "description": "vcenter_rm_cookie of VIMgrVMRuntime."
@@ -750,7 +772,7 @@
                 }, 
                 "ovf_avisetype_field": {
                     "type": "string", 
-                    "description": " Field introduced in 17.1.3."
+                    "description": " Field introduced in 17.1.1,17.1.3."
                 }, 
                 "tenant_ref": {
                     "type": "string", 

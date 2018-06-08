@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SCPoolServerStateInfo Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- show poolserverstateinfo\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show poolserverstateinfo\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -548,10 +564,6 @@
         "SCPoolServerStateInfo": {
             "type": "object", 
             "properties": {
-                "oper_status": {
-                    "description": " Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/OperationalStatus"
-                }, 
                 "uuid": {
                     "type": "string", 
                     "description": " Field introduced in 17.1.1."
@@ -560,13 +572,6 @@
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
-                }, 
-                "server_states": {
-                    "items": {
-                        "$ref": "#/definitions/SCServerStateInfo"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 17.1.1."
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -579,6 +584,23 @@
                 "is_server": {
                     "type": "boolean", 
                     "description": " Field introduced in 17.1.1."
+                }, 
+                "oper_status": {
+                    "description": " Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/OperationalStatus"
+                }, 
+                "server_states": {
+                    "items": {
+                        "$ref": "#/definitions/SCServerStateInfo"
+                    }, 
+                    "type": "array", 
+                    "description": " Field introduced in 17.1.1."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }
             }
         }, 

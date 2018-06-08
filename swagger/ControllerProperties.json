@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi ControllerProperties Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure controller properties\n- show controller properties\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure controller properties\n- show controller properties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -484,7 +500,7 @@
                 "vs_se_ping_fail": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_se_ping_fail.", 
                     "format": "int32"
                 }, 
                 "portal_token": {
@@ -494,13 +510,13 @@
                 "cluster_ip_gratuitous_arp_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(MIN).", 
+                    "description": "Period for cluster ip gratuitous arp job.", 
                     "format": "int32"
                 }, 
                 "persistence_key_rotate_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).", 
+                    "description": "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
                     "format": "int32"
                 }, 
                 "bm_use_ansible": {
@@ -511,19 +527,19 @@
                 "attach_ip_retry_interval": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of attach_ip_retry_interval.", 
                     "format": "int32"
                 }, 
                 "vs_se_vnic_fail": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_se_vnic_fail.", 
                     "format": "int32"
                 }, 
                 "secure_channel_se_token_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(MIN).", 
+                    "description": "Number of secure_channel_se_token_timeout.", 
                     "format": "int32"
                 }, 
                 "attach_ip_retry_limit": {
@@ -535,13 +551,13 @@
                 "se_vnic_cooldown": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of se_vnic_cooldown.", 
                     "format": "int32"
                 }, 
                 "vnic_op_fail_time": {
                     "default": 180, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vnic_op_fail_time.", 
                     "format": "int32"
                 }, 
                 "max_pcap_per_tenant": {
@@ -558,7 +574,7 @@
                 "vs_se_bootup_fail": {
                     "default": 480, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_se_bootup_fail.", 
                     "format": "int32"
                 }, 
                 "seupgrade_fabric_pool_size": {
@@ -567,58 +583,70 @@
                     "description": "Pool size used for all fabric commands during se upgrade.", 
                     "format": "int32"
                 }, 
+                "cleanup_expired_authtoken_timeout_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Period for auth token cleanup job. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
                 "vs_key_rotate_period": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).", 
+                    "description": "Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
                     "format": "int32"
                 }, 
                 "seupgrade_segroup_min_dead_timeout": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Time to wait before marking segroup upgrade as stuck. Units(SEC).", 
+                    "description": "Time to wait before marking segroup upgrade as stuck.", 
                     "format": "int32"
                 }, 
-                "dns_refresh_period": {
-                    "default": 60, 
+                "_last_modified": {
+                    "readOnly": true, 
                     "type": "integer", 
-                    "description": ". Units(MIN).", 
-                    "format": "int32"
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "upgrade_lease_time": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of upgrade_lease_time.", 
                     "format": "int32"
                 }, 
                 "se_create_timeout": {
                     "default": 900, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of se_create_timeout.", 
                     "format": "int32"
                 }, 
                 "query_host_fail": {
                     "default": 180, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of query_host_fail.", 
                     "format": "int32"
                 }, 
                 "vs_apic_scaleout_timeout": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC).", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only.", 
                     "format": "int32"
                 }, 
                 "unresponsive_se_reboot": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of unresponsive_se_reboot.", 
+                    "format": "int32"
+                }, 
+                "process_pki_profile_timeout_period": {
+                    "default": 1440, 
+                    "type": "integer", 
+                    "description": "Period for process PKI profile job. Field introduced in 18.1.1.", 
                     "format": "int32"
                 }, 
                 "se_offline_del": {
                     "default": 172000, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of se_offline_del.", 
                     "format": "int32"
                 }, 
                 "max_dead_se_in_grp": {
@@ -630,13 +658,19 @@
                 "upgrade_dns_ttl": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC).", 
+                    "description": "Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "fatal_error_lease_time": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of fatal_error_lease_time.", 
+                    "format": "int32"
+                }, 
+                "dns_refresh_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Period for refresh pool and gslb DNS job.", 
                     "format": "int32"
                 }, 
                 "allow_ip_forwarding": {
@@ -646,7 +680,7 @@
                 "vs_se_attach_ip_fail": {
                     "default": 3600, 
                     "type": "integer", 
-                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC).", 
+                    "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.", 
                     "format": "int32"
                 }, 
                 "max_seq_vnic_failures": {
@@ -670,7 +704,19 @@
                 "warmstart_se_reconnect_wait_time": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of warmstart_se_reconnect_wait_time.", 
+                    "format": "int32"
+                }, 
+                "process_locked_useraccounts_timeout_period": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Period for process locked user accounts job. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "consistency_check_timeout_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Period for consistency check job. Field introduced in 18.1.1.", 
                     "format": "int32"
                 }, 
                 "uuid": {
@@ -688,10 +734,16 @@
                     "description": "Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2.", 
                     "format": "int32"
                 }, 
+                "cleanup_sessions_timeout_period": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Period for sessions cleanup job. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
                 "secure_channel_cleanup_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(MIN).", 
+                    "description": "Period for secure channel cleanup job.", 
                     "format": "int32"
                 }, 
                 "ssl_certificate_expiry_warning_days": {
@@ -699,19 +751,19 @@
                         "type": "integer"
                     }, 
                     "type": "array", 
-                    "description": "Number of days for SSL Certificate expiry warning. Units(DAYS).", 
+                    "description": "Number of days for SSL Certificate expiry warning.", 
                     "format": "int32"
                 }, 
                 "vs_se_vnic_ip_fail": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_se_vnic_ip_fail.", 
                     "format": "int32"
                 }, 
                 "secure_channel_controller_token_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(MIN).", 
+                    "description": "Number of secure_channel_controller_token_timeout.", 
                     "format": "int32"
                 }, 
                 "url": {
@@ -722,19 +774,19 @@
                 "vs_se_create_fail": {
                     "default": 1500, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_se_create_fail.", 
                     "format": "int32"
                 }, 
                 "api_idle_timeout": {
                     "default": 15, 
                     "type": "integer", 
-                    "description": " Allowed values are 0-1440. Units(MIN).", 
+                    "description": " Allowed values are 0-1440.", 
                     "format": "int32"
                 }, 
                 "crashed_se_reboot": {
                     "default": 900, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of crashed_se_reboot.", 
                     "format": "int32"
                 }, 
                 "appviewx_compat_mode": {
@@ -744,19 +796,19 @@
                 "vs_awaiting_se_timeout": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of vs_awaiting_se_timeout.", 
                     "format": "int32"
                 }, 
                 "se_failover_attempt_interval": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Interval between attempting failovers to an SE. Units(SEC).", 
+                    "description": "Interval between attempting failovers to an SE.", 
                     "format": "int32"
                 }, 
                 "dead_se_detection_timer": {
                     "default": 360, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of dead_se_detection_timer.", 
                     "format": "int32"
                 }
             }

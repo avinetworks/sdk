@@ -1,0 +1,112 @@
+/* swaggerUI original style */
+
+html {
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+  }
+  
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  
+  body {
+    margin: 0;
+    background: #fafafa;
+  }
+  
+  /* customized */
+  
+  body.swagger-section #header {
+    background-color: #434343;
+    padding: 0;
+    height: 76px;
+  }
+  
+  .swagger-section .swagger-ui-wrap {
+      line-height: 1;
+      font-family: "Droid Sans", sans-serif;
+      min-width: 760px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap {
+    box-sizing: border-box;
+    padding-left: 120px;
+    background-image: url('../img/avi-logo.svg');
+    background-repeat: no-repeat;
+    background-size: auto 50px;
+    background-position: 20px 16px;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap>div {
+    display: inline-block;
+    margin: 14px 2em;
+    line-height: 20px;
+    color: white;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap>div>div:first-child {
+    margin-bottom: 5px;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap>div.dropdown {
+    width: 160px;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap>div.dropdown a {
+    color: black;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap>div.dropdown>div.chosen-container {
+    width: 100% !important;
+  }
+  
+  body.swagger-section #header>div.swagger-ui-wrap div.openedFileLabel>a {
+    color: #DDD;
+  }
+  
+  .swagger-ui .scheme-container {
+      padding: 15px 10px;
+      margin: 0 20px;
+  }
+  
+  .swagger-ui .description .markdown pre {
+      background-color: #fcf6db;
+      border: 1px solid #e5e0c6;
+      padding: 10px;
+      margin: 0 0 10px 0;
+  }
+  
+  .swagger-ui .description .markdown pre code{
+      background: none;
+      color: #4d4d4d;
+  }
+  
+  .swagger-ui .description .markdown pre code.language-json{
+      background: #f8f8f8;
+  }
+  
+  .swagger-ui .info li pre {
+      max-width: 960px;
+      overflow-x: scroll;
+  }
+  
+  .swagger-ui .info code {
+      padding: 0;
+  }
+  
+  .swagger-ui .info li, 
+  .swagger-ui .info p, 
+  .swagger-ui .info table {
+      line-height: 1.5em;
+  }
+  
+  h2.title {
+      padding: 10px 0;
+  }
+  
