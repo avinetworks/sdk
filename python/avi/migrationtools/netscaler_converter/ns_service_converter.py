@@ -452,8 +452,7 @@ class ServiceConverter(object):
                 elif service.get('attrs') and len(service['attrs']) >= 2 and \
                         'SSL' in service['attrs']:
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
-                            'System-Standard', OBJECT_TYPE_SSL_PROFILE,
-                            self.tenant_name)
+                            'System-Standard', OBJECT_TYPE_SSL_PROFILE, 'admin')
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
                 # ELSE remove health monitor of https type
@@ -614,8 +613,7 @@ class ServiceConverter(object):
                 elif (service_group.get('attrs') and len(service_group['attrs'])
                         >= 2 and 'SSL' in service_group['attrs']):
                     pool_obj['ssl_profile_ref'] = ns_util.get_object_ref(
-                        'System-Standard', OBJECT_TYPE_SSL_PROFILE,
-                        self.tenant_name)
+                        'System-Standard', OBJECT_TYPE_SSL_PROFILE, 'admin')
                 # Remove health monitor reference of http type if pool
                 # has ssl profile or pki profile or ssl cert key
                 # ELSE remove health monitor of https type
