@@ -40,19 +40,20 @@ def get_name_and_entity(url):
 class F5InventoryConv(object):
 
     @classmethod
-    def get_instance(cls, version, host, username, password, interval):
+    def get_instance(cls, version, host, port, username, password, interval):
         """
 
         :param version:  version of f5 instance
         :param host: ip/url for f5 box
+        :param port: port for f5 box
         :param username: username for f5 box
         :param password: password for f5 box
         :return: object of respective f5 version object.
         """
         if version == '10':
-            return F5InventoryConvV10(host, username, password, interval)
+            return F5InventoryConvV10(host, port, username, password, interval)
         if version in ['11', '12']:
-            return F5InventoryConvV11(host, username, password, interval)
+            return F5InventoryConvV11(host, port, username, password, interval)
 
     def get_inventory(self):
         pass
@@ -420,12 +421,13 @@ class F5InventoryConv(object):
 
 class F5InventoryConvV10(F5InventoryConv):
 
-    def __init__(self, host, username, password, interval):
-        self.f5_client = BIGIP(host, username, password)
+    def __init__(self, host, port, username, password, interval):
+        self.f5_client = BIGIP(host, port, username, password)
         self.avi_object = []
         self.version = '10'
         self.avi_traffic_object = []
         self.interval = interval
+        self.port = port
 
     def get_all_virtual_service(self):
         """
@@ -517,8 +519,8 @@ class F5InventoryConvV10(F5InventoryConv):
 
 class F5InventoryConvV11(F5InventoryConv):
 
-    def __init__(self, host, username, password, interval):
-        self.f5_client = ManagementRoot(host, username, password)
+    def __init__(self, host, port, username, password, interval):
+        self.f5_client = ManagementRoot(host, username, password, port=port)
         self.avi_object = []
         self.version = '11'
         self.avi_traffic_object = []
@@ -633,10 +635,8 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--f5_config_version',
                         help='version of f5 config file', default='11')
     parser.add_argument('--f5_ip', help='host ip of f5 instance')
-    parser.add_argument('--f5_user', help='f5 host ssh username')
-    parser.add_argument('--f5_password',
-                        help='f5 host ssh password if password based '
-                             'authentication')
+    parser.add_argument('--f5_user', help='f5 host username')
+    parser.add_argument('--f5_password', help='f5 host password')
     parser.add_argument('-o', '--output_file_path', default='output',
                         help='folder location for output file')
 
@@ -645,6 +645,10 @@ if __name__ == '__main__':
     
     parser.add_argument('-i', '--interval', default=2,
                         help='Take the sample data with interval [default 2 mins]')
+
+    parser.add_argument('--f5_port',
+                        help='f5 host port id non default port is used ',
+                        default=443)
 
     args = parser.parse_args()
     if not args.f5_ip:
@@ -663,6 +667,7 @@ if __name__ == '__main__':
 
     f5_inventory_conv = F5InventoryConv.get_instance(args.f5_config_version,
                                                      args.f5_ip,
+                                                     args.f5_port,
                                                      args.f5_user,
                                                      args.f5_password,
                                                      args.interval)
