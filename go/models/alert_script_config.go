@@ -9,7 +9,7 @@ type AlertScriptConfig struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// User Defined Alert Action Script. Please refer to kb.avinetworks.com for more information.
 	ActionScript string `json:"action_script,omitempty"`

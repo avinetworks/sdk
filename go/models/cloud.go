@@ -9,7 +9,7 @@ type Cloud struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property apic_configuration of obj type Cloud field type str  type object
 	ApicConfiguration *APICConfiguration `json:"apic_configuration,omitempty"`

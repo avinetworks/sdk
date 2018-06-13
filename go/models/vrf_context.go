@@ -9,7 +9,7 @@ type VrfContext struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Bgp Local and Peer Info.
 	BgpProfile *BgpProfile `json:"bgp_profile,omitempty"`

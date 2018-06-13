@@ -26,6 +26,9 @@ type OpenStackConfiguration struct {
 	// If false, metadata service will be used instead of  config-drive functionality to retrieve SE VM metadata.
 	ConfigDrive bool `json:"config_drive,omitempty"`
 
+	// When set to True, the VIP and Data ports will be programmed to set virtual machine interface disable-policy. Please refer Contrail documentation for more on disable-policy. Field introduced in 18.1.2.
+	ContrailDisablePolicy bool `json:"contrail_disable_policy,omitempty"`
+
 	// Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, 'http //' scheme and 8082 port will be used if not provided in the url.
 	ContrailEndpoint string `json:"contrail_endpoint,omitempty"`
 

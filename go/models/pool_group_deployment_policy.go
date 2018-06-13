@@ -9,7 +9,7 @@ type PoolGroupDeploymentPolicy struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// It will automatically disable old production pools once there is a new production candidate.
 	AutoDisableOldProdPools bool `json:"auto_disable_old_prod_pools,omitempty"`
