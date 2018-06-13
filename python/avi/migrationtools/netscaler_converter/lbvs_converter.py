@@ -89,6 +89,7 @@ class LbvsConverter(object):
         # get the total size of object.
         self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['HTTPPolicySet'] = []
+        avi_config['StringGroup'] = []
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config['VsVip'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
@@ -153,6 +154,10 @@ class LbvsConverter(object):
                 pool_group_ref = None
                 if pool_group:
                     pool_group_ref = pool_group_name
+                    ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
+                    algo = ns_util.get_avi_lb_algorithm(ns_algo)
+                    ns_util.update_algo_for_pools(algo, pool_group_name, avi_config)
+
                 redirect_url = lb_vs.get('redirectURL', None)
                 backup_server = lb_vs.get('backupVServer', None)
                 updated_vs_name = re.sub('[:]', '-', vs_name)
@@ -193,6 +198,7 @@ class LbvsConverter(object):
                     'enabled': enabled,
                     'services': [],
                 }
+
                 if vrf:
                     vrf_ref = ns_util.get_object_ref(
                         vrf, 'vrfcontext', tenant=self.tenant_name,

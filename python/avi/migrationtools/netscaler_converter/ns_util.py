@@ -198,6 +198,15 @@ class NsUtil(MigrationUtil):
             avi_algorithm = 'LB_ALGORITHM_CONSISTENT_HASH_URI'
         return avi_algorithm
 
+    def update_algo_for_pools(self, algo, pg_name, avi_config):
+            pool_group = [pg for pg in avi_config['PoolGroup'] if
+                          pg['name'] == pg_name][0]
+            for member in pool_group['members']:
+                pool_name = self.get_name(member['pool_ref'])
+                pool = [pool for pool in avi_config['Pool'] if
+                        pool['name'] == pool_name][0]
+                pool['lb_algorithm'] = algo
+
     def get_avi_resp_code(self, respCode):
         """
         This function used for getting appropriate response code for avi.

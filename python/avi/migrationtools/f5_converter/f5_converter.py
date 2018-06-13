@@ -49,6 +49,7 @@ class F5Converter(AviConverter):
         self.f5_host_ip = args.f5_host_ip
         self.f5_ssh_user = args.f5_ssh_user
         self.f5_ssh_password = args.f5_ssh_password
+        self.f5_ssh_port = args.f5_ssh_port
         self.f5_key_file = args.f5_key_file
         self.ignore_config = args.ignore_config
         self.partition_config = args.partition_config
@@ -144,7 +145,8 @@ class F5Converter(AviConverter):
             LOG.debug("Copying files from host")
             print "Copying Files from Host..."
             scp_util.get_files_from_f5(input_dir, self.f5_host_ip,
-                                       self.f5_ssh_user, self.f5_ssh_password)
+                                       self.f5_ssh_user, self.f5_ssh_password,
+                                       self.f5_ssh_port)
             LOG.debug("Copied input files")
             source_file = open(input_dir + os.path.sep + "bigip.conf", "r")
             files = os.listdir(input_dir)
@@ -480,6 +482,9 @@ if __name__ == "__main__":
     parser.add_argument('--f5_ssh_password',
                         help='f5 host ssh password if password based ' +
                              'authentication')
+    parser.add_argument('--f5_ssh_port',
+                        help='f5 host ssh port id non default port is used ',
+                        default=22)
     parser.add_argument('--ignore_config',
                         help='config json to skip the config in conversion')
 
