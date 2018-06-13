@@ -9,7 +9,7 @@ type DebugServiceEngine struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object
 	CPUShares []*DebugSeCPUShares `json:"cpu_shares,omitempty"`

@@ -9,7 +9,7 @@ type PKIprofile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// List of Certificate Authorities (Root and Intermediate) trusted that is used for certificate validation.
 	CaCerts []*SSLCertificate `json:"ca_certs,omitempty"`

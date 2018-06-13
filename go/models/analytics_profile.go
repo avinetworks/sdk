@@ -9,7 +9,7 @@ type AnalyticsProfile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000.
 	ApdexResponseThreshold int32 `json:"apdex_response_threshold,omitempty"`

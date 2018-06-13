@@ -9,7 +9,7 @@ type GslbService struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// The federated application persistence associated with GslbService site persistence functionality. . It is a reference to an object of type ApplicationPersistenceProfile. Field introduced in 17.2.1.
 	ApplicationPersistenceProfileRef string `json:"application_persistence_profile_ref,omitempty"`

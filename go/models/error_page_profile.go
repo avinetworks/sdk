@@ -9,7 +9,7 @@ type ErrorPageProfile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Name of the Virtual Service which generated the error page. Field deprecated in 18.1.1. Field introduced in 17.2.4.
 	AppName string `json:"app_name,omitempty"`

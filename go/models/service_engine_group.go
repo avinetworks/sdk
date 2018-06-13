@@ -9,7 +9,7 @@ type ServiceEngineGroup struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Service Engines in active/standby mode for HA failover.
 	ActiveStandby bool `json:"active_standby,omitempty"`
@@ -134,7 +134,7 @@ type ServiceEngineGroup struct {
 	// Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.
 	FlowTableNewSynMaxEntries int32 `json:"flow_table_new_syn_max_entries,omitempty"`
 
-	// Number of entries in the free list. Field introduced in 17.2.10.
+	// Number of entries in the free list. Field introduced in 17.2.10, 18.1.2.
 	FreeListSize int32 `json:"free_list_size,omitempty"`
 
 	// High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.

@@ -9,7 +9,7 @@ type DebugVirtualService struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property capture of obj type DebugVirtualService field type str  type boolean
 	Capture bool `json:"capture,omitempty"`

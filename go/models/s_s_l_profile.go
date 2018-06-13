@@ -9,7 +9,7 @@ type SSLProfile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html).
 	AcceptedCiphers string `json:"accepted_ciphers,omitempty"`

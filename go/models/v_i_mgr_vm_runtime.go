@@ -9,7 +9,7 @@ type VIMgrVMRuntime struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// availability_zone of VIMgrVMRuntime.
 	AvailabilityZone string `json:"availability_zone,omitempty"`

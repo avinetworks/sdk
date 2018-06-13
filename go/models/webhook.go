@@ -9,7 +9,7 @@ type Webhook struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Callback URL for the Webhook. Field introduced in 17.1.1.
 	CallbackURL string `json:"callback_url,omitempty"`

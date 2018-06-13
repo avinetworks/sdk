@@ -9,7 +9,7 @@ type AlertConfig struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// The alert config will trigger the selected alert action, which can send notifications and execute a controlscript. It is a reference to an object of type ActionGroupConfig.
 	ActionGroupRef string `json:"action_group_ref,omitempty"`

@@ -9,7 +9,7 @@ type IPAMDNSProviderProfile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4.
 	AllocateIPInVrf bool `json:"allocate_ip_in_vrf,omitempty"`

@@ -9,7 +9,7 @@ type ErrorPageBody struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Error page body sent to client when match. Field introduced in 17.2.4.
 	ErrorPageBody string `json:"error_page_body,omitempty"`

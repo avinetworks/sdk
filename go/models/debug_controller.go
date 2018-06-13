@@ -9,7 +9,7 @@ type DebugController struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified int64 `json:"_last_modified,omitempty"`
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property filters of obj type DebugController field type str  type object
 	Filters *DebugFilterUnion `json:"filters,omitempty"`
