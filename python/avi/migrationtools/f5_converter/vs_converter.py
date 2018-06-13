@@ -92,7 +92,7 @@ class VSConfigConv(object):
                         segroup_ref = conv_utils.get_object_ref(
                             segroup, 'serviceenginegroup', tenant=tenant,
                             cloud_name=cloud_name)
-                        vs_obj['segroup_ref'] = segroup_ref
+                        vs_obj['se_group_ref'] = segroup_ref
                     avi_config['VirtualService'].append(vs_obj)
                     LOG.debug("Conversion successful for VS: %s" % vs_name)
             except:

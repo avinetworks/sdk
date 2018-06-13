@@ -90,7 +90,6 @@ class CsvsConverter(object):
         lbvs_avi_conf = avi_config['VirtualService']
         lb_vs_mapped = []
         cs_vs_list = []
-        avi_config['StringGroup'] = []
         # get the total size of object.
         self.progressbar_count = len(lb_vs_conf)
         self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
@@ -191,7 +190,7 @@ class CsvsConverter(object):
                                                     'serviceenginegroup',
                                                     tenant=self.tenant_name,
                                                     cloud_name=self.cloud_name)
-                    vs_obj['segroup_ref'] = se_group_ref
+                    vs_obj['se_group_ref'] = se_group_ref
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1'):
                     vs_obj['vip'] = [vip]
