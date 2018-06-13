@@ -58,7 +58,9 @@ type AviClient struct {
 	ErrorPageBody                  *ErrorPageBodyClient
 	ErrorPageProfile               *ErrorPageProfileClient
 	Gslb                           *GslbClient
+	GslbApplicationPersistenceProfile *GslbApplicationPersistenceProfileClient
 	GslbGeoDbProfile               *GslbGeoDbProfileClient
+	GslbHealthMonitor              *GslbHealthMonitorClient
 	GslbService                    *GslbServiceClient
 	HTTPPolicySet                  *HTTPPolicySetClient
 	HardwareSecurityModuleGroup    *HardwareSecurityModuleGroupClient
@@ -159,7 +161,9 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ErrorPageBody = NewErrorPageBodyClient(aviSession)
 	aviClient.ErrorPageProfile = NewErrorPageProfileClient(aviSession)
 	aviClient.Gslb = NewGslbClient(aviSession)
+	aviClient.GslbApplicationPersistenceProfile = NewGslbApplicationPersistenceProfileClient(aviSession)
 	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
+	aviClient.GslbHealthMonitor = NewGslbHealthMonitorClient(aviSession)
 	aviClient.GslbService = NewGslbServiceClient(aviSession)
 	aviClient.HTTPPolicySet = NewHTTPPolicySetClient(aviSession)
 	aviClient.HardwareSecurityModuleGroup = NewHardwareSecurityModuleGroupClient(aviSession)
