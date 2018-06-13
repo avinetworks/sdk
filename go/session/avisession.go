@@ -378,7 +378,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	}
 
 	result, err = ioutil.ReadAll(resp.Body)
-	return result, err
+
+	if err != nil {
+		errmsg := fmt.Sprintf("Response body read failed: %v", err)
+		errorResult.Message = &errmsg
+		return nil, errorResult
+	}
+
+	return result, nil
 }
 
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
