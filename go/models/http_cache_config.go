@@ -25,6 +25,9 @@ type HTTPCacheConfig struct {
 	// If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value.
 	HeuristicExpire bool `json:"heuristic_expire,omitempty"`
 
+	// Ignore client's cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2.
+	IgnoreRequestCacheControl bool `json:"ignore_request_cache_control,omitempty"`
+
 	// Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.
 	MaxCacheSize int64 `json:"max_cache_size,omitempty"`
 
@@ -49,6 +52,9 @@ type HTTPCacheConfig struct {
 	// Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit.
 	QueryCacheable bool `json:"query_cacheable,omitempty"`
 
-	// Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache.
+	// Non-cacheable URI configuration with match criteria. Field introduced in 18.1.2.
+	URINonCacheable *PathMatch `json:"uri_non_cacheable,omitempty"`
+
+	// Add an X-Cache header to content served from cache, which indicates to the client that the object was served from an intermediate cache.
 	XcacheHeader bool `json:"xcache_header,omitempty"`
 }

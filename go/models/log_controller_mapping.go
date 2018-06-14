@@ -7,6 +7,10 @@ package models
 // swagger:model LogControllerMapping
 type LogControllerMapping struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// controller_ip of LogControllerMapping.
 	ControllerIP string `json:"controller_ip,omitempty"`
 

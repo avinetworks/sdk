@@ -20,6 +20,9 @@ type CloudFlavor struct {
 	// Required: true
 	ID string `json:"id"`
 
+	// Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1.
+	MaxIP6SPerNic int32 `json:"max_ip6s_per_nic,omitempty"`
+
 	// Number of max_ips_per_nic.
 	MaxIpsPerNic int32 `json:"max_ips_per_nic,omitempty"`
 

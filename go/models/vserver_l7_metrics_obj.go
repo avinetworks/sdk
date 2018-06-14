@@ -61,11 +61,23 @@ type VserverL7MetricsObj struct {
 	// Avg number of HTTP requests that completed within frustrated latency.
 	AvgFrustratedResponses float64 `json:"avg_frustrated_responses,omitempty"`
 
+	// Average size of HTTP headers per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPHeadersBytes float64 `json:"avg_http_headers_bytes,omitempty"`
+
+	// Average number of HTTP headers per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPHeadersCount float64 `json:"avg_http_headers_count,omitempty"`
+
+	// Average number of HTTP request parameters per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPParamsCount float64 `json:"avg_http_params_count,omitempty"`
+
 	// Average Page Load time reported by clients.
 	AvgPageDownloadTime float64 `json:"avg_page_download_time,omitempty"`
 
 	// Average Page Load Time reported by client.
 	AvgPageLoadTime float64 `json:"avg_page_load_time,omitempty"`
+
+	// Average size of HTTP POST request. Field introduced in 17.2.12, 18.1.2.
+	AvgPostBytes float64 `json:"avg_post_bytes,omitempty"`
 
 	// Average post compression bytes.
 	AvgPostCompressionBytes float64 `json:"avg_post_compression_bytes,omitempty"`
@@ -190,8 +202,14 @@ type VserverL7MetricsObj struct {
 	// Average rate of client HTTP requests received by the virtual service per second.
 	AvgTotalRequests float64 `json:"avg_total_requests,omitempty"`
 
-	// Average number of transactions per socond identified by WAF as attacks. Field introduced in 17.2.3.
+	// Average length of HTTP URI per request. Field introduced in 17.2.12, 18.1.2.
+	AvgURILength float64 `json:"avg_uri_length,omitempty"`
+
+	// Average number of transactions per second identified by WAF as attacks. Field introduced in 17.2.3.
 	AvgWafAttacks float64 `json:"avg_waf_attacks,omitempty"`
+
+	// Average number of transactions per second bypassing WAF. Field introduced in 17.2.12, 18.1.2.
+	AvgWafDisabled float64 `json:"avg_waf_disabled,omitempty"`
 
 	// Average number of transactions per second evaluated by WAF. Field introduced in 17.2.2.
 	AvgWafEvaluated float64 `json:"avg_waf_evaluated,omitempty"`
@@ -284,6 +302,12 @@ type VserverL7MetricsObj struct {
 	// Percentage cacheable hit of requests.
 	PctCacheableHits float64 `json:"pct_cacheable_hits,omitempty"`
 
+	// Number of HTTP GET requests as a percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctGetReqs float64 `json:"pct_get_reqs,omitempty"`
+
+	// Number of HTTP POST requests as a percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctPostReqs float64 `json:"pct_post_reqs,omitempty"`
+
 	// Percent of 4xx and 5xx responses.
 	PctResponseErrors float64 `json:"pct_response_errors,omitempty"`
 
@@ -292,6 +316,9 @@ type VserverL7MetricsObj struct {
 
 	// Malicious transactions (Attacks) identified by WAF as the pecentage  of total requests received. Field introduced in 17.2.3.
 	PctWafAttacks float64 `json:"pct_waf_attacks,omitempty"`
+
+	// Transactions bypassing WAF as the percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctWafDisabled float64 `json:"pct_waf_disabled,omitempty"`
 
 	// WAF evaluated transactions as the pecentage of total requests received. Field introduced in 17.2.2.
 	PctWafEvaluated float64 `json:"pct_waf_evaluated,omitempty"`
@@ -353,6 +380,15 @@ type VserverL7MetricsObj struct {
 	// Total number of HTTP GET requests.
 	SumGetReqs float64 `json:"sum_get_reqs,omitempty"`
 
+	// Total size of HTTP request headers. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPHeadersBytes float64 `json:"sum_http_headers_bytes,omitempty"`
+
+	// Total number of HTTP headers across all requests in a given metrics interval. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPHeadersCount float64 `json:"sum_http_headers_count,omitempty"`
+
+	// Total number of HTTP request parameters. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPParamsCount float64 `json:"sum_http_params_count,omitempty"`
+
 	// Total samples that had satisfactory page load time.
 	SumNumPageLoadTimeBucket1 float64 `json:"sum_num_page_load_time_bucket1,omitempty"`
 
@@ -379,6 +415,9 @@ type VserverL7MetricsObj struct {
 
 	// Total Page Load Time reported by client.
 	SumPageLoadTime float64 `json:"sum_page_load_time,omitempty"`
+
+	// Total size of HTTP POST requests. Field introduced in 17.2.12, 18.1.2.
+	SumPostBytes float64 `json:"sum_post_bytes,omitempty"`
 
 	// Total latency from responses to all the POST requests.
 	SumPostClientTxnLatency float64 `json:"sum_post_client_txn_latency,omitempty"`
@@ -425,8 +464,14 @@ type VserverL7MetricsObj struct {
 	// Total number of HTTP responses sent.
 	SumTotalResponses float64 `json:"sum_total_responses,omitempty"`
 
+	// Total length of HTTP request URIs. Field introduced in 17.2.12, 18.1.2.
+	SumURILength float64 `json:"sum_uri_length,omitempty"`
+
 	// Total number of transactions identified by WAF as attacks. Field introduced in 17.2.3.
 	SumWafAttacks float64 `json:"sum_waf_attacks,omitempty"`
+
+	// Total number of requests bypassing WAF. Field introduced in 17.2.12, 18.1.2.
+	SumWafDisabled float64 `json:"sum_waf_disabled,omitempty"`
 
 	// Total number of requests evaluated by WAF in Request Body Phase. Field introduced in 17.2.2.
 	SumWafEvaluatedRequestBodyPhase float64 `json:"sum_waf_evaluated_request_body_phase,omitempty"`

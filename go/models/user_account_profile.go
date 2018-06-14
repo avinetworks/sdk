@@ -7,10 +7,14 @@ package models
 // swagger:model UserAccountProfile
 type UserAccountProfile struct {
 
-	// Lock timeout period (in minutes). Default is 30 minutes. Units(MIN).
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	// Lock timeout period (in minutes). Default is 30 minutes.
 	AccountLockTimeout int32 `json:"account_lock_timeout,omitempty"`
 
-	// The time period after which credentials expire. Default is 180 days. Units(DAYS).
+	// The time period after which credentials expire. Default is 180 days.
 	CredentialsTimeoutThreshold int32 `json:"credentials_timeout_threshold,omitempty"`
 
 	// Maximum number of concurrent sessions allowed. There are unlimited sessions by default.

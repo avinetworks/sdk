@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi MicroService Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure microservice <key>\n- show microservice <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure microservice <key>\n- show microservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -221,10 +221,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -557,10 +565,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -616,9 +632,11 @@
                     "type": "string", 
                     "description": "orchestrator_name of MicroService."
                 }, 
-                "ip_list": {
-                    "type": "boolean", 
-                    "description": "Flag to indicate if container IP list is provided by cloud connectorThis is applicable for overlay cases."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -644,6 +662,10 @@
                 "cloud_config_cksum": {
                     "type": "string", 
                     "description": "Checksum of cloud configuration for Microservice. Internally set by cloud connector. Field introduced in 17.2.8."
+                }, 
+                "ip_list": {
+                    "type": "boolean", 
+                    "description": "Flag to indicate if container IP list is provided by cloud connectorThis is applicable for overlay cases."
                 }, 
                 "application_name": {
                     "type": "string", 

@@ -25,7 +25,7 @@ type OShiftK8SConfiguration struct {
 	// Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5.
 	ClusterTag string `json:"cluster_tag,omitempty"`
 
-	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
+	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP.
 	ContainerPortMatchHTTPService bool `json:"container_port_match_http_service,omitempty"`
 
 	// Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change.
@@ -64,7 +64,7 @@ type OShiftK8SConfiguration struct {
 	// Optional fleet remote endpoint if fleet is used for SE deployment.
 	FleetEndpoint string `json:"fleet_endpoint,omitempty"`
 
-	// List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.
+	// List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443.
 	HTTPContainerPorts []int64 `json:"http_container_ports,omitempty,omitempty"`
 
 	// Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools.
@@ -112,7 +112,7 @@ type OShiftK8SConfiguration struct {
 	// Authorization token for service account instead of client certificate. One of client certificate or token is required.
 	ServiceAccountToken string `json:"service_account_token,omitempty"`
 
-	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service.
+	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11.
 	ServicePortMatchHTTPService bool `json:"service_port_match_http_service,omitempty"`
 
 	// Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3.

@@ -13,6 +13,9 @@ type SwitchoverEventDetails struct {
 	// ip of SwitchoverEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of SwitchoverEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// to_se_name of SwitchoverEventDetails.
 	ToSeName string `json:"to_se_name,omitempty"`
 

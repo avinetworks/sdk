@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -601,6 +617,10 @@
                     "type": "boolean", 
                     "description": "Use IAM roles instead of access and secret key."
                 }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10."
+                }, 
                 "usable_domains": {
                     "items": {
                         "type": "string"
@@ -615,7 +635,7 @@
                 "ttl": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "secret_access_key": {
@@ -679,7 +699,7 @@
             "properties": {
                 "record_ttl": {
                     "type": "integer", 
-                    "description": "TTL value for DNS records. Allowed values are 1-604800. Units(SEC).", 
+                    "description": "TTL value for DNS records. Allowed values are 1-604800.", 
                     "format": "int32"
                 }, 
                 "num_dns_ip": {
@@ -713,6 +733,12 @@
                 "openstack_profile": {
                     "description": "Provider details if type is OpenStack.", 
                     "$ref": "#/definitions/IpamDnsOpenstackProfile"
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "name": {
                     "type": "string", 
@@ -910,12 +936,32 @@
                     "type": "boolean", 
                     "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
                 }, 
+                "use_gcp_network": {
+                    "type": "boolean", 
+                    "description": "Use Google Cloud Platform Network for VIP allocation. By default Avi Vantage Network is used for VIP allocation. Field introduced in 18.1.2."
+                }, 
+                "project_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Project Name. This is required if Google Cloud Platform Network is used for VIP allocation. This field is optional. By default it will use the value of the field network_project_name. Field introduced in 18.1.2."
+                }, 
+                "region_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Region Name. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
+                }, 
+                "network_project_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Network Project Name. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2."
+                }, 
                 "usable_network_refs": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
                     "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
+                }, 
+                "network_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Network Name. VIP will be allocated from this Network. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
                 }
             }
         }, 
@@ -969,7 +1015,7 @@
                 "ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800. Units(SEC).", 
+                    "description": "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800.", 
                     "format": "int32"
                 }
             }

@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi CloudProperties Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure cloudproperties - show cloudproperties ``` </div>
+    <div class="app-desc">CLI ``` - configure cloudproperties - show cloudproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -240,7 +240,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -271,6 +273,7 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
+    "_last_modified" : 123456789,
     "info" : [ {
       "cca_props" : {
         "poll_duration_target" : 123,
@@ -294,6 +297,7 @@ font-style: italic;
           "value" : "aeiou",
           "key" : "aeiou"
         } ],
+        "max_ip6s_per_nic" : 123,
         "max_ips_per_nic" : 123,
         "name" : "aeiou",
         "id" : "aeiou",
@@ -310,6 +314,7 @@ font-style: italic;
         "ssl_certificate_expiry_warning_days" : [ "" ],
         "se_offline_del" : 123,
         "uuid" : "aeiou",
+        "consistency_check_timeout_period" : 123,
         "fatal_error_lease_time" : 123,
         "dummy" : 123,
         "secure_channel_se_token_timeout" : 123,
@@ -324,10 +329,13 @@ font-style: italic;
         "vs_apic_scaleout_timeout" : 123,
         "crashed_se_reboot" : 123,
         "bm_use_ansible" : true,
+        "process_locked_useraccounts_timeout_period" : 123,
         "appviewx_compat_mode" : true,
         "cluster_ip_gratuitous_arp_period" : 123,
         "max_pcap_per_tenant" : 123,
         "dead_se_detection_timer" : 123,
+        "cleanup_expired_authtoken_timeout_period" : 123,
+        "cleanup_sessions_timeout_period" : 123,
         "vs_se_vnic_ip_fail" : 123,
         "persistence_key_rotate_period" : 123,
         "secure_channel_controller_token_timeout" : 123,
@@ -339,8 +347,10 @@ font-style: italic;
         "attach_ip_retry_interval" : 123,
         "warmstart_se_reconnect_wait_time" : 123,
         "vnic_op_fail_time" : 123,
+        "_last_modified" : 123456789,
         "portal_token" : "aeiou",
         "vs_se_create_fail" : 123,
+        "process_pki_profile_timeout_period" : 123,
         "max_seq_vnic_failures" : 123,
         "url" : "aeiou",
         "max_seq_attach_ip_failures" : 123,
@@ -418,6 +428,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "info" : [ {
     "cca_props" : {
       "poll_duration_target" : 123,
@@ -441,6 +452,7 @@ font-style: italic;
         "value" : "aeiou",
         "key" : "aeiou"
       } ],
+      "max_ip6s_per_nic" : 123,
       "max_ips_per_nic" : 123,
       "name" : "aeiou",
       "id" : "aeiou",
@@ -457,6 +469,7 @@ font-style: italic;
       "ssl_certificate_expiry_warning_days" : [ "" ],
       "se_offline_del" : 123,
       "uuid" : "aeiou",
+      "consistency_check_timeout_period" : 123,
       "fatal_error_lease_time" : 123,
       "dummy" : 123,
       "secure_channel_se_token_timeout" : 123,
@@ -471,10 +484,13 @@ font-style: italic;
       "vs_apic_scaleout_timeout" : 123,
       "crashed_se_reboot" : 123,
       "bm_use_ansible" : true,
+      "process_locked_useraccounts_timeout_period" : 123,
       "appviewx_compat_mode" : true,
       "cluster_ip_gratuitous_arp_period" : 123,
       "max_pcap_per_tenant" : 123,
       "dead_se_detection_timer" : 123,
+      "cleanup_expired_authtoken_timeout_period" : 123,
+      "cleanup_sessions_timeout_period" : 123,
       "vs_se_vnic_ip_fail" : 123,
       "persistence_key_rotate_period" : 123,
       "secure_channel_controller_token_timeout" : 123,
@@ -486,8 +502,10 @@ font-style: italic;
       "attach_ip_retry_interval" : 123,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
+      "_last_modified" : 123456789,
       "portal_token" : "aeiou",
       "vs_se_create_fail" : 123,
+      "process_pki_profile_timeout_period" : 123,
       "max_seq_vnic_failures" : 123,
       "url" : "aeiou",
       "max_seq_attach_ip_failures" : 123,
@@ -605,7 +623,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -634,6 +654,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "info" : [ {
     "cca_props" : {
       "poll_duration_target" : 123,
@@ -657,6 +678,7 @@ font-style: italic;
         "value" : "aeiou",
         "key" : "aeiou"
       } ],
+      "max_ip6s_per_nic" : 123,
       "max_ips_per_nic" : 123,
       "name" : "aeiou",
       "id" : "aeiou",
@@ -673,6 +695,7 @@ font-style: italic;
       "ssl_certificate_expiry_warning_days" : [ "" ],
       "se_offline_del" : 123,
       "uuid" : "aeiou",
+      "consistency_check_timeout_period" : 123,
       "fatal_error_lease_time" : 123,
       "dummy" : 123,
       "secure_channel_se_token_timeout" : 123,
@@ -687,10 +710,13 @@ font-style: italic;
       "vs_apic_scaleout_timeout" : 123,
       "crashed_se_reboot" : 123,
       "bm_use_ansible" : true,
+      "process_locked_useraccounts_timeout_period" : 123,
       "appviewx_compat_mode" : true,
       "cluster_ip_gratuitous_arp_period" : 123,
       "max_pcap_per_tenant" : 123,
       "dead_se_detection_timer" : 123,
+      "cleanup_expired_authtoken_timeout_period" : 123,
+      "cleanup_sessions_timeout_period" : 123,
       "vs_se_vnic_ip_fail" : 123,
       "persistence_key_rotate_period" : 123,
       "secure_channel_controller_token_timeout" : 123,
@@ -702,8 +728,10 @@ font-style: italic;
       "attach_ip_retry_interval" : 123,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
+      "_last_modified" : 123456789,
       "portal_token" : "aeiou",
       "vs_se_create_fail" : 123,
+      "process_pki_profile_timeout_period" : 123,
       "max_seq_vnic_failures" : 123,
       "url" : "aeiou",
       "max_seq_attach_ip_failures" : 123,
@@ -792,6 +820,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "info" : [ {
     "cca_props" : {
       "poll_duration_target" : 123,
@@ -815,6 +844,7 @@ font-style: italic;
         "value" : "aeiou",
         "key" : "aeiou"
       } ],
+      "max_ip6s_per_nic" : 123,
       "max_ips_per_nic" : 123,
       "name" : "aeiou",
       "id" : "aeiou",
@@ -831,6 +861,7 @@ font-style: italic;
       "ssl_certificate_expiry_warning_days" : [ "" ],
       "se_offline_del" : 123,
       "uuid" : "aeiou",
+      "consistency_check_timeout_period" : 123,
       "fatal_error_lease_time" : 123,
       "dummy" : 123,
       "secure_channel_se_token_timeout" : 123,
@@ -845,10 +876,13 @@ font-style: italic;
       "vs_apic_scaleout_timeout" : 123,
       "crashed_se_reboot" : 123,
       "bm_use_ansible" : true,
+      "process_locked_useraccounts_timeout_period" : 123,
       "appviewx_compat_mode" : true,
       "cluster_ip_gratuitous_arp_period" : 123,
       "max_pcap_per_tenant" : 123,
       "dead_se_detection_timer" : 123,
+      "cleanup_expired_authtoken_timeout_period" : 123,
+      "cleanup_sessions_timeout_period" : 123,
       "vs_se_vnic_ip_fail" : 123,
       "persistence_key_rotate_period" : 123,
       "secure_channel_controller_token_timeout" : 123,
@@ -860,8 +894,10 @@ font-style: italic;
       "attach_ip_retry_interval" : 123,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
+      "_last_modified" : 123456789,
       "portal_token" : "aeiou",
       "vs_se_create_fail" : 123,
+      "process_pki_profile_timeout_period" : 123,
       "max_seq_vnic_failures" : 123,
       "url" : "aeiou",
       "max_seq_attach_ip_failures" : 123,
@@ -950,6 +986,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "info" : [ {
     "cca_props" : {
       "poll_duration_target" : 123,
@@ -973,6 +1010,7 @@ font-style: italic;
         "value" : "aeiou",
         "key" : "aeiou"
       } ],
+      "max_ip6s_per_nic" : 123,
       "max_ips_per_nic" : 123,
       "name" : "aeiou",
       "id" : "aeiou",
@@ -989,6 +1027,7 @@ font-style: italic;
       "ssl_certificate_expiry_warning_days" : [ "" ],
       "se_offline_del" : 123,
       "uuid" : "aeiou",
+      "consistency_check_timeout_period" : 123,
       "fatal_error_lease_time" : 123,
       "dummy" : 123,
       "secure_channel_se_token_timeout" : 123,
@@ -1003,10 +1042,13 @@ font-style: italic;
       "vs_apic_scaleout_timeout" : 123,
       "crashed_se_reboot" : 123,
       "bm_use_ansible" : true,
+      "process_locked_useraccounts_timeout_period" : 123,
       "appviewx_compat_mode" : true,
       "cluster_ip_gratuitous_arp_period" : 123,
       "max_pcap_per_tenant" : 123,
       "dead_se_detection_timer" : 123,
+      "cleanup_expired_authtoken_timeout_period" : 123,
+      "cleanup_sessions_timeout_period" : 123,
       "vs_se_vnic_ip_fail" : 123,
       "persistence_key_rotate_period" : 123,
       "secure_channel_controller_token_timeout" : 123,
@@ -1018,8 +1060,10 @@ font-style: italic;
       "attach_ip_retry_interval" : 123,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
+      "_last_modified" : 123456789,
       "portal_token" : "aeiou",
       "vs_se_create_fail" : 123,
+      "process_pki_profile_timeout_period" : 123,
       "max_seq_vnic_failures" : 123,
       "url" : "aeiou",
       "max_seq_attach_ip_failures" : 123,
@@ -1077,7 +1121,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1105,6 +1151,7 @@ font-style: italic;
     "ssl_certificate_expiry_warning_days" : [ "" ],
     "se_offline_del" : 123,
     "uuid" : "aeiou",
+    "consistency_check_timeout_period" : 123,
     "fatal_error_lease_time" : 123,
     "dummy" : 123,
     "secure_channel_se_token_timeout" : 123,
@@ -1119,10 +1166,13 @@ font-style: italic;
     "vs_apic_scaleout_timeout" : 123,
     "crashed_se_reboot" : 123,
     "bm_use_ansible" : true,
+    "process_locked_useraccounts_timeout_period" : 123,
     "appviewx_compat_mode" : true,
     "cluster_ip_gratuitous_arp_period" : 123,
     "max_pcap_per_tenant" : 123,
     "dead_se_detection_timer" : 123,
+    "cleanup_expired_authtoken_timeout_period" : 123,
+    "cleanup_sessions_timeout_period" : 123,
     "vs_se_vnic_ip_fail" : 123,
     "persistence_key_rotate_period" : 123,
     "secure_channel_controller_token_timeout" : 123,
@@ -1134,8 +1184,10 @@ font-style: italic;
     "attach_ip_retry_interval" : 123,
     "warmstart_se_reconnect_wait_time" : 123,
     "vnic_op_fail_time" : 123,
+    "_last_modified" : 123456789,
     "portal_token" : "aeiou",
     "vs_se_create_fail" : 123,
+    "process_pki_profile_timeout_period" : 123,
     "max_seq_vnic_failures" : 123,
     "url" : "aeiou",
     "max_seq_attach_ip_failures" : 123,
@@ -1208,6 +1260,7 @@ font-style: italic;
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
+  "consistency_check_timeout_period" : 123,
   "fatal_error_lease_time" : 123,
   "dummy" : 123,
   "secure_channel_se_token_timeout" : 123,
@@ -1222,10 +1275,13 @@ font-style: italic;
   "vs_apic_scaleout_timeout" : 123,
   "crashed_se_reboot" : 123,
   "bm_use_ansible" : true,
+  "process_locked_useraccounts_timeout_period" : 123,
   "appviewx_compat_mode" : true,
   "cluster_ip_gratuitous_arp_period" : 123,
   "max_pcap_per_tenant" : 123,
   "dead_se_detection_timer" : 123,
+  "cleanup_expired_authtoken_timeout_period" : 123,
+  "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
   "persistence_key_rotate_period" : 123,
   "secure_channel_controller_token_timeout" : 123,
@@ -1237,8 +1293,10 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
+  "_last_modified" : 123456789,
   "portal_token" : "aeiou",
   "vs_se_create_fail" : 123,
+  "process_pki_profile_timeout_period" : 123,
   "max_seq_vnic_failures" : 123,
   "url" : "aeiou",
   "max_seq_attach_ip_failures" : 123,
@@ -1354,7 +1412,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1380,6 +1440,7 @@ font-style: italic;
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
+  "consistency_check_timeout_period" : 123,
   "fatal_error_lease_time" : 123,
   "dummy" : 123,
   "secure_channel_se_token_timeout" : 123,
@@ -1394,10 +1455,13 @@ font-style: italic;
   "vs_apic_scaleout_timeout" : 123,
   "crashed_se_reboot" : 123,
   "bm_use_ansible" : true,
+  "process_locked_useraccounts_timeout_period" : 123,
   "appviewx_compat_mode" : true,
   "cluster_ip_gratuitous_arp_period" : 123,
   "max_pcap_per_tenant" : 123,
   "dead_se_detection_timer" : 123,
+  "cleanup_expired_authtoken_timeout_period" : 123,
+  "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
   "persistence_key_rotate_period" : 123,
   "secure_channel_controller_token_timeout" : 123,
@@ -1409,8 +1473,10 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
+  "_last_modified" : 123456789,
   "portal_token" : "aeiou",
   "vs_se_create_fail" : 123,
+  "process_pki_profile_timeout_period" : 123,
   "max_seq_vnic_failures" : 123,
   "url" : "aeiou",
   "max_seq_attach_ip_failures" : 123,
@@ -1494,6 +1560,7 @@ font-style: italic;
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
+  "consistency_check_timeout_period" : 123,
   "fatal_error_lease_time" : 123,
   "dummy" : 123,
   "secure_channel_se_token_timeout" : 123,
@@ -1508,10 +1575,13 @@ font-style: italic;
   "vs_apic_scaleout_timeout" : 123,
   "crashed_se_reboot" : 123,
   "bm_use_ansible" : true,
+  "process_locked_useraccounts_timeout_period" : 123,
   "appviewx_compat_mode" : true,
   "cluster_ip_gratuitous_arp_period" : 123,
   "max_pcap_per_tenant" : 123,
   "dead_se_detection_timer" : 123,
+  "cleanup_expired_authtoken_timeout_period" : 123,
+  "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
   "persistence_key_rotate_period" : 123,
   "secure_channel_controller_token_timeout" : 123,
@@ -1523,8 +1593,10 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
+  "_last_modified" : 123456789,
   "portal_token" : "aeiou",
   "vs_se_create_fail" : 123,
+  "process_pki_profile_timeout_period" : 123,
   "max_seq_vnic_failures" : 123,
   "url" : "aeiou",
   "max_seq_attach_ip_failures" : 123,
@@ -1608,6 +1680,7 @@ font-style: italic;
   "ssl_certificate_expiry_warning_days" : [ "" ],
   "se_offline_del" : 123,
   "uuid" : "aeiou",
+  "consistency_check_timeout_period" : 123,
   "fatal_error_lease_time" : 123,
   "dummy" : 123,
   "secure_channel_se_token_timeout" : 123,
@@ -1622,10 +1695,13 @@ font-style: italic;
   "vs_apic_scaleout_timeout" : 123,
   "crashed_se_reboot" : 123,
   "bm_use_ansible" : true,
+  "process_locked_useraccounts_timeout_period" : 123,
   "appviewx_compat_mode" : true,
   "cluster_ip_gratuitous_arp_period" : 123,
   "max_pcap_per_tenant" : 123,
   "dead_se_detection_timer" : 123,
+  "cleanup_expired_authtoken_timeout_period" : 123,
+  "cleanup_sessions_timeout_period" : 123,
   "vs_se_vnic_ip_fail" : 123,
   "persistence_key_rotate_period" : 123,
   "secure_channel_controller_token_timeout" : 123,
@@ -1637,8 +1713,10 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
+  "_last_modified" : 123456789,
   "portal_token" : "aeiou",
   "vs_se_create_fail" : 123,
+  "process_pki_profile_timeout_period" : 123,
   "max_seq_vnic_failures" : 123,
   "url" : "aeiou",
   "max_seq_attach_ip_failures" : 123,
@@ -1689,18 +1767,18 @@ font-style: italic;
     <h3 class="field-label"><a name="CC_AgentProperties">CC_AgentProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">async_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum polls to check for async jobs to finish. format: int32</div>
-<div class="param">async_retries_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Delay between each async job status poll check. Units(SEC). format: int32</div>
-<div class="param">poll_duration_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals. Units(SEC). format: int32</div>
-<div class="param">poll_fast_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fast poll interval. Units(SEC). format: int32</div>
-<div class="param">poll_slow_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Slow poll interval. Units(SEC). format: int32</div>
+<div class="param">async_retries_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Delay between each async job status poll check. format: int32</div>
+<div class="param">poll_duration_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Discovery poll target duration; a scale factor of 1+ is computed with the actual discovery (actual/target) and used to tweak slow and fast poll intervals. format: int32</div>
+<div class="param">poll_fast_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fast poll interval. format: int32</div>
+<div class="param">poll_slow_target (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Slow poll interval. format: int32</div>
 <div class="param">vnic_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum polls to check for vnics to be attached to VM. format: int32</div>
-<div class="param">vnic_retries_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Delay between each vnic status poll check. Units(SEC). format: int32</div>
+<div class="param">vnic_retries_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Delay between each vnic status poll check. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="CC_Properties">CC_Properties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">rpc_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+      <div class="param">rpc_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of rpc_poll_interval. format: int32</div>
 <div class="param">rpc_queue_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of rpc_queue_size. format: int32</div>
     </div>  <!-- field-items -->
   </div>
@@ -1711,6 +1789,7 @@ font-style: italic;
 <div class="param">disk_gb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of disk_gb. format: int32</div>
 <div class="param">enhanced_nw (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enhanced_nw of obj type CloudFlavor field type str  type boolean </div>
 <div class="param">id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> id of CloudFlavor. </div>
+<div class="param">max_ip6s_per_nic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1. format: int32</div>
 <div class="param">max_ips_per_nic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_ips_per_nic. format: int32</div>
 <div class="param">max_nics (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_nics. format: int32</div>
 <div class="param">meta (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudMeta">array[CloudMeta]</a></span> Placeholder for description of property meta of obj type CloudFlavor field type str  type object </div>
@@ -1741,7 +1820,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="CloudProperties">CloudProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cc_props (optional)</div><div class="param-desc"><span class="param-type"><a href="#CC_Properties">CC_Properties</a></span> CloudConnector properties. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">cc_props (optional)</div><div class="param-desc"><span class="param-type"><a href="#CC_Properties">CC_Properties</a></span> CloudConnector properties. </div>
 <div class="param">cc_vtypes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Cloud types supported by CloudConnector. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
 <div class="param">hyp_props (optional)</div><div class="param-desc"><span class="param-type"><a href="#Hypervisor_Properties">array[Hypervisor_Properties]</a></span> Hypervisor properties. </div>
 <div class="param">info (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudInfo">array[CloudInfo]</a></span> Properties specific to a cloud type. </div>
@@ -1759,55 +1839,61 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ControllerProperties">ControllerProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">allow_unauthenticated_apis (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow unauthenticated access for special APIs. </div>
 <div class="param">allow_unauthenticated_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean </div>
-<div class="param">api_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 0-1440. Units(MIN). format: int32</div>
+<div class="param">api_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 0-1440. format: int32</div>
 <div class="param">appviewx_compat_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Export configuration in appviewx compatibility mode. Field introduced in 17.1.1. </div>
-<div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_interval. format: int32</div>
 <div class="param">attach_ip_retry_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_limit. format: int32</div>
 <div class="param">bm_use_ansible (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Ansible for SE creation in baremetal. Field introduced in 17.2.2. </div>
-<div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
-<div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
+<div class="param">cleanup_expired_authtoken_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for auth token cleanup job. Field introduced in 18.1.1. format: int32</div>
+<div class="param">cleanup_sessions_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for sessions cleanup job. Field introduced in 18.1.1. format: int32</div>
+<div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for cluster ip gratuitous arp job. format: int32</div>
+<div class="param">consistency_check_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for consistency check job. Field introduced in 18.1.1. format: int32</div>
+<div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of crashed_se_reboot. format: int32</div>
+<div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dead_se_detection_timer. format: int32</div>
+<div class="param">dns_refresh_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for refresh pool and gslb DNS job. format: int32</div>
 <div class="param">dummy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dummy. format: int32</div>
 <div class="param">enable_memory_balancer (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable Memory Balancer. Field introduced in 17.2.8. </div>
-<div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">fatal_error_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of fatal_error_lease_time. format: int32</div>
 <div class="param">max_dead_se_in_grp (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_dead_se_in_grp. format: int32</div>
 <div class="param">max_pcap_per_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of pcap files stored per tenant. format: int32</div>
 <div class="param">max_seq_attach_ip_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2. format: int32</div>
 <div class="param">max_seq_vnic_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_seq_vnic_failures. format: int32</div>
-<div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Units(MIN). format: int32</div>
+<div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
-<div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">process_locked_useraccounts_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process locked user accounts job. Field introduced in 18.1.1. format: int32</div>
+<div class="param">process_pki_profile_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process PKI profile job. Field introduced in 18.1.1. format: int32</div>
+<div class="param">query_host_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of query_host_fail. format: int32</div>
 <div class="param">safenet_hsm_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3. </div>
-<div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. Units(SEC). format: int32</div>
-<div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
-<div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
-<div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(MIN). format: int32</div>
+<div class="param">se_create_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_create_timeout. format: int32</div>
+<div class="param">se_failover_attempt_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval between attempting failovers to an SE. format: int32</div>
+<div class="param">se_offline_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_offline_del. format: int32</div>
+<div class="param">se_vnic_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of se_vnic_cooldown. format: int32</div>
+<div class="param">secure_channel_cleanup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for secure channel cleanup job. format: int32</div>
+<div class="param">secure_channel_controller_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_controller_token_timeout. format: int32</div>
+<div class="param">secure_channel_se_token_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of secure_channel_se_token_timeout. format: int32</div>
 <div class="param">seupgrade_fabric_pool_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool size used for all fabric commands during se upgrade. format: int32</div>
-<div class="param">seupgrade_segroup_min_dead_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking segroup upgrade as stuck. Units(SEC). format: int32</div>
-<div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. Units(DAYS). </div>
-<div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC). format: int32</div>
-<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">seupgrade_segroup_min_dead_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking segroup upgrade as stuck. format: int32</div>
+<div class="param">ssl_certificate_expiry_warning_days (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Number of days for SSL Certificate expiry warning. </div>
+<div class="param">unresponsive_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of unresponsive_se_reboot. format: int32</div>
+<div class="param">upgrade_dns_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. format: int32</div>
+<div class="param">upgrade_lease_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upgrade_lease_time. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
-<div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC). format: int32</div>
-<div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. Units(MIN). format: int32</div>
-<div class="param">vs_se_attach_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC). format: int32</div>
-<div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_se_ping_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_se_vnic_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">vs_se_vnic_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
-<div class="param">warmstart_se_reconnect_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> . Units(SEC). format: int32</div>
+<div class="param">vnic_op_fail_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vnic_op_fail_time. format: int32</div>
+<div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. format: int32</div>
+<div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_awaiting_se_timeout. format: int32</div>
+<div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">vs_se_attach_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. format: int32</div>
+<div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_bootup_fail. format: int32</div>
+<div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_create_fail. format: int32</div>
+<div class="param">vs_se_ping_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_ping_fail. format: int32</div>
+<div class="param">vs_se_vnic_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_fail. format: int32</div>
+<div class="param">vs_se_vnic_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_vnic_ip_fail. format: int32</div>
+<div class="param">warmstart_se_reconnect_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of warmstart_se_reconnect_wait_time. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

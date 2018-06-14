@@ -7,6 +7,9 @@ package models
 // swagger:model PoolDeploymentSuccessInfo
 type PoolDeploymentSuccessInfo struct {
 
+	// Previous pool in service. Field introduced in 18.1.1.
+	PrevInServicePoolName string `json:"prev_in_service_pool_name,omitempty"`
+
 	// Previous pool in service. It is a reference to an object of type Pool.
 	PrevInServicePoolRef string `json:"prev_in_service_pool_ref,omitempty"`
 

@@ -7,6 +7,10 @@ package models
 // swagger:model SecureChannelMapping
 type SecureChannelMapping struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// ip of SecureChannelMapping.
 	IP string `json:"ip,omitempty"`
 

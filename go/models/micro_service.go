@@ -7,6 +7,10 @@ package models
 // swagger:model MicroService
 type MicroService struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// application_name of MicroService.
 	// Required: true
 	ApplicationName string `json:"application_name"`

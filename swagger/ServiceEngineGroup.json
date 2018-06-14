@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -401,10 +409,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -703,39 +719,19 @@
         }
     }, 
     "definitions": {
-        "VssPlacement": {
+        "VipAutoscaleZones": {
             "type": "object", 
             "properties": {
-                "core_nonaffinity": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "num_subcores": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "ServiceEngineGroupApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
+                "subnet_uuids": {
                     "items": {
-                        "$ref": "#/definitions/ServiceEngineGroup"
+                        "type": "string"
                     }, 
-                    "type": "array"
+                    "type": "array", 
+                    "description": " Field introduced in 18.1.2."
+                }, 
+                "availability_zone": {
+                    "type": "string", 
+                    "description": " Field introduced in 18.1.2."
                 }
             }
         }, 
@@ -773,614 +769,6 @@
                     "type": "integer", 
                     "description": "Number of mask.", 
                     "format": "int32"
-                }
-            }
-        }, 
-        "VcenterClusters": {
-            "type": "object", 
-            "properties": {
-                "include": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property include of obj type VcenterClusters field type str  type boolean"
-                }, 
-                "cluster_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VIMgrClusterRuntime."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "ServiceEngineGroup": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "se_vs_hb_max_vs_in_pkt": {
-                    "default": 256, 
-                    "type": "integer", 
-                    "description": "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "disable_tso": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5."
-                }, 
-                "host_attribute_value": {
-                    "type": "string", 
-                    "description": "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
-                }, 
-                "async_ssl": {
-                    "type": "boolean", 
-                    "description": "SSL handshakes will be handled by dedicated SSL Threads."
-                }, 
-                "instance_flavor": {
-                    "type": "string", 
-                    "description": "Instance/Flavor type for SE instance."
-                }, 
-                "auto_redistribute_active_standby_load": {
-                    "type": "boolean", 
-                    "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
-                }, 
-                "auto_rebalance": {
-                    "type": "boolean", 
-                    "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
-                }, 
-                "disk_per_se": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Amount of disk space for each of the Service Engine virtual machines. Units(GB).", 
-                    "format": "int32"
-                }, 
-                "se_tunnel_mode": {
-                    "type": "integer", 
-                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "se_tunnel_udp_port": {
-                    "default": 1550, 
-                    "type": "integer", 
-                    "description": "UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.", 
-                    "format": "int32"
-                }, 
-                "disable_gro": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5."
-                }, 
-                "vs_scalein_timeout": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC).", 
-                    "format": "int32"
-                }, 
-                "ha_mode": {
-                    "default": "HA_MODE_SHARED", 
-                    "type": "string", 
-                    "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
-                }, 
-                "se_remote_punt_udp_port": {
-                    "default": 1501, 
-                    "type": "integer", 
-                    "description": "UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_udp_encap_ipc": {
-                    "type": "integer", 
-                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.", 
-                    "format": "int32"
-                }, 
-                "min_cpu_usage": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT).", 
-                    "format": "int32"
-                }, 
-                "custom_securitygroups_data": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
-                }, 
-                "ingress_access_data": {
-                    "default": "SG_INGRESS_ACCESS_ALL", 
-                    "type": "string", 
-                    "description": "Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
-                }, 
-                "vcenter_clusters": {
-                    "description": "Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object", 
-                    "$ref": "#/definitions/VcenterClusters"
-                }, 
-                "enable_vip_on_all_interfaces": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
-                }, 
-                "ingress_access_mgmt": {
-                    "default": "SG_INGRESS_ACCESS_ALL", 
-                    "type": "string", 
-                    "description": "Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
-                }, 
-                "iptables": {
-                    "items": {
-                        "$ref": "#/definitions/IptableRuleSet"
-                    }, 
-                    "type": "array", 
-                    "description": "Iptable Rules."
-                }, 
-                "max_vs_per_se": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "connection_memory_percentage": {
-                    "default": 50, 
-                    "type": "integer", 
-                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT).", 
-                    "format": "int32"
-                }, 
-                "service_ip_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1."
-                }, 
-                "placement_mode": {
-                    "default": "PLACEMENT_MODE_AUTO", 
-                    "type": "string", 
-                    "description": "If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO."
-                }, 
-                "max_scaleout_per_vs": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
-                    "format": "int32"
-                }, 
-                "os_reserved_memory": {
-                    "type": "integer", 
-                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
-                    "format": "int32"
-                }, 
-                "enable_routing": {
-                    "type": "boolean", 
-                    "description": "Enable routing for this ServiceEngineGroup ."
-                }, 
-                "waf_mempool": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable memory pool for WAF. Field introduced in 17.2.3."
-                }, 
-                "se_thread_multiplier": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
-                    "format": "int32"
-                }, 
-                "per_app": {
-                    "type": "boolean", 
-                    "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
-                }, 
-                "openstack_availability_zones": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 17.1.1."
-                }, 
-                "vcenter_datastores_include": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
-                }, 
-                "se_name_prefix": {
-                    "default": "Avi", 
-                    "type": "string", 
-                    "description": "Prefix to use for virtual machine name of Service Engines."
-                }, 
-                "flow_table_new_syn_max_entries": {
-                    "type": "integer", 
-                    "description": "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "se_vs_hb_max_pkts_in_batch": {
-                    "default": 8, 
-                    "type": "integer", 
-                    "description": "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "ignore_rtt_threshold": {
-                    "default": 5000, 
-                    "type": "integer", 
-                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS).", 
-                    "format": "int32"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "host_attribute_key": {
-                    "type": "string", 
-                    "description": "Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "dedicated_dispatcher_core": {
-                    "type": "boolean", 
-                    "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
-                }, 
-                "max_se": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Maximum number of Services Engines in this group. Allowed values are 0-1000.", 
-                    "format": "int32"
-                }, 
-                "mem_reserve": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
-                }, 
-                "license_type": {
-                    "type": "string", 
-                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
-                }, 
-                "se_dos_profile": {
-                    "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object", 
-                    "$ref": "#/definitions/DosThresholdProfile"
-                }, 
-                "enable_vmac": {
-                    "type": "boolean", 
-                    "description": "Use Virtual MAC address for interfaces on which floating interface IPs are placed."
-                }, 
-                "disable_csum_offloads": {
-                    "type": "boolean", 
-                    "description": "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5."
-                }, 
-                "openstack_mgmt_network_name": {
-                    "type": "string", 
-                    "description": "Avi Management network name."
-                }, 
-                "udf_log_throttle": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
-                    "format": "int32"
-                }, 
-                "vcenter_hosts": {
-                    "description": "Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object", 
-                    "$ref": "#/definitions/VcenterHosts"
-                }, 
-                "se_ipc_udp_port": {
-                    "default": 1500, 
-                    "type": "integer", 
-                    "description": "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.", 
-                    "format": "int32"
-                }, 
-                "vcpus_per_se": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of vcpus for each of the Service Engine virtual machines.", 
-                    "format": "int32"
-                }, 
-                "hm_on_standby": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable active health monitoring from the standby SE for all placed virtual services."
-                }, 
-                "distribute_queues": {
-                    "type": "boolean", 
-                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8."
-                }, 
-                "cpu_socket_affinity": {
-                    "type": "boolean", 
-                    "description": "Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud."
-                }, 
-                "realtime_se_metrics": {
-                    "description": "Enable or disable real time SE metrics.", 
-                    "$ref": "#/definitions/MetricsRealTimeUpdate"
-                }, 
-                "archive_shm_limit": {
-                    "default": 8, 
-                    "type": "integer", 
-                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB).", 
-                    "format": "int32"
-                }, 
-                "hardwaresecuritymodulegroup_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type HardwareSecurityModuleGroup."
-                }, 
-                "custom_securitygroups_mgmt": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom Security Groups to be associated with management vNic for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
-                }, 
-                "custom_tag": {
-                    "items": {
-                        "$ref": "#/definitions/CustomTag"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name."
-                }, 
-                "se_tracert_port_range": {
-                    "description": "Traceroute port range. Field introduced in 17.2.8.", 
-                    "$ref": "#/definitions/PortRange"
-                }, 
-                "floating_intf_ip_se_2": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled."
-                }, 
-                "se_deprovision_delay": {
-                    "default": 120, 
-                    "type": "integer", 
-                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN).", 
-                    "format": "int32"
-                }, 
-                "log_disksz": {
-                    "default": 10000, 
-                    "type": "integer", 
-                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB).", 
-                    "format": "int32"
-                }, 
-                "se_sb_dedicated_core": {
-                    "type": "boolean", 
-                    "description": "Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3."
-                }, 
-                "non_significant_log_throttle": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
-                    "format": "int32"
-                }, 
-                "openstack_availability_zone": {
-                    "type": "string", 
-                    "description": " Field deprecated in 17.1.1."
-                }, 
-                "extra_shared_config_memory": {
-                    "type": "integer", 
-                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB).", 
-                    "format": "int32"
-                }, 
-                "auto_rebalance_interval": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC).", 
-                    "format": "int32"
-                }, 
-                "vcenter_datastores": {
-                    "items": {
-                        "$ref": "#/definitions/VcenterDatastore"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property vcenter_datastores of obj type ServiceEngineGroup field type str  type object"
-                }, 
-                "se_sb_threads": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.", 
-                    "format": "int32"
-                }, 
-                "vs_scaleout_timeout": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC).", 
-                    "format": "int32"
-                }, 
-                "active_standby": {
-                    "type": "boolean", 
-                    "description": "Service Engines in active/standby mode for HA failover."
-                }, 
-                "auto_rebalance_capacity_per_se": {
-                    "items": {
-                        "type": "integer"
-                    }, 
-                    "type": "array", 
-                    "description": "Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4.", 
-                    "format": "int64"
-                }, 
-                "num_flow_cores_sum_changes_to_ignore": {
-                    "default": 8, 
-                    "type": "integer", 
-                    "description": "Number of changes in num flow cores sum to ignore.", 
-                    "format": "int32"
-                }, 
-                "se_probe_port": {
-                    "default": 7, 
-                    "type": "integer", 
-                    "description": "TCP port on SE where echo service will be run. Field introduced in 17.2.2.", 
-                    "format": "int32"
-                }, 
-                "algo": {
-                    "default": "PLACEMENT_ALGO_PACKED", 
-                    "type": "string", 
-                    "description": "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
-                }, 
-                "extra_config_multiplier": {
-                    "type": "number", 
-                    "description": "Multiplier for extra config to support large VS/Pool config.", 
-                    "format": "double"
-                }, 
-                "async_ssl_threads": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-16.", 
-                    "format": "int32"
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "openstack_mgmt_network_uuid": {
-                    "type": "string", 
-                    "description": "Management network UUID."
-                }, 
-                "vcenter_folder": {
-                    "default": "AviSeFolder", 
-                    "type": "string", 
-                    "description": "Folder to place all the Service Engine virtual machines in vCenter."
-                }, 
-                "vs_scalein_timeout_for_upgrade": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC).", 
-                    "format": "int32"
-                }, 
-                "cpu_reserve": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
-                }, 
-                "allow_burst": {
-                    "type": "boolean", 
-                    "description": "Allow SEs to be created using burst license. Field introduced in 17.2.5."
-                }, 
-                "floating_intf_ip": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled."
-                }, 
-                "advertise_backend_networks": {
-                    "type": "boolean", 
-                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
-                }, 
-                "mgmt_network_ref": {
-                    "type": "string", 
-                    "description": "Management network to use for Avi Service Engines. It is a reference to an object of type Network."
-                }, 
-                "memory_per_se": {
-                    "default": 2048, 
-                    "type": "integer", 
-                    "description": "Amount of memory for each of the Service Engine virtual machines.", 
-                    "format": "int32"
-                }, 
-                "max_cpu_usage": {
-                    "default": 80, 
-                    "type": "integer", 
-                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT).", 
-                    "format": "int32"
-                }, 
-                "min_scaleout_per_vs": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
-                    "format": "int32"
-                }, 
-                "license_tier": {
-                    "type": "string", 
-                    "description": "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
-                }, 
-                "vss_placement": {
-                    "description": "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5.", 
-                    "$ref": "#/definitions/VssPlacement"
-                }, 
-                "host_gateway_monitor": {
-                    "type": "boolean", 
-                    "description": "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4."
-                }, 
-                "buffer_se": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Excess Service Engine capacity provisioned for HA failover.", 
-                    "format": "int32"
-                }, 
-                "hypervisor": {
-                    "type": "string", 
-                    "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
-                }, 
-                "vcenter_datastore_mode": {
-                    "default": "VCENTER_DATASTORE_ANY", 
-                    "type": "string", 
-                    "description": " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
-                }, 
-                "enable_hsm_priming": {
-                    "type": "boolean", 
-                    "description": "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7."
-                }, 
-                "auto_rebalance_criteria": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3."
-                }, 
-                "distribute_load_active_standby": {
-                    "type": "boolean", 
-                    "description": "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
-                }, 
-                "least_load_core_selection": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Select core with least load for new flow."
-                }, 
-                "aggressive_failure_detection": {
-                    "type": "boolean", 
-                    "description": "Enable aggressive failover configuration for ha."
-                }, 
-                "significant_log_throttle": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
-                    "format": "int32"
-                }, 
-                "waf_mempool_size": {
-                    "default": 64, 
-                    "type": "integer", 
-                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB).", 
-                    "format": "int32"
-                }, 
-                "se_bandwidth_type": {
-                    "type": "string", 
-                    "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
-                }, 
-                "mgmt_subnet": {
-                    "description": "Management subnet to use for Avi Service Engines.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "vs_host_redundancy": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Ensure primary and secondary Service Engines are deployed on different physical hosts."
                 }
             }
         }, 
@@ -1424,34 +812,6 @@
                 }
             }
         }, 
-        "VcenterDatastore": {
-            "required": [
-                "datastore_name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "datastore_name": {
-                    "type": "string", 
-                    "description": "datastore_name of VcenterDatastore."
-                }
-            }
-        }, 
-        "CustomTag": {
-            "required": [
-                "tag_key"
-            ], 
-            "type": "object", 
-            "properties": {
-                "tag_val": {
-                    "type": "string", 
-                    "description": "tag_val of CustomTag."
-                }, 
-                "tag_key": {
-                    "type": "string", 
-                    "description": "tag_key of CustomTag."
-                }
-            }
-        }, 
         "MetricsRealTimeUpdate": {
             "required": [
                 "enabled"
@@ -1461,7 +821,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -1527,7 +887,7 @@
                 "thresh_period": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC).", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
                     "format": "int32"
                 }, 
                 "thresh_info": {
@@ -1560,6 +920,826 @@
                     "type": "integer", 
                     "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
                     "format": "int32"
+                }
+            }
+        }, 
+        "VssPlacement": {
+            "type": "object", 
+            "properties": {
+                "core_nonaffinity": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "num_subcores": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "ServiceEngineGroupApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ServiceEngineGroup"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "VcenterClusters": {
+            "type": "object", 
+            "properties": {
+                "include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property include of obj type VcenterClusters field type str  type boolean"
+                }, 
+                "cluster_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VIMgrClusterRuntime."
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "ServiceEngineGroup": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "disable_tso": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1."
+                }, 
+                "host_attribute_value": {
+                    "type": "string", 
+                    "description": "Value of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_key."
+                }, 
+                "async_ssl": {
+                    "type": "boolean", 
+                    "description": "SSL handshakes will be handled by dedicated SSL Threads."
+                }, 
+                "instance_flavor": {
+                    "type": "string", 
+                    "description": "Instance/Flavor type for SE instance."
+                }, 
+                "auto_redistribute_active_standby_load": {
+                    "type": "boolean", 
+                    "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
+                }, 
+                "self_se_election": {
+                    "type": "boolean", 
+                    "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2."
+                }, 
+                "free_list_size": {
+                    "default": 1024, 
+                    "type": "integer", 
+                    "description": "Number of entries in the free list. Field introduced in 17.2.10.", 
+                    "format": "int32"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "vs_scalein_timeout": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "se_udp_encap_ipc": {
+                    "type": "integer", 
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "min_cpu_usage": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.", 
+                    "format": "int32"
+                }, 
+                "custom_securitygroups_data": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                }, 
+                "ingress_access_data": {
+                    "default": "SG_INGRESS_ACCESS_ALL", 
+                    "type": "string", 
+                    "description": "Program SE security group ingress rules to allow VIP data access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
+                }, 
+                "vcenter_clusters": {
+                    "description": "Placeholder for description of property vcenter_clusters of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/VcenterClusters"
+                }, 
+                "max_rules_per_lb": {
+                    "default": 150, 
+                    "type": "integer", 
+                    "description": "Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "iptables": {
+                    "items": {
+                        "$ref": "#/definitions/IptableRuleSet"
+                    }, 
+                    "type": "array", 
+                    "description": "Iptable Rules."
+                }, 
+                "connection_memory_percentage": {
+                    "default": 50, 
+                    "type": "integer", 
+                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.", 
+                    "format": "int32"
+                }, 
+                "service_ip_subnets": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1."
+                }, 
+                "placement_mode": {
+                    "default": "PLACEMENT_MODE_AUTO", 
+                    "type": "string", 
+                    "description": "If placement mode is 'Auto', Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO."
+                }, 
+                "max_scaleout_per_vs": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
+                    "format": "int32"
+                }, 
+                "enable_routing": {
+                    "type": "boolean", 
+                    "description": "Enable routing for this ServiceEngineGroup ."
+                }, 
+                "waf_mempool": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable memory pool for WAF. Field introduced in 17.2.3."
+                }, 
+                "per_app": {
+                    "type": "boolean", 
+                    "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
+                }, 
+                "vcenter_datastores_include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "se_name_prefix": {
+                    "default": "Avi", 
+                    "type": "string", 
+                    "description": "Prefix to use for virtual machine name of Service Engines."
+                }, 
+                "waf_learning_memory": {
+                    "type": "integer", 
+                    "description": "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "max_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Maximum number of Services Engines in this group. Allowed values are 0-1000.", 
+                    "format": "int32"
+                }, 
+                "license_type": {
+                    "type": "string", 
+                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
+                }, 
+                "se_dos_profile": {
+                    "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/DosThresholdProfile"
+                }, 
+                "disable_se_memory_check": {
+                    "type": "boolean", 
+                    "description": "If set, disable the config memory check done in service engine. Field introduced in 18.1.2."
+                }, 
+                "udf_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "vcenter_hosts": {
+                    "description": "Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object", 
+                    "$ref": "#/definitions/VcenterHosts"
+                }, 
+                "vcpus_per_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of vcpus for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "cpu_socket_affinity": {
+                    "type": "boolean", 
+                    "description": "Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud."
+                }, 
+                "realtime_se_metrics": {
+                    "description": "Enable or disable real time SE metrics.", 
+                    "$ref": "#/definitions/MetricsRealTimeUpdate"
+                }, 
+                "memory_for_config_update": {
+                    "default": 15, 
+                    "type": "integer", 
+                    "description": "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "custom_tag": {
+                    "items": {
+                        "$ref": "#/definitions/CustomTag"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name."
+                }, 
+                "non_significant_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "shm_minimum_config_memory": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "extra_shared_config_memory": {
+                    "type": "integer", 
+                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "vcenter_datastores": {
+                    "items": {
+                        "$ref": "#/definitions/VcenterDatastore"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property vcenter_datastores of obj type ServiceEngineGroup field type str  type object"
+                }, 
+                "se_sb_threads": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.", 
+                    "format": "int32"
+                }, 
+                "active_standby": {
+                    "type": "boolean", 
+                    "description": "Service Engines in active/standby mode for HA failover."
+                }, 
+                "waf_learning_interval": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "auto_rebalance_capacity_per_se": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "Capacities of SE for auto rebalance for each criteria. Field introduced in 17.2.4.", 
+                    "format": "int64"
+                }, 
+                "service_ip6_subnets": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1."
+                }, 
+                "se_probe_port": {
+                    "default": 7, 
+                    "type": "integer", 
+                    "description": "TCP port on SE where echo service will be run. Field introduced in 17.2.2.", 
+                    "format": "int32"
+                }, 
+                "extra_config_multiplier": {
+                    "type": "number", 
+                    "description": "Multiplier for extra config to support large VS/Pool config.", 
+                    "format": "double"
+                }, 
+                "async_ssl_threads": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of Async SSL threads per se_dp. Allowed values are 1-16.", 
+                    "format": "int32"
+                }, 
+                "vcenter_folder": {
+                    "default": "AviSeFolder", 
+                    "type": "string", 
+                    "description": "Folder to place all the Service Engine virtual machines in vCenter."
+                }, 
+                "floating_intf_ip": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled."
+                }, 
+                "heap_minimum_config_memory": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "advertise_backend_networks": {
+                    "type": "boolean", 
+                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
+                }, 
+                "allow_burst": {
+                    "type": "boolean", 
+                    "description": "Allow SEs to be created using burst license. Field introduced in 17.2.5."
+                }, 
+                "max_cpu_usage": {
+                    "default": 80, 
+                    "type": "integer", 
+                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.", 
+                    "format": "int32"
+                }, 
+                "min_scaleout_per_vs": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
+                    "format": "int32"
+                }, 
+                "vss_placement": {
+                    "description": "Parameters to place Virtual Services on only a subset of the cores of an SE. Field introduced in 17.2.5.", 
+                    "$ref": "#/definitions/VssPlacement"
+                }, 
+                "buffer_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Excess Service Engine capacity provisioned for HA failover.", 
+                    "format": "int32"
+                }, 
+                "hypervisor": {
+                    "type": "string", 
+                    "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                }, 
+                "vcenter_datastore_mode": {
+                    "default": "VCENTER_DATASTORE_ANY", 
+                    "type": "string", 
+                    "description": " Enum options - VCENTER_DATASTORE_ANY, VCENTER_DATASTORE_LOCAL, VCENTER_DATASTORE_SHARED."
+                }, 
+                "enable_hsm_priming": {
+                    "type": "boolean", 
+                    "description": "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1."
+                }, 
+                "auto_rebalance_criteria": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3."
+                }, 
+                "least_load_core_selection": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Select core with least load for new flow."
+                }, 
+                "aggressive_failure_detection": {
+                    "type": "boolean", 
+                    "description": "Enable aggressive failover configuration for ha."
+                }, 
+                "significant_log_throttle": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "se_bandwidth_type": {
+                    "type": "string", 
+                    "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
+                }, 
+                "minimum_connection_memory": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "max_public_ips_per_lb": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "enable_vip_on_all_interfaces": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
+                }, 
+                "auto_rebalance": {
+                    "type": "boolean", 
+                    "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
+                }, 
+                "se_tunnel_mode": {
+                    "type": "integer", 
+                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "memory_per_se": {
+                    "default": 2048, 
+                    "type": "integer", 
+                    "description": "Amount of memory for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "se_tunnel_udp_port": {
+                    "default": 1550, 
+                    "type": "integer", 
+                    "description": "UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "disable_gro": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1."
+                }, 
+                "vs_scaleout_timeout": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.", 
+                    "format": "int32"
+                }, 
+                "ha_mode": {
+                    "default": "HA_MODE_SHARED", 
+                    "type": "string", 
+                    "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
+                }, 
+                "cloud_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud."
+                }, 
+                "se_remote_punt_udp_port": {
+                    "default": 1501, 
+                    "type": "integer", 
+                    "description": "UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "ingress_access_mgmt": {
+                    "default": "SG_INGRESS_ACCESS_ALL", 
+                    "type": "string", 
+                    "description": "Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
+                }, 
+                "disk_per_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Amount of disk space for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "openstack_mgmt_network_name": {
+                    "type": "string", 
+                    "description": "Avi Management network name."
+                }, 
+                "max_vs_per_se": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.", 
+                    "format": "int32"
+                }, 
+                "enable_multi_lb": {
+                    "type": "boolean", 
+                    "description": "Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2."
+                }, 
+                "openstack_mgmt_network_uuid": {
+                    "type": "string", 
+                    "description": "Management network UUID."
+                }, 
+                "n_log_streaming_threads": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_vs_hb_max_pkts_in_batch": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "se_sb_dedicated_core": {
+                    "type": "boolean", 
+                    "description": "Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3."
+                }, 
+                "host_attribute_key": {
+                    "type": "string", 
+                    "description": "Key of a (Key, Value) pair identifying a label for a set of Nodes usually in Container Clouds. Needs to be specified together with host_attribute_value. SEs can be configured differently including HA modes across different SE Groups. May also be used for isolation between different classes of VirtualServices. VirtualServices' SE Group may be specified via annotations/labels. A OpenShift/Kubernetes namespace maybe annotated with a matching SE Group label as openshift.io/node-selector  apptype=prod. When multiple SE Groups are used in a Cloud with host attributes specified,just a single SE Group can exist as a match-all SE Group without a host_attribute_key."
+                }, 
+                "se_ipc_udp_port": {
+                    "default": 1500, 
+                    "type": "integer", 
+                    "description": "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.", 
+                    "format": "int32"
+                }, 
+                "mem_reserve": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "cpu_reserve": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                }, 
+                "enable_vmac": {
+                    "type": "boolean", 
+                    "description": "Use Virtual MAC address for interfaces on which floating interface IPs are placed."
+                }, 
+                "archive_shm_limit": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "hm_on_standby": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable active health monitoring from the standby SE for all placed virtual services."
+                }, 
+                "distribute_queues": {
+                    "type": "boolean", 
+                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8."
+                }, 
+                "hardwaresecuritymodulegroup_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type HardwareSecurityModuleGroup."
+                }, 
+                "minimum_required_config_memory": {
+                    "type": "integer", 
+                    "description": "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "custom_securitygroups_mgmt": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom Security Groups to be associated with management vNic for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3."
+                }, 
+                "se_tracert_port_range": {
+                    "description": "Traceroute port range. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "floating_intf_ip_se_2": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled."
+                }, 
+                "log_disksz": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
+                    "format": "int32"
+                }, 
+                "openstack_availability_zone": {
+                    "type": "string", 
+                    "description": " Field deprecated in 17.1.1."
+                }, 
+                "auto_rebalance_interval": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
+                    "format": "int32"
+                }, 
+                "vip_asg": {
+                    "description": "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/VipAutoscaleGroup"
+                }, 
+                "ignore_rtt_threshold": {
+                    "default": 5000, 
+                    "type": "integer", 
+                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.", 
+                    "format": "int32"
+                }, 
+                "openstack_availability_zones": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " Field introduced in 17.1.1."
+                }, 
+                "disable_csum_offloads": {
+                    "type": "boolean", 
+                    "description": "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1."
+                }, 
+                "num_flow_cores_sum_changes_to_ignore": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "Number of changes in num flow cores sum to ignore.", 
+                    "format": "int32"
+                }, 
+                "algo": {
+                    "default": "PLACEMENT_ALGO_PACKED", 
+                    "type": "string", 
+                    "description": "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
+                }, 
+                "os_reserved_memory": {
+                    "type": "integer", 
+                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
+                    "format": "int32"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "vs_scalein_timeout_for_upgrade": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "se_deprovision_delay": {
+                    "default": 120, 
+                    "type": "integer", 
+                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.", 
+                    "format": "int32"
+                }, 
+                "se_vs_hb_max_vs_in_pkt": {
+                    "default": 256, 
+                    "type": "integer", 
+                    "description": "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "additional_config_memory": {
+                    "type": "integer", 
+                    "description": "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "mgmt_network_ref": {
+                    "type": "string", 
+                    "description": "Management network to use for Avi Service Engines. It is a reference to an object of type Network."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "license_tier": {
+                    "type": "string", 
+                    "description": "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "flow_table_new_syn_max_entries": {
+                    "type": "integer", 
+                    "description": "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "host_gateway_monitor": {
+                    "type": "boolean", 
+                    "description": "Enable the host gateway monitor when service engine is deployed as docker container. Disabled by default. Field introduced in 17.2.4."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "distribute_load_active_standby": {
+                    "type": "boolean", 
+                    "description": "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
+                }, 
+                "se_thread_multiplier": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
+                    "format": "int32"
+                }, 
+                "waf_mempool_size": {
+                    "default": 64, 
+                    "type": "integer", 
+                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3.", 
+                    "format": "int32"
+                }, 
+                "dedicated_dispatcher_core": {
+                    "type": "boolean", 
+                    "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
+                }, 
+                "mgmt_subnet": {
+                    "description": "Management subnet to use for Avi Service Engines.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "vs_host_redundancy": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Ensure primary and secondary Service Engines are deployed on different physical hosts."
+                }, 
+                "vss_placement_enabled": {
+                    "type": "boolean", 
+                    "description": "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1."
+                }
+            }
+        }, 
+        "VipAutoscaleConfiguration": {
+            "type": "object", 
+            "properties": {
+                "zones": {
+                    "items": {
+                        "$ref": "#/definitions/VipAutoscaleZones"
+                    }, 
+                    "type": "array", 
+                    "description": "This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 18.1.2."
+                }
+            }
+        }, 
+        "VipAutoscalePolicy": {
+            "type": "object", 
+            "properties": {
+                "min_size": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "The minimum size of the group. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "suspend": {
+                    "type": "boolean", 
+                    "description": "When set, scaling is suspended. Field introduced in 18.1.2."
+                }, 
+                "max_size": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "The maximum size of the group. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "VcenterDatastore": {
+            "required": [
+                "datastore_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "datastore_name": {
+                    "type": "string", 
+                    "description": "datastore_name of VcenterDatastore."
+                }
+            }
+        }, 
+        "CustomTag": {
+            "required": [
+                "tag_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tag_val": {
+                    "type": "string", 
+                    "description": "tag_val of CustomTag."
+                }, 
+                "tag_key": {
+                    "type": "string", 
+                    "description": "tag_key of CustomTag."
+                }
+            }
+        }, 
+        "VipAutoscaleGroup": {
+            "type": "object", 
+            "properties": {
+                "policy": {
+                    "description": " Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/VipAutoscalePolicy"
+                }, 
+                "configuration": {
+                    "description": " Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/VipAutoscaleConfiguration"
                 }
             }
         }
