@@ -10,7 +10,7 @@ type AwsConfiguration struct {
 	// AWS access key ID.
 	AccessKeyID string `json:"access_key_id,omitempty"`
 
-	// Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Units(SEC).
+	// Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.
 	AsgPollInterval int32 `json:"asg_poll_interval,omitempty"`
 
 	// EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.
@@ -21,6 +21,9 @@ type AwsConfiguration struct {
 
 	// IAM assume role for cross-account access.
 	IamAssumeRole string `json:"iam_assume_role,omitempty"`
+
+	// If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10.
+	PublishVipToPublicZone bool `json:"publish_vip_to_public_zone,omitempty"`
 
 	// AWS region.
 	Region string `json:"region,omitempty"`
@@ -37,7 +40,7 @@ type AwsConfiguration struct {
 	// Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.
 	SqsEncryption *AwsEncryption `json:"sqs_encryption,omitempty"`
 
-	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).
+	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.
 	TTL int32 `json:"ttl,omitempty"`
 
 	// Use IAM roles instead of access and secret key.

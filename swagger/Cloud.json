@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -184,10 +184,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -566,10 +574,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -1296,6 +1312,22 @@
                 }
             }
         }, 
+        "OpenStackVipNetwork": {
+            "type": "object", 
+            "properties": {
+                "os_network_uuid": {
+                    "type": "string", 
+                    "description": "Neutron network UUID. Field introduced in 18.1.2."
+                }, 
+                "os_tenant_uuids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUIDs of OpenStack tenants that should be allowed to use the specified Neutron network for VIPs. Use '*' to make this network available to all tenants. Field introduced in 18.1.2."
+                }
+            }
+        }, 
         "AzureConfiguration": {
             "type": "object", 
             "properties": {
@@ -1370,20 +1402,20 @@
         "APICConfiguration": {
             "type": "object", 
             "properties": {
-                "apic_vendor": {
-                    "default": "Avi", 
-                    "type": "string", 
-                    "description": "apic_vendor of APICConfiguration."
+                "se_tunnel_mode": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Determines if DSR from secondary SE is active or not  False   DSR active. Please ensure that APIC BD's Endpoint Dataplane Learning is disabled True    Disable DSR unconditionally. . Field introduced in 17.2.10,18.1.2."
                 }, 
-                "avi_controller_username": {
-                    "default": "admin", 
+                "version": {
+                    "default": "1.0", 
                     "type": "string", 
-                    "description": "The username APIC will use when authenticating with Avi Vantage."
+                    "description": "AVI Device Package Version. Field deprecated in 17.2.10,18.1.2."
                 }, 
                 "apic_product": {
                     "default": "ASP", 
                     "type": "string", 
-                    "description": "apic_product of APICConfiguration."
+                    "description": " Field deprecated in 17.2.10,18.1.2."
                 }, 
                 "apic_password": {
                     "type": "string", 
@@ -1405,16 +1437,16 @@
                 }, 
                 "avi_controller_password": {
                     "type": "string", 
-                    "description": "The password APIC will use when authenticating with Avi Vantage."
+                    "description": "The password APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.10,18.1.2."
                 }, 
-                "version": {
-                    "default": "1.0", 
+                "apic_vendor": {
+                    "default": "Avi", 
                     "type": "string", 
-                    "description": "AVI Device Package Version."
+                    "description": " Field deprecated in 17.2.10,18.1.2."
                 }, 
                 "deployment": {
                     "type": "string", 
-                    "description": "deployment of APICConfiguration."
+                    "description": " Field deprecated in 17.2.10,18.1.2."
                 }, 
                 "apic_domain": {
                     "type": "string", 
@@ -1430,12 +1462,17 @@
                 "managed_mode": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                    "description": "Use Managed Mode for APIC Service Insertion. Field deprecated in 17.2.10,18.1.2. Field introduced in 17.1.1."
+                }, 
+                "avi_controller_username": {
+                    "default": "admin", 
+                    "type": "string", 
+                    "description": "The username APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.10,18.1.2."
                 }, 
                 "minor": {
                     "default": "2", 
                     "type": "string", 
-                    "description": "AVI Device Package Minor Version."
+                    "description": "AVI Device Package Minor Version. Field deprecated in 17.2.10,18.1.2."
                 }
             }
         }, 
@@ -1494,7 +1531,6 @@
             "type": "object", 
             "properties": {
                 "host_os": {
-                    "default": "COREOS", 
                     "type": "string", 
                     "description": "Host OS distribution e.g. COREOS, UBUNTU, REDHAT. Field deprecated in 17.1.1."
                 }, 
@@ -1946,7 +1982,7 @@
                 "container_port_match_http_service": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                    "description": "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP."
                 }, 
                 "fleet_endpoint": {
                     "type": "string", 
@@ -1982,7 +2018,7 @@
                 }, 
                 "service_port_match_http_service": {
                     "type": "boolean", 
-                    "description": "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                    "description": "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11."
                 }, 
                 "l4_health_monitoring": {
                     "type": "boolean", 
@@ -2097,7 +2133,7 @@
                         "type": "integer"
                     }, 
                     "type": "array", 
-                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80.", 
+                    "description": "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443.", 
                     "format": "int32"
                 }, 
                 "shared_virtualservice_namespace": {
@@ -2137,7 +2173,6 @@
                     "description": "nuage_organization of OpenStackConfiguration."
                 }, 
                 "wildcard_access": {
-                    "default": true, 
                     "type": "boolean", 
                     "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 }, 
@@ -2231,9 +2266,10 @@
                     "type": "string", 
                     "description": "Avi Management network name or cidr."
                 }, 
-                "intf_sec_ips": {
+                "tenant_se": {
+                    "default": true, 
                     "type": "boolean", 
-                    "description": "If True, interface-secondary-ips method will be used for VIP association."
+                    "description": "If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant."
                 }, 
                 "admin_tenant_uuid": {
                     "type": "string", 
@@ -2258,15 +2294,21 @@
                     "type": "string", 
                     "description": "Keystone's hostname or IP address. (Deprecated) Use auth_url instead."
                 }, 
-                "tenant_se": {
-                    "default": true, 
+                "intf_sec_ips": {
                     "type": "boolean", 
-                    "description": "If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant."
+                    "description": "If True, interface-secondary-ips method will be used for VIP association. Field deprecated in 18.1.2."
                 }, 
                 "anti_affinity": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "If true, an anti-affinity policy will be applied to all SEs of a SE-Group, else no such policy will be applied."
+                }, 
+                "provider_vip_networks": {
+                    "items": {
+                        "$ref": "#/definitions/OpenStackVipNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.1.2."
                 }, 
                 "insecure": {
                     "default": true, 
@@ -2334,7 +2376,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1."
+                    "description": "Deprecated; please use provider_vip_networks. Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -2522,7 +2564,7 @@
                 "nsx_poll_time": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1. Units(SECONDS).", 
+                    "description": "The interval (in secs) with which Avi Controller polls the NSX Manager for updates. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "nsx_manager_name": {
@@ -2565,13 +2607,16 @@
             "type": "object", 
             "properties": {
                 "wildcard_access": {
-                    "default": true, 
                     "type": "boolean", 
                     "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 }, 
                 "sqs_encryption": {
                     "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
                     "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
                 }, 
                 "ebs_encryption": {
                     "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
@@ -2592,7 +2637,7 @@
                 "asg_poll_interval": {
                     "default": 600, 
                     "type": "integer", 
-                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3. Units(SEC).", 
+                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "vpc": {
@@ -2602,7 +2647,7 @@
                 "ttl": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3. Units(SEC).", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "use_iam_roles": {
@@ -2723,13 +2768,15 @@
                     "type": "string", 
                     "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
-                "obj_name_prefix": {
-                    "type": "string", 
-                    "description": "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
+                "linuxserver_configuration": {
+                    "description": "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object", 
+                    "$ref": "#/definitions/LinuxServerConfiguration"
                 }, 
                 "custom_tags": {
                     "items": {
@@ -2753,6 +2800,10 @@
                 "mesos_configuration": {
                     "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/MesosConfiguration"
+                }, 
+                "ip6_autocfg_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 }, 
                 "openstack_configuration": {
                     "description": "Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object", 
@@ -2800,19 +2851,23 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "mtu": {
                     "default": 1500, 
                     "type": "integer", 
-                    "description": "MTU setting for the cloud. Units(BYTES).", 
+                    "description": "MTU setting for the cloud.", 
                     "format": "int32"
                 }, 
                 "east_west_ipam_provider_ref": {
                     "type": "string", 
                     "description": "Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile."
                 }, 
-                "linuxserver_configuration": {
-                    "description": "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object", 
-                    "$ref": "#/definitions/LinuxServerConfiguration"
+                "obj_name_prefix": {
+                    "type": "string", 
+                    "description": "Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template."
                 }, 
                 "apic_configuration": {
                     "description": "Placeholder for description of property apic_configuration of obj type Cloud field type str  type object", 

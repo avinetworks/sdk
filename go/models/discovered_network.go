@@ -13,4 +13,7 @@ type DiscoveredNetwork struct {
 
 	// Discovered subnet for this IP.
 	Subnet []*IPAddrPrefix `json:"subnet,omitempty"`
+
+	// Discovered IPv6 subnet for this IP. Field introduced in 18.1.1.
+	Subnet6 []*IPAddrPrefix `json:"subnet6,omitempty"`
 }

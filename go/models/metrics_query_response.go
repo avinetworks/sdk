@@ -8,36 +8,29 @@ package models
 type MetricsQueryResponse struct {
 
 	// Unique object identifier of entity.
-	// Required: true
-	EntityUUID string `json:"entity_uuid"`
+	EntityUUID string `json:"entity_uuid,omitempty"`
 
 	// returns the ID specified in the query.
 	ID string `json:"id,omitempty"`
 
 	// Number of limit.
-	// Required: true
-	Limit int32 `json:"limit"`
+	Limit int32 `json:"limit,omitempty"`
 
 	//  Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
-	// Required: true
-	MetricEntity string `json:"metric_entity"`
+	MetricEntity string `json:"metric_entity,omitempty"`
 
 	// metric_id of MetricsQueryResponse.
-	// Required: true
-	MetricID string `json:"metric_id"`
+	MetricID string `json:"metric_id,omitempty"`
 
 	// Placeholder for description of property series of obj type MetricsQueryResponse field type str  type object
 	Series []*MetricsDataSeries `json:"series,omitempty"`
 
 	// start of MetricsQueryResponse.
-	// Required: true
-	Start string `json:"start"`
+	Start string `json:"start,omitempty"`
 
 	// Number of step.
-	// Required: true
-	Step int32 `json:"step"`
+	Step int32 `json:"step,omitempty"`
 
 	// stop of MetricsQueryResponse.
-	// Required: true
-	Stop string `json:"stop"`
+	Stop string `json:"stop,omitempty"`
 }

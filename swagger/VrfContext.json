@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -557,6 +573,12 @@
             ], 
             "type": "object", 
             "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
                 "description": {
                     "type": "string", 
                     "description": "User defined description for the object."
@@ -615,12 +637,45 @@
             }
         }, 
         "BgpPeer": {
-            "required": [
-                "peer_ip", 
-                "subnet"
-            ], 
             "type": "object", 
             "properties": {
+                "subnet6": {
+                    "description": "Subnet v6 providing reachability for Peer. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "peer_ip6": {
+                    "description": "IPv6 Address of the BGP Peer. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "advertise_snat_ip": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Advertise SNAT IP to this Peer."
+                }, 
+                "local_as": {
+                    "type": "integer", 
+                    "description": "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.", 
+                    "format": "int32"
+                }, 
+                "md5_secret": {
+                    "type": "string", 
+                    "description": "Peer Autonomous System Md5 Digest Secret Key."
+                }, 
+                "advertise_vip": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Advertise VIP to this Peer."
+                }, 
+                "shutdown": {
+                    "type": "boolean", 
+                    "description": "Shutdown the bgp peer. Field introduced in 17.2.4."
+                }, 
+                "hold_time": {
+                    "default": 180, 
+                    "type": "integer", 
+                    "description": "Hold time for this Peer. Allowed values are 3-7200.", 
+                    "format": "int32"
+                }, 
                 "keepalive_interval": {
                     "default": 60, 
                     "type": "integer", 
@@ -632,7 +687,6 @@
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "remote_as": {
-                    "default": 1, 
                     "type": "integer", 
                     "description": "Peer Autonomous System ID. Allowed values are 1-4294967295.", 
                     "format": "int32"
@@ -647,15 +701,9 @@
                     "type": "boolean", 
                     "description": "Enable Bi-Directional Forward Detection. Only async mode supported."
                 }, 
-                "advertise_snat_ip": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Advertise SNAT IP to this Peer."
-                }, 
-                "local_as": {
-                    "type": "integer", 
-                    "description": "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.", 
-                    "format": "int32"
+                "network_ref": {
+                    "type": "string", 
+                    "description": "Network providing reachability for Peer. It is a reference to an object of type Network."
                 }, 
                 "connect_timer": {
                     "default": 10, 
@@ -663,37 +711,14 @@
                     "description": "Connect timer for this Peer. Allowed values are 1-120.", 
                     "format": "int32"
                 }, 
-                "md5_secret": {
-                    "type": "string", 
-                    "description": "Peer Autonomous System Md5 Digest Secret Key."
-                }, 
-                "advertise_vip": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Advertise VIP to this Peer."
+                "peer_ip": {
+                    "description": "IP Address of the BGP Peer.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
                 "advertisement_interval": {
                     "default": 5, 
                     "type": "integer", 
                     "description": "Advertisement interval for this Peer. Allowed values are 1-60.", 
-                    "format": "int32"
-                }, 
-                "shutdown": {
-                    "type": "boolean", 
-                    "description": "Shutdown the bgp peer. Field introduced in 17.2.4."
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network providing reachability for Peer. It is a reference to an object of type Network."
-                }, 
-                "peer_ip": {
-                    "description": "IP Address of the BGP Peer.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "hold_time": {
-                    "default": 180, 
-                    "type": "integer", 
-                    "description": "Hold time for this Peer. Allowed values are 3-7200.", 
                     "format": "int32"
                 }
             }
@@ -755,7 +780,7 @@
                 "gateway_monitor_interval": {
                     "default": 1000, 
                     "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. Units(MILLISECONDS).", 
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }
             }
@@ -773,7 +798,7 @@
                     "format": "int32"
                 }, 
                 "subnet": {
-                    "description": "Subnet providing reachability for Multi-hop Gateway. Field introduced in 17.2.3.", 
+                    "description": "Subnet providing reachability for Multi-hop Gateway. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "gateway_ip": {
@@ -789,7 +814,7 @@
                 "gateway_monitor_interval": {
                     "default": 1000, 
                     "type": "integer", 
-                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Units(MILLISECONDS).", 
+                    "description": "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000.", 
                     "format": "int32"
                 }
             }

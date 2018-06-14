@@ -7,6 +7,10 @@ package models
 // swagger:model PoolGroup
 type PoolGroup struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Checksum of cloud configuration for PoolGroup. Internally set by cloud connector.
 	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
 

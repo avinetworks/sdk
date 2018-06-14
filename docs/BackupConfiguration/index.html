@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi BackupConfiguration Object API</h1>
-    <div class="app-desc">##CLI## ``` - show backupconfiguration <key> - configure backupconfiguration <key> ``` </div>
+    <div class="app-desc">CLI ``` - show backupconfiguration <key> - configure backupconfiguration <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -253,18 +255,19 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "backup_file_prefix" : "aeiou",
-    "ssh_user_ref" : "aeiou",
     "backup_passphrase" : "aeiou",
     "save_local" : true,
-    "tenant_ref" : "aeiou",
-    "name" : "aeiou",
     "remote_directory" : "aeiou",
     "remote_hostname" : "aeiou",
-    "upload_to_remote_host" : true,
     "uuid" : "aeiou",
-    "maximum_backups_stored" : 123,
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789,
+    "backup_file_prefix" : "aeiou",
+    "ssh_user_ref" : "aeiou",
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "upload_to_remote_host" : true,
+    "maximum_backups_stored" : 123
   } ]
 }</code></pre>
 
@@ -319,18 +322,19 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "backup_file_prefix" : "aeiou",
-  "ssh_user_ref" : "aeiou",
   "backup_passphrase" : "aeiou",
   "save_local" : true,
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "remote_directory" : "aeiou",
   "remote_hostname" : "aeiou",
-  "upload_to_remote_host" : true,
   "uuid" : "aeiou",
-  "maximum_backups_stored" : 123,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "backup_file_prefix" : "aeiou",
+  "ssh_user_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "upload_to_remote_host" : true,
+  "maximum_backups_stored" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -437,7 +441,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -454,18 +460,19 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "backup_file_prefix" : "aeiou",
-  "ssh_user_ref" : "aeiou",
   "backup_passphrase" : "aeiou",
   "save_local" : true,
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "remote_directory" : "aeiou",
   "remote_hostname" : "aeiou",
-  "upload_to_remote_host" : true,
   "uuid" : "aeiou",
-  "maximum_backups_stored" : 123,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "backup_file_prefix" : "aeiou",
+  "ssh_user_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "upload_to_remote_host" : true,
+  "maximum_backups_stored" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -531,18 +538,19 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "backup_file_prefix" : "aeiou",
-  "ssh_user_ref" : "aeiou",
   "backup_passphrase" : "aeiou",
   "save_local" : true,
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "remote_directory" : "aeiou",
   "remote_hostname" : "aeiou",
-  "upload_to_remote_host" : true,
   "uuid" : "aeiou",
-  "maximum_backups_stored" : 123,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "backup_file_prefix" : "aeiou",
+  "ssh_user_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "upload_to_remote_host" : true,
+  "maximum_backups_stored" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -608,18 +616,19 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "backup_file_prefix" : "aeiou",
-  "ssh_user_ref" : "aeiou",
   "backup_passphrase" : "aeiou",
   "save_local" : true,
-  "tenant_ref" : "aeiou",
-  "name" : "aeiou",
   "remote_directory" : "aeiou",
   "remote_hostname" : "aeiou",
-  "upload_to_remote_host" : true,
   "uuid" : "aeiou",
-  "maximum_backups_stored" : 123,
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "backup_file_prefix" : "aeiou",
+  "ssh_user_ref" : "aeiou",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "upload_to_remote_host" : true,
+  "maximum_backups_stored" : 123
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -652,7 +661,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="BackupConfiguration">BackupConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">backup_file_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix of the exported configuration file. Field introduced in 17.1.1. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">backup_file_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix of the exported configuration file. Field introduced in 17.1.1. </div>
 <div class="param">backup_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Passphrase of backup configuration. </div>
 <div class="param">maximum_backups_stored (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rotate the backup files based on this count. Allowed values are 1-20. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of backup configuration. </div>

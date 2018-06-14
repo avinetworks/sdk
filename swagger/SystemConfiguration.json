@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -692,13 +708,19 @@
                     "type": "string", 
                     "description": "url"
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "email_configuration": {
                     "description": "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object", 
                     "$ref": "#/definitions/EmailConfiguration"
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "dns_virtualservice_refs": {
                     "items": {
@@ -1200,6 +1222,7 @@
                     "$ref": "#/definitions/SnmpV3Configuration"
                 }, 
                 "community": {
+                    "default": "public", 
                     "type": "string", 
                     "description": "Community string for SNMP v2c."
                 }, 

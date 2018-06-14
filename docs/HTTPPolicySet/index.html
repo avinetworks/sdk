@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi HTTPPolicySet Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -458,7 +460,8 @@ font-style: italic;
       } ]
     },
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -718,7 +721,8 @@ font-style: italic;
     } ]
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -825,7 +829,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1047,7 +1053,8 @@ font-style: italic;
     } ]
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1318,7 +1325,8 @@ font-style: italic;
     } ]
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1589,7 +1597,8 @@ font-style: italic;
     } ]
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1707,7 +1716,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPPolicySet">HTTPPolicySet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">http_request_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRequestPolicy">HTTPRequestPolicy</a></span> HTTP request policy for the virtual service. </div>
@@ -1931,7 +1941,7 @@ font-style: italic;
     <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
-<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1986,14 +1996,14 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
 <div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC). format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

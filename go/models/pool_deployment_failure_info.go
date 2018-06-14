@@ -7,6 +7,9 @@ package models
 // swagger:model PoolDeploymentFailureInfo
 type PoolDeploymentFailureInfo struct {
 
+	// Curent in-service pool. It is a reference to an object of type Pool.
+	CurrInServicePoolName string `json:"curr_in_service_pool_name,omitempty"`
+
 	// Curent in service pool. It is a reference to an object of type Pool.
 	CurrInServicePoolRef string `json:"curr_in_service_pool_ref,omitempty"`
 

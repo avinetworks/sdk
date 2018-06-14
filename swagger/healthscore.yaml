@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -23,6 +23,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: name
                     in: query
                     description: object name
@@ -135,6 +145,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
@@ -171,6 +191,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: name
                     in: query
                     description: object name
@@ -283,6 +313,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
@@ -319,6 +359,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: name
                     in: query
                     description: object name
@@ -431,6 +481,16 @@ paths:
             produces:
                 -   application/json
             parameters:
+                -   name: include_name
+                    in: query
+                    description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: X-Avi-Tenant
                     in: header
                     type: string
