@@ -9,15 +9,14 @@ import subprocess
 import sys
 import pytest
 import yaml
-from avi.migrationtools.avi_migration_utils import MigrationUtil, get_count, set_update_count
+from avi.migrationtools.avi_migration_utils import get_count, set_update_count
 from avi.migrationtools.f5_converter.f5_converter import F5Converter
 from avi.migrationtools.test.common.excel_reader \
     import percentage_success, output_sanitization, output_vs_level_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
-    import create_tenant, create_cloud
-
+    import create_tenant, create_cloud, create_segroup, create_vrf_context
 
 config_file = pytest.config.getoption("--config")
 input_file = pytest.config.getoption("--file")
@@ -55,7 +54,6 @@ with open(config_file) as f:
     file_attribute = yaml.load(f)
 
 setup = dict(
-    controller_version_v16=file_attribute['controller_version_v16'],
     controller_version_v17=file_attribute['controller_version_v17'],
     file_version_v10=v10,
     file_version_v11=v11,
@@ -64,14 +62,12 @@ setup = dict(
     controller_ip_17_1_1=file_attribute['controller_ip_17_1_1'],
     controller_user_17_1_1=file_attribute['controller_user_17_1_1'],
     controller_password_17_1_1=file_attribute['controller_password_17_1_1'],
-    controller_ip_16_4_4=file_attribute['controller_ip_16_4_4'],
-    controller_user_16_4_4=file_attribute['controller_user_16_4_4'],
-    controller_password_16_4_4=file_attribute['controller_password_16_4_4'],
     f5_host_ip_v10=file_attribute['f5_host_ip_v10'],
     f5_host_ip_v11=file_attribute['f5_host_ip_v11'],
     f5_ssh_user=file_attribute['f5_ssh_user'],
     f5_ssh_user_10=file_attribute['f5_ssh_user_10'],
     f5_ssh_password=file_attribute['f5_ssh_password'],
+    f5_ssh_port=file_attribute['f5_ssh_port'],
     no_profile_merge=file_attribute['no_profile_merge'],
     prefix=file_attribute['prefix'],
     cloud_name=file_attribute['cloud_name'],
@@ -112,15 +108,16 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location='python/avi/migrationtools/f5_converter/test/certs', output_file_path=output_file,
-        option='cli-upload', user=None, password=None, controller_ip=None,
+        input_folder_location='python/avi/migrationtools/f5_converter/test/certs',
+        output_file_path=output_file, option='cli-upload', user=None,
+        password=None, controller_ip=None,
         tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
         controller_version=None, f5_host_ip=None, f5_ssh_user=None,
-        f5_ssh_password=None, f5_key_file=None, ignore_config=None,
-        partition_config=None, version=None, no_profile_merge=None, patch=None,
-        vs_filter=None, ansible_skip_types=None,
-        ansible_filter_types=None, ansible=None, prefix=None,
-        convertsnat=None, not_in_use=None, baseline_profile=None,
+        f5_ssh_password=None, f5_ssh_port=None, f5_key_file=None,
+        ignore_config=None, partition_config=None, version=None,
+        no_profile_merge=None, patch=None, vs_filter=None,
+        ansible_skip_types=None, ansible_filter_types=None, ansible=None,
+        prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
         vrf=None, segroup=None, rule_config=None):
 
@@ -133,7 +130,8 @@ def f5_conv(
                      tenant=tenant, cloud_name=cloud_name, vs_state=vs_state,
                      controller_version=controller_version,
                      f5_host_ip=f5_host_ip, f5_ssh_user=f5_ssh_user,
-                     f5_ssh_password=f5_ssh_password, f5_key_file=f5_key_file,
+                     f5_ssh_password=f5_ssh_password,
+                     f5_ssh_port=f5_ssh_port, f5_key_file=f5_key_file,
                      ignore_config=ignore_config,
                      partition_config=partition_config, version=version,
                      no_object_merge=no_profile_merge, patch=patch,
@@ -143,7 +141,7 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=None, segroup=None, rule_config=rule_config)
+                     vrf=vrf, segroup=segroup, rule_config=rule_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -180,6 +178,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 f5_ssh_user=setup.get('f5_ssh_user'),
                 f5_ssh_password=setup.get('f5_ssh_password'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v11'))
 
     @pytest.mark.skip_travis
@@ -191,6 +190,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 f5_ssh_user=setup.get('f5_ssh_user_10'),
                 f5_ssh_password=setup.get('f5_ssh_password'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
@@ -198,6 +198,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         self.excel_path = os.path.abspath(os.path.join(output_file,
                                           'bigip_v10-ConversionStatus.xlsx'))
@@ -214,6 +215,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         self.excel_path = os.path.abspath(os.path.join(output_file,
                                             'bigip_v11-ConversionStatus.xlsx'))
@@ -230,6 +232,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=output_file)
         percentage_success(os.path.join(output_file,
                                         'bigip_v11-ConversionStatus.xlsx'))
@@ -241,6 +244,7 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.travis
@@ -250,7 +254,8 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                f5_config_version=setup.get('file_version_v11'))
+                f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
     def test_no_profile_merge_v10(self, cleanup):
@@ -261,6 +266,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
@@ -272,6 +278,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
@@ -283,6 +290,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
@@ -294,6 +302,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
@@ -305,6 +314,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
@@ -316,6 +326,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
@@ -327,6 +338,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
@@ -338,6 +350,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
@@ -349,6 +362,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
@@ -360,6 +374,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
@@ -371,6 +386,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
@@ -382,6 +398,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
@@ -393,6 +410,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
@@ -404,6 +422,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
@@ -415,6 +434,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
@@ -426,6 +446,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
@@ -437,6 +458,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.travis
@@ -448,6 +470,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
@@ -486,43 +509,6 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
-    def test_reboot_clean_v10_16_4_4(self, cleanup):
-        """""
-        Verify Controller v16.4.4 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        print file_attribute['license_file_path']
-        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute[
-                                            'controller_user_16_4_4'],
-                                        file_attribute[
-                                            'controller_password_16_4_4'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'],
-                         file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'],
-                         file_attribute['controller_version_v16'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
-
-    @pytest.mark.skip_travis
-    def test_auto_upload_v10_16_4_4(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4,
-        AutoUpload Flow
-        """
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                f5_config_version=setup.get('file_version_v10'),
-                output_file_path=setup.get('output_file_path'),
-                controller_version=setup.get('controller_version_v16'),
-                option=setup.get('option'),
-                controller_ip=setup.get('controller_ip_16_4_4'),
-                user=setup.get('controller_user_16_4_4'),
-                password=setup.get('controller_password_16_4_4'))
-
-    @pytest.mark.skip_travis
     def test_reboot_clean_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -558,42 +544,6 @@ class TestF5Converter:
                 user=setup.get('controller_user_17_1_1'),
                 password=setup.get('controller_password_17_1_1'))
 
-    @pytest.mark.skip_travis
-    def test_reboot_clean_v11_16_4_4(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api. After
-        controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute[
-                                            'controller_user_16_4_4'],
-                                        file_attribute[
-                                            'controller_password_16_4_4'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'],
-                         file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'],
-                         file_attribute['controller_version_v16'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
-
-    @pytest.mark.skip_travis
-    def test_auto_upload_v11_16_4_4(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4,
-        AutoUpload Flow
-        """
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                output_file_path=setup.get('output_file_path'),
-                f5_config_version=setup.get('file_version_v11'),
-                controller_version=setup.get('controller_version_v16'),
-                option=setup.get('option'),
-                controller_ip=setup.get('controller_ip_16_4_4'),
-                user=setup.get('controller_user_16_4_4'),
-                password=setup.get('controller_password_16_4_4'))
-
     @pytest.mark.travis
     def test_create_ansible_object_creation_v11(self, cleanup):
         """
@@ -604,6 +554,7 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v11'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
@@ -658,49 +609,8 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'),
                 controller_version=setup.get('controller_version_v17'),
                 f5_config_version=setup.get('file_version_v10'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
-
-    @pytest.mark.skip_travis
-    def test_reboot_clean_ansible_v10_16_4_4(self, cleanup):
-        """""
-        Verify Controller v16.4.4 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_16_4_4'],
-                                        file_attribute[
-                                            'controller_user_16_4_4'],
-                                        file_attribute[
-                                            'controller_password_16_4_4'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_16_4_4'],
-                         file_attribute['controller_user_16_4_4'],
-                         file_attribute['controller_password_16_4_4'],
-                         file_attribute['controller_version_v16'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
-
-    @pytest.mark.skip_travis
-    def test_ansible_object_auto_upload_v10_16_4_4(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v16.4.4
-        AutoUpload Flow
-        """
-        print(subprocess.check_output('pip install avisdk --upgrade',
-                                      shell=True))
-        print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
-            shell=True))
-        try:
-            output = subprocess.check_output('/usr/local/bin/ansible-playbook '
-                    '-s %s --extra-vars "controller=%s username=%s password=%s"'
-                    % (setup.get('f5_ansible_object'), setup.get(
-                    'controller_ip_16_4_4'), setup.get(
-                    'controller_user_16_4_4'), setup.get(
-                    'controller_password_16_4_4')), shell=True)
-        except subprocess.CalledProcessError as e:
-            output = e.output
 
     @pytest.mark.travis
     def test_vs_level_status_true_v10(self, cleanup):
@@ -710,7 +620,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                vs_level_status=setup.get('vs_level_status'))
+                vs_level_status=setup.get('vs_level_status'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
     def test_vs_level_status_false_v10(self, cleanup):
@@ -719,65 +630,8 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                f5_config_version=setup.get('file_version_v10'))
-
-    @pytest.mark.skip_travis
-    def test_create_tenant_cloud_and_upload_controller_v11_16_4_4(self,
-                                                                  cleanup):
-        """
-        Create Tenant and Cloud name on the Controller v16.4.4,
-        Auto Upload configuration file on controller.
-        """
-        create_tenant(file_attribute['controller_ip_16_4_4'],
-                      file_attribute['controller_user_16_4_4'],
-                      file_attribute['controller_password_16_4_4'],
-                      file_attribute['tenant'])
-
-        create_cloud(file_attribute['controller_ip_16_4_4'],
-                     file_attribute['controller_user_16_4_4'],
-                     file_attribute['controller_password_16_4_4'],
-                     file_attribute['cloud_name'])
-
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                f5_config_version=setup.get('file_version_v11'),
-                output_file_path=setup.get('output_file_path'),
-                controller_version=setup.get('controller_version_v16'),
-                option=setup.get('option'),
-                tenant=file_attribute['tenant'],
-                cloud_name=file_attribute['cloud_name'],
-                ansible=setup.get('ansible'),
-                controller_ip=setup.get('controller_ip_16_4_4'),
-                user=setup.get('controller_user_16_4_4'),
-                password=setup.get('controller_password_16_4_4'))
-
-    @pytest.mark.skip_travis
-    def test_create_tenant_cloud_and_upload_controller_v10_16_4_4(self,
-                                                                  cleanup):
-        """
-        Create Tenant and Cloud name on the Controller v16.4.4,
-        Auto Upload configuration file on controller.
-        """
-        create_tenant(file_attribute['controller_ip_16_4_4'],
-                      file_attribute['controller_user_16_4_4'],
-                      file_attribute['controller_password_16_4_4'],
-                      file_attribute['tenant'])
-
-        create_cloud(file_attribute['controller_ip_16_4_4'],
-                     file_attribute['controller_user_16_4_4'],
-                     file_attribute['controller_password_16_4_4'],
-                     file_attribute['cloud_name'])
-
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
-                output_file_path=setup.get('output_file_path'),
-                controller_version=setup.get('controller_version_v16'),
-                option=setup.get('option'),
-                tenant=file_attribute['tenant'],
-                cloud_name=file_attribute['cloud_name'],
-                ansible=setup.get('ansible'),
-                controller_ip=setup.get('controller_ip_16_4_4'),
-                user=setup.get('controller_user_16_4_4'),
-                password=setup.get('controller_password_16_4_4'))
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
     def test_http_cookie_type_on_file_v10(self):
@@ -785,6 +639,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=setup.get('output_file_path'))
         fileName = output_file + '/bigip_v10-Output.json'
         with open(fileName) as f:
@@ -799,6 +654,7 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 output_file_path=setup.get('output_file_path'))
         fileName = output_file +'/bigip_v11-Output.json'
         with open(fileName) as f:
@@ -814,6 +670,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 vrf = setup.get('vrf'),
                 )
 
@@ -823,6 +680,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 segroup = setup.get('segroup')
                 )
 
@@ -832,6 +690,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 vrf = setup.get('vrf'),
                 )
 
@@ -841,6 +700,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
                 segroup = setup.get('segroup')
                 )
 
@@ -851,7 +711,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
         assert get_count('warning') == 6
@@ -862,7 +723,8 @@ class TestF5Converter:
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
                 controller_version=setup.get('controller_version_v17'),
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
         assert get_count('warning') == 0
@@ -875,7 +737,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -897,7 +760,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" %(output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -919,7 +783,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v10-Output.json")
         with open(file) as json_file:
@@ -941,7 +806,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 no_profile_merge=file_attribute['no_profile_merge'],
-                output_file_path=setup.get('output_file_path'))
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v10-Output.json")
         with open(file) as json_file:
@@ -964,7 +830,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -1023,7 +890,8 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
@@ -1080,7 +948,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'),
                 option=setup.get('option'),
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'))
+                rule_config=setup.get('rule_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
     def test_vs_level_status_with_v11(self):
@@ -1089,7 +958,8 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 output_file_path=setup.get('output_file_path'),
-                vs_level_status=setup.get('vs_level_status')
+                vs_level_status=setup.get('vs_level_status'),
+                f5_ssh_port=setup.get('f5_ssh_port')
                 )
         self.excel_path = os.path.abspath(
             os.path.join(
@@ -1098,7 +968,93 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
+    @pytest.mark.skip_travis
+    def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
 
+    @pytest.mark.skip_travis
+    def test_segroup_and_upload_v11_17_1_1(self, cleanup):
+        """
+        Input File on Local Filesystem, Test for Controller v17.1.1,
+        AutoUpload Flow
+        """
+        res = create_segroup(file_attribute['controller_ip_17_1_1'],
+                                                      file_attribute[
+                                     'controller_user_17_1_1'],
+                                                      file_attribute[
+                                     'controller_password_17_1_1'],
+                                    setup.get('segroup'))
+
+        if res.status_code in [200, 201]:
+            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                output_file_path=setup.get('output_file_path'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'),
+                segroup=setup.get('segroup'))
+        else:
+           raise Exception("Controller segroup creation faild %s" % res.content)
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_vrf_ref_upload_v11_17_1_1(self):
+        res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
+                     file_attribute['controller_user_17_1_1'],
+                     file_attribute['controller_password_17_1_1'],
+                     vrf_name=setup.get('vrf'))
+
+        if res.status_code in [200, 201]:
+            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                    f5_config_version=setup.get('file_version_v11'),
+                    controller_version=setup.get('controller_version_v17'),
+                    output_file_path=setup.get('output_file_path'),
+                    controller_ip=setup.get('controller_ip_17_1_1'),
+                    user=setup.get('controller_user_17_1_1'),
+                    password=setup.get('controller_password_17_1_1'),
+                    option=setup.get('option'),
+                    vrf=setup.get('vrf'))
+        else:
+            raise Exception("Controller vrf creation faild %s" % res.content)
 
 def teardown():
     pass

@@ -208,21 +208,21 @@ class VSConverter(object):
                                          avi_obj="Refer "
                                                  "Class Map : {}".format(name))
 
-                            # finding the ips for vip
-                            ip_list = [ip]
-                            vip = []
-                            for ip in ip_list:
-                                vip.append({
-                                    "ip_address": {
-                                        "type": "V4",
-                                        "addr": ip
-                                    },
-                                    "vip_id": 0
-                                })
-                            if pool != '':
-                                pool_ref = self.common_utils.get_object_ref(
-                                    pool, 'pool', tenant=self.tenant,
-                                    cloud_name=self.cloud)
+                # finding the ips for vip
+                ip_list = [ip]
+                vip = []
+                for ip in ip_list:
+                    vip.append({
+                        "ip_address": {
+                            "type": "V4",
+                            "addr": ip
+                        },
+                        "vip_id": 0
+                    })
+                if pool != '':
+                    pool_ref = self.common_utils.get_object_ref(
+                        pool, 'pool', tenant=self.tenant,
+                        cloud_name=self.cloud)
                 if not pool:
                     msg = 'No Pool configured for VS {}'.format(name)
                     # continue
@@ -264,7 +264,7 @@ class VSConverter(object):
                                                                    'serviceenginegroup',
                                                                    tenant=self.tenant,
                                                                    cloud_name=self.cloud)
-                    temp_vs['segroup_ref'] = segroup_ref
+                    temp_vs['se_group_ref'] = segroup_ref
                 if pool_ref:
                     temp_vs['pool_ref'] = pool_ref
                 if l4_type:
