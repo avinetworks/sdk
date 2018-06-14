@@ -26,6 +26,9 @@ type OpenStackConfiguration struct {
 	// If false, metadata service will be used instead of  config-drive functionality to retrieve SE VM metadata.
 	ConfigDrive bool `json:"config_drive,omitempty"`
 
+	// When set to True, the VIP and Data ports will be programmed to set virtual machine interface disable-policy. Please refer Contrail documentation for more on disable-policy. Field introduced in 18.1.2.
+	ContrailDisablePolicy bool `json:"contrail_disable_policy,omitempty"`
+
 	// Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, 'http //' scheme and 8082 port will be used if not provided in the url.
 	ContrailEndpoint string `json:"contrail_endpoint,omitempty"`
 
@@ -53,7 +56,7 @@ type OpenStackConfiguration struct {
 	// Allow self-signed certificates when communicating with https service endpoints.
 	Insecure bool `json:"insecure,omitempty"`
 
-	// If True, interface-secondary-ips method will be used for VIP association.
+	// If True, interface-secondary-ips method will be used for VIP association. Field deprecated in 18.1.2.
 	IntfSecIps bool `json:"intf_sec_ips,omitempty"`
 
 	// Keystone's hostname or IP address. (Deprecated) Use auth_url instead.
@@ -106,6 +109,9 @@ type OpenStackConfiguration struct {
 	// LBaaS provider name.
 	ProvName []string `json:"prov_name,omitempty"`
 
+	// A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.1.2.
+	ProviderVipNetworks []*OpenStackVipNetwork `json:"provider_vip_networks,omitempty"`
+
 	// Region name.
 	Region string `json:"region,omitempty"`
 
@@ -121,7 +127,7 @@ type OpenStackConfiguration struct {
 	// If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant.
 	TenantSe bool `json:"tenant_se,omitempty"`
 
-	// A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1.
+	// Deprecated; please use provider_vip_networks. Field introduced in 17.1.1.
 	UsableNetworkUuids []string `json:"usable_network_uuids,omitempty"`
 
 	// If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False.

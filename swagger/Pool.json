@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\n##Examples##\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\nExamples\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -1211,10 +1219,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -2300,7 +2316,8 @@
         }, 
         "PlacementNetwork": {
             "required": [
-                "network_ref"
+                "network_ref", 
+                "subnet"
             ], 
             "type": "object", 
             "properties": {
@@ -2321,7 +2338,7 @@
             "type": "object", 
             "properties": {
                 "backup_pool": {
-                    "description": "Backup Pool when pool experiences a failure.", 
+                    "description": "Backup Pool when pool experiences a failure. Field deprecated in 18.1.2.", 
                     "$ref": "#/definitions/FailActionBackupPool"
                 }, 
                 "redirect": {
@@ -2511,6 +2528,9 @@
             }
         }, 
         "RateProfile": {
+            "required": [
+                "action"
+            ], 
             "type": "object", 
             "properties": {
                 "count": {
@@ -2533,7 +2553,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -2563,6 +2583,13 @@
                     }, 
                     "type": "array", 
                     "description": "Discovered subnet for this IP."
+                }, 
+                "subnet6": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
                 }, 
                 "network_ref": {
                     "type": "string", 
@@ -2677,19 +2704,15 @@
                     "type": "array", 
                     "description": "The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group."
                 }, 
-                "apic_epg_name": {
-                    "type": "string", 
-                    "description": "Synchronize Cisco APIC EPG members with pool servers."
-                }, 
                 "fewest_tasks_feedback_delay": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC).", 
+                    "description": "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.", 
                     "format": "int32"
                 }, 
                 "server_auto_scale": {
                     "type": "boolean", 
-                    "description": "Server AutoScale. Not used anymore."
+                    "description": "Server AutoScale. Not used anymore. Field deprecated in 18.1.2."
                 }, 
                 "ipaddrgroup_ref": {
                     "type": "string", 
@@ -2697,11 +2720,11 @@
                 }, 
                 "capacity_estimation_ttfb_thresh": {
                     "type": "integer", 
-                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS).", 
+                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.", 
                     "format": "int32"
                 }, 
                 "ab_pool": {
-                    "description": "A/B pool configuration.", 
+                    "description": "A/B pool configuration. Field deprecated in 18.1.2.", 
                     "$ref": "#/definitions/AbPool"
                 }, 
                 "fail_action": {
@@ -2731,10 +2754,11 @@
                     "type": "array", 
                     "description": "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
                 }, 
-                "sni_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "server_name": {
                     "type": "string", 
@@ -2766,17 +2790,14 @@
                     "type": "boolean", 
                     "description": "Inherited config from VirtualService."
                 }, 
-                "placement_networks": {
-                    "items": {
-                        "$ref": "#/definitions/PlacementNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine."
+                "apic_epg_name": {
+                    "type": "string", 
+                    "description": "Synchronize Cisco APIC EPG members with pool servers."
                 }, 
                 "graceful_disable_timeout": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN).", 
+                    "description": "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.", 
                     "format": "int32"
                 }, 
                 "nsx_securitygroup": {
@@ -2788,7 +2809,7 @@
                 }, 
                 "a_pool": {
                     "type": "string", 
-                    "description": "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app."
+                    "description": "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. Field deprecated in 18.1.2."
                 }, 
                 "pki_profile_ref": {
                     "type": "string", 
@@ -2829,21 +2850,22 @@
                 }, 
                 "ab_priority": {
                     "type": "integer", 
-                    "description": "Priority of this pool in a A-B pool pair. Internally used.", 
+                    "description": "Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "server_count": {
                     "type": "integer", 
-                    "description": "Number of server_count.", 
+                    "description": " Field deprecated in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "ssl_key_and_certificate_ref": {
                     "type": "string", 
                     "description": "Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate."
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the pool."
+                "sni_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
                 }, 
                 "autoscale_launch_config_ref": {
                     "type": "string", 
@@ -2869,11 +2891,15 @@
                 }, 
                 "prst_hdr_name": {
                     "type": "string", 
-                    "description": "Header name for custom header persistence."
+                    "description": "Header name for custom header persistence. Field deprecated in 18.1.2."
                 }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the pool."
                 }, 
                 "autoscale_networks": {
                     "items": {
@@ -2892,7 +2918,7 @@
                 "connection_ramp_duration": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN).", 
+                    "description": "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.", 
                     "format": "int32"
                 }, 
                 "cloud_config_cksum": {
@@ -2905,6 +2931,13 @@
                     }, 
                     "type": "array", 
                     "description": "Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2."
+                }, 
+                "placement_networks": {
+                    "items": {
+                        "$ref": "#/definitions/PlacementNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine."
                 }, 
                 "created_by": {
                     "type": "string", 

@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -506,13 +522,13 @@
                 "se_log_buffer_chunk_count": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(BYTES).", 
+                    "description": "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
                     "format": "int32"
                 }, 
                 "se_rum_sampling_res_interval": {
                     "default": 2, 
                     "type": "integer", 
-                    "description": "when sampling for resource timing data from the end user client. minimum time to wait on server between samples. Units(SEC).", 
+                    "description": "when sampling for resource timing data from the end user client. minimum time to wait on server between samples.", 
                     "format": "int32"
                 }, 
                 "se_dp_compression": {
@@ -562,7 +578,7 @@
                 "se_log_buffer_connlog_size": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).", 
+                    "description": "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
                     "format": "int32"
                 }, 
                 "docker_backend_portend": {
@@ -574,7 +590,7 @@
                 "se_rum_sampling_nav_interval": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples. Units(SEC).", 
+                    "description": "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples.", 
                     "format": "int32"
                 }, 
                 "se_log_buffer_events_blocking_dequeue": {
@@ -628,7 +644,7 @@
                 "se_log_buffer_applog_size": {
                     "default": 4096, 
                     "type": "integer", 
-                    "description": "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).", 
+                    "description": "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
                     "format": "int32"
                 }, 
                 "se_rum_sampling_res_percent": {
@@ -640,7 +656,7 @@
                 "se_log_buffer_events_size": {
                     "default": 512, 
                     "type": "integer", 
-                    "description": "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).", 
+                    "description": "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
                     "format": "int32"
                 }, 
                 "ssl_sess_cache_timeout": {
@@ -794,13 +810,13 @@
                 "min_high_rtt": {
                     "default": 200, 
                     "type": "integer", 
-                    "description": "If client RTT is higher than this threshold, enable aggressive compression on the response. Units(MILLISECONDS).", 
+                    "description": "If client RTT is higher than this threshold, enable aggressive compression on the response.", 
                     "format": "int32"
                 }, 
                 "max_low_rtt": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "If client RTT is higher than this threshold, enable normal compression on the response. Units(MILLISECONDS).", 
+                    "description": "If client RTT is higher than this threshold, enable normal compression on the response.", 
                     "format": "int32"
                 }
             }
@@ -872,7 +888,7 @@
                 "thresh_period": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC).", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
                     "format": "int32"
                 }, 
                 "thresh_info": {
@@ -955,13 +971,13 @@
                 "downstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": ". Units(MILLISECONDS).", 
+                    "description": "Number of downstream_send_timeout.", 
                     "format": "int32"
                 }, 
                 "dp_hb_frequency": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Units(MILLISECONDS).", 
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled.", 
                     "format": "int32"
                 }, 
                 "log_agent_max_active_adf_files_per_vs": {
@@ -1027,19 +1043,19 @@
                 "dp_aggressive_hb_frequency": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Units(MILLISECONDS).", 
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled.", 
                     "format": "int32"
                 }, 
                 "se_dp_vnic_stall_se_restart_window": {
                     "default": 3600, 
                     "type": "integer", 
-                    "description": "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5.", 
+                    "description": "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
                 }, 
                 "user_defined_metric_age": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5. Units(SEC).", 
+                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5.", 
                     "format": "int32"
                 }, 
                 "upstream_connpool_conn_max_reuse": {
@@ -1067,7 +1083,7 @@
                 "se_metrics_rt_interval": {
                     "default": 1000, 
                     "type": "integer", 
-                    "description": "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller. Units(MILLISECONDS).", 
+                    "description": "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller.", 
                     "format": "int32"
                 }, 
                 "service_ip_subnets": {
@@ -1094,7 +1110,7 @@
                 "log_agent_log_storage_min_sz": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Minimum storage allocated for logs irrespective of memory and cores. Units(MB).", 
+                    "description": "Minimum storage allocated for logs irrespective of memory and cores.", 
                     "format": "int32"
                 }, 
                 "se_random_tcp_drops": {
@@ -1122,19 +1138,19 @@
                 "se_auth_ldap_cache_size": {
                     "default": 100000, 
                     "type": "integer", 
-                    "description": "Size of LDAP basicauth credentials cache used on the dataplane. Units(BYTES).", 
+                    "description": "Size of LDAP basicauth credentials cache used on the dataplane.", 
                     "format": "int32"
                 }, 
                 "se_auth_ldap_connect_timeout": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "LDAP basicauth default connection timeout enforced on connections to LDAP server. Units(MILLISECONDS).", 
+                    "description": "LDAP basicauth default connection timeout enforced on connections to LDAP server.", 
                     "format": "int32"
                 }, 
                 "log_agent_export_msg_buffer_size": {
                     "default": 524288, 
                     "type": "integer", 
-                    "description": "Maximum size of data sent by log-agent to Controller over the TCP connection. Units(BYTES).", 
+                    "description": "Maximum size of data sent by log-agent to Controller over the TCP connection.", 
                     "format": "int32"
                 }, 
                 "app_headers": {
@@ -1169,12 +1185,12 @@
                 "se_auth_ldap_bind_timeout": {
                     "default": 5000, 
                     "type": "integer", 
-                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server. Units(MILLISECONDS).", 
+                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server.", 
                     "format": "int32"
                 }, 
                 "enable_hsm_log": {
                     "type": "boolean", 
-                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3."
                 }, 
                 "baremetal_dispatcher_handles_flows": {
                     "type": "boolean", 
@@ -1189,7 +1205,7 @@
                 "se_auth_ldap_request_timeout": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server. Units(MILLISECONDS).", 
+                    "description": "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server.", 
                     "format": "int32"
                 }, 
                 "mcache_fetch_enabled": {
@@ -1203,7 +1219,7 @@
                 "upstream_connect_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": ". Units(MILLISECONDS).", 
+                    "description": "Number of upstream_connect_timeout.", 
                     "format": "int32"
                 }, 
                 "connections_lossy_log_rate_limiter_threshold": {
@@ -1231,12 +1247,12 @@
                 "log_agent_unknown_vs_timer": {
                     "default": 1800, 
                     "type": "integer", 
-                    "description": "Timeout to purge unknown Virtual Service logs from the Service Engine. Units(SEC).", 
+                    "description": "Timeout to purge unknown Virtual Service logs from the Service Engine.", 
                     "format": "int32"
                 }, 
                 "dupip_frequency": {
                     "type": "integer", 
-                    "description": "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller. Units(MILLISECONDS).", 
+                    "description": "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller.", 
                     "format": "int32"
                 }, 
                 "upstream_connpool_conn_idle_thresh_tmo": {
@@ -1309,7 +1325,7 @@
                 }, 
                 "log_agent_pause_interval": {
                     "type": "integer", 
-                    "description": "Time interval log-agent pauses between logs obtained from the dataplane. Units(MILLISECONDS).", 
+                    "description": "Time interval log-agent pauses between logs obtained from the dataplane.", 
                     "format": "int32"
                 }, 
                 "se_memory_poison": {
@@ -1320,7 +1336,7 @@
                 "log_agent_conn_send_buffer_size": {
                     "default": 16384, 
                     "type": "integer", 
-                    "description": "Log-agent test property used to simulate slow TCP connections. Units(BYTES).", 
+                    "description": "Log-agent test property used to simulate slow TCP connections.", 
                     "format": "int32"
                 }, 
                 "flow_table_batch_push_frequency": {
@@ -1332,7 +1348,7 @@
                 "max_throughput": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1. Units(MBPS).", 
+                    "description": "Deprecated. Field deprecated in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "upstream_connpool_enable": {
@@ -1343,7 +1359,7 @@
                 "log_agent_export_wait_time": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "Time log-agent waits before sending data to the Controller. Units(MILLISECONDS).", 
+                    "description": "Time log-agent waits before sending data to the Controller.", 
                     "format": "int32"
                 }, 
                 "se_dp_hm_drops": {
@@ -1393,7 +1409,7 @@
                 "se_dp_vnic_restart_on_queue_stall_count": {
                     "default": 3, 
                     "type": "integer", 
-                    "description": "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5.", 
+                    "description": "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
                 }, 
                 "mcache_store_in_min_size": {
@@ -1408,7 +1424,7 @@
                 "lb_fail_max_time": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1. Units(SEC).", 
+                    "description": "Deprecated. Field deprecated in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "global_mtu": {
@@ -1419,7 +1435,7 @@
                 "upstream_read_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": ". Units(MILLISECONDS).", 
+                    "description": "Number of upstream_read_timeout.", 
                     "format": "int32"
                 }, 
                 "lb_batch_push_frequency": {
@@ -1441,7 +1457,7 @@
                 "upstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": ". Units(MILLISECONDS).", 
+                    "description": "Number of upstream_send_timeout.", 
                     "format": "int32"
                 }, 
                 "log_agent_max_storage_ignore_percent": {
@@ -1463,7 +1479,7 @@
                 "log_agent_sleep_interval": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine. Units(MILLISECONDS).", 
+                    "description": "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine.", 
                     "format": "int32"
                 }, 
                 "flow_table_new_syn_max_entries": {
@@ -1475,7 +1491,7 @@
                 "se_auth_ldap_reconnect_timeout": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "LDAP basicauth default reconnect timeout enforced on connections to LDAP server. Units(MILLISECONDS).", 
+                    "description": "LDAP basicauth default reconnect timeout enforced on connections to LDAP server.", 
                     "format": "int32"
                 }, 
                 "ngx_free_connection_stack": {
@@ -1491,7 +1507,7 @@
                 "se_metrics_interval": {
                     "default": 60000, 
                     "type": "integer", 
-                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller. Units(MILLISECONDS).", 
+                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller.", 
                     "format": "int32"
                 }, 
                 "log_agent_max_concurrent_rsync": {
@@ -1524,13 +1540,13 @@
                 "dp_aggressive_deq_interval_msec": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1000. Units(MILLISECONDS).", 
+                    "description": " Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "controller_echo_rpc_timeout": {
                     "default": 2000, 
                     "type": "integer", 
-                    "description": "Timeout used for se health check. Units(MILLISECONDS).", 
+                    "description": "Timeout used for se health check.", 
                     "format": "int32"
                 }, 
                 "ignore_docker_mac_change": {
@@ -1547,13 +1563,13 @@
                 "dp_enq_interval_msec": {
                     "default": 20, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1000. Units(MILLISECONDS).", 
+                    "description": " Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "cpustats_interval": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of cpustats_interval.", 
                     "format": "int32"
                 }, 
                 "sdb_scan_count": {
@@ -1571,19 +1587,19 @@
                 "dp_reg_pending_max_wait_time": {
                     "default": 75, 
                     "type": "integer", 
-                    "description": "Max time to wait for dp registration before assert. Units(SEC).", 
+                    "description": "Max time to wait for dp registration before assert.", 
                     "format": "int32"
                 }, 
                 "controller_echo_rpc_aggressive_timeout": {
                     "default": 2000, 
                     "type": "integer", 
-                    "description": "Aggressive Timeout used for se health check. Units(MILLISECONDS).", 
+                    "description": "Aggressive Timeout used for se health check.", 
                     "format": "int32"
                 }, 
                 "vnic_probe_interval": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Probe vnic interval. Units(SEC).", 
+                    "description": "Probe vnic interval.", 
                     "format": "int32"
                 }, 
                 "debug_mode": {
@@ -1599,19 +1615,19 @@
                 "dp_aggressive_enq_interval_msec": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1000. Units(MILLISECONDS).", 
+                    "description": " Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "dp_deq_interval_msec": {
                     "default": 20, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-1000. Units(MILLISECONDS).", 
+                    "description": " Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "ctrl_reg_pending_max_wait_time": {
                     "default": 150, 
                     "type": "integer", 
-                    "description": "Max time to wait for ctrl registration before assert. Allowed values are 1-1000. Units(SEC).", 
+                    "description": "Max time to wait for ctrl registration before assert. Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "controller_heartbeat_miss_limit": {
@@ -1623,13 +1639,13 @@
                 "sdb_flush_interval": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "SDB pipeline flush interval. Allowed values are 1-10000. Units(MILLISECONDS).", 
+                    "description": "SDB pipeline flush interval. Allowed values are 1-10000.", 
                     "format": "int32"
                 }, 
                 "vnic_ip_delete_interval": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "wait interval before deleting IP. Units(SEC).", 
+                    "description": "wait interval before deleting IP.", 
                     "format": "int32"
                 }, 
                 "controller_echo_miss_aggressive_limit": {
@@ -1641,30 +1657,30 @@
                 "dp_max_wait_rsp_time_sec": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of dp_max_wait_rsp_time_sec.", 
                     "format": "int32"
                 }, 
                 "controller_rpc_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of controller_rpc_timeout.", 
                     "format": "int32"
                 }, 
                 "controller_registration_timeout_sec": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of controller_registration_timeout_sec.", 
                     "format": "int32"
                 }, 
                 "controller_heartbeat_timeout_sec": {
                     "default": 12, 
                     "type": "integer", 
-                    "description": " Allowed values are 1-60. Units(SEC).", 
+                    "description": " Allowed values are 1-60.", 
                     "format": "int32"
                 }, 
                 "headless_timeout_sec": {
                     "type": "integer", 
-                    "description": ". Units(SEC).", 
+                    "description": "Number of headless_timeout_sec.", 
                     "format": "int32"
                 }, 
                 "controller_echo_miss_limit": {
@@ -1676,7 +1692,7 @@
                 "vnic_dhcp_ip_check_interval": {
                     "default": 6, 
                     "type": "integer", 
-                    "description": "DHCP ip check interval. Allowed values are 1-1000. Units(SEC).", 
+                    "description": "DHCP ip check interval. Allowed values are 1-1000.", 
                     "format": "int32"
                 }
             }
@@ -1684,22 +1700,28 @@
         "SeProperties": {
             "type": "object", 
             "properties": {
+                "se_agent_properties": {
+                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object", 
+                    "$ref": "#/definitions/SeAgentProperties"
+                }, 
+                "se_bootup_properties": {
+                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object", 
+                    "$ref": "#/definitions/SeBootupProperties"
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "se_agent_properties": {
-                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeAgentProperties"
-                }, 
                 "se_runtime_properties": {
                     "description": "Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object", 
                     "$ref": "#/definitions/SeRuntimeProperties"
-                }, 
-                "se_bootup_properties": {
-                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeBootupProperties"
                 }, 
                 "uuid": {
                     "default": "default", 

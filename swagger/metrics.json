@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi  Object API", 
-        "version": "17.2.8", 
+        "version": "18.1.2", 
         "description": "", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -32,6 +32,20 @@
                     }
                 }, 
                 "parameters": [
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
                     {
                         "required": false, 
                         "type": "string", 
@@ -88,6 +102,20 @@
                     }
                 }, 
                 "parameters": [
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
                     {
                         "required": false, 
                         "type": "string", 
@@ -398,6 +426,20 @@
                 "parameters": [
                     {
                         "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "required": false, 
                         "type": "string", 
                         "description": "object name", 
                         "in": "query", 
@@ -706,6 +748,20 @@
                 "parameters": [
                     {
                         "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "required": false, 
                         "type": "string", 
                         "description": "Avi Tenant Header", 
                         "in": "header", 
@@ -865,6 +921,20 @@
                 "parameters": [
                     {
                         "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "required": false, 
                         "type": "string", 
                         "description": "Avi Tenant Header", 
                         "in": "header", 
@@ -921,6 +991,20 @@
                 "parameters": [
                     {
                         "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "required": false, 
                         "type": "string", 
                         "description": "Avi Tenant Header", 
                         "in": "header", 
@@ -975,6 +1059,20 @@
                     }
                 }, 
                 "parameters": [
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
                     {
                         "required": false, 
                         "type": "string", 
@@ -1283,6 +1381,20 @@
                     }
                 }, 
                 "parameters": [
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
                     {
                         "required": false, 
                         "type": "string", 
@@ -1674,15 +1786,6 @@
             }
         }, 
         "MetricsQueryResponse": {
-            "required": [
-                "entity_uuid", 
-                "limit", 
-                "metric_entity", 
-                "metric_id", 
-                "start", 
-                "step", 
-                "stop"
-            ], 
             "type": "object", 
             "properties": {
                 "metric_id": {
@@ -1803,11 +1906,6 @@
             }
         }, 
         "MetricsQuery": {
-            "required": [
-                "entity_uuid", 
-                "metric_entity", 
-                "metric_id"
-            ], 
             "type": "object", 
             "properties": {
                 "prediction": {

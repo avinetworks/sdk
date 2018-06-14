@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure virtualservice <key>
         - show virtualservice <key>
@@ -24,7 +24,7 @@ info:
         - retryplacement virtualservice <key>
         ```
 
-        ##Examples##
+        Examples
         - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled
           ```json
             {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}
@@ -74,7 +74,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -201,7 +207,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -2130,12 +2142,12 @@ definitions:
                 description: "Settings to turn on realtime metrics and set duration for realtime updates."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
             significant_log_throttle:
-                description: "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
+                description: "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
                 default: 10
                 format: int32
             udf_log_throttle:
-                description: "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
+                description: "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
                 default: 10
                 format: int32
@@ -2222,7 +2234,7 @@ definitions:
                 description: "Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object"
                 $ref: '#/definitions/IpAddrMatch'
             duration:
-                description: " Special values are 0 - 'infinite'. Units(MIN)."
+                description: " Special values are 0 - 'infinite'."
                 type: integer
                 default: 30
                 format: int32
@@ -2284,6 +2296,19 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+    DnsAAAARdata:
+        type: object
+        required:
+            -   ip6_address
+        properties:
+            ip6_address:
+                description: "IPv6 address for FQDN. Field introduced in 18.1.1."
+                $ref: '#/definitions/IpAddr'
     DnsARdata:
         type: object
         required:
@@ -2315,6 +2340,7 @@ definitions:
                 type: string
             metadata:
                 description: "Any metadata associated with this record. Field introduced in 17.2.2."
+                readOnly: True
                 type: string
             num_records_in_response:
                 description: "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1."
@@ -2334,6 +2360,9 @@ definitions:
         required:
             -   nsname
         properties:
+            ip6_address:
+                description: "IPv6 address for Name Server. Field introduced in 18.1.1."
+                $ref: '#/definitions/IpAddr'
             ip_address:
                 description: "IP address for Name Server. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
@@ -2376,6 +2405,11 @@ definitions:
                 type: array
                 items:
                     type: string
+            ip6_address:
+                description: "IPv6 address in AAAA record. Field introduced in 18.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsAAAARdata'
             ip_address:
                 description: "IP address in A record."
                 type: array
@@ -2435,7 +2469,7 @@ definitions:
                 description: "Log all headers."
                 type: boolean
             duration:
-                description: "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'. Units(MIN)."
+                description: "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'."
                 type: integer
                 default: 30
                 format: int32
@@ -2443,7 +2477,7 @@ definitions:
                 description: "Capture all client logs including connections and requests.  When disabled, only errors will be logged."
                 type: boolean
             throttle:
-                description: "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND)."
+                description: "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
                 default: 10
                 format: int32
@@ -2588,10 +2622,10 @@ definitions:
                 description: "Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6:
-                description: "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                description: "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6_uuid:
-                description: "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                description: "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
                 type: string
             subnet_uuid:
                 description: "Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed."
@@ -2643,7 +2677,7 @@ definitions:
             -   enabled
         properties:
             duration:
-                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN)."
+                description: "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'."
                 type: integer
                 default: 30
                 format: int32
@@ -2680,6 +2714,8 @@ definitions:
                 default: "RL_ACTION_NONE"
     RateProfile:
         type: object
+        required:
+            -   action
         properties:
             action:
                 description: "Action to perform upon rate limiting."
@@ -2705,7 +2741,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
                 default: 1
                 format: int32
@@ -2785,7 +2821,7 @@ definitions:
                 items:
                     $ref: '#/definitions/IpAddr'
             sideband_max_request_body_size:
-                description: "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Units(BYTES)."
+                description: "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384."
                 type: integer
                 default: 1024
                 format: int32
@@ -2850,6 +2886,10 @@ definitions:
             auto_allocate_ip:
                 description: "Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1."
                 type: boolean
+            auto_allocate_ip_type:
+                description: "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1."
+                type: string
+                default: "V4_ONLY"
             availability_zone:
                 description: "Availability-zone to place the Virtual Service. Field introduced in 17.1.1."
                 type: string
@@ -2872,16 +2912,16 @@ definitions:
                 description: "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
             floating_ip6:
-                description: "Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1."
+                description: "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddr'
             floating_subnet6_uuid:
-                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1."
+                description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1."
                 type: string
             floating_subnet_uuid:
                 description: "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
                 type: string
             ip6_address:
-                description: "IPv6 Address of the Vip. Field introduced in 17.2.1."
+                description: "IPv6 Address of the Vip. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddr'
             ip_address:
                 description: "IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1."
@@ -2899,10 +2939,10 @@ definitions:
                 description: "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6:
-                description: "Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1."
+                description: "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
             subnet6_uuid:
-                description: "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1."
+                description: "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1."
                 type: string
             subnet_uuid:
                 description: "If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1."
@@ -2915,6 +2955,11 @@ definitions:
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             active_standby_se_tag:
                 description: "This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine's in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2."
                 type: string
@@ -2924,6 +2969,9 @@ definitions:
                 $ref: '#/definitions/AnalyticsPolicy'
             analytics_profile_ref:
                 description: "Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile."
+                type: string
+            apic_contract_graph:
+                description: "The name of the Contract/Graph associated with the Virtual Service. Should be in the <Contract name> <Graph name> format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2."
                 type: string
             application_profile_ref:
                 description: "Enable application layer specific features for the Virtual Service. It is a reference to an object of type ApplicationProfile."
@@ -2943,8 +2991,12 @@ definitions:
             avi_allocated_vip:
                 description: "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1."
                 type: boolean
+            azure_availability_set:
+                description: "(internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2."
+                readOnly: True
+                type: string
             bulk_sync_kvcache:
-                description: "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1."
+                description: "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 18.1.1."
                 type: boolean
             client_auth:
                 description: "HTTP authentication configuration for protected resources."
@@ -3214,6 +3266,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/VSDataScripts'
+            vsvip_cloud_config_cksum:
+                description: "Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2."
+                type: string
             vsvip_ref:
                 description: "Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1."
                 type: string

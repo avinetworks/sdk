@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure applicationprofile <key>
         - show applicationprofile <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -379,6 +391,11 @@ definitions:
             -   name
             -   type
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             description:
                 description: "User defined description for the object."
                 type: string
@@ -398,7 +415,7 @@ definitions:
                 description: "Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing."
                 type: boolean
             preserve_client_port:
-                description: "Specifies if we need to preserve client port while preseving client IP for backend connections. Field introduced in 17.2.7."
+                description: "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
                 type: boolean
             sip_service_profile:
                 description: "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8."
@@ -532,10 +549,10 @@ definitions:
                 type: boolean
                 default: True
             edns:
-                description: "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
+                description: "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
                 type: boolean
             edns_client_subnet_prefix_len:
-                description: "Specifies the ip address prefix length to use in the edns client subnet (ecs) option. When the incoming request does not have any ecs option and the prefix length is specified, we insert an ecs option in the request to upstream servers. Allowed values are 1-32. Field introduced in 17.1.3."
+                description: "Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3."
                 type: integer
                 format: int32
             error_response:
@@ -543,7 +560,7 @@ definitions:
                 type: string
                 default: "DNS_ERROR_RESPONSE_NONE"
             negative_caching_ttl:
-                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4. Units(SEC)."
+                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4."
                 type: integer
                 default: 30
                 format: int32
@@ -553,7 +570,7 @@ definitions:
                 default: 1
                 format: int32
             ttl:
-                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400. Units(SEC)."
+                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400."
                 type: integer
                 default: 30
                 format: int32
@@ -595,7 +612,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
-                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC)."
+                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
                 type: integer
                 default: 5
                 format: int32
@@ -609,26 +626,26 @@ definitions:
                 description: "HTTP Caching config to use with this HTTP Profile."
                 $ref: '#/definitions/HttpCacheConfig'
             client_body_timeout:
-                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000. Units(MILLISECONDS)."
+                description: "The maximum length of time allowed between consecutive read operations for a client request body. The value '0' specifies no timeout. This setting generally impacts the length of time allowed for a client to send a POST. Allowed values are 0-100000000."
                 type: integer
                 default: 30000
                 format: int32
             client_header_timeout:
-                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000. Units(MILLISECONDS)."
+                description: "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000."
                 type: integer
                 default: 10000
                 format: int32
             client_max_body_size:
-                description: "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited. Units(KB)."
+                description: "Maximum size for the client request body.  This limits the size of the client data that can be uploaded/posted as part of a single HTTP Request.  Default 0 => Unlimited."
                 type: integer
                 format: int64
             client_max_header_size:
-                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64. Units(KB)."
+                description: "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64."
                 type: integer
                 default: 12
                 format: int32
             client_max_request_size:
-                description: "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256. Units(KB)."
+                description: "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256."
                 type: integer
                 default: 48
                 format: int32
@@ -657,6 +674,9 @@ definitions:
                 type: integer
                 default: 365
                 format: int64
+            http2_enabled:
+                description: "Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1."
+                type: boolean
             http_to_https:
                 description: "Client requests received via HTTP will be redirected to HTTPS."
                 type: boolean
@@ -667,7 +687,7 @@ definitions:
                 description: "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
                 type: boolean
             keepalive_timeout:
-                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000. Units(MILLISECONDS)."
+                description: "The max idle time allowed between HTTP requests over a Keep-alive connection. Allowed values are 10-100000000."
                 type: integer
                 default: 30000
                 format: int32
@@ -684,7 +704,7 @@ definitions:
                 type: integer
                 format: int32
             max_response_headers_size:
-                description: "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. Field introduced in 17.2.5. Units(KB)."
+                description: "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256."
                 type: integer
                 default: 48
                 format: int32
@@ -712,7 +732,7 @@ definitions:
                 description: "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile."
                 type: string
             post_accept_timeout:
-                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000. Units(MILLISECONDS)."
+                description: "The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000."
                 type: integer
                 default: 30000
                 format: int32
@@ -785,6 +805,9 @@ definitions:
             heuristic_expire:
                 description: "If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value."
                 type: boolean
+            ignore_request_cache_control:
+                description: "Ignore client's cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2."
+                type: boolean
             max_cache_size:
                 description: "Max size, in bytes, of the cache.  The default, zero, indicates auto configuration."
                 type: integer
@@ -822,8 +845,11 @@ definitions:
             query_cacheable:
                 description: "Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit."
                 type: boolean
+            uri_non_cacheable:
+                description: "Non-cacheable URI configuration with match criteria. Field introduced in 18.1.2."
+                $ref: '#/definitions/PathMatch'
             xcache_header:
-                description: "Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache."
+                description: "Add an X-Cache header to content served from cache, which indicates to the client that the object was served from an intermediate cache."
                 type: boolean
                 default: True
     HTTPLocalFile:
@@ -901,6 +927,29 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    PathMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
+                default: "CONTAINS"
+            match_str:
+                description: "String values."
+                type: array
+                items:
+                    type: string
+            string_group_refs:
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                type: array
+                items:
+                    type: string
     RateLimiterAction:
         type: object
         properties:
@@ -955,6 +1004,8 @@ definitions:
                 $ref: '#/definitions/RateProfile'
     RateProfile:
         type: object
+        required:
+            -   action
         properties:
             action:
                 description: "Action to perform upon rate limiting."
@@ -980,7 +1031,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
                 default: 1
                 format: int32
@@ -988,7 +1039,7 @@ definitions:
         type: object
         properties:
             transaction_timeout:
-                description: "SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8. Units(SEC)."
+                description: "SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8."
                 type: integer
                 default: 32
                 format: int32

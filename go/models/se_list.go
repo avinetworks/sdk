@@ -74,6 +74,9 @@ type SeList struct {
 	// version of SeList.
 	Version string `json:"version,omitempty"`
 
+	//  Field introduced in 18.1.1.
+	Vip6SubnetMask int32 `json:"vip6_subnet_mask,omitempty"`
+
 	// Placeholder for description of property vip_intf_ip of obj type SeList field type str  type object
 	VipIntfIP *IPAddr `json:"vip_intf_ip,omitempty"`
 

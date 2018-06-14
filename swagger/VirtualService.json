@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi VirtualService Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\n##Examples##\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\nExamples\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -2404,10 +2404,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -2735,10 +2743,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -3314,41 +3330,15 @@
                 }
             }
         }, 
-        "DnsInfo": {
+        "DnsAAAARdata": {
+            "required": [
+                "ip6_address"
+            ], 
             "type": "object", 
             "properties": {
-                "cname": {
-                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/DnsCnameRdata"
-                }, 
-                "algorithm": {
-                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
-                    "type": "string", 
-                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
-                }, 
-                "ttl": {
-                    "type": "integer", 
-                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
-                    "format": "int32"
-                }, 
-                "num_records_in_response": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "type": {
-                    "default": "DNS_RECORD_A", 
-                    "type": "string", 
-                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
-                }, 
-                "fqdn": {
-                    "type": "string", 
-                    "description": "Fully qualified domain name."
-                }, 
-                "metadata": {
-                    "type": "string", 
-                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
+                "ip6_address": {
+                    "description": "IPv6 address for FQDN. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/IpAddr"
                 }
             }
         }, 
@@ -3375,6 +3365,10 @@
             ], 
             "type": "object", 
             "properties": {
+                "ip6_address": {
+                    "description": "IPv6 address for Name Server. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
                 "ip_address": {
                     "description": "IP address for Name Server. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
@@ -3412,7 +3406,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -3549,6 +3543,9 @@
             }
         }, 
         "RateProfile": {
+            "required": [
+                "action"
+            ], 
             "type": "object", 
             "properties": {
                 "count": {
@@ -3571,7 +3568,7 @@
                 "period": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC).", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300.", 
                     "format": "int32"
                 }, 
                 "action": {
@@ -3620,10 +3617,10 @@
                 }, 
                 "subnet6_uuid": {
                     "type": "string", 
-                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1."
+                    "description": "Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1."
                 }, 
                 "subnet6": {
-                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1.", 
+                    "description": "Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "network_ref": {
@@ -3641,7 +3638,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
+                    "description": "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "all_headers": {
@@ -3651,7 +3648,7 @@
                 "throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -3700,7 +3697,7 @@
                 "duration": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": " Special values are 0 - 'infinite'. Units(MIN).", 
+                    "description": " Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "all_headers": {
@@ -3827,6 +3824,13 @@
                     "type": "boolean", 
                     "description": "Enable Route Health Injection for Source NAT'ted floating IP Address using the BGP Config in the vrf context."
                 }, 
+                "dns_policies": {
+                    "items": {
+                        "$ref": "#/definitions/DnsPolicies"
+                    }, 
+                    "type": "array", 
+                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
+                }, 
                 "sideband_profile": {
                     "description": "Sideband configuration to be used for this virtualservice.It can be used for sending traffic to sideband VIPs for external inspection etc.", 
                     "$ref": "#/definitions/SidebandProfile"
@@ -3882,12 +3886,10 @@
                     "description": "Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383.", 
                     "format": "int32"
                 }, 
-                "vs_datascripts": {
-                    "items": {
-                        "$ref": "#/definitions/VSDataScripts"
-                    }, 
-                    "type": "array", 
-                    "description": "Datascripts applied on the data traffic of the Virtual Service."
+                "flow_dist": {
+                    "default": "LOAD_AWARE", 
+                    "type": "string", 
+                    "description": "Criteria for flow distribution among SEs. Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT."
                 }, 
                 "l4_policies": {
                     "items": {
@@ -3895,11 +3897,6 @@
                     }, 
                     "type": "array", 
                     "description": "L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7."
-                }, 
-                "flow_dist": {
-                    "default": "LOAD_AWARE", 
-                    "type": "string", 
-                    "description": "Criteria for flow distribution among SEs. Enum options - LOAD_AWARE, CONSISTENT_HASH_SOURCE_IP_ADDRESS, CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT."
                 }, 
                 "http_policies": {
                     "items": {
@@ -3923,6 +3920,11 @@
                 "ip_address": {
                     "description": "IP Address of the Virtual Service. Field deprecated in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
+                }, 
+                "azure_availability_set": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "(internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2."
                 }, 
                 "pool_group_ref": {
                     "type": "string", 
@@ -4032,6 +4034,10 @@
                     "type": "string", 
                     "description": "Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1."
                 }, 
+                "apic_contract_graph": {
+                    "type": "string", 
+                    "description": "The name of the Contract/Graph associated with the Virtual Service. Should be in the <Contract name> <Graph name> format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2."
+                }, 
                 "avi_allocated_vip": {
                     "type": "boolean", 
                     "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1."
@@ -4056,6 +4062,12 @@
                     "default": "CLOUD_NONE", 
                     "type": "string", 
                     "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "vh_domain_name": {
                     "items": {
@@ -4177,12 +4189,12 @@
                     "type": "string", 
                     "description": "Network security policies for the Virtual Service. It is a reference to an object of type NetworkSecurityPolicy."
                 }, 
-                "dns_policies": {
+                "vs_datascripts": {
                     "items": {
-                        "$ref": "#/definitions/DnsPolicies"
+                        "$ref": "#/definitions/VSDataScripts"
                     }, 
                     "type": "array", 
-                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
+                    "description": "Datascripts applied on the data traffic of the Virtual Service."
                 }, 
                 "server_network_profile_ref": {
                     "type": "string", 
@@ -4190,7 +4202,11 @@
                 }, 
                 "bulk_sync_kvcache": {
                     "type": "boolean", 
-                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1."
+                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 18.1.1."
+                }, 
+                "vsvip_cloud_config_cksum": {
+                    "type": "string", 
+                    "description": "Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2."
                 }, 
                 "discovered_subnet": {
                     "items": {
@@ -4390,7 +4406,7 @@
                 "udf_log_throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the total number of UDF logs generated per second for this VS on each SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "enabled": {
@@ -4420,7 +4436,7 @@
                 "significant_log_throttle": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "client_insights": {
@@ -4486,6 +4502,13 @@
                     "type": "integer", 
                     "description": "Time To Live for this DNS record.", 
                     "format": "int32"
+                }, 
+                "ip6_address": {
+                    "items": {
+                        "$ref": "#/definitions/DnsAAAARdata"
+                    }, 
+                    "type": "array", 
+                    "description": "IPv6 address in AAAA record. Field introduced in 18.1.1."
                 }, 
                 "delegated": {
                     "type": "boolean", 
@@ -4572,7 +4595,7 @@
                 "sideband_max_request_body_size": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384. Units(BYTES).", 
+                    "description": "Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384.", 
                     "format": "int32"
                 }
             }
@@ -4603,16 +4626,42 @@
                 }
             }
         }, 
-        "ReplaceStringVar": {
+        "DnsInfo": {
             "type": "object", 
             "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": "Type of replacement string - can be a variable exposed from datascript, value of an HTTP header or a custom user-input literal string. Enum options - DATASCRIPT_VAR, HTTP_HEADER_VAR, LITERAL_STRING."
+                "cname": {
+                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/DnsCnameRdata"
                 }, 
-                "val": {
+                "algorithm": {
+                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
                     "type": "string", 
-                    "description": "Value of the replacement string - name of variable exposed from datascript, name of the HTTP header or a custom user-input literal string."
+                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
+                }, 
+                "ttl": {
+                    "type": "integer", 
+                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
+                    "format": "int32"
+                }, 
+                "num_records_in_response": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "type": {
+                    "default": "DNS_RECORD_A", 
+                    "type": "string", 
+                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
+                }, 
+                "fqdn": {
+                    "type": "string", 
+                    "description": "Fully qualified domain name."
+                }, 
+                "metadata": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
                 }
             }
         }, 
@@ -4657,10 +4706,6 @@
                     "type": "string", 
                     "description": "Availability-zone to place the Virtual Service. Field introduced in 17.1.1."
                 }, 
-                "avi_allocated_vip": {
-                    "type": "boolean", 
-                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
-                }, 
                 "floating_ip": {
                     "description": "Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
@@ -4673,13 +4718,18 @@
                     "type": "string", 
                     "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1."
                 }, 
+                "avi_allocated_vip": {
+                    "type": "boolean", 
+                    "description": "(internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1."
+                }, 
                 "ip6_address": {
-                    "description": "IPv6 Address of the Vip. Field introduced in 17.2.1.", 
+                    "description": "IPv6 Address of the Vip. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
-                "subnet6": {
-                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
+                "auto_allocate_ip_type": {
+                    "default": "V4_ONLY", 
+                    "type": "string", 
+                    "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1."
                 }, 
                 "ip_address": {
                     "description": "IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1.", 
@@ -4691,7 +4741,7 @@
                 }, 
                 "floating_subnet6_uuid": {
                     "type": "string", 
-                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1."
+                    "description": "If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1."
                 }, 
                 "subnet": {
                     "description": "Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1.", 
@@ -4699,7 +4749,7 @@
                 }, 
                 "subnet6_uuid": {
                     "type": "string", 
-                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1."
+                    "description": "If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1."
                 }, 
                 "vip_id": {
                     "type": "string", 
@@ -4710,7 +4760,7 @@
                     "description": "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
                 }, 
                 "floating_ip6": {
-                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1.", 
+                    "description": "Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
                 "avi_allocated_fip": {
@@ -4729,6 +4779,10 @@
                 "ipam_network_subnet": {
                     "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IPNetworkSubnet"
+                }, 
+                "subnet6": {
+                    "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
                 }
             }
         }, 
@@ -4744,6 +4798,13 @@
                     }, 
                     "type": "array", 
                     "description": "Discovered subnet for this IP."
+                }, 
+                "subnet6": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
                 }, 
                 "network_ref": {
                     "type": "string", 
@@ -4797,6 +4858,19 @@
                 "cname": {
                     "type": "string", 
                     "description": "Canonical name."
+                }
+            }
+        }, 
+        "ReplaceStringVar": {
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": "Type of replacement string - can be a variable exposed from datascript, value of an HTTP header or a custom user-input literal string. Enum options - DATASCRIPT_VAR, HTTP_HEADER_VAR, LITERAL_STRING."
+                }, 
+                "val": {
+                    "type": "string", 
+                    "description": "Value of the replacement string - name of variable exposed from datascript, name of the HTTP header or a custom user-input literal string."
                 }
             }
         }, 

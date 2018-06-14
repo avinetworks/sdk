@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi WafPolicy Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -253,11 +255,22 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "mode" : "aeiou",
     "pre_crs_groups" : [ "" ],
+    "description" : "aeiou",
+    "learning" : {
+      "arg_summarization_threshold" : 123,
+      "enable" : true,
+      "confidence" : 123,
+      "sampling_percent" : 123,
+      "path_summarization_threshold" : 123
+    },
+    "created_by" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : 123456789,
+    "mode" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "description" : "aeiou",
     "post_crs_groups" : [ "" ],
     "crs_groups" : [ {
       "enable" : true,
@@ -287,9 +300,8 @@ font-style: italic;
         }
       } ]
     } ],
-    "created_by" : "aeiou",
-    "uuid" : "aeiou",
-    "url" : "aeiou",
+    "waf_crs_ref" : "aeiou",
+    "failure_mode" : "aeiou",
     "paranoia_level" : "aeiou",
     "waf_profile_ref" : "aeiou"
   } ]
@@ -346,11 +358,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "mode" : "aeiou",
   "pre_crs_groups" : [ "" ],
+  "description" : "aeiou",
+  "learning" : {
+    "arg_summarization_threshold" : 123,
+    "enable" : true,
+    "confidence" : 123,
+    "sampling_percent" : 123,
+    "path_summarization_threshold" : 123
+  },
+  "created_by" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "enable" : true,
@@ -380,9 +403,8 @@ font-style: italic;
       }
     } ]
   } ],
-  "created_by" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
 }</code></pre>
@@ -491,7 +513,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -508,11 +532,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "mode" : "aeiou",
   "pre_crs_groups" : [ "" ],
+  "description" : "aeiou",
+  "learning" : {
+    "arg_summarization_threshold" : 123,
+    "enable" : true,
+    "confidence" : 123,
+    "sampling_percent" : 123,
+    "path_summarization_threshold" : 123
+  },
+  "created_by" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "enable" : true,
@@ -542,9 +577,8 @@ font-style: italic;
       }
     } ]
   } ],
-  "created_by" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
 }</code></pre>
@@ -612,11 +646,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "mode" : "aeiou",
   "pre_crs_groups" : [ "" ],
+  "description" : "aeiou",
+  "learning" : {
+    "arg_summarization_threshold" : 123,
+    "enable" : true,
+    "confidence" : 123,
+    "sampling_percent" : 123,
+    "path_summarization_threshold" : 123
+  },
+  "created_by" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "enable" : true,
@@ -646,9 +691,8 @@ font-style: italic;
       }
     } ]
   } ],
-  "created_by" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
 }</code></pre>
@@ -716,11 +760,22 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "mode" : "aeiou",
   "pre_crs_groups" : [ "" ],
+  "description" : "aeiou",
+  "learning" : {
+    "arg_summarization_threshold" : 123,
+    "enable" : true,
+    "confidence" : 123,
+    "sampling_percent" : 123,
+    "path_summarization_threshold" : 123
+  },
+  "created_by" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
+  "mode" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "description" : "aeiou",
   "post_crs_groups" : [ "" ],
   "crs_groups" : [ {
     "enable" : true,
@@ -750,9 +805,8 @@ font-style: italic;
       }
     } ]
   } ],
-  "created_by" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou",
+  "waf_crs_ref" : "aeiou",
+  "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
 }</code></pre>
@@ -784,6 +838,7 @@ font-style: italic;
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#WafExcludeListEntry"><code>WafExcludeListEntry</code></a></li>
     <li><a href="#WafExclusionType"><code>WafExclusionType</code></a></li>
+    <li><a href="#WafLearning"><code>WafLearning</code></a></li>
     <li><a href="#WafPolicy"><code>WafPolicy</code></a></li>
     <li><a href="#WafPolicyApiResponse"><code>WafPolicyApiResponse</code></a></li>
     <li><a href="#WafRule"><code>WafRule</code></a></li>
@@ -821,11 +876,24 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="WafLearning">WafLearning</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">arg_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2. format: int32</div>
+<div class="param">confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2. format: int32</div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Learning for WAF policy. Field introduced in 18.1.2. </div>
+<div class="param">path_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2. format: int32</div>
+<div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="WafPolicy">WafPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.2.4. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.2.4. </div>
 <div class="param">crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">failure_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy failure mode. This can be &#39;Open&#39; or &#39;Closed&#39;. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2. </div>
+<div class="param">learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafLearning">WafLearning</a></span> Configure parameters for WAF learning. Field introduced in 18.1.2. </div>
 <div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">paranoia_level (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1. </div>
@@ -834,6 +902,7 @@ font-style: italic;
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">waf_crs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF core ruleset used for the CRS part of this Policy. It is a reference to an object of type WafCRS. Field introduced in 18.1.1. </div>
 <div class="param">waf_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1. </div>
     </div>  <!-- field-items -->
   </div>

@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure networkprofile <key>
         - show networkprofile <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -379,6 +391,11 @@ definitions:
             -   name
             -   profile
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             description:
                 description: "User defined description for the object."
                 type: string
@@ -439,7 +456,7 @@ definitions:
                 description: "When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'. Units(SEC)."
+                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'."
                 type: integer
                 default: 300
                 format: int32
@@ -458,7 +475,7 @@ definitions:
                 type: string
                 default: "CC_ALGO_NEW_RENO"
             idle_connection_timeout:
-                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'. Units(SEC)."
+                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'."
                 type: integer
                 default: 600
                 format: int32
@@ -479,7 +496,7 @@ definitions:
                 default: 8
                 format: int32
             max_segment_size:
-                description: "Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'. Units(BYTES)."
+                description: "Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'."
                 type: integer
                 format: int32
             max_syn_retransmissions:
@@ -488,14 +505,14 @@ definitions:
                 default: 8
                 format: int32
             min_rexmt_timeout:
-                description: "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. Units(MILLISECONDS)."
+                description: "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8."
                 type: integer
                 format: int32
             nagles_algorithm:
                 description: "Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH."
                 type: boolean
             receive_window:
-                description: "Size of the receive window. Allowed values are 32-65536. Units(KB)."
+                description: "Size of the receive window. Allowed values are 32-65536."
                 type: integer
                 default: 64
                 format: int32
@@ -504,7 +521,7 @@ definitions:
                 type: integer
                 format: int32
             time_wait_delay:
-                description: "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS)."
+                description: "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'."
                 type: integer
                 default: 2000
                 format: int32
@@ -519,7 +536,7 @@ definitions:
                 description: "When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC)."
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600."
                 type: integer
                 default: 10
                 format: int32
@@ -531,7 +548,7 @@ definitions:
         type: object
         properties:
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8. Units(SEC)."
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8."
                 type: integer
                 default: 10
                 format: int32

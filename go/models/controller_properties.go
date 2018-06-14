@@ -7,6 +7,10 @@ package models
 // swagger:model ControllerProperties
 type ControllerProperties struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	AllowIPForwarding bool `json:"allow_ip_forwarding,omitempty"`
 
@@ -16,13 +20,13 @@ type ControllerProperties struct {
 	// Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean
 	AllowUnauthenticatedNodes bool `json:"allow_unauthenticated_nodes,omitempty"`
 
-	//  Allowed values are 0-1440. Units(MIN).
+	//  Allowed values are 0-1440.
 	APIIDLETimeout int32 `json:"api_idle_timeout,omitempty"`
 
 	// Export configuration in appviewx compatibility mode. Field introduced in 17.1.1.
 	AppviewxCompatMode bool `json:"appviewx_compat_mode,omitempty"`
 
-	// . Units(SEC).
+	// Number of attach_ip_retry_interval.
 	AttachIPRetryInterval int32 `json:"attach_ip_retry_interval,omitempty"`
 
 	// Number of attach_ip_retry_limit.
@@ -31,16 +35,25 @@ type ControllerProperties struct {
 	// Use Ansible for SE creation in baremetal. Field introduced in 17.2.2.
 	BmUseAnsible bool `json:"bm_use_ansible,omitempty"`
 
-	// . Units(MIN).
+	// Period for auth token cleanup job. Field introduced in 18.1.1.
+	CleanupExpiredAuthtokenTimeoutPeriod int32 `json:"cleanup_expired_authtoken_timeout_period,omitempty"`
+
+	// Period for sessions cleanup job. Field introduced in 18.1.1.
+	CleanupSessionsTimeoutPeriod int32 `json:"cleanup_sessions_timeout_period,omitempty"`
+
+	// Period for cluster ip gratuitous arp job.
 	ClusterIPGratuitousArpPeriod int32 `json:"cluster_ip_gratuitous_arp_period,omitempty"`
 
-	// . Units(SEC).
+	// Period for consistency check job. Field introduced in 18.1.1.
+	ConsistencyCheckTimeoutPeriod int32 `json:"consistency_check_timeout_period,omitempty"`
+
+	// Number of crashed_se_reboot.
 	CrashedSeReboot int32 `json:"crashed_se_reboot,omitempty"`
 
-	// . Units(SEC).
+	// Number of dead_se_detection_timer.
 	DeadSeDetectionTimer int32 `json:"dead_se_detection_timer,omitempty"`
 
-	// . Units(MIN).
+	// Period for refresh pool and gslb DNS job.
 	DNSRefreshPeriod int32 `json:"dns_refresh_period,omitempty"`
 
 	// Number of dummy.
@@ -49,7 +62,7 @@ type ControllerProperties struct {
 	// Enable/Disable Memory Balancer. Field introduced in 17.2.8.
 	EnableMemoryBalancer bool `json:"enable_memory_balancer,omitempty"`
 
-	// . Units(SEC).
+	// Number of fatal_error_lease_time.
 	FatalErrorLeaseTime int32 `json:"fatal_error_lease_time,omitempty"`
 
 	// Number of max_dead_se_in_grp.
@@ -64,55 +77,61 @@ type ControllerProperties struct {
 	// Number of max_seq_vnic_failures.
 	MaxSeqVnicFailures int32 `json:"max_seq_vnic_failures,omitempty"`
 
-	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).
+	// Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	PersistenceKeyRotatePeriod int32 `json:"persistence_key_rotate_period,omitempty"`
 
 	// Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2.
 	PortalToken string `json:"portal_token,omitempty"`
 
-	// . Units(SEC).
+	// Period for process locked user accounts job. Field introduced in 18.1.1.
+	ProcessLockedUseraccountsTimeoutPeriod int32 `json:"process_locked_useraccounts_timeout_period,omitempty"`
+
+	// Period for process PKI profile job. Field introduced in 18.1.1.
+	ProcessPkiProfileTimeoutPeriod int32 `json:"process_pki_profile_timeout_period,omitempty"`
+
+	// Number of query_host_fail.
 	QueryHostFail int32 `json:"query_host_fail,omitempty"`
 
 	// Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3.
 	SafenetHsmVersion string `json:"safenet_hsm_version,omitempty"`
 
-	// . Units(SEC).
+	// Number of se_create_timeout.
 	SeCreateTimeout int32 `json:"se_create_timeout,omitempty"`
 
-	// Interval between attempting failovers to an SE. Units(SEC).
+	// Interval between attempting failovers to an SE.
 	SeFailoverAttemptInterval int32 `json:"se_failover_attempt_interval,omitempty"`
 
-	// . Units(SEC).
+	// Number of se_offline_del.
 	SeOfflineDel int32 `json:"se_offline_del,omitempty"`
 
-	// . Units(SEC).
+	// Number of se_vnic_cooldown.
 	SeVnicCooldown int32 `json:"se_vnic_cooldown,omitempty"`
 
-	// . Units(MIN).
+	// Period for secure channel cleanup job.
 	SecureChannelCleanupTimeout int32 `json:"secure_channel_cleanup_timeout,omitempty"`
 
-	// . Units(MIN).
+	// Number of secure_channel_controller_token_timeout.
 	SecureChannelControllerTokenTimeout int32 `json:"secure_channel_controller_token_timeout,omitempty"`
 
-	// . Units(MIN).
+	// Number of secure_channel_se_token_timeout.
 	SecureChannelSeTokenTimeout int32 `json:"secure_channel_se_token_timeout,omitempty"`
 
 	// Pool size used for all fabric commands during se upgrade.
 	SeupgradeFabricPoolSize int32 `json:"seupgrade_fabric_pool_size,omitempty"`
 
-	// Time to wait before marking segroup upgrade as stuck. Units(SEC).
+	// Time to wait before marking segroup upgrade as stuck.
 	SeupgradeSegroupMinDeadTimeout int32 `json:"seupgrade_segroup_min_dead_timeout,omitempty"`
 
-	// Number of days for SSL Certificate expiry warning. Units(DAYS).
+	// Number of days for SSL Certificate expiry warning.
 	SslCertificateExpiryWarningDays []int64 `json:"ssl_certificate_expiry_warning_days,omitempty,omitempty"`
 
-	// . Units(SEC).
+	// Number of unresponsive_se_reboot.
 	UnresponsiveSeReboot int32 `json:"unresponsive_se_reboot,omitempty"`
 
-	// Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1. Units(SEC).
+	// Time to account for DNS TTL during upgrade. This is in addition to vs_scalein_timeout_for_upgrade in se_group. Field introduced in 17.1.1.
 	UpgradeDNSTTL int32 `json:"upgrade_dns_ttl,omitempty"`
 
-	// . Units(SEC).
+	// Number of upgrade_lease_time.
 	UpgradeLeaseTime int32 `json:"upgrade_lease_time,omitempty"`
 
 	// url
@@ -122,36 +141,36 @@ type ControllerProperties struct {
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`
 
-	// . Units(SEC).
+	// Number of vnic_op_fail_time.
 	VnicOpFailTime int32 `json:"vnic_op_fail_time,omitempty"`
 
-	// Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. Units(SEC).
+	// Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only.
 	VsApicScaleoutTimeout int32 `json:"vs_apic_scaleout_timeout,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_awaiting_se_timeout.
 	VsAwaitingSeTimeout int32 `json:"vs_awaiting_se_timeout,omitempty"`
 
-	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'. Units(MIN).
+	// Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	VsKeyRotatePeriod int32 `json:"vs_key_rotate_period,omitempty"`
 
-	// Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. Units(SEC).
+	// Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.
 	VsSeAttachIPFail int32 `json:"vs_se_attach_ip_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_se_bootup_fail.
 	VsSeBootupFail int32 `json:"vs_se_bootup_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_se_create_fail.
 	VsSeCreateFail int32 `json:"vs_se_create_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_se_ping_fail.
 	VsSePingFail int32 `json:"vs_se_ping_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_se_vnic_fail.
 	VsSeVnicFail int32 `json:"vs_se_vnic_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of vs_se_vnic_ip_fail.
 	VsSeVnicIPFail int32 `json:"vs_se_vnic_ip_fail,omitempty"`
 
-	// . Units(SEC).
+	// Number of warmstart_se_reconnect_wait_time.
 	WarmstartSeReconnectWaitTime int32 `json:"warmstart_se_reconnect_wait_time,omitempty"`
 }

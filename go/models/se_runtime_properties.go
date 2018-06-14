@@ -31,28 +31,28 @@ type SeRuntimeProperties struct {
 	// Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object
 	DosProfile *DosThresholdProfile `json:"dos_profile,omitempty"`
 
-	// . Units(MILLISECONDS).
+	// Number of downstream_send_timeout.
 	DownstreamSendTimeout int32 `json:"downstream_send_timeout,omitempty"`
 
-	// Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Units(MILLISECONDS).
+	// Frequency of SE - SE HB messages when aggressive failure mode detection is enabled.
 	DpAggressiveHbFrequency int32 `json:"dp_aggressive_hb_frequency,omitempty"`
 
 	// Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled.
 	DpAggressiveHbTimeoutCount int32 `json:"dp_aggressive_hb_timeout_count,omitempty"`
 
-	// Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Units(MILLISECONDS).
+	// Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled.
 	DpHbFrequency int32 `json:"dp_hb_frequency,omitempty"`
 
 	// Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.
 	DpHbTimeoutCount int32 `json:"dp_hb_timeout_count,omitempty"`
 
-	// Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller. Units(MILLISECONDS).
+	// Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller.
 	DupipFrequency int32 `json:"dupip_frequency,omitempty"`
 
 	// Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.
 	DupipTimeoutCount int32 `json:"dupip_timeout_count,omitempty"`
 
-	// Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3.
+	// Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3.
 	EnableHsmLog bool `json:"enable_hsm_log,omitempty"`
 
 	// Enable proxy ARP from Host interface for Front End  proxies.
@@ -79,7 +79,7 @@ type SeRuntimeProperties struct {
 	// How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.
 	LbBatchPushFrequency int32 `json:"lb_batch_push_frequency,omitempty"`
 
-	// Deprecated. Field deprecated in 17.1.1. Units(SEC).
+	// Deprecated. Field deprecated in 17.1.1.
 	LbFailMaxTime int32 `json:"lb_fail_max_time,omitempty"`
 
 	// Number of requests to dispatch from the request queue at a regular interval.
@@ -91,13 +91,13 @@ type SeRuntimeProperties struct {
 	// Flag to indicate if log files are compressed upon full on the Service Engine.
 	LogAgentCompressLogs bool `json:"log_agent_compress_logs,omitempty"`
 
-	// Log-agent test property used to simulate slow TCP connections. Units(BYTES).
+	// Log-agent test property used to simulate slow TCP connections.
 	LogAgentConnSendBufferSize int32 `json:"log_agent_conn_send_buffer_size,omitempty"`
 
-	// Maximum size of data sent by log-agent to Controller over the TCP connection. Units(BYTES).
+	// Maximum size of data sent by log-agent to Controller over the TCP connection.
 	LogAgentExportMsgBufferSize int32 `json:"log_agent_export_msg_buffer_size,omitempty"`
 
-	// Time log-agent waits before sending data to the Controller. Units(MILLISECONDS).
+	// Time log-agent waits before sending data to the Controller.
 	LogAgentExportWaitTime int32 `json:"log_agent_export_wait_time,omitempty"`
 
 	// Maximum application log file size before rollover.
@@ -112,7 +112,7 @@ type SeRuntimeProperties struct {
 	// Maximum event log file size before rollover.
 	LogAgentFileSzEvent int32 `json:"log_agent_file_sz_event,omitempty"`
 
-	// Minimum storage allocated for logs irrespective of memory and cores. Units(MB).
+	// Minimum storage allocated for logs irrespective of memory and cores.
 	LogAgentLogStorageMinSz int32 `json:"log_agent_log_storage_min_sz,omitempty"`
 
 	// Maximum number of Virtual Service log files maintained for significant logs on the Service Engine.
@@ -133,19 +133,19 @@ type SeRuntimeProperties struct {
 	// Minimum storage allocated to any given VirtualService on the Service Engine.
 	LogAgentMinStoragePerVs int32 `json:"log_agent_min_storage_per_vs,omitempty"`
 
-	// Time interval log-agent pauses between logs obtained from the dataplane. Units(MILLISECONDS).
+	// Time interval log-agent pauses between logs obtained from the dataplane.
 	LogAgentPauseInterval int32 `json:"log_agent_pause_interval,omitempty"`
 
-	// Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine. Units(MILLISECONDS).
+	// Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine.
 	LogAgentSleepInterval int32 `json:"log_agent_sleep_interval,omitempty"`
 
-	// Timeout to purge unknown Virtual Service logs from the Service Engine. Units(SEC).
+	// Timeout to purge unknown Virtual Service logs from the Service Engine.
 	LogAgentUnknownVsTimer int32 `json:"log_agent_unknown_vs_timer,omitempty"`
 
 	// Maximum number of file names in a log message.
 	LogMessageMaxFileListSize int32 `json:"log_message_max_file_list_size,omitempty"`
 
-	// Deprecated. Field deprecated in 17.1.1. Units(MBPS).
+	// Deprecated. Field deprecated in 17.1.1.
 	MaxThroughput int32 `json:"max_throughput,omitempty"`
 
 	// enables mcache - controls fetch/store/store_out.
@@ -184,22 +184,22 @@ type SeRuntimeProperties struct {
 	// Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled.
 	ScaleoutUDPPerPkt bool `json:"scaleout_udp_per_pkt,omitempty"`
 
-	// LDAP basicauth default bind timeout enforced on connections to LDAP server. Units(MILLISECONDS).
+	// LDAP basicauth default bind timeout enforced on connections to LDAP server.
 	SeAuthLdapBindTimeout int32 `json:"se_auth_ldap_bind_timeout,omitempty"`
 
-	// Size of LDAP basicauth credentials cache used on the dataplane. Units(BYTES).
+	// Size of LDAP basicauth credentials cache used on the dataplane.
 	SeAuthLdapCacheSize int32 `json:"se_auth_ldap_cache_size,omitempty"`
 
-	// LDAP basicauth default connection timeout enforced on connections to LDAP server. Units(MILLISECONDS).
+	// LDAP basicauth default connection timeout enforced on connections to LDAP server.
 	SeAuthLdapConnectTimeout int32 `json:"se_auth_ldap_connect_timeout,omitempty"`
 
 	// Number of concurrent connections to LDAP server by a single basic auth LDAP process.
 	SeAuthLdapConnsPerServer int32 `json:"se_auth_ldap_conns_per_server,omitempty"`
 
-	// LDAP basicauth default reconnect timeout enforced on connections to LDAP server. Units(MILLISECONDS).
+	// LDAP basicauth default reconnect timeout enforced on connections to LDAP server.
 	SeAuthLdapReconnectTimeout int32 `json:"se_auth_ldap_reconnect_timeout,omitempty"`
 
-	// LDAP basicauth default login or group search request timeout enforced on connections to LDAP server. Units(MILLISECONDS).
+	// LDAP basicauth default login or group search request timeout enforced on connections to LDAP server.
 	SeAuthLdapRequestTimeout int32 `json:"se_auth_ldap_request_timeout,omitempty"`
 
 	// LDAP basicauth uses multiple ldap servers in the event of a failover only.
@@ -229,10 +229,10 @@ type SeRuntimeProperties struct {
 	// Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1.
 	SeDpVnicQueueStallTimeout int32 `json:"se_dp_vnic_queue_stall_timeout,omitempty"`
 
-	// Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5.
+	// Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1.
 	SeDpVnicRestartOnQueueStallCount int32 `json:"se_dp_vnic_restart_on_queue_stall_count,omitempty"`
 
-	// Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5.
+	// Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1.
 	SeDpVnicStallSeRestartWindow int32 `json:"se_dp_vnic_stall_se_restart_window,omitempty"`
 
 	// Accept/ignore interface routes (i.e, no next hop IP address).
@@ -250,13 +250,13 @@ type SeRuntimeProperties struct {
 	// Internal use only. Enables poisoning of freed memory blocks.
 	SeMemoryPoison bool `json:"se_memory_poison,omitempty"`
 
-	// Internal use only. Frequency (ms) of metrics updates from SE to controller. Units(MILLISECONDS).
+	// Internal use only. Frequency (ms) of metrics updates from SE to controller.
 	SeMetricsInterval int32 `json:"se_metrics_interval,omitempty"`
 
 	// Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration.
 	SeMetricsRtEnabled bool `json:"se_metrics_rt_enabled,omitempty"`
 
-	// Internal use only. Frequency (ms) of realtime metrics updates from SE to controller. Units(MILLISECONDS).
+	// Internal use only. Frequency (ms) of realtime metrics updates from SE to controller.
 	SeMetricsRtInterval int32 `json:"se_metrics_rt_interval,omitempty"`
 
 	// Internal use only. Used to artificially reduce the available number of packet buffers.
@@ -286,7 +286,7 @@ type SeRuntimeProperties struct {
 	// Default value for max number of retransmissions for a SYN packet.
 	TCPSyncacheMaxRetransmitDefault int32 `json:"tcp_syncache_max_retransmit_default,omitempty"`
 
-	// . Units(MILLISECONDS).
+	// Number of upstream_connect_timeout.
 	UpstreamConnectTimeout int32 `json:"upstream_connect_timeout,omitempty"`
 
 	// Number of upstream_connpool_cache_thresh.
@@ -319,12 +319,12 @@ type SeRuntimeProperties struct {
 	// Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean
 	UpstreamKeepalive bool `json:"upstream_keepalive,omitempty"`
 
-	// . Units(MILLISECONDS).
+	// Number of upstream_read_timeout.
 	UpstreamReadTimeout int32 `json:"upstream_read_timeout,omitempty"`
 
-	// . Units(MILLISECONDS).
+	// Number of upstream_send_timeout.
 	UpstreamSendTimeout int32 `json:"upstream_send_timeout,omitempty"`
 
-	// Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5. Units(SEC).
+	// Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5.
 	UserDefinedMetricAge int32 `json:"user_defined_metric_age,omitempty"`
 }

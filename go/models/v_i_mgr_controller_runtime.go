@@ -7,6 +7,10 @@ package models
 // swagger:model VIMgrControllerRuntime
 type VIMgrControllerRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Name of the object.
 	// Required: true
 	Name string `json:"name"`

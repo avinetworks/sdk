@@ -14,6 +14,9 @@ type VlanInterface struct {
 	// Required: true
 	IfName string `json:"if_name"`
 
+	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
+	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+
 	// Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean
 	IsMgmt bool `json:"is_mgmt,omitempty"`
 

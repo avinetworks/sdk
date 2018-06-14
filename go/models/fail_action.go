@@ -7,7 +7,7 @@ package models
 // swagger:model FailAction
 type FailAction struct {
 
-	// Backup Pool when pool experiences a failure.
+	// Backup Pool when pool experiences a failure. Field deprecated in 18.1.2.
 	BackupPool *FailActionBackupPool `json:"backup_pool,omitempty"`
 
 	// Local response to HTTP requests when pool experiences a failure.

@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi ServiceEngine Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -206,6 +206,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidBgpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/bgp/</code></a></li>
   <li><a href="#serviceengineUuidClearPost"><code><span class="http-method">post</span> /serviceengine/{uuid}/clear</code></a></li>
   <li><a href="#serviceengineUuidConnectedGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/connected/</code></a></li>
+  <li><a href="#serviceengineUuidCpuDetailGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/cpu/detail/</code></a></li>
   <li><a href="#serviceengineUuidCpuGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/cpu/</code></a></li>
   <li><a href="#serviceengineUuidDelete"><code><span class="http-method">delete</span> /serviceengine/{uuid}</code></a></li>
   <li><a href="#serviceengineUuidDosstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/dosstat/</code></a></li>
@@ -220,11 +221,14 @@ font-style: italic;
   <li><a href="#serviceengineUuidGet"><code><span class="http-method">get</span> /serviceengine/{uuid}</code></a></li>
   <li><a href="#serviceengineUuidGraphdbGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/graphdb/</code></a></li>
   <li><a href="#serviceengineUuidHttpstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/httpstats/</code></a></li>
+  <li><a href="#serviceengineUuidIcmp6statGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/icmp6stat/</code></a></li>
   <li><a href="#serviceengineUuidIcmpstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/icmpstat/</code></a></li>
   <li><a href="#serviceengineUuidInterfaceGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/interface/</code></a></li>
   <li><a href="#serviceengineUuidInterfaceLacpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/interface/lacp/</code></a></li>
   <li><a href="#serviceengineUuidInterfacesummaryGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/interfacesummary/</code></a></li>
+  <li><a href="#serviceengineUuidIp6statGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/ip6stat/</code></a></li>
   <li><a href="#serviceengineUuidIpstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/ipstat/</code></a></li>
+  <li><a href="#serviceengineUuidL4policysetstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/l4policysetstats/</code></a></li>
   <li><a href="#serviceengineUuidLldpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/lldp/</code></a></li>
   <li><a href="#serviceengineUuidMallocstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/mallocstats/</code></a></li>
   <li><a href="#serviceengineUuidMbufstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/mbufstats/</code></a></li>
@@ -233,6 +237,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidMetricsDetailGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/metrics/detail/</code></a></li>
   <li><a href="#serviceengineUuidMetricsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/metrics/</code></a></li>
   <li><a href="#serviceengineUuidMicroserviceGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/microservice/</code></a></li>
+  <li><a href="#serviceengineUuidNdtableGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/ndtable/</code></a></li>
   <li><a href="#serviceengineUuidPatch"><code><span class="http-method">patch</span> /serviceengine/{uuid}</code></a></li>
   <li><a href="#serviceengineUuidPlacementGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/placement/</code></a></li>
   <li><a href="#serviceengineUuidPut"><code><span class="http-method">put</span> /serviceengine/{uuid}</code></a></li>
@@ -285,7 +290,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -322,6 +329,7 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
+    "_last_modified" : 123456789,
     "se_group_ref" : "aeiou",
     "flavor" : "aeiou",
     "cloud_ref" : "aeiou",
@@ -356,6 +364,7 @@ font-style: italic;
       "adapter" : "aeiou",
       "pci_id" : "aeiou",
       "network_name" : "aeiou",
+      "ip6_autocfg_enabled" : true,
       "del_pending" : true,
       "is_mgmt" : true,
       "mtu" : 123,
@@ -365,6 +374,7 @@ font-style: italic;
         "dhcp_enabled" : true,
         "vlan_id" : 123,
         "if_name" : "aeiou",
+        "ip6_autocfg_enabled" : true,
         "vrf_ref" : "aeiou",
         "is_mgmt" : true,
         "vnic_networks" : [ {
@@ -449,6 +459,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "se_group_ref" : "aeiou",
   "flavor" : "aeiou",
   "cloud_ref" : "aeiou",
@@ -483,6 +494,7 @@ font-style: italic;
     "adapter" : "aeiou",
     "pci_id" : "aeiou",
     "network_name" : "aeiou",
+    "ip6_autocfg_enabled" : true,
     "del_pending" : true,
     "is_mgmt" : true,
     "mtu" : 123,
@@ -492,6 +504,7 @@ font-style: italic;
       "dhcp_enabled" : true,
       "vlan_id" : 123,
       "if_name" : "aeiou",
+      "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
       "is_mgmt" : true,
       "vnic_networks" : [ {
@@ -797,6 +810,58 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/connected/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidConnectedGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidCpuDetailGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/cpu/detail/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidCpuDetailGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -1482,7 +1547,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1513,6 +1580,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "se_group_ref" : "aeiou",
   "flavor" : "aeiou",
   "cloud_ref" : "aeiou",
@@ -1547,6 +1615,7 @@ font-style: italic;
     "adapter" : "aeiou",
     "pci_id" : "aeiou",
     "network_name" : "aeiou",
+    "ip6_autocfg_enabled" : true,
     "del_pending" : true,
     "is_mgmt" : true,
     "mtu" : 123,
@@ -1556,6 +1625,7 @@ font-style: italic;
       "dhcp_enabled" : true,
       "vlan_id" : 123,
       "if_name" : "aeiou",
+      "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
       "is_mgmt" : true,
       "vnic_networks" : [ {
@@ -1647,6 +1717,58 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/httpstats/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidHttpstatsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidIcmp6statGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/icmp6stat/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidIcmp6statGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -1902,11 +2024,115 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="serviceengineUuidIp6statGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/ip6stat/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidIp6statGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="serviceengineUuidIpstatGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/ipstat/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidIpstatGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidL4policysetstatsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/l4policysetstats/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidL4policysetstatsGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -2370,6 +2596,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="serviceengineUuidNdtableGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/ndtable/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidNdtableGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="serviceengineUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2431,6 +2709,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "se_group_ref" : "aeiou",
   "flavor" : "aeiou",
   "cloud_ref" : "aeiou",
@@ -2465,6 +2744,7 @@ font-style: italic;
     "adapter" : "aeiou",
     "pci_id" : "aeiou",
     "network_name" : "aeiou",
+    "ip6_autocfg_enabled" : true,
     "del_pending" : true,
     "is_mgmt" : true,
     "mtu" : 123,
@@ -2474,6 +2754,7 @@ font-style: italic;
       "dhcp_enabled" : true,
       "vlan_id" : 123,
       "if_name" : "aeiou",
+      "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
       "is_mgmt" : true,
       "vnic_networks" : [ {
@@ -2621,6 +2902,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "se_group_ref" : "aeiou",
   "flavor" : "aeiou",
   "cloud_ref" : "aeiou",
@@ -2655,6 +2937,7 @@ font-style: italic;
     "adapter" : "aeiou",
     "pci_id" : "aeiou",
     "network_name" : "aeiou",
+    "ip6_autocfg_enabled" : true,
     "del_pending" : true,
     "is_mgmt" : true,
     "mtu" : 123,
@@ -2664,6 +2947,7 @@ font-style: italic;
       "dhcp_enabled" : true,
       "vlan_id" : 123,
       "if_name" : "aeiou",
+      "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
       "is_mgmt" : true,
       "vnic_networks" : [ {
@@ -3774,7 +4058,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ServiceEngine">ServiceEngine</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> availability_zone of ServiceEngine. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> availability_zone of ServiceEngine. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">container_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property container_mode of obj type ServiceEngine field type str  type boolean </div>
 <div class="param">container_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CONTAINER_TYPE_BRIDGE, CONTAINER_TYPE_HOST, CONTAINER_TYPE_HOST_DPDK. </div>
@@ -3812,6 +4097,7 @@ font-style: italic;
 <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enabled of obj type vNIC field type str  type boolean </div>
 <div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of vNIC. </div>
+<div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">is_asm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_asm of obj type vNIC field type str  type boolean </div>
 <div class="param">is_avi_internal_network (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_avi_internal_network of obj type vNIC field type str  type boolean </div>
 <div class="param">is_hsm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_hsm of obj type vNIC field type str  type boolean </div>
@@ -3845,6 +4131,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean </div>
 <div class="param">if_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of VlanInterface. </div>
+<div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">is_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean </div>
 <div class="param">vlan_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vlan_id. format: int32</div>
 <div class="param">vnic_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#vNICNetwork">array[vNICNetwork]</a></span> Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object </div>

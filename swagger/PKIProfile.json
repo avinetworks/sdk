@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi PKIProfile Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -657,9 +673,9 @@
                     "type": "array", 
                     "description": "Certificate Revocation Lists."
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "Name of the PKI Profile."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -682,6 +698,10 @@
                     "type": "string", 
                     "description": "Creator name."
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the PKI Profile."
+                }, 
                 "ca_certs": {
                     "items": {
                         "$ref": "#/definitions/SSLCertificate"
@@ -699,9 +719,11 @@
                     "type": "boolean", 
                     "description": "When enabled, Avi will verify via CRL checks that certificates in the trust chain have not been revoked."
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }
             }
         }, 
@@ -750,7 +772,7 @@
                 }, 
                 "update_interval": {
                     "type": "integer", 
-                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN).", 
+                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX.", 
                     "format": "int32"
                 }
             }

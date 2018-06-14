@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure serviceengineproperties
         - show serviceengineproperties
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -377,7 +389,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DosThreshold'
             thresh_period:
-                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC)."
+                description: "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service."
                 type: integer
                 default: 5
                 format: int32
@@ -434,12 +446,12 @@ definitions:
                 default: 4
                 format: int32
             controller_echo_rpc_aggressive_timeout:
-                description: "Aggressive Timeout used for se health check. Units(MILLISECONDS)."
+                description: "Aggressive Timeout used for se health check."
                 type: integer
                 default: 2000
                 format: int32
             controller_echo_rpc_timeout:
-                description: "Timeout used for se health check. Units(MILLISECONDS)."
+                description: "Timeout used for se health check."
                 type: integer
                 default: 2000
                 format: int32
@@ -449,27 +461,27 @@ definitions:
                 default: 6
                 format: int32
             controller_heartbeat_timeout_sec:
-                description: " Allowed values are 1-60. Units(SEC)."
+                description: " Allowed values are 1-60."
                 type: integer
                 default: 12
                 format: int32
             controller_registration_timeout_sec:
-                description: ". Units(SEC)."
+                description: "Number of controller_registration_timeout_sec."
                 type: integer
                 default: 10
                 format: int32
             controller_rpc_timeout:
-                description: ". Units(SEC)."
+                description: "Number of controller_rpc_timeout."
                 type: integer
                 default: 10
                 format: int32
             cpustats_interval:
-                description: ". Units(SEC)."
+                description: "Number of cpustats_interval."
                 type: integer
                 default: 5
                 format: int32
             ctrl_reg_pending_max_wait_time:
-                description: "Max time to wait for ctrl registration before assert. Allowed values are 1-1000. Units(SEC)."
+                description: "Max time to wait for ctrl registration before assert. Allowed values are 1-1000."
                 type: integer
                 default: 150
                 format: int32
@@ -477,12 +489,12 @@ definitions:
                 description: "Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean"
                 type: boolean
             dp_aggressive_deq_interval_msec:
-                description: " Allowed values are 1-1000. Units(MILLISECONDS)."
+                description: " Allowed values are 1-1000."
                 type: integer
                 default: 1
                 format: int32
             dp_aggressive_enq_interval_msec:
-                description: " Allowed values are 1-1000. Units(MILLISECONDS)."
+                description: " Allowed values are 1-1000."
                 type: integer
                 default: 1
                 format: int32
@@ -492,27 +504,27 @@ definitions:
                 default: 100
                 format: int32
             dp_deq_interval_msec:
-                description: " Allowed values are 1-1000. Units(MILLISECONDS)."
+                description: " Allowed values are 1-1000."
                 type: integer
                 default: 20
                 format: int32
             dp_enq_interval_msec:
-                description: " Allowed values are 1-1000. Units(MILLISECONDS)."
+                description: " Allowed values are 1-1000."
                 type: integer
                 default: 20
                 format: int32
             dp_max_wait_rsp_time_sec:
-                description: ". Units(SEC)."
+                description: "Number of dp_max_wait_rsp_time_sec."
                 type: integer
                 default: 60
                 format: int32
             dp_reg_pending_max_wait_time:
-                description: "Max time to wait for dp registration before assert. Units(SEC)."
+                description: "Max time to wait for dp registration before assert."
                 type: integer
                 default: 75
                 format: int32
             headless_timeout_sec:
-                description: ". Units(SEC)."
+                description: "Number of headless_timeout_sec."
                 type: integer
                 format: int32
             ignore_docker_mac_change:
@@ -520,7 +532,7 @@ definitions:
                 type: boolean
                 default: True
             sdb_flush_interval:
-                description: "SDB pipeline flush interval. Allowed values are 1-10000. Units(MILLISECONDS)."
+                description: "SDB pipeline flush interval. Allowed values are 1-10000."
                 type: integer
                 default: 100
                 format: int32
@@ -535,7 +547,7 @@ definitions:
                 default: 1000
                 format: int32
             vnic_dhcp_ip_check_interval:
-                description: "DHCP ip check interval. Allowed values are 1-1000. Units(SEC)."
+                description: "DHCP ip check interval. Allowed values are 1-1000."
                 type: integer
                 default: 6
                 format: int32
@@ -545,12 +557,12 @@ definitions:
                 default: 10
                 format: int32
             vnic_ip_delete_interval:
-                description: "wait interval before deleting IP. Units(SEC)."
+                description: "wait interval before deleting IP."
                 type: integer
                 default: 5
                 format: int32
             vnic_probe_interval:
-                description: "Probe vnic interval. Units(SEC)."
+                description: "Probe vnic interval."
                 type: integer
                 default: 5
                 format: int32
@@ -656,12 +668,12 @@ definitions:
                 description: "Internal flag that blocks dataplane until all application logs are flushed to log-agent process."
                 type: boolean
             se_log_buffer_applog_size:
-                description: "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD)."
+                description: "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
                 default: 4096
                 format: int32
             se_log_buffer_chunk_count:
-                description: "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(BYTES)."
+                description: "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
                 default: 1024
                 format: int32
@@ -669,7 +681,7 @@ definitions:
                 description: "Internal flag that blocks dataplane until all connection logs are flushed to log-agent process."
                 type: boolean
             se_log_buffer_connlog_size:
-                description: "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD)."
+                description: "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
                 default: 1024
                 format: int32
@@ -678,7 +690,7 @@ definitions:
                 type: boolean
                 default: True
             se_log_buffer_events_size:
-                description: "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD)."
+                description: "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments."
                 type: integer
                 default: 512
                 format: int32
@@ -698,7 +710,7 @@ definitions:
                 default: 65536
                 format: int32
             se_rum_sampling_nav_interval:
-                description: "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples. Units(SEC)."
+                description: "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples."
                 type: integer
                 default: 1
                 format: int32
@@ -708,7 +720,7 @@ definitions:
                 default: 1
                 format: int32
             se_rum_sampling_res_interval:
-                description: "when sampling for resource timing data from the end user client. minimum time to wait on server between samples. Units(SEC)."
+                description: "when sampling for resource timing data from the end user client. minimum time to wait on server between samples."
                 type: integer
                 default: 2
                 format: int32
@@ -748,6 +760,11 @@ definitions:
     SeProperties:
         type: object
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             se_agent_properties:
                 description: "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object"
                 $ref: '#/definitions/SeAgentProperties'
@@ -815,12 +832,12 @@ definitions:
         type: object
         properties:
             max_low_rtt:
-                description: "If client RTT is higher than this threshold, enable normal compression on the response. Units(MILLISECONDS)."
+                description: "If client RTT is higher than this threshold, enable normal compression on the response."
                 type: integer
                 default: 10
                 format: int32
             min_high_rtt:
-                description: "If client RTT is higher than this threshold, enable aggressive compression on the response. Units(MILLISECONDS)."
+                description: "If client RTT is higher than this threshold, enable aggressive compression on the response."
                 type: integer
                 default: 200
                 format: int32
@@ -868,12 +885,12 @@ definitions:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
             downstream_send_timeout:
-                description: ". Units(MILLISECONDS)."
+                description: "Number of downstream_send_timeout."
                 type: integer
                 default: 3600000
                 format: int32
             dp_aggressive_hb_frequency:
-                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled. Units(MILLISECONDS)."
+                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled."
                 type: integer
                 default: 100
                 format: int32
@@ -883,7 +900,7 @@ definitions:
                 default: 10
                 format: int32
             dp_hb_frequency:
-                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled. Units(MILLISECONDS)."
+                description: "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled."
                 type: integer
                 default: 100
                 format: int32
@@ -893,7 +910,7 @@ definitions:
                 default: 10
                 format: int32
             dupip_frequency:
-                description: "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller. Units(MILLISECONDS)."
+                description: "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller."
                 type: integer
                 format: int32
             dupip_timeout_count:
@@ -902,7 +919,7 @@ definitions:
                 default: 5
                 format: int32
             enable_hsm_log:
-                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3."
                 type: boolean
             feproxy_vips_enable_proxy_arp:
                 description: "Enable proxy ARP from Host interface for Front End  proxies."
@@ -941,7 +958,7 @@ definitions:
                 default: 5
                 format: int32
             lb_fail_max_time:
-                description: "Deprecated. Field deprecated in 17.1.1. Units(SEC)."
+                description: "Deprecated. Field deprecated in 17.1.1."
                 type: integer
                 default: 5
                 format: int32
@@ -960,17 +977,17 @@ definitions:
                 type: boolean
                 default: True
             log_agent_conn_send_buffer_size:
-                description: "Log-agent test property used to simulate slow TCP connections. Units(BYTES)."
+                description: "Log-agent test property used to simulate slow TCP connections."
                 type: integer
                 default: 16384
                 format: int32
             log_agent_export_msg_buffer_size:
-                description: "Maximum size of data sent by log-agent to Controller over the TCP connection. Units(BYTES)."
+                description: "Maximum size of data sent by log-agent to Controller over the TCP connection."
                 type: integer
                 default: 524288
                 format: int32
             log_agent_export_wait_time:
-                description: "Time log-agent waits before sending data to the Controller. Units(MILLISECONDS)."
+                description: "Time log-agent waits before sending data to the Controller."
                 type: integer
                 default: 100
                 format: int32
@@ -995,7 +1012,7 @@ definitions:
                 default: 4
                 format: int32
             log_agent_log_storage_min_sz:
-                description: "Minimum storage allocated for logs irrespective of memory and cores. Units(MB)."
+                description: "Minimum storage allocated for logs irrespective of memory and cores."
                 type: integer
                 default: 1024
                 format: int32
@@ -1030,16 +1047,16 @@ definitions:
                 default: 10
                 format: int32
             log_agent_pause_interval:
-                description: "Time interval log-agent pauses between logs obtained from the dataplane. Units(MILLISECONDS)."
+                description: "Time interval log-agent pauses between logs obtained from the dataplane."
                 type: integer
                 format: int32
             log_agent_sleep_interval:
-                description: "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine. Units(MILLISECONDS)."
+                description: "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine."
                 type: integer
                 default: 10
                 format: int32
             log_agent_unknown_vs_timer:
-                description: "Timeout to purge unknown Virtual Service logs from the Service Engine. Units(SEC)."
+                description: "Timeout to purge unknown Virtual Service logs from the Service Engine."
                 type: integer
                 default: 1800
                 format: int32
@@ -1049,7 +1066,7 @@ definitions:
                 default: 64
                 format: int32
             max_throughput:
-                description: "Deprecated. Field deprecated in 17.1.1. Units(MBPS)."
+                description: "Deprecated. Field deprecated in 17.1.1."
                 type: integer
                 default: 10000
                 format: int32
@@ -1098,17 +1115,17 @@ definitions:
                 type: boolean
                 default: True
             se_auth_ldap_bind_timeout:
-                description: "LDAP basicauth default bind timeout enforced on connections to LDAP server. Units(MILLISECONDS)."
+                description: "LDAP basicauth default bind timeout enforced on connections to LDAP server."
                 type: integer
                 default: 5000
                 format: int32
             se_auth_ldap_cache_size:
-                description: "Size of LDAP basicauth credentials cache used on the dataplane. Units(BYTES)."
+                description: "Size of LDAP basicauth credentials cache used on the dataplane."
                 type: integer
                 default: 100000
                 format: int32
             se_auth_ldap_connect_timeout:
-                description: "LDAP basicauth default connection timeout enforced on connections to LDAP server. Units(MILLISECONDS)."
+                description: "LDAP basicauth default connection timeout enforced on connections to LDAP server."
                 type: integer
                 default: 10000
                 format: int32
@@ -1118,12 +1135,12 @@ definitions:
                 default: 1
                 format: int32
             se_auth_ldap_reconnect_timeout:
-                description: "LDAP basicauth default reconnect timeout enforced on connections to LDAP server. Units(MILLISECONDS)."
+                description: "LDAP basicauth default reconnect timeout enforced on connections to LDAP server."
                 type: integer
                 default: 10000
                 format: int32
             se_auth_ldap_request_timeout:
-                description: "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server. Units(MILLISECONDS)."
+                description: "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server."
                 type: integer
                 default: 10000
                 format: int32
@@ -1167,12 +1184,12 @@ definitions:
                 default: 10000
                 format: int32
             se_dp_vnic_restart_on_queue_stall_count:
-                description: "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5."
+                description: "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1."
                 type: integer
                 default: 3
                 format: int32
             se_dp_vnic_stall_se_restart_window:
-                description: "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5."
+                description: "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1."
                 type: integer
                 default: 3600
                 format: int32
@@ -1198,7 +1215,7 @@ definitions:
                 type: boolean
                 default: True
             se_metrics_interval:
-                description: "Internal use only. Frequency (ms) of metrics updates from SE to controller. Units(MILLISECONDS)."
+                description: "Internal use only. Frequency (ms) of metrics updates from SE to controller."
                 type: integer
                 default: 60000
                 format: int32
@@ -1207,7 +1224,7 @@ definitions:
                 type: boolean
                 default: True
             se_metrics_rt_interval:
-                description: "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller. Units(MILLISECONDS)."
+                description: "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller."
                 type: integer
                 default: 1000
                 format: int32
@@ -1249,7 +1266,7 @@ definitions:
                 default: 4
                 format: int32
             upstream_connect_timeout:
-                description: ". Units(MILLISECONDS)."
+                description: "Number of upstream_connect_timeout."
                 type: integer
                 default: 3600000
                 format: int32
@@ -1301,17 +1318,17 @@ definitions:
                 description: "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
             upstream_read_timeout:
-                description: ". Units(MILLISECONDS)."
+                description: "Number of upstream_read_timeout."
                 type: integer
                 default: 3600000
                 format: int32
             upstream_send_timeout:
-                description: ". Units(MILLISECONDS)."
+                description: "Number of upstream_send_timeout."
                 type: integer
                 default: 3600000
                 format: int32
             user_defined_metric_age:
-                description: "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5. Units(SEC)."
+                description: "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5."
                 type: integer
                 default: 60
                 format: int32

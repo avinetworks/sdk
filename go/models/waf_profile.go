@@ -7,6 +7,10 @@ package models
 // swagger:model WafProfile
 type WafProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Config params for WAF. Field introduced in 17.2.1.
 	// Required: true
 	Config *WafConfig `json:"config"`
