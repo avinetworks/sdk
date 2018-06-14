@@ -11,6 +11,9 @@ type MicroService struct {
 	// Required: true
 	ApplicationName string `json:"application_name"`
 
+	// Checksum of cloud configuration for Microservice. Internally set by cloud connector. Field introduced in 17.2.8.
+	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
+
 	// The list of containers for this microservice.
 	Containers []*MicroServiceContainer `json:"containers,omitempty"`
 

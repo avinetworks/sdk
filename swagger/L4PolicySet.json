@@ -1,0 +1,794 @@
+{
+    "info": {
+        "title": "Avi L4PolicySet Object API", 
+        "version": "17.2.8", 
+        "description": "##CLI##\n```\n- configure l4policyset <key>\n- show l4policyset <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/l4policyset/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "L4PolicySet object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "L4PolicySet object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/l4policyset": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "L4PolicySet object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySet"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/L4PolicySetApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "L4RuleAction": {
+            "type": "object", 
+            "properties": {
+                "select_pool": {
+                    "description": "Indicates pool or pool-group selection on rule match. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4RuleActionSelectPool"
+                }
+            }
+        }, 
+        "IpAddrRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "IpAddrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                }, 
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "PortRange": {
+            "required": [
+                "end", 
+                "start"
+            ], 
+            "type": "object", 
+            "properties": {
+                "start": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }, 
+                "end": {
+                    "type": "integer", 
+                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "L4RuleMatchTarget": {
+            "type": "object", 
+            "properties": {
+                "client_ip": {
+                    "description": "IP addresses to match against client IP. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "protocol": {
+                    "description": "TCP/UDP/ICMP protocol to match against transport protocol. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4RuleProtocolMatch"
+                }, 
+                "port": {
+                    "description": "Port number to match against Virtual Service listner port. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4RulePortMatch"
+                }
+            }
+        }, 
+        "L4RuleActionSelectPool": {
+            "required": [
+                "action_type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "pool_ref": {
+                    "type": "string", 
+                    "description": "ID of the pool of servers to serve the request. It is a reference to an object of type Pool. Field introduced in 17.2.7."
+                }, 
+                "action_type": {
+                    "type": "string", 
+                    "description": "Indicates action to take on rule match. Enum options - L4_RULE_ACTION_SELECT_POOL, L4_RULE_ACTION_SELECT_POOLGROUP. Field introduced in 17.2.7."
+                }, 
+                "pool_group_ref": {
+                    "type": "string", 
+                    "description": "ID of the pool group to serve the request. It is a reference to an object of type PoolGroup. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "L4ConnectionPolicy": {
+            "type": "object", 
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/L4Rule"
+                    }, 
+                    "type": "array", 
+                    "description": "Rules to apply when a new transport connection is setup. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "L4PolicySet": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "l4_connection_policy": {
+                    "description": "Policy to apply when a new transport connection is setup. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4ConnectionPolicy"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the L4 Policy Set. Field introduced in 17.2.7."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.7."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.7."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name. Field introduced in 17.2.7."
+                }, 
+                "is_internal_policy": {
+                    "type": "boolean", 
+                    "description": " Field introduced in 17.2.7."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "ID of the L4 Policy Set. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "L4RuleProtocolMatch": {
+            "required": [
+                "match_criteria", 
+                "protocol"
+            ], 
+            "type": "object", 
+            "properties": {
+                "protocol": {
+                    "type": "string", 
+                    "description": "Transport protocol to match. Enum options - PROTOCOL_ICMP, PROTOCOL_TCP, PROTOCOL_UDP. Field introduced in 17.2.7."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for transport protocol matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "L4RulePortMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "port_ranges": {
+                    "items": {
+                        "$ref": "#/definitions/PortRange"
+                    }, 
+                    "type": "array", 
+                    "description": "Range of TCP/UDP port numbers of the Virtual Service. Field introduced in 17.2.7."
+                }, 
+                "ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "Virtual Service's listening port(s). Allowed values are 1-65535. Field introduced in 17.2.7.", 
+                    "format": "int32"
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for Virtual Service port matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "L4Rule": {
+            "required": [
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "action": {
+                    "description": "Action to be performed upon successful rule match. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4RuleAction"
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the rule. Field introduced in 17.2.7.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the rule. Field introduced in 17.2.7."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 17.2.7."
+                }, 
+                "match": {
+                    "description": "Match criteria of the rule. Field introduced in 17.2.7.", 
+                    "$ref": "#/definitions/L4RuleMatchTarget"
+                }
+            }
+        }, 
+        "L4PolicySetApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/L4PolicySet"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}
