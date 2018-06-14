@@ -220,7 +220,8 @@ class MigrationUtil(object):
         if prefix:
             object_name = prefix + '-' + object_name
 
-        cloud_supported_types = ['pool', 'poolgroup', 'vsvip', 'vrfcontext']
+        cloud_supported_types = ['pool', 'poolgroup', 'vsvip', 'vrfcontext',
+                                 'serviceenginegroup']
         if not cloud_name:
             cloud_name = "Default-Cloud"
 
