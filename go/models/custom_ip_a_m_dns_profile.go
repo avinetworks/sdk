@@ -7,6 +7,10 @@ package models
 // swagger:model CustomIpamDnsProfile
 type CustomIPAMDNSProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Name of the Custom IPAM DNS Profile. Field introduced in 17.1.1.
 	// Required: true
 	Name string `json:"name"`

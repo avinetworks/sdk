@@ -7,6 +7,10 @@ package models
 // swagger:model VIPGNameInfo
 type VIPGNameInfo struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// managed_object_id of VIPGNameInfo.
 	// Required: true
 	ManagedObjectID string `json:"managed_object_id"`

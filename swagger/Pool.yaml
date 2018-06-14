@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure pool <key>
         - show pool <key>
@@ -18,7 +18,7 @@ info:
         - clear pool <key>
         ```
 
-        ##Examples##
+        Examples
         - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend
           ```json
             {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}
@@ -58,7 +58,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -185,7 +191,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -1336,13 +1348,18 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
     FailAction:
         type: object
         required:
             -   type
         properties:
             backup_pool:
-                description: "Backup Pool when pool experiences a failure."
+                description: "Backup Pool when pool experiences a failure. Field deprecated in 18.1.2."
                 $ref: '#/definitions/FailActionBackupPool'
             local_rsp:
                 description: "Local response to HTTP requests when pool experiences a failure."
@@ -1589,6 +1606,7 @@ definitions:
         type: object
         required:
             -   network_ref
+            -   subnet
         properties:
             network_ref:
                 description: " It is a reference to an object of type Network."
@@ -1601,14 +1619,19 @@ definitions:
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             a_pool:
-                description: "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app."
+                description: "Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. Field deprecated in 18.1.2."
                 type: string
             ab_pool:
-                description: "A/B pool configuration."
+                description: "A/B pool configuration. Field deprecated in 18.1.2."
                 $ref: '#/definitions/AbPool'
             ab_priority:
-                description: "Priority of this pool in a A-B pool pair. Internally used."
+                description: "Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2."
                 type: integer
                 format: int32
             apic_epg_name:
@@ -1632,7 +1655,7 @@ definitions:
                 description: "Inline estimation of capacity of servers."
                 type: boolean
             capacity_estimation_ttfb_thresh:
-                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS)."
+                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'."
                 type: integer
                 format: int32
             cloud_config_cksum:
@@ -1642,7 +1665,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             connection_ramp_duration:
-                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN)."
+                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
                 type: integer
                 default: 10
                 format: int32
@@ -1678,12 +1701,12 @@ definitions:
                 description: "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure."
                 $ref: '#/definitions/FailAction'
             fewest_tasks_feedback_delay:
-                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC)."
+                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300."
                 type: integer
                 default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN)."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'."
                 type: integer
                 default: 1
                 format: int32
@@ -1754,7 +1777,7 @@ definitions:
                 items:
                     $ref: '#/definitions/PlacementNetwork'
             prst_hdr_name:
-                description: "Header name for custom header persistence."
+                description: "Header name for custom header persistence. Field deprecated in 18.1.2."
                 type: string
             request_queue_depth:
                 description: "Minimum number of requests to be queued when pool is full."
@@ -1771,10 +1794,10 @@ definitions:
                 description: "If SNI server name is specified, rewrite incoming host header to the SNI server name."
                 type: boolean
             server_auto_scale:
-                description: "Server AutoScale. Not used anymore."
+                description: "Server AutoScale. Not used anymore. Field deprecated in 18.1.2."
                 type: boolean
             server_count:
-                description: "Number of server_count."
+                description: " Field deprecated in 18.1.2."
                 type: integer
                 format: int32
             server_name:
@@ -1846,6 +1869,8 @@ definitions:
                 default: "RL_ACTION_NONE"
     RateProfile:
         type: object
+        required:
+            -   action
         properties:
             action:
                 description: "Action to perform upon rate limiting."
@@ -1871,7 +1896,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
                 default: 1
                 format: int32

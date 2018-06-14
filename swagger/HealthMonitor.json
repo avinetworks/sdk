@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "17.2.8", 
-        "description": "##CLI##\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\n##Examples##\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\nExamples\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -184,10 +184,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -377,10 +385,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -635,7 +651,7 @@
                 "receive_timeout": {
                     "default": 4, 
                     "type": "integer", 
-                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC).", 
+                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -650,11 +666,11 @@
                     "description": "Placeholder for description of property http_monitor of obj type HealthMonitor field type str  type object", 
                     "$ref": "#/definitions/HealthMonitorHttp"
                 }, 
-                "successful_checks": {
-                    "default": 2, 
+                "_last_modified": {
+                    "readOnly": true, 
                     "type": "integer", 
-                    "description": "Number of continuous successful health checks before server is marked up. Allowed values are 1-50.", 
-                    "format": "int32"
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "monitor_port": {
                     "type": "integer", 
@@ -703,12 +719,18 @@
                 "send_interval": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC).", 
+                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.", 
                     "format": "int32"
                 }, 
                 "external_monitor": {
                     "description": "Placeholder for description of property external_monitor of obj type HealthMonitor field type str  type object", 
                     "$ref": "#/definitions/HealthMonitorExternal"
+                }, 
+                "successful_checks": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Number of continuous successful health checks before server is marked up. Allowed values are 1-50.", 
+                    "format": "int32"
                 }, 
                 "type": {
                     "type": "string", 

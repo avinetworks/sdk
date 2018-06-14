@@ -13,6 +13,9 @@ type SwitchoverFailEventDetails struct {
 	// ip of SwitchoverFailEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of SwitchoverFailEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// reason of SwitchoverFailEventDetails.
 	Reason string `json:"reason,omitempty"`
 

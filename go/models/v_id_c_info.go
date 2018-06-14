@@ -7,6 +7,10 @@ package models
 // swagger:model VIDCInfo
 type VIDCInfo struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// managed_object_id of VIDCInfo.
 	// Required: true
 	ManagedObjectID string `json:"managed_object_id"`

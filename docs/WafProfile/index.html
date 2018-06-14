@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi WafProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -267,6 +269,7 @@ font-style: italic;
       "allowed_http_versions" : [ "aeiou" ],
       "regex_match_limit" : 123,
       "response_body_default_action" : "aeiou",
+      "max_execution_time" : 123,
       "restricted_headers" : [ "aeiou" ],
       "response_hdr_default_action" : "aeiou",
       "server_response_max_body_size" : 123,
@@ -280,7 +283,8 @@ font-style: italic;
       "request_hdr_default_action" : "aeiou"
     },
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -349,6 +353,7 @@ font-style: italic;
     "allowed_http_versions" : [ "aeiou" ],
     "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
+    "max_execution_time" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
     "server_response_max_body_size" : 123,
@@ -362,7 +367,8 @@ font-style: italic;
     "request_hdr_default_action" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -469,7 +475,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -500,6 +508,7 @@ font-style: italic;
     "allowed_http_versions" : [ "aeiou" ],
     "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
+    "max_execution_time" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
     "server_response_max_body_size" : 123,
@@ -513,7 +522,8 @@ font-style: italic;
     "request_hdr_default_action" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -593,6 +603,7 @@ font-style: italic;
     "allowed_http_versions" : [ "aeiou" ],
     "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
+    "max_execution_time" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
     "server_response_max_body_size" : 123,
@@ -606,7 +617,8 @@ font-style: italic;
     "request_hdr_default_action" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -686,6 +698,7 @@ font-style: italic;
     "allowed_http_versions" : [ "aeiou" ],
     "regex_match_limit" : 123,
     "response_body_default_action" : "aeiou",
+    "max_execution_time" : 123,
     "restricted_headers" : [ "aeiou" ],
     "response_hdr_default_action" : "aeiou",
     "server_response_max_body_size" : 123,
@@ -699,7 +712,8 @@ font-style: italic;
     "request_hdr_default_action" : "aeiou"
   },
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -735,13 +749,14 @@ font-style: italic;
     <h3 class="field-label"><a name="WafConfig">WafConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allowed_http_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1. </div>
-<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS. Field introduced in 17.2.1. </div>
+<div class="param">allowed_methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1. </div>
 <div class="param">allowed_request_content_types (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF allowed Content Types. Field introduced in 17.2.1. </div>
 <div class="param">argument_separator (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Argument seperator. Field introduced in 17.2.1. </div>
 <div class="param">buffer_response_body_for_inspection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable to buffer response body for inspection. Field introduced in 17.2.3. </div>
-<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
-<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
+<div class="param">client_file_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
+<div class="param">client_nonfile_upload_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
 <div class="param">cookie_format_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1. format: int32</div>
+<div class="param">max_execution_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum period of time WAF processing is allowed to take for a single request. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In detection mode, failure mode &#39;Closed&#39; means the request is flagged, whereas failure mode &#39;Open&#39; means the request is allowed. In enforcement node, &#39;Closed&#39; means the request is rejected, &#39;Open&#39; means the request is allowed. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 1-5000. Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">regex_match_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5. format: int32</div>
 <div class="param">request_body_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Body Phase. Field introduced in 17.2.1. </div>
 <div class="param">request_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Request Header Phase. Field introduced in 17.2.1. </div>
@@ -749,7 +764,7 @@ font-style: italic;
 <div class="param">response_hdr_default_action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF default action for Response Header Phase. Field introduced in 17.2.1. </div>
 <div class="param">restricted_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted File Extensions. Field introduced in 17.2.1. </div>
 <div class="param">restricted_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Restricted HTTP Headers. Field introduced in 17.2.1. </div>
-<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB). format: int32</div>
+<div class="param">server_response_max_body_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. format: int32</div>
 <div class="param">static_extensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
@@ -763,7 +778,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="WafProfile">WafProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">config </div><div class="param-desc"><span class="param-type"><a href="#WafConfig">WafConfig</a></span> Config params for WAF. Field introduced in 17.2.1. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">config </div><div class="param-desc"><span class="param-type"><a href="#WafConfig">WafConfig</a></span> Config params for WAF. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">files (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafDataFile">array[WafDataFile]</a></span> List of Data Files Used for WAF Rules. Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>

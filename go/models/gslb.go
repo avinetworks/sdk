@@ -7,6 +7,10 @@ package models
 // swagger:model Gslb
 type Gslb struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024.
 	ClearOnMaxRetries int32 `json:"clear_on_max_retries,omitempty"`
 
@@ -33,7 +37,7 @@ type Gslb struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// Frequency with which group members communicate. Allowed values are 1-3600. Units(SEC).
+	// Frequency with which group members communicate. Allowed values are 1-3600.
 	SendInterval int32 `json:"send_interval,omitempty"`
 
 	// Select Avi site member belonging to this Gslb.

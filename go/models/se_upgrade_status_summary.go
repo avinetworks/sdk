@@ -61,6 +61,12 @@ type SeUpgradeStatusSummary struct {
 	//  It is a reference to an object of type ServiceEngine.
 	SeUpgradeRetryInProgress []string `json:"se_upgrade_retry_in_progress,omitempty"`
 
+	// Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine.
+	SeUpgradeSkipSuspended []string `json:"se_upgrade_skip_suspended,omitempty"`
+
+	// Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine.
+	SeUpgradeSuspended []string `json:"se_upgrade_suspended,omitempty"`
+
 	// start_time of SeUpgradeStatusSummary.
 	StartTime string `json:"start_time,omitempty"`
 

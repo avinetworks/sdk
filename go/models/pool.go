@@ -7,13 +7,17 @@ package models
 // swagger:model Pool
 type Pool struct {
 
-	// Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app.
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	// Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. Field deprecated in 18.1.2.
 	APool string `json:"a_pool,omitempty"`
 
-	// A/B pool configuration.
+	// A/B pool configuration. Field deprecated in 18.1.2.
 	AbPool *AbPool `json:"ab_pool,omitempty"`
 
-	// Priority of this pool in a A-B pool pair. Internally used.
+	// Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.
 	AbPriority int32 `json:"ab_priority,omitempty"`
 
 	// Synchronize Cisco APIC EPG members with pool servers.
@@ -34,7 +38,7 @@ type Pool struct {
 	// Inline estimation of capacity of servers.
 	CapacityEstimation bool `json:"capacity_estimation,omitempty"`
 
-	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS).
+	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.
 	CapacityEstimationTtfbThresh int32 `json:"capacity_estimation_ttfb_thresh,omitempty"`
 
 	// Checksum of cloud configuration for Pool. Internally set by cloud connector.
@@ -43,7 +47,7 @@ type Pool struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
 
-	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN).
+	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
 	ConnectionRampDuration int32 `json:"connection_ramp_duration,omitempty"`
 
 	// Creator name.
@@ -70,10 +74,10 @@ type Pool struct {
 	// Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
-	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC).
+	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.
 	FewestTasksFeedbackDelay int32 `json:"fewest_tasks_feedback_delay,omitempty"`
 
-	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN).
+	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.
 	GracefulDisableTimeout int32 `json:"graceful_disable_timeout,omitempty"`
 
 	// Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1.
@@ -129,7 +133,7 @@ type Pool struct {
 	// Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine.
 	PlacementNetworks []*PlacementNetwork `json:"placement_networks,omitempty"`
 
-	// Header name for custom header persistence.
+	// Header name for custom header persistence. Field deprecated in 18.1.2.
 	PrstHdrName string `json:"prst_hdr_name,omitempty"`
 
 	// Minimum number of requests to be queued when pool is full.
@@ -144,10 +148,10 @@ type Pool struct {
 	// If SNI server name is specified, rewrite incoming host header to the SNI server name.
 	RewriteHostHeaderToSni bool `json:"rewrite_host_header_to_sni,omitempty"`
 
-	// Server AutoScale. Not used anymore.
+	// Server AutoScale. Not used anymore. Field deprecated in 18.1.2.
 	ServerAutoScale bool `json:"server_auto_scale,omitempty"`
 
-	// Number of server_count.
+	//  Field deprecated in 18.1.2.
 	ServerCount int32 `json:"server_count,omitempty"`
 
 	// Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead.

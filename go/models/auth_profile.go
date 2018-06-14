@@ -7,6 +7,10 @@ package models
 // swagger:model AuthProfile
 type AuthProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 

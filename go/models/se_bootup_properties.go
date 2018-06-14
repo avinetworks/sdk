@@ -55,22 +55,22 @@ type SeBootupProperties struct {
 	// Internal flag that blocks dataplane until all application logs are flushed to log-agent process.
 	SeLogBufferAppBlockingDequeue bool `json:"se_log_buffer_app_blocking_dequeue,omitempty"`
 
-	// Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).
+	// Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.
 	SeLogBufferApplogSize int32 `json:"se_log_buffer_applog_size,omitempty"`
 
-	// Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(BYTES).
+	// Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.
 	SeLogBufferChunkCount int32 `json:"se_log_buffer_chunk_count,omitempty"`
 
 	// Internal flag that blocks dataplane until all connection logs are flushed to log-agent process.
 	SeLogBufferConnBlockingDequeue bool `json:"se_log_buffer_conn_blocking_dequeue,omitempty"`
 
-	// Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).
+	// Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.
 	SeLogBufferConnlogSize int32 `json:"se_log_buffer_connlog_size,omitempty"`
 
 	// Internal flag that blocks dataplane until all outstanding events are flushed to log-agent process.
 	SeLogBufferEventsBlockingDequeue bool `json:"se_log_buffer_events_blocking_dequeue,omitempty"`
 
-	// Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. Units(WORD).
+	// Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.
 	SeLogBufferEventsSize int32 `json:"se_log_buffer_events_size,omitempty"`
 
 	// Enable or disable Large Receive Optimization for vnics.
@@ -82,13 +82,13 @@ type SeBootupProperties struct {
 	// Max size of each packet in the pcap interface.
 	SePcapPktSz int32 `json:"se_pcap_pkt_sz,omitempty"`
 
-	// when sampling for navigation timing data from the end user client. minimum time to wait on server between samples. Units(SEC).
+	// when sampling for navigation timing data from the end user client. minimum time to wait on server between samples.
 	SeRumSamplingNavInterval int32 `json:"se_rum_sampling_nav_interval,omitempty"`
 
 	// percentage of navigation timing data to sample from the end user client for client insights.
 	SeRumSamplingNavPercent int32 `json:"se_rum_sampling_nav_percent,omitempty"`
 
-	// when sampling for resource timing data from the end user client. minimum time to wait on server between samples. Units(SEC).
+	// when sampling for resource timing data from the end user client. minimum time to wait on server between samples.
 	SeRumSamplingResInterval int32 `json:"se_rum_sampling_res_interval,omitempty"`
 
 	// percentage of resource timing data to sample from the end user client for client insights.

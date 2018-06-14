@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '18.1.2'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure gslbservice <key>
         - show gslbservice <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -443,7 +455,7 @@ definitions:
                 description: "Name of the GSLB service pool."
                 type: string
             priority:
-                description: "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 1-100."
+                description: "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 0-100. Special values are 0 - 'Do not choose members from this pool.A priority of 0 is equivalent to disabling the pool.'."
                 type: integer
                 default: 10
                 format: int32
@@ -493,6 +505,11 @@ definitions:
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             application_persistence_profile_ref:
                 description: "The federated application persistence associated with GslbService site persistence functionality. . It is a reference to an object of type ApplicationPersistenceProfile. Field introduced in 17.2.1."
                 type: string
@@ -558,7 +575,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             ttl:
-                description: "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400. Units(SEC)."
+                description: "TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400."
                 type: integer
                 format: int32
             url:

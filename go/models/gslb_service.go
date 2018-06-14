@@ -7,6 +7,10 @@ package models
 // swagger:model GslbService
 type GslbService struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// The federated application persistence associated with GslbService site persistence functionality. . It is a reference to an object of type ApplicationPersistenceProfile. Field introduced in 17.2.1.
 	ApplicationPersistenceProfileRef string `json:"application_persistence_profile_ref,omitempty"`
 
@@ -59,7 +63,7 @@ type GslbService struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	// TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400. Units(SEC).
+	// TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400.
 	TTL int32 `json:"ttl,omitempty"`
 
 	// url

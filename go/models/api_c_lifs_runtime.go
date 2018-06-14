@@ -7,6 +7,10 @@ package models
 // swagger:model APICLifsRuntime
 type APICLifsRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property auto_allocated of obj type APICLifsRuntime field type str  type boolean
 	AutoAllocated bool `json:"auto_allocated,omitempty"`
 

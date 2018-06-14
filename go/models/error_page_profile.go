@@ -7,16 +7,20 @@ package models
 // swagger:model ErrorPageProfile
 type ErrorPageProfile struct {
 
-	// Name of the Virtual Service which generated the error page. Field introduced in 17.2.4.
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	// Name of the Virtual Service which generated the error page. Field deprecated in 18.1.1. Field introduced in 17.2.4.
 	AppName string `json:"app_name,omitempty"`
 
-	// Name of the company to show in error page. Field introduced in 17.2.4.
+	// Name of the company to show in error page. Field deprecated in 18.1.1. Field introduced in 17.2.4.
 	CompanyName string `json:"company_name,omitempty"`
 
 	// Defined Error Pages for HTTP status codes. Field introduced in 17.2.4.
 	ErrorPages []*ErrorPage `json:"error_pages,omitempty"`
 
-	// Fully qualified domain name for which the error page is generated. Field introduced in 17.2.4.
+	// Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4.
 	HostName string `json:"host_name,omitempty"`
 
 	//  Field introduced in 17.2.4.

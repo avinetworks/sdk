@@ -10,6 +10,9 @@ type RmUnbindVsSeEventDetails struct {
 	// ip of RmUnbindVsSeEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of RmUnbindVsSeEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// reason of RmUnbindVsSeEventDetails.
 	Reason string `json:"reason,omitempty"`
 
