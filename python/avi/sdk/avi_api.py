@@ -696,7 +696,11 @@ class ApiSession(Session):
         elif resp.status_code > 299:
             return obj
         try:
-            obj = resp.json()['results'][0]
+            if 'results' in resp.json():
+                obj = resp.json()['results'][0]
+            else:
+                # For apis returning single object eg. api/cluster
+                obj = resp.json()
         except IndexError:
             logger.warning('Warning: Object Not found for %s named %s' %
                            (path, name))
