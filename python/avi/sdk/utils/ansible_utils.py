@@ -366,7 +366,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     # Added Support to get uuid
     uuid = module.params.get('uuid', None)
     check_mode = module.check_mode
-    if uuid:
+    if uuid  and obj_type != 'cluster':
         obj_path = '%s/%s' % (obj_type, uuid)
     else:
         obj_path = '%s/' % obj_type
@@ -463,7 +463,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
-        if name is not None:
+        if name is not None and obj_type != 'cluster':
             obj_uuid = existing_obj['uuid']
             obj_path = '%s/%s' % (obj_type, obj_uuid)
         if avi_update_method == 'put':
