@@ -10,6 +10,9 @@ type LicenseExpiryDetails struct {
 	// Number of backend_servers.
 	BackendServers int32 `json:"backend_servers,omitempty"`
 
+	// Number of burst_cores.
+	BurstCores int32 `json:"burst_cores,omitempty"`
+
 	// Number of cores.
 	Cores int32 `json:"cores,omitempty"`
 

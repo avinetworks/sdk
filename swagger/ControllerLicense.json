@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi ControllerLicense Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure license\n- show license\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure license\n- show license\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -478,89 +494,6 @@
         }
     }, 
     "definitions": {
-        "ControllerLicense": {
-            "required": [
-                "customer_name", 
-                "valid_until"
-            ], 
-            "type": "object", 
-            "properties": {
-                "valid_until": {
-                    "type": "string", 
-                    "description": "valid_until of ControllerLicense."
-                }, 
-                "license_tier": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "license_tier of ControllerLicense."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "max_ses": {
-                    "type": "integer", 
-                    "description": "Number of service engines hosts in container clouds.", 
-                    "format": "int32"
-                }, 
-                "max_apps": {
-                    "type": "integer", 
-                    "description": "Number of max_apps.", 
-                    "format": "int32"
-                }, 
-                "licenses": {
-                    "items": {
-                        "$ref": "#/definitions/SingleLicense"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object"
-                }, 
-                "start_on": {
-                    "type": "string", 
-                    "description": "start_on of ControllerLicense."
-                }, 
-                "max_vses": {
-                    "type": "integer", 
-                    "description": "Deprecated.", 
-                    "format": "int32"
-                }, 
-                "cores": {
-                    "type": "integer", 
-                    "description": "Number of service engine cores in non-container clouds.", 
-                    "format": "int32"
-                }, 
-                "customer_name": {
-                    "type": "string", 
-                    "description": "customer_name of ControllerLicense."
-                }, 
-                "throughput": {
-                    "type": "integer", 
-                    "description": "Number of throughput.", 
-                    "format": "int32"
-                }, 
-                "sockets": {
-                    "type": "integer", 
-                    "description": "Number of physical cpu sockets across service engines in no access and linux server clouds.", 
-                    "format": "int32"
-                }, 
-                "backend_servers": {
-                    "type": "integer", 
-                    "description": "Number of backend_servers.", 
-                    "format": "int32"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }
-            }
-        }, 
         "SingleLicense": {
             "required": [
                 "customer_name", 
@@ -577,6 +510,15 @@
                     "type": "string", 
                     "description": "license_string of SingleLicense."
                 }, 
+                "tier_type": {
+                    "type": "string", 
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "burst_cores": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
                 "created_on": {
                     "type": "string", 
                     "description": "created_on of SingleLicense."
@@ -587,7 +529,7 @@
                 }, 
                 "cores": {
                     "type": "integer", 
-                    "description": "Number of service engine cores in non-container clouds.", 
+                    "description": "Number of Service Engine cores in non-container clouds.", 
                     "format": "int32"
                 }, 
                 "enforced_params": {
@@ -599,13 +541,15 @@
                 }, 
                 "sockets": {
                     "type": "integer", 
-                    "description": "Number of physical cpu sockets across service engines in no access and linux server clouds.", 
+                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.", 
                     "format": "int32"
                 }, 
-                "backend_servers": {
-                    "type": "integer", 
-                    "description": "Number of backend_servers.", 
-                    "format": "int32"
+                "se_bandwidth_limits": {
+                    "items": {
+                        "$ref": "#/definitions/SEBandwidthLimit"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
                 }, 
                 "customer_name": {
                     "type": "string", 
@@ -620,12 +564,7 @@
                 }, 
                 "max_ses": {
                     "type": "integer", 
-                    "description": "Number of service engines hosts in container clouds.", 
-                    "format": "int32"
-                }, 
-                "max_apps": {
-                    "type": "integer", 
-                    "description": "Number of max_apps.", 
+                    "description": "Number of Service Engines hosts in container clouds.", 
                     "format": "int32"
                 }, 
                 "last_update": {
@@ -635,11 +574,6 @@
                 "version": {
                     "type": "string", 
                     "description": "version of SingleLicense."
-                }, 
-                "throughput": {
-                    "type": "integer", 
-                    "description": "Number of throughput.", 
-                    "format": "int32"
                 }, 
                 "license_name": {
                     "type": "string", 
@@ -652,6 +586,152 @@
                 "license_id": {
                     "type": "string", 
                     "description": "license_id of SingleLicense."
+                }
+            }
+        }, 
+        "CumulativeLicense": {
+            "type": "object", 
+            "properties": {
+                "burst_cores": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "cores": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "tier_type": {
+                    "type": "string", 
+                    "description": "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "max_ses": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engines for host based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "sockets": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engine sockets for socket based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "se_bandwidth_limits": {
+                    "items": {
+                        "$ref": "#/definitions/SEBandwidthLimit"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
+                }
+            }
+        }, 
+        "ControllerLicense": {
+            "required": [
+                "customer_name", 
+                "valid_until"
+            ], 
+            "type": "object", 
+            "properties": {
+                "valid_until": {
+                    "type": "string", 
+                    "description": "valid_until of ControllerLicense."
+                }, 
+                "license_tiers": {
+                    "items": {
+                        "$ref": "#/definitions/CumulativeLicense"
+                    }, 
+                    "type": "array", 
+                    "description": " Field introduced in 17.2.5."
+                }, 
+                "start_on": {
+                    "type": "string", 
+                    "description": "start_on of ControllerLicense."
+                }, 
+                "cores": {
+                    "type": "integer", 
+                    "description": "Number of Service Engine cores in non-container clouds.", 
+                    "format": "int32"
+                }, 
+                "licenses": {
+                    "items": {
+                        "$ref": "#/definitions/SingleLicense"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object"
+                }, 
+                "license_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.5."
+                }, 
+                "disable_enforcement": {
+                    "type": "boolean", 
+                    "description": " Field introduced in 17.2.5."
+                }, 
+                "sockets": {
+                    "type": "integer", 
+                    "description": "Number of physical cpu sockets across Service Engines in no access and linux server clouds.", 
+                    "format": "int32"
+                }, 
+                "se_bandwidth_limits": {
+                    "items": {
+                        "$ref": "#/definitions/SEBandwidthLimit"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "license_tier": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "license_tier of ControllerLicense."
+                }, 
+                "active_burst_resources": {
+                    "items": {
+                        "$ref": "#/definitions/BurstResource"
+                    }, 
+                    "type": "array", 
+                    "description": "List of active burst core license in use. Field introduced in 17.2.5."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "max_ses": {
+                    "type": "integer", 
+                    "description": "Number of Service Engines hosts in container clouds.", 
+                    "format": "int32"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "burst_cores": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "expired_burst_resources": {
+                    "items": {
+                        "$ref": "#/definitions/BurstResource"
+                    }, 
+                    "type": "array", 
+                    "description": "List of used or expired burst core licenses. Field introduced in 17.2.5."
+                }, 
+                "customer_name": {
+                    "type": "string", 
+                    "description": "customer_name of ControllerLicense."
                 }
             }
         }, 
@@ -671,6 +751,49 @@
                         "$ref": "#/definitions/ControllerLicense"
                     }, 
                     "type": "array"
+                }
+            }
+        }, 
+        "BurstResource": {
+            "type": "object", 
+            "properties": {
+                "license_tier": {
+                    "type": "string", 
+                    "description": " Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                }, 
+                "se_uuid": {
+                    "type": "string", 
+                    "description": "Service Engine which triggered the burst license usage. Field introduced in 17.2.5."
+                }, 
+                "last_alert_time": {
+                    "type": "string", 
+                    "description": "Time UTC of the last alert created for this burst resource. Field introduced in 17.2.5."
+                }, 
+                "se_cookie": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.5."
+                }, 
+                "start_time": {
+                    "type": "string", 
+                    "description": "Time UTC when the burst license was put in use. Field introduced in 17.2.5."
+                }, 
+                "accounted_license_id": {
+                    "type": "string", 
+                    "description": "License ID against which this burst has been accounted. Field introduced in 17.2.5."
+                }
+            }
+        }, 
+        "SEBandwidthLimit": {
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "description": "Total number of Service Engines for bandwidth based licenses. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Maximum bandwidth allowed by each Service Engine. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 }
             }
         }

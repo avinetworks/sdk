@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -386,10 +394,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -571,6 +587,11 @@
                 "syslog_server": {
                     "type": "string", 
                     "description": "The destination Syslog server IP address or hostname."
+                }, 
+                "format": {
+                    "default": "SYSLOG_LEGACY", 
+                    "type": "string", 
+                    "description": "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
                 }
             }
         }, 
@@ -587,26 +608,32 @@
                     "type": "array", 
                     "description": "The list of syslog servers."
                 }, 
-                "uuid": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "name": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "A user-friendly name of the syslog notification."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for alert syslog config."
-                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "A user-friendly name of the syslog notification."
+                    "description": "Unique object identifier of the object."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for alert syslog config."
                 }
             }
         }, 

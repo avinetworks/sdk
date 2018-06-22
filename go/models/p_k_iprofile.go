@@ -7,6 +7,10 @@ package models
 // swagger:model PKIProfile
 type PKIprofile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// List of Certificate Authorities (Root and Intermediate) trusted that is used for certificate validation.
 	CaCerts []*SSLCertificate `json:"ca_certs,omitempty"`
 
@@ -23,7 +27,6 @@ type PKIprofile struct {
 	IgnorePeerChain bool `json:"ignore_peer_chain,omitempty"`
 
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
-	// Read Only: true
 	IsFederated bool `json:"is_federated,omitempty"`
 
 	// Name of the PKI Profile.

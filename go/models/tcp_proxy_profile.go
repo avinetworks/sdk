@@ -16,7 +16,7 @@ type TCPProxyProfile struct {
 	// Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP.
 	CcAlgo string `json:"cc_algo,omitempty"`
 
-	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 60.  Set to 0 to allow infinite idle time. Allowed values are 60-3600. Special values are 0 - 'infinite'.
+	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'.
 	IDLEConnectionTimeout int32 `json:"idle_connection_timeout,omitempty"`
 
 	// Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE.
@@ -37,11 +37,17 @@ type TCPProxyProfile struct {
 	// The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.
 	MaxSynRetransmissions int32 `json:"max_syn_retransmissions,omitempty"`
 
+	// The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8.
+	MinRexmtTimeout int32 `json:"min_rexmt_timeout,omitempty"`
+
 	// Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH.
 	NaglesAlgorithm bool `json:"nagles_algorithm,omitempty"`
 
 	// Size of the receive window. Allowed values are 32-65536.
 	ReceiveWindow int32 `json:"receive_window,omitempty"`
+
+	// Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7.
+	ReorderThreshold int32 `json:"reorder_threshold,omitempty"`
 
 	// The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.
 	TimeWaitDelay int32 `json:"time_wait_delay,omitempty"`

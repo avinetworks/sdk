@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi ControllerLicense Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure license
         - show license
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -332,59 +344,99 @@ paths:
 
 
 definitions:
+    BurstResource:
+        type: object
+        properties:
+            accounted_license_id:
+                description: "License ID against which this burst has been accounted. Field introduced in 17.2.5."
+                type: string
+            last_alert_time:
+                description: "Time UTC of the last alert created for this burst resource. Field introduced in 17.2.5."
+                type: string
+            license_tier:
+                description: " Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+            se_cookie:
+                description: " Field introduced in 17.2.5."
+                type: string
+            se_uuid:
+                description: "Service Engine which triggered the burst license usage. Field introduced in 17.2.5."
+                type: string
+            start_time:
+                description: "Time UTC when the burst license was put in use. Field introduced in 17.2.5."
+                type: string
     ControllerLicense:
         type: object
         required:
             -   customer_name
             -   valid_until
         properties:
-            backend_servers:
-                description: "Number of backend_servers."
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
+            active_burst_resources:
+                description: "List of active burst core license in use. Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/BurstResource'
+            burst_cores:
+                description: "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5."
                 type: integer
                 format: int32
             cores:
-                description: "Number of service engine cores in non-container clouds."
+                description: "Number of Service Engine cores in non-container clouds."
                 type: integer
                 format: int32
             customer_name:
                 description: "customer_name of ControllerLicense."
+                type: string
+            disable_enforcement:
+                description: " Field introduced in 17.2.5."
+                type: boolean
+            expired_burst_resources:
+                description: "List of used or expired burst core licenses. Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/BurstResource'
+            license_id:
+                description: " Field introduced in 17.2.5."
                 type: string
             license_tier:
                 description: "license_tier of ControllerLicense."
                 type: array
                 items:
                     type: string
+            license_tiers:
+                description: " Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/CumulativeLicense'
             licenses:
                 description: "Placeholder for description of property licenses of obj type ControllerLicense field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/SingleLicense'
-            max_apps:
-                description: "Number of max_apps."
-                type: integer
-                format: int32
             max_ses:
-                description: "Number of service engines hosts in container clouds."
-                type: integer
-                format: int32
-            max_vses:
-                description: "Deprecated."
+                description: "Number of Service Engines hosts in container clouds."
                 type: integer
                 format: int32
             name:
                 description: "Name of the object."
                 type: string
+            se_bandwidth_limits:
+                description: "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/SEBandwidthLimit'
             sockets:
-                description: "Number of physical cpu sockets across service engines in no access and linux server clouds."
+                description: "Number of physical cpu sockets across Service Engines in no access and linux server clouds."
                 type: integer
                 format: int32
             start_on:
                 description: "start_on of ControllerLicense."
                 type: string
-            throughput:
-                description: "Number of throughput."
-                type: integer
-                format: int32
             url:
                 description: "url"
                 readOnly: True
@@ -408,6 +460,43 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/ControllerLicense"
+    CumulativeLicense:
+        type: object
+        properties:
+            burst_cores:
+                description: "Total number of Service Engine cores for burst core based licenses. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            cores:
+                description: "Total number of Service Engine cores for core based licenses. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            max_ses:
+                description: "Total number of Service Engines for host based licenses. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            se_bandwidth_limits:
+                description: "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/SEBandwidthLimit'
+            sockets:
+                description: "Total number of Service Engine sockets for socket based licenses. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            tier_type:
+                description: "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+    SEBandwidthLimit:
+        type: object
+        properties:
+            count:
+                description: "Total number of Service Engines for bandwidth based licenses. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            type:
+                description: "Maximum bandwidth allowed by each Service Engine. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
+                type: string
     SingleLicense:
         type: object
         required:
@@ -415,12 +504,12 @@ definitions:
             -   license_name
             -   valid_until
         properties:
-            backend_servers:
-                description: "Number of backend_servers."
+            burst_cores:
+                description: "Total number of Service Engine burst cores for core based licenses. Field introduced in 17.2.5."
                 type: integer
                 format: int32
             cores:
-                description: "Number of service engine cores in non-container clouds."
+                description: "Number of Service Engine cores in non-container clouds."
                 type: integer
                 format: int32
             created_on:
@@ -454,25 +543,25 @@ definitions:
             license_type:
                 description: "license_type of SingleLicense."
                 type: string
-            max_apps:
-                description: "Number of max_apps."
-                type: integer
-                format: int32
             max_ses:
-                description: "Number of service engines hosts in container clouds."
+                description: "Number of Service Engines hosts in container clouds."
                 type: integer
                 format: int32
+            se_bandwidth_limits:
+                description: "Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/SEBandwidthLimit'
             sockets:
-                description: "Number of physical cpu sockets across service engines in no access and linux server clouds."
+                description: "Number of physical cpu sockets across Service Engines in no access and linux server clouds."
                 type: integer
                 format: int32
             start_on:
                 description: "start_on of SingleLicense."
                 type: string
-            throughput:
-                description: "Number of throughput."
-                type: integer
-                format: int32
+            tier_type:
+                description: "Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
             valid_until:
                 description: "valid_until of SingleLicense."
                 type: string

@@ -7,6 +7,10 @@ package models
 // swagger:model Cloud
 type Cloud struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property apic_configuration of obj type Cloud field type str  type object
 	ApicConfiguration *APICConfiguration `json:"apic_configuration,omitempty"`
 
@@ -43,10 +47,16 @@ type Cloud struct {
 	// Use static routes for VIP side network resolution during VirtualService placement.
 	EnableVipStaticRoutes bool `json:"enable_vip_static_routes,omitempty"`
 
+	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
+	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+
 	// Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile.
 	IPAMProviderRef string `json:"ipam_provider_ref,omitempty"`
 
-	// If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS.
+	// Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	LicenseTier string `json:"license_tier,omitempty"`
+
+	// If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH.
 	LicenseType string `json:"license_type,omitempty"`
 
 	// Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object
@@ -82,6 +92,9 @@ type Cloud struct {
 
 	// Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object
 	RancherConfiguration *RancherConfiguration `json:"rancher_configuration,omitempty"`
+
+	// DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12.
+	StateBasedDNSRegistration bool `json:"state_based_dns_registration,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

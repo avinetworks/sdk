@@ -13,6 +13,9 @@ type VsErrorEventDetails struct {
 	// ip of VsErrorEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of VsErrorEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// Number of rpc_status.
 	RPCStatus int64 `json:"rpc_status,omitempty"`
 

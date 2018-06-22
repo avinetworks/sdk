@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure vrfcontext <key>
         - show vrfcontext <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -176,7 +182,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -342,9 +354,6 @@ paths:
 definitions:
     BgpPeer:
         type: object
-        required:
-            -   peer_ip
-            -   subnet
         properties:
             advertise_snat_ip:
                 description: "Advertise SNAT IP to this Peer."
@@ -395,16 +404,21 @@ definitions:
             peer_ip:
                 description: "IP Address of the BGP Peer."
                 $ref: '#/definitions/IpAddr'
+            peer_ip6:
+                description: "IPv6 Address of the BGP Peer. Field introduced in 18.1.1."
+                $ref: '#/definitions/IpAddr'
             remote_as:
                 description: "Peer Autonomous System ID. Allowed values are 1-4294967295."
                 type: integer
-                default: 1
                 format: int32
             shutdown:
                 description: "Shutdown the bgp peer. Field introduced in 17.2.4."
                 type: boolean
             subnet:
                 description: "Subnet providing reachability for Peer."
+                $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "Subnet v6 providing reachability for Peer. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
     BgpProfile:
         type: object
@@ -492,7 +506,7 @@ definitions:
                 default: 15
                 format: int32
             subnet:
-                description: "Subnet providing reachability for Multi-hop Gateway. Field introduced in 17.2.3."
+                description: "Subnet providing reachability for Multi-hop Gateway. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddrPrefix'
     InternalGatewayMonitor:
         type: object
@@ -525,7 +539,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -583,6 +597,11 @@ definitions:
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             bgp_profile:
                 description: "Bgp Local and Peer Info."
                 $ref: '#/definitions/BgpProfile'

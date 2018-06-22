@@ -16,7 +16,7 @@ type DockerRegistry struct {
 	// Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set.
 	Private bool `json:"private,omitempty"`
 
-	// Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/<namespace>/<repo>.
+	// Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo.
 	Registry string `json:"registry,omitempty"`
 
 	// Avi Controller will push ServiceEngine image to docker repository.

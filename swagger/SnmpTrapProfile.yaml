@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi SnmpTrapProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure snmptrapprofile <key>
         - show snmptrapprofile <key>
@@ -50,7 +50,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -169,7 +175,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -401,13 +413,18 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     SnmpTrapProfile:
         type: object
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             name:
                 description: "A user-friendly name of the SNMP trap configuration."
                 type: string
@@ -450,6 +467,11 @@ definitions:
             ip_addr:
                 description: "IP Address of the SNMP trap destination."
                 $ref: '#/definitions/IpAddr'
+            port:
+                description: "The UDP port of the trap server. Field introduced in 16.5.4,17.2.5."
+                type: integer
+                default: 162
+                format: int32
             user:
                 description: "SNMP version 3 configuration. Field introduced in 17.2.3."
                 $ref: '#/definitions/SnmpV3UserParams'

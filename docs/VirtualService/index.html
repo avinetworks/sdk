@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi VirtualService Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  ##Examples## - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
+    <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -225,6 +225,7 @@ font-style: italic;
   <li><a href="#virtualserviceUuidHttpstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/httpstats/</code></a></li>
   <li><a href="#virtualserviceUuidKeyvalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/keyval/</code></a></li>
   <li><a href="#virtualserviceUuidKeyvalsummaryGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/keyvalsummary/</code></a></li>
+  <li><a href="#virtualserviceUuidL4policysetstatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/l4policysetstats/</code></a></li>
   <li><a href="#virtualserviceUuidMigratePost"><code><span class="http-method">post</span> /virtualservice/{uuid}/migrate</code></a></li>
   <li><a href="#virtualserviceUuidNetworksecuritypolicyDetailGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/networksecuritypolicy/detail/</code></a></li>
   <li><a href="#virtualserviceUuidNetworksecuritypolicystatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/networksecuritypolicystats/</code></a></li>
@@ -274,7 +275,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -308,6 +311,11 @@ font-style: italic;
       "dns_policy_ref" : "aeiou",
       "index" : 123
     } ],
+    "l4_policies" : [ {
+      "l4_policy_set_ref" : "aeiou",
+      "index" : 123
+    } ],
+    "azure_availability_set" : "aeiou",
     "enable_autogw" : true,
     "vrf_context_ref" : "aeiou",
     "flow_dist" : "aeiou",
@@ -337,6 +345,7 @@ font-style: italic;
       "response_rewrite_enabled" : true
     },
     "type" : "aeiou",
+    "traffic_enabled" : true,
     "uuid" : "aeiou",
     "vh_domain_name" : [ "aeiou" ],
     "pool_ref" : "aeiou",
@@ -420,6 +429,7 @@ font-style: italic;
       "ip_address" : "",
       "auto_allocate_floating_ip" : true,
       "enabled" : true,
+      "auto_allocate_ip_type" : "aeiou",
       "floating_subnet6_uuid" : "aeiou",
       "auto_allocate_ip" : true,
       "subnet6" : "",
@@ -438,12 +448,23 @@ font-style: italic;
     },
     "sp_pool_refs" : [ "aeiou" ],
     "static_dns_records" : [ {
-      "wildcard_match" : true,
+      "ip6_address" : [ {
+        "ip6_address" : ""
+      } ],
       "fqdn" : [ "aeiou" ],
       "ns" : [ {
+        "ip6_address" : "",
         "ip_address" : "",
         "nsname" : "aeiou"
       } ],
+      "cname" : "",
+      "description" : "aeiou",
+      "ip_address" : [ {
+        "ip_address" : ""
+      } ],
+      "type" : "aeiou",
+      "ttl" : 123,
+      "wildcard_match" : true,
       "num_records_in_response" : 123,
       "service_locator" : [ {
         "port" : 123,
@@ -451,18 +472,13 @@ font-style: italic;
         "priority" : 123,
         "target" : "aeiou"
       } ],
-      "cname" : "",
-      "description" : "aeiou",
       "delegated" : true,
-      "ip_address" : [ {
-        "ip_address" : ""
-      } ],
-      "type" : "aeiou",
-      "ttl" : 123,
       "algorithm" : "aeiou"
     } ],
+    "apic_contract_graph" : "aeiou",
     "subnet_uuid" : "aeiou",
     "fqdn" : "aeiou",
+    "bulk_sync_kvcache" : true,
     "weight" : 123,
     "auto_allocate_floating_ip" : true,
     "waf_policy_ref" : "aeiou",
@@ -529,6 +545,7 @@ font-style: italic;
     "ssl_key_and_certificate_refs" : [ "aeiou" ],
     "ssl_profile_ref" : "aeiou",
     "enabled" : true,
+    "_last_modified" : 123456789,
     "limit_doser" : true,
     "se_group_ref" : "aeiou",
     "discovered_subnet" : [ "" ],
@@ -566,8 +583,10 @@ font-style: italic;
     "ign_pool_net_reach" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
+      "subnet6" : [ "" ],
       "network_ref" : "aeiou"
     } ],
+    "vsvip_cloud_config_cksum" : "aeiou",
     "east_west_placement" : true
   } ]
 }</code></pre>
@@ -634,6 +653,11 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -663,6 +687,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -746,6 +771,7 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "auto_allocate_ip_type" : "aeiou",
     "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
     "subnet6" : "",
@@ -764,12 +790,23 @@ font-style: italic;
   },
   "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
-    "wildcard_match" : true,
+    "ip6_address" : [ {
+      "ip6_address" : ""
+    } ],
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
+      "ip6_address" : "",
       "ip_address" : "",
       "nsname" : "aeiou"
     } ],
+    "cname" : "",
+    "description" : "aeiou",
+    "ip_address" : [ {
+      "ip_address" : ""
+    } ],
+    "type" : "aeiou",
+    "ttl" : 123,
+    "wildcard_match" : true,
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -777,18 +814,13 @@ font-style: italic;
       "priority" : 123,
       "target" : "aeiou"
     } ],
-    "cname" : "",
-    "description" : "aeiou",
     "delegated" : true,
-    "ip_address" : [ {
-      "ip_address" : ""
-    } ],
-    "type" : "aeiou",
-    "ttl" : 123,
     "algorithm" : "aeiou"
   } ],
+  "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -855,6 +887,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
+  "_last_modified" : 123456789,
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -892,8 +925,10 @@ font-style: italic;
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
+    "subnet6" : [ "" ],
     "network_ref" : "aeiou"
   } ],
+  "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true
 }</code></pre>
 
@@ -1741,7 +1776,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1769,6 +1806,11 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -1798,6 +1840,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -1881,6 +1924,7 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "auto_allocate_ip_type" : "aeiou",
     "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
     "subnet6" : "",
@@ -1899,12 +1943,23 @@ font-style: italic;
   },
   "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
-    "wildcard_match" : true,
+    "ip6_address" : [ {
+      "ip6_address" : ""
+    } ],
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
+      "ip6_address" : "",
       "ip_address" : "",
       "nsname" : "aeiou"
     } ],
+    "cname" : "",
+    "description" : "aeiou",
+    "ip_address" : [ {
+      "ip_address" : ""
+    } ],
+    "type" : "aeiou",
+    "ttl" : 123,
+    "wildcard_match" : true,
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -1912,18 +1967,13 @@ font-style: italic;
       "priority" : 123,
       "target" : "aeiou"
     } ],
-    "cname" : "",
-    "description" : "aeiou",
     "delegated" : true,
-    "ip_address" : [ {
-      "ip_address" : ""
-    } ],
-    "type" : "aeiou",
-    "ttl" : 123,
     "algorithm" : "aeiou"
   } ],
+  "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -1990,6 +2040,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
+  "_last_modified" : 123456789,
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -2027,8 +2078,10 @@ font-style: italic;
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
+    "subnet6" : [ "" ],
     "network_ref" : "aeiou"
   } ],
+  "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true
 }</code></pre>
 
@@ -2516,6 +2569,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="virtualserviceUuidL4policysetstatsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/l4policysetstats/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidL4policysetstatsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="virtualserviceUuidMigratePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -2736,6 +2841,11 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -2765,6 +2875,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -2848,6 +2959,7 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "auto_allocate_ip_type" : "aeiou",
     "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
     "subnet6" : "",
@@ -2866,12 +2978,23 @@ font-style: italic;
   },
   "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
-    "wildcard_match" : true,
+    "ip6_address" : [ {
+      "ip6_address" : ""
+    } ],
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
+      "ip6_address" : "",
       "ip_address" : "",
       "nsname" : "aeiou"
     } ],
+    "cname" : "",
+    "description" : "aeiou",
+    "ip_address" : [ {
+      "ip_address" : ""
+    } ],
+    "type" : "aeiou",
+    "ttl" : 123,
+    "wildcard_match" : true,
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -2879,18 +3002,13 @@ font-style: italic;
       "priority" : 123,
       "target" : "aeiou"
     } ],
-    "cname" : "",
-    "description" : "aeiou",
     "delegated" : true,
-    "ip_address" : [ {
-      "ip_address" : ""
-    } ],
-    "type" : "aeiou",
-    "ttl" : 123,
     "algorithm" : "aeiou"
   } ],
+  "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -2957,6 +3075,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
+  "_last_modified" : 123456789,
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -2994,8 +3113,10 @@ font-style: italic;
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
+    "subnet6" : [ "" ],
     "network_ref" : "aeiou"
   } ],
+  "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true
 }</code></pre>
 
@@ -3125,6 +3246,11 @@ font-style: italic;
     "dns_policy_ref" : "aeiou",
     "index" : 123
   } ],
+  "l4_policies" : [ {
+    "l4_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
   "vrf_context_ref" : "aeiou",
   "flow_dist" : "aeiou",
@@ -3154,6 +3280,7 @@ font-style: italic;
     "response_rewrite_enabled" : true
   },
   "type" : "aeiou",
+  "traffic_enabled" : true,
   "uuid" : "aeiou",
   "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
@@ -3237,6 +3364,7 @@ font-style: italic;
     "ip_address" : "",
     "auto_allocate_floating_ip" : true,
     "enabled" : true,
+    "auto_allocate_ip_type" : "aeiou",
     "floating_subnet6_uuid" : "aeiou",
     "auto_allocate_ip" : true,
     "subnet6" : "",
@@ -3255,12 +3383,23 @@ font-style: italic;
   },
   "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
-    "wildcard_match" : true,
+    "ip6_address" : [ {
+      "ip6_address" : ""
+    } ],
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
+      "ip6_address" : "",
       "ip_address" : "",
       "nsname" : "aeiou"
     } ],
+    "cname" : "",
+    "description" : "aeiou",
+    "ip_address" : [ {
+      "ip_address" : ""
+    } ],
+    "type" : "aeiou",
+    "ttl" : 123,
+    "wildcard_match" : true,
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -3268,18 +3407,13 @@ font-style: italic;
       "priority" : 123,
       "target" : "aeiou"
     } ],
-    "cname" : "",
-    "description" : "aeiou",
     "delegated" : true,
-    "ip_address" : [ {
-      "ip_address" : ""
-    } ],
-    "type" : "aeiou",
-    "ttl" : 123,
     "algorithm" : "aeiou"
   } ],
+  "apic_contract_graph" : "aeiou",
   "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
+  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
   "waf_policy_ref" : "aeiou",
@@ -3346,6 +3480,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
+  "_last_modified" : 123456789,
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -3383,8 +3518,10 @@ font-style: italic;
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
+    "subnet6" : [ "" ],
     "network_ref" : "aeiou"
   } ],
+  "vsvip_cloud_config_cksum" : "aeiou",
   "east_west_placement" : true
 }</code></pre>
 
@@ -4132,6 +4269,7 @@ font-style: italic;
     <li><a href="#ConnectionClearFilter"><code>ConnectionClearFilter</code></a></li>
     <li><a href="#ContentRewriteProfile"><code>ContentRewriteProfile</code></a></li>
     <li><a href="#DiscoveredNetwork"><code>DiscoveredNetwork</code></a></li>
+    <li><a href="#DnsAAAARdata"><code>DnsAAAARdata</code></a></li>
     <li><a href="#DnsARdata"><code>DnsARdata</code></a></li>
     <li><a href="#DnsCnameRdata"><code>DnsCnameRdata</code></a></li>
     <li><a href="#DnsInfo"><code>DnsInfo</code></a></li>
@@ -4149,6 +4287,7 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#L4Policies"><code>L4Policies</code></a></li>
     <li><a href="#Lif"><code>Lif</code></a></li>
     <li><a href="#MatchReplacePair"><code>MatchReplacePair</code></a></li>
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
@@ -4258,6 +4397,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">network_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Discovered network for this IP. It is a reference to an object of type Network. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Discovered subnet for this IP. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Discovered IPv6 subnet for this IP. Field introduced in 18.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsAAAARdata">DnsAAAARdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip6_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 address for FQDN. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4287,7 +4433,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsNsRdata">DnsNsRdata</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for Name Server. Field introduced in 17.1.1. </div>
+      <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 address for Name Server. Field introduced in 18.1.1. </div>
+<div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for Name Server. Field introduced in 17.1.1. </div>
 <div class="param">nsname </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name Server name. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4306,6 +4453,7 @@ font-style: italic;
 <div class="param">delegated (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Configured FQDNs are delegated domains (i.e. they represent a zone cut). Field introduced in 17.1.2. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Details of DNS record. </div>
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Fully Qualified Domain Name. </div>
+<div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAAAARdata">array[DnsAAAARdata]</a></span> IPv6 address in AAAA record. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. </div>
 <div class="param">ns (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 17.1.1. </div>
 <div class="param">num_records_in_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of records returned by the DNS service. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- &#39;Return all records&#39;. Field introduced in 17.1.1. format: int32</div>
@@ -4372,8 +4520,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network for VirtualService IP allocation with Vantage as the IPAM provider. Network should be created before this is configured. It is a reference to an object of type Network. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IP allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1. </div>
-<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 17.2.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet for VirtualService IPv6 allocation with Vantage or Infoblox as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IPv6 allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. Field introduced in 18.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Subnet UUID or Name or Prefix for VirtualService IP allocation with AWS or OpenStack as the IPAM provider. Only one of subnet or subnet_uuid configuration is allowed. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4381,7 +4529,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4409,6 +4557,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="L4Policies">L4Policies</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the virtual service L4 policy set. Field introduced in 17.2.7. format: int32</div>
+<div class="param">l4_policy_set_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="Lif">Lif</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cifs (optional)</div><div class="param-desc"><span class="param-type"><a href="#Cif">array[Cif]</a></span> Placeholder for description of property cifs of obj type Lif field type str  type object </div>
@@ -4420,7 +4575,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MatchReplacePair">MatchReplacePair</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">match_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to be matched. </div>
+      <div class="param">match_string </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to be matched. </div>
 <div class="param">replacement_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#ReplaceStringVar">ReplaceStringVar</a></span> Replacement string. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4450,7 +4605,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
 <div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
@@ -4492,7 +4647,7 @@ font-style: italic;
 <div class="param">service_pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Pool. </div>
 <div class="param">service_port </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Pool based destination port. Allowed values are 1-65535. format: int32</div>
 <div class="param">service_port_range_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The end of the Service port number range. Allowed values are 1-65535. Special values are 0- &#39;single port&#39;. Field introduced in 17.2.4. format: int32</div>
-<div class="param">service_protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH. </div>
+<div class="param">service_protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Destination protocol to match for the pool selection. If not specified, it will match any protocol. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4538,23 +4693,24 @@ font-style: italic;
     <div class="field-items">
       <div class="param">auto_allocate_floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate floating/elastic IP from the Cloud infrastructure. Field introduced in 17.1.1. </div>
 <div class="param">auto_allocate_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate VIP from the provided subnet. Field introduced in 17.1.1. </div>
+<div class="param">auto_allocate_ip_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1. </div>
 <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability-zone to place the Virtual Service. Field introduced in 17.1.1. </div>
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field introduced in 17.1.1. </div>
 <div class="param">discovered_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#DiscoveredNetwork">array[DiscoveredNetwork]</a></span> Discovered networks providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Vip. Field introduced in 17.1.1. </div>
 <div class="param">floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv4 to associate with this Vip. Field introduced in 17.1.1. </div>
-<div class="param">floating_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv6 address to associate with this Vip. Field introduced in 17.2.1. </div>
-<div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 17.2.1. </div>
+<div class="param">floating_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Floating IPv6 address to associate with this Vip. Field introduced in 18.1.1. </div>
+<div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. </div>
 <div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. </div>
-<div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the Vip. Field introduced in 17.2.1. </div>
+<div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the Vip. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 17.2.1. </div>
-<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.2.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. </div>
+<div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID associated with the vip. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
@@ -4562,15 +4718,19 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VirtualService">VirtualService</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">active_standby_se_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine&#39;s in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">active_standby_se_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine&#39;s in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2. </div>
 <div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AnalyticsPolicy">AnalyticsPolicy</a></span> Determines analytics settings for the application. </div>
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. </div>
+<div class="param">apic_contract_graph (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the Contract/Graph associated with the Virtual Service. Should be in the &lt;Contract name&gt; &lt;Graph name&gt; format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2. </div>
 <div class="param">application_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enable application layer specific features for the Virtual Service. It is a reference to an object of type ApplicationProfile. </div>
 <div class="param">auto_allocate_floating_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate floating/elastic IP from the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">auto_allocate_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Auto-allocate VIP from the provided subnet. Field deprecated in 17.1.1. </div>
 <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability-zone to place the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
+<div class="param">azure_availability_set (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 18.1.1. </div>
 <div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
@@ -4602,6 +4762,7 @@ font-style: italic;
 <div class="param">ign_pool_net_reach (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore Pool servers network reachability constraints for Virtual Service placement. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the Virtual Service. Field deprecated in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1. </div>
+<div class="param">l4_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#L4Policies">array[L4Policies]</a></span> L4 Policies applied to the data traffic of the Virtual Service. Field introduced in 17.2.7. </div>
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>
@@ -4624,7 +4785,7 @@ font-style: italic;
 <div class="param">services (optional)</div><div class="param-desc"><span class="param-type"><a href="#Service">array[Service]</a></span> List of Services defined for this Virtual Service. </div>
 <div class="param">sideband_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SidebandProfile">SidebandProfile</a></span> Sideband configuration to be used for this virtualservice.It can be used for sending traffic to sideband VIPs for external inspection etc. </div>
 <div class="param">snat_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> NAT&#39;ted floating source IP Address(es) for upstream connection to servers. </div>
-<div class="param">sp_pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Site persistence pools used for site persistence functionality. . It is a reference to an object of type Pool. Field introduced in 17.2.2. </div>
+<div class="param">sp_pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> GSLB pools used to manage site-persistence functionality. Each site-persistence pool contains the virtualservices in all the other sites, that is auto-generated by the GSLB manager. This is a read-only field for the user. It is a reference to an object of type Pool. Field introduced in 17.2.2. </div>
 <div class="param">ssl_key_and_certificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the set of SSL versions and ciphers to accept for SSL/TLS terminated connections. It is a reference to an object of type SSLProfile. </div>
 <div class="param">ssl_sess_cache_avg_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383. format: int32</div>
@@ -4633,6 +4794,7 @@ font-style: italic;
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> It represents subnet for the Virtual Service IP address allocation when auto_allocate_ip is True.It is only applicable in OpenStack or AWS cloud. This field is required if auto_allocate_ip is True. Field deprecated in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">traffic_clone_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1. </div>
+<div class="param">traffic_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">use_bridge_ip_as_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Bridge IP as VIP on each Host in Mesos deployments. </div>
@@ -4643,9 +4805,10 @@ font-style: italic;
 <div class="param">vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#Vip">array[Vip]</a></span> List of Virtual Service IPs. While creating a &#39;Shared VS&#39;,please use vsvip_ref to point to the shared entities. Field introduced in 17.1.1. </div>
 <div class="param">vrf_context_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. </div>
 <div class="param">vs_datascripts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VSDataScripts">array[VSDataScripts]</a></span> Datascripts applied on the data traffic of the Virtual Service. </div>
-<div class="param">vsvip_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mostly used during the creation of Shared VS, this fieldrefers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1. </div>
+<div class="param">vsvip_cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2. </div>
+<div class="param">vsvip_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mostly used during the creation of Shared VS, this field refers to entities that can be shared across Virtual Services. It is a reference to an object of type VsVip. Field introduced in 17.1.1. </div>
 <div class="param">waf_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1. </div>
-<div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. format: int32</div>
+<div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Quality of Service weight to assign to traffic transmitted from this Virtual Service.  A higher weight will prioritize traffic versus other Virtual Services sharing the same Service Engines. Allowed values are 1-128. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

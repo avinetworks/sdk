@@ -6,10 +6,12 @@ Created on September 15, 2016
 '''
 
 import json
-from copy import deepcopy
 import yaml
 import argparse
 import re
+import urlparse
+from copy import deepcopy
+from urllib import urlencode
 
 DEFAULT_SKIP_TYPES = [
     'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
@@ -42,10 +44,12 @@ def my_represent_scalar(self, tag, value, style=None):
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
 class AviAnsibleConverter(object):
-    common_task_args = {'controller': "{{ controller }}",
-                        'username': "{{ username }}",
-                        'password': "{{ password }}"
-                        }
+    common_task_args = {
+        'controller': "{{ controller }}",
+        'username': "{{ username }}",
+        'password': "{{ password }}"
+    }
+
     ansible_dict = dict({
         'connection': 'local',
         'hosts': 'localhost',
@@ -181,6 +185,13 @@ class AviAnsibleConverter(object):
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
+
+        u = urlparse.urlparse(x)
+        query = {'name': urlparse.parse_qs(u.query)['name']}
+        # query.pop('tenant', None)
+        # query.pop('cloud', None)
+        u = u._replace(query=urlencode(query, True))
+        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):
@@ -228,6 +239,11 @@ class AviAnsibleConverter(object):
             rsrc.pop(skip_param, None)
         for skip_field in self.skip_fields:
             rsrc.pop(skip_field, None)
+        for key in rsrc:
+            if isinstance(rsrc[key], str):
+                rsrc[key] = rsrc[key].encode('string-escape')
+            elif isinstance(rsrc[key], unicode):
+                rsrc[key] = rsrc[key].encode('unicode-escape')
         if rsrc_type == 'vsvip':
             # check for floating IP and normal IP
             for vip in rsrc.get('vip', []):
@@ -254,6 +270,8 @@ class AviAnsibleConverter(object):
             task.update(self.common_task_args)
             task.update(
                 {'api_version': self.avi_cfg['META']['version']['Version']})
+            task.update(
+                {'api_context': "{{avi_api_context | default(omit)}}"})
             # update tenant if there is a tenant_ref in the object
             self.update_tenant(task)
             task_name = (

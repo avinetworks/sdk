@@ -109,6 +109,10 @@ and it supports several query options described in detail below.
 <td> debug </td>
 <td> OPTIONAL; Boolean; If set to true, then we include extra debugging info in the responses; DEFAULT=False </td>
 </tr>
+<tr>
+<td> js_compat </td>
+<td> OPTIONAL: Boolean; If set to true, then we will convert uint64 numbers to string in log query response. </td>
+</tr>
 </table>
 </div>
 <div class='container' id=Filters>
@@ -357,6 +361,12 @@ and it supports several query options described in detail below.
 </tr>
 <tr>
 <td> ssl_cipher </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td>  </td>
+</tr>
+<tr>
+<td> sni_hostname </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
 <td>  </td>
@@ -782,10 +792,46 @@ and it supports several query options described in detail below.
 <td> Presence of waf_log indicates that atleast 1 WAF rule was hit for the transaction </td>
 </tr>
 <tr>
+<td> client_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address of the client  </td>
+</tr>
+<tr>
+<td> vs_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> Virtual IPv6 address of the VS  </td>
+</tr>
+<tr>
+<td> server_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address of the Server  </td>
+</tr>
+<tr>
+<td> server_conn_src_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address used to connect to Server  </td>
+</tr>
+<tr>
 <td> request_id </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> Unique HTTP Request ID  </td>
+</tr>
+<tr>
+<td> request_served_locally_remote_site_down </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> Flag to indicate if request was served locally because the remote site was down </td>
+</tr>
+<tr>
+<td> http2_stream_id </td>
 <td> Integer </td>
 <td> gt,ge,ne,lt,le,eq </td>
-<td> Unique HTTP Request ID  </td>
+<td> Stream identifier corresponding to an HTTP/2 request. </td>
 </tr>
 </table>
 </div>
@@ -1216,6 +1262,36 @@ and it supports several query options described in detail below.
 <td> dns_request </td>
 <td> Message </td>
 <td> gt,ge,ne,lt,le,eq </td>
+<td>  </td>
+</tr>
+<tr>
+<td> client_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address of the client  </td>
+</tr>
+<tr>
+<td> vs_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address of the VIP of the VS  </td>
+</tr>
+<tr>
+<td> server_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address of the Backend Server  </td>
+</tr>
+<tr>
+<td> server_conn_src_ip6 </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> IPv6 address used to connect to Backend Server  </td>
+</tr>
+<tr>
+<td> sni_hostname </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
 <td>  </td>
 </tr>
 </table>

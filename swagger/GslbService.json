@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi GslbService Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -221,10 +221,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -494,10 +502,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -588,7 +604,7 @@
                 "priority": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 1-100.", 
+                    "description": "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 0-100. Special values are 0 - 'Do not choose members from this pool.A priority of 0 is equivalent to disabling the pool.'.", 
                     "format": "int32"
                 }, 
                 "description": {
@@ -627,7 +643,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -760,9 +776,11 @@
                     "type": "string", 
                     "description": "Health monitor probe can be executed for all the members or it can be executed only for third-party members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario. In such a case, Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane. Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS."
                 }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the GSLB service."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "controller_health_status_enabled": {
                     "default": true, 
@@ -795,6 +813,10 @@
                 "created_by": {
                     "type": "string", 
                     "description": "Creator name. Field introduced in 17.1.2."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name for the GSLB service."
                 }, 
                 "health_monitor_refs": {
                     "items": {

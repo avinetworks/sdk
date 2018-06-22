@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure wafprofile <key>
         - show wafprofile <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -346,7 +358,7 @@ definitions:
                 items:
                     type: string
             allowed_methods:
-                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. Field introduced in 17.2.1."
+                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1."
                 type: array
                 items:
                     type: string
@@ -365,16 +377,26 @@ definitions:
             client_file_upload_max_body_size:
                 description: "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1."
                 type: integer
-                default: 1024
+                default: 32
                 format: int32
             client_nonfile_upload_max_body_size:
                 description: "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1."
                 type: integer
-                default: 128
+                default: 32
                 format: int32
             cookie_format_version:
                 description: "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1."
                 type: integer
+                format: int32
+            max_execution_time:
+                description: "The maximum period of time WAF processing is allowed to take for a single request. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In detection mode, failure mode 'Closed' means the request is flagged, whereas failure mode 'Open' means the request is allowed. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 1-5000. Field introduced in 17.2.12, 18.1.2."
+                type: integer
+                default: 50
+                format: int32
+            regex_match_limit:
+                description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
+                type: integer
+                default: 1500
                 format: int32
             request_body_default_action:
                 description: "WAF default action for Request Body Phase. Field introduced in 17.2.1."
@@ -407,6 +429,11 @@ definitions:
                 type: integer
                 default: 128
                 format: int32
+            static_extensions:
+                description: "WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5."
+                type: array
+                items:
+                    type: string
     WafDataFile:
         type: object
         required:
@@ -425,6 +452,11 @@ definitions:
             -   config
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             config:
                 description: "Config params for WAF. Field introduced in 17.2.1."
                 $ref: '#/definitions/WafConfig'

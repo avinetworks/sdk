@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Gslb Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure gslb <key> - show gslb <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure gslb <key> - show gslb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -237,7 +237,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -284,6 +286,7 @@ font-style: italic;
         "site_uuid" : "aeiou",
         "proxy_type" : "aeiou"
       } ],
+      "uuid" : "aeiou",
       "enabled" : true,
       "password" : "aeiou",
       "dns_vses" : [ {
@@ -311,11 +314,13 @@ font-style: italic;
       "name" : "aeiou",
       "location" : "",
       "hm_proxies" : [ "" ],
+      "uuid" : "aeiou",
       "enabled" : true,
       "ratio" : 123
     } ],
     "uuid" : "aeiou",
     "url" : "aeiou",
+    "_last_modified" : 123456789,
     "send_interval" : 123,
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
@@ -405,6 +410,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -432,11 +438,13 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "send_interval" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -550,7 +558,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -595,6 +605,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -622,11 +633,13 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "send_interval" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -727,6 +740,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -754,11 +768,13 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "send_interval" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -859,6 +875,7 @@ font-style: italic;
       "site_uuid" : "aeiou",
       "proxy_type" : "aeiou"
     } ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "password" : "aeiou",
     "dns_vses" : [ {
@@ -886,11 +903,13 @@ font-style: italic;
     "name" : "aeiou",
     "location" : "",
     "hm_proxies" : [ "" ],
+    "uuid" : "aeiou",
     "enabled" : true,
     "ratio" : 123
   } ],
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "send_interval" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
@@ -1112,7 +1131,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Gslb">Gslb</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">clear_on_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024. format: int32</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">clear_on_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024. format: int32</div>
 <div class="param">client_ip_addr_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbClientIpAddrGroup">GslbClientIpAddrGroup</a></span> Group to specify if the client ip addresses are public or private. Field introduced in 17.1.2. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">dns_configs (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfig">array[DNSConfig]</a></span> Sub domain configuration for the GSLB.  GSLB service&#39;s FQDN must be a match one of these subdomains. . </div>
@@ -1176,6 +1196,7 @@ font-style: italic;
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The Site Controller Cluster&#39;s REST API port number. Allowed values are 1-65535. format: int32</div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs/VS(es) of this site. If this field is not  configured then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The username used when authenticating with the Site. . </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1194,13 +1215,14 @@ font-style: italic;
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the third-party Site. Field introduced in 17.1.1. </div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User can overide the individual GslbPoolMember ratio for all the VIPs of this site. If this field is not configured, then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1. format: int32</div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This field is used as a key in the datastore for the GslbThirdPartySite table to encapsulate site-related info. . Field introduced in 17.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

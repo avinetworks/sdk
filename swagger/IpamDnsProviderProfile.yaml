@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi IpamDnsProviderProfile Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure ipamdnsproviderprofile <key>
         - show ipamdnsproviderprofile <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -417,7 +429,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -443,6 +455,9 @@ definitions:
             iam_assume_role:
                 description: "IAM assume role for cross-account access. Field introduced in 17.1.1."
                 type: string
+            publish_vip_to_public_zone:
+                description: "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10."
+                type: boolean
             region:
                 description: "AWS region."
                 type: string
@@ -487,6 +502,11 @@ definitions:
             azure_userpass:
                 description: "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1."
                 $ref: '#/definitions/AzureUserPassCredentials'
+            egress_service_subnets:
+                description: "Used for allocating egress service source IPs. Field introduced in 17.2.8."
+                type: array
+                items:
+                    type: string
             resource_group:
                 description: "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
                 type: string
@@ -505,6 +525,9 @@ definitions:
                     type: string
             use_enhanced_ha:
                 description: "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
+                type: boolean
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
                 type: boolean
             virtual_network_ids:
                 description: "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."
@@ -538,11 +561,26 @@ definitions:
             match_se_group_subnet:
                 description: "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
                 type: boolean
+            network_name:
+                description: "Google Cloud Platform Network Name. VIP will be allocated from this Network. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
+                type: string
+            network_project_name:
+                description: "Google Cloud Platform Network Project Name. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2."
+                type: string
+            project_name:
+                description: "Google Cloud Platform Project Name. This is required if Google Cloud Platform Network is used for VIP allocation. This field is optional. By default it will use the value of the field network_project_name. Field introduced in 18.1.2."
+                type: string
+            region_name:
+                description: "Google Cloud Platform Region Name. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
+                type: string
             usable_network_refs:
                 description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
                 type: array
                 items:
                     type: string
+            use_gcp_network:
+                description: "Use Google Cloud Platform Network for VIP allocation. By default Avi Vantage Network is used for VIP allocation. Field introduced in 18.1.2."
+                type: boolean
     IpamDnsInfobloxProfile:
         type: object
         required:
@@ -629,8 +667,13 @@ definitions:
             -   name
             -   type
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             allocate_ip_in_vrf:
-                description: "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Field introduced in 17.2.4."
+                description: "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4."
                 type: boolean
             aws_profile:
                 description: "Provider details if type is AWS."

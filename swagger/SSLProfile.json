@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SSLProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure sslprofile <key>\n- show sslprofile <key>\n```\n\n##Examples##\n- **sslprofile_example**: To create a standard security SSL profile\n  ```json\n    {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}\n  ```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure sslprofile <key>\n- show sslprofile <key>\n```\n\nExamples\n- **sslprofile_example**: To create a standard security SSL profile\n  ```json\n    {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -540,7 +556,7 @@
                 "type": {
                     "default": "SSL_VERSION_TLS1_1", 
                     "type": "string", 
-                    "description": " Enum options - SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
+                    "description": " Enum options - SSL_VERSION_SSLV3, SSL_VERSION_TLS1, SSL_VERSION_TLS1_1, SSL_VERSION_TLS1_2."
                 }
             }
         }, 
@@ -550,12 +566,6 @@
             ], 
             "type": "object", 
             "properties": {
-                "ssl_session_timeout": {
-                    "default": 86400, 
-                    "type": "integer", 
-                    "description": "The amount of time before an SSL session expires.", 
-                    "format": "int32"
-                }, 
                 "accepted_ciphers": {
                     "default": "AES:3DES:RC4", 
                     "type": "string", 
@@ -576,17 +586,37 @@
                     "type": "array", 
                     "description": "Placeholder for description of property tags of obj type SSLProfile field type str  type object"
                 }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
                 "accepted_versions": {
                     "items": {
                         "$ref": "#/definitions/SSLVersion"
                     }, 
                     "type": "array", 
                     "description": "Set of versions accepted by the server."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "ssl_session_timeout": {
+                    "default": 86400, 
+                    "type": "integer", 
+                    "description": "The amount of time before an SSL session expires.", 
+                    "format": "int32"
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "ssl_rating": {
+                    "description": "Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object", 
+                    "$ref": "#/definitions/SSLRating"
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -617,13 +647,10 @@
                     "type": "string", 
                     "description": "DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits."
                 }, 
-                "ssl_rating": {
-                    "description": "Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object", 
-                    "$ref": "#/definitions/SSLRating"
-                }, 
-                "uuid": {
+                "type": {
+                    "default": "SSL_PROFILE_TYPE_APPLICATION", 
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8."
                 }
             }
         }

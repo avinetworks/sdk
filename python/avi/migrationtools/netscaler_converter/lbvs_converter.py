@@ -16,6 +16,7 @@ from avi.migrationtools.netscaler_converter.ns_service_converter \
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 redirect_pools = {}
@@ -65,7 +66,8 @@ class LbvsConverter(object):
         self.progressbar_count = 0
         self.total_size = 0
 
-    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict):
+    def convert(self, ns_config, avi_config, vs_state, sysdict, vs_name_dict,
+                vrf=None, segroup=None):
 
         """
         This function defines that it convert netscalar lb vs config to vs
@@ -87,6 +89,7 @@ class LbvsConverter(object):
         # get the total size of object.
         self.total_size = len(lb_vs_conf) + len(cs_vs_conf)
         avi_config['HTTPPolicySet'] = []
+        avi_config['StringGroup'] = []
         if parse_version(self.controller_version) >= parse_version('17.1'):
             avi_config['VsVip'] = []
         supported_types = ['HTTP', 'TCP', 'UDP', 'SSL', 'SSL_BRIDGE',
@@ -151,6 +154,10 @@ class LbvsConverter(object):
                 pool_group_ref = None
                 if pool_group:
                     pool_group_ref = pool_group_name
+                    ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
+                    algo = ns_util.get_avi_lb_algorithm(ns_algo)
+                    ns_util.update_algo_for_pools(algo, pool_group_name, avi_config)
+
                 redirect_url = lb_vs.get('redirectURL', None)
                 backup_server = lb_vs.get('backupVServer', None)
                 updated_vs_name = re.sub('[:]', '-', vs_name)
@@ -191,6 +198,17 @@ class LbvsConverter(object):
                     'enabled': enabled,
                     'services': [],
                 }
+
+                if vrf:
+                    vrf_ref = ns_util.get_object_ref(
+                        vrf, 'vrfcontext', tenant=self.tenant_name,
+                        cloud_name=self.cloud_name)
+                    vs_obj['vrf_ref'] = vrf_ref
+                if segroup:
+                    se_group_ref = ns_util.get_object_ref(
+                        segroup, 'serviceenginegroup', tenant=self.tenant_name,
+                        cloud_name=self.cloud_name)
+                    vs_obj['se_group_ref'] = se_group_ref
                 if parse_version(self.controller_version) >= \
                         parse_version('17.1'):
                     vs_obj['vip'] = [vip]
@@ -453,6 +471,7 @@ class LbvsConverter(object):
                         pool_group['fail_action'] = backup_pool
                         backup_configured = True
                     except Exception as e:
+                        update_count('warning')
                         # Skipped lb vs if backup pool is found in AVI
                         LOG.error('No Backup pool found: %s' % full_cmd)
                         ns_util.add_status_row(lb_vs['line_no'], cmd, key,
@@ -672,6 +691,7 @@ class LbvsConverter(object):
                                         full_cmd, conv_status, vs_obj)
                 LOG.debug('LB VS conversion completed for: %s' % key)
             except:
+                update_count('error')
                 LOG.error('Error in lb vs conversion for: %s' %
                           key, exc_info=True)
             # Calling progress bar function.

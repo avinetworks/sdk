@@ -13,6 +13,9 @@ type VsMigrateEventDetails struct {
 	// ip of VsMigrateEventDetails.
 	IP string `json:"ip,omitempty"`
 
+	// ip6 of VsMigrateEventDetails.
+	Ip6 string `json:"ip6,omitempty"`
+
 	// Number of rpc_status.
 	RPCStatus int64 `json:"rpc_status,omitempty"`
 

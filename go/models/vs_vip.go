@@ -7,8 +7,11 @@ package models
 // swagger:model VsVip
 type VsVip struct {
 
-	//  It is a reference to an object of type Cloud. Field introduced in 17.1.1.
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	//  It is a reference to an object of type Cloud. Field introduced in 17.1.1.
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Field introduced in 17.1.1.
@@ -36,4 +39,7 @@ type VsVip struct {
 
 	// Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1.
 	VrfContextRef string `json:"vrf_context_ref,omitempty"`
+
+	// Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2.
+	VsvipCloudConfigCksum string `json:"vsvip_cloud_config_cksum,omitempty"`
 }

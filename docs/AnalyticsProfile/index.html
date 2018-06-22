@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi AnalyticsProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -257,6 +259,7 @@ font-style: italic;
     "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
     "apdex_rum_threshold" : 123,
+    "disable_ondemand_metrics" : true,
     "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
     "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
@@ -276,6 +279,14 @@ font-style: italic;
     "hs_performance_boost" : 123,
     "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
     "client_log_streaming_config" : {
+      "protocol" : "aeiou",
+      "syslog_config" : {
+        "hostname" : "aeiou",
+        "filtered_log_severity" : 123,
+        "significant_log_severity" : 123,
+        "facility" : 123,
+        "non_significant_log_severity" : 123
+      },
       "external_server" : "aeiou",
       "log_types_to_send" : "aeiou",
       "external_server_port" : 123,
@@ -293,6 +304,7 @@ font-style: italic;
     "exclude_gs_down_as_error" : true,
     "disable_se_analytics" : true,
     "exclude_persistence_change_as_error" : true,
+    "ondemand_metrics_idle_timeout" : 123,
     "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
     "name" : "aeiou",
     "hs_max_security_penalty" : 123,
@@ -316,11 +328,25 @@ font-style: italic;
     "apdex_server_rtt_threshold" : 123,
     "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
     "exclude_dns_policy_drop_as_significant" : true,
+    "_last_modified" : 123456789,
     "hs_max_resources_penalty" : 123,
     "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_max_anomaly_penalty" : 123,
     "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "sensitive_log_profile" : {
+      "header_field_rules" : [ {
+        "match" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ]
+        },
+        "name" : "aeiou",
+        "action" : "aeiou",
+        "index" : 123,
+        "enabled" : true
+      } ]
+    },
     "exclude_tcp_reset_as_error" : true,
     "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
     "exclude_invalid_dns_query_as_error" : true,
@@ -393,6 +419,7 @@ font-style: italic;
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
+  "disable_ondemand_metrics" : true,
   "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
@@ -412,6 +439,14 @@ font-style: italic;
   "hs_performance_boost" : 123,
   "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
   "client_log_streaming_config" : {
+    "protocol" : "aeiou",
+    "syslog_config" : {
+      "hostname" : "aeiou",
+      "filtered_log_severity" : 123,
+      "significant_log_severity" : 123,
+      "facility" : 123,
+      "non_significant_log_severity" : 123
+    },
     "external_server" : "aeiou",
     "log_types_to_send" : "aeiou",
     "external_server_port" : 123,
@@ -429,6 +464,7 @@ font-style: italic;
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
+  "ondemand_metrics_idle_timeout" : 123,
   "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "name" : "aeiou",
   "hs_max_security_penalty" : 123,
@@ -452,11 +488,25 @@ font-style: italic;
   "apdex_server_rtt_threshold" : 123,
   "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_dns_policy_drop_as_significant" : true,
+  "_last_modified" : 123456789,
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "sensitive_log_profile" : {
+    "header_field_rules" : [ {
+      "match" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ]
+      },
+      "name" : "aeiou",
+      "action" : "aeiou",
+      "index" : 123,
+      "enabled" : true
+    } ]
+  },
   "exclude_tcp_reset_as_error" : true,
   "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_invalid_dns_query_as_error" : true,
@@ -578,7 +628,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -598,6 +650,7 @@ font-style: italic;
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
+  "disable_ondemand_metrics" : true,
   "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
@@ -617,6 +670,14 @@ font-style: italic;
   "hs_performance_boost" : 123,
   "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
   "client_log_streaming_config" : {
+    "protocol" : "aeiou",
+    "syslog_config" : {
+      "hostname" : "aeiou",
+      "filtered_log_severity" : 123,
+      "significant_log_severity" : 123,
+      "facility" : 123,
+      "non_significant_log_severity" : 123
+    },
     "external_server" : "aeiou",
     "log_types_to_send" : "aeiou",
     "external_server_port" : 123,
@@ -634,6 +695,7 @@ font-style: italic;
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
+  "ondemand_metrics_idle_timeout" : 123,
   "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "name" : "aeiou",
   "hs_max_security_penalty" : 123,
@@ -657,11 +719,25 @@ font-style: italic;
   "apdex_server_rtt_threshold" : 123,
   "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_dns_policy_drop_as_significant" : true,
+  "_last_modified" : 123456789,
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "sensitive_log_profile" : {
+    "header_field_rules" : [ {
+      "match" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ]
+      },
+      "name" : "aeiou",
+      "action" : "aeiou",
+      "index" : 123,
+      "enabled" : true
+    } ]
+  },
   "exclude_tcp_reset_as_error" : true,
   "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_invalid_dns_query_as_error" : true,
@@ -745,6 +821,7 @@ font-style: italic;
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
+  "disable_ondemand_metrics" : true,
   "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
@@ -764,6 +841,14 @@ font-style: italic;
   "hs_performance_boost" : 123,
   "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
   "client_log_streaming_config" : {
+    "protocol" : "aeiou",
+    "syslog_config" : {
+      "hostname" : "aeiou",
+      "filtered_log_severity" : 123,
+      "significant_log_severity" : 123,
+      "facility" : 123,
+      "non_significant_log_severity" : 123
+    },
     "external_server" : "aeiou",
     "log_types_to_send" : "aeiou",
     "external_server_port" : 123,
@@ -781,6 +866,7 @@ font-style: italic;
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
+  "ondemand_metrics_idle_timeout" : 123,
   "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "name" : "aeiou",
   "hs_max_security_penalty" : 123,
@@ -804,11 +890,25 @@ font-style: italic;
   "apdex_server_rtt_threshold" : 123,
   "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_dns_policy_drop_as_significant" : true,
+  "_last_modified" : 123456789,
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "sensitive_log_profile" : {
+    "header_field_rules" : [ {
+      "match" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ]
+      },
+      "name" : "aeiou",
+      "action" : "aeiou",
+      "index" : 123,
+      "enabled" : true
+    } ]
+  },
   "exclude_tcp_reset_as_error" : true,
   "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_invalid_dns_query_as_error" : true,
@@ -892,6 +992,7 @@ font-style: italic;
   "hs_security_encalgo_score_rc4" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_le30d" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rum_threshold" : 123,
+  "disable_ondemand_metrics" : true,
   "hs_security_tls11_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_cipherscore_lt128b" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_server_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
@@ -911,6 +1012,14 @@ font-style: italic;
   "hs_performance_boost" : 123,
   "hs_security_tls10_score" : 1.3579000000000001069366817318950779736042022705078125,
   "client_log_streaming_config" : {
+    "protocol" : "aeiou",
+    "syslog_config" : {
+      "hostname" : "aeiou",
+      "filtered_log_severity" : 123,
+      "significant_log_severity" : 123,
+      "facility" : 123,
+      "non_significant_log_severity" : 123
+    },
     "external_server" : "aeiou",
     "log_types_to_send" : "aeiou",
     "external_server_port" : 123,
@@ -928,6 +1037,7 @@ font-style: italic;
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
+  "ondemand_metrics_idle_timeout" : 123,
   "apdex_rum_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "name" : "aeiou",
   "hs_max_security_penalty" : 123,
@@ -951,11 +1061,25 @@ font-style: italic;
   "apdex_server_rtt_threshold" : 123,
   "hs_security_certscore_gt30d" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_dns_policy_drop_as_significant" : true,
+  "_last_modified" : 123456789,
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "sensitive_log_profile" : {
+    "header_field_rules" : [ {
+      "match" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ]
+      },
+      "name" : "aeiou",
+      "action" : "aeiou",
+      "index" : 123,
+      "enabled" : true
+    } ]
+  },
   "exclude_tcp_reset_as_error" : true,
   "hs_security_cipherscore_eq000b" : 1.3579000000000001069366817318950779736042022705078125,
   "exclude_invalid_dns_query_as_error" : true,
@@ -1053,12 +1177,17 @@ font-style: italic;
     <li><a href="#ClientLogConfiguration"><code>ClientLogConfiguration</code></a></li>
     <li><a href="#ClientLogStreamingConfig"><code>ClientLogStreamingConfig</code></a></li>
     <li><a href="#HTTPStatusRange"><code>HTTPStatusRange</code></a></li>
+    <li><a href="#SensitiveFieldRule"><code>SensitiveFieldRule</code></a></li>
+    <li><a href="#SensitiveLogProfile"><code>SensitiveLogProfile</code></a></li>
+    <li><a href="#StreamingSyslogConfig"><code>StreamingSyslogConfig</code></a></li>
+    <li><a href="#StringMatch"><code>StringMatch</code></a></li>
   </ol>
 
   <div class="model">
     <h3 class="field-label"><a name="AnalyticsProfile">AnalyticsProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">apdex_response_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client&#39;s request is considered Frustrated. Allowed values are 1-30000. format: int32</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">apdex_response_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client&#39;s request is considered Frustrated. Allowed values are 1-30000. format: int32</div>
 <div class="param">apdex_response_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Client tolerated response latency factor. Client must receive a response within this factor times the satisfactory threshold (apdex_response_threshold) to be considered tolerated. Allowed values are 1-1000. format: double</div>
 <div class="param">apdex_rtt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000. format: int32</div>
 <div class="param">apdex_rtt_tolerated_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000. format: double</div>
@@ -1079,8 +1208,9 @@ font-style: italic;
 <div class="param">conn_server_lossy_total_rexmt_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100. format: int32</div>
 <div class="param">conn_server_lossy_zero_win_size_event_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100. format: int32</div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">disable_ondemand_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Virtual Service (VS) metrics are processed only when there is live data traffic on the VS. In case, VS is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that VS. Field introduced in 18.1.1. </div>
 <div class="param">disable_se_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable node (service engine) level analytics forvs metrics. </div>
-<div class="param">disable_server_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers. </div>
+<div class="param">disable_server_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable analytics on backend servers. This may be desired in container environment when there are large number of ephemeral servers. Additionally, no healthscore of servers is computed when server analytics is disabled. </div>
 <div class="param">exclude_client_close_before_request_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude client closed connection before an HTTP request could be completed from being classified as an error. </div>
 <div class="param">exclude_dns_policy_drop_as_significant (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude dns policy drops from the list of errors. Field introduced in 17.2.2. </div>
 <div class="param">exclude_gs_down_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to GSLB services that are operationally down from the list of errors. </div>
@@ -1122,8 +1252,10 @@ font-style: italic;
 <div class="param">hs_security_tls12_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.2 encryption protocol. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_weak_signature_algo_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing weak signature algorithm(s). Allowed values are 0-5. format: double</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the analytics profile. </div>
+<div class="param">ondemand_metrics_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This flag sets the time duration of no live data traffic after which Virtual Service metrics processing is suspended. It is applicable only when disable_ondemand_metrics is set to false. Field introduced in 18.1.1. format: int32</div>
 <div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusRange">array[HTTPStatusRange]</a></span> List of HTTP status code ranges to be excluded from being classified as an error. </div>
 <div class="param">resp_code_block (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX. </div>
+<div class="param">sensitive_log_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SensitiveLogProfile">SensitiveLogProfile</a></span> Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10, 18.1.2. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the analytics profile. </div>
@@ -1152,6 +1284,8 @@ font-style: italic;
 <div class="param">external_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The destination server&#39;s service port. Field introduced in 17.1.1. format: int32</div>
 <div class="param">log_types_to_send (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of logs to stream to the external server. Default is LOGS_ALL, i.e., send all logs. Enum options - LOGS_SIGNIFICANT_ONLY, LOGS_UDF_ONLY, LOGS_UDF_SIGNIFICANT, LOGS_ALL. Field introduced in 17.1.1. </div>
 <div class="param">max_logs_per_second (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1. format: int32</div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol to use for streaming logs. Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP. Field introduced in 18.1.1. </div>
+<div class="param">syslog_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#StreamingSyslogConfig">StreamingSyslogConfig</a></span> Syslog configuration if a Syslog-based protocol is specified for streaming. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1159,6 +1293,40 @@ font-style: italic;
     <div class="field-items">
       <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Starting HTTP response status code. format: int32</div>
 <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ending HTTP response status code. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SensitiveFieldRule">SensitiveFieldRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Action for the matched log field, for instance the matched field can be removed or masked off. Enum options - LOG_FIELD_REMOVE, LOG_FIELD_MASKOFF. Field introduced in 17.2.10, 18.1.2. </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable rule to match the sensitive fields. Field introduced in 17.2.10, 18.1.2. </div>
+<div class="param">index (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. Field introduced in 17.2.10, 18.1.2. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#StringMatch">StringMatch</a></span> Criterion to use for matching in the Log. Field introduced in 17.2.10, 18.1.2. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 17.2.10, 18.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SensitiveLogProfile">SensitiveLogProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">header_field_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#SensitiveFieldRule">array[SensitiveFieldRule]</a></span> Match sensitive header fields in HTTP application log. Field introduced in 17.2.10, 18.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="StreamingSyslogConfig">StreamingSyslogConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">facility (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Facility value, as defined in RFC5424, must be between 0 and 23 inclusive. Allowed values are 0-23. Field introduced in 18.1.1. format: int32</div>
+<div class="param">filtered_log_severity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Severity code, as defined in RFC5424, for filtered logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1. format: int32</div>
+<div class="param">hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String to use as the hostname in the syslog messages. This string can contain only printable ASCII characters (hex 21 to hex 7E; no space allowed). Field introduced in 18.1.1. </div>
+<div class="param">non_significant_log_severity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Severity code, as defined in RFC5424, for non-significant logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1. format: int32</div>
+<div class="param">significant_log_severity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Severity code, as defined in RFC5424, for significant logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="StringMatch">StringMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s). </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

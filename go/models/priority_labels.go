@@ -7,8 +7,11 @@ package models
 // swagger:model PriorityLabels
 type PriorityLabels struct {
 
-	//  It is a reference to an object of type Cloud.
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// A description of the priority labels.

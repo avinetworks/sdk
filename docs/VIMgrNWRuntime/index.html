@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi VIMgrNWRuntime Object API</h1>
-    <div class="app-desc">##CLI## ``` - show vinfra network <key> ``` </div>
+    <div class="app-desc">CLI ``` - show vinfra network <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -274,6 +276,7 @@ font-style: italic;
     "type" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
+    "_last_modified" : 123456789,
     "ip_subnet" : [ {
       "fip_subnet_uuids" : [ "aeiou" ],
       "ip_subnet" : "aeiou",
@@ -375,6 +378,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "ip_subnet" : [ {
     "fip_subnet_uuids" : [ "aeiou" ],
     "ip_subnet" : "aeiou",
@@ -511,7 +515,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -545,6 +551,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "ip_subnet" : [ {
     "fip_subnet_uuids" : [ "aeiou" ],
     "ip_subnet" : "aeiou",
@@ -657,6 +664,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "ip_subnet" : [ {
     "fip_subnet_uuids" : [ "aeiou" ],
     "ip_subnet" : "aeiou",
@@ -769,6 +777,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "ip_subnet" : [ {
     "fip_subnet_uuids" : [ "aeiou" ],
     "ip_subnet" : "aeiou",
@@ -845,7 +854,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -873,7 +882,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VIMgrNWRuntime">VIMgrNWRuntime</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">apic_vrf_context (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_vrf_context of VIMgrNWRuntime. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">apic_vrf_context (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> apic_vrf_context of VIMgrNWRuntime. </div>
 <div class="param">auto_expand (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property auto_expand of obj type VIMgrNWRuntime field type str  type boolean </div>
 <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> availability_zone of VIMgrNWRuntime. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>

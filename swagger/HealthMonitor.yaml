@@ -2,20 +2,20 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure healthmonitor <key>
         - show healthmonitor <key>
         ```
 
-        ##Examples##
+        Examples
         - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive
           ```json
             {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}
@@ -55,7 +55,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -174,7 +180,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -385,6 +397,11 @@ definitions:
             -   name
             -   type
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             description:
                 description: "User defined description for the object."
                 type: string
@@ -425,6 +442,9 @@ definitions:
                 type: integer
                 default: 10
                 format: int32
+            sip_monitor:
+                description: "Health monitor for SIP. Field introduced in 17.2.8."
+                $ref: '#/definitions/HealthMonitorSIP'
             successful_checks:
                 description: "Number of continuous successful health checks before server is marked up. Allowed values are 1-50."
                 type: integer
@@ -437,7 +457,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB."
+                description: "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP."
                 type: string
             udp_monitor:
                 description: "Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object"
@@ -528,6 +548,18 @@ definitions:
             ssl_attributes:
                 description: "SSL attributes for HTTPS health monitor. Field introduced in 17.1.1."
                 $ref: '#/definitions/HealthMonitorSSLAttributes'
+    HealthMonitorSIP:
+        type: object
+        required:
+            -   sip_request_code
+        properties:
+            sip_request_code:
+                description: "Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8."
+                type: string
+            sip_response:
+                description: "String to match in server response, max length is 512 characters. By default it checks for SIP/2.0 in payload. Field introduced in 17.2.8."
+                type: string
+                default: "SIP/2.0"
     HealthMonitorSSLAttributes:
         type: object
         required:

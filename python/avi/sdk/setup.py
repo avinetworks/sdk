@@ -13,7 +13,9 @@ setup(
     name='avisdk',
     version=AVI_PIP_VERSION,
     packages=find_packages(exclude=['*migrationtools*',
-                                    '*sdk.samples.autoscale*']),
+                                    '*sdk.samples.autoscale*',
+                                    '*sdk.test*'
+                                   ]),
     description='Avi python API SDK for Avi Controller REST API with samples'
                 ' and, utilities',
     url='https://github.com/avinetworks/sdk',

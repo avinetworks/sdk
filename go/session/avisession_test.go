@@ -1,13 +1,26 @@
 package session
 
 import (
+	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
-	"reflect"
-	"testing"
 	"github.com/golang/glog"
 	"os/exec"
-	"encoding/json"
+	"reflect"
+	"testing"
+	"os"
 )
+
+var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
+var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
+
+func TestMain(m *testing.M) {
+	// call flag.Parse() here if TestMain uses flags
+	if AVI_CONTROLLER == "" {
+		AVI_CONTROLLER = "localhost"
+	}
+	os.Exit(m.Run())
+}
+
 
 // Function that generates auth token from django
 // In future, this will become an internal API
@@ -30,15 +43,19 @@ func getAuthToken() string {
 
 func getSessions(t *testing.T) []*AviSession {
 	/* Test username/password authentication */
-	credentialsSession, err := NewAviSession("10.10.25.201",
-		"admin", SetPassword("password"), SetInsecure)
+	credentialsSession, err := NewAviSession(AVI_CONTROLLER,
+		"admin", SetPassword(AVI_PASSWORD), SetInsecure)
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
 	}
 
+	if AVI_CONTROLLER != "localhost" {
+		return []*AviSession{credentialsSession}
+	}
+
 	/* Test token authentication */
 	authToken := getAuthToken()
-	authTokenSession, err := NewAviSession("localhost", "admin",
+	authTokenSession, err := NewAviSession(AVI_CONTROLLER, "admin",
 		SetAuthToken(authToken), SetInsecure)
 
 	if err != nil {
@@ -46,9 +63,9 @@ func getSessions(t *testing.T) []*AviSession {
 	}
 
 	/* Test token authentication with provided callback function */
-	authTokenSessionCallback, err := NewAviSession("localhost", "admin",
-			SetRefreshAuthTokenCallback(getAuthToken),
-				SetInsecure)
+	authTokenSessionCallback, err := NewAviSession(AVI_CONTROLLER, "admin",
+		SetRefreshAuthTokenCallback(getAuthToken),
+		SetInsecure)
 
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
@@ -131,6 +148,26 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	glog.Infof("npool: %+v err: %+v", npool2, err)
 	glog.Infof("name %s: ", npool2.Name)
 
+	var npool3 models.Pool
+	// Test patch before deleting the pool
+	var patch = make(map[string]interface{})
+	server := models.Server{}
+	ipaddr := models.IPAddr{}
+	ipaddr.Addr = "10.90.164.222"
+	ipaddr.Type = "V4"
+	server.IP = &ipaddr
+	var servers = make([]models.Server, 1)
+	servers[0] = server
+	patch["servers"] = servers
+	err = avisess.Patch("api/pool/"+npool2.UUID, patch, "add", &npool3)
+	if err != nil{
+		t.Fatalf("Pool Patch failed %s", err)
+	}
+
+	if len(npool3.Servers) != 1 {
+		t.Error("Pool Patch failed %v", npool3)
+	}
+
 	err = avisess.Delete("api/pool/" + npool2.UUID)
 	if err != nil {
 		t.Fatalf("Pool deletion failed: %s", err)
@@ -154,18 +191,21 @@ func bogusAuthTokenFunction() string {
 }
 
 func TestTokenAuthRobustness(t *testing.T) {
+	if AVI_CONTROLLER != "localhost" {
+		t.Skip("SKIPPING as test not running in controller.")
+		return
+	}
 	/* Test token authentication with provided callback function */
-	authTokenSessionCallback, err := NewAviSession("localhost", "admin",
+	authTokenSessionCallback, err := NewAviSession(AVI_CONTROLLER, "admin",
 		SetRefreshAuthTokenCallback(bogusAuthTokenFunction),
 		SetInsecure)
-
 	var res interface{}
 	err = authTokenSessionCallback.Get("api/tenant", &res)
 	if err == nil {
 		t.Fatalf("ERROR: Expected an error from incorrect token auth")
 	}
 
-	authTokenSession, err := NewAviSession("localhost", "admin",
+	authTokenSession, err := NewAviSession(AVI_CONTROLLER, "admin",
 		SetAuthToken("wrong-auth-token"),
 		SetInsecure)
 	err = authTokenSession.Get("api/tenant", &res)

@@ -20,6 +20,9 @@ type SeHmEventVsDetails struct {
 	SrcUUID string `json:"src_uuid,omitempty"`
 
 	// VIP address.
+	Vip6Address *IPAddr `json:"vip6_address,omitempty"`
+
+	// VIP address.
 	VipAddress *IPAddr `json:"vip_address,omitempty"`
 
 	// VIP id.

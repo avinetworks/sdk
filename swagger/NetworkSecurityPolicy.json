@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi NetworkSecurityPolicy Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure networksecuritypolicy <key>\n- show networksecuritypolicy <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure networksecuritypolicy <key>\n- show networksecuritypolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -538,9 +554,15 @@
         "NetworkSecurityPolicy": {
             "type": "object", 
             "properties": {
-                "description": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "name": {
                     "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "Name of the object."
                 }, 
                 "rules": {
                     "items": {
@@ -553,13 +575,13 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "created_by": {
                     "type": "string", 
                     "description": "Creator name."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -570,9 +592,9 @@
                     "type": "string", 
                     "description": "Checksum of cloud configuration for Network Sec Policy. Internally set by cloud connector."
                 }, 
-                "uuid": {
+                "description": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "User defined description for the object."
                 }
             }
         }, 
@@ -620,7 +642,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 

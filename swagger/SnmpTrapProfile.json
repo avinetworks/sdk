@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SnmpTrapProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure snmptrapprofile <key>\n- show snmptrapprofile <key>\n- test alerttestsnmptrap <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure snmptrapprofile <key>\n- show snmptrapprofile <key>\n- test alerttestsnmptrap <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -556,6 +572,15 @@
             ], 
             "type": "object", 
             "properties": {
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the SNMP trap profile object."
+                }, 
                 "trap_servers": {
                     "items": {
                         "$ref": "#/definitions/SnmpTrapServer"
@@ -563,10 +588,11 @@
                     "type": "array", 
                     "description": "The IP address or hostname of the SNMP trap destination server."
                 }, 
-                "url": {
+                "_last_modified": {
                     "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -575,10 +601,6 @@
                 "name": {
                     "type": "string", 
                     "description": "A user-friendly name of the SNMP trap configuration."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the SNMP trap profile object."
                 }
             }
         }, 
@@ -632,13 +654,19 @@
                     "description": "IP Address of the SNMP trap destination.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
-                "user": {
-                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/SnmpV3UserParams"
+                "port": {
+                    "default": 162, 
+                    "type": "integer", 
+                    "description": "The UDP port of the trap server. Field introduced in 16.5.4,17.2.5.", 
+                    "format": "int32"
                 }, 
                 "community": {
                     "type": "string", 
                     "description": "The community string to communicate with the trap server."
+                }, 
+                "user": {
+                    "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/SnmpV3UserParams"
                 }
             }
         }, 
@@ -680,7 +708,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 

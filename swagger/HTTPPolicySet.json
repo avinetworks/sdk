@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi HTTPPolicySet Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure httppolicyset <key>\n- show httppolicyset <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure httppolicyset <key>\n- show httppolicyset <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -766,6 +782,7 @@
                     "description": "String values."
                 }, 
                 "match_criteria": {
+                    "default": "CONTAINS", 
                     "type": "string", 
                     "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
                 }
@@ -918,6 +935,9 @@
             }
         }, 
         "RateProfile": {
+            "required": [
+                "action"
+            ], 
             "type": "object", 
             "properties": {
                 "count": {
@@ -1094,22 +1114,28 @@
             ], 
             "type": "object", 
             "properties": {
-                "is_internal_policy": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean"
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the HTTP Policy Set."
                 }, 
                 "created_by": {
                     "type": "string", 
@@ -1135,9 +1161,9 @@
                     "description": "HTTP response policy for the virtual service.", 
                     "$ref": "#/definitions/HTTPResponsePolicy"
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the HTTP Policy Set."
+                "is_internal_policy": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean"
                 }
             }
         }, 
@@ -1152,7 +1178,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE."
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT."
                 }, 
                 "match_criteria": {
                     "type": "string", 
@@ -1491,7 +1517,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 

@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -497,6 +513,74 @@
                 }
             }
         }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "WafLearning": {
+            "type": "object", 
+            "properties": {
+                "confidence": {
+                    "default": 90, 
+                    "type": "integer", 
+                    "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "type": "boolean", 
+                    "description": "Enable Learning for WAF policy. Field introduced in 18.1.2."
+                }, 
+                "sampling_percent": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "arg_summarization_threshold": {
+                    "default": 3, 
+                    "type": "integer", 
+                    "description": "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "path_summarization_threshold": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "WafRuleGroup": {
             "required": [
                 "enable", 
@@ -543,21 +627,9 @@
             ], 
             "type": "object", 
             "properties": {
-                "crs_groups": {
-                    "items": {
-                        "$ref": "#/definitions/WafRuleGroup"
-                    }, 
-                    "type": "array", 
-                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
-                }, 
-                "name": {
+                "description": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
                 }, 
                 "pre_crs_groups": {
                     "items": {
@@ -566,9 +638,45 @@
                     "type": "array", 
                     "description": "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be  enforced before the CRS groups. Field introduced in 17.2.1."
                 }, 
-                "description": {
+                "crs_groups": {
+                    "items": {
+                        "$ref": "#/definitions/WafRuleGroup"
+                    }, 
+                    "type": "array", 
+                    "description": "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
+                }, 
+                "learning": {
+                    "description": "Configure parameters for WAF learning. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/WafLearning"
+                }, 
+                "paranoia_level": {
+                    "default": "WAF_PARANOIA_LEVEL_LOW", 
                     "type": "string", 
-                    "description": " Field introduced in 17.2.1."
+                    "description": "WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1."
+                }, 
+                "waf_profile_ref": {
+                    "type": "string", 
+                    "description": "WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1."
+                }, 
+                "waf_crs_ref": {
+                    "type": "string", 
+                    "description": "WAF core ruleset used for the CRS part of this Policy. It is a reference to an object of type WafCRS. Field introduced in 18.1.1."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "failure_mode": {
+                    "default": "WAF_FAILURE_MODE_OPEN", 
+                    "type": "string", 
+                    "description": "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2."
                 }, 
                 "post_crs_groups": {
                     "items": {
@@ -589,37 +697,54 @@
                     "type": "string", 
                     "description": "Creator name. Field introduced in 17.2.4."
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.1."
+                }, 
                 "mode": {
                     "default": "WAF_MODE_DETECTION_ONLY", 
                     "type": "string", 
                     "description": "WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
-                }, 
-                "paranoia_level": {
-                    "default": "WAF_PARANOIA_LEVEL_LOW", 
-                    "type": "string", 
-                    "description": "WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1."
-                }, 
-                "waf_profile_ref": {
-                    "type": "string", 
-                    "description": "WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1."
                 }
             }
         }, 
-        "IpAddrPrefix": {
+        "WafExclusionType": {
             "required": [
-                "ip_addr", 
-                "mask"
+                "match_case", 
+                "match_op"
             ], 
             "type": "object", 
             "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
+                "match_case": {
+                    "default": "SENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 17.2.8."
                 }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
+                "match_op": {
+                    "default": "EQUALS", 
+                    "type": "string", 
+                    "description": "String Operation to use for matching the Exclusion. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Field introduced in 17.2.8."
+                }
+            }
+        }, 
+        "WafExcludeListEntry": {
+            "type": "object", 
+            "properties": {
+                "uri_path": {
+                    "type": "string", 
+                    "description": "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
+                }, 
+                "client_subnet": {
+                    "description": "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "match_element": {
+                    "type": "string", 
+                    "description": "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                }, 
+                "uri_match_criteria": {
+                    "description": "Criteria for URI matching. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/WafExclusionType"
                 }
             }
         }, 
@@ -659,40 +784,6 @@
                 "rule": {
                     "type": "string", 
                     "description": "Rule as per Modsec language. Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "WafExcludeListEntry": {
-            "type": "object", 
-            "properties": {
-                "uri_path": {
-                    "type": "string", 
-                    "description": "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
-                }, 
-                "client_subnet": {
-                    "description": "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "match_element": {
-                    "type": "string", 
-                    "description": "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 }
             }
         }

@@ -19,4 +19,7 @@ type GatewayMonitor struct {
 
 	// The number of consecutive successful gateway health checks before a gateway that was marked down by the gateway monitor is marked up. Allowed values are 3-50.
 	GatewayMonitorSuccessThreshold int32 `json:"gateway_monitor_success_threshold,omitempty"`
+
+	// Subnet providing reachability for Multi-hop Gateway. Field introduced in 18.1.1.
+	Subnet *IPAddrPrefix `json:"subnet,omitempty"`
 }

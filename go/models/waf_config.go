@@ -10,7 +10,7 @@ type WafConfig struct {
 	// WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1.
 	AllowedHTTPVersions []string `json:"allowed_http_versions,omitempty"`
 
-	// WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE. Field introduced in 17.2.1.
+	// WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1.
 	AllowedMethods []string `json:"allowed_methods,omitempty"`
 
 	// WAF allowed Content Types. Field introduced in 17.2.1.
@@ -18,6 +18,9 @@ type WafConfig struct {
 
 	// Argument seperator. Field introduced in 17.2.1.
 	ArgumentSeparator string `json:"argument_separator,omitempty"`
+
+	// Enable to buffer response body for inspection. Field introduced in 17.2.3.
+	BufferResponseBodyForInspection bool `json:"buffer_response_body_for_inspection,omitempty"`
 
 	// Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1.
 	ClientFileUploadMaxBodySize int32 `json:"client_file_upload_max_body_size,omitempty"`
@@ -27,6 +30,12 @@ type WafConfig struct {
 
 	// 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1.
 	CookieFormatVersion int32 `json:"cookie_format_version,omitempty"`
+
+	// The maximum period of time WAF processing is allowed to take for a single request. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In detection mode, failure mode 'Closed' means the request is flagged, whereas failure mode 'Open' means the request is allowed. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 1-5000. Field introduced in 17.2.12, 18.1.2.
+	MaxExecutionTime int32 `json:"max_execution_time,omitempty"`
+
+	// Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.
+	RegexMatchLimit int32 `json:"regex_match_limit,omitempty"`
 
 	// WAF default action for Request Body Phase. Field introduced in 17.2.1.
 	// Required: true
@@ -50,6 +59,9 @@ type WafConfig struct {
 	// WAF Restricted HTTP Headers. Field introduced in 17.2.1.
 	RestrictedHeaders []string `json:"restricted_headers,omitempty"`
 
-	// Maximum size for the backend response body. Allowed values are 1-32768. Field introduced in 17.2.1.
+	// Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1.
 	ServerResponseMaxBodySize int32 `json:"server_response_max_body_size,omitempty"`
+
+	// WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5.
+	StaticExtensions []string `json:"static_extensions,omitempty"`
 }

@@ -1,19 +1,16 @@
 ---
-controller_version_v16: 16.4.4
-controller_version_v17: 17.1.1
+controller_version_v17: 17.2.12
 version: True
 option: auto-upload
 controller_ip_17_1_1: 10.10.29.56
 controller_user_17_1_1: admin
 controller_password_17_1_1: Avi123$%
-controller_ip_16_4_4: 10.10.24.16
-controller_user_16_4_4: admin
-controller_password_16_4_4: Avi123$%
 f5_host_ip_v11: 10.90.117.120
 f5_host_ip_v10: 10.90.117.121
 f5_ssh_user: admin
 f5_ssh_user_10: root
 f5_ssh_password: avi123
+f5_ssh_port: 22
 no_profile_merge: False
 prefix: mig-tool-test
 cloud_name: vmware

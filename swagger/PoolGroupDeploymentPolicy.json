@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi PoolGroupDeploymentPolicy Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -159,18 +167,6 @@
                         "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
                         "in": "header", 
                         "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
                     }
                 ], 
                 "consumes": [
@@ -326,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -528,9 +532,11 @@
                     "description": "Duration of evaluation period for automatic deployment. Allowed values are 60-86400.", 
                     "format": "int32"
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "test_traffic_ratio_rampup": {
                     "default": 100, 
@@ -538,9 +544,12 @@
                     "description": "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100.", 
                     "format": "int32"
                 }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/PGDeploymentRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object"
                 }, 
                 "auto_disable_old_prod_pools": {
                     "default": true, 
@@ -551,16 +560,13 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the pool group deployment policy."
+                }, 
                 "name": {
                     "type": "string", 
                     "description": "The name of the pool group deployment policy."
-                }, 
-                "rules": {
-                    "items": {
-                        "$ref": "#/definitions/PGDeploymentRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object"
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -576,9 +582,9 @@
                     "type": "string", 
                     "description": "deployment scheme. Enum options - BLUE_GREEN, CANARY."
                 }, 
-                "uuid": {
+                "description": {
                     "type": "string", 
-                    "description": "UUID of the pool group deployment policy."
+                    "description": "User defined description for the object."
                 }
             }
         }, 

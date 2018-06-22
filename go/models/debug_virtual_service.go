@@ -7,6 +7,10 @@ package models
 // swagger:model DebugVirtualService
 type DebugVirtualService struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property capture of obj type DebugVirtualService field type str  type boolean
 	Capture bool `json:"capture,omitempty"`
 
@@ -14,7 +18,6 @@ type DebugVirtualService struct {
 	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.

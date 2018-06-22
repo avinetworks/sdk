@@ -7,6 +7,10 @@ package models
 // swagger:model CertificateManagementProfile
 type CertificateManagementProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Name of the PKI Profile.
 	// Required: true
 	Name string `json:"name"`

@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure wafpolicy <key>
         - show wafpolicy <key>
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -342,7 +354,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -366,9 +378,52 @@ definitions:
             match_element:
                 description: "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 type: string
+            uri_match_criteria:
+                description: "Criteria for URI matching. Field introduced in 17.2.8."
+                $ref: '#/definitions/WafExclusionType'
             uri_path:
                 description: "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
                 type: string
+    WafExclusionType:
+        type: object
+        required:
+            -   match_case
+            -   match_op
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 17.2.8."
+                type: string
+                default: "SENSITIVE"
+            match_op:
+                description: "String Operation to use for matching the Exclusion. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. Field introduced in 17.2.8."
+                type: string
+                default: "EQUALS"
+    WafLearning:
+        type: object
+        properties:
+            arg_summarization_threshold:
+                description: "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2."
+                type: integer
+                default: 3
+                format: int32
+            confidence:
+                description: "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2."
+                type: integer
+                default: 90
+                format: int32
+            enable:
+                description: "Enable Learning for WAF policy. Field introduced in 18.1.2."
+                type: boolean
+            path_summarization_threshold:
+                description: "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2."
+                type: integer
+                default: 5
+                format: int32
+            sampling_percent:
+                description: "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2."
+                type: integer
+                default: 10
+                format: int32
     WafPolicy:
         type: object
         required:
@@ -376,6 +431,11 @@ definitions:
             -   name
             -   waf_profile_ref
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             created_by:
                 description: "Creator name. Field introduced in 17.2.4."
                 type: string
@@ -387,6 +447,13 @@ definitions:
             description:
                 description: " Field introduced in 17.2.1."
                 type: string
+            failure_mode:
+                description: "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2."
+                type: string
+                default: "WAF_FAILURE_MODE_OPEN"
+            learning:
+                description: "Configure parameters for WAF learning. Field introduced in 18.1.2."
+                $ref: '#/definitions/WafLearning'
             mode:
                 description: "WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
                 type: string
@@ -417,6 +484,9 @@ definitions:
                 type: string
             uuid:
                 description: " Field introduced in 17.2.1."
+                type: string
+            waf_crs_ref:
+                description: "WAF core ruleset used for the CRS part of this Policy. It is a reference to an object of type WafCRS. Field introduced in 18.1.1."
                 type: string
             waf_profile_ref:
                 description: "WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1."

@@ -70,6 +70,9 @@ type VirtualServiceRuntime struct {
 	// Placeholder for description of property rules_configured of obj type VirtualServiceRuntime field type str  type boolean
 	RulesConfigured bool `json:"rules_configured,omitempty"`
 
+	// Enable Service Engines to elect a primary amongst themselves in the absence of connectivity to controller. Field introduced in 18.1.2.
+	SelfSeElection bool `json:"self_se_election,omitempty"`
+
 	// Placeholder for description of property servers_configured of obj type VirtualServiceRuntime field type str  type boolean
 	ServersConfigured bool `json:"servers_configured,omitempty"`
 

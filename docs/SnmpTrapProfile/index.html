@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi SnmpTrapProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure snmptrapprofile <key> - show snmptrapprofile <key> - test alerttestsnmptrap <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure snmptrapprofile <key> - show snmptrapprofile <key> - test alerttestsnmptrap <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -255,6 +257,7 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "trap_servers" : [ {
+      "port" : 123,
       "community" : "aeiou",
       "ip_addr" : {
         "addr" : "aeiou",
@@ -272,7 +275,8 @@ font-style: italic;
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -328,6 +332,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -345,7 +350,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -510,7 +516,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -528,6 +536,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -545,7 +554,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -612,6 +622,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -629,7 +640,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -696,6 +708,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "trap_servers" : [ {
+    "port" : 123,
     "community" : "aeiou",
     "ip_addr" : {
       "addr" : "aeiou",
@@ -713,7 +726,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -758,13 +772,14 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="SnmpTrapProfile">SnmpTrapProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user-friendly name of the SNMP trap configuration. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user-friendly name of the SNMP trap configuration. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">trap_servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#SnmpTrapServer">array[SnmpTrapServer]</a></span> The IP address or hostname of the SNMP trap destination server. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -783,6 +798,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">community (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The community string to communicate with the trap server. </div>
 <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the SNMP trap destination. </div>
+<div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The UDP port of the trap server. Field introduced in 16.5.4,17.2.5. format: int32</div>
 <div class="param">user (optional)</div><div class="param-desc"><span class="param-type"><a href="#SnmpV3UserParams">SnmpV3UserParams</a></span> SNMP version 3 configuration. Field introduced in 17.2.3. </div>
 <div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->

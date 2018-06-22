@@ -37,6 +37,9 @@ type HTTPApplicationProfile struct {
 	// Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections.
 	DisableKeepalivePostsMsie6 bool `json:"disable_keepalive_posts_msie6,omitempty"`
 
+	// Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4.
+	EnableFireAndForget bool `json:"enable_fire_and_forget,omitempty"`
+
 	// Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size.
 	EnableRequestBodyBuffering bool `json:"enable_request_body_buffering,omitempty"`
 
@@ -45,6 +48,9 @@ type HTTPApplicationProfile struct {
 
 	// Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000.
 	HstsMaxAge int64 `json:"hsts_max_age,omitempty"`
+
+	// Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1.
+	Http2Enabled bool `json:"http2_enabled,omitempty"`
 
 	// Client requests received via HTTP will be redirected to HTTPS.
 	HTTPToHTTPS bool `json:"http_to_https,omitempty"`
@@ -67,6 +73,9 @@ type HTTPApplicationProfile struct {
 	// Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxBadRpsURI int32 `json:"max_bad_rps_uri,omitempty"`
 
+	// Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.
+	MaxResponseHeadersSize int32 `json:"max_response_headers_size,omitempty"`
+
 	// Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxRpsCip int32 `json:"max_rps_cip,omitempty"`
 
@@ -87,6 +96,9 @@ type HTTPApplicationProfile struct {
 
 	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.
 	PostAcceptTimeout int32 `json:"post_accept_timeout,omitempty"`
+
+	// Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8.
+	RespondWith100Continue bool `json:"respond_with_100_continue,omitempty"`
 
 	// Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set.
 	SecureCookieEnabled bool `json:"secure_cookie_enabled,omitempty"`

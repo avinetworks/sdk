@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi AnalyticsProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -494,10 +502,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -547,16 +563,25 @@
             ], 
             "type": "object", 
             "properties": {
-                "max_logs_per_second": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
                 "external_server_port": {
                     "default": 514, 
                     "type": "integer", 
                     "description": "The destination server's service port. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "protocol": {
+                    "default": "LOG_STREAMING_PROTOCOL_UDP", 
+                    "type": "string", 
+                    "description": "Protocol to use for streaming logs. Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP. Field introduced in 18.1.1."
+                }, 
+                "syslog_config": {
+                    "description": "Syslog configuration if a Syslog-based protocol is specified for streaming. Field introduced in 18.1.1.", 
+                    "$ref": "#/definitions/StreamingSyslogConfig"
+                }, 
+                "max_logs_per_second": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "log_types_to_send": {
@@ -585,6 +610,97 @@
                 "end": {
                     "type": "integer", 
                     "description": "Ending HTTP response status code.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "StringMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                }
+            }
+        }, 
+        "SensitiveLogProfile": {
+            "type": "object", 
+            "properties": {
+                "header_field_rules": {
+                    "items": {
+                        "$ref": "#/definitions/SensitiveFieldRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Match sensitive header fields in HTTP application log. Field introduced in 17.2.10, 18.1.2."
+                }
+            }
+        }, 
+        "AnalyticsProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/AnalyticsProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "StreamingSyslogConfig": {
+            "type": "object", 
+            "properties": {
+                "non_significant_log_severity": {
+                    "default": 6, 
+                    "type": "integer", 
+                    "description": "Severity code, as defined in RFC5424, for non-significant logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "filtered_log_severity": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Severity code, as defined in RFC5424, for filtered logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "hostname": {
+                    "default": "AviVantage", 
+                    "type": "string", 
+                    "description": "String to use as the hostname in the syslog messages. This string can contain only printable ASCII characters (hex 21 to hex 7E; no space allowed). Field introduced in 18.1.1."
+                }, 
+                "significant_log_severity": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Severity code, as defined in RFC5424, for significant logs. This must be between 0 and 7 inclusive. Allowed values are 0-7. Field introduced in 18.1.1.", 
+                    "format": "int32"
+                }, 
+                "facility": {
+                    "default": 16, 
+                    "type": "integer", 
+                    "description": "Facility value, as defined in RFC5424, must be between 0 and 23 inclusive. Allowed values are 0-23. Field introduced in 18.1.1.", 
                     "format": "int32"
                 }
             }
@@ -695,6 +811,10 @@
                     "type": "integer", 
                     "description": "Maximum penalty that may be deducted from health score for anomalies. Allowed values are 0-100.", 
                     "format": "int32"
+                }, 
+                "client_log_config": {
+                    "description": "Configure which logs are sent to the Avi Controller from SEs and how they are processed.", 
+                    "$ref": "#/definitions/ClientLogConfiguration"
                 }, 
                 "conn_server_lossy_ooo_threshold": {
                     "default": 50, 
@@ -809,6 +929,12 @@
                     "description": "Time window (in secs) within which only unique health change events should occur.", 
                     "format": "int32"
                 }, 
+                "apdex_rtt_tolerated_factor": {
+                    "default": 4.0, 
+                    "type": "number", 
+                    "description": "Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.", 
+                    "format": "double"
+                }, 
                 "hs_security_nonpfs_penalty": {
                     "default": 1.0, 
                     "type": "number", 
@@ -841,6 +967,10 @@
                     "description": "Configure to stream logs to an external server. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/ClientLogStreamingConfig"
                 }, 
+                "disable_ondemand_metrics": {
+                    "type": "boolean", 
+                    "description": "Virtual Service (VS) metrics are processed only when there is live data traffic on the VS. In case, VS is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that VS. Field introduced in 18.1.1."
+                }, 
                 "apdex_server_response_threshold": {
                     "default": 400, 
                     "type": "integer", 
@@ -852,9 +982,11 @@
                     "description": "Adds free performance score credits to health score. It can be used for compensating health score for known slow applications. Allowed values are 0-100.", 
                     "format": "int32"
                 }, 
-                "client_log_config": {
-                    "description": "Configure which logs are sent to the Avi Controller from SEs and how they are processed.", 
-                    "$ref": "#/definitions/ClientLogConfiguration"
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "exclude_gs_down_as_error": {
                     "type": "boolean", 
@@ -868,7 +1000,7 @@
                 }, 
                 "disable_server_analytics": {
                     "type": "boolean", 
-                    "description": "Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers."
+                    "description": "Disable analytics on backend servers. This may be desired in container environment when there are large number of ephemeral servers. Additionally, no healthscore of servers is computed when server analytics is disabled."
                 }, 
                 "conn_server_lossy_timeo_rexmt_threshold": {
                     "default": 20, 
@@ -892,11 +1024,11 @@
                     "description": "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100.", 
                     "format": "int32"
                 }, 
-                "apdex_rtt_tolerated_factor": {
-                    "default": 4.0, 
-                    "type": "number", 
-                    "description": "Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.", 
-                    "format": "double"
+                "ondemand_metrics_idle_timeout": {
+                    "default": 1800, 
+                    "type": "integer", 
+                    "description": "This flag sets the time duration of no live data traffic after which Virtual Service metrics processing is suspended. It is applicable only when disable_ondemand_metrics is set to false. Field introduced in 18.1.1.", 
+                    "format": "int32"
                 }, 
                 "description": {
                     "type": "string", 
@@ -961,6 +1093,10 @@
                     "description": "Maximum penalty that may be deducted from health score based on security assessment. Allowed values are 0-100.", 
                     "format": "int32"
                 }, 
+                "sensitive_log_profile": {
+                    "description": "Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10, 18.1.2.", 
+                    "$ref": "#/definitions/SensitiveLogProfile"
+                }, 
                 "exclude_dns_policy_drop_as_significant": {
                     "type": "boolean", 
                     "description": "Exclude dns policy drops from the list of errors. Field introduced in 17.2.2."
@@ -993,22 +1129,30 @@
                 }
             }
         }, 
-        "AnalyticsProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
+        "SensitiveFieldRule": {
             "type": "object", 
             "properties": {
-                "count": {
+                "action": {
+                    "default": "LOG_FIELD_REMOVE", 
+                    "type": "string", 
+                    "description": "Action for the matched log field, for instance the matched field can be removed or masked off. Enum options - LOG_FIELD_REMOVE, LOG_FIELD_MASKOFF. Field introduced in 17.2.10, 18.1.2."
+                }, 
+                "index": {
                     "type": "integer", 
+                    "description": "Index of the rule. Field introduced in 17.2.10, 18.1.2.", 
                     "format": "int32"
                 }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/AnalyticsProfile"
-                    }, 
-                    "type": "array"
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enable rule to match the sensitive fields. Field introduced in 17.2.10, 18.1.2."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 17.2.10, 18.1.2."
+                }, 
+                "match": {
+                    "description": "Criterion to use for matching in the Log. Field introduced in 17.2.10, 18.1.2.", 
+                    "$ref": "#/definitions/StringMatch"
                 }
             }
         }

@@ -7,6 +7,10 @@ package models
 // swagger:model ControllerProperties
 type ControllerProperties struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	AllowIPForwarding bool `json:"allow_ip_forwarding,omitempty"`
 
@@ -31,8 +35,17 @@ type ControllerProperties struct {
 	// Use Ansible for SE creation in baremetal. Field introduced in 17.2.2.
 	BmUseAnsible bool `json:"bm_use_ansible,omitempty"`
 
-	// Number of cluster_ip_gratuitous_arp_period.
+	// Period for auth token cleanup job. Field introduced in 18.1.1.
+	CleanupExpiredAuthtokenTimeoutPeriod int32 `json:"cleanup_expired_authtoken_timeout_period,omitempty"`
+
+	// Period for sessions cleanup job. Field introduced in 18.1.1.
+	CleanupSessionsTimeoutPeriod int32 `json:"cleanup_sessions_timeout_period,omitempty"`
+
+	// Period for cluster ip gratuitous arp job.
 	ClusterIPGratuitousArpPeriod int32 `json:"cluster_ip_gratuitous_arp_period,omitempty"`
+
+	// Period for consistency check job. Field introduced in 18.1.1.
+	ConsistencyCheckTimeoutPeriod int32 `json:"consistency_check_timeout_period,omitempty"`
 
 	// Number of crashed_se_reboot.
 	CrashedSeReboot int32 `json:"crashed_se_reboot,omitempty"`
@@ -40,11 +53,14 @@ type ControllerProperties struct {
 	// Number of dead_se_detection_timer.
 	DeadSeDetectionTimer int32 `json:"dead_se_detection_timer,omitempty"`
 
-	// Number of dns_refresh_period.
+	// Period for refresh pool and gslb DNS job.
 	DNSRefreshPeriod int32 `json:"dns_refresh_period,omitempty"`
 
 	// Number of dummy.
 	Dummy int32 `json:"dummy,omitempty"`
+
+	// Enable/Disable Memory Balancer. Field introduced in 17.2.8.
+	EnableMemoryBalancer bool `json:"enable_memory_balancer,omitempty"`
 
 	// Number of fatal_error_lease_time.
 	FatalErrorLeaseTime int32 `json:"fatal_error_lease_time,omitempty"`
@@ -61,14 +77,23 @@ type ControllerProperties struct {
 	// Number of max_seq_vnic_failures.
 	MaxSeqVnicFailures int32 `json:"max_seq_vnic_failures,omitempty"`
 
-	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
+	// Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	PersistenceKeyRotatePeriod int32 `json:"persistence_key_rotate_period,omitempty"`
 
 	// Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2.
 	PortalToken string `json:"portal_token,omitempty"`
 
+	// Period for process locked user accounts job. Field introduced in 18.1.1.
+	ProcessLockedUseraccountsTimeoutPeriod int32 `json:"process_locked_useraccounts_timeout_period,omitempty"`
+
+	// Period for process PKI profile job. Field introduced in 18.1.1.
+	ProcessPkiProfileTimeoutPeriod int32 `json:"process_pki_profile_timeout_period,omitempty"`
+
 	// Number of query_host_fail.
 	QueryHostFail int32 `json:"query_host_fail,omitempty"`
+
+	// Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3.
+	SafenetHsmVersion string `json:"safenet_hsm_version,omitempty"`
 
 	// Number of se_create_timeout.
 	SeCreateTimeout int32 `json:"se_create_timeout,omitempty"`
@@ -82,7 +107,7 @@ type ControllerProperties struct {
 	// Number of se_vnic_cooldown.
 	SeVnicCooldown int32 `json:"se_vnic_cooldown,omitempty"`
 
-	// Number of secure_channel_cleanup_timeout.
+	// Period for secure channel cleanup job.
 	SecureChannelCleanupTimeout int32 `json:"secure_channel_cleanup_timeout,omitempty"`
 
 	// Number of secure_channel_controller_token_timeout.
@@ -125,7 +150,7 @@ type ControllerProperties struct {
 	// Number of vs_awaiting_se_timeout.
 	VsAwaitingSeTimeout int32 `json:"vs_awaiting_se_timeout,omitempty"`
 
-	//  Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
+	// Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	VsKeyRotatePeriod int32 `json:"vs_key_rotate_period,omitempty"`
 
 	// Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.

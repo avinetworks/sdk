@@ -7,7 +7,7 @@ package models
 // swagger:model SeBootupProperties
 type SeBootupProperties struct {
 
-	// Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1.
 	DistributeQueues bool `json:"distribute_queues,omitempty"`
 
 	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.

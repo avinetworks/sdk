@@ -63,6 +63,12 @@ type SeGroupStatus struct {
 	//  It is a reference to an object of type ServiceEngine.
 	SeRebootInProgressRef string `json:"se_reboot_in_progress_ref,omitempty"`
 
+	// Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine.
+	SeUpgradeSkipSuspended []string `json:"se_upgrade_skip_suspended,omitempty"`
+
+	// Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine.
+	SeUpgradeSuspended []string `json:"se_upgrade_suspended,omitempty"`
+
 	//  It is a reference to an object of type ServiceEngine.
 	SeWithNoVs []string `json:"se_with_no_vs,omitempty"`
 

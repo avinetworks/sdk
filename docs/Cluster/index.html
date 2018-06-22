@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Cluster Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure cluster - show cluster ``` </div>
+    <div class="app-desc">CLI ``` - configure cluster - show cluster ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -262,6 +264,7 @@ font-style: italic;
         "type" : "aeiou"
       },
       "name" : "aeiou",
+      "categories" : [ "aeiou" ],
       "vm_hostname" : "aeiou",
       "vm_name" : "aeiou"
     } ],
@@ -270,6 +273,7 @@ font-style: italic;
     "rejoin_nodes_automatically" : true,
     "uuid" : "aeiou",
     "url" : "aeiou",
+    "_last_modified" : 123456789,
     "virtual_ip" : ""
   } ]
 }</code></pre>
@@ -334,6 +338,7 @@ font-style: italic;
       "type" : "aeiou"
     },
     "name" : "aeiou",
+    "categories" : [ "aeiou" ],
     "vm_hostname" : "aeiou",
     "vm_name" : "aeiou"
   } ],
@@ -342,6 +347,7 @@ font-style: italic;
   "rejoin_nodes_automatically" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "virtual_ip" : ""
 }</code></pre>
 
@@ -449,7 +455,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -475,6 +483,7 @@ font-style: italic;
       "type" : "aeiou"
     },
     "name" : "aeiou",
+    "categories" : [ "aeiou" ],
     "vm_hostname" : "aeiou",
     "vm_name" : "aeiou"
   } ],
@@ -483,6 +492,7 @@ font-style: italic;
   "rejoin_nodes_automatically" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "virtual_ip" : ""
 }</code></pre>
 
@@ -558,6 +568,7 @@ font-style: italic;
       "type" : "aeiou"
     },
     "name" : "aeiou",
+    "categories" : [ "aeiou" ],
     "vm_hostname" : "aeiou",
     "vm_name" : "aeiou"
   } ],
@@ -566,6 +577,7 @@ font-style: italic;
   "rejoin_nodes_automatically" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "virtual_ip" : ""
 }</code></pre>
 
@@ -641,6 +653,7 @@ font-style: italic;
       "type" : "aeiou"
     },
     "name" : "aeiou",
+    "categories" : [ "aeiou" ],
     "vm_hostname" : "aeiou",
     "vm_name" : "aeiou"
   } ],
@@ -649,6 +662,7 @@ font-style: italic;
   "rejoin_nodes_automatically" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
+  "_last_modified" : 123456789,
   "virtual_ip" : ""
 }</code></pre>
 
@@ -684,7 +698,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Cluster">Cluster</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClusterNode">array[ClusterNode]</a></span> Placeholder for description of property nodes of obj type Cluster field type str  type object </div>
 <div class="param">rejoin_nodes_automatically (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Re-join cluster nodes automatically in the event one of the node is reset to factory. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
@@ -703,7 +718,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ClusterNode">ClusterNode</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of controller VM. </div>
+      <div class="param">categories (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Optional service categories that a node can be assigned (e.g. SYSTEM, INFRASTRUCTURE or ANALYTICS). Field introduced in 18.1.1. </div>
+<div class="param">ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of controller VM. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">public_ip_or_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Public IP address or hostname of the controller VM. Field introduced in 17.2.3. </div>
 <div class="param">vm_hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hostname assigned to this controller VM. </div>
@@ -716,7 +732,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

@@ -11,6 +11,11 @@
             {
                 "type": "inservice",
                 "rserver": "test_server"
+            },
+
+            {
+                "type": "inservice",
+                "rserver": "test_server1"
             }
         ]
     }],
@@ -43,6 +48,22 @@
                 "type": "inservice"
             }
         ]
+    },
+    {
+        "host": "test_server1",
+        "desc": [{
+                "description": "test_server1"
+            },
+            {
+                "ip address": "127.0.0.2"
+            },
+            {
+                "probe": "test_probe"
+            },
+            {
+                "type": "inservice"
+            }
+        ]
     }],
     "probe": [{
         "status": "200",
@@ -50,7 +71,7 @@
         "status1": "200",
         "name": "test_probe",
         "receive": "5",
-        "type": "http",
+        "type": "https",
         "port": "9114",
         "method": "get"
     }],

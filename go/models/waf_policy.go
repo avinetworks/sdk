@@ -7,13 +7,26 @@ package models
 // swagger:model WafPolicy
 type WafPolicy struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	// Creator name. Field introduced in 17.2.4.
+	CreatedBy string `json:"created_by,omitempty"`
+
 	// WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1.
 	CrsGroups []*WafRuleGroup `json:"crs_groups,omitempty"`
 
 	//  Field introduced in 17.2.1.
 	Description string `json:"description,omitempty"`
 
-	// WAF Policy mode. This can be detection only or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
+	// WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.
+	FailureMode string `json:"failure_mode,omitempty"`
+
+	// Configure parameters for WAF learning. Field introduced in 18.1.2.
+	Learning *WafLearning `json:"learning,omitempty"`
+
+	// WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
 	// Required: true
 	Mode string `json:"mode"`
 
@@ -39,6 +52,9 @@ type WafPolicy struct {
 
 	//  Field introduced in 17.2.1.
 	UUID string `json:"uuid,omitempty"`
+
+	// WAF core ruleset used for the CRS part of this Policy. It is a reference to an object of type WafCRS. Field introduced in 18.1.1.
+	WafCrsRef string `json:"waf_crs_ref,omitempty"`
 
 	// WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1.
 	// Required: true

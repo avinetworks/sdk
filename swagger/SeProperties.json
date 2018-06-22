@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -484,7 +500,7 @@
                 "distribute_queues": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1."
+                    "description": "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
                 }, 
                 "se_dpdk_pmd": {
                     "type": "integer", 
@@ -814,7 +830,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -944,7 +960,7 @@
                 }, 
                 "disable_tso": {
                     "type": "boolean", 
-                    "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.4,18.1.1."
+                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.4."
                 }, 
                 "upstream_connpool_core_max_cache": {
                     "default": -1, 
@@ -1016,7 +1032,7 @@
                 }, 
                 "disable_gro": {
                     "type": "boolean", 
-                    "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1."
+                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.1."
                 }, 
                 "se_hb_persist_fudge_bits": {
                     "default": 3, 
@@ -1030,9 +1046,10 @@
                     "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled.", 
                     "format": "int32"
                 }, 
-                "log_agent_pause_interval": {
+                "se_dp_vnic_stall_se_restart_window": {
+                    "default": 3600, 
                     "type": "integer", 
-                    "description": "Time interval log-agent pauses between logs obtained from the dataplane.", 
+                    "description": "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
                 }, 
                 "user_defined_metric_age": {
@@ -1165,9 +1182,15 @@
                     "description": "Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.", 
                     "format": "int32"
                 }, 
+                "se_auth_ldap_bind_timeout": {
+                    "default": 5000, 
+                    "type": "integer", 
+                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server.", 
+                    "format": "int32"
+                }, 
                 "enable_hsm_log": {
                     "type": "boolean", 
-                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3."
                 }, 
                 "baremetal_dispatcher_handles_flows": {
                     "type": "boolean", 
@@ -1275,7 +1298,7 @@
                 "se_dp_vnic_queue_stall_timeout": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine asserts triggering a failover. Field introduced in 17.1.1.", 
+                    "description": "Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "service_port_ranges": {
@@ -1298,6 +1321,11 @@
                 "se_dp_vnic_queue_stall_event_sleep": {
                     "type": "integer", 
                     "description": "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "log_agent_pause_interval": {
+                    "type": "integer", 
+                    "description": "Time interval log-agent pauses between logs obtained from the dataplane.", 
                     "format": "int32"
                 }, 
                 "se_memory_poison": {
@@ -1378,10 +1406,10 @@
                     "description": "Maximum debug log file size before rollover.", 
                     "format": "int32"
                 }, 
-                "se_auth_ldap_bind_timeout": {
-                    "default": 5000, 
+                "se_dp_vnic_restart_on_queue_stall_count": {
+                    "default": 3, 
                     "type": "integer", 
-                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server.", 
+                    "description": "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
                 }, 
                 "mcache_store_in_min_size": {
@@ -1410,9 +1438,11 @@
                     "description": "Number of upstream_read_timeout.", 
                     "format": "int32"
                 }, 
-                "se_handle_interface_routes": {
-                    "type": "boolean", 
-                    "description": "Accept/ignore interface routes (i.e, no next hop IP address)."
+                "lb_batch_push_frequency": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.", 
+                    "format": "int32"
                 }, 
                 "mcache_enabled": {
                     "type": "boolean", 
@@ -1439,8 +1469,12 @@
                 "tcp_syn_cache_max": {
                     "default": 32768, 
                     "type": "integer", 
-                    "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine.", 
+                    "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.", 
                     "format": "int32"
+                }, 
+                "se_handle_interface_routes": {
+                    "type": "boolean", 
+                    "description": "Accept/ignore interface routes (i.e, no next hop IP address)."
                 }, 
                 "log_agent_sleep_interval": {
                     "default": 10, 
@@ -1451,7 +1485,7 @@
                 "flow_table_new_syn_max_entries": {
                     "default": 40000, 
                     "type": "integer", 
-                    "description": "Maximum number of flow table entries that have not completed TCP three-way handshake yet.", 
+                    "description": "Deprecated. Field deprecated in 17.2.5.", 
                     "format": "int32"
                 }, 
                 "se_auth_ldap_reconnect_timeout": {
@@ -1666,22 +1700,28 @@
         "SeProperties": {
             "type": "object", 
             "properties": {
+                "se_agent_properties": {
+                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object", 
+                    "$ref": "#/definitions/SeAgentProperties"
+                }, 
+                "se_bootup_properties": {
+                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object", 
+                    "$ref": "#/definitions/SeBootupProperties"
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "se_agent_properties": {
-                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeAgentProperties"
-                }, 
                 "se_runtime_properties": {
                     "description": "Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object", 
                     "$ref": "#/definitions/SeRuntimeProperties"
-                }, 
-                "se_bootup_properties": {
-                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeBootupProperties"
                 }, 
                 "uuid": {
                     "default": "default", 

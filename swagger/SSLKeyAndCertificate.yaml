@@ -2,21 +2,21 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi SSLKeyAndCertificate Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure sslkeyandcertificate <key>
         - show sslkeyandcertificate <key>
         - delete sslkeyandcertificate <key>
         ```
 
-        ##Examples##
+        Examples
         - **sslkeyandcertificate_example_1**: To generate a self-signed certificate
           ```json
             {u'self_signed': True, u'name': u'mycert', u'locality': u'Sunnyvale', u'country': u'US', u'common_name': u'ACME Company', u'state': u'CA', u'key_params': {u'rsa_params': {u'key_size': u'SSL_KEY_1024_BITS'}, u'algorithm': u'SSL_KEY_ALGORITHM_RSA'}, u'organization': u'ACME Company'}
@@ -71,7 +71,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -190,7 +196,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -478,6 +490,11 @@ definitions:
             -   certificate
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             ca_certs:
                 description: "CA certificates in certificate chain."
                 type: array

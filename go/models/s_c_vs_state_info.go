@@ -7,6 +7,10 @@ package models
 // swagger:model SCVsStateInfo
 type SCVsStateInfo struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
@@ -23,6 +27,6 @@ type SCVsStateInfo struct {
 	//  Field introduced in 17.1.1.
 	VipID string `json:"vip_id,omitempty"`
 
-	//  It is a reference to an object of type VirtualService. Field introduced in 17.1.1.
-	VsRef string `json:"vs_ref,omitempty"`
+	//  Field introduced in 17.1.1.
+	VsID string `json:"vs_id,omitempty"`
 }

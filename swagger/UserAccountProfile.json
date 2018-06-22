@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi UserAccountProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure useraccountprofile <key>\n- show useraccountprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure useraccountprofile <key>\n- show useraccountprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -504,6 +520,10 @@
                     "description": "Lock timeout period (in minutes). Default is 30 minutes.", 
                     "format": "int32"
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
                 "max_login_failure_count": {
                     "default": 3, 
                     "type": "integer", 
@@ -522,9 +542,11 @@
                     "description": "The time period after which credentials expire. Default is 180 days.", 
                     "format": "int32"
                 }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }
             }
         }, 

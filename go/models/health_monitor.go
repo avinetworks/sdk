@@ -7,6 +7,10 @@ package models
 // swagger:model HealthMonitor
 type HealthMonitor struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
@@ -26,7 +30,6 @@ type HealthMonitor struct {
 	HTTPSMonitor *HealthMonitorHTTP `json:"https_monitor,omitempty"`
 
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
-	// Read Only: true
 	IsFederated bool `json:"is_federated,omitempty"`
 
 	// Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - 'Use server port'.
@@ -42,6 +45,9 @@ type HealthMonitor struct {
 	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.
 	SendInterval int32 `json:"send_interval,omitempty"`
 
+	// Health monitor for SIP. Field introduced in 17.2.8.
+	SipMonitor *HealthMonitorSIP `json:"sip_monitor,omitempty"`
+
 	// Number of continuous successful health checks before server is marked up. Allowed values are 1-50.
 	SuccessfulChecks int32 `json:"successful_checks,omitempty"`
 
@@ -51,7 +57,7 @@ type HealthMonitor struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	// Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB.
+	// Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP.
 	// Required: true
 	Type string `json:"type"`
 

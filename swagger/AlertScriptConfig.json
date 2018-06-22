@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi AlertScriptConfig Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure alertscriptconfig <key>\n- show alertscriptconfig <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure alertscriptconfig <key>\n- show alertscriptconfig <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -484,6 +500,20 @@
             ], 
             "type": "object", 
             "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "action_script": {
+                    "type": "string", 
+                    "description": "User Defined Alert Action Script. Please refer to kb.avinetworks.com for more information."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "A user-friendly name of the Script."
+                }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
@@ -496,14 +526,6 @@
                 "uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of the object."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "A user-friendly name of the Script."
-                }, 
-                "action_script": {
-                    "type": "string", 
-                    "description": "User Defined Alert Action Script. Please refer to kb.avinetworks.com for more information."
                 }
             }
         }, 
