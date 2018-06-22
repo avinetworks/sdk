@@ -22,8 +22,11 @@ type SeRuntimeProperties struct {
 	// Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1.
 	DisableFlowProbes bool `json:"disable_flow_probes,omitempty"`
 
-	// Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1.
+	// Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.1.
 	DisableGro bool `json:"disable_gro,omitempty"`
+
+	// Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.4.
+	DisableTso bool `json:"disable_tso,omitempty"`
 
 	// Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object
 	DosProfile *DosThresholdProfile `json:"dos_profile,omitempty"`
@@ -49,6 +52,9 @@ type SeRuntimeProperties struct {
 	// Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.
 	DupipTimeoutCount int32 `json:"dupip_timeout_count,omitempty"`
 
+	// Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3.
+	EnableHsmLog bool `json:"enable_hsm_log,omitempty"`
+
 	// Enable proxy ARP from Host interface for Front End  proxies.
 	FeproxyVipsEnableProxyArp bool `json:"feproxy_vips_enable_proxy_arp,omitempty"`
 
@@ -58,7 +64,7 @@ type SeRuntimeProperties struct {
 	// Deprecated. Field deprecated in 17.1.1.
 	FlowTableMaxEntriesDeprecated int32 `json:"flow_table_max_entries_deprecated,omitempty"`
 
-	// Maximum number of flow table entries that have not completed TCP three-way handshake yet.
+	// Deprecated. Field deprecated in 17.2.5.
 	FlowTableNewSynMaxEntries int32 `json:"flow_table_new_syn_max_entries,omitempty"`
 
 	// Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used.
@@ -69,6 +75,9 @@ type SeRuntimeProperties struct {
 
 	// Minimum response size content length to sample for client insights.
 	HTTPRumMinContentLength int32 `json:"http_rum_min_content_length,omitempty"`
+
+	// How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.
+	LbBatchPushFrequency int32 `json:"lb_batch_push_frequency,omitempty"`
 
 	// Deprecated. Field deprecated in 17.1.1.
 	LbFailMaxTime int32 `json:"lb_fail_max_time,omitempty"`
@@ -137,7 +146,6 @@ type SeRuntimeProperties struct {
 	LogMessageMaxFileListSize int32 `json:"log_message_max_file_list_size,omitempty"`
 
 	// Deprecated. Field deprecated in 17.1.1.
-	// Read Only: true
 	MaxThroughput int32 `json:"max_throughput,omitempty"`
 
 	// enables mcache - controls fetch/store/store_out.
@@ -212,14 +220,20 @@ type SeRuntimeProperties struct {
 	// Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned.
 	SeDpLogUdfEnqueuePercent int32 `json:"se_dp_log_udf_enqueue_percent,omitempty"`
 
-	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before asserting totrigger a failover. Field introduced in 17.1.1.
+	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1.
 	SeDpVnicQueueStallEventSleep int32 `json:"se_dp_vnic_queue_stall_event_sleep,omitempty"`
 
 	// Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1.
 	SeDpVnicQueueStallThreshold int32 `json:"se_dp_vnic_queue_stall_threshold,omitempty"`
 
-	// Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine asserts triggering a failover. Field introduced in 17.1.1.
+	// Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1.
 	SeDpVnicQueueStallTimeout int32 `json:"se_dp_vnic_queue_stall_timeout,omitempty"`
+
+	// Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1.
+	SeDpVnicRestartOnQueueStallCount int32 `json:"se_dp_vnic_restart_on_queue_stall_count,omitempty"`
+
+	// Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1.
+	SeDpVnicStallSeRestartWindow int32 `json:"se_dp_vnic_stall_se_restart_window,omitempty"`
 
 	// Accept/ignore interface routes (i.e, no next hop IP address).
 	SeHandleInterfaceRoutes bool `json:"se_handle_interface_routes,omitempty"`
@@ -266,7 +280,7 @@ type SeRuntimeProperties struct {
 	// Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean
 	SpdyFwdProxyParseEnable bool `json:"spdy_fwd_proxy_parse_enable,omitempty"`
 
-	// Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine.
+	// Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.
 	TCPSynCacheMax int32 `json:"tcp_syn_cache_max,omitempty"`
 
 	// Default value for max number of retransmissions for a SYN packet.

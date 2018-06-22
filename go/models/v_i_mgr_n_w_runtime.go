@@ -10,6 +10,10 @@ type VIMgrNWRuntime struct {
 	// Placeholder for description of property MgmtNW of obj type VIMgrNWRuntime field type str  type boolean
 	MgmtNW bool `json:"MgmtNW,omitempty"`
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// apic_vrf_context of VIMgrNWRuntime.
 	ApicVrfContext string `json:"apic_vrf_context,omitempty"`
 

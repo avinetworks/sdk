@@ -4,8 +4,9 @@ from avi.migrationtools.ace_converter.ace_constants import\
         DEFAULT_FAILED_CHECKS, DEFAULT_INTERVAL, DEFAULT_TIMEOUT
 from avi.migrationtools.ace_converter.ace_utils import update_excel
 
-#logging init
+# logging init
 LOG = logging.getLogger(__name__)
+
 
 class MonitorConverter(object):
     """ Monitor Converter Class """
@@ -46,7 +47,7 @@ class MonitorConverter(object):
             elif health_monitor['type'].strip() == 'tcp':
                 monitor['type'] = 'HEALTH_MONITOR_TCP'
                 extra_details = {
-                                    "monitor_port": health_monitor.get('port', 80),
+                                    "health_monitor_port": health_monitor.get('port', 80),
                                     "tcp_monitor": {
                                         "tcp_request": "",
                                         "tcp_response": "",
@@ -57,27 +58,55 @@ class MonitorConverter(object):
                 monitor.update(extra_details)
             elif health_monitor['type'].strip() == 'http':
                 monitor['type'] = "HEALTH_MONITOR_HTTP"
+            elif health_monitor['type'].strip() == 'https':
+                monitor['type'] = "HEALTH_MONITOR_HTTPS"
             else:
                 monitor['type'] == "HEALTH_MONITOR_PING"
 
+            if health_monitor['type'].strip() == 'http' or health_monitor['type'].strip() == 'https':
                 # for url
                 if health_monitor.get('method', []) and health_monitor.get('url', []):
                     request_url = "{} {}".format(health_monitor['method'], health_monitor['url'])
+                elif health_monitor.get('header-value', []):
+                    request_url = "HEAD Host:{}".format(str(health_monitor['header-value']).replace('"',''))
                 else:
                     request_url = health_monitor.get('url', [])
 
                 # for response code
-                response_code = ['HTTP_2XX', 'HTTP_3XX']
+                response_code = []
                 if '20' in health_monitor.get('status', []):
-                    response_code = ['HTTP_2XX']
+                    response_code.append('HTTP_2XX')
+                if '30' in health_monitor.get('status', []):
+                    response_code.append('HTTP_3XX')
+                if '40' in health_monitor.get('status', []):
+                    response_code.append('HTTP_4XX')
+                if '50' in health_monitor.get('status', []):
+                    response_code.append('HTTP_5XX')
+                if '*' in health_monitor.get('status', []):
+                    response_code.append('HTTP_ANY')
+
+                # add any if no response code is there
+                if response_code == []:
+                    response_code = ['HTTP_ANY']
+
+                if health_monitor.get('regex', []):
+                    response_code.append('HTTP_ANY')
+                health_monitor_type = 'http_monitor'
+                server_response_data = health_monitor.get('status1', [])
+                if health_monitor['type'] == 'https':
+                    health_monitor_type = 'https_monitor'
+
                 extra_details = {
-                                    "http_monitor": {
+                                    health_monitor_type: {
                                         "maintenance_response": "",
-                                        "http_request": request_url,
-                                        "http_response_code": response_code,
-                                        "http_response": ""
+                                        "client_request_data": request_url,
+                                        "response_data": response_code,
+                                        "server_response_data": server_response_data,
+                                        "description": "",
                                     }
                                 }
+
+
                 monitor.update(extra_details)
 
             # Excel Sheet updating

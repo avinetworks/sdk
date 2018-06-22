@@ -7,6 +7,10 @@ package models
 // swagger:model SSLProfile
 type SSLProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html).
 	AcceptedCiphers string `json:"accepted_ciphers,omitempty"`
 
@@ -20,7 +24,6 @@ type SSLProfile struct {
 	Description string `json:"description,omitempty"`
 
 	// DH Parameters used in SSL. At this time, it is not configurable and is set to 2048 bits.
-	// Read Only: true
 	Dhparam string `json:"dhparam,omitempty"`
 
 	// Enable SSL session re-use.
@@ -47,6 +50,9 @@ type SSLProfile struct {
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
+
+	// SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8.
+	Type string `json:"type,omitempty"`
 
 	// url
 	// Read Only: true

@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure systemconfiguration
         - show systemconfiguration
@@ -50,7 +50,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -169,7 +175,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -504,7 +516,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrMatch:
         type: object
@@ -565,6 +577,9 @@ definitions:
             banner:
                 description: "Banner displayed before login to ssh, and UI."
                 type: string
+            cis_mode:
+                description: "Enforce CIS benchmark recommendations for Avi Controller and Service Engines. The enforcement is as per CIS DIL 1.0.1 level 2, for applicable controls. Field introduced in 17.2.8."
+                type: boolean
             motd:
                 description: "Message of the day, shown to users on login via the command line interface, web interface, or ssh."
                 type: string
@@ -702,6 +717,7 @@ definitions:
             community:
                 description: "Community string for SNMP v2c."
                 type: string
+                default: "public"
             snmp_v3_config:
                 description: "SNMP version 3 configuration. Field introduced in 17.2.3."
                 $ref: '#/definitions/SnmpV3Configuration'
@@ -750,9 +766,18 @@ definitions:
     SystemConfiguration:
         type: object
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             admin_auth_configuration:
                 description: "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/AdminAuthConfiguration'
+            default_license_tier:
+                description: "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+                default: "ENTERPRISE_18"
             dns_configuration:
                 description: "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/DNSConfiguration'

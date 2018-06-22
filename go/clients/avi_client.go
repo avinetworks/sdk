@@ -1,3 +1,21 @@
+/***************************************************************************
+ *
+ * AVI CONFIDENTIAL
+ * __________________
+ *
+ * [2013] - [2018] Avi Networks Incorporated
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained herein is, and remains the property
+ * of Avi Networks Incorporated and its suppliers, if any. The intellectual
+ * and technical concepts contained herein are proprietary to Avi Networks
+ * Incorporated, and its suppliers and are covered by U.S. and Foreign
+ * Patents, patents in process, and are protected by trade secret or
+ * copyright law, and other laws. Dissemination of this information or
+ * reproduction of this material is strictly forbidden unless prior written
+ * permission is obtained from Avi Networks Incorporated.
+ */
+
 package clients
 
 import (
@@ -29,6 +47,7 @@ type AviClient struct {
 	CloudProperties                *CloudPropertiesClient
 	CloudRuntime                   *CloudRuntimeClient
 	Cluster                        *ClusterClient
+	ClusterCloudDetails            *ClusterCloudDetailsClient
 	ControllerLicense              *ControllerLicenseClient
 	ControllerProperties           *ControllerPropertiesClient
 	CustomIPAMDNSProfile           *CustomIPAMDNSProfileClient
@@ -36,6 +55,8 @@ type AviClient struct {
 	DebugController                *DebugControllerClient
 	DebugServiceEngine             *DebugServiceEngineClient
 	DebugVirtualService            *DebugVirtualServiceClient
+	ErrorPageBody                  *ErrorPageBodyClient
+	ErrorPageProfile               *ErrorPageProfileClient
 	Gslb                           *GslbClient
 	GslbGeoDbProfile               *GslbGeoDbProfileClient
 	GslbService                    *GslbServiceClient
@@ -45,6 +66,7 @@ type AviClient struct {
 	IPAMDNSProviderProfile         *IPAMDNSProviderProfileClient
 	IPAddrGroup                    *IPAddrGroupClient
 	JobEntry                       *JobEntryClient
+	L4PolicySet                    *L4PolicySetClient
 	LogControllerMapping           *LogControllerMappingClient
 	MicroService                   *MicroServiceClient
 	MicroServiceGroup              *MicroServiceGroupClient
@@ -126,6 +148,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.CloudProperties = NewCloudPropertiesClient(aviSession)
 	aviClient.CloudRuntime = NewCloudRuntimeClient(aviSession)
 	aviClient.Cluster = NewClusterClient(aviSession)
+	aviClient.ClusterCloudDetails = NewClusterCloudDetailsClient(aviSession)
 	aviClient.ControllerLicense = NewControllerLicenseClient(aviSession)
 	aviClient.ControllerProperties = NewControllerPropertiesClient(aviSession)
 	aviClient.CustomIPAMDNSProfile = NewCustomIPAMDNSProfileClient(aviSession)
@@ -133,6 +156,8 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.DebugController = NewDebugControllerClient(aviSession)
 	aviClient.DebugServiceEngine = NewDebugServiceEngineClient(aviSession)
 	aviClient.DebugVirtualService = NewDebugVirtualServiceClient(aviSession)
+	aviClient.ErrorPageBody = NewErrorPageBodyClient(aviSession)
+	aviClient.ErrorPageProfile = NewErrorPageProfileClient(aviSession)
 	aviClient.Gslb = NewGslbClient(aviSession)
 	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
 	aviClient.GslbService = NewGslbServiceClient(aviSession)
@@ -142,6 +167,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.IPAMDNSProviderProfile = NewIPAMDNSProviderProfileClient(aviSession)
 	aviClient.IPAddrGroup = NewIPAddrGroupClient(aviSession)
 	aviClient.JobEntry = NewJobEntryClient(aviSession)
+	aviClient.L4PolicySet = NewL4PolicySetClient(aviSession)
 	aviClient.LogControllerMapping = NewLogControllerMappingClient(aviSession)
 	aviClient.MicroService = NewMicroServiceClient(aviSession)
 	aviClient.MicroServiceGroup = NewMicroServiceGroupClient(aviSession)

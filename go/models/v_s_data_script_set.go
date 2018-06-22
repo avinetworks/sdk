@@ -7,6 +7,13 @@ package models
 // swagger:model VSDataScriptSet
 type VSDataScriptSet struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
+	// Creator name. Field introduced in 17.1.11,17.2.4.
+	CreatedBy string `json:"created_by,omitempty"`
+
 	// DataScripts to execute.
 	Datascript []*VSDataScript `json:"datascript,omitempty"`
 

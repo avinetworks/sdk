@@ -19,7 +19,7 @@ class ConfigConverter(object):
     """ Configuration conversion happens here """
 
     def __init__(self, parsed_output, enable_vs=False, version='17.1.1',
-                 input_folder_loc=None, tenant=None, cloud=None, vrf=None):
+                 input_folder_loc=None, tenant=None, cloud=None, vrf=None, segroup=None):
         """ Create Some common Objects over here """
         self.aviobj = AviConverter()
         self.parsed = parsed_output
@@ -31,6 +31,7 @@ class ConfigConverter(object):
         self.cloud = cloud
         self.vrf = vrf
         self.vrf_ref = None
+        self.segroup = segroup
 
         self.tenant_ref = self.common_utils.get_object_ref(
             self.tenant, 'tenant')
@@ -62,7 +63,9 @@ class ConfigConverter(object):
                               enable_vs=self.enable_vs,
                               cloud_ref=self.cloud_ref,
                               tenant=self.tenant,
-                              vrf_ref=self.vrf_ref
+                              vrf_ref=self.vrf_ref,
+                              segroup=self.segroup,
+                              cloud=self.cloud
                               )
 
         self.persistance = PersistanceConverter(parsed=self.parsed,
@@ -94,6 +97,10 @@ class ConfigConverter(object):
         data['httppolicyset'] = http_list
         data['VirtualService'] = vs_list
         data['Pool'].extend(cloned_pool_list)
+        root_inter_certs = self.ssl.crypto_chaingroup()
+        #Checking chaingroup present or not
+        if root_inter_certs:
+            data['SSLKeyAndCertificate'].extend(root_inter_certs)
 
         if self.tenant != 'admin':
             data['Tenant'] = [

@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi Network Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure network <key>\n- show network <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure network <key>\n- show network <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -579,7 +595,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -600,21 +616,33 @@
                     "type": "array", 
                     "description": "Placeholder for description of property configured_subnets of obj type Network field type str  type object"
                 }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "exclude_discovered_subnets": {
                     "type": "boolean", 
                     "description": "When selected, excludes all discovered subnets in this network from consideration for virtual service placement."
                 }, 
                 "vimgrnw_ref": {
+                    "readOnly": true, 
                     "type": "string", 
                     "description": " It is a reference to an object of type VIMgrNWRuntime."
                 }, 
                 "cloud_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "ip6_autocfg_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 }, 
                 "tenant_ref": {
                     "type": "string", 

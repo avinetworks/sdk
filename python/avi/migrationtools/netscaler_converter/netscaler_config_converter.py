@@ -18,6 +18,7 @@ from avi.migrationtools.netscaler_converter.profile_converter import \
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.netscaler_converter import ns_util as nsu
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 
 LOG = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ ns_util = NsUtil()
 def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
             prefix, vs_name_dict, profile_path, redirect, key_passphrase=None,
-            user_ignore={}, vs_level_status=False):
+            user_ignore={}, vs_level_status=False, vrf=None, segroup=None):
     """
     This functions defines that it convert service/servicegroup to pool
     Convert pool group of netscalar bind lb vserver configuration
@@ -90,18 +91,18 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         service_converter = ServiceConverter(
             tenant_name, cloud_name,tenant_ref, cloud_ref, object_merge_check,
             user_ignore, prefix)
-        service_converter.convert(ns_config_dict, avi_config, sys_dict)
+        service_converter.convert(ns_config_dict, avi_config, sys_dict, vrf)
 
         lbvs_converter = LbvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
         lbvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict,
-                               vs_name_dict)
+                               vs_name_dict, vrf, segroup)
         csvs_converter = CsvsConverter(
             tenant_name, cloud_name, tenant_ref, cloud_ref, object_merge_check,
             version, user_ignore, prefix)
         csvs_converter.convert(ns_config_dict, avi_config, vs_state, sys_dict,
-                               vs_name_dict)
+                               vs_name_dict, vrf, segroup)
         if object_merge_check:
             # Updating the reference for application persistence profile as we
             # are assigning reference at the time of profile creation
@@ -206,6 +207,7 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
                 print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
 
     except:
+        update_count('warning')
         LOG.error('Error in config conversion', exc_info=True)
 
     return avi_config

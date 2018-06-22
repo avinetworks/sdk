@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -494,10 +502,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -541,6 +557,35 @@
         }
     }, 
     "definitions": {
+        "NetworkProfileUnion": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "default": "PROTOCOL_TYPE_TCP_PROXY", 
+                    "type": "string", 
+                    "description": "Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY."
+                }, 
+                "tcp_proxy_profile": {
+                    "description": "Placeholder for description of property tcp_proxy_profile of obj type NetworkProfileUnion field type str  type object", 
+                    "$ref": "#/definitions/TCPProxyProfile"
+                }, 
+                "tcp_fast_path_profile": {
+                    "description": "Placeholder for description of property tcp_fast_path_profile of obj type NetworkProfileUnion field type str  type object", 
+                    "$ref": "#/definitions/TCPFastPathProfile"
+                }, 
+                "udp_fast_path_profile": {
+                    "description": "Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object", 
+                    "$ref": "#/definitions/UDPFastPathProfile"
+                }, 
+                "udp_proxy_profile": {
+                    "description": " Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/UDPProxyProfile"
+                }
+            }
+        }, 
         "UDPFastPathProfile": {
             "type": "object", 
             "properties": {
@@ -556,7 +601,7 @@
                 "session_idle_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-300.", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600.", 
                     "format": "int32"
                 }
             }
@@ -572,26 +617,32 @@
                     "description": "Placeholder for description of property profile of obj type NetworkProfile field type str  type object", 
                     "$ref": "#/definitions/NetworkProfileUnion"
                 }, 
-                "uuid": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "name": {
                     "type": "string", 
-                    "description": "UUID of the network profile."
+                    "description": "The name of the network profile."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "The name of the network profile."
+                    "description": "UUID of the network profile."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
                 }
             }
         }, 
@@ -612,6 +663,34 @@
                     "default": "CC_ALGO_NEW_RENO", 
                     "type": "string", 
                     "description": "Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP."
+                }, 
+                "reorder_threshold": {
+                    "type": "integer", 
+                    "description": "Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7.", 
+                    "format": "int32"
+                }, 
+                "max_syn_retransmissions": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.", 
+                    "format": "int32"
+                }, 
+                "max_retransmissions": {
+                    "default": 8, 
+                    "type": "integer", 
+                    "description": "The number of attempts at retransmit before closing the connection. Allowed values are 3-8.", 
+                    "format": "int32"
+                }, 
+                "use_interface_mtu": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Use the interface MTU to calculate the TCP max segment size."
+                }, 
+                "time_wait_delay": {
+                    "default": 2000, 
+                    "type": "integer", 
+                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.", 
+                    "format": "int32"
                 }, 
                 "nagles_algorithm": {
                     "type": "boolean", 
@@ -637,27 +716,9 @@
                     "type": "string", 
                     "description": "Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE."
                 }, 
-                "time_wait_delay": {
-                    "default": 2000, 
+                "min_rexmt_timeout": {
                     "type": "integer", 
-                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.", 
-                    "format": "int32"
-                }, 
-                "max_syn_retransmissions": {
-                    "default": 8, 
-                    "type": "integer", 
-                    "description": "The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.", 
-                    "format": "int32"
-                }, 
-                "max_retransmissions": {
-                    "default": 8, 
-                    "type": "integer", 
-                    "description": "The number of attempts at retransmit before closing the connection. Allowed values are 3-8.", 
-                    "format": "int32"
-                }, 
-                "ip_dscp": {
-                    "type": "integer", 
-                    "description": "Controls the value of the Differentiated Services Code Point field inserted in the IP header.  This has two options   Set to a specific value, or Pass Through, which uses the incoming DSCP value. Allowed values are 0-63. Special values are MAX - 'Passthrough'.", 
+                    "description": "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8.", 
                     "format": "int32"
                 }, 
                 "automatic": {
@@ -665,10 +726,10 @@
                     "type": "boolean", 
                     "description": "Dynamically pick the relevant parameters for connections."
                 }, 
-                "use_interface_mtu": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Use the interface MTU to calculate the TCP max segment size."
+                "ip_dscp": {
+                    "type": "integer", 
+                    "description": "Controls the value of the Differentiated Services Code Point field inserted in the IP header.  This has two options   Set to a specific value, or Pass Through, which uses the incoming DSCP value. Allowed values are 0-63. Special values are MAX - 'Passthrough'.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -691,28 +752,14 @@
                 }
             }
         }, 
-        "NetworkProfileUnion": {
-            "required": [
-                "type"
-            ], 
+        "UDPProxyProfile": {
             "type": "object", 
             "properties": {
-                "type": {
-                    "default": "PROTOCOL_TYPE_TCP_PROXY", 
-                    "type": "string", 
-                    "description": "Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH."
-                }, 
-                "tcp_proxy_profile": {
-                    "description": "Placeholder for description of property tcp_proxy_profile of obj type NetworkProfileUnion field type str  type object", 
-                    "$ref": "#/definitions/TCPProxyProfile"
-                }, 
-                "tcp_fast_path_profile": {
-                    "description": "Placeholder for description of property tcp_fast_path_profile of obj type NetworkProfileUnion field type str  type object", 
-                    "$ref": "#/definitions/TCPFastPathProfile"
-                }, 
-                "udp_fast_path_profile": {
-                    "description": "Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object", 
-                    "$ref": "#/definitions/UDPFastPathProfile"
+                "session_idle_timeout": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8.", 
+                    "format": "int32"
                 }
             }
         }, 

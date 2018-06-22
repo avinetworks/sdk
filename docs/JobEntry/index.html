@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi JobEntry Object API</h1>
-    <div class="app-desc">##CLI## ``` - show jobs ``` </div>
+    <div class="app-desc">CLI ``` - show job <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -253,14 +255,18 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "owner" : "aeiou",
     "expires_at" : "aeiou",
-    "cookie" : "aeiou",
     "obj_key" : "aeiou",
     "tenant_ref" : "aeiou",
-    "type" : "aeiou",
+    "name" : "aeiou",
+    "subjobs" : [ {
+      "metadata" : "aeiou",
+      "expires_at" : "aeiou",
+      "type" : "aeiou"
+    } ],
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -315,14 +321,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "owner" : "aeiou",
   "expires_at" : "aeiou",
-  "cookie" : "aeiou",
   "obj_key" : "aeiou",
   "tenant_ref" : "aeiou",
-  "type" : "aeiou",
+  "name" : "aeiou",
+  "subjobs" : [ {
+    "metadata" : "aeiou",
+    "expires_at" : "aeiou",
+    "type" : "aeiou"
+  } ],
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -429,7 +439,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -446,14 +458,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "owner" : "aeiou",
   "expires_at" : "aeiou",
-  "cookie" : "aeiou",
   "obj_key" : "aeiou",
   "tenant_ref" : "aeiou",
-  "type" : "aeiou",
+  "name" : "aeiou",
+  "subjobs" : [ {
+    "metadata" : "aeiou",
+    "expires_at" : "aeiou",
+    "type" : "aeiou"
+  } ],
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -519,14 +535,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "owner" : "aeiou",
   "expires_at" : "aeiou",
-  "cookie" : "aeiou",
   "obj_key" : "aeiou",
   "tenant_ref" : "aeiou",
-  "type" : "aeiou",
+  "name" : "aeiou",
+  "subjobs" : [ {
+    "metadata" : "aeiou",
+    "expires_at" : "aeiou",
+    "type" : "aeiou"
+  } ],
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -592,14 +612,18 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "owner" : "aeiou",
   "expires_at" : "aeiou",
-  "cookie" : "aeiou",
   "obj_key" : "aeiou",
   "tenant_ref" : "aeiou",
-  "type" : "aeiou",
+  "name" : "aeiou",
+  "subjobs" : [ {
+    "metadata" : "aeiou",
+    "expires_at" : "aeiou",
+    "type" : "aeiou"
+  } ],
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -627,17 +651,18 @@ font-style: italic;
   <ol>
     <li><a href="#JobEntry"><code>JobEntry</code></a></li>
     <li><a href="#JobEntryApiResponse"><code>JobEntryApiResponse</code></a></li>
+    <li><a href="#SubJob"><code>SubJob</code></a></li>
   </ol>
 
   <div class="model">
     <h3 class="field-label"><a name="JobEntry">JobEntry</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> cookie of JobEntry. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
 <div class="param">expires_at </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> expires_at of JobEntry. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.2. </div>
 <div class="param">obj_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> obj_key of JobEntry. </div>
-<div class="param">owner </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - JOB_OWNER_VIRTUALSERVICE, JOB_OWNER_SSL, JOB_OWNER_DEBUG_VIRTUALSERVICE, JOB_OWNER_CONSISTENCY_CHECKER, JOB_OWNER_TECHSUPPORT_UPLOADER, JOB_OWNER_PKI_PROFILE, JOB_OWNER_NETWORKSECURITYPOLICY, JOB_OWNER_SEGROUP, JOB_OWNER_POSTGRES_STATUS. </div>
+<div class="param">subjobs (optional)</div><div class="param-desc"><span class="param-type"><a href="#SubJob">array[SubJob]</a></span>  Field introduced in 18.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
@@ -647,6 +672,14 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#JobEntry">array[JobEntry]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SubJob">SubJob</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">expires_at </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.1. </div>
+<div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.1. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE, JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS, JOB_TYPE_VS_ROTATE_KEYS, JOB_TYPE_POOL_DNS, JOB_TYPE_GSLB_SERVICE, JOB_TYPE_APP_PERSISTENCE, JOB_TYPE_PROCESS_LOCKED_USER_ACCOUNTS, JOB_TYPE_SESSION, JOB_TYPE_AUTHTOKEN, JOB_TYPE_CLUSTER, JOB_TYPE_SE_SECURE_CHANNEL_CLEANUP. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

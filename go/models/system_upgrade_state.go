@@ -23,6 +23,12 @@ type SystemUpgradeState struct {
 	// Required: true
 	InProgress bool `json:"in_progress"`
 
+	// is set true, if patch upgrade requested by the user. Field introduced in 17.2.8.
+	IsPatch bool `json:"is_patch,omitempty"`
+
+	// type of patch upgrade. Field introduced in 17.2.8.
+	PatchType string `json:"patch_type,omitempty"`
+
 	// reason for upgrade failure. Field introduced in 17.1.1.
 	Reason string `json:"reason,omitempty"`
 

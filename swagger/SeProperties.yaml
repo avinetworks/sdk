@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure serviceengineproperties
         - show serviceengineproperties
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -391,7 +403,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -591,7 +603,7 @@ definitions:
         type: object
         properties:
             distribute_queues:
-                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.1.1."
+                description: "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
                 type: boolean
                 default: True
             distribute_vnics:
@@ -748,6 +760,11 @@ definitions:
     SeProperties:
         type: object
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             se_agent_properties:
                 description: "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object"
                 $ref: '#/definitions/SeAgentProperties'
@@ -859,10 +876,10 @@ definitions:
                 description: "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1."
                 type: boolean
             disable_gro:
-                description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.1."
+                description: "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.1."
                 type: boolean
             disable_tso:
-                description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.4,18.1.1."
+                description: "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.4."
                 type: boolean
             dos_profile:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
@@ -902,7 +919,7 @@ definitions:
                 default: 5
                 format: int32
             enable_hsm_log:
-                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.2.3."
+                description: "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3."
                 type: boolean
             feproxy_vips_enable_proxy_arp:
                 description: "Enable proxy ARP from Host interface for Front End  proxies."
@@ -919,7 +936,7 @@ definitions:
                 default: 100000000
                 format: int32
             flow_table_new_syn_max_entries:
-                description: "Maximum number of flow table entries that have not completed TCP three-way handshake yet."
+                description: "Deprecated. Field deprecated in 17.2.5."
                 type: integer
                 default: 40000
                 format: int32
@@ -934,6 +951,11 @@ definitions:
                 description: "Minimum response size content length to sample for client insights."
                 type: integer
                 default: 64
+                format: int32
+            lb_batch_push_frequency:
+                description: "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8."
+                type: integer
+                default: 5
                 format: int32
             lb_fail_max_time:
                 description: "Deprecated. Field deprecated in 17.1.1."
@@ -1157,9 +1179,19 @@ definitions:
                 default: 2000
                 format: int32
             se_dp_vnic_queue_stall_timeout:
-                description: "Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine asserts triggering a failover. Field introduced in 17.1.1."
+                description: "Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1."
                 type: integer
                 default: 10000
+                format: int32
+            se_dp_vnic_restart_on_queue_stall_count:
+                description: "Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1."
+                type: integer
+                default: 3
+                format: int32
+            se_dp_vnic_stall_se_restart_window:
+                description: "Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1."
+                type: integer
+                default: 3600
                 format: int32
             se_handle_interface_routes:
                 description: "Accept/ignore interface routes (i.e, no next hop IP address)."
@@ -1224,7 +1256,7 @@ definitions:
                 type: boolean
                 default: True
             tcp_syn_cache_max:
-                description: "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine."
+                description: "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5."
                 type: integer
                 default: 32768
                 format: int32

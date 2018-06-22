@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi DebugServiceEngine Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -478,6 +494,122 @@
         }
     }, 
     "definitions": {
+        "DebugServiceEngine": {
+            "type": "object", 
+            "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "seagent_debug": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeAgent"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "fault": {
+                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/DebugSeFault"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "name": {
+                    "default": "VM name unknown", 
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "flags": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeDataplane"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "cpu_shares": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeCpuShares"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "DebugSeFault": {
+            "type": "object", 
+            "properties": {
+                "se_shm_malloc_fail_frequency": {
+                    "type": "integer", 
+                    "description": "Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_malloc_fail_type": {
+                    "type": "integer", 
+                    "description": "Fail this SE malloc type. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_shm_malloc_fail_type": {
+                    "type": "integer", 
+                    "description": "Fail this SE SHM malloc type. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_waf_alloc_fail_frequency": {
+                    "type": "integer", 
+                    "description": "Fail SE WAF allocation at this frequency. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_malloc_fail_frequency": {
+                    "type": "integer", 
+                    "description": "Fail SE malloc type at this frequency. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_waf_learning_alloc_fail_frequency": {
+                    "type": "integer", 
+                    "description": "Fail SE WAF learning allocation at this frequency. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "DebugSeAgent": {
+            "required": [
+                "log_level", 
+                "sub_module", 
+                "trace_level"
+            ], 
+            "type": "object", 
+            "properties": {
+                "log_every_n": {
+                    "type": "integer", 
+                    "description": "Log every nth message. Field introduced in 17.2.7.", 
+                    "format": "int32"
+                }, 
+                "sub_module": {
+                    "type": "string", 
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG."
+                }, 
+                "log_level": {
+                    "type": "string", 
+                    "description": " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
+                }, 
+                "trace_level": {
+                    "type": "string", 
+                    "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
+                }
+            }
+        }, 
         "DebugServiceEngineApiResponse": {
             "required": [
                 "count", 
@@ -505,73 +637,7 @@
             "properties": {
                 "flag": {
                     "type": "string", 
-                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT."
-                }
-            }
-        }, 
-        "DebugServiceEngine": {
-            "type": "object", 
-            "properties": {
-                "flags": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeDataplane"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "name": {
-                    "default": "VM name unknown", 
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "seagent_debug": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeAgent"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "cpu_shares": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeCpuShares"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }, 
-        "DebugSeAgent": {
-            "required": [
-                "log_level", 
-                "sub_module", 
-                "trace_level"
-            ], 
-            "type": "object", 
-            "properties": {
-                "trace_level": {
-                    "type": "string", 
-                    "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
-                }, 
-                "log_level": {
-                    "type": "string", 
-                    "description": " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
-                }, 
-                "sub_module": {
-                    "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG."
+                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT."
                 }
             }
         }, 

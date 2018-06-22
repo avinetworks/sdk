@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi VIMgrHostRuntime Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- show vinfra host <key>\n- vinfra makehostaccessible  <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show vinfra host <key>\n- vinfra makehostaccessible  <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -506,10 +514,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -617,6 +633,11 @@
                     "type": "string", 
                     "description": "powerstate of VIMgrHostRuntime."
                 }, 
+                "se_success_cnt": {
+                    "type": "integer", 
+                    "description": "Number of se_success_cnt.", 
+                    "format": "int32"
+                }, 
                 "mem": {
                     "type": "integer", 
                     "description": "Number of mem.", 
@@ -658,28 +679,25 @@
                     "type": "string", 
                     "description": "quarantine_start_ts of VIMgrHostRuntime."
                 }, 
-                "num_cpu_cores": {
-                    "type": "integer", 
-                    "description": "Number of num_cpu_cores.", 
-                    "format": "int32"
-                }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "Name of the object."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "cntlr_accessible": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property cntlr_accessible of obj type VIMgrHostRuntime field type str  type boolean"
                 }, 
-                "se_success_cnt": {
+                "num_cpu_threads": {
                     "type": "integer", 
-                    "description": "Number of se_success_cnt.", 
+                    "description": "Number of num_cpu_threads.", 
                     "format": "int32"
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
                 }, 
                 "network_uuids": {
                     "items": {
@@ -701,6 +719,10 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
                 "cluster_name": {
                     "type": "string", 
                     "description": "cluster_name of VIMgrHostRuntime."
@@ -710,9 +732,9 @@
                     "description": "Number of num_cpu_packages.", 
                     "format": "int32"
                 }, 
-                "num_cpu_threads": {
+                "num_cpu_cores": {
                     "type": "integer", 
-                    "description": "Number of num_cpu_threads.", 
+                    "description": "Number of num_cpu_cores.", 
                     "format": "int32"
                 }, 
                 "se_fail_cnt": {

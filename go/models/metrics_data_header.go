@@ -47,10 +47,13 @@ type MetricsDataHeader struct {
 	// server ip port.
 	Server string `json:"server,omitempty"`
 
+	// Service Engine ref or UUID. Field introduced in 17.2.8.
+	ServiceengineUUID string `json:"serviceengine_uuid,omitempty"`
+
 	// statistics of the metric.
 	Statistics *MetricStatistics `json:"statistics,omitempty"`
 
-	// Tenant UUID.
+	// Tenant ref or UUID.
 	TenantUUID string `json:"tenant_uuid,omitempty"`
 
 	// units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, STRING, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD, MICROSECONDS, HEALTH.

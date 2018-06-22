@@ -16,6 +16,9 @@ type AnalyticsPolicy struct {
 	// Placeholder for description of property client_log_filters of obj type AnalyticsPolicy field type str  type object
 	ClientLogFilters []*ClientLogFilter `json:"client_log_filters,omitempty"`
 
+	// Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4.
+	Enabled bool `json:"enabled,omitempty"`
+
 	// Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object
 	FullClientLogs *FullClientLogs `json:"full_client_logs,omitempty"`
 

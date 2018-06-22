@@ -7,8 +7,9 @@ package models
 // swagger:model AutoScaleLaunchConfig
 type AutoScaleLaunchConfig struct {
 
-	// Placeholder for description of property aws of obj type AutoScaleLaunchConfig field type str  type object
-	Aws *AutoScaleAWSSettings `json:"aws,omitempty"`
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
 
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
@@ -32,6 +33,9 @@ type AutoScaleLaunchConfig struct {
 	// url
 	// Read Only: true
 	URL string `json:"url,omitempty"`
+
+	// If set to True, ServerAutoscalePolicy will use the autoscaling group (external_autoscaling_groups) from Pool to perform scale up and scale down. Pool should have single autoscaling group configured. Field introduced in 17.2.3.
+	UseExternalAsg bool `json:"use_external_asg,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`

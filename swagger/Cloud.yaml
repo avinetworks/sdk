@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure cloud <key>
         - show cloud <key>
@@ -50,7 +50,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -169,7 +175,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -731,21 +743,21 @@ definitions:
                 description: "The password Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_product:
-                description: "apic_product of APICConfiguration."
+                description: " Field deprecated in 17.2.10,18.1.2."
                 type: string
                 default: "ASP"
             apic_username:
                 description: "The username Avi Vantage will use when authenticating with APIC."
                 type: string
             apic_vendor:
-                description: "apic_vendor of APICConfiguration."
+                description: " Field deprecated in 17.2.10,18.1.2."
                 type: string
                 default: "Avi"
             avi_controller_password:
-                description: "The password APIC will use when authenticating with Avi Vantage."
+                description: "The password APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.10,18.1.2."
                 type: string
             avi_controller_username:
-                description: "The username APIC will use when authenticating with Avi Vantage."
+                description: "The username APIC will use when authenticating with Avi Vantage. Field deprecated in 17.2.10,18.1.2."
                 type: string
                 default: "admin"
             context_aware:
@@ -753,30 +765,24 @@ definitions:
                 type: string
                 default: "SINGLE_CONTEXT"
             deployment:
-                description: "deployment of APICConfiguration."
+                description: " Field deprecated in 17.2.10,18.1.2."
                 type: string
             managed_mode:
-                description: "Use Managed Mode for APIC Service Insertion. Field introduced in 17.1.1."
+                description: "Use Managed Mode for APIC Service Insertion. Field deprecated in 17.2.10,18.1.2. Field introduced in 17.1.1."
                 type: boolean
                 default: True
             minor:
-                description: "AVI Device Package Minor Version."
+                description: "AVI Device Package Minor Version. Field deprecated in 17.2.10,18.1.2."
                 type: string
                 default: "2"
+            se_tunnel_mode:
+                description: "Determines if DSR from secondary SE is active or not  False   DSR active. Please ensure that APIC BD's Endpoint Dataplane Learning is disabled True    Disable DSR unconditionally. . Field introduced in 17.2.10,18.1.2."
+                type: boolean
+                default: True
             version:
-                description: "AVI Device Package Version."
+                description: "AVI Device Package Version. Field deprecated in 17.2.10,18.1.2."
                 type: string
                 default: "1.0"
-    aws_encryption:
-        type: object
-        properties:
-            master_key:
-                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
-                type: string
-            mode:
-                description: "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
-                type: string
-                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsConfiguration:
         type: object
         required:
@@ -792,7 +798,7 @@ definitions:
                 format: int32
             ebs_encryption:
                 description: "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3."
-                $ref: '#/definitions/aws_encryption'
+                $ref: '#/definitions/AwsEncryption'
             free_elasticips:
                 description: "Free unused elastic IP addresses."
                 type: boolean
@@ -800,6 +806,9 @@ definitions:
             iam_assume_role:
                 description: "IAM assume role for cross-account access."
                 type: string
+            publish_vip_to_public_zone:
+                description: "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                type: boolean
             region:
                 description: "AWS region."
                 type: string
@@ -809,10 +818,13 @@ definitions:
                 type: boolean
             s3_encryption:
                 description: "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3."
-                $ref: '#/definitions/aws_encryption'
+                $ref: '#/definitions/AwsEncryption'
             secret_access_key:
                 description: "AWS secret access key."
                 type: string
+            sqs_encryption:
+                description: "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8."
+                $ref: '#/definitions/AwsEncryption'
             ttl:
                 description: "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3."
                 type: integer
@@ -833,12 +845,21 @@ definitions:
             wildcard_access:
                 description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 type: boolean
-                default: True
             zones:
                 description: "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/AwsZoneConfig'
+    AwsEncryption:
+        type: object
+        properties:
+            master_key:
+                description: "AWS KMS ARN ID of the master key for encryption. Field introduced in 17.2.3."
+                type: string
+            mode:
+                description: "AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3."
+                type: string
+                default: "AWS_ENCRYPTION_MODE_NONE"
     AwsZoneConfig:
         type: object
         required:
@@ -857,6 +878,11 @@ definitions:
     AzureConfiguration:
         type: object
         properties:
+            availability_zones:
+                description: "Availability zones to be used in Azure. Field introduced in 17.2.5."
+                type: array
+                items:
+                    type: string
             cloud_credentials_ref:
                 description: "Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1."
                 type: string
@@ -884,6 +910,9 @@ definitions:
                 description: "Use Azure managed disks for SE storage. Field introduced in 17.2.2."
                 type: boolean
                 default: True
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
+                type: boolean
     AzureNetworkInfo:
         type: object
         properties:
@@ -899,6 +928,11 @@ definitions:
             -   name
             -   vtype
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             apic_configuration:
                 description: "Placeholder for description of property apic_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/APICConfiguration'
@@ -937,11 +971,17 @@ definitions:
             enable_vip_static_routes:
                 description: "Use static routes for VIP side network resolution during VirtualService placement."
                 type: boolean
+            ip6_autocfg_enabled:
+                description: "Enable IPv6 auto configuration. Field introduced in 18.1.1."
+                type: boolean
             ipam_provider_ref:
                 description: "Ipam Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 type: string
+            license_tier:
+                description: "Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
             license_type:
-                description: "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS."
+                description: "If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH."
                 type: string
             linuxserver_configuration:
                 description: "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object"
@@ -1219,7 +1259,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -1638,7 +1678,7 @@ definitions:
                 type: boolean
                 default: True
             intf_sec_ips:
-                description: "If True, interface-secondary-ips method will be used for VIP association."
+                description: "If True, interface-secondary-ips method will be used for VIP association. Field deprecated in 18.1.2."
                 type: boolean
             keystone_host:
                 description: "Keystone's hostname or IP address. (Deprecated) Use auth_url instead."
@@ -1694,6 +1734,11 @@ definitions:
                 type: array
                 items:
                     type: string
+            provider_vip_networks:
+                description: "A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/OpenStackVipNetwork'
             region:
                 description: "Region name."
                 type: string
@@ -1714,7 +1759,7 @@ definitions:
                 type: boolean
                 default: True
             usable_network_uuids:
-                description: "A tenant can normally use its own networks and any networks shared with it. In addition, this field provides extra networks that are usable by all tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. . Field introduced in 17.1.1."
+                description: "Deprecated; please use provider_vip_networks. Field introduced in 17.1.1."
                 type: array
                 items:
                     type: string
@@ -1738,7 +1783,6 @@ definitions:
             wildcard_access:
                 description: "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
                 type: boolean
-                default: True
     OpenStackHypervisorProperties:
         type: object
         required:
@@ -1764,6 +1808,17 @@ definitions:
             os_role:
                 description: "Role name in OpenStack."
                 type: string
+    OpenStackVipNetwork:
+        type: object
+        properties:
+            os_network_uuid:
+                description: "Neutron network UUID. Field introduced in 18.1.2."
+                type: string
+            os_tenant_uuids:
+                description: "UUIDs of OpenStack tenants that should be allowed to use the specified Neutron network for VIPs. Use '*' to make this network available to all tenants. Field introduced in 18.1.2."
+                type: array
+                items:
+                    type: string
     OshiftDockerRegistryMetaData:
         type: object
         properties:
@@ -1786,6 +1841,10 @@ definitions:
                 type: integer
                 default: 60
                 format: int32
+            auto_assign_fqdn:
+                description: "Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8."
+                type: boolean
+                default: True
             avi_bridge_subnet:
                 description: "Avi Linux bridge subnet on OpenShift/K8s nodes."
                 $ref: '#/definitions/IpAddrPrefix'
@@ -1795,8 +1854,11 @@ definitions:
             client_tls_key_and_certificate_ref:
                 description: "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
+            cluster_tag:
+                description: "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5."
+                type: string
             container_port_match_http_service:
-                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP."
                 type: boolean
                 default: True
             coredump_directory:
@@ -1840,7 +1902,7 @@ definitions:
                 description: "Optional fleet remote endpoint if fleet is used for SE deployment."
                 type: string
             http_container_ports:
-                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80."
+                description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443."
                 type: array
                 items:
                     type: integer
@@ -1906,7 +1968,7 @@ definitions:
                 description: "Authorization token for service account instead of client certificate. One of client certificate or token is required."
                 type: string
             service_port_match_http_service:
-                description: "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Set either service_port_match_http_service or container_port_match_http_service."
+                description: "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11."
                 type: boolean
             shared_virtualservice_namespace:
                 description: "Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3."
@@ -2087,7 +2149,6 @@ definitions:
             host_os:
                 description: "Host OS distribution e.g. COREOS, UBUNTU, REDHAT. Field deprecated in 17.1.1."
                 type: string
-                default: "COREOS"
             password:
                 description: "Password for ssh and/or sudo. Field deprecated in 17.1.1."
                 type: string

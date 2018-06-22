@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi ApplicationProfile Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -254,7 +256,35 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "dns_service_profile" : {
+      "authoritative_domain_names" : [ "aeiou" ],
+      "dns_over_tcp_enabled" : true,
+      "negative_caching_ttl" : 123,
+      "error_response" : "aeiou",
+      "aaaa_empty_response" : true,
+      "edns" : true,
+      "num_dns_ip" : 123,
+      "ecs_stripping_enabled" : true,
+      "edns_client_subnet_prefix_len" : 123,
+      "ttl" : 123,
+      "domain_names" : [ "aeiou" ]
+    },
+    "tcp_app_profile" : {
+      "proxy_protocol_enabled" : true,
+      "proxy_protocol_version" : "aeiou"
+    },
+    "preserve_client_ip" : true,
+    "description" : "aeiou",
+    "preserve_client_port" : true,
+    "sip_service_profile" : {
+      "transaction_timeout" : 123
+    },
+    "type" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : 123456789,
     "http_profile" : {
+      "respond_with_100_continue" : true,
       "secure_cookie_enabled" : true,
       "server_side_redirect_to_https" : true,
       "compression_profile" : {
@@ -298,7 +328,14 @@ font-style: italic;
         "mime_types_list" : [ "aeiou" ],
         "enabled" : true,
         "mime_types_black_group_refs" : [ "aeiou" ],
+        "uri_non_cacheable" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
         "age_header" : true,
+        "ignore_request_cache_control" : true,
         "xcache_header" : true,
         "date_header" : true,
         "mime_types_group_refs" : [ "aeiou" ],
@@ -310,10 +347,12 @@ font-style: italic;
       "disable_keepalive_posts_msie6" : true,
       "max_bad_rps_cip_uri" : 123,
       "max_bad_rps_uri" : 123,
+      "http2_enabled" : true,
       "max_rps_unknown_cip" : 123,
       "client_max_body_size" : 123456789,
       "ssl_everywhere_enabled" : true,
       "max_rps_cip" : 123,
+      "max_response_headers_size" : 123,
       "client_header_timeout" : 123,
       "xff_enabled" : true,
       "x_forwarded_proto_enabled" : true,
@@ -343,19 +382,6 @@ font-style: italic;
       "hsts_max_age" : 123456789,
       "use_app_keepalive_timeout" : true,
       "websockets_enabled" : true
-    },
-    "dns_service_profile" : {
-      "authoritative_domain_names" : [ "aeiou" ],
-      "dns_over_tcp_enabled" : true,
-      "negative_caching_ttl" : 123,
-      "error_response" : "aeiou",
-      "aaaa_empty_response" : true,
-      "edns" : true,
-      "num_dns_ip" : 123,
-      "ecs_stripping_enabled" : true,
-      "edns_client_subnet_prefix_len" : 123,
-      "ttl" : 123,
-      "domain_names" : [ "aeiou" ]
     },
     "dos_rl_profile" : {
       "rl_profile" : {
@@ -411,17 +437,8 @@ font-style: italic;
         } ]
       }
     },
-    "tcp_app_profile" : {
-      "proxy_protocol_enabled" : true,
-      "proxy_protocol_version" : "aeiou"
-    },
-    "preserve_client_ip" : true,
     "tenant_ref" : "aeiou",
-    "name" : "aeiou",
-    "description" : "aeiou",
-    "type" : "aeiou",
-    "uuid" : "aeiou",
-    "url" : "aeiou"
+    "name" : "aeiou"
   } ]
 }</code></pre>
 
@@ -476,7 +493,35 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -520,7 +565,14 @@ font-style: italic;
       "mime_types_list" : [ "aeiou" ],
       "enabled" : true,
       "mime_types_black_group_refs" : [ "aeiou" ],
+      "uri_non_cacheable" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
       "age_header" : true,
+      "ignore_request_cache_control" : true,
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -532,10 +584,12 @@ font-style: italic;
     "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
+    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
     "ssl_everywhere_enabled" : true,
     "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
     "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
@@ -565,19 +619,6 @@ font-style: italic;
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
-  },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -633,17 +674,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -750,7 +782,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -767,7 +801,35 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -811,7 +873,14 @@ font-style: italic;
       "mime_types_list" : [ "aeiou" ],
       "enabled" : true,
       "mime_types_black_group_refs" : [ "aeiou" ],
+      "uri_non_cacheable" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
       "age_header" : true,
+      "ignore_request_cache_control" : true,
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -823,10 +892,12 @@ font-style: italic;
     "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
+    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
     "ssl_everywhere_enabled" : true,
     "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
     "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
@@ -856,19 +927,6 @@ font-style: italic;
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
-  },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -924,17 +982,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1000,7 +1049,35 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -1044,7 +1121,14 @@ font-style: italic;
       "mime_types_list" : [ "aeiou" ],
       "enabled" : true,
       "mime_types_black_group_refs" : [ "aeiou" ],
+      "uri_non_cacheable" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
       "age_header" : true,
+      "ignore_request_cache_control" : true,
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -1056,10 +1140,12 @@ font-style: italic;
     "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
+    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
     "ssl_everywhere_enabled" : true,
     "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
     "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
@@ -1089,19 +1175,6 @@ font-style: italic;
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
-  },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -1157,17 +1230,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1233,7 +1297,35 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "dns_service_profile" : {
+    "authoritative_domain_names" : [ "aeiou" ],
+    "dns_over_tcp_enabled" : true,
+    "negative_caching_ttl" : 123,
+    "error_response" : "aeiou",
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "num_dns_ip" : 123,
+    "ecs_stripping_enabled" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "domain_names" : [ "aeiou" ]
+  },
+  "tcp_app_profile" : {
+    "proxy_protocol_enabled" : true,
+    "proxy_protocol_version" : "aeiou"
+  },
+  "preserve_client_ip" : true,
+  "description" : "aeiou",
+  "preserve_client_port" : true,
+  "sip_service_profile" : {
+    "transaction_timeout" : 123
+  },
+  "type" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : 123456789,
   "http_profile" : {
+    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
     "server_side_redirect_to_https" : true,
     "compression_profile" : {
@@ -1277,7 +1369,14 @@ font-style: italic;
       "mime_types_list" : [ "aeiou" ],
       "enabled" : true,
       "mime_types_black_group_refs" : [ "aeiou" ],
+      "uri_non_cacheable" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
       "age_header" : true,
+      "ignore_request_cache_control" : true,
       "xcache_header" : true,
       "date_header" : true,
       "mime_types_group_refs" : [ "aeiou" ],
@@ -1289,10 +1388,12 @@ font-style: italic;
     "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
+    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
     "ssl_everywhere_enabled" : true,
     "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
     "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
@@ -1322,19 +1423,6 @@ font-style: italic;
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
     "websockets_enabled" : true
-  },
-  "dns_service_profile" : {
-    "authoritative_domain_names" : [ "aeiou" ],
-    "dns_over_tcp_enabled" : true,
-    "negative_caching_ttl" : 123,
-    "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
-    "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -1390,17 +1478,8 @@ font-style: italic;
       } ]
     }
   },
-  "tcp_app_profile" : {
-    "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
-  },
-  "preserve_client_ip" : true,
   "tenant_ref" : "aeiou",
-  "name" : "aeiou",
-  "description" : "aeiou",
-  "type" : "aeiou",
-  "uuid" : "aeiou",
-  "url" : "aeiou"
+  "name" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1493,11 +1572,13 @@ font-style: italic;
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#PathMatch"><code>PathMatch</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateLimiterProfile"><code>RateLimiterProfile</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#SSLClientCertificateAction"><code>SSLClientCertificateAction</code></a></li>
     <li><a href="#SSLClientRequestHeader"><code>SSLClientRequestHeader</code></a></li>
+    <li><a href="#SipServiceApplicationProfile"><code>SipServiceApplicationProfile</code></a></li>
     <li><a href="#TCPApplicationProfile"><code>TCPApplicationProfile</code></a></li>
     <li><a href="#URIParam"><code>URIParam</code></a></li>
     <li><a href="#URIParamToken"><code>URIParamToken</code></a></li>
@@ -1506,15 +1587,18 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ApplicationProfile">ApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">dns_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsServiceApplicationProfile">DnsServiceApplicationProfile</a></span> Specifies various DNS service related controls for virtual service. </div>
 <div class="param">dos_rl_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosRateLimitProfile">DosRateLimitProfile</a></span> Specifies various security related controls for virtual service. </div>
 <div class="param">http_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPApplicationProfile">HTTPApplicationProfile</a></span> Specifies the HTTP application proxy profile parameters. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the application profile. </div>
 <div class="param">preserve_client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing. </div>
+<div class="param">preserve_client_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7. </div>
+<div class="param">sip_service_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SipServiceApplicationProfile">SipServiceApplicationProfile</a></span> Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8. </div>
 <div class="param">tcp_app_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPApplicationProfile">TCPApplicationProfile</a></span> Specifies the TCP application proxy profile parameters. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the application profile. </div>
     </div>  <!-- field-items -->
@@ -1559,8 +1643,8 @@ font-style: italic;
 <div class="param">dns_over_tcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1. </div>
 <div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. </div>
 <div class="param">ecs_stripping_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable stripping of EDNS client subnet (ecs) option towards client if DNS service inserts ecs option in the DNS query towards upstream servers. Field introduced in 17.1.5. </div>
-<div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
-<div class="param">edns_client_subnet_prefix_len (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the ip address prefix length to use in the edns client subnet (ecs) option. When the incoming request does not have any ecs option and the prefix length is specified, we insert an ecs option in the request to upstream servers. Allowed values are 1-32. Field introduced in 17.1.3. format: int32</div>
+<div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
+<div class="param">edns_client_subnet_prefix_len (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3. format: int32</div>
 <div class="param">error_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Drop or respond to client when the DNS service encounters an error processing a client query. By default, such a request is dropped without any response, or passed through to a passthrough pool, if configured. When set to respond, an appropriate response is sent to client, e.g. NXDOMAIN response for non-existent records, empty NOERROR response for unsupported queries, etc. Enum options - DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE. </div>
 <div class="param">negative_caching_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record&#39;s minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4. format: int32</div>
 <div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
@@ -1606,6 +1690,7 @@ font-style: italic;
 <div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
 <div class="param">hsts_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. </div>
 <div class="param">hsts_max_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. format: int64</div>
+<div class="param">http2_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1. </div>
 <div class="param">http_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Client requests received via HTTP will be redirected to HTTPS. </div>
 <div class="param">httponly_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript. </div>
 <div class="param">keepalive_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send HTTP &#39;Keep-Alive&#39; header to the client. By default, the timeout specified in the &#39;Keep-Alive Timeout&#39; field will be used unless the &#39;Use App Keepalive Timeout&#39; flag is set, in which case the timeout sent by the application will be honored. </div>
@@ -1613,6 +1698,7 @@ font-style: italic;
 <div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_response_headers_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. format: int32</div>
 <div class="param">max_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_unknown_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
@@ -1620,6 +1706,7 @@ font-style: italic;
 <div class="param">max_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. </div>
 <div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. format: int32</div>
+<div class="param">respond_with_100_continue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8. </div>
 <div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
 <div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
 <div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. . </div>
@@ -1661,6 +1748,7 @@ font-style: italic;
 <div class="param">default_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting. format: int32</div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable HTTP object caching. </div>
 <div class="param">heuristic_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value. </div>
+<div class="param">ignore_request_cache_control (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore client&#39;s cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2. </div>
 <div class="param">max_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Max size, in bytes, of the cache.  The default, zero, indicates auto configuration. format: int64</div>
 <div class="param">max_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size of an object to store in the cache. format: int32</div>
 <div class="param">mime_types_black_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup. </div>
@@ -1669,14 +1757,15 @@ font-style: italic;
 <div class="param">mime_types_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. </div>
 <div class="param">min_object_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum size of an object to store in the cache. format: int32</div>
 <div class="param">query_cacheable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit. </div>
-<div class="param">xcache_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache. </div>
+<div class="param">uri_non_cacheable (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Non-cacheable URI configuration with match criteria. Field introduced in 18.1.2. </div>
+<div class="param">xcache_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Add an X-Cache header to content served from cache, which indicates to the client that the object was served from an intermediate cache. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1691,6 +1780,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
 <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1720,7 +1818,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
 <div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
@@ -1742,6 +1840,12 @@ font-style: italic;
     <div class="field-items">
       <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If this header exists, reset the connection. If the ssl variable is specified, add a header with this value. </div>
 <div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SipServiceApplicationProfile">SipServiceApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">transaction_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure serviceenginegroup <key>
         - show serviceenginegroup <key>
@@ -17,7 +17,7 @@ info:
         - clear serviceenginegroup <key>
         ```
 
-        ##Examples##
+        Examples
         - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE
           ```json
             {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}
@@ -62,7 +62,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -189,7 +195,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -546,7 +558,7 @@ definitions:
                 description: "IP address."
                 type: string
             type:
-                description: " Enum options - V4, DNS."
+                description: " Enum options - V4, DNS, V6."
                 type: string
     IpAddrPrefix:
         type: object
@@ -645,9 +657,18 @@ definitions:
         required:
             -   name
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             active_standby:
                 description: "Service Engines in active/standby mode for HA failover."
                 type: boolean
+            additional_config_memory:
+                description: "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1."
+                type: integer
+                format: int32
             advertise_backend_networks:
                 description: "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
                 type: boolean
@@ -658,6 +679,9 @@ definitions:
                 description: "In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED."
                 type: string
                 default: "PLACEMENT_ALGO_PACKED"
+            allow_burst:
+                description: "Allow SEs to be created using burst license. Field introduced in 17.2.5."
+                type: boolean
             archive_shm_limit:
                 description: "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3."
                 type: integer
@@ -667,7 +691,7 @@ definitions:
                 description: "SSL handshakes will be handled by dedicated SSL Threads."
                 type: boolean
             async_ssl_threads:
-                description: "Number of Async SSL threads per se_dp. Allowed values are 1-4."
+                description: "Number of Async SSL threads per se_dp. Allowed values are 1-16."
                 type: integer
                 default: 1
                 format: int32
@@ -681,7 +705,7 @@ definitions:
                     type: integer
                 format: int64
             auto_rebalance_criteria:
-                description: "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS. Field introduced in 17.2.3."
+                description: "Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3."
                 type: array
                 items:
                     type: string
@@ -733,6 +757,20 @@ definitions:
             description:
                 description: "User defined description for the object."
                 type: string
+            disable_csum_offloads:
+                description: "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1."
+                type: boolean
+            disable_gro:
+                description: "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1."
+                type: boolean
+                default: True
+            disable_se_memory_check:
+                description: "If set, disable the config memory check done in service engine. Field introduced in 18.1.2."
+                type: boolean
+            disable_tso:
+                description: "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1."
+                type: boolean
+                default: True
             disk_per_se:
                 description: "Amount of disk space for each of the Service Engine virtual machines."
                 type: integer
@@ -740,6 +778,15 @@ definitions:
                 format: int32
             distribute_load_active_standby:
                 description: "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
+                type: boolean
+            distribute_queues:
+                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8."
+                type: boolean
+            enable_hsm_priming:
+                description: "(This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1."
+                type: boolean
+            enable_multi_lb:
+                description: "Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2."
                 type: boolean
             enable_routing:
                 description: "Enable routing for this ServiceEngineGroup ."
@@ -769,6 +816,15 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/IpAddr'
+            flow_table_new_syn_max_entries:
+                description: "Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5."
+                type: integer
+                format: int32
+            free_list_size:
+                description: "Number of entries in the free list. Field introduced in 17.2.10."
+                type: integer
+                default: 1024
+                format: int32
             ha_mode:
                 description: "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
                 type: string
@@ -776,6 +832,11 @@ definitions:
             hardwaresecuritymodulegroup_ref:
                 description: " It is a reference to an object of type HardwareSecurityModuleGroup."
                 type: string
+            heap_minimum_config_memory:
+                description: "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2."
+                type: integer
+                default: 8
+                format: int32
             hm_on_standby:
                 description: "Enable active health monitoring from the standby SE for all placed virtual services."
                 type: boolean
@@ -817,6 +878,12 @@ definitions:
                 description: "Select core with least load for new flow."
                 type: boolean
                 default: True
+            license_tier:
+                description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                type: string
+            license_type:
+                description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
+                type: string
             log_disksz:
                 description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data."
                 type: integer
@@ -826,6 +893,16 @@ definitions:
                 description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
                 type: integer
                 default: 80
+                format: int32
+            max_public_ips_per_lb:
+                description: "Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2."
+                type: integer
+                default: 30
+                format: int32
+            max_rules_per_lb:
+                description: "Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2."
+                type: integer
+                default: 150
                 format: int32
             max_scaleout_per_vs:
                 description: "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64."
@@ -846,6 +923,11 @@ definitions:
                 description: "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 type: boolean
                 default: True
+            memory_for_config_update:
+                description: "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2."
+                type: integer
+                default: 15
+                format: int32
             memory_per_se:
                 description: "Amount of memory for each of the Service Engine virtual machines."
                 type: integer
@@ -864,6 +946,20 @@ definitions:
                 format: int32
             min_scaleout_per_vs:
                 description: "Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64."
+                type: integer
+                default: 1
+                format: int32
+            minimum_connection_memory:
+                description: "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2."
+                type: integer
+                default: 20
+                format: int32
+            minimum_required_config_memory:
+                description: "Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1."
+                type: integer
+                format: int32
+            n_log_streaming_threads:
+                description: "Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2."
                 type: integer
                 default: 1
                 format: int32
@@ -908,6 +1004,9 @@ definitions:
             realtime_se_metrics:
                 description: "Enable or disable real time SE metrics."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
+            se_bandwidth_type:
+                description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
+                type: string
             se_deprovision_delay:
                 description: "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600."
                 type: integer
@@ -948,8 +1047,11 @@ definitions:
                 type: integer
                 default: 1
                 format: int32
+            se_tracert_port_range:
+                description: "Traceroute port range. Field introduced in 17.2.8."
+                $ref: '#/definitions/PortRange'
             se_tunnel_mode:
-                description: "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field introduced in 17.1.1."
+                description: "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1."
                 type: integer
                 format: int32
             se_tunnel_udp_port:
@@ -958,7 +1060,7 @@ definitions:
                 default: 1550
                 format: int32
             se_udp_encap_ipc:
-                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header       0        Automatically determine based on hypervisor type    1        Use UDP encap unconditionally    ~[0,1]   Don't use UDP encap. Field introduced in 17.1.2."
+                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2."
                 type: integer
                 format: int32
             se_vs_hb_max_pkts_in_batch:
@@ -971,11 +1073,24 @@ definitions:
                 type: integer
                 default: 256
                 format: int32
+            self_se_election:
+                description: "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2."
+                type: boolean
+            service_ip6_subnets:
+                description: "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
             service_ip_subnets:
                 description: "Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1."
                 type: array
                 items:
                     $ref: '#/definitions/IpAddrPrefix'
+            shm_minimum_config_memory:
+                description: "Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2."
+                type: integer
+                default: 4
+                format: int32
             significant_log_throttle:
                 description: "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
@@ -1023,6 +1138,9 @@ definitions:
                 type: integer
                 default: 1
                 format: int32
+            vip_asg:
+                description: "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 18.1.2."
+                $ref: '#/definitions/VipAutoscaleGroup'
             vs_host_redundancy:
                 description: "Ensure primary and secondary Service Engines are deployed on different physical hosts."
                 type: boolean
@@ -1041,6 +1159,21 @@ definitions:
                 description: "Time to wait for the scaled out SE to become ready before marking the scaleout done."
                 type: integer
                 default: 30
+                format: int32
+            vss_placement:
+                description: "Parameters to place Virtual Services on only a subset of the cores of an SE. Field introduced in 17.2.5."
+                $ref: '#/definitions/VssPlacement'
+            vss_placement_enabled:
+                description: "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1."
+                type: boolean
+            waf_learning_interval:
+                description: "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2."
+                type: integer
+                default: 10
+                format: int32
+            waf_learning_memory:
+                description: "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field introduced in 18.1.2."
+                type: integer
                 format: int32
             waf_mempool:
                 description: "Enable memory pool for WAF. Field introduced in 17.2.3."
@@ -1094,3 +1227,60 @@ definitions:
             include:
                 description: "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
                 type: boolean
+    VipAutoscaleConfiguration:
+        type: object
+        properties:
+            zones:
+                description: "This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 18.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/VipAutoscaleZones'
+    VipAutoscaleGroup:
+        type: object
+        properties:
+            configuration:
+                description: " Field introduced in 18.1.2."
+                $ref: '#/definitions/VipAutoscaleConfiguration'
+            policy:
+                description: " Field introduced in 18.1.2."
+                $ref: '#/definitions/VipAutoscalePolicy'
+    VipAutoscalePolicy:
+        type: object
+        properties:
+            max_size:
+                description: "The maximum size of the group. Field introduced in 18.1.2."
+                type: integer
+                default: 5
+                format: int32
+            min_size:
+                description: "The minimum size of the group. Field introduced in 18.1.2."
+                type: integer
+                default: 1
+                format: int32
+            suspend:
+                description: "When set, scaling is suspended. Field introduced in 18.1.2."
+                type: boolean
+    VipAutoscaleZones:
+        type: object
+        properties:
+            availability_zone:
+                description: " Field introduced in 18.1.2."
+                type: string
+            subnet_uuids:
+                description: " Field introduced in 18.1.2."
+                type: array
+                items:
+                    type: string
+    VssPlacement:
+        type: object
+        properties:
+            core_nonaffinity:
+                description: "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5."
+                type: integer
+                default: 2
+                format: int32
+            num_subcores:
+                description: "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5."
+                type: integer
+                default: 4
+                format: int32

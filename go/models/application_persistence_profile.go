@@ -7,6 +7,10 @@ package models
 // swagger:model ApplicationPersistenceProfile
 type ApplicationPersistenceProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Specifies the Application Cookie Persistence profile parameters.
 	AppCookiePersistenceProfile *AppCookiePersistenceProfile `json:"app_cookie_persistence_profile,omitempty"`
 
@@ -23,7 +27,6 @@ type ApplicationPersistenceProfile struct {
 	IPPersistenceProfile *IPPersistenceProfile `json:"ip_persistence_profile,omitempty"`
 
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.
-	// Read Only: true
 	IsFederated bool `json:"is_federated,omitempty"`
 
 	// A user-friendly name for the persistence profile.

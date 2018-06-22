@@ -7,6 +7,10 @@ package models
 // swagger:model AnalyticsProfile
 type AnalyticsProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000.
 	ApdexResponseThreshold int32 `json:"apdex_response_threshold,omitempty"`
 
@@ -70,10 +74,13 @@ type AnalyticsProfile struct {
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
 
+	// Virtual Service (VS) metrics are processed only when there is live data traffic on the VS. In case, VS is idle for a period of time as specified by ondemand_metrics_idle_timeout then metrics processing is suspended for that VS. Field introduced in 18.1.1.
+	DisableOndemandMetrics bool `json:"disable_ondemand_metrics,omitempty"`
+
 	// Disable node (service engine) level analytics forvs metrics.
 	DisableSeAnalytics bool `json:"disable_se_analytics,omitempty"`
 
-	// Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers.
+	// Disable analytics on backend servers. This may be desired in container environment when there are large number of ephemeral servers. Additionally, no healthscore of servers is computed when server analytics is disabled.
 	DisableServerAnalytics bool `json:"disable_server_analytics,omitempty"`
 
 	// Exclude client closed connection before an HTTP request could be completed from being classified as an error.
@@ -200,11 +207,17 @@ type AnalyticsProfile struct {
 	// Required: true
 	Name string `json:"name"`
 
+	// This flag sets the time duration of no live data traffic after which Virtual Service metrics processing is suspended. It is applicable only when disable_ondemand_metrics is set to false. Field introduced in 18.1.1.
+	OndemandMetricsIDLETimeout int32 `json:"ondemand_metrics_idle_timeout,omitempty"`
+
 	// List of HTTP status code ranges to be excluded from being classified as an error.
 	Ranges []*HttpstatusRange `json:"ranges,omitempty"`
 
 	// Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX.
 	RespCodeBlock []string `json:"resp_code_block,omitempty"`
+
+	// Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10, 18.1.2.
+	SensitiveLogProfile *SensitiveLogProfile `json:"sensitive_log_profile,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

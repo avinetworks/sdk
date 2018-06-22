@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi APICLifsRuntime Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- show apic lifs\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- show apic lifs\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -541,10 +557,6 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property auto_allocated of obj type APICLifsRuntime field type str  type boolean"
                 }, 
-                "network": {
-                    "type": "string", 
-                    "description": "network of APICLifsRuntime."
-                }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
@@ -562,9 +574,9 @@
                     "type": "string", 
                     "description": "Unique object identifier of the object."
                 }, 
-                "lif_label": {
+                "name": {
                     "type": "string", 
-                    "description": "lif_label of APICLifsRuntime."
+                    "description": "Name of the object."
                 }, 
                 "multi_vrf": {
                     "type": "boolean", 
@@ -591,16 +603,26 @@
                     "type": "array", 
                     "description": "Unique object identifier of transaction."
                 }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
+                "lif_label": {
+                    "type": "string", 
+                    "description": "lif_label of APICLifsRuntime."
+                }, 
+                "network": {
+                    "type": "string", 
+                    "description": "network of APICLifsRuntime."
+                }, 
                 "cifs": {
                     "items": {
                         "$ref": "#/definitions/Cif"
                     }, 
                     "type": "array", 
                     "description": "Placeholder for description of property cifs of obj type APICLifsRuntime field type str  type object"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
                 }
             }
         }

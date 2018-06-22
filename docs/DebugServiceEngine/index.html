@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi DebugServiceEngine Object API</h1>
-    <div class="app-desc">##CLI## ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
+    <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -256,19 +258,29 @@ font-style: italic;
     "seagent_debug" : [ {
       "trace_level" : "aeiou",
       "log_level" : "aeiou",
-      "sub_module" : "aeiou"
+      "sub_module" : "aeiou",
+      "log_every_n" : 123
     } ],
     "tenant_ref" : "aeiou",
     "flags" : [ {
       "flag" : "aeiou"
     } ],
     "name" : "aeiou",
+    "fault" : {
+      "se_waf_learning_alloc_fail_frequency" : 123,
+      "se_malloc_fail_type" : 123,
+      "se_malloc_fail_frequency" : 123,
+      "se_waf_alloc_fail_frequency" : 123,
+      "se_shm_malloc_fail_type" : 123,
+      "se_shm_malloc_fail_frequency" : 123
+    },
     "uuid" : "aeiou",
     "cpu_shares" : [ {
       "shares" : 123,
       "cpu" : 123
     } ],
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -326,19 +338,29 @@ font-style: italic;
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
-    "sub_module" : "aeiou"
+    "sub_module" : "aeiou",
+    "log_every_n" : 123
   } ],
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "fault" : {
+    "se_waf_learning_alloc_fail_frequency" : 123,
+    "se_malloc_fail_type" : 123,
+    "se_malloc_fail_frequency" : 123,
+    "se_waf_alloc_fail_frequency" : 123,
+    "se_shm_malloc_fail_type" : 123,
+    "se_shm_malloc_fail_frequency" : 123
+  },
   "uuid" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
   } ],
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -445,7 +467,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -465,19 +489,29 @@ font-style: italic;
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
-    "sub_module" : "aeiou"
+    "sub_module" : "aeiou",
+    "log_every_n" : 123
   } ],
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "fault" : {
+    "se_waf_learning_alloc_fail_frequency" : 123,
+    "se_malloc_fail_type" : 123,
+    "se_malloc_fail_frequency" : 123,
+    "se_waf_alloc_fail_frequency" : 123,
+    "se_shm_malloc_fail_type" : 123,
+    "se_shm_malloc_fail_frequency" : 123
+  },
   "uuid" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
   } ],
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -546,19 +580,29 @@ font-style: italic;
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
-    "sub_module" : "aeiou"
+    "sub_module" : "aeiou",
+    "log_every_n" : 123
   } ],
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "fault" : {
+    "se_waf_learning_alloc_fail_frequency" : 123,
+    "se_malloc_fail_type" : 123,
+    "se_malloc_fail_frequency" : 123,
+    "se_waf_alloc_fail_frequency" : 123,
+    "se_shm_malloc_fail_type" : 123,
+    "se_shm_malloc_fail_frequency" : 123
+  },
   "uuid" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
   } ],
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -627,19 +671,29 @@ font-style: italic;
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
-    "sub_module" : "aeiou"
+    "sub_module" : "aeiou",
+    "log_every_n" : 123
   } ],
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "fault" : {
+    "se_waf_learning_alloc_fail_frequency" : 123,
+    "se_malloc_fail_type" : 123,
+    "se_malloc_fail_frequency" : 123,
+    "se_waf_alloc_fail_frequency" : 123,
+    "se_shm_malloc_fail_type" : 123,
+    "se_shm_malloc_fail_frequency" : 123
+  },
   "uuid" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
   } ],
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -668,6 +722,7 @@ font-style: italic;
     <li><a href="#DebugSeAgent"><code>DebugSeAgent</code></a></li>
     <li><a href="#DebugSeCpuShares"><code>DebugSeCpuShares</code></a></li>
     <li><a href="#DebugSeDataplane"><code>DebugSeDataplane</code></a></li>
+    <li><a href="#DebugSeFault"><code>DebugSeFault</code></a></li>
     <li><a href="#DebugServiceEngine"><code>DebugServiceEngine</code></a></li>
     <li><a href="#DebugServiceEngineApiResponse"><code>DebugServiceEngineApiResponse</code></a></li>
   </ol>
@@ -675,8 +730,9 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeAgent">DebugSeAgent</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">log_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR. </div>
-<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG. </div>
+      <div class="param">log_every_n (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Log every nth message. Field introduced in 17.2.7. format: int32</div>
+<div class="param">log_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR. </div>
+<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG. </div>
 <div class="param">trace_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL. </div>
     </div>  <!-- field-items -->
   </div>
@@ -690,13 +746,26 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeDataplane">DebugSeDataplane</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DebugSeFault">DebugSeFault</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">se_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE malloc type. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_shm_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_shm_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE SHM malloc type. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_waf_alloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE WAF allocation at this frequency. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_waf_learning_alloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE WAF learning allocation at this frequency. Field introduced in 18.1.2. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="DebugServiceEngine">DebugServiceEngine</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
+<div class="param">fault (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeFault">DebugSeFault</a></span> Params for SE fault injection. Field introduced in 18.1.2. </div>
 <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeDataplane">array[DebugSeDataplane]</a></span> Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">seagent_debug (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeAgent">array[DebugSeAgent]</a></span> Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object </div>

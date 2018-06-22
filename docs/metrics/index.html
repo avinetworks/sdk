@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc"></div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -297,7 +297,11 @@ font-style: italic;
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">name (optional)</div>
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">name (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
@@ -432,12 +436,14 @@ font-style: italic;
         "server" : "aeiou",
         "obj_id" : "aeiou",
         "obj_id_type" : "aeiou",
+        "serviceengine_uuid" : "aeiou",
         "derivation_data" : {
           "skip_backend_derivation" : true,
           "include_derivation_metrics" : true,
           "derivation_fn" : "aeiou",
           "exclude_derived_metric" : true,
           "metric_ids" : "aeiou",
+          "second_order_derivation" : true,
           "join_tables" : "aeiou",
           "result_has_additional_fields" : true
         },
@@ -518,6 +524,14 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+    </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
@@ -563,12 +577,14 @@ font-style: italic;
       "server" : "aeiou",
       "obj_id" : "aeiou",
       "obj_id_type" : "aeiou",
+      "serviceengine_uuid" : "aeiou",
       "derivation_data" : {
         "skip_backend_derivation" : true,
         "include_derivation_metrics" : true,
         "derivation_fn" : "aeiou",
         "exclude_derived_metric" : true,
         "metric_ids" : "aeiou",
+        "second_order_derivation" : true,
         "join_tables" : "aeiou",
         "result_has_additional_fields" : true
       },
@@ -644,7 +660,11 @@ font-style: italic;
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">name (optional)</div>
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">name (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
@@ -779,12 +799,14 @@ font-style: italic;
         "server" : "aeiou",
         "obj_id" : "aeiou",
         "obj_id_type" : "aeiou",
+        "serviceengine_uuid" : "aeiou",
         "derivation_data" : {
           "skip_backend_derivation" : true,
           "include_derivation_metrics" : true,
           "derivation_fn" : "aeiou",
           "exclude_derived_metric" : true,
           "metric_ids" : "aeiou",
+          "second_order_derivation" : true,
           "join_tables" : "aeiou",
           "result_has_additional_fields" : true
         },
@@ -865,6 +887,14 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+    </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
@@ -910,12 +940,14 @@ font-style: italic;
       "server" : "aeiou",
       "obj_id" : "aeiou",
       "obj_id_type" : "aeiou",
+      "serviceengine_uuid" : "aeiou",
       "derivation_data" : {
         "skip_backend_derivation" : true,
         "include_derivation_metrics" : true,
         "derivation_fn" : "aeiou",
         "exclude_derived_metric" : true,
         "metric_ids" : "aeiou",
+        "second_order_derivation" : true,
         "join_tables" : "aeiou",
         "result_has_additional_fields" : true
       },
@@ -991,7 +1023,11 @@ font-style: italic;
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">name (optional)</div>
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">name (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
@@ -1126,12 +1162,14 @@ font-style: italic;
         "server" : "aeiou",
         "obj_id" : "aeiou",
         "obj_id_type" : "aeiou",
+        "serviceengine_uuid" : "aeiou",
         "derivation_data" : {
           "skip_backend_derivation" : true,
           "include_derivation_metrics" : true,
           "derivation_fn" : "aeiou",
           "exclude_derived_metric" : true,
           "metric_ids" : "aeiou",
+          "second_order_derivation" : true,
           "join_tables" : "aeiou",
           "result_has_additional_fields" : true
         },
@@ -1212,6 +1250,14 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+    </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
@@ -1257,12 +1303,14 @@ font-style: italic;
       "server" : "aeiou",
       "obj_id" : "aeiou",
       "obj_id_type" : "aeiou",
+      "serviceengine_uuid" : "aeiou",
       "derivation_data" : {
         "skip_backend_derivation" : true,
         "include_derivation_metrics" : true,
         "derivation_fn" : "aeiou",
         "exclude_derived_metric" : true,
         "metric_ids" : "aeiou",
+        "second_order_derivation" : true,
         "join_tables" : "aeiou",
         "result_has_additional_fields" : true
       },
@@ -1338,7 +1386,11 @@ font-style: italic;
 
     <h3 class="field-label">Query parameters</h3>
     <div class="field-items">
-      <div class="param">name (optional)</div>
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">name (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">aggregate_entity (optional)</div>
 
@@ -1473,12 +1525,14 @@ font-style: italic;
         "server" : "aeiou",
         "obj_id" : "aeiou",
         "obj_id_type" : "aeiou",
+        "serviceengine_uuid" : "aeiou",
         "derivation_data" : {
           "skip_backend_derivation" : true,
           "include_derivation_metrics" : true,
           "derivation_fn" : "aeiou",
           "exclude_derived_metric" : true,
           "metric_ids" : "aeiou",
+          "second_order_derivation" : true,
           "join_tables" : "aeiou",
           "result_has_additional_fields" : true
         },
@@ -1559,6 +1613,14 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+    </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
@@ -1604,12 +1666,14 @@ font-style: italic;
       "server" : "aeiou",
       "obj_id" : "aeiou",
       "obj_id_type" : "aeiou",
+      "serviceengine_uuid" : "aeiou",
       "derivation_data" : {
         "skip_backend_derivation" : true,
         "include_derivation_metrics" : true,
         "derivation_fn" : "aeiou",
         "exclude_derived_metric" : true,
         "metric_ids" : "aeiou",
+        "second_order_derivation" : true,
         "join_tables" : "aeiou",
         "result_has_additional_fields" : true
       },
@@ -1759,8 +1823,9 @@ font-style: italic;
 <div class="param">pool_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> pool_id for the metric. </div>
 <div class="param">priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property priority of obj type MetricsDataHeader field type str  type boolean </div>
 <div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> server ip port. </div>
+<div class="param">serviceengine_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine ref or UUID. Field introduced in 17.2.8. </div>
 <div class="param">statistics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricStatistics">MetricStatistics</a></span> statistics of the metric. </div>
-<div class="param">tenant_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant UUID. </div>
+<div class="param">tenant_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant ref or UUID. </div>
 <div class="param">units (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, STRING, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD, MICROSECONDS, HEALTH. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1774,12 +1839,13 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsDerivationData">MetricsDerivationData</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">derivation_fn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_ALIAS, SUM_FIRST_N_DIVIDE_BY_LAST, SUM_BW_GAUGE, AVG_GET_POST_OTHER_LATENCY, APPDEX_ON_3_BUCKETS, APPDEX_ON_4_BUCKETS, SUM_GAUGE, SUM_N_METRICS, APPDEX_ON_5_BUCKETS, APPDEX_ON_6_BUCKETS, APPDEX_ON_CONNECTIONS, APPDEX_ON_2_BUCKETS, AVG_CLIENT_LATENCY, AVG_APPLICATION_LATENCY, MIN_N_METRICS, SUM_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, L4_CONNECTION_ERROR_PERCENTAGE, AVG_L4_CLIENT_LATENCY, CHECK_FOR_TRANSITIONS, SUBSTRACT_ALL_FROM_FIRST, AVG_N_OVER_TIME_PERIOD, AVG_NAVIGATION_TIMING, AVG_RUM_VISITS, PCT_SSL_ERROR_CONNECTIONS, AVG_RESPONSE_TIME, SUM_RATES_FIRST_N_DIVIDE_BY_LAST, SUM_RATES_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, PCT_CACHE_METRICS, SUM_FIRST_N_DIVIDE_BY_SECLAST_EXCL_ERROR_RATE, SUM_FIRST_N_SUBSTRACT_LAST, AVG_POOL_METRICS, AVG_POOL_BW, AVG_BY_SUBSTRACT_ALL_FROM_FIRST_OVER_TIME, AVG_RSA_PFS, EVAL_FN, SSL_PROTOCOL_INDICATOR, SUM_FIRST_N_DIVIDE_BY_SECLAST_RATE_EXCL_ERROR_RATE, SUBSTRACT_ALL_FROM_FIRST_WITH_FLOOR_ZERO, AVAILABLE_CAPACITY, CONNECTION_SATURATION, AVG_RSA_NON_PFS, SSL_HANDSHAKES_NONPFS, DYN_MEM_USAGE, FIRST_DIVIDE_BY_DIFFERENCE_OF_SECOND_AND_THIRD. </div>
+      <div class="param">derivation_fn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_ALIAS, SUM_FIRST_N_DIVIDE_BY_LAST, SUM_BW_GAUGE, AVG_GET_POST_OTHER_LATENCY, APPDEX_ON_3_BUCKETS, APPDEX_ON_4_BUCKETS, SUM_GAUGE, SUM_N_METRICS, APPDEX_ON_5_BUCKETS, APPDEX_ON_6_BUCKETS, APPDEX_ON_CONNECTIONS, APPDEX_ON_2_BUCKETS, AVG_CLIENT_LATENCY, AVG_APPLICATION_LATENCY, MIN_N_METRICS, SUM_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, L4_CONNECTION_ERROR_PERCENTAGE, AVG_L4_CLIENT_LATENCY, CHECK_FOR_TRANSITIONS, SUBSTRACT_ALL_FROM_FIRST, AVG_N_OVER_TIME_PERIOD, AVG_NAVIGATION_TIMING, AVG_RUM_VISITS, PCT_SSL_ERROR_CONNECTIONS, AVG_RESPONSE_TIME, SUM_RATES_FIRST_N_DIVIDE_BY_LAST, SUM_RATES_FIRST_N_DIVIDE_BY_LAST_PERCENTAGE, PCT_CACHE_METRICS, SUM_FIRST_N_DIVIDE_BY_SECLAST_EXCL_ERROR_RATE, SUM_FIRST_N_SUBSTRACT_LAST, AVG_POOL_METRICS, AVG_POOL_BW, AVG_BY_SUBSTRACT_ALL_FROM_FIRST_OVER_TIME, AVG_RSA_PFS, EVAL_FN, SSL_PROTOCOL_INDICATOR, SUM_FIRST_N_DIVIDE_BY_SECLAST_RATE_EXCL_ERROR_RATE, SUBSTRACT_ALL_FROM_FIRST_WITH_FLOOR_ZERO, AVAILABLE_CAPACITY, CONNECTION_SATURATION, AVG_RSA_NON_PFS, SSL_HANDSHAKES_NONPFS, DYN_MEM_USAGE, FIRST_DIVIDE_BY_DIFFERENCE_OF_SECOND_AND_THIRD, DIVIDE_BY_100. </div>
 <div class="param">exclude_derived_metric (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property exclude_derived_metric of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">include_derivation_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property include_derivation_metrics of obj type MetricsDerivationData field type str  type boolean </div>
 <div class="param">join_tables (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - METRICS_TABLE_NONE, METRICS_TABLE_ANOMALY, METRICS_TABLE_CONTROLLER_STATS, METRICS_TABLE_HEALTH_SCORE, METRICS_TABLE_SE_STATS, METRICS_TABLE_VSERVER_L4_SERVER, METRICS_TABLE_VSERVER_L4_CLIENT, METRICS_TABLE_VSERVER_L7_CLIENT, METRICS_TABLE_VSERVER_L7_SERVER, METRICS_TABLE_RUM_PREAGG_BROWSER, METRICS_TABLE_RUM_PREAGG_COUNTRY, METRICS_TABLE_RUM_PREAGG_DEVTYPE, METRICS_TABLE_RUM_PREAGG_LANG, METRICS_TABLE_RUM_PREAGG_OS, METRICS_TABLE_RUM_PREAGG_URL, METRICS_TABLE_RUM_ANALYTICS, METRICS_TABLE_VM_STATS, METRICS_TABLE_RESOURCE_TIMING_DIM, METRICS_TABLE_RESOURCE_TIMING_BLOB, METRICS_TABLE_RUM_PREAGG_IPGROUP, METRICS_TABLE_DOS_ANALYTICS, METRICS_TABLE_APP_INSIGHTS, METRICS_TABLE_VSERVER_DNS, METRICS_TABLE_SERVER_DNS, METRICS_TABLE_SERVICE_INSIGHTS, METRICS_TABLE_SOURCE_INSIGHTS, METRICS_TABLE_TENANT_STATS, METRICS_TABLE_SE_IF_STATS, METRICS_TABLE_USER_METRICS, METRICS_TABLE_WAF_GROUP, METRICS_TABLE_WAF_TAG, METRICS_TABLE_WAF_RULE, METRICS_TABLE_PROCESS_STATS. </div>
 <div class="param">metric_ids </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_ids of MetricsDerivationData. </div>
 <div class="param">result_has_additional_fields (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property result_has_additional_fields of obj type MetricsDerivationData field type str  type boolean </div>
+<div class="param">second_order_derivation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.2.8. </div>
 <div class="param">skip_backend_derivation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property skip_backend_derivation of obj type MetricsDerivationData field type str  type boolean </div>
     </div>  <!-- field-items -->
   </div>
@@ -1821,15 +1887,15 @@ font-style: italic;
 <div class="param">dimension_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limit the number of dimensions in the result. specially useful in case of URLs. format: int32</div>
 <div class="param">dimension_sampling (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. perform sampling for dimensional metrics. zero means auto. format: int32</div>
 <div class="param">dimensions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Group by dimensions for the metrics. Eg. For results by single dimension use dimensions&#x3D;browser. For results by browser and operating system use dimensions&#x3D;browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN. </div>
-<div class="param">entity_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the entity. Eg. entity_uuid&#x3D;virtualservice-0-1. </div>
+<div class="param">entity_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the entity. Eg. entity_uuid&#x3D;virtualservice-0-1. </div>
 <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query. </div>
 <div class="param">include_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Resolve UUID to names. </div>
 <div class="param">include_statistics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include metrics statistics with the request. </div>
 <div class="param">ipgroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IPGROUP filter Eg. UUID of the IP group. </div>
 <div class="param">lang (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Language filter. Eg. lang&#x3D;english. </div>
 <div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max number of metric samples per metric requestedEg. limit&#x3D;100 implies return only 100 samples. format: int32</div>
-<div class="param">metric_entity </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Describes the entity type for which metrics is requested. Eg. &amp;metric_entity&#x3D;VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div>
-<div class="param">metric_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Comma separated list of metrics requested.Eg. metric_id&#x3D;l4_client.avg_bandwidth,l7_client.avg_total_responses. </div>
+<div class="param">metric_entity (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Describes the entity type for which metrics is requested. Eg. &amp;metric_entity&#x3D;VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div>
+<div class="param">metric_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Comma separated list of metrics requested.Eg. metric_id&#x3D;l4_client.avg_bandwidth,l7_client.avg_total_responses. </div>
 <div class="param">microservice_levels (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> number of levels of microservices map. format: int32</div>
 <div class="param">obj_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> serverip port of the pool server. </div>
 <div class="param">order_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series. </div>
@@ -1861,15 +1927,15 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="MetricsQueryResponse">MetricsQueryResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">entity_uuid </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of entity. </div>
+      <div class="param">entity_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of entity. </div>
 <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> returns the ID specified in the query. </div>
-<div class="param">limit </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of limit. format: int32</div>
-<div class="param">metric_entity </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div>
-<div class="param">metric_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_id of MetricsQueryResponse. </div>
+<div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of limit. format: int32</div>
+<div class="param">metric_entity (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div>
+<div class="param">metric_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> metric_id of MetricsQueryResponse. </div>
 <div class="param">series (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsDataSeries">array[MetricsDataSeries]</a></span> Placeholder for description of property series of obj type MetricsQueryResponse field type str  type object </div>
-<div class="param">start </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> start of MetricsQueryResponse. </div>
-<div class="param">step </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of step. format: int32</div>
-<div class="param">stop </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> stop of MetricsQueryResponse. </div>
+<div class="param">start (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> start of MetricsQueryResponse. </div>
+<div class="param">step (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of step. format: int32</div>
+<div class="param">stop (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> stop of MetricsQueryResponse. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
     </div>  <!-- field-items -->
   </div>

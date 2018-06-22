@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi VIMgrHostRuntime Object API</h1>
-    <div class="app-desc">##CLI## ``` - show vinfra host <key> - vinfra makehostaccessible  <key> ``` </div>
+    <div class="app-desc">CLI ``` - show vinfra host <key> - vinfra makehostaccessible  <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -274,6 +276,7 @@ font-style: italic;
     "type" : "aeiou",
     "uuid" : "aeiou",
     "powerstate" : "aeiou",
+    "_last_modified" : 123456789,
     "se_fail_cnt" : 123,
     "quarantine_start_ts" : "aeiou",
     "mem" : 123456789,
@@ -362,6 +365,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "powerstate" : "aeiou",
+  "_last_modified" : 123456789,
   "se_fail_cnt" : 123,
   "quarantine_start_ts" : "aeiou",
   "mem" : 123456789,
@@ -486,7 +490,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -519,6 +525,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "powerstate" : "aeiou",
+  "_last_modified" : 123456789,
   "se_fail_cnt" : 123,
   "quarantine_start_ts" : "aeiou",
   "mem" : 123456789,
@@ -676,6 +683,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "powerstate" : "aeiou",
+  "_last_modified" : 123456789,
   "se_fail_cnt" : 123,
   "quarantine_start_ts" : "aeiou",
   "mem" : 123456789,
@@ -775,6 +783,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "powerstate" : "aeiou",
+  "_last_modified" : 123456789,
   "se_fail_cnt" : 123,
   "quarantine_start_ts" : "aeiou",
   "mem" : 123456789,
@@ -837,7 +846,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VIMgrHostRuntime">VIMgrHostRuntime</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">cluster_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> cluster_name of VIMgrHostRuntime. </div>
 <div class="param">cluster_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of cluster. </div>
 <div class="param">cntlr_accessible (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property cntlr_accessible of obj type VIMgrHostRuntime field type str  type boolean </div>

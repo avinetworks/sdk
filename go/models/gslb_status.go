@@ -16,6 +16,12 @@ type GslbStatus struct {
 	// Name of the object.
 	Name string `json:"name,omitempty"`
 
+	//  Field introduced in 17.2.5.
+	Site *GslbSiteRuntime `json:"site,omitempty"`
+
+	//  Field introduced in 17.2.5.
+	ThirdPartySite *GslbThirdPartySiteRuntime `json:"third_party_site,omitempty"`
+
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`
 }

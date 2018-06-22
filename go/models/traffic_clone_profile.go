@@ -7,11 +7,14 @@ package models
 // swagger:model TrafficCloneProfile
 type TrafficCloneProfile struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	CloneServers []*CloneServer `json:"clone_servers,omitempty"`
 
 	//  It is a reference to an object of type Cloud. Field introduced in 17.1.1.
-	// Read Only: true
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// Name for the Traffic Clone Profile. Field introduced in 17.1.1.

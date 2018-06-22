@@ -7,6 +7,10 @@ package models
 // swagger:model VrfContext
 type VrfContext struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Bgp Local and Peer Info.
 	BgpProfile *BgpProfile `json:"bgp_profile,omitempty"`
 
@@ -33,7 +37,6 @@ type VrfContext struct {
 	StaticRoutes []*StaticRoute `json:"static_routes,omitempty"`
 
 	// Placeholder for description of property system_default of obj type VrfContext field type str  type boolean
-	// Read Only: true
 	SystemDefault bool `json:"system_default,omitempty"`
 
 	//  It is a reference to an object of type Tenant.

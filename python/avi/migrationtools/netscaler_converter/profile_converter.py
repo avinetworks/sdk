@@ -11,6 +11,7 @@ from avi.migrationtools.netscaler_converter.ns_constants \
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
 from avi.migrationtools.netscaler_converter.ns_util import NsUtil
+from avi.migrationtools.avi_migration_utils import update_count
 
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
@@ -408,6 +409,7 @@ class ProfileConverter(object):
                     full_set_ssl_service_command, conv_status, ssl_profile)
                 LOG.debug("SSL profile conversion completed")
             except:
+                update_count('error')
                 LOG.error("Error in conversion of SSL Profile", exc_info=True)
             msg = "SSL Service conversion started..."
             ns_util.print_progress_bar(self.progressbar_count, self.total_size,
@@ -446,6 +448,7 @@ class ProfileConverter(object):
             LOG.debug("Conversion completed successfully for httpProfile: %s" %
                       prof_name)
         except:
+            update_count('error')
             LOG.error("Error in convertion of httpProfile", exc_info=True)
 
         return app_profile
@@ -483,6 +486,7 @@ class ProfileConverter(object):
                 "tenant_ref": self.tenant_ref
             }
         except:
+            update_count('error')
             LOG.error("Error in convertion of tcpProfile", exc_info=True)
         return ntwk_profile
 

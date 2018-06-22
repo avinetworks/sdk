@@ -7,6 +7,10 @@ package models
 // swagger:model Network
 type Network struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
 
@@ -18,6 +22,9 @@ type Network struct {
 
 	// When selected, excludes all discovered subnets in this network from consideration for virtual service placement.
 	ExcludeDiscoveredSubnets bool `json:"exclude_discovered_subnets,omitempty"`
+
+	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
+	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
 
 	// Name of the object.
 	// Required: true
@@ -40,6 +47,7 @@ type Network struct {
 	VcenterDvs bool `json:"vcenter_dvs,omitempty"`
 
 	//  It is a reference to an object of type VIMgrNWRuntime.
+	// Read Only: true
 	VimgrnwRef string `json:"vimgrnw_ref,omitempty"`
 
 	//  It is a reference to an object of type VrfContext.

@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -377,10 +385,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -638,7 +654,7 @@
                 }, 
                 "edns_client_subnet_prefix_len": {
                     "type": "integer", 
-                    "description": "Specifies the ip address prefix length to use in the edns client subnet (ecs) option. When the incoming request does not have any ecs option and the prefix length is specified, we insert an ecs option in the request to upstream servers. Allowed values are 1-32. Field introduced in 17.1.3.", 
+                    "description": "Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "ecs_stripping_enabled": {
@@ -690,7 +706,7 @@
                 }, 
                 "edns": {
                     "type": "boolean", 
-                    "description": "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
+                    "description": "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
                 }
             }
         }, 
@@ -794,33 +810,31 @@
                 }
             }
         }, 
-        "URIParam": {
+        "ApplicationProfileApiResponse": {
             "required": [
-                "type"
+                "count", 
+                "results"
             ], 
             "type": "object", 
             "properties": {
-                "tokens": {
-                    "items": {
-                        "$ref": "#/definitions/URIParamToken"
-                    }, 
-                    "type": "array", 
-                    "description": "Token config either for the URI components or a constant string."
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
                 }, 
-                "type": {
-                    "type": "string", 
-                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ApplicationProfile"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
         "HttpCacheConfig": {
             "type": "object", 
             "properties": {
-                "min_object_size": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Minimum size of an object to store in the cache.", 
-                    "format": "int32"
+                "uri_non_cacheable": {
+                    "description": "Non-cacheable URI configuration with match criteria. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/PathMatch"
                 }, 
                 "query_cacheable": {
                     "type": "boolean", 
@@ -829,7 +843,44 @@
                 "xcache_header": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Add an X-Cache header to content served from cache, which indicates to the client that the object was server from an intermediate cache."
+                    "description": "Add an X-Cache header to content served from cache, which indicates to the client that the object was served from an intermediate cache."
+                }, 
+                "mime_types_list": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*."
+                }, 
+                "default_expire": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting.", 
+                    "format": "int32"
+                }, 
+                "max_cache_size": {
+                    "type": "integer", 
+                    "description": "Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.", 
+                    "format": "int64"
+                }, 
+                "date_header": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache."
+                }, 
+                "aggressive": {
+                    "type": "boolean", 
+                    "description": "Enable/disable caching objects without Cache-Control headers."
+                }, 
+                "ignore_request_cache_control": {
+                    "type": "boolean", 
+                    "description": "Ignore client's cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2."
+                }, 
+                "min_object_size": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Minimum size of an object to store in the cache.", 
+                    "format": "int32"
                 }, 
                 "mime_types_black_group_refs": {
                     "items": {
@@ -843,40 +894,20 @@
                     "type": "boolean", 
                     "description": "Add an Age header to content served from cache, which indicates to the client the number of seconds the object has been in the cache."
                 }, 
-                "mime_types_list": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Whitelist of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*."
-                }, 
                 "enabled": {
                     "type": "boolean", 
                     "description": "Enable/disable HTTP object caching."
-                }, 
-                "default_expire": {
-                    "default": 600, 
-                    "type": "integer", 
-                    "description": "Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting.", 
-                    "format": "int32"
-                }, 
-                "max_cache_size": {
-                    "type": "integer", 
-                    "description": "Max size, in bytes, of the cache.  The default, zero, indicates auto configuration.", 
-                    "format": "int64"
                 }, 
                 "heuristic_expire": {
                     "type": "boolean", 
                     "description": "If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value."
                 }, 
-                "date_header": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache."
-                }, 
-                "aggressive": {
-                    "type": "boolean", 
-                    "description": "Enable/disable caching objects without Cache-Control headers."
+                "mime_types_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup."
                 }, 
                 "max_object_size": {
                     "default": 4194304, 
@@ -890,13 +921,6 @@
                     }, 
                     "type": "array", 
                     "description": "Blacklist of non-cacheable mime types."
-                }, 
-                "mime_types_group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Whitelist string group of cacheable mime types. If both Cacheable Mime Types string list and string group are empty, this defaults to */*. It is a reference to an object of type StringGroup."
                 }
             }
         }, 
@@ -926,22 +950,35 @@
                 }
             }
         }, 
-        "ApplicationProfileApiResponse": {
+        "PathMatch": {
             "required": [
-                "count", 
-                "results"
+                "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
                 }, 
-                "results": {
+                "string_group_refs": {
                     "items": {
-                        "$ref": "#/definitions/ApplicationProfile"
+                        "type": "string"
                     }, 
-                    "type": "array"
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values."
+                }, 
+                "match_criteria": {
+                    "default": "CONTAINS", 
+                    "type": "string", 
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
                 }
             }
         }, 
@@ -1025,6 +1062,36 @@
                 }
             }
         }, 
+        "URIParam": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tokens": {
+                    "items": {
+                        "$ref": "#/definitions/URIParamToken"
+                    }, 
+                    "type": "array", 
+                    "description": "Token config either for the URI components or a constant string."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                }
+            }
+        }, 
+        "SipServiceApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "transaction_timeout": {
+                    "default": 32, 
+                    "type": "integer", 
+                    "description": "SIP transaction timeout in seconds. Allowed values are 16-512. Field introduced in 17.2.8.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "IpAddr": {
             "required": [
                 "addr", 
@@ -1034,7 +1101,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -1043,6 +1110,9 @@
             }
         }, 
         "RateProfile": {
+            "required": [
+                "action"
+            ], 
             "type": "object", 
             "properties": {
                 "count": {
@@ -1138,13 +1208,19 @@
             ], 
             "type": "object", 
             "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
                 "tcp_app_profile": {
                     "description": "Specifies the TCP application proxy profile parameters.", 
                     "$ref": "#/definitions/TCPApplicationProfile"
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
-                    "description": "The name of the application profile."
+                    "description": "UUID of the application profile."
                 }, 
                 "dns_service_profile": {
                     "description": "Specifies various DNS service related controls for virtual service.", 
@@ -1162,9 +1238,17 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "sip_service_profile": {
+                    "description": "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/SipServiceApplicationProfile"
+                }, 
                 "http_profile": {
                     "description": "Specifies the HTTP application proxy profile parameters.", 
                     "$ref": "#/definitions/HTTPApplicationProfile"
+                }, 
+                "preserve_client_port": {
+                    "type": "boolean", 
+                    "description": "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -1177,11 +1261,11 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL."
+                    "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP."
                 }, 
-                "uuid": {
+                "name": {
                     "type": "string", 
-                    "description": "UUID of the application profile."
+                    "description": "The name of the application profile."
                 }
             }
         }, 
@@ -1230,6 +1314,10 @@
                     "type": "boolean", 
                     "description": "Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. ."
                 }, 
+                "http2_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1."
+                }, 
                 "enable_request_body_buffering": {
                     "type": "boolean", 
                     "description": "Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size."
@@ -1246,6 +1334,10 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "The client's original IP address is inserted into an HTTP request header sent to the server.  Servers may use this address for logging or other purposes, rather than Avi's source NAT address used in the Avi to server IP connection."
+                }, 
+                "allow_dots_in_header_name": {
+                    "type": "boolean", 
+                    "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
                 }, 
                 "disable_keepalive_posts_msie6": {
                     "default": true, 
@@ -1332,9 +1424,10 @@
                     "description": "Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
-                "allow_dots_in_header_name": {
+                "respond_with_100_continue": {
+                    "default": true, 
                     "type": "boolean", 
-                    "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
+                    "description": "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 }, 
                 "client_header_timeout": {
                     "default": 10000, 
@@ -1351,6 +1444,12 @@
                 "secure_cookie_enabled": {
                     "type": "boolean", 
                     "description": "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set."
+                }, 
+                "max_response_headers_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.", 
+                    "format": "int32"
                 }, 
                 "xff_alternate_name": {
                     "default": "X-Forwarded-For", 

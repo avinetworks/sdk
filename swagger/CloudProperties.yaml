@@ -2,14 +2,14 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.4'
+    version: '18.1.2'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
         email: support@avinetworks.com
     description: |
-        ##CLI##
+        CLI
         ```
         - configure cloudproperties
         - show cloudproperties
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -358,7 +370,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -477,7 +495,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -711,6 +735,10 @@ definitions:
             id:
                 description: "id of CloudFlavor."
                 type: string
+            max_ip6s_per_nic:
+                description: "Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1."
+                type: integer
+                format: int32
             max_ips_per_nic:
                 description: "Number of max_ips_per_nic."
                 type: integer
@@ -781,6 +809,11 @@ definitions:
     CloudProperties:
         type: object
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             cc_props:
                 description: "CloudConnector properties."
                 $ref: '#/definitions/CC_Properties'
@@ -822,6 +855,11 @@ definitions:
     ControllerProperties:
         type: object
         properties:
+            _last_modified:
+                description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                readOnly: True
+                type: integer
+                format: int64
             allow_ip_forwarding:
                 description: " Field introduced in 17.1.1."
                 type: boolean
@@ -853,8 +891,23 @@ definitions:
                 description: "Use Ansible for SE creation in baremetal. Field introduced in 17.2.2."
                 type: boolean
                 default: True
+            cleanup_expired_authtoken_timeout_period:
+                description: "Period for auth token cleanup job. Field introduced in 18.1.1."
+                type: integer
+                default: 60
+                format: int32
+            cleanup_sessions_timeout_period:
+                description: "Period for sessions cleanup job. Field introduced in 18.1.1."
+                type: integer
+                default: 60
+                format: int32
             cluster_ip_gratuitous_arp_period:
-                description: "Number of cluster_ip_gratuitous_arp_period."
+                description: "Period for cluster ip gratuitous arp job."
+                type: integer
+                default: 60
+                format: int32
+            consistency_check_timeout_period:
+                description: "Period for consistency check job. Field introduced in 18.1.1."
                 type: integer
                 default: 60
                 format: int32
@@ -869,7 +922,7 @@ definitions:
                 default: 360
                 format: int32
             dns_refresh_period:
-                description: "Number of dns_refresh_period."
+                description: "Period for refresh pool and gslb DNS job."
                 type: integer
                 default: 60
                 format: int32
@@ -877,6 +930,10 @@ definitions:
                 description: "Number of dummy."
                 type: integer
                 format: int32
+            enable_memory_balancer:
+                description: "Enable/Disable Memory Balancer. Field introduced in 17.2.8."
+                type: boolean
+                default: True
             fatal_error_lease_time:
                 description: "Number of fatal_error_lease_time."
                 type: integer
@@ -903,13 +960,23 @@ definitions:
                 default: 3
                 format: int32
             persistence_key_rotate_period:
-                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
+                description: "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
                 default: 60
                 format: int32
             portal_token:
                 description: "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
                 type: string
+            process_locked_useraccounts_timeout_period:
+                description: "Period for process locked user accounts job. Field introduced in 18.1.1."
+                type: integer
+                default: 1
+                format: int32
+            process_pki_profile_timeout_period:
+                description: "Period for process PKI profile job. Field introduced in 18.1.1."
+                type: integer
+                default: 1440
+                format: int32
             query_host_fail:
                 description: "Number of query_host_fail."
                 type: integer
@@ -939,7 +1006,7 @@ definitions:
                 default: 120
                 format: int32
             secure_channel_cleanup_timeout:
-                description: "Number of secure_channel_cleanup_timeout."
+                description: "Period for secure channel cleanup job."
                 type: integer
                 default: 60
                 format: int32
@@ -1007,7 +1074,7 @@ definitions:
                 default: 60
                 format: int32
             vs_key_rotate_period:
-                description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
+                description: "Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
                 default: 60
                 format: int32

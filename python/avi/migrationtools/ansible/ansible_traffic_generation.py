@@ -6,7 +6,8 @@ from avi.migrationtools.ansible.ansible_constant import \
      NAME, TAGS, AVI_VIRTUALSERVICE, SERVER, VALIDATE_CERT, USER, REQEST_TYPE,
      IP_ADDRESS, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
      LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, ENABLE_NETSCALER,
-     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS)
+     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS,
+     ARP_STATE, BIGIP_VIRTUAL_ADDRESS)
 
 
 class TrafficGen(object):
@@ -46,6 +47,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = True
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Enable Avi virtualservice: %s" % avi_enable[NAME]
         if test_vip:
             test_vip = test_vip.split('.')[:3]
@@ -68,6 +72,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Update Avi virtualservice vip: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
@@ -85,6 +92,9 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[ENABLE] = False
+        vip = avi_enable.pop('vip')
+        vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
+        avi_enable['vsvip_ref'] = vip_ref
         name = "Disable Avi virtualservice: %s" % avi_enable[NAME]
         ansible_dict[TASKS].append(
             {
@@ -130,6 +140,33 @@ class F5TrafficGen(TrafficGen):
                 TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
             })
 
+    def create_virtual_address_disable(self, f5_dict, ansible_dict):
+        f5_values = deepcopy(f5_dict)
+        f5_values[STATE] = DISABLE
+        f5_values[ARP_STATE] = DISABLE
+        name = "Disable F5 virtualaddress: %s" % f5_values[NAME]
+        ansible_dict[TASKS].append(
+            {
+                NAME: name,
+                BIGIP_VIRTUAL_ADDRESS: f5_values,
+                DELEGETE_TO: LOCAL_HOST,
+                TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE]
+            })
+
+    def create_virtual_address_enable(self, f5_dict, ansible_dict):
+        f5_values = deepcopy(f5_dict)
+        f5_values[STATE] = ENABLE
+        f5_values[ARP_STATE] = ENABLE
+        name = "Enable F5 virtualaddress: %s" % f5_values[NAME]
+        ansible_dict[TASKS].append(
+            {
+                NAME: name,
+                BIGIP_VIRTUAL_ADDRESS: f5_values,
+                DELEGETE_TO: LOCAL_HOST,
+                TAGS: [DISABLE_F5, f5_dict[NAME], VIRTUALSERVICE],
+                WHEN: RESULT
+            })
+
     def create_ansible_enable(self, f5_dict, ansible_dict):
         """
         This function is used to enable the f5 virtualservice.
@@ -153,7 +190,7 @@ class F5TrafficGen(TrafficGen):
                 WHEN: RESULT
             })
 
-    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None):
+    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None, verify=False):
         """
         This function is used for getting status for F5 virtualservice.
         :param vs_name: virtualservice name
@@ -165,7 +202,7 @@ class F5TrafficGen(TrafficGen):
         if self.prefix:
             vs_name = self.remove_prefix(vs_name)
         url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
-        status = requests.get(url, verify=False, auth=(username, password))
+        status = requests.get(url, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if status.pop(ENABLE, None):
             return True
@@ -234,7 +271,7 @@ class NetscalerTrafficGen(TrafficGen):
             }
         )
 
-    def get_status_vs(self, vs_name, f5server, username, password):
+    def get_status_vs(self, vs_name, f5server, username, password, verify=False):
         """
                 This function is used for getting status for F5 virtualservice.
                 :param vs_name: virtualservice name
@@ -254,7 +291,7 @@ class NetscalerTrafficGen(TrafficGen):
             vs_name = self.ns_vs_name_dict['csvs'][vs_name]
             api = 'http://%s/nitro/v1/config/csvserver/%s' % (
                 f5server, vs_name)
-        status = requests.get(api, verify=False, auth=(username, password))
+        status = requests.get(api, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if 'lbvserver' in status and status['lbvserver'][0]['curstate'] == 'UP':
             return True

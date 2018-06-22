@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Pool Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  ##Examples## - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
+    <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,7 +256,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
 
@@ -332,6 +334,7 @@ font-style: italic;
     } ],
     "use_service_port" : true,
     "enabled" : true,
+    "_last_modified" : 123456789,
     "a_pool" : "aeiou",
     "server_reselect" : {
       "svr_resp_code" : {
@@ -375,6 +378,7 @@ font-style: italic;
       "resolve_server_by_dns" : true,
       "discovered_networks" : [ {
         "subnet" : [ "" ],
+        "subnet6" : [ "" ],
         "network_ref" : "aeiou"
       } ],
       "discovered_network_ref" : [ "aeiou" ],
@@ -551,6 +555,7 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
+  "_last_modified" : 123456789,
   "a_pool" : "aeiou",
   "server_reselect" : {
     "svr_resp_code" : {
@@ -594,6 +599,7 @@ font-style: italic;
     "resolve_server_by_dns" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
+      "subnet6" : [ "" ],
       "network_ref" : "aeiou"
     } ],
     "discovered_network_ref" : [ "aeiou" ],
@@ -989,7 +995,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -1059,6 +1067,7 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
+  "_last_modified" : 123456789,
   "a_pool" : "aeiou",
   "server_reselect" : {
     "svr_resp_code" : {
@@ -1102,6 +1111,7 @@ font-style: italic;
     "resolve_server_by_dns" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
+      "subnet6" : [ "" ],
       "network_ref" : "aeiou"
     } ],
     "discovered_network_ref" : [ "aeiou" ],
@@ -1497,6 +1507,7 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
+  "_last_modified" : 123456789,
   "a_pool" : "aeiou",
   "server_reselect" : {
     "svr_resp_code" : {
@@ -1540,6 +1551,7 @@ font-style: italic;
     "resolve_server_by_dns" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
+      "subnet6" : [ "" ],
       "network_ref" : "aeiou"
     } ],
     "discovered_network_ref" : [ "aeiou" ],
@@ -1779,6 +1791,7 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
+  "_last_modified" : 123456789,
   "a_pool" : "aeiou",
   "server_reselect" : {
     "svr_resp_code" : {
@@ -1822,6 +1835,7 @@ font-style: italic;
     "resolve_server_by_dns" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
+      "subnet6" : [ "" ],
       "network_ref" : "aeiou"
     } ],
     "discovered_network_ref" : [ "aeiou" ],
@@ -2668,12 +2682,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">network_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Discovered network for this IP. It is a reference to an object of type Network. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Discovered subnet for this IP. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Discovered IPv6 subnet for this IP. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="FailAction">FailAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">backup_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionBackupPool">FailActionBackupPool</a></span> Backup Pool when pool experiences a failure. </div>
+      <div class="param">backup_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionBackupPool">FailActionBackupPool</a></span> Backup Pool when pool experiences a failure. Field deprecated in 18.1.2. </div>
 <div class="param">local_rsp (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionHTTPLocalResponse">FailActionHTTPLocalResponse</a></span> Local response to HTTP requests when pool experiences a failure. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailActionHTTPRedirect">FailActionHTTPRedirect</a></span> URL to redirect HTTP requests to when pool experiences a failure. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL. </div>
@@ -2767,7 +2782,7 @@ font-style: italic;
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2801,15 +2816,16 @@ font-style: italic;
     <h3 class="field-label"><a name="PlacementNetwork">PlacementNetwork</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">network_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Network. </div>
-<div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property subnet of obj type PlacementNetwork field type str  type object </div>
+<div class="param">subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property subnet of obj type PlacementNetwork field type str  type object </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Pool">Pool</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">a_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. </div>
-<div class="param">ab_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#AbPool">AbPool</a></span> A/B pool configuration. </div>
-<div class="param">ab_priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Priority of this pool in a A-B pool pair. Internally used. format: int32</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">a_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. Field deprecated in 18.1.2. </div>
+<div class="param">ab_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#AbPool">AbPool</a></span> A/B pool configuration. Field deprecated in 18.1.2. </div>
+<div class="param">ab_priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2. format: int32</div>
 <div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Synchronize Cisco APIC EPG members with pool servers. </div>
 <div class="param">application_persistence_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile. </div>
 <div class="param">autoscale_launch_config_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig. </div>
@@ -2826,7 +2842,7 @@ font-style: italic;
 <div class="param">domain_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled. </div>
 <div class="param">east_west (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inherited config from VirtualService. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors. </div>
-<div class="param">external_autoscale_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Names of external auto-scale groups for pool servers. Currently available only for AWS. Field introduced in 17.1.2. </div>
+<div class="param">external_autoscale_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure. </div>
 <div class="param">fewest_tasks_feedback_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. format: int32</div>
 <div class="param">graceful_disable_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - &#39;Immediate&#39;, -1 - &#39;Infinite&#39;. format: int32</div>
@@ -2838,7 +2854,7 @@ font-style: italic;
 <div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY. </div>
 <div class="param">lb_algorithm_consistent_hash_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name to be used for the hash key. </div>
 <div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
-<div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING. </div>
+<div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING, LB_ALGORITHM_CONSISTENT_HASH_CALLID. </div>
 <div class="param">lookup_server_by_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow server lookup by name. Field introduced in 17.1.11,17.2.4. </div>
 <div class="param">max_concurrent_connections_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied. format: int32</div>
 <div class="param">max_conn_rate_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit connections to each server. </div>
@@ -2847,13 +2863,13 @@ font-style: italic;
 <div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1. </div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi will validate the SSL certificate present by a server against the selected PKI Profile. It is a reference to an object of type PKIProfile. </div>
 <div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#PlacementNetwork">array[PlacementNetwork]</a></span> Manually select the networks and subnets used to provide reachability to the pool&#39;s servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine. </div>
-<div class="param">prst_hdr_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header name for custom header persistence. </div>
+<div class="param">prst_hdr_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Header name for custom header persistence. Field deprecated in 18.1.2. </div>
 <div class="param">request_queue_depth (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of requests to be queued when pool is full. format: int32</div>
 <div class="param">request_queue_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request queue when pool is full. </div>
 <div class="param">rewrite_host_header_to_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool. </div>
 <div class="param">rewrite_host_header_to_sni (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If SNI server name is specified, rewrite incoming host header to the SNI server name. </div>
-<div class="param">server_auto_scale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Server AutoScale. Not used anymore. </div>
-<div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of server_count. format: int32</div>
+<div class="param">server_auto_scale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Server AutoScale. Not used anymore. Field deprecated in 18.1.2. </div>
+<div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 18.1.2. format: int32</div>
 <div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead. </div>
 <div class="param">server_reselect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPServerReselect">HTTPServerReselect</a></span> Server reselect configuration for HTTP requests. </div>
 <div class="param">servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#Server">array[Server]</a></span> The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group. </div>
@@ -2886,7 +2902,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
 <div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>

@@ -7,6 +7,9 @@ package models
 // swagger:model DnsResourceRecord
 type DNSResourceRecord struct {
 
+	// IPv6 address of the requested FQDN. Field introduced in 18.1.1.
+	Addr6IPStr string `json:"addr6_ip_str,omitempty"`
+
 	// IPv4 address of the requested FQDN.
 	AddrIP int32 `json:"addr_ip,omitempty"`
 

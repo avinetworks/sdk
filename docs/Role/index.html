@@ -180,10 +180,10 @@ font-style: italic;
   </head>
   <body>
   <h1>Avi Role Object API</h1>
-    <div class="app-desc">##CLI## ``` - configure role <key> - show role <key> ``` </div>
+    <div class="app-desc">CLI ``` - configure role <key> - show role <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.4</div>
+    <div class="app-desc">Version: 18.1.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -234,7 +234,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -260,7 +262,8 @@ font-style: italic;
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
     "uuid" : "aeiou",
-    "url" : "aeiou"
+    "url" : "aeiou",
+    "_last_modified" : 123456789
   } ]
 }</code></pre>
 
@@ -322,7 +325,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -429,7 +433,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -453,7 +459,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -526,7 +533,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -599,7 +607,8 @@ font-style: italic;
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
   "uuid" : "aeiou",
-  "url" : "aeiou"
+  "url" : "aeiou",
+  "_last_modified" : 123456789
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -633,14 +642,15 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Permission">Permission</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">resource (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - PERMISSION_CONTROLLER, PERMISSION_INTERNAL, PERMISSION_VIRTUALSERVICE, PERMISSION_POOL, PERMISSION_HEALTHMONITOR, PERMISSION_NETWORKPROFILE, PERMISSION_APPLICATIONPROFILE, PERMISSION_HTTPPOLICYSET, PERMISSION_IPADDRGROUP, PERMISSION_STRINGGROUP, PERMISSION_SSLPROFILE, PERMISSION_SSLKEYANDCERTIFICATE, PERMISSION_NETWORKSECURITYPOLICY, PERMISSION_APPLICATIONPERSISTENCEPROFILE, PERMISSION_ANALYTICSPROFILE, PERMISSION_VSDATASCRIPTSET, PERMISSION_TENANT, PERMISSION_PKIPROFILE, PERMISSION_AUTHPROFILE, PERMISSION_CLOUD, PERMISSION_SERVICEENGINE, PERMISSION_SERVICEENGINEGROUP, PERMISSION_NETWORK, PERMISSION_SYSTEMCONFIGURATION, PERMISSION_VRFCONTEXT, PERMISSION_USER, PERMISSION_ROLE, PERMISSION_ALERT, PERMISSION_ALERTCONFIG, PERMISSION_ALERTEMAILCONFIG, PERMISSION_ALERTSYSLOGCONFIG, PERMISSION_ACTIONGROUPCONFIG, PERMISSION_SNMPTRAPPROFILE, PERMISSION_UPGRADE, PERMISSION_REBOOT, PERMISSION_TECHSUPPORT, PERMISSION_EXEMPT, PERMISSION_VIRTUALSERVICE_MAINTENANCE, PERMISSION_POOL_MAINTENANCE, PERMISSION_TRAFFIC_CAPTURE, PERMISSION_MICROSERVICEGROUP, PERMISSION_IPAMDNSPROVIDERPROFILE, PERMISSION_CERTIFICATEMANAGEMENTPROFILE, PERMISSION_POOLGROUP, PERMISSION_PRIORITYLABELS, PERMISSION_POOLGROUPDEPLOYMENTPOLICY, PERMISSION_GSLB, PERMISSION_GSLBSERVICE, PERMISSION_GSLBGEODBPROFILE, PERMISSION_DNSPOLICY, PERMISSION_TRAFFICCLONEPROFILE, PERMISSION_SE_TOKEN, PERMISSION_WAFPOLICY, PERMISSION_WAFPROFILE, PERMISSION_USER_CREDENTIAL, PERMISSION_AUTOSCALE, PERMISSION_CUSTOMIPAMDNSPROFILE, PERMISSION_ERRORPAGEPROFILE, PERMISSION_ERRORPAGEBODY. </div>
+      <div class="param">resource (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - PERMISSION_CONTROLLER, PERMISSION_INTERNAL, PERMISSION_VIRTUALSERVICE, PERMISSION_POOL, PERMISSION_HEALTHMONITOR, PERMISSION_NETWORKPROFILE, PERMISSION_APPLICATIONPROFILE, PERMISSION_HTTPPOLICYSET, PERMISSION_IPADDRGROUP, PERMISSION_STRINGGROUP, PERMISSION_SSLPROFILE, PERMISSION_SSLKEYANDCERTIFICATE, PERMISSION_NETWORKSECURITYPOLICY, PERMISSION_APPLICATIONPERSISTENCEPROFILE, PERMISSION_ANALYTICSPROFILE, PERMISSION_VSDATASCRIPTSET, PERMISSION_TENANT, PERMISSION_PKIPROFILE, PERMISSION_AUTHPROFILE, PERMISSION_CLOUD, PERMISSION_SERVICEENGINE, PERMISSION_SERVICEENGINEGROUP, PERMISSION_NETWORK, PERMISSION_SYSTEMCONFIGURATION, PERMISSION_VRFCONTEXT, PERMISSION_USER, PERMISSION_ROLE, PERMISSION_ALERT, PERMISSION_ALERTCONFIG, PERMISSION_ALERTEMAILCONFIG, PERMISSION_ALERTSYSLOGCONFIG, PERMISSION_ACTIONGROUPCONFIG, PERMISSION_SNMPTRAPPROFILE, PERMISSION_UPGRADE, PERMISSION_REBOOT, PERMISSION_TECHSUPPORT, PERMISSION_EXEMPT, PERMISSION_VIRTUALSERVICE_MAINTENANCE, PERMISSION_POOL_MAINTENANCE, PERMISSION_TRAFFIC_CAPTURE, PERMISSION_MICROSERVICEGROUP, PERMISSION_IPAMDNSPROVIDERPROFILE, PERMISSION_CERTIFICATEMANAGEMENTPROFILE, PERMISSION_POOLGROUP, PERMISSION_PRIORITYLABELS, PERMISSION_POOLGROUPDEPLOYMENTPOLICY, PERMISSION_GSLB, PERMISSION_GSLBSERVICE, PERMISSION_GSLBGEODBPROFILE, PERMISSION_DNSPOLICY, PERMISSION_TRAFFICCLONEPROFILE, PERMISSION_SE_TOKEN, PERMISSION_WAFPOLICY, PERMISSION_WAFPROFILE, PERMISSION_USER_CREDENTIAL, PERMISSION_AUTOSCALE, PERMISSION_CUSTOMIPAMDNSPROFILE, PERMISSION_ERRORPAGEPROFILE, PERMISSION_ERRORPAGEBODY, PERMISSION_L4POLICYSET, PERMISSION_MICROSERVICE. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="Role">Role</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">privileges (optional)</div><div class="param-desc"><span class="param-type"><a href="#Permission">array[Permission]</a></span> Placeholder for description of property privileges of obj type Role field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>

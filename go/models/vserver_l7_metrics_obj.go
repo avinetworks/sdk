@@ -61,11 +61,23 @@ type VserverL7MetricsObj struct {
 	// Avg number of HTTP requests that completed within frustrated latency.
 	AvgFrustratedResponses float64 `json:"avg_frustrated_responses,omitempty"`
 
+	// Average size of HTTP headers per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPHeadersBytes float64 `json:"avg_http_headers_bytes,omitempty"`
+
+	// Average number of HTTP headers per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPHeadersCount float64 `json:"avg_http_headers_count,omitempty"`
+
+	// Average number of HTTP request parameters per request. Field introduced in 17.2.12, 18.1.2.
+	AvgHTTPParamsCount float64 `json:"avg_http_params_count,omitempty"`
+
 	// Average Page Load time reported by clients.
 	AvgPageDownloadTime float64 `json:"avg_page_download_time,omitempty"`
 
 	// Average Page Load Time reported by client.
 	AvgPageLoadTime float64 `json:"avg_page_load_time,omitempty"`
+
+	// Average size of HTTP POST request. Field introduced in 17.2.12, 18.1.2.
+	AvgPostBytes float64 `json:"avg_post_bytes,omitempty"`
 
 	// Average post compression bytes.
 	AvgPostCompressionBytes float64 `json:"avg_post_compression_bytes,omitempty"`
@@ -190,62 +202,86 @@ type VserverL7MetricsObj struct {
 	// Average rate of client HTTP requests received by the virtual service per second.
 	AvgTotalRequests float64 `json:"avg_total_requests,omitempty"`
 
-	// Average number of responses per second evaluated by WAF. Field introduced in 17.2.2.
-	AvgWafDenies float64 `json:"avg_waf_denies,omitempty"`
+	// Average length of HTTP URI per request. Field introduced in 17.2.12, 18.1.2.
+	AvgURILength float64 `json:"avg_uri_length,omitempty"`
 
-	// Average number of requests per second denied by WAF in Request Body Phase. Field introduced in 17.2.2.
-	AvgWafDeniesRequestBodyPhase float64 `json:"avg_waf_denies_request_body_phase,omitempty"`
+	// Average number of transactions per second identified by WAF as attacks. Field introduced in 17.2.3.
+	AvgWafAttacks float64 `json:"avg_waf_attacks,omitempty"`
 
-	// Average number of requests per second denied by WAF in Request Header Phase. Field introduced in 17.2.2.
-	AvgWafDeniesRequestHeaderPhase float64 `json:"avg_waf_denies_request_header_phase,omitempty"`
+	// Average number of transactions per second bypassing WAF. Field introduced in 17.2.12, 18.1.2.
+	AvgWafDisabled float64 `json:"avg_waf_disabled,omitempty"`
 
-	// Average number of responses per second denied by WAF in Response Body Phase. Field introduced in 17.2.2.
-	AvgWafDeniesResponseBodyPhase float64 `json:"avg_waf_denies_response_body_phase,omitempty"`
-
-	// Average number of responses per second denied by WAF in Response Header Phase. Field introduced in 17.2.2.
-	AvgWafDeniesResponseHeaderPhase float64 `json:"avg_waf_denies_response_header_phase,omitempty"`
-
-	// Average number of responses per second enforced by WAF. Field introduced in 17.2.2.
-	AvgWafEvals float64 `json:"avg_waf_evals,omitempty"`
+	// Average number of transactions per second evaluated by WAF. Field introduced in 17.2.2.
+	AvgWafEvaluated float64 `json:"avg_waf_evaluated,omitempty"`
 
 	// Average number of requests per second evaluated by WAF in Request Body Phase. Field introduced in 17.2.2.
-	AvgWafEvalsRequestBodyPhase float64 `json:"avg_waf_evals_request_body_phase,omitempty"`
+	AvgWafEvaluatedRequestBodyPhase float64 `json:"avg_waf_evaluated_request_body_phase,omitempty"`
 
 	// Average number of requests per second evaluated by WAF in Request Header Phase. Field introduced in 17.2.2.
-	AvgWafEvalsRequestHeaderPhase float64 `json:"avg_waf_evals_request_header_phase,omitempty"`
+	AvgWafEvaluatedRequestHeaderPhase float64 `json:"avg_waf_evaluated_request_header_phase,omitempty"`
 
 	// Average number of responses per second evaluated by WAF in Response Body Phase. Field introduced in 17.2.2.
-	AvgWafEvalsResponseBodyPhase float64 `json:"avg_waf_evals_response_body_phase,omitempty"`
+	AvgWafEvaluatedResponseBodyPhase float64 `json:"avg_waf_evaluated_response_body_phase,omitempty"`
 
 	// Average number of responsess per second evaluated by WAF in Response Header Phase. Field introduced in 17.2.2.
-	AvgWafEvalsResponseHeaderPhase float64 `json:"avg_waf_evals_response_header_phase,omitempty"`
+	AvgWafEvaluatedResponseHeaderPhase float64 `json:"avg_waf_evaluated_response_header_phase,omitempty"`
 
-	// Average number of responses per second detected by WAF. Field introduced in 17.2.2.
-	AvgWafMatches float64 `json:"avg_waf_matches,omitempty"`
+	// Average number of transactions per second flagged by WAF. Field introduced in 17.2.2.
+	AvgWafFlagged float64 `json:"avg_waf_flagged,omitempty"`
 
-	// Average number of requests per second matched by WAF in Request Body Phase. Field introduced in 17.2.2.
-	AvgWafMatchesRequestBodyPhase float64 `json:"avg_waf_matches_request_body_phase,omitempty"`
+	// Average number of requests per second flagged (but not rejected) by WAF in Request Body Phase. Field introduced in 17.2.2.
+	AvgWafFlaggedRequestBodyPhase float64 `json:"avg_waf_flagged_request_body_phase,omitempty"`
 
-	// Average number of requests per second matched by WAF in Request Header Phase. Field introduced in 17.2.2.
-	AvgWafMatchesRequestHeaderPhase float64 `json:"avg_waf_matches_request_header_phase,omitempty"`
+	// Average number of requests per second flagged (but not rejected) by WAF in Request Header Phase. Field introduced in 17.2.2.
+	AvgWafFlaggedRequestHeaderPhase float64 `json:"avg_waf_flagged_request_header_phase,omitempty"`
 
-	// Average number of responses per second matched by WAF in Responses Body Phase. Field introduced in 17.2.2.
-	AvgWafMatchesResponseBodyPhase float64 `json:"avg_waf_matches_response_body_phase,omitempty"`
+	// Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. Field introduced in 17.2.2.
+	AvgWafFlaggedResponseBodyPhase float64 `json:"avg_waf_flagged_response_body_phase,omitempty"`
 
-	// Average number of responses per second matched by WAF in Response Header Phase. Field introduced in 17.2.2.
-	AvgWafMatchesResponseHeaderPhase float64 `json:"avg_waf_matches_response_header_phase,omitempty"`
+	// Average number of responses per second flagged (but not rejected) by WAF in Response Header Phase. Field introduced in 17.2.2.
+	AvgWafFlaggedResponseHeaderPhase float64 `json:"avg_waf_flagged_response_header_phase,omitempty"`
 
 	// Average waf latency seen due to WAF Request Body processing. Field introduced in 17.2.2.
-	AvgWafTxnLatencyRequestBodyPhase float64 `json:"avg_waf_txn_latency_request_body_phase,omitempty"`
+	AvgWafLatencyRequestBodyPhase float64 `json:"avg_waf_latency_request_body_phase,omitempty"`
 
 	// Average waf latency seen due to WAF Request Header processing. Field introduced in 17.2.2.
-	AvgWafTxnLatencyRequestHeaderPhase float64 `json:"avg_waf_txn_latency_request_header_phase,omitempty"`
+	AvgWafLatencyRequestHeaderPhase float64 `json:"avg_waf_latency_request_header_phase,omitempty"`
 
 	// Average waf latency seen due to WAF Response Body processing. Field introduced in 17.2.2.
-	AvgWafTxnLatencyResponseBodyPhase float64 `json:"avg_waf_txn_latency_response_body_phase,omitempty"`
+	AvgWafLatencyResponseBodyPhase float64 `json:"avg_waf_latency_response_body_phase,omitempty"`
 
 	// Average waf latency seen due to WAF Response Header processing. Field introduced in 17.2.2.
-	AvgWafTxnLatencyResponseHeaderPhase float64 `json:"avg_waf_txn_latency_response_header_phase,omitempty"`
+	AvgWafLatencyResponseHeaderPhase float64 `json:"avg_waf_latency_response_header_phase,omitempty"`
+
+	// Average number of transactions per second matched by WAF rule/rules. Field introduced in 17.2.2.
+	AvgWafMatched float64 `json:"avg_waf_matched,omitempty"`
+
+	// Average number of requests per second matched by WAF in Request Body Phase. Field introduced in 17.2.2.
+	AvgWafMatchedRequestBodyPhase float64 `json:"avg_waf_matched_request_body_phase,omitempty"`
+
+	// Average number of requests per second matched by WAF in Request Header Phase. Field introduced in 17.2.2.
+	AvgWafMatchedRequestHeaderPhase float64 `json:"avg_waf_matched_request_header_phase,omitempty"`
+
+	// Average number of responses per second matched by WAF in Response Body Phase. Field introduced in 17.2.2.
+	AvgWafMatchedResponseBodyPhase float64 `json:"avg_waf_matched_response_body_phase,omitempty"`
+
+	// Average number of responses per second matched by WAF in Response Header Phase. Field introduced in 17.2.2.
+	AvgWafMatchedResponseHeaderPhase float64 `json:"avg_waf_matched_response_header_phase,omitempty"`
+
+	// Average number of transactions per second rejected by WAF. Field introduced in 17.2.2.
+	AvgWafRejected float64 `json:"avg_waf_rejected,omitempty"`
+
+	// Average number of requests per second rejected by WAF in Request Body Phase. Field introduced in 17.2.2.
+	AvgWafRejectedRequestBodyPhase float64 `json:"avg_waf_rejected_request_body_phase,omitempty"`
+
+	// Average number of requests per second rejected by WAF in Request Header Phase. Field introduced in 17.2.2.
+	AvgWafRejectedRequestHeaderPhase float64 `json:"avg_waf_rejected_request_header_phase,omitempty"`
+
+	// Average number of responses per second rejected by WAF in Response Body Phase. Field introduced in 17.2.2.
+	AvgWafRejectedResponseBodyPhase float64 `json:"avg_waf_rejected_response_body_phase,omitempty"`
+
+	// Average number of responses per second rejected by WAF in Response Header Phase. Field introduced in 17.2.2.
+	AvgWafRejectedResponseHeaderPhase float64 `json:"avg_waf_rejected_response_header_phase,omitempty"`
 
 	// Average Waiting Time reported by client.
 	AvgWaitingTime float64 `json:"avg_waiting_time,omitempty"`
@@ -266,20 +302,35 @@ type VserverL7MetricsObj struct {
 	// Percentage cacheable hit of requests.
 	PctCacheableHits float64 `json:"pct_cacheable_hits,omitempty"`
 
+	// Number of HTTP GET requests as a percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctGetReqs float64 `json:"pct_get_reqs,omitempty"`
+
+	// Number of HTTP POST requests as a percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctPostReqs float64 `json:"pct_post_reqs,omitempty"`
+
 	// Percent of 4xx and 5xx responses.
 	PctResponseErrors float64 `json:"pct_response_errors,omitempty"`
 
 	// Percent of SSL connections failured due to protocol , network or timeout reasons.
 	PctSslFailedConnections float64 `json:"pct_ssl_failed_connections,omitempty"`
 
-	// WAF denined requests as the percentage of total WAF evaluated Requests. Field introduced in 17.2.2.
-	PctTxnWafDenies float64 `json:"pct_txn_waf_denies,omitempty"`
+	// Malicious transactions (Attacks) identified by WAF as the pecentage  of total requests received. Field introduced in 17.2.3.
+	PctWafAttacks float64 `json:"pct_waf_attacks,omitempty"`
 
-	// WAF evaluated requests as the Fraction of total requests received. Field introduced in 17.2.2.
-	PctTxnWafEvals float64 `json:"pct_txn_waf_evals,omitempty"`
+	// Transactions bypassing WAF as the percentage of total requests received. Field introduced in 17.2.12, 18.1.2.
+	PctWafDisabled float64 `json:"pct_waf_disabled,omitempty"`
+
+	// WAF evaluated transactions as the pecentage of total requests received. Field introduced in 17.2.2.
+	PctWafEvaluated float64 `json:"pct_waf_evaluated,omitempty"`
+
+	// WAF flagged transactions as the percentage of total WAF evaluated transactions. Field introduced in 17.2.2.
+	PctWafFlagged float64 `json:"pct_waf_flagged,omitempty"`
 
 	// WAF matched requests as the percentage of total WAF evaluated requests. Field introduced in 17.2.2.
-	PctTxnWafMatches float64 `json:"pct_txn_waf_matches,omitempty"`
+	PctWafMatched float64 `json:"pct_waf_matched,omitempty"`
+
+	// WAF rejected transactions as the percentage of total WAF evaluated transactions. Field introduced in 17.2.2.
+	PctWafRejected float64 `json:"pct_waf_rejected,omitempty"`
 
 	// Apdex measures quality of server response based on Real User Metric.
 	RumApdexr float64 `json:"rum_apdexr,omitempty"`
@@ -329,6 +380,15 @@ type VserverL7MetricsObj struct {
 	// Total number of HTTP GET requests.
 	SumGetReqs float64 `json:"sum_get_reqs,omitempty"`
 
+	// Total size of HTTP request headers. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPHeadersBytes float64 `json:"sum_http_headers_bytes,omitempty"`
+
+	// Total number of HTTP headers across all requests in a given metrics interval. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPHeadersCount float64 `json:"sum_http_headers_count,omitempty"`
+
+	// Total number of HTTP request parameters. Field introduced in 17.2.12, 18.1.2.
+	SumHTTPParamsCount float64 `json:"sum_http_params_count,omitempty"`
+
 	// Total samples that had satisfactory page load time.
 	SumNumPageLoadTimeBucket1 float64 `json:"sum_num_page_load_time_bucket1,omitempty"`
 
@@ -355,6 +415,9 @@ type VserverL7MetricsObj struct {
 
 	// Total Page Load Time reported by client.
 	SumPageLoadTime float64 `json:"sum_page_load_time,omitempty"`
+
+	// Total size of HTTP POST requests. Field introduced in 17.2.12, 18.1.2.
+	SumPostBytes float64 `json:"sum_post_bytes,omitempty"`
 
 	// Total latency from responses to all the POST requests.
 	SumPostClientTxnLatency float64 `json:"sum_post_client_txn_latency,omitempty"`
@@ -401,53 +464,80 @@ type VserverL7MetricsObj struct {
 	// Total number of HTTP responses sent.
 	SumTotalResponses float64 `json:"sum_total_responses,omitempty"`
 
-	// Total number of requests denied by WAF in Request Body Phase. Field introduced in 17.2.2.
-	SumWafDeniesRequestBodyPhase float64 `json:"sum_waf_denies_request_body_phase,omitempty"`
+	// Total length of HTTP request URIs. Field introduced in 17.2.12, 18.1.2.
+	SumURILength float64 `json:"sum_uri_length,omitempty"`
 
-	// Total number of requests denied by WAF in Request Header Phase. Field introduced in 17.2.2.
-	SumWafDeniesRequestHeaderPhase float64 `json:"sum_waf_denies_request_header_phase,omitempty"`
+	// Total number of transactions identified by WAF as attacks. Field introduced in 17.2.3.
+	SumWafAttacks float64 `json:"sum_waf_attacks,omitempty"`
 
-	// Total number of responses denied by WAF in Response Body Phase. Field introduced in 17.2.2.
-	SumWafDeniesResponseBodyPhase float64 `json:"sum_waf_denies_response_body_phase,omitempty"`
+	// Total number of requests bypassing WAF. Field introduced in 17.2.12, 18.1.2.
+	SumWafDisabled float64 `json:"sum_waf_disabled,omitempty"`
 
-	// Total number of responses denied by WAF in Response Header Phase. Field introduced in 17.2.2.
-	SumWafDeniesResponseHeaderPhase float64 `json:"sum_waf_denies_response_header_phase,omitempty"`
+	// Total number of requests evaluated by WAF in Request Body Phase. Field introduced in 17.2.2.
+	SumWafEvaluatedRequestBodyPhase float64 `json:"sum_waf_evaluated_request_body_phase,omitempty"`
 
-	// Total number of requests enforced by WAF in Request Body Phase. Field introduced in 17.2.2.
-	SumWafEvalsRequestBodyPhase float64 `json:"sum_waf_evals_request_body_phase,omitempty"`
+	// Total number of requests evaluated by WAF in Request Header Phase. Field introduced in 17.2.2.
+	SumWafEvaluatedRequestHeaderPhase float64 `json:"sum_waf_evaluated_request_header_phase,omitempty"`
 
-	// Total number of requests enforced by WAF in Request Header Phase. Field introduced in 17.2.2.
-	SumWafEvalsRequestHeaderPhase float64 `json:"sum_waf_evals_request_header_phase,omitempty"`
+	// Total number of responses evaluated by WAF in Response Body Phase. Field introduced in 17.2.2.
+	SumWafEvaluatedResponseBodyPhase float64 `json:"sum_waf_evaluated_response_body_phase,omitempty"`
 
-	// Total number of responses enforced by WAF in Response Body Phase. Field introduced in 17.2.2.
-	SumWafEvalsResponseBodyPhase float64 `json:"sum_waf_evals_response_body_phase,omitempty"`
+	// Total number of responses evaluated by WAF in Response Header Phase. Field introduced in 17.2.2.
+	SumWafEvaluatedResponseHeaderPhase float64 `json:"sum_waf_evaluated_response_header_phase,omitempty"`
 
-	// Total number of responses enforced by WAF in Response Header Phase. Field introduced in 17.2.2.
-	SumWafEvalsResponseHeaderPhase float64 `json:"sum_waf_evals_response_header_phase,omitempty"`
+	// Total number of transactions (requests or responses) flagged as attack by WAF. Field introduced in 17.2.3.
+	SumWafFlagged float64 `json:"sum_waf_flagged,omitempty"`
+
+	// Total number of requests flagged (but not rejected) by WAF in Request Body Phase. Field introduced in 17.2.2.
+	SumWafFlaggedRequestBodyPhase float64 `json:"sum_waf_flagged_request_body_phase,omitempty"`
+
+	// Total number of requests flagged (but not rejected) by WAF in Request Header Phase. Field introduced in 17.2.2.
+	SumWafFlaggedRequestHeaderPhase float64 `json:"sum_waf_flagged_request_header_phase,omitempty"`
+
+	// Total number of responses flagged (but not rejected) by WAF in Response Body Phase. Field introduced in 17.2.2.
+	SumWafFlaggedResponseBodyPhase float64 `json:"sum_waf_flagged_response_body_phase,omitempty"`
+
+	// Total number of responses flagged (but not rejected) by WAF in Response Header Phase. Field introduced in 17.2.2.
+	SumWafFlaggedResponseHeaderPhase float64 `json:"sum_waf_flagged_response_header_phase,omitempty"`
+
+	// Total latency seen by all evaluated requests in Request Body Phase. Field introduced in 17.2.2.
+	SumWafLatencyRequestBodyPhase float64 `json:"sum_waf_latency_request_body_phase,omitempty"`
+
+	// Total latency seen by all transactions evaluated by WAF in Request Header Phase. Field introduced in 17.2.2.
+	SumWafLatencyRequestHeaderPhase float64 `json:"sum_waf_latency_request_header_phase,omitempty"`
+
+	// Total latency seen by all evaluated responses in Response Body Phase. Field introduced in 17.2.2.
+	SumWafLatencyResponseBodyPhase float64 `json:"sum_waf_latency_response_body_phase,omitempty"`
+
+	// Total latency seen by all evaluated responsess in WAF Response Header Phase. Field introduced in 17.2.2.
+	SumWafLatencyResponseHeaderPhase float64 `json:"sum_waf_latency_response_header_phase,omitempty"`
 
 	// Total number of requests matched by WAF in Request Body Phase. Field introduced in 17.2.2.
-	SumWafMatchesRequestBodyPhase float64 `json:"sum_waf_matches_request_body_phase,omitempty"`
+	SumWafMatchedRequestBodyPhase float64 `json:"sum_waf_matched_request_body_phase,omitempty"`
 
-	// Total number of requests matched WAF in Request Header Phase. Field introduced in 17.2.2.
-	SumWafMatchesRequestHeaderPhase float64 `json:"sum_waf_matches_request_header_phase,omitempty"`
+	// Total number of requests matched by WAF in Request Header Phase. Field introduced in 17.2.2.
+	SumWafMatchedRequestHeaderPhase float64 `json:"sum_waf_matched_request_header_phase,omitempty"`
 
 	// Total number of responses matched by WAF in Response Body Phase. Field introduced in 17.2.2.
-	SumWafMatchesResponseBodyPhase float64 `json:"sum_waf_matches_response_body_phase,omitempty"`
+	SumWafMatchedResponseBodyPhase float64 `json:"sum_waf_matched_response_body_phase,omitempty"`
 
 	// Total number of responses matched by WAF in Response Header Phase. Field introduced in 17.2.2.
-	SumWafMatchesResponseHeaderPhase float64 `json:"sum_waf_matches_response_header_phase,omitempty"`
+	SumWafMatchedResponseHeaderPhase float64 `json:"sum_waf_matched_response_header_phase,omitempty"`
 
-	// Total latency seen by all allowed WAF detected or Enforced requests in Request Body Phase. Field introduced in 17.2.2.
-	SumWafTxnLatencyRequestBodyPhase float64 `json:"sum_waf_txn_latency_request_body_phase,omitempty"`
+	// Total number of transactions (requests or responses) rejected by WAF. Field introduced in 17.2.3.
+	SumWafRejected float64 `json:"sum_waf_rejected,omitempty"`
 
-	// Total latency seen by all allowed WAF detected or Enforced requests in Request Header Phase. Field introduced in 17.2.2.
-	SumWafTxnLatencyRequestHeaderPhase float64 `json:"sum_waf_txn_latency_request_header_phase,omitempty"`
+	// Total number of requests rejected by WAF in Request Body Phase. Field introduced in 17.2.2.
+	SumWafRejectedRequestBodyPhase float64 `json:"sum_waf_rejected_request_body_phase,omitempty"`
 
-	// Total latency seen by all allowed WAF detected or Enforced responses in Response Body Phase. Field introduced in 17.2.2.
-	SumWafTxnLatencyResponseBodyPhase float64 `json:"sum_waf_txn_latency_response_body_phase,omitempty"`
+	// Total number of requests rejected by WAF in Request Header Phase. Field introduced in 17.2.2.
+	SumWafRejectedRequestHeaderPhase float64 `json:"sum_waf_rejected_request_header_phase,omitempty"`
 
-	// Total latency seen by all allowed WAF detected or Enforced responsess in Response Header Phase. Field introduced in 17.2.2.
-	SumWafTxnLatencyResponseHeaderPhase float64 `json:"sum_waf_txn_latency_response_header_phase,omitempty"`
+	// Total number of responses rejected by WAF in Response Body Phase. Field introduced in 17.2.2.
+	SumWafRejectedResponseBodyPhase float64 `json:"sum_waf_rejected_response_body_phase,omitempty"`
+
+	// Total number of responses rejected by WAF in Response Header Phase. Field introduced in 17.2.2.
+	SumWafRejectedResponseHeaderPhase float64 `json:"sum_waf_rejected_response_header_phase,omitempty"`
 
 	// Total waiting reported by client.
 	SumWaitingTime float64 `json:"sum_waiting_time,omitempty"`

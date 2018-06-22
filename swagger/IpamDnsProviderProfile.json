@@ -1,8 +1,8 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "17.2.4", 
-        "description": "##CLI##\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
+        "version": "18.1.2", 
+        "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -541,6 +557,17 @@
                     "type": "array", 
                     "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1."
                 }, 
+                "egress_service_subnets": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Used for allocating egress service source IPs. Field introduced in 17.2.8."
+                }, 
+                "use_standard_alb": {
+                    "type": "boolean", 
+                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
+                }, 
                 "azure_serviceprincipal": {
                     "description": "Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
                     "$ref": "#/definitions/AzureServicePrincipalCredentials"
@@ -589,6 +616,10 @@
                 "use_iam_roles": {
                     "type": "boolean", 
                     "description": "Use IAM roles instead of access and secret key."
+                }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10."
                 }, 
                 "usable_domains": {
                     "items": {
@@ -703,6 +734,12 @@
                     "description": "Provider details if type is OpenStack.", 
                     "$ref": "#/definitions/IpamDnsOpenstackProfile"
                 }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "integer", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
+                    "format": "int64"
+                }, 
                 "name": {
                     "type": "string", 
                     "description": "Name for the IPAM/DNS Provider profile."
@@ -725,7 +762,7 @@
                 }, 
                 "allocate_ip_in_vrf": {
                     "type": "boolean", 
-                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Field introduced in 17.2.4."
+                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4."
                 }, 
                 "custom_profile": {
                     "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
@@ -884,7 +921,7 @@
             "properties": {
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - V4, DNS."
+                    "description": " Enum options - V4, DNS, V6."
                 }, 
                 "addr": {
                     "type": "string", 
@@ -899,12 +936,32 @@
                     "type": "boolean", 
                     "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
                 }, 
+                "use_gcp_network": {
+                    "type": "boolean", 
+                    "description": "Use Google Cloud Platform Network for VIP allocation. By default Avi Vantage Network is used for VIP allocation. Field introduced in 18.1.2."
+                }, 
+                "project_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Project Name. This is required if Google Cloud Platform Network is used for VIP allocation. This field is optional. By default it will use the value of the field network_project_name. Field introduced in 18.1.2."
+                }, 
+                "region_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Region Name. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
+                }, 
+                "network_project_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Network Project Name. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2."
+                }, 
                 "usable_network_refs": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
                     "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
+                }, 
+                "network_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Network Name. VIP will be allocated from this Network. This is required if Google Cloud Platform Network is used for VIP allocation. Field introduced in 18.1.2."
                 }
             }
         }, 

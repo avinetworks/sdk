@@ -232,7 +232,7 @@ class Test(unittest.TestCase):
                 {
                     "enable_ssl": False,
                     "port_range_end": 443,
-                    "port": None
+                    "port": 80
                 }
             ],
             "name": "vs-health-test",
@@ -435,6 +435,17 @@ class Test(unittest.TestCase):
 
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
+
+    def testNoneParams(self):
+        objwnone = {'name': 'testpool',
+               'scalar_field': None,
+               'list_fields': {'y': None, 'z': 'zz'}}
+        obj = {'name': 'testpool',
+               'list_fields': {'z': 'zz'}}
+
+        result = avi_obj_cmp(objwnone, obj)
+        assert result
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

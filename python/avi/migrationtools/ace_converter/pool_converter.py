@@ -34,7 +34,6 @@ class PoolConverter(object):
                         if self.get_ips_of_server(server_name['rserver']):
                             pool_ip_list.append(
                                 self.get_ips_of_server(server_name['rserver']))
-        # print pool_ip_list
         return pool_ip_list
 
     def pool_conversion(self, data):
@@ -42,6 +41,7 @@ class PoolConverter(object):
             Pool Contains:
             - servers
         """
+        default_port = "80"
         pool_list = list()
         for pool in self.parsed.get('serverfarm', ''):
             probe = None
@@ -49,7 +49,6 @@ class PoolConverter(object):
             server = None
             temp_pool = dict()
             name = pool.get('host', '')
-            # print name
             app_persistance = self.find_app_persistance(name, data)
             app_ref = self.common_utils.get_object_ref(app_persistance,
                                                        'applicationpersistenceprofile',
@@ -60,17 +59,22 @@ class PoolConverter(object):
                         'application_persistence_profile_ref': app_ref
                     })
             skipped_list = list()
+            server = []
             for pools in pool['desc']:
                 farm_set = set(pools.keys())
                 skipped_list_temp = list(farm_set.intersection(set(POOL_SKIP)))
                 if skipped_list_temp:
                     skipped_list.extend(skipped_list_temp)
                 if "rserver" in pools.keys():
-                    server = self.server_converter(pools['rserver'])
+                    if 'port' in pools.keys():
+                        use_port = pools['port']
+                        server.extend(self.server_converter(pools['rserver'], use_port))
+                    else:
+                        use_port = default_port
+                        server.extend(self.server_converter(pools['rserver'], use_port))
 
-            #    print "health monitor= ",data['HealthMonitor']
-            #    print pools
-            #     print pools.get('probe')
+
+
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
                         if pools.get('probe') == hm['name']:
@@ -106,9 +110,10 @@ class PoolConverter(object):
                 pool_list.append(temp_pool)
         return pool_list
 
-    def server_converter(self, name):
+    def server_converter(self, name, port):
         """ Server Conversion \n
             :param @name: Server name
+            :param @port: Service Port
             * Get -  the server name
             * Reply - with server avi object
         """
@@ -127,7 +132,6 @@ class PoolConverter(object):
         server_list = list()
         server = ''
         desc = ''
-        default_port = 8080
         enabled = False
 
         # server conversion
@@ -142,15 +146,16 @@ class PoolConverter(object):
             if 'type' in serv.keys():
                 enabled = (True if serv['type'] == 'inservice' else False)
 
-        server_list.append({
-            "ip": {
-                "addr": server,
-                "type": "V4",
-            },
-            "enabled": enabled,
-            "description": desc,
-            "port": default_port
-        })
+        if server != '':
+            server_list.append({
+                "ip": {
+                    "addr": server,
+                    "type": "V4",
+                },
+                "enabled": enabled,
+                "description": desc,
+                "port": port
+            })
 
         # Update Excel Sheet
         update_excel('rserver', server_name, avi_obj=server_list)
@@ -160,7 +165,6 @@ class PoolConverter(object):
     def find_app_persistance(self, pool_name, data):
         """ Find the app persistance tagged to the pool """
         app_persitance = False
-        # print self.parsed.get('sticky','')
         for sticky in self.parsed.get('sticky', ''):
             name = sticky['name']
             for app in data['ApplicationPersistenceProfile']:

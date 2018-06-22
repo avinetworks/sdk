@@ -3,6 +3,7 @@ import copy
 import re
 import avi.migrationtools.f5_converter.converter_constants as conv_const
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+from avi.migrationtools.avi_migration_utils import update_count
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
@@ -24,11 +25,13 @@ class PoolConfigConv(object):
             return PoolConfigConvV11(f5_pool_attributes, prefix)
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict,
+                     vrf=None, segroup=None):
         pass
 
     def convert(self, f5_config, avi_config, user_ignore, tenant_ref,
-                cloud_name, merge_object_mapping, sys_dict):
+                cloud_name, merge_object_mapping, sys_dict, vrf=None,
+                segroup=None):
         """
 
         :param f5_config: parsed f5 config dict
@@ -79,12 +82,13 @@ class PoolConfigConv(object):
             try:
                 converted_objs = self.convert_pool(
                     pool_name, f5_config, avi_config, user_ignore, tenant_ref,
-                    cloud_name, merge_object_mapping, sys_dict)
+                    cloud_name, merge_object_mapping, sys_dict, vrf, segroup)
                 pool_list += converted_objs['pools']
                 if 'pg_obj' in converted_objs:
                     avi_config['PoolGroup'].extend(converted_objs['pg_obj'])
                 LOG.debug("Conversion successful for Pool: %s" % pool_name)
             except:
+                update_count('error')
                 LOG.error("Failed to convert pool: %s" % pool_name,
                           exc_info=True)
                 conv_utils.add_status_row('pool', None, pool_name,
@@ -315,7 +319,8 @@ class PoolConfigConvV11(PoolConfigConv):
         self.prefix = prefix
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict,
+                     vrf=None, segroup=None):
         """
 
         :param pool_name: name of the pool
@@ -350,6 +355,7 @@ class PoolConfigConvV11(PoolConfigConv):
             servers = servers[0:400]
             status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
+        tenant_name = tenant
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         num_retries = f5_pool.get('reselect-tries', None)
@@ -379,8 +385,14 @@ class PoolConfigConvV11(PoolConfigConv):
                   members[members.keys()[0]].get('address') or isinstance(
                   members, str) and members.split(' ')[0] or None if members \
                   else None
-        vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
+        if vrf:
+            vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                tenant=tenant_name,
+                                                cloud_name=cloud_ref)
+        else:
+            vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
                                                  pool_name, cloud_ref)
+        
         if vrf_ref:
             pool_obj["vrf_ref"] = vrf_ref
 
@@ -545,7 +557,8 @@ class PoolConfigConvV10(PoolConfigConv):
         self.prefix = prefix
 
     def convert_pool(self, pool_name, f5_config, avi_config, user_ignore,
-                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict):
+                     tenant_ref, cloud_ref, merge_object_mapping, sys_dict,
+                     vrf=None, segroup=None):
 
         """
        :param pool_name: name of the pool
@@ -594,8 +607,14 @@ class PoolConfigConvV10(PoolConfigConv):
                   members[members.keys()[0]].get('address') or isinstance(
                   members, str) and members.split(' ')[0] or None if members \
                   else None
-        vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
-                                                 pool_name, cloud_ref)
+        if vrf:
+            vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
+                                                tenant=tenant_ref,
+                                                cloud_name=cloud_ref)
+        else:
+            vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
+                                                    pool_name, cloud_ref)
+
         if vrf_ref:
             pool_obj["vrf_ref"] = vrf_ref
         num_retries = f5_pool.get('reselect tries', None)

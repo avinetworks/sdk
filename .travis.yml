@@ -1,10 +1,6 @@
-language: python
-python:
-  - "2.7"
-
-# safelist
 branches:
   only:
+  - master
   - 17.1.4
   - 17.1.5
   - 17.1.6
@@ -13,17 +9,41 @@ branches:
   - 17.2.3
   - 17.2.4
   - 17.2.5
+  - 17.2.6
+  - 17.2.7
+  - 17.2.8
+  - 17.2.9
+  - 17.2.10
+  - 17.2.11
+  - 17.2.12
+  - 18.1.2
 
-# command to install dependencies
-install:
-- pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx
-- export PYTHONPATH=$PWD/python/
-- echo $PYTHONPATH
 
+matrix:
+  include:
+    - language: python
+      python: "2.7"
+      install:
+      - pip install pytest pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist
+      - sudo pip install flask
+      - export PYTHONPATH=$PWD/python/
+      - echo $PYTHONPATH
+      script:
+      - pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
+      - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
+      - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
+      - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
 
-# command to execute unit tests
-script:
-- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
-- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
-- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
-- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+    - language: go
+      go: "1.9"
+      python: "2.7"
+      env: controller="localhost:8080//"
+      install:
+      - sudo pip install flask
+      - export GOPATH=/home/travis/gopath
+      - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+      - go env
+      script:
+      - nohup python ./go/examples/web_service.py &
+      - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go -v

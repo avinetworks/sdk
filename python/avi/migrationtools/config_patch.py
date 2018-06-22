@@ -24,6 +24,7 @@ import traceback
 
 import yaml
 import re
+import collections
 from copy import deepcopy
 from avi.migrationtools.avi_migration_utils import MigrationUtil
 
@@ -113,6 +114,29 @@ class ConfigPatch(object):
                 self.update_obj_refs(
                     obj_type, old_ref, new_ref, obj)
 
+    def update_tenant_references(self, avi_config, old_tenant, new_tenant):
+        for obj_type in avi_config.keys():
+            if obj_type == 'META':
+                avi_config[obj_type]['use_tenant'] = new_tenant
+                continue
+            for obj in avi_config[obj_type]:
+                for key in obj:
+                    if key == 'tenant_ref':
+                        obj[key] = '/api/tenant/?name=%s' % new_tenant
+                    if key.endswith('ref') and not key == 'tenant_ref':
+                        if not obj[key]:
+                            continue
+                        obj[key] = obj[key].replace(
+                            'tenant=%s' % old_tenant, 'tenant=%s' % new_tenant)
+                    elif key.endswith('refs'):
+                        new_refs = []
+                        for ref in obj[key]:
+                            new_refs.append(ref.replace(
+                                'tenant=%s' % old_tenant,
+                                'tenant=%s' % new_tenant))
+                        obj[key] = new_refs
+        return
+
     def apply_obj_patch(self, obj_type, obj, patch_data, avi_cfg):
         """
         :param obj_type: object type eg. VirtualService.
@@ -122,6 +146,7 @@ class ConfigPatch(object):
         :return:
         """
         old_obj_refs = []
+        mg_util = MigrationUtil()
 
         # TODO(grastogi): The refs computation needs to change
         # as the currently the ref does not have tenant or
@@ -134,33 +159,57 @@ class ConfigPatch(object):
             old_obj_refs.append(old_obj_ref)
             old_obj_ref = obj['name']
             old_obj_refs.append(old_obj_ref)
-            old_obj_ref = '/api/%s/?tenant=%s&name=%s' % (
-                obj_type.lower(), tenant, obj['name'])
-
+            # old_obj_ref = '/api/%s/?tenant=%s&name=%s' % (
+            #     obj_type.lower(), tenant, obj['name'])
             cloud = (self.param_value_in_ref(obj.get('cloud_ref'), 'name')
-                     if 'cloud_ref' in obj else '')
-            if cloud:
-                old_obj_ref = '%s&cloud=%s' % (old_obj_ref, cloud)
+                     if 'cloud_ref' in obj else None)
+            old_obj_ref = mg_util.get_object_ref(
+                obj['name'], obj_type.lower(), tenant, cloud_name=cloud)
 
             old_obj_refs.append(old_obj_ref)
-        log.debug('patching %s:%s with patch %s',
-                  obj_type, obj.get('name', ''), patch_data)
-        obj.update(patch_data['patch'])
-        if 'name' in obj:
-            new_obj_name = obj['name']
+        if patch_data.get('delete_old', False):
+            new_obj_name = patch_data['patch']['name']
+            avi_cfg[obj_type].remove(obj)
+            log.debug('Deleted old %s named %s replacing references to %s',
+                      obj_type, obj.get('name', ''), new_obj_name)
+            if 'tenant_ref' in patch_data['patch']:
+                tenant = mg_util.get_name(patch_data['patch']['tenant_ref'])
+
+        else:
+            log.debug('patching %s:%s with patch %s',
+                      obj_type, obj.get('name', ''), patch_data)
+            self.deep_update(obj, patch_data['patch'])
+            if 'name' in obj:
+                new_obj_name = obj['name']
         if (('name' in patch_data['patch']) and old_obj_refs and
                 (obj_name != new_obj_name)):
             # need to update all the references for this object
-            new_obj_ref = '/api/%s/?tenant=%s&name=%s' % (
-                obj_type.lower(), tenant, obj['name'])
+            # new_obj_ref = '/api/%s/?tenant=%s&name=%s' % (
+            #     obj_type.lower(), tenant, obj['name'])
             cloud = (self.param_value_in_ref(obj.get('cloud_ref'), 'name')
                      if 'cloud_ref' in obj else '')
-            if cloud:
-                new_obj_ref += '&cloud=%s' % cloud
+            new_obj_ref = mg_util.get_object_ref(
+                new_obj_name, obj_type.lower(), tenant, cloud_name=cloud)
             # this is to handle old references could be in multiple formats
             for old_obj_ref in old_obj_refs:
                 self.update_references(
                     obj_type, old_obj_ref, new_obj_ref, avi_cfg)
+
+    def deep_update(self, d, u):
+        for k, v in u.iteritems():
+            if isinstance(v, collections.Mapping):
+                d[k] = self.deep_update(d.get(k, {}), v)
+            elif isinstance(v, list):
+                for i in v:
+                    cnt = 0
+                    if isinstance(i, collections.Mapping):
+                        d[k][cnt] = self.deep_update(d[k][cnt], i)
+                    else:
+                        d[k][cnt] = i
+                    cnt += 1
+            else:
+                d[k] = v
+        return d
 
     def apply_patch(self, obj_type, patch_data, new_cfg):
         """
@@ -174,19 +223,29 @@ class ConfigPatch(object):
         :return:
         """
         cfg_objs = new_cfg.get(obj_type, [])
+        if obj_type == 'Tenant' and 'match_name' in patch_data \
+                and 'name' in patch_data['patch']:
+            self.update_tenant_references(
+                new_cfg, patch_data['match_name'], patch_data['patch']['name'])
         if not cfg_objs:
             log.warn('Could not apply patch %s: %s as no matching obj found',
                      obj_type, patch_data)
             return new_cfg
         for obj in cfg_objs:
             obj_name = obj['name']
+            rexp = None
+            list_match = False
             regex_pattern = '.*'
             if 'match_name' in patch_data:
                 regex_pattern = '^%s$' % patch_data['match_name']
+                rexp = re.compile(regex_pattern)
             elif 'match_name_regex' in patch_data:
                 regex_pattern = patch_data['match_name_regex']
-            rexp = re.compile(regex_pattern)
-            if rexp.match(obj_name):
+                rexp = re.compile(regex_pattern)
+            elif 'match_name_in_list' in patch_data:
+                list_match = obj_name in patch_data['match_name_in_list']
+
+            if (rexp and rexp.match(obj_name)) or list_match:
                 try:
                     self.apply_obj_patch(obj_type, obj, patch_data, new_cfg)
                 except:

@@ -41,13 +41,20 @@ type BgpPeer struct {
 	NetworkRef string `json:"network_ref,omitempty"`
 
 	// IP Address of the BGP Peer.
-	// Required: true
-	PeerIP *IPAddr `json:"peer_ip"`
+	PeerIP *IPAddr `json:"peer_ip,omitempty"`
+
+	// IPv6 Address of the BGP Peer. Field introduced in 18.1.1.
+	PeerIp6 *IPAddr `json:"peer_ip6,omitempty"`
 
 	// Peer Autonomous System ID. Allowed values are 1-4294967295.
 	RemoteAs int32 `json:"remote_as,omitempty"`
 
+	// Shutdown the bgp peer. Field introduced in 17.2.4.
+	Shutdown bool `json:"shutdown,omitempty"`
+
 	// Subnet providing reachability for Peer.
-	// Required: true
-	Subnet *IPAddrPrefix `json:"subnet"`
+	Subnet *IPAddrPrefix `json:"subnet,omitempty"`
+
+	// Subnet v6 providing reachability for Peer. Field introduced in 18.1.1.
+	Subnet6 *IPAddrPrefix `json:"subnet6,omitempty"`
 }

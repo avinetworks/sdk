@@ -7,6 +7,9 @@ package models
 // swagger:model AzureConfiguration
 type AzureConfiguration struct {
 
+	// Availability zones to be used in Azure. Field introduced in 17.2.5.
+	AvailabilityZones []string `json:"availability_zones,omitempty"`
+
 	// Credentials to access azure cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.1.
 	CloudCredentialsRef string `json:"cloud_credentials_ref,omitempty"`
 
@@ -30,4 +33,7 @@ type AzureConfiguration struct {
 
 	// Use Azure managed disks for SE storage. Field introduced in 17.2.2.
 	UseManagedDisks bool `json:"use_managed_disks,omitempty"`
+
+	// Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7.
+	UseStandardAlb bool `json:"use_standard_alb,omitempty"`
 }

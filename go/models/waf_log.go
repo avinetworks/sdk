@@ -22,6 +22,6 @@ type WafLog struct {
 	//  Field introduced in 17.2.1.
 	RuleLogs []*WafRuleLog `json:"rule_logs,omitempty"`
 
-	// Denotes whether WAF is running in detection mode or enforcement mode, whether any rules matched the transaction, and whether transaction is dropped by the WAF module. Enum options - WAF_MODE_DETECTION_ONLY_RULES_MATCHED, WAF_MODE_DETECTION_ONLY_RULES_DIDNT_MATCH, WAF_MODE_ENFORCEMENT_RULES_MATCHED_DENY, WAF_MODE_ENFORCEMENT_RULES_MATCHED_PASS, WAF_MODE_ENFORCEMENT_RULES_DIDNT_MATCH. Field introduced in 17.2.2.
+	// Denotes whether WAF is running in detection mode or enforcement mode, whether any rules matched the transaction, and whether transaction is dropped by the WAF module. Enum options - NO_WAF, FLAGGED, PASSED, REJECTED. Field introduced in 17.2.2.
 	Status string `json:"status,omitempty"`
 }

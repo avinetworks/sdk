@@ -12,8 +12,9 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"reflect"
-	"github.com/golang/glog"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -100,7 +101,6 @@ type AviSession struct {
 
 	// internal: referer field string to use in requests
 	prefix string
-
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -378,7 +378,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	}
 
 	result, err = ioutil.ReadAll(resp.Body)
-	return result, err
+
+	if err != nil {
+		errmsg := fmt.Sprintf("Response body read failed: %v", err)
+		errorResult.Message = &errmsg
+		return nil, errorResult
+	}
+
+	return result, nil
 }
 
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
@@ -425,6 +432,15 @@ func (avisess *AviSession) Put(uri string, payload interface{}, response interfa
 	return avisess.restRequestInterfaceResponse("PUT", uri, payload, response)
 }
 
+// Post issues a PATCH request against the avisess REST API.
+// allowed patchOp - add, replace, remove
+func (avisess *AviSession) Patch(uri string, payload interface{}, patchOp string, response interface{}) error {
+	var patchPayload = make(map[string]interface{})
+	patchPayload[patchOp] = payload
+	glog.Info(" PATCH OP %v data %v", patchOp, payload)
+	return avisess.restRequestInterfaceResponse("PATCH", uri, patchPayload, response)
+}
+
 // Delete issues a DELETE request against the avisess REST API.
 func (avisess *AviSession) Delete(uri string) error {
 	return avisess.restRequestInterfaceResponse("DELETE", uri, nil, nil)
@@ -463,24 +479,132 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 	return avisess.restRequest("POST", uri, payload)
 }
 
-// GetObjectByName performs GET with name filter
-func (avisess *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
-	uri := "api/" + obj + "?name=" + name
+type ApiOptions struct {
+	name        string
+	cloud       string
+	cloudUUID   string
+	skipDefault bool
+	includeName bool
+	result      interface{}
+}
+
+func SetName(name string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setName(name)
+	}
+}
+
+func (opts *ApiOptions) setName(name string) error {
+	opts.name = name
+	return nil
+}
+
+func SetCloud(cloud string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setCloud(cloud)
+	}
+}
+
+func (opts *ApiOptions) setCloud(cloud string) error {
+	opts.cloud = cloud
+	return nil
+}
+
+func SetCloudUUID(cloudUUID string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setCloudUUID(cloudUUID)
+	}
+}
+
+func (opts *ApiOptions) setCloudUUID(cloudUUID string) error {
+	opts.cloudUUID = cloudUUID
+	return nil
+}
+
+func SetSkipDefault(skipDefault bool) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setSkipDefault(skipDefault)
+	}
+}
+
+func (opts *ApiOptions) setSkipDefault(skipDefault bool) error {
+	opts.skipDefault = skipDefault
+	return nil
+}
+
+func SetIncludeName(includeName bool) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setIncludeName(includeName)
+	}
+}
+
+func (opts *ApiOptions) setIncludeName(includeName bool) error {
+	opts.includeName = includeName
+	return nil
+}
+
+func SetResult(result interface{}) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setResult(result)
+	}
+}
+
+func (opts *ApiOptions) setResult(result interface{}) error {
+	opts.result = result
+	return nil
+}
+
+type ApiOptionsParams func(*ApiOptions) error
+
+func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
+	opts := &ApiOptions{}
+	for _, opt := range options {
+		err := opt(opts)
+		if err != nil {
+			return err
+		}
+	}
+	if opts.result == nil {
+		return errors.New("reference to result provided")
+	}
+
+	if opts.name == "" {
+		return errors.New("Name not specified")
+	}
+
+	uri := "api/" + obj + "?name=" + opts.name
+	if opts.cloud != "" {
+		uri = uri + "&cloud=" + opts.cloud
+	} else if opts.cloudUUID != "" {
+		uri = uri + "&cloud_ref.uuid=" + opts.cloudUUID
+	}
+	if opts.skipDefault {
+		uri = uri + "&skip_default=true"
+	}
+	if opts.includeName {
+		uri = uri + "&include_name=true"
+	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {
 		return err
 	}
 	if res.Count == 0 {
-		return errors.New("No object of type " + obj + " with name " + name + "is found")
+		return errors.New("No object of type " + obj + " with name " + opts.name + "is found")
 	} else if res.Count > 1 {
-		return errors.New("More than one object of type " + obj + " with name " + name + "is found")
+		return errors.New("More than one object of type " + obj + " with name " + opts.name + "is found")
 	}
 	elems := make([]json.RawMessage, 1)
 	err = json.Unmarshal(res.Results, &elems)
 	if err != nil {
 		return err
 	}
-	return json.Unmarshal(elems[0], &result)
+	return json.Unmarshal(elems[0], &opts.result)
+
+}
+
+// GetObjectByName performs GET with name filter
+func (avisess *AviSession) GetObjectByName(obj string, name string, result interface{}) error {
+	return avisess.GetObject(obj, SetName(name), SetResult(result))
 }
 
 // Utility functions
