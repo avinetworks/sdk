@@ -146,7 +146,7 @@ class F5Converter(AviConverter):
             print "Copying Files from Host..."
             scp_util.get_files_from_f5(input_dir, self.f5_host_ip,
                                        self.f5_ssh_user, self.f5_ssh_password,
-                                       self.f5_ssh_port)
+                                       None, self.f5_ssh_port)
             LOG.debug("Copied input files")
             source_file = open(input_dir + os.path.sep + "bigip.conf", "r")
             files = os.listdir(input_dir)
