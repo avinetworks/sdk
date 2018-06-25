@@ -831,7 +831,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                replacement_config=setup.get('rule_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -891,7 +891,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                replacement_config=setup.get('rule_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
