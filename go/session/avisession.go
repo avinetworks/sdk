@@ -13,15 +13,9 @@ import (
 	"net/http/httputil"
 	"reflect"
 	"time"
-<<<<<<< Updated upstream
 	"os"
 	"mime/multipart"
 	"github.com/golang/glog"
-=======
-	"github.com/golang/glog"
-	"mime/multipart"
-	"os"
->>>>>>> Stashed changes
 	"log"
 	"strings"
 )
@@ -267,10 +261,7 @@ func mustOpen(f string) *os.File {
 	}
 	return r
 }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
 func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
@@ -415,11 +406,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) (error) {
 
 	url := avisess.prefix + "/api/fileservice/" +uri
-<<<<<<< Updated upstream
-	log.Printf("[INFO] restMultipartUploadRequest restRequest url: %v", url)
-=======
 	glog.Infof("restMultipartUploadRequest restRequest url: %v", url)
->>>>>>> Stashed changes
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -464,22 +451,14 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		if x, ok := r.(*os.File); ok {
 			if fw, err = w.CreateFormFile(key, x.Name()); err != nil {
 				if err != nil {
-<<<<<<< Updated upstream
-					log.Printf("[ERROR] restMultipartUploadRequest Error in adding file: %v ", err)
-=======
 					glog.Errorf("restMultipartUploadRequest Error in adding file: %v ", err)
->>>>>>> Stashed changes
 					return err
 				}
 			}
 		}
 		if _, err := io.Copy(fw, r); err != nil {
 			if err != nil {
-<<<<<<< Updated upstream
-				log.Printf("[ERROR] restMultipartUploadRequest Error io.Copy %v ", err)
-=======
 				glog.Errorf("restMultipartUploadRequest Error io.Copy %v ", err)
->>>>>>> Stashed changes
 				return err
 			}
 		}
@@ -525,11 +504,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	resp, err := client.Do(req)
 	if err != nil {
-<<<<<<< Updated upstream
-		log.Printf("[ERROR] restMultipartUploadRequest Error during client request: %v ", err)
-=======
 		glog.Errorf("restMultipartUploadRequest Error during client request: %v ", err)
->>>>>>> Stashed changes
 		return err
 	}
 
@@ -590,11 +565,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path string, retryNum ...int) (error) {
 
 	url := avisess.prefix + "/api/fileservice/" + uri
-<<<<<<< Updated upstream
-	log.Printf("[INFO] restMultipartDownloadRequest url: %v", url)
-=======
 	glog.Infof("restMultipartDownloadRequest url: %v", url)
->>>>>>> Stashed changes
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -710,11 +681,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	//File creation
 	out, err := os.Create(file_path)
 	if err != nil {
-<<<<<<< Updated upstream
-		log.Printf("[ERROR] Error for creation of file %v", file_path)
-=======
 		glog.Errorf("Error for creation of file %v", file_path)
->>>>>>> Stashed changes
 	}
 
 	_, err = io.Copy(out, resp.Body)
@@ -723,11 +690,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	defer resp.Body.Close()
 
 	if err != nil {
-<<<<<<< Updated upstream
-		log.Printf("[ERROR] Error while downloading %v", err)
-=======
 		glog.Errorf("Error while downloading %v", err)
->>>>>>> Stashed changes
 	}
 	//Set 1KB as buffer size
 	//buff := make([]byte, 1024)
