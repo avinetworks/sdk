@@ -13,8 +13,11 @@ import (
 	"net/http/httputil"
 	"reflect"
 	"time"
-
+	"os"
+	"mime/multipart"
 	"github.com/golang/glog"
+	"log"
+	"strings"
 )
 
 type aviResult struct {
@@ -249,13 +252,22 @@ func (avisess *AviSession) isTokenAuth() bool {
 // Helper routines for REST calls.
 //
 
+//Open given file as a pointer
+func mustOpen(f string) *os.File {
+	r, err := os.Open(f)
+	if err != nil {
+		log.Printf("[ERROR] mustOpen Error while opening  file %v", f)
+		panic(err)
+	}
+	return r
+}
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
 func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
 
 	var result []byte
 	url := avisess.prefix + uri
-
+	log.Printf("[INFO] restRequest url: %v", url)
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -388,6 +400,304 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	return result, nil
 }
 
+// restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
+// Return status of multipart upload.
+func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) (error) {
+
+	url := avisess.prefix + "/api/fileservice/" +uri
+	log.Printf("[INFO] restMultipartUploadRequest restRequest url: %v", url)
+	// If optional retryNum arg is provided, then count which retry number this is
+	retry := 0
+	if len(retryNum) > 0 {
+		retry = retryNum[0]
+	}
+	// On subsequent retries, wait a bit before retrying.
+	// If not our first 3 tries, stop trying
+	if retry == 1 {
+		time.Sleep(100 * time.Millisecond)
+	}
+	if retry == 2 {
+		time.Sleep(500 * time.Millisecond)
+	}
+	if retry == 3 {
+		time.Sleep(1 * time.Second)
+	}
+	if retry > 3 {
+		errorResult := AviError{verb: verb, url: url}
+		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest tried 3 times and failed")
+		return errorResult
+	}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+	//
+	errorResult := AviError{verb: verb, url: url}
+
+	//Prepare a file that you will submit to an URL.
+	values := map[string]io.Reader{
+		"file":  mustOpen(file_path),
+	}
+
+	var b bytes.Buffer
+	w := multipart.NewWriter(&b)
+	for key, r := range values {
+		var fw io.Writer
+		var err error
+		if x, ok := r.(io.Closer); ok {
+			defer x.Close()
+		}
+		// Add an file
+		if x, ok := r.(*os.File); ok {
+			if fw, err = w.CreateFormFile(key, x.Name()); err != nil {
+				if err != nil {
+					log.Printf("[ERROR] restMultipartUploadRequest Error in adding file: %v ", err)
+					return err
+				}
+			}
+		}
+		if _, err := io.Copy(fw, r); err != nil {
+			if err != nil {
+				log.Printf("[ERROR] restMultipartUploadRequest Error io.Copy %v ", err)
+				return err
+			}
+		}
+
+	}
+	// Closing the multipart writer.
+	// If you don't close it, your request will be missing the terminating boundary.
+	w.Close()
+	uri_temp := "controller://" + strings.Split(uri,"?")[0]
+	err := w.WriteField("uri", uri_temp)
+
+	if err != nil {
+		errorResult.err = fmt.Errorf("[ERROR] restMultipartUploadRequest Adding URI field failed: %v", err)
+		return errorResult
+	}
+	req, err := http.NewRequest(verb, url, &b)
+	if err != nil {
+		errorResult.err = fmt.Errorf("[ERROR] restMultipartUploadRequest http.NewRequest failed: %v", err)
+		return errorResult
+	}
+	req.Header.Set("Content-Type", w.FormDataContentType())
+	req.Header.Set("X-Avi-Version", avisess.version)
+	//
+	if avisess.csrfToken != "" {
+		req.Header["X-CSRFToken"] = []string{avisess.csrfToken}
+		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avisess.csrfToken})
+	}
+	if avisess.prefix != "" {
+		req.Header.Set("Referer", avisess.prefix)
+	}
+	if avisess.tenant != "" {
+		req.Header.Set("X-Avi-Tenant", avisess.tenant)
+	}
+	if avisess.sessionid != "" {
+		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
+		req.AddCookie(&http.Cookie{Name: "avi-sessionid", Value: avisess.sessionid})
+	}
+
+	client := &http.Client{Transport: tr}
+
+	dump, err := httputil.DumpRequestOut(req, true)
+	debug(dump, err)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Printf("[ERROR] restMultipartUploadRequest Error during client request: %v ", err)
+		return err
+	}
+
+	defer resp.Body.Close()
+
+	errorResult.httpStatusCode = resp.StatusCode
+
+	// collect cookies from the resp
+	for _, cookie := range resp.Cookies() {
+		glog.Infof("cookie: %v", cookie)
+		if cookie.Name == "csrftoken" {
+			avisess.csrfToken = cookie.Value
+			glog.Infof("Set the csrf token to %v", avisess.csrfToken)
+		}
+		if cookie.Name == "sessionid" {
+			avisess.sessionid = cookie.Value
+		}
+	}
+	glog.Infof("Response code: %v", resp.StatusCode)
+
+	if resp.StatusCode == 419 {
+		// session got reset; try again
+		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+	}
+
+	// session expired; initiate session and then retry the request
+	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
+		err := avisess.initiateSession()
+		if err != nil {
+			return err
+		}
+		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		glog.Errorf("Error: %v", resp)
+		bres, berr := ioutil.ReadAll(resp.Body)
+		if berr == nil {
+			mres, _ := convertAviResponseToMapInterface(bres)
+			glog.Infof("Error resp: %v", mres)
+			emsg := fmt.Sprintf("%v", mres)
+			errorResult.Message = &emsg
+		}
+		return errorResult
+	}
+
+	if resp.StatusCode == 201 {
+		// File Created and upload to server
+		fmt.Printf("[INFO] restMultipartUploadRequest Response: %v", resp.Status)
+		return nil
+	}
+
+	return err
+}
+
+// restRequest makes a REST request to the Avi Controller's REST API.
+// Returns multipart download and write data to file
+func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path string, retryNum ...int) (error) {
+
+	url := avisess.prefix + "/api/fileservice/" + uri
+	log.Printf("[INFO] restMultipartDownloadRequest url: %v", url)
+	// If optional retryNum arg is provided, then count which retry number this is
+	retry := 0
+	if len(retryNum) > 0 {
+		retry = retryNum[0]
+	}
+
+	// On subsequent retries, wait a bit before retrying.
+	// If not our first 3 tries, stop trying
+	if retry == 1 {
+		time.Sleep(100 * time.Millisecond)
+	}
+	if retry == 2 {
+		time.Sleep(500 * time.Millisecond)
+	}
+	if retry == 3 {
+		time.Sleep(1 * time.Second)
+	}
+	if retry > 3 {
+		errorResult := AviError{verb: verb, url: url}
+		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest tried 3 times and failed")
+		return errorResult
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
+	errorResult := AviError{verb: verb, url: url}
+
+	req, err := http.NewRequest(verb, url, nil)
+	if err != nil {
+		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest http.NewRequest failed: %v", err)
+		return errorResult
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("X-Avi-Version", avisess.version)
+
+	if avisess.csrfToken != "" {
+		req.Header["X-CSRFToken"] = []string{avisess.csrfToken}
+		req.AddCookie(&http.Cookie{Name: "csrftoken", Value: avisess.csrfToken})
+	}
+	if avisess.prefix != "" {
+		req.Header.Set("Referer", avisess.prefix)
+	}
+	if avisess.tenant != "" {
+		req.Header.Set("X-Avi-Tenant", avisess.tenant)
+	}
+	if avisess.sessionid != "" {
+		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
+	}
+
+	// glog.Infof("Request headers: %v", req.Header)
+	dump, err := httputil.DumpRequestOut(req, true)
+	debug(dump, err)
+
+	client := &http.Client{Transport: tr}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
+		return errorResult
+	}
+
+	defer resp.Body.Close()
+
+	errorResult.httpStatusCode = resp.StatusCode
+
+	// collect cookies from the resp
+	for _, cookie := range resp.Cookies() {
+		glog.Infof("cookie: %v", cookie)
+		if cookie.Name == "csrftoken" {
+			avisess.csrfToken = cookie.Value
+			glog.Infof("Set the csrf token to %v", avisess.csrfToken)
+		}
+		if cookie.Name == "sessionid" {
+			avisess.sessionid = cookie.Value
+		}
+	}
+	glog.Infof("Response code: %v", resp.StatusCode)
+
+	if resp.StatusCode == 419 {
+		// session got reset; try again
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path, retry+1)
+	}
+
+	// session expired; initiate session and then retry the request
+	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
+		err := avisess.initiateSession()
+		if err != nil {
+			return err
+		}
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path, retry+1)
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		glog.Errorf("Error: %v", resp)
+		bres, berr := ioutil.ReadAll(resp.Body)
+		if berr == nil {
+			mres, _ := convertAviResponseToMapInterface(bres)
+			glog.Infof("Error resp: %v", mres)
+			emsg := fmt.Sprintf("%v", mres)
+			errorResult.Message = &emsg
+		}
+		return errorResult
+	}
+
+	if resp.StatusCode == 204 {
+		// no content in the response
+		return nil
+	}
+
+	//File creation
+	out, err := os.Create(file_path)
+	if err != nil {
+		log.Printf("[ERROR] Error for creation of file %v", file_path)
+	}
+
+	_, err = io.Copy(out, resp.Body)
+
+	defer out.Close()
+	defer resp.Body.Close()
+
+	if err != nil {
+		log.Printf("[ERROR] Error while downloading %v", err)
+	}
+	//Set 1KB as buffer size
+	//buff := make([]byte, 1024)
+	//n, err := io.CopyBuffer(out, resp.Body, buff)
+	//fmt.Printf("%v", n)
+	return err
+}
+
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
 	var result interface{}
 	err := json.Unmarshal(resbytes, &result)
@@ -432,15 +742,6 @@ func (avisess *AviSession) Put(uri string, payload interface{}, response interfa
 	return avisess.restRequestInterfaceResponse("PUT", uri, payload, response)
 }
 
-// Post issues a PATCH request against the avisess REST API.
-// allowed patchOp - add, replace, remove
-func (avisess *AviSession) Patch(uri string, payload interface{}, patchOp string, response interface{}) error {
-	var patchPayload = make(map[string]interface{})
-	patchPayload[patchOp] = payload
-	glog.Info(" PATCH OP %v data %v", patchOp, payload)
-	return avisess.restRequestInterfaceResponse("PATCH", uri, patchPayload, response)
-}
-
 // Delete issues a DELETE request against the avisess REST API.
 func (avisess *AviSession) Delete(uri string) error {
 	return avisess.restRequestInterfaceResponse("DELETE", uri, nil, nil)
@@ -477,6 +778,16 @@ func (avisess *AviSession) GetRaw(uri string) ([]byte, error) {
 // PostRaw performs a POST API call and returns raw data
 func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) {
 	return avisess.restRequest("POST", uri, payload)
+}
+
+// GetMultipartRaw performs a GET API call and returns multipart raw data (File Download)
+func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc string) (error) {
+	return avisess.restMultipartDownloadRequest("GET", uri, file_loc)
+}
+
+// PostMultipartRequest performs a POST API call and uploads multipart data
+func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc string) (error) {
+	return avisess.restMultipartUploadRequest("POST", uri, file_loc)
 }
 
 type ApiOptions struct {
