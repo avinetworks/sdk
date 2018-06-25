@@ -68,7 +68,7 @@ class F5Converter(AviConverter):
         # Prefix for objects
         self.prefix = args.prefix
         # rule config for irule conversion
-        self.rule_config = args.rule_config
+        self.replacement_config = args.replacement_config
         # Setting snat conversion flag using args
         self.con_snatpool = args.convertsnat
         # Added not in use flag
@@ -131,10 +131,10 @@ class F5Converter(AviConverter):
         if self.ignore_config:
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
-        rule_mappings = None
-        if self.rule_config:
-            with open(self.rule_config) as stream:
-                rule_mappings = yaml.safe_load(stream)
+        replacement_mappings = None
+        if self.replacement_config:
+            with open(self.replacement_config) as stream:
+                replacement_mappings = yaml.safe_load(stream)
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
@@ -211,7 +211,7 @@ class F5Converter(AviConverter):
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name, self.f5_passphrase_file,
-            self.vs_level_status, self.vrf, self.segroup, rule_mappings)
+            self.vs_level_status, self.vrf, self.segroup, replacement_mappings)
 
         avi_config_dict["META"] = self.meta(self.tenant,
                                             self.controller_version)
@@ -516,8 +516,8 @@ if __name__ == "__main__":
                                         'location of patch.yaml')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
-    parser.add_argument('-r', '--rule_config',
-                        help='iRule mapping yml file path')
+    parser.add_argument('-r', '--replacement_config',
+                        help='iRule/monitor replacement mapping yml file path')
     parser.add_argument('--skip_default_file',
                         help='Flag for skip default file', action='store_true')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],

@@ -34,7 +34,7 @@ input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 
 input_role_config_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                               'irule_config.yaml'))
+                                               'replacement_config.yaml'))
 
 v10 = '10'
 v11 = '11'
