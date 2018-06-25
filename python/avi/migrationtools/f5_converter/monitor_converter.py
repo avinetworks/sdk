@@ -246,7 +246,7 @@ class MonitorConfigConv(object):
                 conv_utils.add_conv_status(
                     'monitor', monitor_type, m_name, {
                         'status': conv_const.STATUS_SUCCESSFUL
-                    }, avi_monitor)
+                    }, [{'health_monitor': avi_monitor}])
                 continue
             # Added prefix for objects
             if self.prefix:
