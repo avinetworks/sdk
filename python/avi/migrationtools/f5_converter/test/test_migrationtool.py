@@ -34,7 +34,7 @@ input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 
 input_role_config_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                               'replacement_config.yaml'))
+                                               'custom_config.yaml'))
 
 v10 = '10'
 v11 = '11'
@@ -119,7 +119,7 @@ def f5_conv(
         ansible_skip_types=None, ansible_filter_types=None, ansible=None,
         prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
-        vrf=None, segroup=None, replacement_config=None):
+        vrf=None, segroup=None, custom_config=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -142,7 +142,7 @@ def f5_conv(
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
                      vrf=vrf, segroup=segroup,
-                     replacement_config=replacement_config)
+                     custom_config=custom_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -831,7 +831,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                replacement_config=setup.get('rule_config_file'),
+                custom_config=setup.get('rule_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -891,7 +891,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                replacement_config=setup.get('rule_config_file'),
+                custom_config=setup.get('rule_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")

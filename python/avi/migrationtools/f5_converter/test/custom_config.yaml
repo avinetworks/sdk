@@ -1,4 +1,4 @@
-irule_replacement_config:
+irule_custom_config:
   #iRule to be mapped to dummy datascript
   - rule_name: Philippe-Splunk
     type: VSDataScriptSet
@@ -60,7 +60,7 @@ irule_replacement_config:
   - rule_name: _sys_https_redirect
     type: HTTPToHTTPSRedirect
 
-healthmonitor_replacement_config:
+healthmonitor_custom_config:
   - monitor_name: dnsTest
     avi_config:
       receive_timeout: 4

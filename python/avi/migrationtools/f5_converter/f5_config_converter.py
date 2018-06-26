@@ -38,7 +38,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             con_snatpool, user_ignore, profile_path, tenant='admin',
             cloud_name='Default-Cloud', keypassphrase=None,
             vs_level_status=False, vrf=None, segroup=None,
-            replacement_mappings=None):
+            custom_mappings=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -59,8 +59,9 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param cloud_name: cloud for which config need to be converted
     :param keypassphrase: path of keypassphrase file.
     :param vs_level_status: flag to add cloumn of vs reference.
-    :param vrf vrf ref object
-    :param segroup segroup ref
+    :param vrf: vrf name to write vrf_ref value
+    :param segroup: segroup ref value for VS
+    :param custom_mappings: custom mappings to overwrite monitor or map irules
     :return: Converted avi objects
     """
 
@@ -92,7 +93,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             version, f5_attributes, prefix, object_merge_check)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                          tenant, cloud_name, controller_version,
-                         merge_object_mapping, sys_dict, replacement_mappings)
+                         merge_object_mapping, sys_dict, custom_mappings)
 
         pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
@@ -108,7 +109,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         policy_conv.convert(f5_config, avi_config_dict, tenant)
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
-                                            con_snatpool, replacement_mappings)
+                                            con_snatpool, custom_mappings)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup)

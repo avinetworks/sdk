@@ -76,8 +76,8 @@ COMPLEXITY_BASIC = 'BASIC'
 STATUS_NOT_SUPPORTED = 'NOT SUPPORTED'
 STATUS_LIST = [STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_NOT_APPLICABLE,
                STATUS_ERROR, STATUS_PARTIAL, STATUS_DATASCRIPT]
-HM_REPLACEMENT_KEY = 'healthmonitor_replacement_config'
-RULE_REPLACEMENT_KEY = 'irule_replacement_config'
+HM_CUSTOM_KEY = 'healthmonitor_custom_config'
+RULE_CUSTOM_KEY = 'irule_custom_config'
 
 DUMMY_DS = {
     'datascript': [
