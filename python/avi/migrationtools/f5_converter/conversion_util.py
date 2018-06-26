@@ -926,7 +926,7 @@ class F5Util(MigrationUtil):
 
     def create_hdr_insert_rule(self, name, hdr_name, val, rule_index):
         return self.create_header_rule(
-            name, hdr_name, "HTTP_ADD_HDR", val, rule_index)
+            name, hdr_name, "HTTP_ADD_HDR", val.strip(), rule_index)
 
     def create_header_rule(self, name, hdr_name, action, val,
                            rule_index):
@@ -937,7 +937,7 @@ class F5Util(MigrationUtil):
                 {
                     "action": action,
                     "hdr": {
-                        "name": hdr_name,
+                        "name": hdr_name.strip(),
                         "value": {
                             "val": val
                         }
