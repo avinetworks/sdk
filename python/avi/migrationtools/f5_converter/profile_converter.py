@@ -530,11 +530,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             header_erase = profile.get('header-erase', None)
             header_erase = None if header_erase == 'none' else header_erase
             if header_erase:
-                header_erase = header_erase.replace('\"', '')
+                header_erase = header_erase.replace('\"', '').strip()
             header_insert = profile.get('header-insert', None)
             header_insert = None if header_insert == 'none' else header_insert
             if header_insert:
-                header_insert = header_insert.replace('\"', '')
+                header_insert = header_insert.replace('\"', '').strip()
 
             if header_erase or header_insert:
                 rules = []
@@ -1585,11 +1585,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         header_erase = None if header_erase == 'none' else header_erase
 
         if header_erase:
-            header_erase = header_erase.replace('\"', '')
+            header_erase = header_erase.replace('\"', '').strip()
         header_insert = profile.get('header-insert', None)
         header_insert = None if header_insert == 'none' else header_insert
         if header_insert:
-            header_insert = header_insert.replace('\"', '')
+            header_insert = header_insert.replace('\"', '').strip()
 
         if header_erase or header_insert:
             rules = []

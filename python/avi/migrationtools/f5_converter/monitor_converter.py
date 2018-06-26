@@ -490,6 +490,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get(self.dest_key, "*:*")
@@ -537,6 +538,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
@@ -884,6 +886,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
@@ -934,6 +937,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }

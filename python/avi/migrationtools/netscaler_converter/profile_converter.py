@@ -361,7 +361,8 @@ class ProfileConverter(object):
                 if obj.get('accepted_ciphers', None):
                     # Todo supported only valid ciphers
                     ssl_profile['accepted_ciphers'] = obj.get(
-                                                        'accepted_ciphers')
+                        'accepted_ciphers')
+                    ssl_profile['description'] = obj.get('ciphersuite')
                     # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
                 if obj.get('cert', None):
                     avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
@@ -716,11 +717,13 @@ class ProfileConverter(object):
                     skipped_status = 'Skipped: Key and certificate not ' \
                                      'generated : %s' % full_cmd
             elif 'cipherName' in mapping.keys():
-                ciphers_keys = self.get_ciphers(mapping['cipherName'],
-                                                ns_config)
+                ciphers_keys, ciphersuite = self.get_ciphers(
+                    mapping['cipherName'], ns_config)
                 ciphers += ciphers_keys
                 ciphers = list(set(ciphers))
                 obj['accepted_ciphers'] = ':'.join(ciphers)
+                if ciphersuite:
+                    obj['ciphersuite'] = ciphersuite
                 bind_ssl_success = True
                 output = obj
                 if not obj['accepted_ciphers']:
@@ -758,9 +761,9 @@ class ProfileConverter(object):
         This function is define to get the ssl ciphers
         :param cipher: cipher name
         :param ns_config: netscalar configuration
-        :return: list of ciphers
+        :return: list of ciphers, cipher-suite name
         """
-
+        ciphersuite = None
         cipher_config = ns_config.get('add ssl cipher', {})
         cipher_mapping = ns_config.get('bind ssl cipher', {})
         lb_cipher = cipher_config.get(cipher, None)
@@ -769,7 +772,9 @@ class ProfileConverter(object):
         bind_ssl_cipher_command = 'bind ssl cipher'
         # added default ssl ciphers
         if not (lb_cipher and bind_ciphers):
-            return ['AES:3DES:RC4']
+            return ['AES:3DES:RC4'], ciphersuite
+        if lb_cipher:
+            ciphersuite = lb_cipher['attrs'][0]
         ciphers = []
         full_add_ssl_cipher_command = \
             ns_util.get_netscalar_full_command(add_ssl_cipher_command,
@@ -836,6 +841,6 @@ class ProfileConverter(object):
                     skipped_status)
 
         if not ciphers:
-            return [cipher]
+            return [cipher], ciphersuite
 
-        return ciphers
+        return ciphers, ciphersuite
