@@ -150,9 +150,14 @@ class VSConfigConv(object):
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
-        app_prof, f_host, realm, app_pol_name = conv_utils.get_vs_app_profiles(
+        app_prof_conf = conv_utils.get_vs_app_profiles(
             profiles, avi_config, tenant, self.prefix, oc_prof, enable_ssl,
             merge_object_mapping, sys_dict)
+        app_prof = app_prof_conf.get('app_prof', None)
+        f_host = app_prof_conf.get('f_host', None)
+        realm = app_prof_conf.get('realm', None)
+        app_pol_name = app_prof_conf.get('app_pol_name', None)
+        needs_review = app_prof_conf.get('needs_review', False)
 
         if not app_prof:
             msg = ('Profile type not supported by Avi Skipping VS : %s'
@@ -581,9 +586,9 @@ class VSConfigConv(object):
         if skipped:
             status = final.STATUS_PARTIAL
         conv_status['status'] = status
-
+        review_flag = 'Yes' if needs_review else None
         conv_utils.add_conv_status('virtual', None, vs_name,
-                                   conv_status, vs_obj)
+                                   conv_status, vs_obj, review_flag)
 
         return vs_obj
 
