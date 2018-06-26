@@ -366,7 +366,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     # Added Support to get uuid
     uuid = module.params.get('uuid', None)
     check_mode = module.check_mode
-    if uuid  and obj_type != 'cluster':
+    if uuid and obj_type != 'cluster':
         obj_path = '%s/%s' % (obj_type, uuid)
     else:
         obj_path = '%s/' % obj_type
