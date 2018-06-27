@@ -251,36 +251,33 @@ func (avisess *AviSession) isTokenAuth() bool {
 
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
-func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
+func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}) ([]byte, error) {
 
 	var result []byte
 	url := avisess.prefix + uri
 
-	// If optional retryNum arg is provided, then count which retry number this is
-	retry := 0
-	if len(retryNum) > 0 {
-		retry = retryNum[0]
-	}
-
-	// On subsequent retries, wait a bit before retrying.
-	// If not our first 3 tries, stop trying
-	if retry == 1 {
-		time.Sleep(100 * time.Millisecond)
-	}
-	if retry == 2 {
-		time.Sleep(500 * time.Millisecond)
-	}
-	if retry == 3 {
-		time.Sleep(1 * time.Second)
-	}
-	if retry > 3 {
-		errorResult := AviError{verb: verb, url: url}
-		errorResult.err = fmt.Errorf("tried 3 times and failed")
-		return nil, errorResult
-	}
-
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
+	client := &http.Client{Transport: tr}
+
+	//Checking controller state form login uri
+	check_url := avisess.prefix + "login"
+	check_req, err := http.NewRequest("GET", check_url, nil)
+
+	state_resp, err := client.Do(check_req)
+
+	if state_resp == nil{
+		// On subsequent retries, wait a bit before retrying.
+		time.Sleep(3 * time.Second)
+		return avisess.restRequest(verb, uri, payload)
+	} else {
+		//checking status till controller gets ready
+		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
+			time.Sleep(3 * time.Second)
+			return avisess.restRequest(verb, uri, payload)
+		}
 	}
 
 	errorResult := AviError{verb: verb, url: url}
@@ -321,8 +318,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
 
-	client := &http.Client{Transport: tr}
-
 	resp, err := client.Do(req)
 	if err != nil {
 		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
@@ -348,7 +343,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restRequest(verb, uri, payload, retry+1)
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -357,7 +352,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		if err != nil {
 			return nil, err
 		}
-		return avisess.restRequest(verb, uri, payload, retry+1)
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
