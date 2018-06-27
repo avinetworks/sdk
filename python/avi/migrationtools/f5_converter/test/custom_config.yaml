@@ -1,0 +1,73 @@
+irule_custom_config:
+  #iRule to be mapped to dummy datascript
+  - rule_name: Philippe-Splunk
+    type: VSDataScriptSet
+  #iRule to be mapped to dummy HTTPPolicy
+  - rule_name: New_200_ok
+    type: HTTPPolicySet
+  #iRule to be mapped to dummy NetworkSecurityPolicy
+  - rule_name: F5-iRule-001
+    type: NetworkSecurityPolicy
+  #iRule to be mapped to given datascript
+  - rule_name: fake-200-ok
+    type: VSDataScriptSet
+    avi_config:
+      name: ds_rule
+      datascript:
+        - evt: 'VS_DATASCRIPT_EVT_HTTP_REQ'
+          script: 'if avi.http.get_query("intro", "true") == "hello%20world" then avi.http.add_header("intro", "true") end'
+  #iRule to be mapped to given HTTPPolicy
+  - rule_name: F5-iRule-002
+    type: HTTPPolicySet
+    avi_config:
+      name: req_pol_rule
+      http_request_policy:
+        rules:
+          - index: 1
+            hdr_action:
+              - action: "HTTP_REPLACE_HDR"
+                hdr:
+                  name: "dummy"
+                  value:
+                    val: "dummy"
+            all_headers: false
+            match:
+              hdrs:
+                - hdr: "dummy"
+                  match_criteria: "HDR_EXISTS"
+
+            name: "Rule 1"
+      is_internal_policy: false
+  #iRule to be mapped to given NetworkSecurityPolicy
+  - rule_name: SNAT-to-XFF
+    type: NetworkSecurityPolicy
+    avi_config:
+      name: nw_policy_rule
+      rules:
+        - index: 1
+          enable: true
+          name: "Rule 1"
+          age: 0
+          action: "NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW"
+          match:
+            client_ip:
+              addrs:
+                - type: "V4"
+                  addr: "1.1.1.1"
+              match_criteria: "IS_IN"
+          log: false
+  #iRule to be mapped to http to https redirect
+  - rule_name: _sys_https_redirect
+    type: HTTPToHTTPSRedirect
+
+healthmonitor_custom_config:
+  - monitor_name: dnsTest
+    avi_config:
+      receive_timeout: 4
+      failed_checks: 2
+      send_interval: 10
+      external_monitor:
+        command_code: '#!/bin/bash #mysql --host=$IP --user=root --password=s3cret! -e "select 1"'
+      successful_checks: 2
+      type: HEALTH_MONITOR_EXTERNAL
+      name:  dnsTest
