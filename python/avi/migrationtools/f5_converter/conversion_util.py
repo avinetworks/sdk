@@ -100,7 +100,7 @@ class F5Util(MigrationUtil):
         return avi_algo_val
 
     def add_conv_status(self, f5_type, f5_sub_type, f5_id, conv_status,
-                        avi_object=None):
+                        avi_object=None, need_review=None):
         """
         Adds as status row in conversion status csv
         :param f5_type: Object type
@@ -121,7 +121,8 @@ class F5Util(MigrationUtil):
             'Indirect mapping': str(conv_status.get('indirect', '')),
             'Not Applicable': str(conv_status.get('na_list', '')),
             'User Ignored': str(conv_status.get('user_ignore', '')),
-            'Avi Object': str(avi_object)
+            'Avi Object': str(avi_object),
+            'Needs Review': need_review
         }
         csv_writer_dict_list.append(row)
 
@@ -371,9 +372,7 @@ class F5Util(MigrationUtil):
         :return: returns list of profile refs assigned to VS in avi config
         """
         app_profile_refs = []
-        policy_name = None
-        f_host = None
-        realm = None
+        app_prof_conf = dict()
         app_profile_list = avi_config.get("ApplicationProfile", [])
         unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
         sys_app = sys_dict['ApplicationProfile']
@@ -400,12 +399,12 @@ class F5Util(MigrationUtil):
                     tenant=self.get_name(app_profiles[0]['tenant_ref'])))
 
                 if app_profiles[0].get('HTTPPolicySet', None):
-                    policy_name = app_profiles[0]['HTTPPolicySet']
+                    app_prof_conf['policy_name'] = app_profiles[0]['HTTPPolicySet']
                 if app_profiles[0].get('fallback_host', None):
-                    f_host = app_profiles[0]['fallback_host']
+                    app_prof_conf['f_host'] = app_profiles[0]['fallback_host']
                 # prerequisite user need to create default auth profile
                 if app_profiles[0].get('realm', None):
-                    realm = {
+                    app_prof_conf['realm'] = {
                         "type": "HTTP_BASIC_AUTH",
                         "auth_profile_ref": self.get_object_ref(
                             'System-Default-Auth-Profile', 'authprofile',
@@ -420,8 +419,9 @@ class F5Util(MigrationUtil):
             if not_supported:
                 LOG.warning(
                     'Profiles not supported by Avi : %s' % not_supported)
-                return app_profile_refs, f_host, realm, policy_name
+                return app_prof_conf
             if oc_prof or enable_ssl:
+                app_prof_conf['needs_review'] = True
                 value = 'http'
             else:
                 value = 'fastL4'
@@ -439,7 +439,8 @@ class F5Util(MigrationUtil):
             app_profile_refs.append(
                 self.get_object_ref(default_app_profile[0]['name'],
                                     'applicationprofile', tenant=tenant))
-        return app_profile_refs, f_host, realm, policy_name
+        app_prof_conf['app_prof'] = app_profile_refs
+        return app_prof_conf
 
     def get_vs_ntwk_profiles(self, profiles, avi_config, prefix,
                              merge_object_mapping, sys_dict):
@@ -1251,6 +1252,11 @@ class F5Util(MigrationUtil):
                     'local': True
                 })
 
+    def get_cell_format(self, workbook, cell_format_info):
+        format_col = cell_format_info['col']
+        format = workbook.add_format(cell_format_info['fromat'])
+        return format_col, format
+
     def write_status_report_and_pivot_table_in_xlsx(
             self, output_dir, report_name, vs_level_status):
         """
@@ -1270,13 +1276,13 @@ class F5Util(MigrationUtil):
                           'Not Applicable', 'User Ignored',
                           'Skipped for defaults', 'Complexity Level',
                           'VS Reference', 'Overall skipped settings',
-                          'Avi Object']
+                          'Avi Object', 'Needs Review']
         else:
             fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                           'Skipped settings', 'Indirect mapping',
                           'Not Applicable',
                           'User Ignored', 'Skipped for defaults',
-                          'Complexity Level', 'Avi Object']
+                          'Complexity Level', 'Avi Object', 'Needs Review']
 
         # xlsx workbook
         report_path = output_dir + os.path.sep + "%s-ConversionStatus.xlsx" % \
