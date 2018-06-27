@@ -265,12 +265,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return nil, err
 	}
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
-	client := &http.Client{Transport: tr}
-
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -292,6 +286,10 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		errorResult := AviError{verb: verb, url: url}
 		errorResult.err = fmt.Errorf("tried 3 times and failed")
 		return nil, errorResult
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
 
 	errorResult := AviError{verb: verb, url: url}
@@ -331,6 +329,8 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	// glog.Infof("Request headers: %v", req.Header)
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
+
+	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -408,12 +408,6 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	url := avisess.prefix + "/api/fileservice/" + uri
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
-	client := &http.Client{Transport: tr}
-
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -435,6 +429,10 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		errorResult := AviError{verb: verb, url: url}
 		errorResult.err = fmt.Errorf("tried 3 times and failed")
 		return errorResult
+	}
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
 
 	errorResult := AviError{verb: verb, url: url}
@@ -503,6 +501,8 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
+
+	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -574,12 +574,6 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		return err
 	}
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
-	client := &http.Client{Transport: tr}
-
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -602,6 +596,11 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		errorResult.err = fmt.Errorf("tried 3 times and failed")
 		return errorResult
 	}
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
 	errorResult := AviError{verb: verb, url: url}
 
 	req, err := http.NewRequest(verb, url, nil)
@@ -631,6 +630,8 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	// glog.Infof("Request headers: %v", req.Header)
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
+
+	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -685,7 +686,6 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		// no content in the response
 		return nil
 	}
-
 
 	_, err = io.Copy(file_path_ptr, resp.Body)
 
