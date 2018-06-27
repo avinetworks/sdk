@@ -264,36 +264,32 @@ func mustOpen(f string) *os.File {
 
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
-func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
+func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}) ([]byte, error) {
 
 	var result []byte
 	url := avisess.prefix + uri
 
-	// If optional retryNum arg is provided, then count which retry number this is
-	retry := 0
-	if len(retryNum) > 0 {
-		retry = retryNum[0]
-	}
-
-	// On subsequent retries, wait a bit before retrying.
-	// If not our first 3 tries, stop trying
-	if retry == 1 {
-		time.Sleep(100 * time.Millisecond)
-	}
-	if retry == 2 {
-		time.Sleep(500 * time.Millisecond)
-	}
-	if retry == 3 {
-		time.Sleep(1 * time.Second)
-	}
-	if retry > 3 {
-		errorResult := AviError{verb: verb, url: url}
-		errorResult.err = fmt.Errorf("tried 3 times and failed")
-		return nil, errorResult
-	}
-
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
+	client := &http.Client{Transport: tr}
+
+	//Checking controller state for login uri
+	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
+
+	state_resp, err := client.Do(check_req)
+
+	if state_resp == nil{
+		// On subsequent retries, wait a bit before retrying.
+		time.Sleep(3 * time.Second)
+		return avisess.restRequest(verb, uri, payload)
+	} else {
+		//checking status till controller gets ready
+		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
+			time.Sleep(3 * time.Second)
+			return avisess.restRequest(verb, uri, payload)
+		}
 	}
 
 	errorResult := AviError{verb: verb, url: url}
@@ -334,8 +330,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
 
-	client := &http.Client{Transport: tr}
-
 	resp, err := client.Do(req)
 	if err != nil {
 		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
@@ -361,7 +355,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restRequest(verb, uri, payload, retry+1)
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -370,7 +364,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		if err != nil {
 			return nil, err
 		}
-		return avisess.restRequest(verb, uri, payload, retry+1)
+		return avisess.restRequest(verb, uri, payload)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
@@ -403,35 +397,31 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 // restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
 // Return status of multipart upload.
-func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) error {
+func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string) error {
 
 	url := avisess.prefix + "/api/fileservice/" + uri
-	glog.Infof("restMultipartUploadRequest restRequest url: %v", url)
-	// If optional retryNum arg is provided, then count which retry number this is
-	retry := 0
-	if len(retryNum) > 0 {
-		retry = retryNum[0]
-	}
-	// On subsequent retries, wait a bit before retrying.
-	// If not our first 3 tries, stop trying
-	if retry == 1 {
-		time.Sleep(100 * time.Millisecond)
-	}
-	if retry == 2 {
-		time.Sleep(500 * time.Millisecond)
-	}
-	if retry == 3 {
-		time.Sleep(1 * time.Second)
-	}
-	if retry > 3 {
-		errorResult := AviError{verb: verb, url: url}
-		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest tried 3 times and failed")
-		return errorResult
-	}
+
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
-	//
+
+	client := &http.Client{Transport: tr}
+
+	//Checking controller state
+	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
+
+	state_resp, err := client.Do(check_req)
+
+	if state_resp == nil{
+		time.Sleep(3 * time.Second)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path)
+	} else {
+		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
+			time.Sleep(3 * time.Second)
+			return avisess.restMultipartUploadRequest(verb, uri, file_path)
+		}
+	}
+
 	errorResult := AviError{verb: verb, url: url}
 
 	//Prepare a file that you will submit to an URL.
@@ -468,15 +458,15 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	// If you don't close it, your request will be missing the terminating boundary.
 	w.Close()
 	uri_temp := "controller://" + strings.Split(uri, "?")[0]
-	err := w.WriteField("uri", uri_temp)
+	err = w.WriteField("uri", uri_temp)
 
 	if err != nil {
-		errorResult.err = fmt.Errorf("[ERROR] restMultipartUploadRequest Adding URI field failed: %v", err)
+		errorResult.err = fmt.Errorf("restMultipartUploadRequest Adding URI field failed: %v", err)
 		return errorResult
 	}
 	req, err := http.NewRequest(verb, url, &b)
 	if err != nil {
-		errorResult.err = fmt.Errorf("[ERROR] restMultipartUploadRequest http.NewRequest failed: %v", err)
+		errorResult.err = fmt.Errorf("restMultipartUploadRequest http.NewRequest failed: %v", err)
 		return errorResult
 	}
 	req.Header.Set("Content-Type", w.FormDataContentType())
@@ -496,8 +486,6 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 		req.AddCookie(&http.Cookie{Name: "avi-sessionid", Value: avisess.sessionid})
 	}
-
-	client := &http.Client{Transport: tr}
 
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
@@ -527,7 +515,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -536,7 +524,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		if err != nil {
 			return err
 		}
-		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
@@ -553,7 +541,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	if resp.StatusCode == 201 {
 		// File Created and upload to server
-		fmt.Printf("[INFO] restMultipartUploadRequest Response: %v", resp.Status)
+		fmt.Printf("restMultipartUploadRequest Response: %v", resp.Status)
 		return nil
 	}
 
@@ -565,39 +553,34 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path string, retryNum ...int) error {
 
 	url := avisess.prefix + "/api/fileservice/" + uri
-	glog.Infof("restMultipartDownloadRequest url: %v", url)
-	// If optional retryNum arg is provided, then count which retry number this is
-	retry := 0
-	if len(retryNum) > 0 {
-		retry = retryNum[0]
-	}
-
-	// On subsequent retries, wait a bit before retrying.
-	// If not our first 3 tries, stop trying
-	if retry == 1 {
-		time.Sleep(100 * time.Millisecond)
-	}
-	if retry == 2 {
-		time.Sleep(500 * time.Millisecond)
-	}
-	if retry == 3 {
-		time.Sleep(1 * time.Second)
-	}
-	if retry > 3 {
-		errorResult := AviError{verb: verb, url: url}
-		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest tried 3 times and failed")
-		return errorResult
-	}
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
+	client := &http.Client{Transport: tr}
+
+	//Checking controller state
+	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
+
+	state_resp, err := client.Do(check_req)
+
+	//log.Printf("[DEBUG] test avi state: %v ", state_resp.StatusCode)
+	if state_resp == nil{
+		time.Sleep(3 * time.Second)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
+	} else {
+		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
+			time.Sleep(3 * time.Second)
+			return avisess.restMultipartDownloadRequest(verb, uri, file_path)
+		}
 	}
 
 	errorResult := AviError{verb: verb, url: url}
 
 	req, err := http.NewRequest(verb, url, nil)
 	if err != nil {
-		errorResult.err = fmt.Errorf("[ERROR] restMultipartDownloadRequest http.NewRequest failed: %v", err)
+		errorResult.err = fmt.Errorf("restMultipartDownloadRequest http.NewRequest failed: %v", err)
 		return errorResult
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -621,8 +604,6 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	// glog.Infof("Request headers: %v", req.Header)
 	dump, err := httputil.DumpRequestOut(req, true)
 	debug(dump, err)
-
-	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
@@ -649,7 +630,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -658,7 +639,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		if err != nil {
 			return err
 		}
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
