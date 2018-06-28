@@ -422,6 +422,11 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 // Return status of multipart upload.
 func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) error {
 
+	if _, err := os.Stat(file_path); os.IsNotExist(err) {
+		glog.Errorf("File path does not exist %v", file_path)
+		return err
+	}
+
 	url := avisess.prefix + "/api/fileservice/" + uri
 
 	tr := &http.Transport{
@@ -594,7 +599,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	return err
 }
 
-// restRequest makes a REST request to the Avi Controller's REST API.
+// restMultipartDownloadRequest makes a REST request to the Avi Controller's REST API.
 // Returns multipart download and write data to file
 func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path string, retryNum ...int) error {
 
