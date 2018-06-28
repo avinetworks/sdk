@@ -177,7 +177,8 @@ class MonitorConfigConv(object):
         LOG.info('Added new SSL key and certificate for %s' % name)
 
     def convert(self, f5_config, avi_config, input_dir, user_ignore, tenant,
-                cloud_name, controller_version, merge_object_mapping, sys_dict):
+                cloud_name, controller_version, merge_object_mapping, sys_dict,
+                custom_mappings=None):
         """
 
         :param f5_config:  parsed f5 config dict
@@ -189,6 +190,7 @@ class MonitorConfigConv(object):
         :param controller_version: controller version.
         :param merge_object_mapping: flag for merge object
         :param sys_dict: baseline profile.
+        :param custom_mappings: custom mappings to overwrite monitor config.
         :return:
         """
         LOG.debug("Converting health monitors")
@@ -199,6 +201,9 @@ class MonitorConfigConv(object):
         # Added varibles to  get total count of object.
         total_size = len(monitor_config.keys())
         progressbar_count = 0
+        custom_config = custom_mappings.get(
+            conv_const.HM_CUSTOM_KEY, dict()
+        ) if custom_mappings else dict()
         for key in monitor_config.keys():
             progressbar_count += 1
             # Added call to check progress.
@@ -219,6 +224,31 @@ class MonitorConfigConv(object):
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
+            m_tenant, m_name = conv_utils.get_tenant_ref(name)
+            # Check if custom cofig present for this HM
+            r_hm = [obj for obj in custom_config if
+                            obj['monitor_name'] == m_name]
+            if r_hm:
+                LOG.debug(
+                    "Found custom config for %s replacing with custom config"
+                    % m_name)
+                r_hm = r_hm[0]
+                avi_monitor = r_hm['avi_config']
+                # Added prefix for objects
+                if self.prefix:
+                    avi_monitor['name'] = self.prefix + '-' + m_name
+                else:
+                    avi_monitor['name'] = m_name
+                if tenant != 'admin':
+                    m_tenant = tenant
+                avi_monitor['tenant_ref'] = conv_utils.get_object_ref(
+                    m_tenant, 'tenant')
+                avi_config["HealthMonitor"].append(avi_monitor)
+                conv_utils.add_conv_status(
+                    'monitor', monitor_type, m_name, {
+                        'status': conv_const.STATUS_SUCCESSFUL
+                    }, [{'health_monitor': avi_monitor}])
+                continue
             # Added prefix for objects
             if self.prefix:
                 name = self.prefix + '-' + name
