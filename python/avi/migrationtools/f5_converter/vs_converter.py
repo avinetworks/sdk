@@ -16,22 +16,22 @@ used_policy=[]
 class VSConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_virtualservice_attributes, prefix,
-                     con_snatpool, rule_config):
+                     con_snatpool, custom_mappings):
         """
 
         :param version:  version of f5 instance
         :param f5_virtualservice_attributes: yaml attribute file for object
         :param prefix: prefix for objects
         :param con_snatpool: flag for converting snat into  individual address
-        :param rule_config: rule configuration to migrate irules
+        :param custom_mappings: custom config to migrate irules
         :return:
         """
         if version == '10':
             return VSConfigConvV10(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, rule_config)
+                                   con_snatpool, custom_mappings)
         if version in ['11', '12']:
             return VSConfigConvV11(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, rule_config)
+                                   con_snatpool, custom_mappings)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -150,9 +150,14 @@ class VSConfigConv(object):
         enable_ssl = False
         if ssl_vs:
             enable_ssl = True
-        app_prof, f_host, realm, app_pol_name = conv_utils.get_vs_app_profiles(
+        app_prof_conf = conv_utils.get_vs_app_profiles(
             profiles, avi_config, tenant, self.prefix, oc_prof, enable_ssl,
             merge_object_mapping, sys_dict)
+        app_prof = app_prof_conf.get('app_prof', None)
+        f_host = app_prof_conf.get('f_host', None)
+        realm = app_prof_conf.get('realm', None)
+        app_pol_name = app_prof_conf.get('app_pol_name', None)
+        needs_review = app_prof_conf.get('needs_review', False)
 
         if not app_prof:
             msg = ('Profile type not supported by Avi Skipping VS : %s'
@@ -377,7 +382,6 @@ class VSConfigConv(object):
                     vs_ds_rules, self.rule_config, avi_config, self.prefix,
                     vs_name, tenant))
             vs_policies = vs_policies + req_policies
-
         if vs_ds:
             vs_datascripts = []
             index = 1
@@ -581,9 +585,9 @@ class VSConfigConv(object):
         if skipped:
             status = final.STATUS_PARTIAL
         conv_status['status'] = status
-
+        review_flag = 'Yes' if needs_review else None
         conv_utils.add_conv_status('virtual', None, vs_name,
-                                   conv_status, vs_obj)
+                                   conv_status, vs_obj, review_flag)
 
         return vs_obj
 
@@ -633,12 +637,13 @@ class VSConfigConv(object):
 
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 rule_config):
+                 custom_mappings):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
         :param prefix: prefix for object
         :param con_snatpool: flag for snat conversion
+        :param custom_mappings: custom config to migrate irules
         """
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
@@ -652,7 +657,9 @@ class VSConfigConvV11(VSConfigConv):
         self.prefix = prefix
         # Added flag for snat conversion
         self.con_snatpool = con_snatpool
-        self.rule_config = rule_config if rule_config else dict()
+        self.rule_config = custom_mappings.get(
+            final.RULE_CUSTOM_KEY, dict()
+        ) if custom_mappings else dict()
 
     def get_persist_ref(self, f5_vs):
         """
@@ -689,12 +696,13 @@ class VSConfigConvV11(VSConfigConv):
 
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 rule_config):
+                 custom_mappings):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
         :param prefix: prefix for object
         :param con_snatpool: flag for snat conversion
+        :param custom_mappings: custom config to migrate irules
         """
         self.supported_attr = f5_virtualservice_attributes['VS_supported_attr']
         self.ignore_for_value = \
@@ -708,7 +716,9 @@ class VSConfigConvV10(VSConfigConv):
         self.prefix = prefix
         # Added flag for snat conversion
         self.con_snatpool = con_snatpool
-        self.rule_config = rule_config if rule_config else dict()
+        self.rule_config = custom_mappings.get(
+            final.RULE_CUSTOM_KEY, dict()
+        ) if custom_mappings else dict()
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
