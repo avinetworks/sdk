@@ -121,8 +121,8 @@ class MigrationUtil(object):
         for obj in obj_list:
             obj.pop('dup_of', None)
 
-    def check_for_duplicates(self, src_obj, obj_list, obj_type, merge_object_mapping,
-                             ent_type, prefix, syslist):
+    def check_for_duplicates(self, src_obj, obj_list, obj_type,
+                             merge_object_mapping, ent_type, prefix, syslist):
         """
         Checks for duplicate objects except name and description values
         :param src_obj: Object to be checked for duplicate
@@ -176,6 +176,8 @@ class MigrationUtil(object):
 
         if '/Common/' in file_path:
             file_path = file_path.replace('/Common/', '')
+        if ':Common:' in file_path:
+            file_path = file_path.replace(':Common:', '')
         try:
             with open(file_path, "r") as file_obj:
                 file_str = file_obj.read()
@@ -304,8 +306,8 @@ class MigrationUtil(object):
         if new_value is not None:
             if type(new_value) == unicode:
                 new_value = new_value.encode()
-            if type(new_value) == eval(typ) or (new_value.isdigit() and eval(
-                    typ) == int):
+            if type(new_value) == eval(typ) or (eval(typ) == int and
+                                                str(new_value).isdigit()):
                 special_value = p_key.get('special_values')
                 if typ == 'int':
                     new_value = int(new_value)
@@ -462,6 +464,7 @@ class MigrationUtil(object):
                         dictval[k] = val
 
     def check_certificate_expiry(self, input_dir, cert_file_name):
+        cert_file_name = cert_file_name.replace(':Common:', '')
         cert_date = crypto.load_certificate(crypto.FILETYPE_PEM,
                                        file(input_dir + os.path.sep
                                             + cert_file_name).read())
