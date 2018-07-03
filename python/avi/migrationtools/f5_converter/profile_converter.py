@@ -312,10 +312,14 @@ class ProfileConfigConv(object):
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ca_cert_obj = None
+        cert_name = name
+        if '.crt' in ca_cert_file_name:
+            cert_name = '%s.crt' % ca_cert_file_name.replace(
+                ':Common:', '').split('.crt')[0]
         if ca_cert:
             cert = {"certificate": ca_cert}
             ca_cert_obj = {
-                'name': name,
+                'name': cert_name,
                 'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
                 'certificate': cert,
                 'type': 'SSL_CERTIFICATE_TYPE_CA'
