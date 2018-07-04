@@ -399,12 +399,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 // restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
 // Return status of multipart upload.
-func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) error {
-	if _, err := os.Stat(file_path); os.IsNotExist(err) {
-		glog.Errorf("restMultipartUploadRequest File path does not exist %v", file_path)
-		return err
-	}
-
+func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path_ptr *os.File, retryNum ...int) error {
 	check, err := avisess.CheckControllerStatus()
 	if check == false {
 		glog.Errorf("restMultipartUploadRequest Error during checking controller state")
@@ -445,7 +440,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	errorResult := AviError{verb: verb, url: url}
 	//Prepare a file that you will submit to an URL.
 	values := map[string]io.Reader{
-		"file": mustOpen(file_path),
+		"file": file_path_ptr,
 	}
 
 	var b bytes.Buffer
@@ -534,7 +529,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path_ptr, retry+1)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -543,7 +538,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		if err != nil {
 			return err
 		}
-		return avisess.restMultipartUploadRequest(verb, uri, file_path, retry+1)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path_ptr, retry+1)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
@@ -569,7 +564,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 // restMultipartDownloadRequest makes a REST request to the Avi Controller's REST API.
 // Returns multipart download and write data to file
-func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path string, retryNum ...int) error {
+func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path_ptr *os.File, retryNum ...int) error {
 
 	url := avisess.prefix + "/api/fileservice/" + uri
 
@@ -662,7 +657,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 
 	if resp.StatusCode == 419 {
 		// session got reset; try again
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path_ptr)
 	}
 
 	// session expired; initiate session and then retry the request
@@ -671,7 +666,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		if err != nil {
 			return err
 		}
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path_ptr)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
@@ -691,15 +686,10 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		return nil
 	}
 
-	//File creation
-	out, err := createFilePointer(file_path)
-	if err != nil {
-		glog.Errorf("Error for creation of file %v", file_path)
-	}
 
-	_, err = io.Copy(out, resp.Body)
+	_, err = io.Copy(file_path_ptr, resp.Body)
 
-	defer out.Close()
+	defer file_path_ptr.Close()
 	defer resp.Body.Close()
 
 	if err != nil {
@@ -707,35 +697,6 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	}
 
 	return err
-}
-
-func createFilePointer(path string) (*os.File, error){
-	// detect if file exists
-	var _, err = os.Stat(path)
-	// create file if not exists
-	if os.IsNotExist(err) {
-		var file, err = os.Create(path)
-		if err != nil{
-			return nil, err
-		}
-		glog.Infof("File created", path)
-		return file, err
-	} else {
-		// open file using READ & WRITE permission
-		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
-		glog.Infof("File exist Reopening", path)
-		return file, err
-	}
-}
-
-//Open given file as a file pointer
-func mustOpen(f string) *os.File {
-	r, err := os.Open(f)
-	if err != nil {
-		glog.Errorf("[ERROR] mustOpen Error while opening  file %v", f)
-		panic(err)
-	}
-	return r
 }
 
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
@@ -862,13 +823,13 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 }
 
 // GetMultipartRaw performs a GET API call and returns multipart raw data (File Download)
-func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc string) error {
-	return avisess.restMultipartDownloadRequest("GET", uri, file_loc)
+func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc_ptr *os.File) error {
+	return avisess.restMultipartDownloadRequest("GET", uri, file_loc_ptr)
 }
 
 // PostMultipartRequest performs a POST API call and uploads multipart data
-func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc string) error {
-	return avisess.restMultipartUploadRequest("POST", uri, file_loc)
+func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc_ptr *os.File) error {
+	return avisess.restMultipartUploadRequest("POST", uri, file_loc_ptr)
 }
 
 type ApiOptions struct {
