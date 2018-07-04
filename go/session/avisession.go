@@ -252,16 +252,6 @@ func (avisess *AviSession) isTokenAuth() bool {
 // Helper routines for REST calls.
 //
 
-//Open given file as a pointer
-func mustOpen(f string) *os.File {
-	r, err := os.Open(f)
-	if err != nil {
-		glog.Errorf("[ERROR] mustOpen Error while opening  file %v", f)
-		panic(err)
-	}
-	return r
-}
-
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
 func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, retryNum ...int) ([]byte, error) {
@@ -269,28 +259,17 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	var result []byte
 	url := avisess.prefix + uri
 
+	check, err := avisess.CheckControllerStatus()
+	if check == false {
+		glog.Errorf("restRequest Error during checking controller state")
+		return nil, err
+	}
+
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
 
 	client := &http.Client{Transport: tr}
-
-	//Checking controller state for login uri
-	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
-
-	state_resp, err := client.Do(check_req)
-
-	if state_resp == nil{
-		// On subsequent retries, wait a bit before retrying.
-		time.Sleep(3 * time.Second)
-		return avisess.restRequest(verb, uri, payload)
-	} else {
-		//checking status till controller gets ready
-		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
-			time.Sleep(3 * time.Second)
-			return avisess.restRequest(verb, uri, payload)
-		}
-	}
 
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
@@ -421,9 +400,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 // restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
 // Return status of multipart upload.
 func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path string, retryNum ...int) error {
-
 	if _, err := os.Stat(file_path); os.IsNotExist(err) {
-		glog.Errorf("File path does not exist %v", file_path)
+		glog.Errorf("restMultipartUploadRequest File path does not exist %v", file_path)
+		return err
+	}
+
+	check, err := avisess.CheckControllerStatus()
+	if check == false {
+		glog.Errorf("restMultipartUploadRequest Error during checking controller state")
 		return err
 	}
 
@@ -434,21 +418,6 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	}
 
 	client := &http.Client{Transport: tr}
-
-	//Checking controller state
-	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
-
-	state_resp, err := client.Do(check_req)
-
-	if state_resp == nil{
-		time.Sleep(3 * time.Second)
-		return avisess.restMultipartUploadRequest(verb, uri, file_path)
-	} else {
-		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
-			time.Sleep(3 * time.Second)
-			return avisess.restMultipartUploadRequest(verb, uri, file_path)
-		}
-	}
 
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
@@ -474,7 +443,6 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	}
 
 	errorResult := AviError{verb: verb, url: url}
-
 	//Prepare a file that you will submit to an URL.
 	values := map[string]io.Reader{
 		"file": mustOpen(file_path),
@@ -605,27 +573,17 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 
 	url := avisess.prefix + "/api/fileservice/" + uri
 
+	check, err := avisess.CheckControllerStatus()
+	if check == false {
+		glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
+		return err
+	}
+
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
 
 	client := &http.Client{Transport: tr}
-
-	//Checking controller state
-	check_req, err := http.NewRequest("GET", avisess.prefix+"login",nil)
-
-	state_resp, err := client.Do(check_req)
-
-	//log.Printf("[DEBUG] test avi state: %v ", state_resp.StatusCode)
-	if state_resp == nil{
-		time.Sleep(3 * time.Second)
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path)
-	} else {
-		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
-			time.Sleep(3 * time.Second)
-			return avisess.restMultipartDownloadRequest(verb, uri, file_path)
-		}
-	}
 
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
@@ -734,7 +692,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	}
 
 	//File creation
-	out, err := os.Create(file_path)
+	out, err := createFilePointer(file_path)
 	if err != nil {
 		glog.Errorf("Error for creation of file %v", file_path)
 	}
@@ -747,7 +705,37 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	if err != nil {
 		glog.Errorf("Error while downloading %v", err)
 	}
+
 	return err
+}
+
+func createFilePointer(path string) (*os.File, error){
+	// detect if file exists
+	var _, err = os.Stat(path)
+	// create file if not exists
+	if os.IsNotExist(err) {
+		var file, err = os.Create(path)
+		if err != nil{
+			return nil, err
+		}
+		glog.Infof("File created", path)
+		return file, err
+	} else {
+		// open file using READ & WRITE permission
+		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+		glog.Infof("File exist Reopening", path)
+		return file, err
+	}
+}
+
+//Open given file as a file pointer
+func mustOpen(f string) *os.File {
+	r, err := os.Open(f)
+	if err != nil {
+		glog.Errorf("[ERROR] mustOpen Error while opening  file %v", f)
+		panic(err)
+	}
+	return r
 }
 
 func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
@@ -768,6 +756,38 @@ func debug(data []byte, err error) {
 	} else {
 		glog.Fatalf("%s\n\n", err)
 	}
+}
+
+//Checks for controller up state
+func (avisess *AviSession) CheckControllerStatus() (bool, error){
+	glog.Infof("Checking for controller up state ..!")
+	url := avisess.prefix + "login"
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+
+	client := &http.Client{Transport: tr}
+
+	//Checking controller state
+	check_req, err := http.NewRequest("GET", url,nil)
+	if err != nil{
+		glog.Errorf("CheckControllerStatus Error while creating http request.")
+		return false, err
+	}
+
+	state_resp, err := client.Do(check_req)
+
+	if state_resp == nil{
+		time.Sleep(3 * time.Second)
+		return avisess.CheckControllerStatus()
+	} else {
+		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
+			time.Sleep(3 * time.Second)
+			return avisess.CheckControllerStatus()
+		}
+	}
+	return true, nil
 }
 
 func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
