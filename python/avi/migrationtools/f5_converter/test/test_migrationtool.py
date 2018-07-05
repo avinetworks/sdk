@@ -95,7 +95,7 @@ setup = dict(
     output_file_path=output_file,
     vrf = 'test_vrf',
     segroup = 'test_se',
-    rule_config_file = input_role_config_file
+    custom_config_file = input_role_config_file
 )
 
 mylogger = logging.getLogger()
@@ -831,7 +831,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                custom_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -891,7 +891,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                custom_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -917,8 +917,38 @@ class TestF5Converter:
         networkProfileName = [i['name'] for i in networkSecurityPolicy if i['name'] == policyName][0]
         assert networkProfileName == policyName
 
+    @pytest.mark.travis
+    def test_custom_config_for_hm(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                custom_config=setup.get('custom_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(input_role_config_file) as f:
+            custom_config = yaml.load(f)
+
+        with open(file) as json_file:
+            data = json.load(json_file)
+            hmObject = data['HealthMonitor']
+            hmdata = [hm for hm in hmObject if hm['name'] == "dnsTest"][0]
+        config_data = custom_config['healthmonitor_custom_config'][0]
+        assert hmdata['failed_checks'] == config_data['avi_config'][
+            'failed_checks']
+        assert hmdata['send_interval'] == config_data['avi_config'][
+            'send_interval']
+        assert hmdata['receive_timeout'] == config_data['avi_config'][
+            'receive_timeout']
+        assert hmdata['external_monitor']['command_code'] == \
+               config_data['avi_config'][
+                   'external_monitor']['command_code']
+
     @pytest.mark.skip_travis
-    def test_reboot_clean_v11_17_1_1_for_irule_config(self, cleanup):
+    def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -939,7 +969,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_irule_config_object_upload(self):
+    def test_custom_config_object_upload(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -949,7 +979,7 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'),
                 option=setup.get('option'),
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
@@ -1056,6 +1086,7 @@ class TestF5Converter:
                     vrf=setup.get('vrf'))
         else:
             raise Exception("Controller vrf creation faild %s" % res.content)
+
 
 def teardown():
     pass
