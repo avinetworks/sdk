@@ -134,7 +134,7 @@ class AviCredentials(object):
     tenant_uuid = None
     token = None
     port = None
-    timeout = 300
+    timeout = 600
     session_id = None
     csrftoken = None
 
