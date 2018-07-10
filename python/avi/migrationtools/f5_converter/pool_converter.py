@@ -463,7 +463,7 @@ class PoolConfigConvV11(PoolConfigConv):
             server = servers_config[server_name]
             parts = server_name.split(':')
             node = nodes.get(parts[0], None)
-            if node:
+            if node and node.get("address"):
                 if '%' in node["address"]:
                     ip_addr, vrf = node["address"].split('%')
                     conv_utils.add_vrf(avi_config, vrf, cloud_ref)
