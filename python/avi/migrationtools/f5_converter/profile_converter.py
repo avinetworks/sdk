@@ -98,6 +98,14 @@ class ProfileConfigConv(object):
                     name = self.prefix + '-' + name
                 LOG.debug("Converting profile: %s" % name)
                 profile = profile_config[key]
+                if not profile:
+                    LOG.warn('Empty config for profile %s Skipping the config'
+                             % name)
+                    conv_utils.add_status_row(
+                        'profile', profile_type, name,
+                        final.STATUS_NOT_APPLICABLE, 'Empty config')
+                    continue
+                # print key, profile
                 profile = self.update_with_default_profile(
                     profile_type, profile, profile_config, name)
                 u_ignore = user_ignore.get('profile', {})
@@ -257,6 +265,82 @@ class ProfileConfigConv(object):
                 converted_objs.append({'ssl_cert_key': ssl_kc_obj})
                 avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
 
+    def update_ca_cert_obj(self, name, ca_cert_file_name, input_dir, tenant,
+                           avi_config, object_merge_check, converted_objs,
+                           merge_object_mapping, sys_dict):
+        """
+        This method create the certs if certificate not present at location
+        it create dummy certificate.
+        :param name: name of certificate.
+        :param key_file_name: name of keyfile of cert
+        :param cert_file_name: name of cert file
+        :param input_dir: location of cert and key
+        :param tenant: tenant name
+        :param avi_config: converted avi config dict
+        :param converted_objs: list of converted object profile
+        :param default_profile_name: name of default profile name.
+        :param key_and_cert_mapping_list: list of key and cert
+        :param merge_object_mapping: merged object dict for merging objects
+        :param sys_dict: baseline objects
+        :return:
+        """
+
+        cert_name = [cert['name'] for cert in avi_config['SSLKeyAndCertificate']
+                     if cert['name'] == name and
+                     cert['type'] == 'SSL_CERTIFICATE_TYPE_CA']
+
+        if cert_name:
+            LOG.warning(
+                'SSL ca cert is already exist for %s is %s' % (
+                    ca_cert_file_name, cert_name[0]))
+            return
+        folder_path = input_dir + os.path.sep
+        ca_cert = None
+        # Removed / from cert_file_name to get name of file.
+        if '/' in ca_cert_file_name:
+            ca_cert_file_name = ca_cert_file_name.split('/')[-1]
+        ca_cert = conv_utils.upload_file(folder_path + ca_cert_file_name)
+
+        if ca_cert:
+            if not conv_utils.check_certificate_expiry(
+                    input_dir, ca_cert_file_name):
+                ca_cert = None
+
+        if not ca_cert:
+            key, ca_cert = conv_utils.create_self_signed_cert()
+            name += '-dummy'
+            LOG.warning('Create self cerificate and key for : %s' % name)
+
+        ca_cert_obj = None
+        cert_name = name
+        if '.crt' in ca_cert_file_name:
+            cert_name = '%s.crt' % ca_cert_file_name.replace(
+                ':Common:', '').split('.crt')[0]
+        if ca_cert:
+            cert = {"certificate": ca_cert}
+            ca_cert_obj = {
+                'name': cert_name,
+                'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
+                'certificate': cert,
+                'type': 'SSL_CERTIFICATE_TYPE_CA'
+            }
+            LOG.info('Added new ca certificate for %s' % name)
+
+        if ca_cert_obj and object_merge_check:
+            if 'dummy' not in ca_cert_obj['name']:
+                conv_utils.update_skip_duplicates(
+                    ca_cert_obj, avi_config['SSLKeyAndCertificate'],
+                    'ssl_cert_key', converted_objs, name, None,
+                    merge_object_mapping, None, self.prefix,
+                    sys_dict['SSLKeyAndCertificate'])
+            else:
+                converted_objs.append({'ssl_cert_key': ca_cert_obj})
+                avi_config['SSLKeyAndCertificate'].append(ca_cert_obj)
+            self.certkey_count += 1
+        else:
+            converted_objs.append({'ssl_cert_key': ca_cert_obj})
+            avi_config['SSLKeyAndCertificate'].append(ca_cert_obj)
+
 
 class ProfileConfigConvV11(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
@@ -398,6 +482,21 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 name, key_file, cert_file, input_dir, tenant_ref, avi_config,
                 converted_objs, default_profile_name, key_and_cert_mapping_list,
                 merge_object_mapping, sys_dict)
+            if profile.get('chain', 'none') != 'none':
+                LOG.debug("Migrating root/intermediate cert for %s" % name)
+                ca_cert_file = None
+                for file_key in sys_file:
+                    file_type, file_name = file_key.split(' ')
+                    if (file_type == 'ssl-cert' and
+                            file_name == profile['chain'] and
+                            sys_file[file_key].get('cache-path')):
+                        ca_cert_file = sys_file[file_key][
+                            'cache-path'].rsplit('/', 1)[-1]
+                        break
+                self.update_ca_cert_obj(
+                    name, ca_cert_file, input_dir, tenant, avi_config,
+                    merge_object_mapping, converted_objs, merge_object_mapping,
+                    sys_dict)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
             # ciphers = 'AES:3DES:RC4' if ciphers == 'DEFAULT' else ciphers
@@ -775,7 +874,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
             explicit_tracking = profile.get("explicit-flow-migration", None)
             l4_profile = {"rl_profile": {
                 "client_ip_connections_rate_limit": {
-                    "explicit_tracking": (explicit_tracking == 'enabled')
+                    "explicit_tracking": (explicit_tracking == 'enabled'),
+                    "action": {
+                        "type": "RL_ACTION_NONE"
+                    }
                 }}
             }
             app_profile['dos_rl_profile'] = l4_profile
