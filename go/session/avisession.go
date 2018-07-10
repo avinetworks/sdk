@@ -326,15 +326,13 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 	}
 
-	// glog.Infof("Request headers: %v", req.Header)
-	dump, err := httputil.DumpRequestOut(req, true)
-	debug(dump, err)
-
 	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
 		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
+		dump, err := httputil.DumpRequestOut(req, true)
+		debug(dump, err)
 		return result, errorResult
 	}
 
@@ -499,14 +497,13 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		req.AddCookie(&http.Cookie{Name: "avi-sessionid", Value: avisess.sessionid})
 	}
 
-	dump, err := httputil.DumpRequestOut(req, true)
-	debug(dump, err)
-
 	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
 		glog.Errorf("restMultipartUploadRequest Error during client request: %v ", err)
+		dump, err := httputil.DumpRequestOut(req, true)
+		debug(dump, err)
 		return err
 	}
 
@@ -627,15 +624,13 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 	}
 
-	// glog.Infof("Request headers: %v", req.Header)
-	dump, err := httputil.DumpRequestOut(req, true)
-	debug(dump, err)
-
 	client := &http.Client{Transport: tr}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
+		errorResult.err = fmt.Errorf("restMultipartDownloadRequest Error for during client request: %v", err)
+		dump, err := httputil.DumpRequestOut(req, true)
+		debug(dump, err)
 		return errorResult
 	}
 
@@ -719,7 +714,9 @@ func debug(data []byte, err error) {
 	}
 }
 
-//Checks for controller up state
+//Checking for controller up state.
+//This is an infinite loop till the controller is in up state.
+//Return true when controller is in up state.
 func (avisess *AviSession) CheckControllerStatus() (bool, error){
 	glog.Infof("Checking for controller up state ..!")
 	url := avisess.prefix + "login"
@@ -730,23 +727,25 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 
 	client := &http.Client{Transport: tr}
 
-	//Checking controller state
-	check_req, err := http.NewRequest("GET", url,nil)
-	if err != nil{
-		glog.Errorf("CheckControllerStatus Error while creating http request.")
-		return false, err
-	}
-
-	state_resp, err := client.Do(check_req)
-
-	if state_resp == nil{
-		time.Sleep(3 * time.Second)
-		return avisess.CheckControllerStatus()
-	} else {
-		if state_resp.StatusCode == 503 || state_resp.StatusCode == 502 {
-			time.Sleep(3 * time.Second)
-			return avisess.CheckControllerStatus()
+	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
+	for {
+		check_req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			glog.Errorf("CheckControllerStatus Error while generating http request.")
+			return false, err
 		}
+
+		//Getting response from controller's API
+		state_resp, err := client.Do(check_req)
+		if state_resp != nil {
+			//Checking controller response
+			if state_resp.StatusCode != 503 && state_resp.StatusCode != 502 {
+				break
+			}
+		}
+		//wait before retry
+		time.Sleep(3 * time.Second)
+		glog.Errorf("CheckControllerStatus Retrying...!")
 	}
 	return true, nil
 }
