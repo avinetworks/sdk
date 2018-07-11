@@ -124,6 +124,10 @@ VERSION_11:
     - "timeout"
     - "defaults-from"
 
+    Datagroup_supported_attr:
+    - "records"
+    - "type"
+
     Pool_supported_attr:
     - 'members'
     - 'monitor'

@@ -708,7 +708,6 @@ class TestF5Converter:
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v11(self):
         set_update_count()
-        assert get_count('warning') == 0
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
@@ -716,7 +715,6 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 6
 
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v10(self):
@@ -728,7 +726,6 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 0
 
     @pytest.mark.travis
     def test_pool_sharing_on_v11(self):
