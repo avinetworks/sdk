@@ -1647,11 +1647,15 @@ class NsUtil(MigrationUtil):
         """
         mergelist=[]
         for poolgrp in avi_config['PoolGroup']:
-            pool_member = poolgrp['members']
+            if poolgrp['name'] == 'lb-depoed1cdb.qai-pri-5984-poolgroup':
+                print 'found'
+            # do not merge the pool if it is a backup pool in the group
+            pool_member = [obj for obj in poolgrp['members'] if not
+                           obj.get('priority_label', '10') == '2']
             length = len(pool_member)
             for count in range(length):
-                pool_name = pool_member[count]['pool_ref'].split('&')[1].split(
-                    '=')[1]
+                pool_name = pool_member[count]['pool_ref'].split(
+                    '&')[1].split('=')[1]
                 if pool_name in mergelist:
                     continue
                 pool = [pl for pl in avi_config['Pool']
@@ -1660,11 +1664,10 @@ class NsUtil(MigrationUtil):
                     LOG.debug("'%s' not present" % pool_name)
                     continue
                 for count2 in range(count+1, length):
-                    pname = pool_member[count2]['pool_ref'].split('&')[1].split(
-                        '=')[1]
+                    pname = pool_member[count2]['pool_ref'].split(
+                        '&')[1].split('=')[1]
                     nextpool = [pol for pol in avi_config['Pool']
-                        if pol['name'] == pname]
-
+                                if pol['name'] == pname]
                     if not nextpool:
                         LOG.debug("'%s' not present" % pname)
                         continue
