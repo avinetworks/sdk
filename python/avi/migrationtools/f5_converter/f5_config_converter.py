@@ -15,6 +15,7 @@ from avi.migrationtools.f5_converter import conversion_util
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
 from avi.migrationtools.avi_migration_utils import update_count
+from avi.migrationtools.f5_converter.datagroup_converter import DataGroupConfigConv
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -27,7 +28,8 @@ merge_object_mapping = {
     'app_per_profile': {'no': 0},
     'pki_profile': {'no': 0},
     'health_monitor': {'no': 0},
-    'ssl_cert_key' : {'no': 0}
+    'ssl_cert_key': {'no': 0},
+    'ip_group': {'no': 0}
 }
 
 # Creating f5 object for util library.
@@ -72,7 +74,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         f5_attributes = conv_const.init(version)
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile', 'SSLKeyAndCertificate',
-                             'ApplicationPersistenceProfile', 'HealthMonitor']
+                             'ApplicationPersistenceProfile', 'HealthMonitor',
+                             'IpAddrGroup']
         for key in merge_object_type:
             sys_dict[key] = []
             avi_config_dict[key] = []
@@ -113,6 +116,13 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup)
+
+        dg_conv = DataGroupConfigConv.get_instance(
+            version, prefix, merge_object_mapping, f5_attributes)
+        dg_conv.convert(f5_config, avi_config_dict, user_ignore,
+                        tenant, merge_object_mapping, sys_dict)
+
+
         # Updating application profile from L4 to http if service has ssl enable
         conv_utils.update_app_profile(avi_config_dict, sys_dict)
         # Updated network profile to TCP PROXY if application profile is HTTP

@@ -285,6 +285,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
+        timeout = 0 if timeout == 'indefinite' else timeout
         if timeout > 0:
             timeout = int(timeout)/final.SEC_IN_MIN
         persist_profile = {
