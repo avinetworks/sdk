@@ -76,6 +76,7 @@ class MonitorConverter(object):
         total_size = len(ns_monitors.keys())
         count = 0
         print "Converting Monitors..."
+        self.add_ns_default_monitors(avi_config)
         for name in ns_monitors.keys():
             count = count + 1
             ns_monitor = ns_monitors.get(name)
@@ -369,3 +370,25 @@ class MonitorConverter(object):
             update_count('error')
             LOG.error('Error converting monitor %s', exc_info=True)
         return avi_monitor
+
+    def add_ns_default_monitors(self, avi_config):
+        tcp_default = {
+            'name': 'tcp-default',
+            'receive_timeout': 2,
+            'failed_checks': 2,
+            'send_interval': 5,
+            'successful_checks': 1,
+            'type': 'HEALTH_MONITOR_TCP',
+            'tenant_ref': self.tenant_ref
+        }
+        avi_config['HealthMonitor'].append(tcp_default)
+        ping_default = {
+            'name': 'ping-default',
+            'receive_timeout': 2,
+            'failed_checks': 2,
+            'send_interval': 5,
+            'successful_checks': 1,
+            'type': 'HEALTH_MONITOR_PING',
+            'tenant_ref': self.tenant_ref
+        }
+        avi_config['HealthMonitor'].append(ping_default)
