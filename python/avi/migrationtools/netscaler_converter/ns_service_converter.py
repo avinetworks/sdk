@@ -192,7 +192,10 @@ class ServiceConverter(object):
                         updated_pool_ref = ns_util.get_object_ref(
                             pool_name, OBJECT_TYPE_POOL, self.tenant_name,
                             self.cloud_name)
-                        pg_members.append({'pool_ref': updated_pool_ref})
+                        pg_members.append({'pool_ref': updated_pool_ref,
+                                           'ratio': 1,
+                                           'priority_label': '10'
+                                           })
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report
