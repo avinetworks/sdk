@@ -185,6 +185,9 @@ class AviAnsibleConverter(object):
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
+        else:
+            print "[WARNING] Ignoring invalid reference:  %s" % x
+            return None
 
         u = urlparse.urlparse(x)
         query = {'name': urlparse.parse_qs(u.query)['name']}
@@ -205,7 +208,10 @@ class AviAnsibleConverter(object):
                 # check for whether v is string or list of strings
                 if isinstance(v, basestring) or isinstance(v, unicode):
                     ref = self.transform_ref(v, obj)
-                    obj[k] = ref
+                    if ref:
+                        obj[k] = ref
+                    else:
+                        del obj[k]
                 elif type(v) == list:
                     new_list = []
                     for item in v:
@@ -213,7 +219,9 @@ class AviAnsibleConverter(object):
                             self.transform_obj_refs(item)
                         elif (isinstance(item, basestring) or
                               isinstance(item, unicode)):
-                            new_list.append(self.transform_ref(item, obj))
+                            ref = self.transform_ref(item, obj)
+                            if ref:
+                                new_list.append(ref)
                     if new_list:
                         obj[k] = new_list
             elif type(v) == list:
