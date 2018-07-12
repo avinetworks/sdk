@@ -727,14 +727,14 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 
 	client := &http.Client{Transport: tr}
 
-	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
-	for {
+	//This is an hour loop. Generating http request for a login URI to check for the controller up state.
+	//Timeout set to 1 hour (400 * 3 * 3 = 3600 sec)
+	for count := 0; count < 400; count++ {
 		check_req, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error while generating http request.")
 			return false, err
 		}
-
 		//Getting response from controller's API
 		state_resp, err := client.Do(check_req)
 		if state_resp != nil {
