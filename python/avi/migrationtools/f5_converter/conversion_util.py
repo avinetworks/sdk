@@ -269,7 +269,7 @@ class F5Util(MigrationUtil):
         return sg_obj
 
     def get_vs_ssl_profiles(self, profiles, avi_config, prefix,
-                            merge_object_mapping, sys_dict):
+                            merge_object_mapping, sys_dict, f5_config):
         """
         Searches for profile refs in converted profile config if not found
         creates default profiles
@@ -280,6 +280,7 @@ class F5Util(MigrationUtil):
         :param sys_dict: System object dict
         :return: returns list of profile refs assigned to VS in avi config
         """
+        # f5_profiles = f5_config.get("profile", {})
         vs_ssl_profile_names = []
         pool_ssl_profile_names = []
         if not profiles:
@@ -290,7 +291,6 @@ class F5Util(MigrationUtil):
         for key in profiles.keys():
             # Called tenant ref to get object name.
             tenant, name = self.get_tenant_ref(key)
-            # Added prefix for objects
             if prefix:
                 name = prefix + '-' + name
             ssl_profile_list = avi_config.get("SSLProfile", [])
@@ -301,13 +301,16 @@ class F5Util(MigrationUtil):
                                   if (obj['name'] == name or name in
                                       obj.get("dup_of", []))]
             if ssl_profiles:
+                cert_name = ssl_profiles[0].get('cert_name', None)
+                if not cert_name:
+                    cert_name = name
                 ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
                 sys_key_cert = sys_dict['SSLKeyAndCertificate']
                 key_cert = [ob for ob in sys_key_cert if ob['name'] ==
-                            merge_object_mapping['ssl_cert_key'].get(name)
+                            merge_object_mapping['ssl_cert_key'].get(cert_name)
                             ] or [obj for obj in ssl_key_cert_list if
-                                  (obj['name'] == name or obj['name'] ==
-                                   name + '-dummy' or name in
+                                  (obj['name'] == cert_name or obj['name'] ==
+                                   cert_name + '-dummy' or cert_name in
                                    obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
@@ -916,6 +919,8 @@ class F5Util(MigrationUtil):
             profile.pop('fallback_host', [])
         for profile in avi_config.get('PKIProfile', []):
             profile.pop('mode', None)
+        for profile in avi_config.get('SSLProfile', []):
+            profile.pop('cert_name', None)
         if 'Tenant' in avi_config:
             for tenant in avi_config['Tenant']:
                 if tenant['name'] == 'admin':
@@ -2327,3 +2332,27 @@ class F5Util(MigrationUtil):
                 avi_config['HTTPPolicySet'].append(policy)
                 converted_rules.append(rule)
         return vs_ds, req_policies, nw_policy, converted_rules
+
+    def update_with_default_profile(self, profile_type, profile,
+                                    profile_config, profile_name):
+        """
+        Profiles can have inheritance used by attribute defaults-from in F5
+        configuration this method recursively gets all the attributes from the
+        default objects and forms complete object
+        :param profile_type: type of profile
+        :param profile: currant profile object
+        :param profile_config: F5 profile config dict
+        :param profile_name: Name of profile
+        :return: Complete profile with updated attributes from defaults
+        """
+        parent_name = profile.get('defaults-from', None)
+        if parent_name and profile_name != parent_name:
+            parent_profile = profile_config.get(profile_type + " " +
+                                                parent_name, None)
+            if parent_profile:
+                parent_profile = self.update_with_default_profile(
+                    profile_type, parent_profile, profile_config, parent_name)
+                parent_profile = copy.deepcopy(parent_profile)
+                parent_profile.update(profile)
+                profile = parent_profile
+        return profile

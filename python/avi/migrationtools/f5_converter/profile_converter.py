@@ -465,6 +465,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 key_file = profile.get("key", None)
                 cert_file = None if cert_file == 'none' else cert_file
                 key_file = None if key_file == 'none' else key_file
+            cert_name = cert_file
+            if cert_name:
+                cert_name = cert_name.split('/')[-1]
+            else:
+                cert_name = name
             # Added for getting correct file names from cache path in sys file
             sys_file = f5_config.get('file', {})
             for file_key in sys_file:
@@ -479,9 +484,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         cert_file = sys_file[file_key]['cache-path'].rsplit(
                                                                     '/', 1)[-1]
             parent_cls.update_key_cert_obj(
-                name, key_file, cert_file, input_dir, tenant_ref, avi_config,
-                converted_objs, default_profile_name, key_and_cert_mapping_list,
-                merge_object_mapping, sys_dict)
+                cert_name, key_file, cert_file, input_dir, tenant_ref,
+                avi_config, converted_objs, default_profile_name,
+                key_and_cert_mapping_list, merge_object_mapping, sys_dict)
             if profile.get('chain', 'none') != 'none':
                 LOG.debug("Migrating root/intermediate cert for %s" % name)
                 ca_cert_file = None
@@ -505,6 +510,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
             ssl_profile['name'] = name
             ssl_profile['tenant_ref'] = conv_utils.get_object_ref(
                 tenant, 'tenant')
+            if cert_name:
+                ssl_profile['cert_name'] = cert_name
             ssl_profile['accepted_ciphers'] = self.ciphers
             close_notify = profile.get('unclean-shutdown', None)
             if close_notify and close_notify == 'enabled':
