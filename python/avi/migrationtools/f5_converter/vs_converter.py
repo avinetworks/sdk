@@ -82,11 +82,10 @@ class VSConfigConv(object):
                     conv_utils.add_status_row('virtual', None, vs_name,
                                               final.STATUS_SKIPPED, msg)
                     continue
-                vs_obj = self.convert_vs(vs_name, f5_vs, vs_state, avi_config,
-                                         f5_snat_pools, user_ignore, tenant,
-                                         cloud_name, controller_version,
-                                         merge_object_mapping, sys_dict, vrf,
-                                         segroup)
+                vs_obj = self.convert_vs(
+                    vs_name, f5_vs, vs_state, avi_config, f5_snat_pools,
+                    user_ignore, tenant, cloud_name, controller_version,
+                    merge_object_mapping, sys_dict, f5_config, vrf)
                 if vs_obj:
                     if segroup:
                         segroup_ref = conv_utils.get_object_ref(
@@ -108,7 +107,7 @@ class VSConfigConv(object):
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name, controller_version,
-                   merge_object_mapping, sys_dict, vrf=None, segroup=None):
+                   merge_object_mapping, sys_dict, f5_config, vrf=None):
         """
 
         :param vs_name: name of virtual service.
@@ -123,7 +122,6 @@ class VSConfigConv(object):
         :param merge_object_mapping: Flag to merge object
         :param sys_dict: Baseline dict
         :param vrf: vrf user input to put vrf ref in VS object
-        :param segroup: segroup user input to put se-group ref in VS object
         :return:
         """
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
@@ -142,7 +140,8 @@ class VSConfigConv(object):
             enabled = False if "disabled" in f5_vs.keys() else True
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(
-            profiles, avi_config, self.prefix, merge_object_mapping, sys_dict)
+            profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
+            f5_config)
         oc_prof = False
         for prof in profiles:
             if prof in avi_config.get('OneConnect', []):
