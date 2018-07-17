@@ -65,6 +65,19 @@ func (client *AlertEmailConfigClient) GetByName(name string) (*models.AlertEmail
 	return obj, err
 }
 
+// GetObject - Get an existing AlertEmailConfig by filters like name, cloud, tenant
+// Api creates AlertEmailConfig object with every call.
+func (client *AlertEmailConfigClient) GetObject(options ...session.ApiOptionsParams) (*models.AlertEmailConfig, error) {
+	var obj *models.AlertEmailConfig
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("alertemailconfig", newOptions...)
+	return obj, err
+}
+
 // Create a new AlertEmailConfig object
 func (client *AlertEmailConfigClient) Create(obj *models.AlertEmailConfig) (*models.AlertEmailConfig, error) {
 	var robj *models.AlertEmailConfig
@@ -92,4 +105,9 @@ func (client *AlertEmailConfigClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AlertEmailConfigClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

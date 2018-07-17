@@ -65,6 +65,19 @@ func (client *VrfContextClient) GetByName(name string) (*models.VrfContext, erro
 	return obj, err
 }
 
+// GetObject - Get an existing VrfContext by filters like name, cloud, tenant
+// Api creates VrfContext object with every call.
+func (client *VrfContextClient) GetObject(options ...session.ApiOptionsParams) (*models.VrfContext, error) {
+	var obj *models.VrfContext
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vrfcontext", newOptions...)
+	return obj, err
+}
+
 // Create a new VrfContext object
 func (client *VrfContextClient) Create(obj *models.VrfContext) (*models.VrfContext, error) {
 	var robj *models.VrfContext
@@ -92,4 +105,9 @@ func (client *VrfContextClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VrfContextClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

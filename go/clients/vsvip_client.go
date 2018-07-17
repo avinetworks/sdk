@@ -65,6 +65,19 @@ func (client *VsVipClient) GetByName(name string) (*models.VsVip, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing VsVip by filters like name, cloud, tenant
+// Api creates VsVip object with every call.
+func (client *VsVipClient) GetObject(options ...session.ApiOptionsParams) (*models.VsVip, error) {
+	var obj *models.VsVip
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vsvip", newOptions...)
+	return obj, err
+}
+
 // Create a new VsVip object
 func (client *VsVipClient) Create(obj *models.VsVip) (*models.VsVip, error) {
 	var robj *models.VsVip
@@ -92,4 +105,9 @@ func (client *VsVipClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VsVipClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

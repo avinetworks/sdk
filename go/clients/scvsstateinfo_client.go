@@ -65,6 +65,19 @@ func (client *SCVsStateInfoClient) GetByName(name string) (*models.SCVsStateInfo
 	return obj, err
 }
 
+// GetObject - Get an existing SCVsStateInfo by filters like name, cloud, tenant
+// Api creates SCVsStateInfo object with every call.
+func (client *SCVsStateInfoClient) GetObject(options ...session.ApiOptionsParams) (*models.SCVsStateInfo, error) {
+	var obj *models.SCVsStateInfo
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("scvsstateinfo", newOptions...)
+	return obj, err
+}
+
 // Create a new SCVsStateInfo object
 func (client *SCVsStateInfoClient) Create(obj *models.SCVsStateInfo) (*models.SCVsStateInfo, error) {
 	var robj *models.SCVsStateInfo
@@ -92,4 +105,9 @@ func (client *SCVsStateInfoClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SCVsStateInfoClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

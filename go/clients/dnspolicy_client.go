@@ -65,6 +65,19 @@ func (client *DNSPolicyClient) GetByName(name string) (*models.DNSPolicy, error)
 	return obj, err
 }
 
+// GetObject - Get an existing DNSPolicy by filters like name, cloud, tenant
+// Api creates DNSPolicy object with every call.
+func (client *DNSPolicyClient) GetObject(options ...session.ApiOptionsParams) (*models.DNSPolicy, error) {
+	var obj *models.DNSPolicy
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("dnspolicy", newOptions...)
+	return obj, err
+}
+
 // Create a new DNSPolicy object
 func (client *DNSPolicyClient) Create(obj *models.DNSPolicy) (*models.DNSPolicy, error) {
 	var robj *models.DNSPolicy
@@ -92,4 +105,9 @@ func (client *DNSPolicyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *DNSPolicyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

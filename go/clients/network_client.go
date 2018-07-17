@@ -65,6 +65,19 @@ func (client *NetworkClient) GetByName(name string) (*models.Network, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Network by filters like name, cloud, tenant
+// Api creates Network object with every call.
+func (client *NetworkClient) GetObject(options ...session.ApiOptionsParams) (*models.Network, error) {
+	var obj *models.Network
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("network", newOptions...)
+	return obj, err
+}
+
 // Create a new Network object
 func (client *NetworkClient) Create(obj *models.Network) (*models.Network, error) {
 	var robj *models.Network
@@ -92,4 +105,9 @@ func (client *NetworkClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *NetworkClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

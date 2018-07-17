@@ -65,6 +65,19 @@ func (client *SSLProfileClient) GetByName(name string) (*models.SSLProfile, erro
 	return obj, err
 }
 
+// GetObject - Get an existing SSLProfile by filters like name, cloud, tenant
+// Api creates SSLProfile object with every call.
+func (client *SSLProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.SSLProfile, error) {
+	var obj *models.SSLProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("sslprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new SSLProfile object
 func (client *SSLProfileClient) Create(obj *models.SSLProfile) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
@@ -92,4 +105,9 @@ func (client *SSLProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SSLProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
