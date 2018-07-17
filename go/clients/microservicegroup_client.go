@@ -65,6 +65,19 @@ func (client *MicroServiceGroupClient) GetByName(name string) (*models.MicroServ
 	return obj, err
 }
 
+// GetObject - Get an existing MicroServiceGroup by filters like name, cloud, tenant
+// Api creates MicroServiceGroup object with every call.
+func (client *MicroServiceGroupClient) GetObject(options ...session.ApiOptionsParams) (*models.MicroServiceGroup, error) {
+	var obj *models.MicroServiceGroup
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("microservicegroup", newOptions...)
+	return obj, err
+}
+
 // Create a new MicroServiceGroup object
 func (client *MicroServiceGroupClient) Create(obj *models.MicroServiceGroup) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
@@ -92,4 +105,9 @@ func (client *MicroServiceGroupClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *MicroServiceGroupClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

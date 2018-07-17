@@ -65,6 +65,19 @@ func (client *ServiceEngineClient) GetByName(name string) (*models.ServiceEngine
 	return obj, err
 }
 
+// GetObject - Get an existing ServiceEngine by filters like name, cloud, tenant
+// Api creates ServiceEngine object with every call.
+func (client *ServiceEngineClient) GetObject(options ...session.ApiOptionsParams) (*models.ServiceEngine, error) {
+	var obj *models.ServiceEngine
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("serviceengine", newOptions...)
+	return obj, err
+}
+
 // Create a new ServiceEngine object
 func (client *ServiceEngineClient) Create(obj *models.ServiceEngine) (*models.ServiceEngine, error) {
 	var robj *models.ServiceEngine
@@ -92,4 +105,9 @@ func (client *ServiceEngineClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ServiceEngineClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

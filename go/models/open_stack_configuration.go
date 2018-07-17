@@ -109,7 +109,7 @@ type OpenStackConfiguration struct {
 	// LBaaS provider name.
 	ProvName []string `json:"prov_name,omitempty"`
 
-	// A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.1.2.
+	// A tenant can normally use its own networks and any networks shared with it. In addition, this setting provides extra networks that are usable by tenants. Field introduced in 18.1.2.
 	ProviderVipNetworks []*OpenStackVipNetwork `json:"provider_vip_networks,omitempty"`
 
 	// Region name.

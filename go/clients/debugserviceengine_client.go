@@ -65,6 +65,19 @@ func (client *DebugServiceEngineClient) GetByName(name string) (*models.DebugSer
 	return obj, err
 }
 
+// GetObject - Get an existing DebugServiceEngine by filters like name, cloud, tenant
+// Api creates DebugServiceEngine object with every call.
+func (client *DebugServiceEngineClient) GetObject(options ...session.ApiOptionsParams) (*models.DebugServiceEngine, error) {
+	var obj *models.DebugServiceEngine
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("debugserviceengine", newOptions...)
+	return obj, err
+}
+
 // Create a new DebugServiceEngine object
 func (client *DebugServiceEngineClient) Create(obj *models.DebugServiceEngine) (*models.DebugServiceEngine, error) {
 	var robj *models.DebugServiceEngine
@@ -92,4 +105,9 @@ func (client *DebugServiceEngineClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *DebugServiceEngineClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

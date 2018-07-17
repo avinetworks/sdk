@@ -65,6 +65,19 @@ func (client *HTTPPolicySetClient) GetByName(name string) (*models.HTTPPolicySet
 	return obj, err
 }
 
+// GetObject - Get an existing HTTPPolicySet by filters like name, cloud, tenant
+// Api creates HTTPPolicySet object with every call.
+func (client *HTTPPolicySetClient) GetObject(options ...session.ApiOptionsParams) (*models.HTTPPolicySet, error) {
+	var obj *models.HTTPPolicySet
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("httppolicyset", newOptions...)
+	return obj, err
+}
+
 // Create a new HTTPPolicySet object
 func (client *HTTPPolicySetClient) Create(obj *models.HTTPPolicySet) (*models.HTTPPolicySet, error) {
 	var robj *models.HTTPPolicySet
@@ -92,4 +105,9 @@ func (client *HTTPPolicySetClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *HTTPPolicySetClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

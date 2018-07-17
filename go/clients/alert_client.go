@@ -65,6 +65,19 @@ func (client *AlertClient) GetByName(name string) (*models.Alert, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Alert by filters like name, cloud, tenant
+// Api creates Alert object with every call.
+func (client *AlertClient) GetObject(options ...session.ApiOptionsParams) (*models.Alert, error) {
+	var obj *models.Alert
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("alert", newOptions...)
+	return obj, err
+}
+
 // Create a new Alert object
 func (client *AlertClient) Create(obj *models.Alert) (*models.Alert, error) {
 	var robj *models.Alert
@@ -92,4 +105,9 @@ func (client *AlertClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AlertClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

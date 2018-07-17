@@ -65,6 +65,19 @@ func (client *LogControllerMappingClient) GetByName(name string) (*models.LogCon
 	return obj, err
 }
 
+// GetObject - Get an existing LogControllerMapping by filters like name, cloud, tenant
+// Api creates LogControllerMapping object with every call.
+func (client *LogControllerMappingClient) GetObject(options ...session.ApiOptionsParams) (*models.LogControllerMapping, error) {
+	var obj *models.LogControllerMapping
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("logcontrollermapping", newOptions...)
+	return obj, err
+}
+
 // Create a new LogControllerMapping object
 func (client *LogControllerMappingClient) Create(obj *models.LogControllerMapping) (*models.LogControllerMapping, error) {
 	var robj *models.LogControllerMapping
@@ -92,4 +105,9 @@ func (client *LogControllerMappingClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *LogControllerMappingClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

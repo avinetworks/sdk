@@ -65,6 +65,19 @@ func (client *NetworkProfileClient) GetByName(name string) (*models.NetworkProfi
 	return obj, err
 }
 
+// GetObject - Get an existing NetworkProfile by filters like name, cloud, tenant
+// Api creates NetworkProfile object with every call.
+func (client *NetworkProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.NetworkProfile, error) {
+	var obj *models.NetworkProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("networkprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new NetworkProfile object
 func (client *NetworkProfileClient) Create(obj *models.NetworkProfile) (*models.NetworkProfile, error) {
 	var robj *models.NetworkProfile
@@ -92,4 +105,9 @@ func (client *NetworkProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *NetworkProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

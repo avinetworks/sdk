@@ -65,6 +65,19 @@ func (client *IPAMDNSProviderProfileClient) GetByName(name string) (*models.IPAM
 	return obj, err
 }
 
+// GetObject - Get an existing IPAMDNSProviderProfile by filters like name, cloud, tenant
+// Api creates IPAMDNSProviderProfile object with every call.
+func (client *IPAMDNSProviderProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.IPAMDNSProviderProfile, error) {
+	var obj *models.IPAMDNSProviderProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("ipamdnsproviderprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new IPAMDNSProviderProfile object
 func (client *IPAMDNSProviderProfileClient) Create(obj *models.IPAMDNSProviderProfile) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
@@ -92,4 +105,9 @@ func (client *IPAMDNSProviderProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *IPAMDNSProviderProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

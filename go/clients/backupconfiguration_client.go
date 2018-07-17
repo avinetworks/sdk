@@ -65,6 +65,19 @@ func (client *BackupConfigurationClient) GetByName(name string) (*models.BackupC
 	return obj, err
 }
 
+// GetObject - Get an existing BackupConfiguration by filters like name, cloud, tenant
+// Api creates BackupConfiguration object with every call.
+func (client *BackupConfigurationClient) GetObject(options ...session.ApiOptionsParams) (*models.BackupConfiguration, error) {
+	var obj *models.BackupConfiguration
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("backupconfiguration", newOptions...)
+	return obj, err
+}
+
 // Create a new BackupConfiguration object
 func (client *BackupConfigurationClient) Create(obj *models.BackupConfiguration) (*models.BackupConfiguration, error) {
 	var robj *models.BackupConfiguration
@@ -92,4 +105,9 @@ func (client *BackupConfigurationClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *BackupConfigurationClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
