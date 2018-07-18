@@ -65,6 +65,19 @@ func (client *ApplicationProfileClient) GetByName(name string) (*models.Applicat
 	return obj, err
 }
 
+// GetObject - Get an existing ApplicationProfile by filters like name, cloud, tenant
+// Api creates ApplicationProfile object with every call.
+func (client *ApplicationProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.ApplicationProfile, error) {
+	var obj *models.ApplicationProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("applicationprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new ApplicationProfile object
 func (client *ApplicationProfileClient) Create(obj *models.ApplicationProfile) (*models.ApplicationProfile, error) {
 	var robj *models.ApplicationProfile
@@ -92,4 +105,9 @@ func (client *ApplicationProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ApplicationProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

@@ -65,6 +65,19 @@ func (client *TrafficCloneProfileClient) GetByName(name string) (*models.Traffic
 	return obj, err
 }
 
+// GetObject - Get an existing TrafficCloneProfile by filters like name, cloud, tenant
+// Api creates TrafficCloneProfile object with every call.
+func (client *TrafficCloneProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.TrafficCloneProfile, error) {
+	var obj *models.TrafficCloneProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("trafficcloneprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new TrafficCloneProfile object
 func (client *TrafficCloneProfileClient) Create(obj *models.TrafficCloneProfile) (*models.TrafficCloneProfile, error) {
 	var robj *models.TrafficCloneProfile
@@ -92,4 +105,9 @@ func (client *TrafficCloneProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *TrafficCloneProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

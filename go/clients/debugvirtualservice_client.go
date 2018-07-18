@@ -65,6 +65,19 @@ func (client *DebugVirtualServiceClient) GetByName(name string) (*models.DebugVi
 	return obj, err
 }
 
+// GetObject - Get an existing DebugVirtualService by filters like name, cloud, tenant
+// Api creates DebugVirtualService object with every call.
+func (client *DebugVirtualServiceClient) GetObject(options ...session.ApiOptionsParams) (*models.DebugVirtualService, error) {
+	var obj *models.DebugVirtualService
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("debugvirtualservice", newOptions...)
+	return obj, err
+}
+
 // Create a new DebugVirtualService object
 func (client *DebugVirtualServiceClient) Create(obj *models.DebugVirtualService) (*models.DebugVirtualService, error) {
 	var robj *models.DebugVirtualService
@@ -92,4 +105,9 @@ func (client *DebugVirtualServiceClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *DebugVirtualServiceClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

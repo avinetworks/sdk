@@ -168,6 +168,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 		t.Error("Pool Patch failed %v", npool3)
 	}
 
+
 	err = avisess.Delete("api/pool/" + npool2.UUID)
 	if err != nil {
 		t.Fatalf("Pool deletion failed: %s", err)

@@ -65,6 +65,19 @@ func (client *ClusterClient) GetByName(name string) (*models.Cluster, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Cluster by filters like name, cloud, tenant
+// Api creates Cluster object with every call.
+func (client *ClusterClient) GetObject(options ...session.ApiOptionsParams) (*models.Cluster, error) {
+	var obj *models.Cluster
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("cluster", newOptions...)
+	return obj, err
+}
+
 // Create a new Cluster object
 func (client *ClusterClient) Create(obj *models.Cluster) (*models.Cluster, error) {
 	var robj *models.Cluster
@@ -92,4 +105,9 @@ func (client *ClusterClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ClusterClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

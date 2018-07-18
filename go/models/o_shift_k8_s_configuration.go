@@ -97,6 +97,9 @@ type OShiftK8SConfiguration struct {
 	// Exclude hosts with attributes for SE creation.
 	SeExcludeAttributes []*MesosAttribute `json:"se_exclude_attributes,omitempty"`
 
+	// OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3.
+	SeImagePullSecret string `json:"se_image_pull_secret,omitempty"`
+
 	// Create SEs just on hosts with include attributes.
 	SeIncludeAttributes []*MesosAttribute `json:"se_include_attributes,omitempty"`
 
@@ -112,7 +115,7 @@ type OShiftK8SConfiguration struct {
 	// Authorization token for service account instead of client certificate. One of client certificate or token is required.
 	ServiceAccountToken string `json:"service_account_token,omitempty"`
 
-	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11.
+	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11,18.1.2.
 	ServicePortMatchHTTPService bool `json:"service_port_match_http_service,omitempty"`
 
 	// Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3.

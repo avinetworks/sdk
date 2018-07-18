@@ -65,6 +65,19 @@ func (client *PKIprofileClient) GetByName(name string) (*models.PKIprofile, erro
 	return obj, err
 }
 
+// GetObject - Get an existing PKIprofile by filters like name, cloud, tenant
+// Api creates PKIprofile object with every call.
+func (client *PKIprofileClient) GetObject(options ...session.ApiOptionsParams) (*models.PKIprofile, error) {
+	var obj *models.PKIprofile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("pkiprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new PKIprofile object
 func (client *PKIprofileClient) Create(obj *models.PKIprofile) (*models.PKIprofile, error) {
 	var robj *models.PKIprofile
@@ -92,4 +105,9 @@ func (client *PKIprofileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *PKIprofileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

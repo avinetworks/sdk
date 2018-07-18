@@ -65,6 +65,19 @@ func (client *L4PolicySetClient) GetByName(name string) (*models.L4PolicySet, er
 	return obj, err
 }
 
+// GetObject - Get an existing L4PolicySet by filters like name, cloud, tenant
+// Api creates L4PolicySet object with every call.
+func (client *L4PolicySetClient) GetObject(options ...session.ApiOptionsParams) (*models.L4PolicySet, error) {
+	var obj *models.L4PolicySet
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("l4policyset", newOptions...)
+	return obj, err
+}
+
 // Create a new L4PolicySet object
 func (client *L4PolicySetClient) Create(obj *models.L4PolicySet) (*models.L4PolicySet, error) {
 	var robj *models.L4PolicySet
@@ -92,4 +105,9 @@ func (client *L4PolicySetClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *L4PolicySetClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

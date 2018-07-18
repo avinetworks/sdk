@@ -65,6 +65,19 @@ func (client *SchedulerClient) GetByName(name string) (*models.Scheduler, error)
 	return obj, err
 }
 
+// GetObject - Get an existing Scheduler by filters like name, cloud, tenant
+// Api creates Scheduler object with every call.
+func (client *SchedulerClient) GetObject(options ...session.ApiOptionsParams) (*models.Scheduler, error) {
+	var obj *models.Scheduler
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("scheduler", newOptions...)
+	return obj, err
+}
+
 // Create a new Scheduler object
 func (client *SchedulerClient) Create(obj *models.Scheduler) (*models.Scheduler, error) {
 	var robj *models.Scheduler
@@ -92,4 +105,9 @@ func (client *SchedulerClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SchedulerClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

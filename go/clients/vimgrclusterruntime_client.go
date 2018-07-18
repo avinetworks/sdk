@@ -65,6 +65,19 @@ func (client *VIMgrClusterRuntimeClient) GetByName(name string) (*models.VIMgrCl
 	return obj, err
 }
 
+// GetObject - Get an existing VIMgrClusterRuntime by filters like name, cloud, tenant
+// Api creates VIMgrClusterRuntime object with every call.
+func (client *VIMgrClusterRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.VIMgrClusterRuntime, error) {
+	var obj *models.VIMgrClusterRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vimgrclusterruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new VIMgrClusterRuntime object
 func (client *VIMgrClusterRuntimeClient) Create(obj *models.VIMgrClusterRuntime) (*models.VIMgrClusterRuntime, error) {
 	var robj *models.VIMgrClusterRuntime
@@ -92,4 +105,9 @@ func (client *VIMgrClusterRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIMgrClusterRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

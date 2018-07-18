@@ -65,6 +65,19 @@ func (client *GslbClient) GetByName(name string) (*models.Gslb, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Gslb by filters like name, cloud, tenant
+// Api creates Gslb object with every call.
+func (client *GslbClient) GetObject(options ...session.ApiOptionsParams) (*models.Gslb, error) {
+	var obj *models.Gslb
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("gslb", newOptions...)
+	return obj, err
+}
+
 // Create a new Gslb object
 func (client *GslbClient) Create(obj *models.Gslb) (*models.Gslb, error) {
 	var robj *models.Gslb
@@ -92,4 +105,9 @@ func (client *GslbClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *GslbClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

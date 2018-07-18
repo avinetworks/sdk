@@ -65,6 +65,19 @@ func (client *ActionGroupConfigClient) GetByName(name string) (*models.ActionGro
 	return obj, err
 }
 
+// GetObject - Get an existing ActionGroupConfig by filters like name, cloud, tenant
+// Api creates ActionGroupConfig object with every call.
+func (client *ActionGroupConfigClient) GetObject(options ...session.ApiOptionsParams) (*models.ActionGroupConfig, error) {
+	var obj *models.ActionGroupConfig
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("actiongroupconfig", newOptions...)
+	return obj, err
+}
+
 // Create a new ActionGroupConfig object
 func (client *ActionGroupConfigClient) Create(obj *models.ActionGroupConfig) (*models.ActionGroupConfig, error) {
 	var robj *models.ActionGroupConfig
@@ -92,4 +105,9 @@ func (client *ActionGroupConfigClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ActionGroupConfigClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

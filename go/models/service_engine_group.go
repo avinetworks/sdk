@@ -233,7 +233,7 @@ type ServiceEngineGroup struct {
 	// Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.
 	MinimumRequiredConfigMemory int32 `json:"minimum_required_config_memory,omitempty"`
 
-	// Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2.
+	// Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2.
 	NLogStreamingThreads int32 `json:"n_log_streaming_threads,omitempty"`
 
 	// Name of the object.

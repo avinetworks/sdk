@@ -65,6 +65,19 @@ func (client *CloudPropertiesClient) GetByName(name string) (*models.CloudProper
 	return obj, err
 }
 
+// GetObject - Get an existing CloudProperties by filters like name, cloud, tenant
+// Api creates CloudProperties object with every call.
+func (client *CloudPropertiesClient) GetObject(options ...session.ApiOptionsParams) (*models.CloudProperties, error) {
+	var obj *models.CloudProperties
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("cloudproperties", newOptions...)
+	return obj, err
+}
+
 // Create a new CloudProperties object
 func (client *CloudPropertiesClient) Create(obj *models.CloudProperties) (*models.CloudProperties, error) {
 	var robj *models.CloudProperties
@@ -92,4 +105,9 @@ func (client *CloudPropertiesClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *CloudPropertiesClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

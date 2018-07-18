@@ -65,6 +65,19 @@ func (client *IPAddrGroupClient) GetByName(name string) (*models.IPAddrGroup, er
 	return obj, err
 }
 
+// GetObject - Get an existing IPAddrGroup by filters like name, cloud, tenant
+// Api creates IPAddrGroup object with every call.
+func (client *IPAddrGroupClient) GetObject(options ...session.ApiOptionsParams) (*models.IPAddrGroup, error) {
+	var obj *models.IPAddrGroup
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("ipaddrgroup", newOptions...)
+	return obj, err
+}
+
 // Create a new IPAddrGroup object
 func (client *IPAddrGroupClient) Create(obj *models.IPAddrGroup) (*models.IPAddrGroup, error) {
 	var robj *models.IPAddrGroup
@@ -92,4 +105,9 @@ func (client *IPAddrGroupClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *IPAddrGroupClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

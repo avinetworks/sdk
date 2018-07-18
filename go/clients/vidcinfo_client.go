@@ -65,6 +65,19 @@ func (client *VIDCInfoClient) GetByName(name string) (*models.VIDCInfo, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing VIDCInfo by filters like name, cloud, tenant
+// Api creates VIDCInfo object with every call.
+func (client *VIDCInfoClient) GetObject(options ...session.ApiOptionsParams) (*models.VIDCInfo, error) {
+	var obj *models.VIDCInfo
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vidcinfo", newOptions...)
+	return obj, err
+}
+
 // Create a new VIDCInfo object
 func (client *VIDCInfoClient) Create(obj *models.VIDCInfo) (*models.VIDCInfo, error) {
 	var robj *models.VIDCInfo
@@ -92,4 +105,9 @@ func (client *VIDCInfoClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIDCInfoClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

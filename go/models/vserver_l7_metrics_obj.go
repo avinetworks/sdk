@@ -76,6 +76,9 @@ type VserverL7MetricsObj struct {
 	// Average Page Load Time reported by client.
 	AvgPageLoadTime float64 `json:"avg_page_load_time,omitempty"`
 
+	// Average number of HTTP request parameters per request, taking into account only requests with parameters. Field introduced in 17.2.12, 18.1.3.
+	AvgParamsPerReq float64 `json:"avg_params_per_req,omitempty"`
+
 	// Average size of HTTP POST request. Field introduced in 17.2.12, 18.1.2.
 	AvgPostBytes float64 `json:"avg_post_bytes,omitempty"`
 
@@ -436,6 +439,9 @@ type VserverL7MetricsObj struct {
 
 	// Total number of requests served across server sessions closed in the interval.
 	SumReqsFinishedSessions float64 `json:"sum_reqs_finished_sessions,omitempty"`
+
+	// Total number of HTTP requests containing at least one parameter. Field introduced in 17.2.12, 18.1.3.
+	SumReqsWithParams float64 `json:"sum_reqs_with_params,omitempty"`
 
 	// Total number of HTTP 1XX responses.
 	SumResp1xx float64 `json:"sum_resp_1xx,omitempty"`

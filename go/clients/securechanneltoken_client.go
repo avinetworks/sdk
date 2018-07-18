@@ -65,6 +65,19 @@ func (client *SecureChannelTokenClient) GetByName(name string) (*models.SecureCh
 	return obj, err
 }
 
+// GetObject - Get an existing SecureChannelToken by filters like name, cloud, tenant
+// Api creates SecureChannelToken object with every call.
+func (client *SecureChannelTokenClient) GetObject(options ...session.ApiOptionsParams) (*models.SecureChannelToken, error) {
+	var obj *models.SecureChannelToken
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("securechanneltoken", newOptions...)
+	return obj, err
+}
+
 // Create a new SecureChannelToken object
 func (client *SecureChannelTokenClient) Create(obj *models.SecureChannelToken) (*models.SecureChannelToken, error) {
 	var robj *models.SecureChannelToken
@@ -92,4 +105,9 @@ func (client *SecureChannelTokenClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SecureChannelTokenClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

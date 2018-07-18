@@ -65,6 +65,19 @@ func (client *ApplicationPersistenceProfileClient) GetByName(name string) (*mode
 	return obj, err
 }
 
+// GetObject - Get an existing ApplicationPersistenceProfile by filters like name, cloud, tenant
+// Api creates ApplicationPersistenceProfile object with every call.
+func (client *ApplicationPersistenceProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.ApplicationPersistenceProfile, error) {
+	var obj *models.ApplicationPersistenceProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("applicationpersistenceprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Create(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
@@ -92,4 +105,9 @@ func (client *ApplicationPersistenceProfileClient) DeleteByName(name string) err
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ApplicationPersistenceProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
