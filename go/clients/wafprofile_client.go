@@ -65,6 +65,19 @@ func (client *WafProfileClient) GetByName(name string) (*models.WafProfile, erro
 	return obj, err
 }
 
+// GetObject - Get an existing WafProfile by filters like name, cloud, tenant
+// Api creates WafProfile object with every call.
+func (client *WafProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.WafProfile, error) {
+	var obj *models.WafProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("wafprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new WafProfile object
 func (client *WafProfileClient) Create(obj *models.WafProfile) (*models.WafProfile, error) {
 	var robj *models.WafProfile
@@ -92,4 +105,9 @@ func (client *WafProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *WafProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

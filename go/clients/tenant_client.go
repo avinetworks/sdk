@@ -65,6 +65,19 @@ func (client *TenantClient) GetByName(name string) (*models.Tenant, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Tenant by filters like name, cloud, tenant
+// Api creates Tenant object with every call.
+func (client *TenantClient) GetObject(options ...session.ApiOptionsParams) (*models.Tenant, error) {
+	var obj *models.Tenant
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("tenant", newOptions...)
+	return obj, err
+}
+
 // Create a new Tenant object
 func (client *TenantClient) Create(obj *models.Tenant) (*models.Tenant, error) {
 	var robj *models.Tenant
@@ -92,4 +105,9 @@ func (client *TenantClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *TenantClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

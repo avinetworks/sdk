@@ -65,6 +65,19 @@ func (client *VirtualServiceClient) GetByName(name string) (*models.VirtualServi
 	return obj, err
 }
 
+// GetObject - Get an existing VirtualService by filters like name, cloud, tenant
+// Api creates VirtualService object with every call.
+func (client *VirtualServiceClient) GetObject(options ...session.ApiOptionsParams) (*models.VirtualService, error) {
+	var obj *models.VirtualService
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("virtualservice", newOptions...)
+	return obj, err
+}
+
 // Create a new VirtualService object
 func (client *VirtualServiceClient) Create(obj *models.VirtualService) (*models.VirtualService, error) {
 	var robj *models.VirtualService
@@ -92,4 +105,9 @@ func (client *VirtualServiceClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VirtualServiceClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

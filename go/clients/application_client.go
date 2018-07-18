@@ -65,6 +65,19 @@ func (client *ApplicationClient) GetByName(name string) (*models.Application, er
 	return obj, err
 }
 
+// GetObject - Get an existing Application by filters like name, cloud, tenant
+// Api creates Application object with every call.
+func (client *ApplicationClient) GetObject(options ...session.ApiOptionsParams) (*models.Application, error) {
+	var obj *models.Application
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("application", newOptions...)
+	return obj, err
+}
+
 // Create a new Application object
 func (client *ApplicationClient) Create(obj *models.Application) (*models.Application, error) {
 	var robj *models.Application
@@ -92,4 +105,9 @@ func (client *ApplicationClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ApplicationClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

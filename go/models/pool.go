@@ -151,7 +151,7 @@ type Pool struct {
 	// Server AutoScale. Not used anymore. Field deprecated in 18.1.2.
 	ServerAutoScale bool `json:"server_auto_scale,omitempty"`
 
-	//  Field deprecated in 18.1.2.
+	// Number of server_count.
 	ServerCount int32 `json:"server_count,omitempty"`
 
 	// Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead.

@@ -65,6 +65,19 @@ func (client *UserActivityClient) GetByName(name string) (*models.UserActivity, 
 	return obj, err
 }
 
+// GetObject - Get an existing UserActivity by filters like name, cloud, tenant
+// Api creates UserActivity object with every call.
+func (client *UserActivityClient) GetObject(options ...session.ApiOptionsParams) (*models.UserActivity, error) {
+	var obj *models.UserActivity
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("useractivity", newOptions...)
+	return obj, err
+}
+
 // Create a new UserActivity object
 func (client *UserActivityClient) Create(obj *models.UserActivity) (*models.UserActivity, error) {
 	var robj *models.UserActivity
@@ -92,4 +105,9 @@ func (client *UserActivityClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *UserActivityClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

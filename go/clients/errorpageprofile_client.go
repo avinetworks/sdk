@@ -65,6 +65,19 @@ func (client *ErrorPageProfileClient) GetByName(name string) (*models.ErrorPageP
 	return obj, err
 }
 
+// GetObject - Get an existing ErrorPageProfile by filters like name, cloud, tenant
+// Api creates ErrorPageProfile object with every call.
+func (client *ErrorPageProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.ErrorPageProfile, error) {
+	var obj *models.ErrorPageProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("errorpageprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new ErrorPageProfile object
 func (client *ErrorPageProfileClient) Create(obj *models.ErrorPageProfile) (*models.ErrorPageProfile, error) {
 	var robj *models.ErrorPageProfile
@@ -92,4 +105,9 @@ func (client *ErrorPageProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ErrorPageProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

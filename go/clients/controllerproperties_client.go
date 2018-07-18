@@ -65,6 +65,19 @@ func (client *ControllerPropertiesClient) GetByName(name string) (*models.Contro
 	return obj, err
 }
 
+// GetObject - Get an existing ControllerProperties by filters like name, cloud, tenant
+// Api creates ControllerProperties object with every call.
+func (client *ControllerPropertiesClient) GetObject(options ...session.ApiOptionsParams) (*models.ControllerProperties, error) {
+	var obj *models.ControllerProperties
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("controllerproperties", newOptions...)
+	return obj, err
+}
+
 // Create a new ControllerProperties object
 func (client *ControllerPropertiesClient) Create(obj *models.ControllerProperties) (*models.ControllerProperties, error) {
 	var robj *models.ControllerProperties
@@ -92,4 +105,9 @@ func (client *ControllerPropertiesClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ControllerPropertiesClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

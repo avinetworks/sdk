@@ -65,6 +65,19 @@ func (client *ServerAutoScalePolicyClient) GetByName(name string) (*models.Serve
 	return obj, err
 }
 
+// GetObject - Get an existing ServerAutoScalePolicy by filters like name, cloud, tenant
+// Api creates ServerAutoScalePolicy object with every call.
+func (client *ServerAutoScalePolicyClient) GetObject(options ...session.ApiOptionsParams) (*models.ServerAutoScalePolicy, error) {
+	var obj *models.ServerAutoScalePolicy
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("serverautoscalepolicy", newOptions...)
+	return obj, err
+}
+
 // Create a new ServerAutoScalePolicy object
 func (client *ServerAutoScalePolicyClient) Create(obj *models.ServerAutoScalePolicy) (*models.ServerAutoScalePolicy, error) {
 	var robj *models.ServerAutoScalePolicy
@@ -92,4 +105,9 @@ func (client *ServerAutoScalePolicyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ServerAutoScalePolicyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

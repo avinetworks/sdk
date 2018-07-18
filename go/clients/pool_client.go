@@ -65,6 +65,19 @@ func (client *PoolClient) GetByName(name string) (*models.Pool, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Pool by filters like name, cloud, tenant
+// Api creates Pool object with every call.
+func (client *PoolClient) GetObject(options ...session.ApiOptionsParams) (*models.Pool, error) {
+	var obj *models.Pool
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("pool", newOptions...)
+	return obj, err
+}
+
 // Create a new Pool object
 func (client *PoolClient) Create(obj *models.Pool) (*models.Pool, error) {
 	var robj *models.Pool
@@ -92,4 +105,9 @@ func (client *PoolClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *PoolClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

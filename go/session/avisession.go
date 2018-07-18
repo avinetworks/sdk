@@ -745,7 +745,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 		}
 		//wait before retry
 		time.Sleep(3 * time.Second)
-		glog.Errorf("CheckControllerStatus Retrying...!")
+		glog.Errorf("CheckControllerStatus Controller %v Resp %v Retrying...!", url, state_resp)
 	}
 	return true, nil
 }
@@ -908,20 +908,21 @@ func (opts *ApiOptions) setResult(result interface{}) error {
 
 type ApiOptionsParams func(*ApiOptions) error
 
-func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
+
+func (avisess *AviSession) GetUri(obj string, options ...ApiOptionsParams) (string, error) {
 	opts := &ApiOptions{}
 	for _, opt := range options {
 		err := opt(opts)
 		if err != nil {
-			return err
+			return "", err
 		}
 	}
 	if opts.result == nil {
-		return errors.New("reference to result provided")
+		return "", errors.New("reference to result provided")
 	}
 
 	if opts.name == "" {
-		return errors.New("Name not specified")
+		return "", errors.New("Name not specified")
 	}
 
 	uri := "api/" + obj + "?name=" + opts.name
@@ -935,6 +936,22 @@ func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) er
 	}
 	if opts.includeName {
 		uri = uri + "&include_name=true"
+	}
+	return uri, nil
+}
+
+
+func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
+	opts := &ApiOptions{}
+	for _, opt := range options {
+		err := opt(opts)
+		if err != nil {
+			return err
+		}
+	}
+	uri, err := avisess.GetUri(obj, options...)
+	if err != nil {
+		return err
 	}
 	res, err := avisess.GetCollectionRaw(uri)
 	if err != nil {

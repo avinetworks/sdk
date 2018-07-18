@@ -65,6 +65,19 @@ func (client *VIMgrDCRuntimeClient) GetByName(name string) (*models.VIMgrDCRunti
 	return obj, err
 }
 
+// GetObject - Get an existing VIMgrDCRuntime by filters like name, cloud, tenant
+// Api creates VIMgrDCRuntime object with every call.
+func (client *VIMgrDCRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.VIMgrDCRuntime, error) {
+	var obj *models.VIMgrDCRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vimgrdcruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new VIMgrDCRuntime object
 func (client *VIMgrDCRuntimeClient) Create(obj *models.VIMgrDCRuntime) (*models.VIMgrDCRuntime, error) {
 	var robj *models.VIMgrDCRuntime
@@ -92,4 +105,9 @@ func (client *VIMgrDCRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIMgrDCRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

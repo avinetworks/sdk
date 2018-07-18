@@ -7,7 +7,7 @@ package models
 // swagger:model DnsARdata
 type DNSARdata struct {
 
-	// IP address for fqdn.
+	// IP address for FQDN.
 	// Required: true
 	IPAddress *IPAddr `json:"ip_address"`
 }
