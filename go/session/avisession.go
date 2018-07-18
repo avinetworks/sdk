@@ -16,7 +16,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
 	"github.com/golang/glog"
 )
 
@@ -104,6 +103,13 @@ type AviSession struct {
 
 	// internal: referer field string to use in requests
 	prefix string
+
+	// internal: re-usable transport to enable connection reuse
+	tr *http.Transport
+
+	// internal: reusable client
+	client *http.Client
+
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -134,6 +140,11 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		avisess.version = DEFAULT_AVI_VERSION
 	}
 
+	// create transport object
+	avisess.tr = &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	}
+	avisess.client = &http.Client{Transport: avisess.tr}
 	err := avisess.initiateSession()
 	return avisess, err
 }
@@ -174,6 +185,7 @@ func (avisess *AviSession) initiateSession() error {
 	if res != nil && reflect.TypeOf(res).Kind() != reflect.String {
 		glog.Infof("results: %v error %v", res.(map[string]interface{}), rerror)
 	}
+
 
 	return nil
 }
@@ -288,10 +300,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return nil, errorResult
 	}
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
 	errorResult := AviError{verb: verb, url: url}
 
 	var payloadIO io.Reader
@@ -326,9 +334,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 	}
 
-	client := &http.Client{Transport: tr}
-
-	resp, err := client.Do(req)
+	resp, err := avisess.client.Do(req)
 	if err != nil {
 		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
 		dump, err := httputil.DumpRequestOut(req, true)
@@ -429,10 +435,6 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		return errorResult
 	}
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
 	errorResult := AviError{verb: verb, url: url}
 	//Prepare a file that you will submit to an URL.
 	values := map[string]io.Reader{
@@ -497,9 +499,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		req.AddCookie(&http.Cookie{Name: "avi-sessionid", Value: avisess.sessionid})
 	}
 
-	client := &http.Client{Transport: tr}
-
-	resp, err := client.Do(req)
+	resp, err := avisess.client.Do(req)
 	if err != nil {
 		glog.Errorf("restMultipartUploadRequest Error during client request: %v ", err)
 		dump, err := httputil.DumpRequestOut(req, true)
@@ -594,10 +594,6 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		return errorResult
 	}
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
 	errorResult := AviError{verb: verb, url: url}
 
 	req, err := http.NewRequest(verb, url, nil)
@@ -624,9 +620,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		req.AddCookie(&http.Cookie{Name: "sessionid", Value: avisess.sessionid})
 	}
 
-	client := &http.Client{Transport: tr}
-
-	resp, err := client.Do(req)
+	resp, err := avisess.client.Do(req)
 	if err != nil {
 		errorResult.err = fmt.Errorf("restMultipartDownloadRequest Error for during client request: %v", err)
 		dump, err := httputil.DumpRequestOut(req, true)
@@ -721,12 +715,6 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 	glog.Infof("Checking for controller up state ..!")
 	url := avisess.prefix + "login"
 
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
-	}
-
-	client := &http.Client{Transport: tr}
-
 	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
 	for {
 		check_req, err := http.NewRequest("GET", url, nil)
@@ -734,9 +722,8 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 			glog.Errorf("CheckControllerStatus Error while generating http request.")
 			return false, err
 		}
-
 		//Getting response from controller's API
-		state_resp, err := client.Do(check_req)
+		state_resp, err := avisess.client.Do(check_req)
 		if state_resp != nil {
 			//Checking controller response
 			if state_resp.StatusCode != 503 && state_resp.StatusCode != 502 {
