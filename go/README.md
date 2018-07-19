@@ -35,7 +35,7 @@ $ git clone https://github.com/avinetworks/sdk.git
 $ export GOPATH=~/src
 ```
 
-####Usage Examples
+### Usage Examples
 To create session, pool and a basic virtualservice named my-test-vs you need to execute create_vs.go file.
 Before executing this script you need to specify AVI controller IP, username, 
 password and tenant in create_vs.go file.
@@ -173,4 +173,31 @@ func main() {
 
 ```sh
 $ go build -o /usr/bin/create_vs create_vs.go
+```
+- To include Go SDK in third party code:
+
+Following is an example entry of vendor.json file in Terraform provider
+```go
+"package": [{
+                "path": "github.com/avinetworks/sdk/go/clients",
+                "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
+                "revisionTime": "2018-04-06T16:51:27.185773",
+                "version": "17.2.8",
+                "versionExact": "17.2.8"
+            },
+            {
+                "path": "github.com/avinetworks/sdk/go/session",
+                "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
+                "revisionTime": "2018-04-06T16:51:27.185773",
+                "version": "17.2.8",
+                "versionExact": "17.2.8"
+            }]
+```
+
+Following is an example to import Go SDK packages in third party Go code
+```go
+import (
+	"github.com/avinetworks/sdk/go/clients"
+	"github.com/avinetworks/sdk/go/session"
+)
 ```
