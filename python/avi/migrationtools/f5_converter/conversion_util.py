@@ -427,7 +427,11 @@ class F5Util(MigrationUtil):
                 app_prof_conf['needs_review'] = True
                 value = 'http'
             else:
-                value = 'fastL4'
+                app_profile_refs.append(
+                    self.get_object_ref('System-L4-Application',
+                                        'applicationprofile', tenant='admin'))
+                app_prof_conf['app_prof'] = app_profile_refs
+                return app_prof_conf
             # Added prefix for objects
             if prefix:
                 value = '%s-%s' % (prefix, value)
@@ -648,8 +652,8 @@ class F5Util(MigrationUtil):
     def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
                    tenant=None):
         """
-        If pool is shared with other VS pool is cloned for other VS as Avi dose not
-        support shared pools with new pool name as <pool_name>-<vs_name>
+        If pool is shared with other VS pool is cloned for other VS as Avi dose
+        not support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_name: Name of the pool to be cloned
         :param clone_for: Name of the VS for pool to be cloned
         :param avi_pool_list: new pool to be added to this list
@@ -657,6 +661,7 @@ class F5Util(MigrationUtil):
         :param tenant: if pool is shared across partition then coned for tenant
         :return: new pool object
         """
+        LOG.debug("Cloning pool %s for %s " % (pool_name, clone_for))
         new_pool = None
         for pool in avi_pool_list:
             if pool["name"] == pool_name:
@@ -679,6 +684,8 @@ class F5Util(MigrationUtil):
                 new_pool["pki_profile_ref"] = None
             avi_pool_list.append(new_pool)
             pool_ref = new_pool["name"]
+            LOG.debug("Cloned pool successfully %s for %s " % (
+                new_pool["name"], clone_for))
             return pool_ref
 
     def remove_https_mon_from_pool(self, avi_config, pool_ref, tenant, sysdict):
