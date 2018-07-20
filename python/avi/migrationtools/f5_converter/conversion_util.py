@@ -1998,9 +1998,6 @@ class F5Util(MigrationUtil):
                 elif rule['switching_action'].get('pool_ref'):
                     pool_ref = self.get_name(rule['switching_action'][
                                                  'pool_ref'])
-                    pool_ref = self.clone_pool(
-                        pool_ref, policy_name, avi_config['Pool'],
-                        False, tenant_name)
                     if pool_ref:
                         updated_pool_ref = self.get_object_ref(
                             pool_ref, conv_const.OBJECT_TYPE_POOL, tenant_name,
