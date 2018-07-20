@@ -182,15 +182,15 @@ Following is an example entry of vendor.json file in Terraform provider
                 "path": "github.com/avinetworks/sdk/go/clients",
                 "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
                 "revisionTime": "2018-04-06T16:51:27.185773",
-                "version": "17.2.8",
-                "versionExact": "17.2.8"
+                "version": "18.1.3",
+                "versionExact": "18.1.3"
             },
             {
                 "path": "github.com/avinetworks/sdk/go/session",
                 "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
                 "revisionTime": "2018-04-06T16:51:27.185773",
-                "version": "17.2.8",
-                "versionExact": "17.2.8"
+                "version": "18.1.3",
+                "versionExact": "18.1.3"
             }]
 ```
 
