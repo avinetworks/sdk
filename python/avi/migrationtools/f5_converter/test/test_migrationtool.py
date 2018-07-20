@@ -1091,8 +1091,7 @@ class TestF5Converter:
                 controller_version=setup.get('controller_version_v17'),
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
-                output_file_path=setup.get('output_file_path'),
-                f5_ssh_port=setup.get('f5_ssh_port'))
+                output_file_path=setup.get('output_file_path'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(file) as json_file:
