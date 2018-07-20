@@ -22,7 +22,7 @@ Here are list of important SDK directories
     - **models**: It contains all models required to capture the API response. Basically its nothing but the structures 
     to grab and store data of corresponding REST API calls.
 # Prerequisites
-go
+Go Lang ([Click here](https://golang.org/doc/install) for more information)
 
 # Installation
 They can be installed simply as:
