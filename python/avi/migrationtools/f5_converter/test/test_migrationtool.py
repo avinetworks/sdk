@@ -1085,7 +1085,7 @@ class TestF5Converter:
             raise Exception("Controller vrf creation faild %s" % res.content)
 
     @pytest.mark.travis
-    def test_application_profile_on_v11(self):
+    def test_application_profile_on_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
