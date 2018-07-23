@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServerAutoScalePolicy Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.12", 
         "description": "##CLI##\n```\n- configure serverautoscalepolicy <key>\n- show serverautoscalepolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -517,13 +533,13 @@
                 "scalein_cooldown": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. Units(SEC).", 
+                    "description": "Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete.", 
                     "format": "int32"
                 }, 
                 "scaleout_cooldown": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. Units(SEC).", 
+                    "description": "Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete.", 
                     "format": "int32"
                 }, 
                 "max_size": {

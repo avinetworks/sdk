@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.12'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -58,7 +58,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -185,7 +191,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -1632,7 +1644,7 @@ definitions:
                 description: "Inline estimation of capacity of servers."
                 type: boolean
             capacity_estimation_ttfb_thresh:
-                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS)."
+                description: "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'."
                 type: integer
                 format: int32
             cloud_config_cksum:
@@ -1642,7 +1654,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             connection_ramp_duration:
-                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN)."
+                description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
                 type: integer
                 default: 10
                 format: int32
@@ -1678,12 +1690,12 @@ definitions:
                 description: "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure."
                 $ref: '#/definitions/FailAction'
             fewest_tasks_feedback_delay:
-                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC)."
+                description: "Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300."
                 type: integer
                 default: 10
                 format: int32
             graceful_disable_timeout:
-                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN)."
+                description: "Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'."
                 type: integer
                 default: 1
                 format: int32
@@ -1732,6 +1744,14 @@ definitions:
             max_conn_rate_per_server:
                 description: "Rate Limit connections to each server."
                 $ref: '#/definitions/RateProfile'
+            min_health_monitors_up:
+                description: "Minimum number of health monitors in UP state to mark server UP. Field introduced in 17.2.12."
+                type: integer
+                format: int32
+            min_servers_up:
+                description: "Minimum number of servers in UP state for marking thr pool UP. Field introduced in 17.2.12."
+                type: integer
+                format: int32
             name:
                 description: "The name of the pool."
                 type: string
@@ -1846,6 +1866,8 @@ definitions:
                 default: "RL_ACTION_NONE"
     RateProfile:
         type: object
+        required:
+            -   action
         properties:
             action:
                 description: "Action to perform upon rate limiting."
@@ -1871,7 +1893,7 @@ definitions:
                 description: "HTTP header name. Field introduced in 17.1.1."
                 type: string
             period:
-                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Units(SEC)."
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300."
                 type: integer
                 default: 1
                 format: int32

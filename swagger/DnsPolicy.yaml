@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.12'
     title: Avi DnsPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -168,7 +174,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -332,6 +344,14 @@ paths:
 
 
 definitions:
+    DnsARdata:
+        type: object
+        required:
+            -   ip_address
+        properties:
+            ip_address:
+                description: "IP address for fqdn."
+                $ref: '#/definitions/IpAddr'
     DnsClientIpMatch:
         type: object
         required:
@@ -343,6 +363,14 @@ definitions:
             use_edns_client_subnet_ip:
                 description: "Use the IP address from the EDNS client subnet option, if available, as the source IP address of the client. It should be noted that the edns subnet IP may not be a /32 IP address. Field introduced in 17.1.6,17.2.2."
                 type: boolean
+    DnsCnameRdata:
+        type: object
+        required:
+            -   cname
+        properties:
+            cname:
+                description: "Canonical name."
+                type: string
     DnsGeoLocationMatch:
         type: object
         required:
@@ -361,6 +389,17 @@ definitions:
                 description: "Use the IP address from the EDNS client subnet option, if available, to derive geo location of the DNS query. Field introduced in 17.1.5."
                 type: boolean
                 default: True
+    DnsNsRdata:
+        type: object
+        required:
+            -   nsname
+        properties:
+            ip_address:
+                description: "IP address for Name Server. Field introduced in 17.1.1."
+                $ref: '#/definitions/IpAddr'
+            nsname:
+                description: "Name Server name. Field introduced in 17.1.1."
+                type: string
     DnsPolicy:
         type: object
         required:
@@ -434,6 +473,36 @@ definitions:
                 type: array
                 items:
                     type: string
+    DnsRrSet:
+        type: object
+        required:
+            -   fqdn
+            -   ttl
+            -   type
+        properties:
+            cname:
+                description: "Canonical name in CNAME record. Field introduced in 17.2.12, 18.1.2."
+                $ref: '#/definitions/DnsCnameRdata'
+            fqdn:
+                description: "Fully Qualified Domain Name. Field introduced in 17.2.12, 18.1.2."
+                type: string
+            ip_addresses:
+                description: "IP address in A record. Field introduced in 17.2.12, 18.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsARdata'
+            nses:
+                description: "Name Server information in NS record. Field introduced in 17.2.12, 18.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsNsRdata'
+            ttl:
+                description: "Time To Live for this DNS record. Allowed values are 0-2147483647. Field introduced in 17.2.12, 18.1.2."
+                type: integer
+                format: int32
+            type:
+                description: "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 17.2.12, 18.1.2."
+                type: string
     DnsRule:
         type: object
         required:
@@ -469,6 +538,9 @@ definitions:
             gslb_site_selection:
                 description: "Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5."
                 $ref: '#/definitions/DnsRuleActionGslbSiteSelection'
+            pool_switching:
+                description: "Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 17.2.12."
+                $ref: '#/definitions/DnsRuleActionPoolSwitching'
             response:
                 description: "Generate a response for the DNS query. Field introduced in 17.1.1."
                 $ref: '#/definitions/DnsRuleActionResponse'
@@ -500,6 +572,15 @@ definitions:
             site_name:
                 description: "GSLB site name. Field introduced in 17.1.5."
                 type: string
+    DnsRuleActionPoolSwitching:
+        type: object
+        properties:
+            pool_group_ref:
+                description: "Reference of the pool group to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type PoolGroup. Field introduced in 17.2.12."
+                type: string
+            pool_ref:
+                description: "Reference of the pool to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type Pool. Field introduced in 17.2.12."
+                type: string
     DnsRuleActionResponse:
         type: object
         properties:
@@ -511,9 +592,26 @@ definitions:
                 description: "DNS response code. Enum options - DNS_RCODE_NOERROR, DNS_RCODE_FORMERR, DNS_RCODE_SERVFAIL, DNS_RCODE_NXDOMAIN, DNS_RCODE_NOTIMP, DNS_RCODE_REFUSED, DNS_RCODE_YXDOMAIN, DNS_RCODE_YXRRSET, DNS_RCODE_NXRRSET, DNS_RCODE_NOTAUTH, DNS_RCODE_NOTZONE. Field introduced in 17.1.1."
                 type: string
                 default: "DNS_RCODE_NOERROR"
+            resource_record_sets:
+                description: "DNS resource record sets - (resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsRuleDnsRrSet'
             truncation:
                 description: "DNS response is truncated. Field introduced in 17.1.1."
                 type: boolean
+    DnsRuleDnsRrSet:
+        type: object
+        required:
+            -   resource_record_set
+        properties:
+            resource_record_set:
+                description: "DNS resource record set - (records in the resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2."
+                $ref: '#/definitions/DnsRrSet'
+            section:
+                description: "DNS message section for the resource record set. Enum options - DNS_MESSAGE_SECTION_QUESTION, DNS_MESSAGE_SECTION_ANSWER, DNS_MESSAGE_SECTION_AUTHORITY, DNS_MESSAGE_SECTION_ADDITIONAL. Field introduced in 17.2.12, 18.1.2."
+                type: string
+                default: "DNS_MESSAGE_SECTION_ANSWER"
     DnsRuleMatchTarget:
         type: object
         properties:

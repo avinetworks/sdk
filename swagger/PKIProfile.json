@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PKIProfile Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.12", 
         "description": "##CLI##\n```\n- show pkiprofile <key>\n- delete pkiprofile <key>\n- configure pkiprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -431,10 +439,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -750,7 +766,7 @@
                 }, 
                 "update_interval": {
                     "type": "integer", 
-                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX. Units(MIN).", 
+                    "description": "Interval in minutes to check for CRL update. If not specified, interval will be 1 day. Allowed values are 30-MAX.", 
                     "format": "int32"
                 }
             }

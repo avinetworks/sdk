@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.12'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -49,7 +49,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -176,7 +182,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -398,7 +410,6 @@ definitions:
             remote_as:
                 description: "Peer Autonomous System ID. Allowed values are 1-4294967295."
                 type: integer
-                default: 1
                 format: int32
             shutdown:
                 description: "Shutdown the bgp peer. Field introduced in 17.2.4."
@@ -482,7 +493,7 @@ definitions:
                 default: 10
                 format: int32
             gateway_monitor_interval:
-                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Units(MILLISECONDS)."
+                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000."
                 type: integer
                 default: 1000
                 format: int32
@@ -506,7 +517,7 @@ definitions:
                 default: 10
                 format: int32
             gateway_monitor_interval:
-                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1. Units(MILLISECONDS)."
+                description: "The interval between two ping requests sent by the gateway monitor in milliseconds. If a value is not specified, requests are sent every second. Allowed values are 100-60000. Field introduced in 17.1.1."
                 type: integer
                 default: 1000
                 format: int32

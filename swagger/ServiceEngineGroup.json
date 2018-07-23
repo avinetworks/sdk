@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.12", 
         "description": "##CLI##\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\n##Examples##\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -401,10 +409,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -703,39 +719,22 @@
         }
     }, 
     "definitions": {
-        "VssPlacement": {
+        "VipAutoscaleZones": {
             "type": "object", 
             "properties": {
-                "core_nonaffinity": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5.", 
-                    "format": "int32"
+                "subnet_uuid": {
+                    "type": "string", 
+                    "description": "UUID of the subnet for new IP address allocation. Field introduced in 17.2.12."
                 }, 
-                "num_subcores": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "ServiceEngineGroupApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
+                "availability_zone": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "Availability zone associated with the subnet. Field introduced in 17.2.12."
                 }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/ServiceEngineGroup"
-                    }, 
-                    "type": "array"
+                "fip_capable": {
+                    "readOnly": true, 
+                    "type": "boolean", 
+                    "description": "Determines if the subnet is capable of hosting publicly accessible IP. Field introduced in 17.2.12."
                 }
             }
         }, 
@@ -773,6 +772,193 @@
                     "type": "integer", 
                     "description": "Number of mask.", 
                     "format": "int32"
+                }
+            }
+        }, 
+        "IptableRuleSet": {
+            "required": [
+                "chain", 
+                "table"
+            ], 
+            "type": "object", 
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/IptableRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property rules of obj type IptableRuleSet field type str  type object"
+                }, 
+                "table": {
+                    "type": "string", 
+                    "description": "table of IptableRuleSet."
+                }, 
+                "chain": {
+                    "type": "string", 
+                    "description": "chain of IptableRuleSet."
+                }
+            }
+        }, 
+        "VcenterHosts": {
+            "type": "object", 
+            "properties": {
+                "host_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VIMgrHostRuntime."
+                }, 
+                "include": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
+                }
+            }
+        }, 
+        "MetricsRealTimeUpdate": {
+            "required": [
+                "enabled"
+            ], 
+            "type": "object", 
+            "properties": {
+                "duration": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                }
+            }
+        }, 
+        "IptableRule": {
+            "required": [
+                "action"
+            ], 
+            "type": "object", 
+            "properties": {
+                "dnat_ip": {
+                    "description": "Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "src_port": {
+                    "description": "Placeholder for description of property src_port of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "proto": {
+                    "type": "string", 
+                    "description": " Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL."
+                }, 
+                "input_interface": {
+                    "type": "string", 
+                    "description": "input_interface of IptableRule."
+                }, 
+                "output_interface": {
+                    "type": "string", 
+                    "description": "output_interface of IptableRule."
+                }, 
+                "src_ip": {
+                    "description": "Placeholder for description of property src_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "tag": {
+                    "type": "string", 
+                    "description": "tag of IptableRule."
+                }, 
+                "dst_port": {
+                    "description": "Placeholder for description of property dst_port of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/PortRange"
+                }, 
+                "action": {
+                    "type": "string", 
+                    "description": " Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE."
+                }, 
+                "dst_ip": {
+                    "description": "Placeholder for description of property dst_ip of obj type IptableRule field type str  type object", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        }, 
+        "DosThresholdProfile": {
+            "required": [
+                "thresh_period"
+            ], 
+            "type": "object", 
+            "properties": {
+                "thresh_period": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
+                    "format": "int32"
+                }, 
+                "thresh_info": {
+                    "items": {
+                        "$ref": "#/definitions/DosThreshold"
+                    }, 
+                    "type": "array", 
+                    "description": "Attack type, min and max values for DoS attack detection."
+                }
+            }
+        }, 
+        "DosThreshold": {
+            "required": [
+                "attack", 
+                "max_value", 
+                "min_value"
+            ], 
+            "type": "object", 
+            "properties": {
+                "max_value": {
+                    "type": "integer", 
+                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }, 
+                "attack": {
+                    "type": "string", 
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                }, 
+                "min_value": {
+                    "type": "integer", 
+                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "VssPlacement": {
+            "type": "object", 
+            "properties": {
+                "core_nonaffinity": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Degree of core non-affinity for VS placement. Allowed values are 1-256. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }, 
+                "num_subcores": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Number of sub-cores that comprise a CPU core. Allowed values are 1-128. Field introduced in 17.2.5.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "ServiceEngineGroupApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/ServiceEngineGroup"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
@@ -846,10 +1032,21 @@
                     "type": "boolean", 
                     "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 }, 
+                "free_list_size": {
+                    "default": 1024, 
+                    "type": "integer", 
+                    "description": "Number of entries in the free list. Field introduced in 17.2.10.", 
+                    "format": "int32"
+                }, 
                 "disk_per_se": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Amount of disk space for each of the Service Engine virtual machines. Units(GB).", 
+                    "description": "Amount of disk space for each of the Service Engine virtual machines.", 
+                    "format": "int32"
+                }, 
+                "pcap_reinit_frequency": {
+                    "type": "integer", 
+                    "description": "Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.10.", 
                     "format": "int32"
                 }, 
                 "se_tunnel_mode": {
@@ -860,6 +1057,11 @@
                 "uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of the object."
+                }, 
+                "ingress_access_mgmt": {
+                    "default": "SG_INGRESS_ACCESS_ALL", 
+                    "type": "string", 
+                    "description": "Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
                 }, 
                 "se_tunnel_udp_port": {
                     "default": 1550, 
@@ -875,7 +1077,13 @@
                 "vs_scalein_timeout": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done. Units(SEC).", 
+                    "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "max_public_ips_per_lb": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12.", 
                     "format": "int32"
                 }, 
                 "ha_mode": {
@@ -901,7 +1109,7 @@
                 "min_cpu_usage": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. Units(PERCENT).", 
+                    "description": "When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60.", 
                     "format": "int32"
                 }, 
                 "custom_securitygroups_data": {
@@ -925,10 +1133,11 @@
                     "type": "boolean", 
                     "description": "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
                 }, 
-                "ingress_access_mgmt": {
-                    "default": "SG_INGRESS_ACCESS_ALL", 
-                    "type": "string", 
-                    "description": "Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5."
+                "max_rules_per_lb": {
+                    "default": 150, 
+                    "type": "integer", 
+                    "description": "Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12.", 
+                    "format": "int32"
                 }, 
                 "iptables": {
                     "items": {
@@ -936,6 +1145,11 @@
                     }, 
                     "type": "array", 
                     "description": "Iptable Rules."
+                }, 
+                "num_dispatcher_cores": {
+                    "type": "integer", 
+                    "description": "Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12.", 
+                    "format": "int32"
                 }, 
                 "max_vs_per_se": {
                     "default": 10, 
@@ -946,7 +1160,7 @@
                 "connection_memory_percentage": {
                     "default": 50, 
                     "type": "integer", 
-                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. Units(PERCENT).", 
+                    "description": "Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.", 
                     "format": "int32"
                 }, 
                 "service_ip_subnets": {
@@ -967,10 +1181,9 @@
                     "description": "Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64.", 
                     "format": "int32"
                 }, 
-                "os_reserved_memory": {
-                    "type": "integer", 
-                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
-                    "format": "int32"
+                "enable_multi_lb": {
+                    "type": "boolean", 
+                    "description": "Applicable to Azure platform only. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10."
                 }, 
                 "enable_routing": {
                     "type": "boolean", 
@@ -985,6 +1198,11 @@
                     "default": 1, 
                     "type": "integer", 
                     "description": "Multiplier for SE threads based on vCPU. Allowed values are 1-10.", 
+                    "format": "int32"
+                }, 
+                "pcap_reinit_threshold": {
+                    "type": "integer", 
+                    "description": "Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10.", 
                     "format": "int32"
                 }, 
                 "per_app": {
@@ -1013,7 +1231,7 @@
                     "format": "int32"
                 }, 
                 "se_vs_hb_max_pkts_in_batch": {
-                    "default": 8, 
+                    "default": 64, 
                     "type": "integer", 
                     "description": "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.", 
                     "format": "int32"
@@ -1025,7 +1243,7 @@
                 "ignore_rtt_threshold": {
                     "default": 5000, 
                     "type": "integer", 
-                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2. Units(MILLISECONDS).", 
+                    "description": "Ignore RTT samples if it is above threshold. Field introduced in 17.1.6,17.2.2.", 
                     "format": "int32"
                 }, 
                 "tenant_ref": {
@@ -1079,7 +1297,7 @@
                 "udf_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "vcenter_hosts": {
@@ -1118,7 +1336,7 @@
                 "archive_shm_limit": {
                     "default": 8, 
                     "type": "integer", 
-                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. Units(GB).", 
+                    "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "hardwaresecuritymodulegroup_ref": {
@@ -1153,13 +1371,13 @@
                 "se_deprovision_delay": {
                     "default": 120, 
                     "type": "integer", 
-                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. Units(MIN).", 
+                    "description": "Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600.", 
                     "format": "int32"
                 }, 
                 "log_disksz": {
                     "default": 10000, 
                     "type": "integer", 
-                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. Units(MB).", 
+                    "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
                     "format": "int32"
                 }, 
                 "se_sb_dedicated_core": {
@@ -1169,7 +1387,7 @@
                 "non_significant_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "openstack_availability_zone": {
@@ -1178,13 +1396,13 @@
                 }, 
                 "extra_shared_config_memory": {
                     "type": "integer", 
-                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. Units(MB).", 
+                    "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "auto_rebalance_interval": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled. Units(SEC).", 
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
                     "format": "int32"
                 }, 
                 "vcenter_datastores": {
@@ -1200,10 +1418,14 @@
                     "description": "Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.", 
                     "format": "int32"
                 }, 
+                "vip_asg": {
+                    "description": "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12.", 
+                    "$ref": "#/definitions/VipAutoscaleGroup"
+                }, 
                 "vs_scaleout_timeout": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done. Units(SEC).", 
+                    "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.", 
                     "format": "int32"
                 }, 
                 "active_standby": {
@@ -1240,6 +1462,11 @@
                     "description": "Multiplier for extra config to support large VS/Pool config.", 
                     "format": "double"
                 }, 
+                "os_reserved_memory": {
+                    "type": "integer", 
+                    "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
+                    "format": "int32"
+                }, 
                 "async_ssl_threads": {
                     "default": 1, 
                     "type": "integer", 
@@ -1262,7 +1489,7 @@
                 "vs_scalein_timeout_for_upgrade": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. Units(SEC).", 
+                    "description": "During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done.", 
                     "format": "int32"
                 }, 
                 "cpu_reserve": {
@@ -1284,6 +1511,11 @@
                     "type": "boolean", 
                     "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
                 }, 
+                "ssl_preprocess_sni_hostname": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "(Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child's SSL protocols if they are different from SNI Parent's allowed SSL protocols. Field introduced in 17.2.12."
+                }, 
                 "mgmt_network_ref": {
                     "type": "string", 
                     "description": "Management network to use for Avi Service Engines. It is a reference to an object of type Network."
@@ -1297,7 +1529,7 @@
                 "max_cpu_usage": {
                     "default": 80, 
                     "type": "integer", 
-                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. Units(PERCENT).", 
+                    "description": "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.", 
                     "format": "int32"
                 }, 
                 "min_scaleout_per_vs": {
@@ -1360,13 +1592,13 @@
                 "significant_log_throttle": {
                     "default": 100, 
                     "type": "integer", 
-                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. Units(PER_SECOND).", 
+                    "description": "This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.", 
                     "format": "int32"
                 }, 
                 "waf_mempool_size": {
                     "default": 64, 
                     "type": "integer", 
-                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3. Units(KB).", 
+                    "description": "Memory pool size used for WAF. Field introduced in 17.2.3.", 
                     "format": "int32"
                 }, 
                 "se_bandwidth_type": {
@@ -1384,43 +1616,42 @@
                 }
             }
         }, 
-        "IptableRuleSet": {
-            "required": [
-                "chain", 
-                "table"
-            ], 
+        "VipAutoscaleConfiguration": {
             "type": "object", 
             "properties": {
-                "rules": {
+                "zones": {
                     "items": {
-                        "$ref": "#/definitions/IptableRule"
+                        "$ref": "#/definitions/VipAutoscaleZones"
                     }, 
                     "type": "array", 
-                    "description": "Placeholder for description of property rules of obj type IptableRuleSet field type str  type object"
-                }, 
-                "table": {
-                    "type": "string", 
-                    "description": "table of IptableRuleSet."
-                }, 
-                "chain": {
-                    "type": "string", 
-                    "description": "chain of IptableRuleSet."
+                    "description": "This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 17.2.12."
                 }
             }
         }, 
-        "VcenterHosts": {
+        "VipAutoscalePolicy": {
             "type": "object", 
             "properties": {
-                "host_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " It is a reference to an object of type VIMgrHostRuntime."
+                "min_size": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "The minimum size of the group. Field introduced in 17.2.12.", 
+                    "format": "int32"
                 }, 
-                "include": {
+                "suspend": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property include of obj type VcenterHosts field type str  type boolean"
+                    "description": "When set, scaling is suspended. Field introduced in 17.2.12."
+                }, 
+                "max_size": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "The maximum size of the group. Field introduced in 17.2.12.", 
+                    "format": "int32"
+                }, 
+                "dns_cooldown": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -1452,114 +1683,16 @@
                 }
             }
         }, 
-        "MetricsRealTimeUpdate": {
-            "required": [
-                "enabled"
-            ], 
+        "VipAutoscaleGroup": {
             "type": "object", 
             "properties": {
-                "duration": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'. Units(MIN).", 
-                    "format": "int32"
+                "policy": {
+                    "description": " Field introduced in 17.2.12.", 
+                    "$ref": "#/definitions/VipAutoscalePolicy"
                 }, 
-                "enabled": {
-                    "type": "boolean", 
-                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
-                }
-            }
-        }, 
-        "IptableRule": {
-            "required": [
-                "action"
-            ], 
-            "type": "object", 
-            "properties": {
-                "dnat_ip": {
-                    "description": "Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "src_port": {
-                    "description": "Placeholder for description of property src_port of obj type IptableRule field type str  type object", 
-                    "$ref": "#/definitions/PortRange"
-                }, 
-                "proto": {
-                    "type": "string", 
-                    "description": " Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL."
-                }, 
-                "input_interface": {
-                    "type": "string", 
-                    "description": "input_interface of IptableRule."
-                }, 
-                "output_interface": {
-                    "type": "string", 
-                    "description": "output_interface of IptableRule."
-                }, 
-                "src_ip": {
-                    "description": "Placeholder for description of property src_ip of obj type IptableRule field type str  type object", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "tag": {
-                    "type": "string", 
-                    "description": "tag of IptableRule."
-                }, 
-                "dst_port": {
-                    "description": "Placeholder for description of property dst_port of obj type IptableRule field type str  type object", 
-                    "$ref": "#/definitions/PortRange"
-                }, 
-                "action": {
-                    "type": "string", 
-                    "description": " Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE."
-                }, 
-                "dst_ip": {
-                    "description": "Placeholder for description of property dst_ip of obj type IptableRule field type str  type object", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }
-            }
-        }, 
-        "DosThresholdProfile": {
-            "required": [
-                "thresh_period"
-            ], 
-            "type": "object", 
-            "properties": {
-                "thresh_period": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service. Units(SEC).", 
-                    "format": "int32"
-                }, 
-                "thresh_info": {
-                    "items": {
-                        "$ref": "#/definitions/DosThreshold"
-                    }, 
-                    "type": "array", 
-                    "description": "Attack type, min and max values for DoS attack detection."
-                }
-            }
-        }, 
-        "DosThreshold": {
-            "required": [
-                "attack", 
-                "max_value", 
-                "min_value"
-            ], 
-            "type": "object", 
-            "properties": {
-                "max_value": {
-                    "type": "integer", 
-                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
-                    "format": "int32"
-                }, 
-                "attack": {
-                    "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
-                }, 
-                "min_value": {
-                    "type": "integer", 
-                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
-                    "format": "int32"
+                "configuration": {
+                    "description": " Field introduced in 17.2.12.", 
+                    "$ref": "#/definitions/VipAutoscaleConfiguration"
                 }
             }
         }

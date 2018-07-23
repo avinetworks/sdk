@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.12", 
         "description": "##CLI##\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -158,10 +158,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -494,10 +502,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -585,7 +601,7 @@
                 "session_idle_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Units(SEC).", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600.", 
                     "format": "int32"
                 }
             }
@@ -630,7 +646,7 @@
                 "receive_window": {
                     "default": 64, 
                     "type": "integer", 
-                    "description": "Size of the receive window. Allowed values are 32-65536. Units(KB).", 
+                    "description": "Size of the receive window. Allowed values are 32-65536.", 
                     "format": "int32"
                 }, 
                 "aggressive_congestion_avoidance": {
@@ -653,6 +669,12 @@
                     "description": "The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.", 
                     "format": "int32"
                 }, 
+                "congestion_recovery_scaling_factor": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12.", 
+                    "format": "int32"
+                }, 
                 "max_retransmissions": {
                     "default": 8, 
                     "type": "integer", 
@@ -667,26 +689,26 @@
                 "time_wait_delay": {
                     "default": 2000, 
                     "type": "integer", 
-                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'. Units(MILLISECONDS).", 
+                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.", 
                     "format": "int32"
                 }, 
                 "nagles_algorithm": {
                     "type": "boolean", 
                     "description": "Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH."
                 }, 
+                "idle_connection_timeout": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
                 "ignore_time_wait": {
                     "type": "boolean", 
                     "description": "A new SYN is accepted from the same 4-tuple even if there is already a connection in TIME_WAIT state.  This is equivalent of setting Time Wait Delay to 0."
                 }, 
-                "idle_connection_timeout": {
-                    "default": 600, 
-                    "type": "integer", 
-                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'. Units(SEC).", 
-                    "format": "int32"
-                }, 
                 "max_segment_size": {
                     "type": "integer", 
-                    "description": "Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'. Units(BYTES).", 
+                    "description": "Maximum TCP segment size. Allowed values are 512-9000. Special values are 0 - 'Use Interface MTU'.", 
                     "format": "int32"
                 }, 
                 "idle_connection_type": {
@@ -694,9 +716,15 @@
                     "type": "string", 
                     "description": "Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE."
                 }, 
+                "slow_start_scaling_factor": {
+                    "default": 4, 
+                    "type": "integer", 
+                    "description": "Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12.", 
+                    "format": "int32"
+                }, 
                 "min_rexmt_timeout": {
                     "type": "integer", 
-                    "description": "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. Units(MILLISECONDS).", 
+                    "description": "The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8.", 
                     "format": "int32"
                 }, 
                 "automatic": {
@@ -736,7 +764,7 @@
                 "session_idle_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8. Units(SEC).", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8.", 
                     "format": "int32"
                 }
             }
@@ -751,7 +779,7 @@
                 "session_idle_timeout": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'. Units(SEC).", 
+                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }
             }

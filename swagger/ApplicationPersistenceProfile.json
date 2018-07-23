@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationPersistenceProfile Object API", 
-        "version": "17.2.8", 
+        "version": "17.2.12", 
         "description": "##CLI##\n```\n- configure applicationpersistenceprofile <key>\n- show applicationpersistenceprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -121,10 +121,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -314,10 +322,18 @@
                         "name": "fields"
                     }, 
                     {
-                        "in": "query", 
-                        "type": "string", 
+                        "required": false, 
+                        "type": "boolean", 
                         "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
                         "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
                     }, 
                     {
                         "in": "query", 
@@ -563,7 +579,7 @@
                 }, 
                 "timeout": {
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'. Units(MIN).", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. No value or 'zero' indicates no timeout. Allowed values are 1-14400. Special values are 0- 'No Timeout'.", 
                     "format": "int32"
                 }, 
                 "key": {
@@ -585,7 +601,7 @@
                 "ip_persistent_timeout": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN).", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.", 
                     "format": "int32"
                 }
             }
@@ -643,7 +659,7 @@
                 "timeout": {
                     "default": 20, 
                     "type": "integer", 
-                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720. Units(MIN).", 
+                    "description": "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.", 
                     "format": "int32"
                 }
             }

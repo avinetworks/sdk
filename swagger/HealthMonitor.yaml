@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.8'
+    version: '17.2.12'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -55,7 +55,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -174,7 +180,13 @@ paths:
                 -   name: include_name
                     in: query
                     description: All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.
-                    type: string
+                    required: false
+                    type: boolean
+                -   name: skip_default
+                    in: query
+                    description: Default values are not set.
+                    required: false
+                    type: boolean
                 -   name: join_subresources
                     in: query
                     description: It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.
@@ -416,12 +428,12 @@ definitions:
                 description: "A user friendly name for this health monitor."
                 type: string
             receive_timeout:
-                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. Units(SEC)."
+                description: "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400."
                 type: integer
                 default: 4
                 format: int32
             send_interval:
-                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. Units(SEC)."
+                description: "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600."
                 type: integer
                 default: 10
                 format: int32
