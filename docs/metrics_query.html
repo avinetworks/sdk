@@ -1851,6 +1851,27 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.avg_http_headers_bytes </td>
+<td> Average size of HTTP headers per request. </td>
+<td> BYTES </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_http_headers_count </td>
+<td> Average number of HTTP headers per request. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_http_params_count </td>
+<td> Average number of HTTP request parameters per request. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l7_client.avg_page_download_time </td>
 <td> Average Page Load time reported by clients </td>
 <td> MILLISECONDS </td>
@@ -1862,6 +1883,20 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average Page Load Time reported by client </td>
 <td> MILLISECONDS </td>
 <td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_params_per_req </td>
+<td> Average number of HTTP request parameters per request, taking into account only requests with parameters. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_post_bytes </td>
+<td> Average size of HTTP POST request. </td>
+<td> BYTES </td>
+<td> False </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2152,8 +2187,22 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.avg_uri_length </td>
+<td> Average length of HTTP URI per request. </td>
+<td> BYTES </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l7_client.avg_waf_attacks </td>
-<td> Average number of transactions per socond identified by WAF as attacks. </td>
+<td> Average number of transactions per second identified by WAF as attacks. </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_waf_disabled </td>
+<td> Average number of transactions per second bypassing WAF. </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
@@ -2362,6 +2411,20 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.pct_get_reqs </td>
+<td> Number of HTTP GET requests as a percentage of total requests received. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_post_reqs </td>
+<td> Number of HTTP POST requests as a percentage of total requests received. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l7_client.pct_response_errors </td>
 <td> Percent of 4xx and 5xx responses </td>
 <td> PERCENT </td>
@@ -2378,6 +2441,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <tr>
 <td> l7_client.pct_waf_attacks </td>
 <td> Malicious transactions (Attacks) identified by WAF as the pecentage  of total requests received. </td>
+<td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.pct_waf_disabled </td>
+<td> Transactions bypassing WAF as the percentage of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
 <td> True </td>
@@ -2523,6 +2593,27 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.sum_http_headers_bytes </td>
+<td> Total size of HTTP request headers. </td>
+<td> BYTES </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l7_client.sum_http_headers_count </td>
+<td> Total number of HTTP headers across all requests in a given metrics interval. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l7_client.sum_http_params_count </td>
+<td> Total number of HTTP request parameters. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l7_client.sum_num_page_load_time_bucket1 </td>
 <td> Total samples that had satisfactory page load time </td>
 <td> METRIC_COUNT </td>
@@ -2586,6 +2677,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> False </td>
 </tr>
 <tr>
+<td> l7_client.sum_post_bytes </td>
+<td> Total size of HTTP POST requests. </td>
+<td> BYTES </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l7_client.sum_post_client_txn_latency </td>
 <td> Total latency from responses to all the POST requests </td>
 <td> MILLISECONDS </td>
@@ -2623,6 +2721,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <tr>
 <td> l7_client.sum_reqs_finished_sessions </td>
 <td> Total number of requests served across server sessions closed in the interval </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> l7_client.sum_reqs_with_params </td>
+<td> Total number of HTTP requests containing at least one parameter. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
 <td> False </td>
@@ -2691,10 +2796,24 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.sum_uri_length </td>
+<td> Total length of HTTP request URIs. </td>
+<td> BYTES </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l7_client.sum_waf_attacks </td>
 <td> Total number of transactions identified by WAF as attacks. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.sum_waf_disabled </td>
+<td> Total number of requests bypassing WAF. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4859,6 +4978,13 @@ ServiceEngine Metrics
 <td> se_stats.avg_rx_pkts_dropped </td>
 <td> Avg. number of received packets dropped per sec. It includes packets across all VS and non VS </td>
 <td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> se_stats.avg_shared_memory_usage </td>
+<td> Shared memory usage as percentage of total available shared memory </td>
+<td> PERCENT </td>
 <td> Y </td>
 <td> True </td>
 </tr>

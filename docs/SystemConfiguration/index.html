@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure systemconfiguration - show systemconfiguration - test systememail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.8</div>
+    <div class="app-desc">Version: 17.2.12</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -235,7 +235,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -284,7 +286,8 @@ font-style: italic;
       "smtp_type" : "aeiou",
       "mail_server_port" : 123,
       "auth_username" : "aeiou",
-      "auth_password" : "aeiou"
+      "auth_password" : "aeiou",
+      "disable_tls" : true
     },
     "docker_mode" : true,
     "global_tenant_config" : {
@@ -459,7 +462,8 @@ font-style: italic;
     "smtp_type" : "aeiou",
     "mail_server_port" : 123,
     "auth_username" : "aeiou",
-    "auth_password" : "aeiou"
+    "auth_password" : "aeiou",
+    "disable_tls" : true
   },
   "docker_mode" : true,
   "global_tenant_config" : {
@@ -708,7 +712,9 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">join_subresources (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
     </div>  <!-- field-items -->
@@ -755,7 +761,8 @@ font-style: italic;
     "smtp_type" : "aeiou",
     "mail_server_port" : 123,
     "auth_username" : "aeiou",
-    "auth_password" : "aeiou"
+    "auth_password" : "aeiou",
+    "disable_tls" : true
   },
   "docker_mode" : true,
   "global_tenant_config" : {
@@ -941,7 +948,8 @@ font-style: italic;
     "smtp_type" : "aeiou",
     "mail_server_port" : 123,
     "auth_username" : "aeiou",
-    "auth_password" : "aeiou"
+    "auth_password" : "aeiou",
+    "disable_tls" : true
   },
   "docker_mode" : true,
   "global_tenant_config" : {
@@ -1127,7 +1135,8 @@ font-style: italic;
     "smtp_type" : "aeiou",
     "mail_server_port" : 123,
     "auth_username" : "aeiou",
-    "auth_password" : "aeiou"
+    "auth_password" : "aeiou",
+    "disable_tls" : true
   },
   "docker_mode" : true,
   "global_tenant_config" : {
@@ -1319,6 +1328,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">auth_password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for mail server. </div>
 <div class="param">auth_username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for mail server. </div>
+<div class="param">disable_tls (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12. </div>
 <div class="param">from_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address in From field. </div>
 <div class="param">mail_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Mail server host. </div>
 <div class="param">mail_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mail server port. format: int32</div>
