@@ -34,7 +34,7 @@ type Pool struct {
 	// Inline estimation of capacity of servers.
 	CapacityEstimation bool `json:"capacity_estimation,omitempty"`
 
-	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'. Units(MILLISECONDS).
+	// The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.
 	CapacityEstimationTtfbThresh int32 `json:"capacity_estimation_ttfb_thresh,omitempty"`
 
 	// Checksum of cloud configuration for Pool. Internally set by cloud connector.
@@ -43,7 +43,7 @@ type Pool struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
 
-	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'. Units(MIN).
+	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
 	ConnectionRampDuration int32 `json:"connection_ramp_duration,omitempty"`
 
 	// Creator name.
@@ -70,10 +70,10 @@ type Pool struct {
 	// Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
-	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300. Units(SEC).
+	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.
 	FewestTasksFeedbackDelay int32 `json:"fewest_tasks_feedback_delay,omitempty"`
 
-	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'. Units(MIN).
+	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.
 	GracefulDisableTimeout int32 `json:"graceful_disable_timeout,omitempty"`
 
 	// Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1.
@@ -112,6 +112,12 @@ type Pool struct {
 
 	// Rate Limit connections to each server.
 	MaxConnRatePerServer *RateProfile `json:"max_conn_rate_per_server,omitempty"`
+
+	// Minimum number of health monitors in UP state to mark server UP. Field introduced in 17.2.12.
+	MinHealthMonitorsUp int32 `json:"min_health_monitors_up,omitempty"`
+
+	// Minimum number of servers in UP state for marking thr pool UP. Field introduced in 17.2.12.
+	MinServersUp int32 `json:"min_servers_up,omitempty"`
 
 	// The name of the pool.
 	// Required: true

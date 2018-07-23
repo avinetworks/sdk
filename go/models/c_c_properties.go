@@ -7,7 +7,7 @@ package models
 // swagger:model CC_Properties
 type CCProperties struct {
 
-	// . Units(SEC).
+	// Number of rpc_poll_interval.
 	RPCPollInterval int32 `json:"rpc_poll_interval,omitempty"`
 
 	// Number of rpc_queue_size.

@@ -35,4 +35,7 @@ type VsVip struct {
 
 	// Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1.
 	VrfContextRef string `json:"vrf_context_ref,omitempty"`
+
+	// Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9.
+	VsvipCloudConfigCksum string `json:"vsvip_cloud_config_cksum,omitempty"`
 }

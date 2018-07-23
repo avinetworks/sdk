@@ -33,7 +33,7 @@ type Gslb struct {
 	// Required: true
 	Name string `json:"name"`
 
-	// Frequency with which group members communicate. Allowed values are 1-3600. Units(SEC).
+	// Frequency with which group members communicate. Allowed values are 1-3600.
 	SendInterval int32 `json:"send_interval,omitempty"`
 
 	// Select Avi site member belonging to this Gslb.

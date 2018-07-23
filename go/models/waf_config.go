@@ -22,14 +22,17 @@ type WafConfig struct {
 	// Enable to buffer response body for inspection. Field introduced in 17.2.3.
 	BufferResponseBodyForInspection bool `json:"buffer_response_body_for_inspection,omitempty"`
 
-	// Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).
+	// Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field introduced in 17.2.1.
 	ClientFileUploadMaxBodySize int32 `json:"client_file_upload_max_body_size,omitempty"`
 
-	// Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).
+	// Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field introduced in 17.2.1.
 	ClientNonfileUploadMaxBodySize int32 `json:"client_nonfile_upload_max_body_size,omitempty"`
 
 	// 0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1.
 	CookieFormatVersion int32 `json:"cookie_format_version,omitempty"`
+
+	// The maximum period of time WAF processing is allowed to take for a single request. If this time is exceeded, the request will be flagged or rejected, depending on the WAF policy mode. Allowed values are 1-5000. Field introduced in 17.2.12.
+	MaxExecutionTime int32 `json:"max_execution_time,omitempty"`
 
 	// Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.
 	RegexMatchLimit int32 `json:"regex_match_limit,omitempty"`
@@ -56,7 +59,7 @@ type WafConfig struct {
 	// WAF Restricted HTTP Headers. Field introduced in 17.2.1.
 	RestrictedHeaders []string `json:"restricted_headers,omitempty"`
 
-	// Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1. Units(KB).
+	// Maximum size for response body received from server. Allowed values are 1-32768. Field introduced in 17.2.1.
 	ServerResponseMaxBodySize int32 `json:"server_response_max_body_size,omitempty"`
 
 	// WAF Static File Extensions. GET and HEAD requests with no query args and one of these extensions are whitelisted and not checked by the ruleset. Field introduced in 17.2.5.

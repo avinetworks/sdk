@@ -58,7 +58,7 @@ type Cloud struct {
 	// Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object
 	MesosConfiguration *MesosConfiguration `json:"mesos_configuration,omitempty"`
 
-	// MTU setting for the cloud. Units(BYTES).
+	// MTU setting for the cloud.
 	Mtu int32 `json:"mtu,omitempty"`
 
 	// Name of the object.
