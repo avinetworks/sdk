@@ -1084,6 +1084,30 @@ class TestF5Converter:
         else:
             raise Exception("Controller vrf creation faild %s" % res.content)
 
+    @pytest.mark.travis
+    def test_application_profile_on_v11(self, cleanup):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            appRef = []
+            for vs in vsObject:
+                if vs['name'] == "F5-VIP-80-001":
+                    appRef.append(vs['application_profile_ref'])
+                elif vs['name'] == "dns_vs_up":
+                    appRef.append(vs['application_profile_ref'])
+                elif vs['name'] == "Opcito-vs":
+                    appRef.append(vs['application_profile_ref'])
+            for each_ref in appRef:
+                profileName = each_ref.split('name=')[1].split('&')[0]
+                assert profileName == "System-L4-Application"
 
 def teardown():
     pass
