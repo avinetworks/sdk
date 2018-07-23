@@ -180,15 +180,15 @@ Following is an example entry of vendor.json file in Terraform provider
 ```go
 "package": [{
                 "path": "github.com/avinetworks/sdk/go/clients",
-                "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
-                "revisionTime": "2018-04-06T16:51:27.185773",
+                "revision": "23def4e6c14b4da8ac2ed8007337bc5eb5007998",
+                "revisionTime": "2016-01-25T20:49:56Z",
                 "version": "18.1.3",
                 "versionExact": "18.1.3"
             },
             {
                 "path": "github.com/avinetworks/sdk/go/session",
-                "revision": "796ddcccdc37a5a9771bfbb716b159ae5c9b4b11",
-                "revisionTime": "2018-04-06T16:51:27.185773",
+                "revision": "23def4e6c14b4da8ac2ed8007337bc5eb5007998",
+                "revisionTime": "2016-01-25T20:49:56Z",
                 "version": "18.1.3",
                 "versionExact": "18.1.3"
             }]
