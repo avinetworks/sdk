@@ -324,7 +324,7 @@ class VSConfigConv(object):
                 'addr': ip_addr,
                 'type': 'V4'
             },
-            'vip_id': 0
+            'vip_id': '1'
         }
         vs_obj = {
             'name': vs_name,
