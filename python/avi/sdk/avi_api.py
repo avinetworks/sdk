@@ -100,7 +100,7 @@ class ApiResponse(Response):
             return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
-                                    self.status_code, self.text))
+                                    self.status_code, self.text), self)
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
                                     self.status_code, self.text), self)
