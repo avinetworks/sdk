@@ -99,7 +99,8 @@ class ApiResponse(Response):
             # No response needed; e.g., delete operation
             return None
         elif self.status_code == 404:
-            raise ObjectNotFound()
+            raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
+                                    self.status_code, self.text), self)
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
                                     self.status_code, self.text), self)
@@ -879,7 +880,7 @@ class ApiSession(Session):
     def get_obj_uuid(self, obj):
         """returns uuid from dict object"""
         if not obj:
-            raise ObjectNotFound()
+            raise ObjectNotFound('Object %s Not found' % (obj))
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
