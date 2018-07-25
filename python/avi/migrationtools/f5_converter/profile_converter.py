@@ -297,9 +297,10 @@ class ProfileConfigConv(object):
         folder_path = input_dir + os.path.sep
         ca_cert = None
         # Removed / from cert_file_name to get name of file.
-        if '/' in ca_cert_file_name:
-            ca_cert_file_name = ca_cert_file_name.split('/')[-1]
-        ca_cert = conv_utils.upload_file(folder_path + ca_cert_file_name)
+        if ca_cert_file_name:
+            if '/' in ca_cert_file_name:
+                ca_cert_file_name = ca_cert_file_name.split('/')[-1]
+            ca_cert = conv_utils.upload_file(folder_path + ca_cert_file_name)
 
         if ca_cert:
             if not conv_utils.check_certificate_expiry(
@@ -313,7 +314,7 @@ class ProfileConfigConv(object):
 
         ca_cert_obj = None
         cert_name = name
-        if '.crt' in ca_cert_file_name:
+        if ca_cert_file_name and '.crt' in ca_cert_file_name:
             cert_name = '%s.crt' % ca_cert_file_name.replace(
                 ':Common:', '').split('.crt')[0]
         if ca_cert:
