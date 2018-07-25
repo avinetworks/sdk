@@ -423,9 +423,6 @@ class F5Util(MigrationUtil):
                 LOG.warning(
                     'Profiles not supported by Avi : %s' % not_supported)
                 return app_prof_conf
-            if oc_prof or enable_ssl:
-                app_prof_conf['needs_review'] = True
-                value = 'http'
             else:
                 app_profile_refs.append(
                     self.get_object_ref('System-L4-Application',

@@ -616,6 +616,10 @@ VERSION_10:
     - "mode"
     - "defaults from"
 
+    Datagroup_supported_attr:
+    - "records"
+    - "type"
+
     Pool_supported_attr_1:
     - 'members'
     - 'monitor'
