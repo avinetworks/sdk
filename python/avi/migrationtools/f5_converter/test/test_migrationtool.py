@@ -81,7 +81,7 @@ setup = dict(
                                                'ignore-config.yaml')),
     patch=os.path.abspath(os.path.join(os.path.dirname(__file__),
                                        'patch.yaml')),
-    vs_filter='vs_ksl.com,vs_NStoAvi-SG',
+    vs_filter='EngVIP,F5-VIP-80-001,F5-VIP-443-002',
     not_in_use=True,
     skip_file=False,
     ansible=True,
@@ -1108,6 +1108,19 @@ class TestF5Converter:
             for each_ref in appRef:
                 profileName = each_ref.split('name=')[1].split('&')[0]
                 assert profileName == "System-L4-Application"
+
+    @pytest.mark.travis
+    def test_vs_filter_on_v11(self, cleanup):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                vs_filter=setup.get('vs_filter'),
+                vrf=setup.get('vrf'),
+                output_file_path=setup.get('output_file_path'))
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        assert True == os.path.exists(file)
 
 def teardown():
     pass
