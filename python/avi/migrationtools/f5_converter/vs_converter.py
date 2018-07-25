@@ -184,7 +184,7 @@ class VSConfigConv(object):
         if app_prof_type == 'APPLICATION_PROFILE_TYPE_HTTP':
             cme = app_prof_obj[0]['http_profile'].get(
                 'connection_multiplexing_enabled', False)
-        if not (cme or oc_prof):
+        if app_prof_obj and not (cme and oc_prof):
             # Check if already cloned profile present
             app_prof_cmd = [obj for obj in (
                     sys_dict['ApplicationProfile'] +
