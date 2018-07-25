@@ -423,6 +423,12 @@ class F5Util(MigrationUtil):
                 LOG.warning(
                     'Profiles not supported by Avi : %s' % not_supported)
                 return app_prof_conf
+            if enable_ssl:
+                app_profile_refs.append(
+                    self.get_object_ref('System-SSL-Application',
+                                        'applicationprofile', tenant='admin'))
+                app_prof_conf['app_prof'] = app_profile_refs
+                return app_prof_conf
             else:
                 app_profile_refs.append(
                     self.get_object_ref('System-L4-Application',
