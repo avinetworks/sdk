@@ -159,7 +159,7 @@ class DataGroupConfigConvV11(DataGroupConfigConv):
         skipped += [attr for attr in d_group.keys()
                     if attr not in self.supported_attr]
         prefixes = []
-        for record in d_group['records']:
+        for record in d_group.get('records', []):
             prefix = {
                 'mask': record.split('/')[1],
                 'ip_addr': {
@@ -195,7 +195,7 @@ class DataGroupConfigConvV10(DataGroupConfigConv):
         skipped += [attr for attr in d_group.keys()
                     if attr not in self.supported_attr]
         prefixes = []
-        for record in d_group['records']:
+        for record in d_group.get('records', []):
             for ip in record:
                 prefix = {
                     'mask': ip.split('/')[1],

@@ -72,6 +72,8 @@ def search_obj(entity, name, new_config, avi_config, depth):
                     'sslkeyandcertificate', 'sslprofile']:
         if str.startswith(str(name), 'System-'):
             return
+    elif entity == 'vrfcontext':
+        return
     else:
         print 'ERROR: Reference not found for %s with name %s' % (entity, name)
         exit()
