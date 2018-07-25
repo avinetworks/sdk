@@ -13,7 +13,8 @@ path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                     'VSDataScriptSet', 'networksecuritypolicy':
                     'NetworkSecurityPolicy', 'applicationpersistenceprofile':
                     'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels', 'vsvip': 'VsVip'
+                    'PriorityLabels', 'vsvip': 'VsVip',
+                    'ipaddrgroup': 'IpAddrGroup'
                 }
 
 
@@ -75,8 +76,8 @@ def search_obj(entity, name, new_config, avi_config, depth):
     elif entity == 'vrfcontext':
         return
     else:
-        print 'ERROR: Reference not found for %s with name %s' % (entity, name)
-        exit()
+        print 'WARNING: Reference not found for %s with name %s' % (entity, name)
+        return
     if avi_conf_key in new_config:
         if not any(d['name'] == found_obj['name'] for d in
                    new_config[avi_conf_key]):
