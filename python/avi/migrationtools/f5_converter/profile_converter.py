@@ -149,6 +149,8 @@ class ProfileConfigConv(object):
         :return: Complete profile with updated attributes from defaults
         """
         parent_name = profile.get(self.default_key, None)
+        if parent_name and '/' in parent_name:
+            parent_name = parent_name.split('/')[-1]
         if parent_name and profile_name != parent_name:
             parent_profile = profile_config.get(profile_type + " " +
                                                 parent_name, None)
@@ -315,10 +317,13 @@ class ProfileConfigConv(object):
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ca_cert_obj = None
+        cert_name = name
         if ca_cert_file_name and '.crt' in ca_cert_file_name:
             if ':' in ca_cert_file_name:
                 ca_cert_file_name = ca_cert_file_name.split(':')[-1]
             ca_cert_file_name = '%s.crt' % ca_cert_file_name.split('.crt')[0]
+        if not ca_cert_file_name:
+            ca_cert_file_name = name
         if ca_cert:
             cert = {"certificate": ca_cert}
             ca_cert_obj = {
