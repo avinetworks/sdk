@@ -266,8 +266,8 @@ class ProfileConfigConv(object):
                 avi_config['SSLKeyAndCertificate'].append(ssl_kc_obj)
 
     def update_ca_cert_obj(self, name, ca_cert_file_name, input_dir, tenant,
-                           avi_config, object_merge_check, converted_objs,
-                           merge_object_mapping, sys_dict):
+                           avi_config, converted_objs, merge_object_mapping,
+                           sys_dict):
         """
         This method create the certs if certificate not present at location
         it create dummy certificate.
@@ -300,6 +300,8 @@ class ProfileConfigConv(object):
         if ca_cert_file_name:
             if '/' in ca_cert_file_name:
                 ca_cert_file_name = ca_cert_file_name.split('/')[-1]
+            if ':' in ca_cert_file_name:
+                ca_cert_file_name = ca_cert_file_name.split(':')[-1]
             ca_cert = conv_utils.upload_file(folder_path + ca_cert_file_name)
 
         if ca_cert:
@@ -313,21 +315,20 @@ class ProfileConfigConv(object):
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ca_cert_obj = None
-        cert_name = name
         if ca_cert_file_name and '.crt' in ca_cert_file_name:
-            cert_name = '%s.crt' % ca_cert_file_name.replace(
-                ':Common:', '').split('.crt')[0]
+            if ':' in ca_cert_file_name:
+                ca_cert_file_name = ca_cert_file_name.split(':')[-1]
+            ca_cert_file_name = '%s.crt' % ca_cert_file_name.split('.crt')[0]
         if ca_cert:
             cert = {"certificate": ca_cert}
             ca_cert_obj = {
-                'name': cert_name,
+                'name': ca_cert_file_name,
                 'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
                 'certificate': cert,
                 'type': 'SSL_CERTIFICATE_TYPE_CA'
             }
             LOG.info('Added new ca certificate for %s' % name)
-
-        if ca_cert_obj and object_merge_check:
+        if ca_cert_obj and self.object_merge_check:
             if 'dummy' not in ca_cert_obj['name']:
                 conv_utils.update_skip_duplicates(
                     ca_cert_obj, avi_config['SSLKeyAndCertificate'],
@@ -501,7 +502,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                         break
                 self.update_ca_cert_obj(
                     name, ca_cert_file, input_dir, tenant, avi_config,
-                    merge_object_mapping, converted_objs, merge_object_mapping,
+                    converted_objs, merge_object_mapping,
                     sys_dict)
 
             # ciphers = profile.get('ciphers', 'DEFAULT')
