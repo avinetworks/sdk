@@ -90,8 +90,11 @@ class SCPUtil(object):
                                                filename, local_path)
             else:
                 try:
+                    local_filename = filename.replace(':Common:', '')
+                    if ':' in local_filename:
+                        local_filename = local_filename.split(':')[-1]
                     self.get(partition_path + os.sep + filename, local_path +
-                             os.sep + filename.replace(':Common:', ''))
+                             os.sep + local_filename)
                 except IOError as e:
                     LOG.error("cert key file not found in partition dir : %s" %
                               filename)
