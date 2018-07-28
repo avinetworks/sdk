@@ -144,7 +144,8 @@ class VSConfigConv(object):
             f5_config)
         oc_prof = False
         for prof in profiles:
-            if prof in avi_config.get('OneConnect', []):
+            prof_name = prof.split('/')[-1] if '/' in prof else prof
+            if prof_name in avi_config.get('OneConnect', []):
                 oc_prof = True
         enable_ssl = False
         if ssl_vs:
