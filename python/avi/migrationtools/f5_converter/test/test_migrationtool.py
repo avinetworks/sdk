@@ -1122,5 +1122,42 @@ class TestF5Converter:
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         assert True == os.path.exists(file)
 
+    @pytest.mark.travis
+    def test_pool_sharing_policy(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+            pools = data['Pool']
+
+        vsData1 = [data['http_policies'] for data in vsObject if data['name']
+                == "F5-VIP-443-002"][0]
+
+        vsData2 = [data['http_policies'] for data in vsObject if data['name']
+            == "F5-VIP-Forwarding"][0]
+        list = []
+        list.append(vsData1[0])
+        list.append(vsData2[0])
+
+        for i in list:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[
+                0]
+            rules = [data['http_request_policy']['rules'] for data in httpPolicySet
+                      if data['name'] == policyName][0]
+            for r in rules:
+                pool = r['switching_action']['pool_ref'].split('name=')[
+                    1].split('&')[0]
+                poolName = [data['name'] for data in pools if data['name'] ==
+                        pool][0]
+                assert pool == poolName
+
 def teardown():
     pass
