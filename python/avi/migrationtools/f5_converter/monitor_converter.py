@@ -515,7 +515,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
-        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         if send == 'none':
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -563,7 +562,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
-        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         if send == 'none':
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
@@ -665,7 +663,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
         request = f5_monitor.get("send", None)
         if request:
             request = request.replace('\\\\', '\\')
-            request = conv_utils.rreplace(request, '\\r\\n', '', 1)
             if request == 'none':
                 request = None
         response = f5_monitor.get("recv", None)
@@ -719,7 +716,6 @@ class MonitorConfigConvV11(MonitorConfigConv):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         request = request.replace('\\\\', '\\')
-        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         if request == 'none':
             request = None
         response = f5_monitor.get("recv", None)
@@ -911,7 +907,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
-        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         if send == 'none':
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
@@ -962,7 +957,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
         send = f5_monitor.get('send', None)
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
-        send = conv_utils.rreplace(send, '\\r\\n', '', 1)
         if send == 'none':
             send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
@@ -1029,7 +1023,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
         request = f5_monitor.get("send", None)
         if request:
             request = request.replace('\\\\', '\\')
-            request = conv_utils.rreplace(request, '\\r\\n', '', 1)
             if request == 'none':
                 request = None
         response = f5_monitor.get("recv", None)
@@ -1084,7 +1077,6 @@ class MonitorConfigConvV10(MonitorConfigConv):
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
         request = request.replace('\\\\', '\\')
-        request = conv_utils.rreplace(request, '\\r\\n', '', 1)
         if request == 'none':
             request = None
         response = f5_monitor.get("recv", None)
