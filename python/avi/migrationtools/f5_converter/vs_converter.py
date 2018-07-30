@@ -124,6 +124,7 @@ class VSConfigConv(object):
         :param vrf: vrf user input to put vrf ref in VS object
         :return:
         """
+        needs_review = False
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         tenant_name = tenant
         if not tenant_ref == 'admin':
@@ -142,6 +143,10 @@ class VSConfigConv(object):
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(
             profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
             f5_config)
+
+        if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool)> 1):
+            needs_review = True
+
         oc_prof = False
         for prof in profiles:
             prof_name = prof.split('/')[-1] if '/' in prof else prof
@@ -157,7 +162,6 @@ class VSConfigConv(object):
         f_host = app_prof_conf.get('f_host', None)
         realm = app_prof_conf.get('realm', None)
         app_pol_name = app_prof_conf.get('app_pol_name', None)
-        needs_review = app_prof_conf.get('needs_review', False)
 
         if not app_prof:
             msg = ('Profile type not supported by Avi Skipping VS : %s'
