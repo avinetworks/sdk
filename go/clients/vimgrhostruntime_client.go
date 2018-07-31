@@ -65,6 +65,19 @@ func (client *VIMgrHostRuntimeClient) GetByName(name string) (*models.VIMgrHostR
 	return obj, err
 }
 
+// GetObject - Get an existing VIMgrHostRuntime by filters like name, cloud, tenant
+// Api creates VIMgrHostRuntime object with every call.
+func (client *VIMgrHostRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.VIMgrHostRuntime, error) {
+	var obj *models.VIMgrHostRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vimgrhostruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new VIMgrHostRuntime object
 func (client *VIMgrHostRuntimeClient) Create(obj *models.VIMgrHostRuntime) (*models.VIMgrHostRuntime, error) {
 	var robj *models.VIMgrHostRuntime
@@ -92,4 +105,9 @@ func (client *VIMgrHostRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIMgrHostRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

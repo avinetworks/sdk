@@ -65,6 +65,19 @@ func (client *ClusterCloudDetailsClient) GetByName(name string) (*models.Cluster
 	return obj, err
 }
 
+// GetObject - Get an existing ClusterCloudDetails by filters like name, cloud, tenant
+// Api creates ClusterCloudDetails object with every call.
+func (client *ClusterCloudDetailsClient) GetObject(options ...session.ApiOptionsParams) (*models.ClusterCloudDetails, error) {
+	var obj *models.ClusterCloudDetails
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("clusterclouddetails", newOptions...)
+	return obj, err
+}
+
 // Create a new ClusterCloudDetails object
 func (client *ClusterCloudDetailsClient) Create(obj *models.ClusterCloudDetails) (*models.ClusterCloudDetails, error) {
 	var robj *models.ClusterCloudDetails
@@ -92,4 +105,9 @@ func (client *ClusterCloudDetailsClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ClusterCloudDetailsClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

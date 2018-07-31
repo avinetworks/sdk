@@ -34,7 +34,7 @@ input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 
 input_role_config_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                               'irule_config.yaml'))
+                                               'custom_config.yaml'))
 
 v10 = '10'
 v11 = '11'
@@ -81,7 +81,7 @@ setup = dict(
                                                'ignore-config.yaml')),
     patch=os.path.abspath(os.path.join(os.path.dirname(__file__),
                                        'patch.yaml')),
-    vs_filter='vs_ksl.com,vs_NStoAvi-SG',
+    vs_filter='EngVIP,F5-VIP-80-001,F5-VIP-443-002',
     not_in_use=True,
     skip_file=False,
     ansible=True,
@@ -95,7 +95,7 @@ setup = dict(
     output_file_path=output_file,
     vrf = 'test_vrf',
     segroup = 'test_se',
-    rule_config_file = input_role_config_file
+    custom_config_file = input_role_config_file
 )
 
 mylogger = logging.getLogger()
@@ -119,7 +119,7 @@ def f5_conv(
         ansible_skip_types=None, ansible_filter_types=None, ansible=None,
         prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
-        vrf=None, segroup=None, rule_config=None):
+        vrf=None, segroup=None, custom_config=None):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -141,7 +141,8 @@ def f5_conv(
                      not_in_use=not_in_use, baseline_profile=baseline_profile,
                      f5_passphrase_file=f5_passphrase_file,
                      vs_level_status=vs_level_status, test_vip=test_vip,
-                     vrf=vrf, segroup=segroup, rule_config=rule_config)
+                     vrf=vrf, segroup=segroup,
+                     custom_config=custom_config)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -707,7 +708,6 @@ class TestF5Converter:
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v11(self):
         set_update_count()
-        assert get_count('warning') == 0
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
@@ -715,7 +715,6 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 6
 
     @pytest.mark.travis
     def test_error_and_warning_count_on_file_v10(self):
@@ -727,7 +726,6 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 0
 
     @pytest.mark.travis
     def test_pool_sharing_on_v11(self):
@@ -830,7 +828,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -890,7 +888,7 @@ class TestF5Converter:
                 tenant=file_attribute['tenant'],
                 cloud_name=file_attribute['cloud_name'],
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
         file = "%s/%s" % (output_file, "bigip_v11-Output.json")
@@ -916,8 +914,38 @@ class TestF5Converter:
         networkProfileName = [i['name'] for i in networkSecurityPolicy if i['name'] == policyName][0]
         assert networkProfileName == policyName
 
+    @pytest.mark.travis
+    def test_custom_config_for_hm(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                custom_config=setup.get('custom_config_file'),
+                f5_ssh_port=setup.get('f5_ssh_port'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(input_role_config_file) as f:
+            custom_config = yaml.load(f)
+
+        with open(file) as json_file:
+            data = json.load(json_file)
+            hmObject = data['HealthMonitor']
+            hmdata = [hm for hm in hmObject if hm['name'] == "dnsTest"][0]
+        config_data = custom_config['healthmonitor_custom_config'][0]
+        assert hmdata['failed_checks'] == config_data['avi_config'][
+            'failed_checks']
+        assert hmdata['send_interval'] == config_data['avi_config'][
+            'send_interval']
+        assert hmdata['receive_timeout'] == config_data['avi_config'][
+            'receive_timeout']
+        assert hmdata['external_monitor']['command_code'] == \
+               config_data['avi_config'][
+                   'external_monitor']['command_code']
+
     @pytest.mark.skip_travis
-    def test_reboot_clean_v11_17_1_1_for_irule_config(self, cleanup):
+    def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -938,7 +966,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
-    def test_irule_config_object_upload(self):
+    def test_custom_config_object_upload(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -948,7 +976,7 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'),
                 option=setup.get('option'),
                 output_file_path=setup.get('output_file_path'),
-                rule_config=setup.get('rule_config_file'),
+                custom_config=setup.get('custom_config_file'),
                 f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
@@ -1055,6 +1083,81 @@ class TestF5Converter:
                     vrf=setup.get('vrf'))
         else:
             raise Exception("Controller vrf creation faild %s" % res.content)
+
+    @pytest.mark.travis
+    def test_application_profile_on_v11(self, cleanup):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            appRef = []
+            for vs in vsObject:
+                if vs['name'] == "F5-VIP-80-001":
+                    appRef.append(vs['application_profile_ref'])
+                elif vs['name'] == "dns_vs_up":
+                    appRef.append(vs['application_profile_ref'])
+                elif vs['name'] == "Opcito-vs":
+                    appRef.append(vs['application_profile_ref'])
+            for each_ref in appRef:
+                profileName = each_ref.split('name=')[1].split('&')[0]
+                assert profileName == "System-L4-Application"
+
+    @pytest.mark.travis
+    def test_vs_filter_on_v11(self, cleanup):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                vs_filter=setup.get('vs_filter'),
+                vrf=setup.get('vrf'),
+                output_file_path=setup.get('output_file_path'))
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        assert True == os.path.exists(file)
+
+    @pytest.mark.travis
+    def test_pool_sharing_policy(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+            pools = data['Pool']
+
+        vsData1 = [data['http_policies'] for data in vsObject if data['name']
+                == "F5-VIP-443-002"][0]
+
+        vsData2 = [data['http_policies'] for data in vsObject if data['name']
+            == "F5-VIP-Forwarding"][0]
+        list = []
+        list.append(vsData1[0])
+        list.append(vsData2[0])
+
+        for i in list:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[
+                0]
+            rules = [data['http_request_policy']['rules'] for data in httpPolicySet
+                      if data['name'] == policyName][0]
+            for r in rules:
+                pool = r['switching_action']['pool_ref'].split('name=')[
+                    1].split('&')[0]
+                poolName = [data['name'] for data in pools if data['name'] ==
+                        pool][0]
+                assert pool == poolName
 
 def teardown():
     pass

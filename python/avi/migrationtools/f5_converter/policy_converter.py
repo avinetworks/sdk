@@ -858,8 +858,8 @@ class PolicyConfigConv(object):
                                     'HTTP_LOCAL_RESPONSE_STATUS_CODE_200'
                             }
                         }
-                        p_tenant, poolname = conv_utils.get_tenant_ref(result[
-                                                                      'pool'])
+                        p_tenant, poolname = conv_utils.get_tenant_ref(
+                            result['pool'])
                         if self.prefix:
                             poolname = '%s-%s' % (self.prefix, poolname)
                         poolobj = [obj for obj in avi_config['Pool'] if
@@ -874,7 +874,7 @@ class PolicyConfigConv(object):
                             action['switching_action']['pool_ref'] = pool_ref
 
                             if pool_ref not in used_pools:
-                                used_pools[pool_ref] = set(policy_name)
+                                used_pools[pool_ref] = set([policy_name])
                             else:
                                 used_pools[pool_ref].add(policy_name)
                         else:
@@ -891,7 +891,7 @@ class PolicyConfigConv(object):
                                 action['switching_action']['pool_group_ref'] = \
                                     pg_ref
                                 if pg_ref not in used_pools:
-                                    used_pools[pg_ref] = set(policy_name)
+                                    used_pools[pg_ref] = set([policy_name])
                                 else:
                                     used_pools[pg_ref].add(policy_name)
                             else:

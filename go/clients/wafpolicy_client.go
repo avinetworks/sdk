@@ -65,6 +65,19 @@ func (client *WafPolicyClient) GetByName(name string) (*models.WafPolicy, error)
 	return obj, err
 }
 
+// GetObject - Get an existing WafPolicy by filters like name, cloud, tenant
+// Api creates WafPolicy object with every call.
+func (client *WafPolicyClient) GetObject(options ...session.ApiOptionsParams) (*models.WafPolicy, error) {
+	var obj *models.WafPolicy
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("wafpolicy", newOptions...)
+	return obj, err
+}
+
 // Create a new WafPolicy object
 func (client *WafPolicyClient) Create(obj *models.WafPolicy) (*models.WafPolicy, error) {
 	var robj *models.WafPolicy
@@ -92,4 +105,9 @@ func (client *WafPolicyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *WafPolicyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

@@ -65,6 +65,19 @@ func (client *APICLifsRuntimeClient) GetByName(name string) (*models.APICLifsRun
 	return obj, err
 }
 
+// GetObject - Get an existing APICLifsRuntime by filters like name, cloud, tenant
+// Api creates APICLifsRuntime object with every call.
+func (client *APICLifsRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.APICLifsRuntime, error) {
+	var obj *models.APICLifsRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("apiclifsruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new APICLifsRuntime object
 func (client *APICLifsRuntimeClient) Create(obj *models.APICLifsRuntime) (*models.APICLifsRuntime, error) {
 	var robj *models.APICLifsRuntime
@@ -92,4 +105,9 @@ func (client *APICLifsRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *APICLifsRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

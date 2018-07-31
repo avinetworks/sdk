@@ -65,6 +65,19 @@ func (client *GslbGeoDbProfileClient) GetByName(name string) (*models.GslbGeoDbP
 	return obj, err
 }
 
+// GetObject - Get an existing GslbGeoDbProfile by filters like name, cloud, tenant
+// Api creates GslbGeoDbProfile object with every call.
+func (client *GslbGeoDbProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.GslbGeoDbProfile, error) {
+	var obj *models.GslbGeoDbProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("gslbgeodbprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new GslbGeoDbProfile object
 func (client *GslbGeoDbProfileClient) Create(obj *models.GslbGeoDbProfile) (*models.GslbGeoDbProfile, error) {
 	var robj *models.GslbGeoDbProfile
@@ -92,4 +105,9 @@ func (client *GslbGeoDbProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *GslbGeoDbProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

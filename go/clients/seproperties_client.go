@@ -65,6 +65,19 @@ func (client *SePropertiesClient) GetByName(name string) (*models.SeProperties, 
 	return obj, err
 }
 
+// GetObject - Get an existing SeProperties by filters like name, cloud, tenant
+// Api creates SeProperties object with every call.
+func (client *SePropertiesClient) GetObject(options ...session.ApiOptionsParams) (*models.SeProperties, error) {
+	var obj *models.SeProperties
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("seproperties", newOptions...)
+	return obj, err
+}
+
 // Create a new SeProperties object
 func (client *SePropertiesClient) Create(obj *models.SeProperties) (*models.SeProperties, error) {
 	var robj *models.SeProperties
@@ -92,4 +105,9 @@ func (client *SePropertiesClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SePropertiesClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

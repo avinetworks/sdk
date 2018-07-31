@@ -65,6 +65,19 @@ func (client *AnalyticsProfileClient) GetByName(name string) (*models.AnalyticsP
 	return obj, err
 }
 
+// GetObject - Get an existing AnalyticsProfile by filters like name, cloud, tenant
+// Api creates AnalyticsProfile object with every call.
+func (client *AnalyticsProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.AnalyticsProfile, error) {
+	var obj *models.AnalyticsProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("analyticsprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new AnalyticsProfile object
 func (client *AnalyticsProfileClient) Create(obj *models.AnalyticsProfile) (*models.AnalyticsProfile, error) {
 	var robj *models.AnalyticsProfile
@@ -92,4 +105,9 @@ func (client *AnalyticsProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AnalyticsProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

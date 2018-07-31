@@ -65,6 +65,19 @@ func (client *SSLKeyAndCertificateClient) GetByName(name string) (*models.SSLKey
 	return obj, err
 }
 
+// GetObject - Get an existing SSLKeyAndCertificate by filters like name, cloud, tenant
+// Api creates SSLKeyAndCertificate object with every call.
+func (client *SSLKeyAndCertificateClient) GetObject(options ...session.ApiOptionsParams) (*models.SSLKeyAndCertificate, error) {
+	var obj *models.SSLKeyAndCertificate
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("sslkeyandcertificate", newOptions...)
+	return obj, err
+}
+
 // Create a new SSLKeyAndCertificate object
 func (client *SSLKeyAndCertificateClient) Create(obj *models.SSLKeyAndCertificate) (*models.SSLKeyAndCertificate, error) {
 	var robj *models.SSLKeyAndCertificate
@@ -92,4 +105,9 @@ func (client *SSLKeyAndCertificateClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SSLKeyAndCertificateClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

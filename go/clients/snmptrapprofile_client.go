@@ -65,6 +65,19 @@ func (client *SnmpTrapProfileClient) GetByName(name string) (*models.SnmpTrapPro
 	return obj, err
 }
 
+// GetObject - Get an existing SnmpTrapProfile by filters like name, cloud, tenant
+// Api creates SnmpTrapProfile object with every call.
+func (client *SnmpTrapProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.SnmpTrapProfile, error) {
+	var obj *models.SnmpTrapProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("snmptrapprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new SnmpTrapProfile object
 func (client *SnmpTrapProfileClient) Create(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
 	var robj *models.SnmpTrapProfile
@@ -92,4 +105,9 @@ func (client *SnmpTrapProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SnmpTrapProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

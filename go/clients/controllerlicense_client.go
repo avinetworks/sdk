@@ -65,6 +65,19 @@ func (client *ControllerLicenseClient) GetByName(name string) (*models.Controlle
 	return obj, err
 }
 
+// GetObject - Get an existing ControllerLicense by filters like name, cloud, tenant
+// Api creates ControllerLicense object with every call.
+func (client *ControllerLicenseClient) GetObject(options ...session.ApiOptionsParams) (*models.ControllerLicense, error) {
+	var obj *models.ControllerLicense
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("controllerlicense", newOptions...)
+	return obj, err
+}
+
 // Create a new ControllerLicense object
 func (client *ControllerLicenseClient) Create(obj *models.ControllerLicense) (*models.ControllerLicense, error) {
 	var robj *models.ControllerLicense
@@ -92,4 +105,9 @@ func (client *ControllerLicenseClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ControllerLicenseClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

@@ -65,6 +65,19 @@ func (client *CloudConnectorUserClient) GetByName(name string) (*models.CloudCon
 	return obj, err
 }
 
+// GetObject - Get an existing CloudConnectorUser by filters like name, cloud, tenant
+// Api creates CloudConnectorUser object with every call.
+func (client *CloudConnectorUserClient) GetObject(options ...session.ApiOptionsParams) (*models.CloudConnectorUser, error) {
+	var obj *models.CloudConnectorUser
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("cloudconnectoruser", newOptions...)
+	return obj, err
+}
+
 // Create a new CloudConnectorUser object
 func (client *CloudConnectorUserClient) Create(obj *models.CloudConnectorUser) (*models.CloudConnectorUser, error) {
 	var robj *models.CloudConnectorUser
@@ -92,4 +105,9 @@ func (client *CloudConnectorUserClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *CloudConnectorUserClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

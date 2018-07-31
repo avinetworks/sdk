@@ -65,6 +65,19 @@ func (client *CertificateManagementProfileClient) GetByName(name string) (*model
 	return obj, err
 }
 
+// GetObject - Get an existing CertificateManagementProfile by filters like name, cloud, tenant
+// Api creates CertificateManagementProfile object with every call.
+func (client *CertificateManagementProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.CertificateManagementProfile, error) {
+	var obj *models.CertificateManagementProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("certificatemanagementprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new CertificateManagementProfile object
 func (client *CertificateManagementProfileClient) Create(obj *models.CertificateManagementProfile) (*models.CertificateManagementProfile, error) {
 	var robj *models.CertificateManagementProfile
@@ -92,4 +105,9 @@ func (client *CertificateManagementProfileClient) DeleteByName(name string) erro
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *CertificateManagementProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
