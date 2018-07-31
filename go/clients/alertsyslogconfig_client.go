@@ -65,6 +65,19 @@ func (client *AlertSyslogConfigClient) GetByName(name string) (*models.AlertSysl
 	return obj, err
 }
 
+// GetObject - Get an existing AlertSyslogConfig by filters like name, cloud, tenant
+// Api creates AlertSyslogConfig object with every call.
+func (client *AlertSyslogConfigClient) GetObject(options ...session.ApiOptionsParams) (*models.AlertSyslogConfig, error) {
+	var obj *models.AlertSyslogConfig
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("alertsyslogconfig", newOptions...)
+	return obj, err
+}
+
 // Create a new AlertSyslogConfig object
 func (client *AlertSyslogConfigClient) Create(obj *models.AlertSyslogConfig) (*models.AlertSyslogConfig, error) {
 	var robj *models.AlertSyslogConfig
@@ -92,4 +105,9 @@ func (client *AlertSyslogConfigClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AlertSyslogConfigClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

@@ -65,6 +65,19 @@ func (client *PriorityLabelsClient) GetByName(name string) (*models.PriorityLabe
 	return obj, err
 }
 
+// GetObject - Get an existing PriorityLabels by filters like name, cloud, tenant
+// Api creates PriorityLabels object with every call.
+func (client *PriorityLabelsClient) GetObject(options ...session.ApiOptionsParams) (*models.PriorityLabels, error) {
+	var obj *models.PriorityLabels
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("prioritylabels", newOptions...)
+	return obj, err
+}
+
 // Create a new PriorityLabels object
 func (client *PriorityLabelsClient) Create(obj *models.PriorityLabels) (*models.PriorityLabels, error) {
 	var robj *models.PriorityLabels
@@ -92,4 +105,9 @@ func (client *PriorityLabelsClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *PriorityLabelsClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

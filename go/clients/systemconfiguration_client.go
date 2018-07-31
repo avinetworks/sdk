@@ -65,6 +65,19 @@ func (client *SystemConfigurationClient) GetByName(name string) (*models.SystemC
 	return obj, err
 }
 
+// GetObject - Get an existing SystemConfiguration by filters like name, cloud, tenant
+// Api creates SystemConfiguration object with every call.
+func (client *SystemConfigurationClient) GetObject(options ...session.ApiOptionsParams) (*models.SystemConfiguration, error) {
+	var obj *models.SystemConfiguration
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("systemconfiguration", newOptions...)
+	return obj, err
+}
+
 // Create a new SystemConfiguration object
 func (client *SystemConfigurationClient) Create(obj *models.SystemConfiguration) (*models.SystemConfiguration, error) {
 	var robj *models.SystemConfiguration
@@ -92,4 +105,9 @@ func (client *SystemConfigurationClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SystemConfigurationClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

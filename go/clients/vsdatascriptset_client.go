@@ -65,6 +65,19 @@ func (client *VSDataScriptSetClient) GetByName(name string) (*models.VSDataScrip
 	return obj, err
 }
 
+// GetObject - Get an existing VSDataScriptSet by filters like name, cloud, tenant
+// Api creates VSDataScriptSet object with every call.
+func (client *VSDataScriptSetClient) GetObject(options ...session.ApiOptionsParams) (*models.VSDataScriptSet, error) {
+	var obj *models.VSDataScriptSet
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vsdatascriptset", newOptions...)
+	return obj, err
+}
+
 // Create a new VSDataScriptSet object
 func (client *VSDataScriptSetClient) Create(obj *models.VSDataScriptSet) (*models.VSDataScriptSet, error) {
 	var robj *models.VSDataScriptSet
@@ -92,4 +105,9 @@ func (client *VSDataScriptSetClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VSDataScriptSetClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

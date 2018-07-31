@@ -65,6 +65,19 @@ func (client *SecureChannelAvailableLocalIpsClient) GetByName(name string) (*mod
 	return obj, err
 }
 
+// GetObject - Get an existing SecureChannelAvailableLocalIps by filters like name, cloud, tenant
+// Api creates SecureChannelAvailableLocalIps object with every call.
+func (client *SecureChannelAvailableLocalIpsClient) GetObject(options ...session.ApiOptionsParams) (*models.SecureChannelAvailableLocalIps, error) {
+	var obj *models.SecureChannelAvailableLocalIps
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("securechannelavailablelocalips", newOptions...)
+	return obj, err
+}
+
 // Create a new SecureChannelAvailableLocalIps object
 func (client *SecureChannelAvailableLocalIpsClient) Create(obj *models.SecureChannelAvailableLocalIps) (*models.SecureChannelAvailableLocalIps, error) {
 	var robj *models.SecureChannelAvailableLocalIps
@@ -92,4 +105,9 @@ func (client *SecureChannelAvailableLocalIpsClient) DeleteByName(name string) er
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SecureChannelAvailableLocalIpsClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

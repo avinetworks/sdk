@@ -65,6 +65,19 @@ func (client *SecureChannelMappingClient) GetByName(name string) (*models.Secure
 	return obj, err
 }
 
+// GetObject - Get an existing SecureChannelMapping by filters like name, cloud, tenant
+// Api creates SecureChannelMapping object with every call.
+func (client *SecureChannelMappingClient) GetObject(options ...session.ApiOptionsParams) (*models.SecureChannelMapping, error) {
+	var obj *models.SecureChannelMapping
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("securechannelmapping", newOptions...)
+	return obj, err
+}
+
 // Create a new SecureChannelMapping object
 func (client *SecureChannelMappingClient) Create(obj *models.SecureChannelMapping) (*models.SecureChannelMapping, error) {
 	var robj *models.SecureChannelMapping
@@ -92,4 +105,9 @@ func (client *SecureChannelMappingClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SecureChannelMappingClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

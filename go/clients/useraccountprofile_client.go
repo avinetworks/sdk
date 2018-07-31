@@ -65,6 +65,19 @@ func (client *UserAccountProfileClient) GetByName(name string) (*models.UserAcco
 	return obj, err
 }
 
+// GetObject - Get an existing UserAccountProfile by filters like name, cloud, tenant
+// Api creates UserAccountProfile object with every call.
+func (client *UserAccountProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.UserAccountProfile, error) {
+	var obj *models.UserAccountProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("useraccountprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new UserAccountProfile object
 func (client *UserAccountProfileClient) Create(obj *models.UserAccountProfile) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
@@ -92,4 +105,9 @@ func (client *UserAccountProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *UserAccountProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

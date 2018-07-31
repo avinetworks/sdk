@@ -65,6 +65,19 @@ func (client *AuthProfileClient) GetByName(name string) (*models.AuthProfile, er
 	return obj, err
 }
 
+// GetObject - Get an existing AuthProfile by filters like name, cloud, tenant
+// Api creates AuthProfile object with every call.
+func (client *AuthProfileClient) GetObject(options ...session.ApiOptionsParams) (*models.AuthProfile, error) {
+	var obj *models.AuthProfile
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("authprofile", newOptions...)
+	return obj, err
+}
+
 // Create a new AuthProfile object
 func (client *AuthProfileClient) Create(obj *models.AuthProfile) (*models.AuthProfile, error) {
 	var robj *models.AuthProfile
@@ -92,4 +105,9 @@ func (client *AuthProfileClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AuthProfileClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

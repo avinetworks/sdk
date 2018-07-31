@@ -65,6 +65,19 @@ func (client *SCPoolServerStateInfoClient) GetByName(name string) (*models.SCPoo
 	return obj, err
 }
 
+// GetObject - Get an existing SCPoolServerStateInfo by filters like name, cloud, tenant
+// Api creates SCPoolServerStateInfo object with every call.
+func (client *SCPoolServerStateInfoClient) GetObject(options ...session.ApiOptionsParams) (*models.SCPoolServerStateInfo, error) {
+	var obj *models.SCPoolServerStateInfo
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("scpoolserverstateinfo", newOptions...)
+	return obj, err
+}
+
 // Create a new SCPoolServerStateInfo object
 func (client *SCPoolServerStateInfoClient) Create(obj *models.SCPoolServerStateInfo) (*models.SCPoolServerStateInfo, error) {
 	var robj *models.SCPoolServerStateInfo
@@ -92,4 +105,9 @@ func (client *SCPoolServerStateInfoClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *SCPoolServerStateInfoClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

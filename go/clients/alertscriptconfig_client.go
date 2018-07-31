@@ -65,6 +65,19 @@ func (client *AlertScriptConfigClient) GetByName(name string) (*models.AlertScri
 	return obj, err
 }
 
+// GetObject - Get an existing AlertScriptConfig by filters like name, cloud, tenant
+// Api creates AlertScriptConfig object with every call.
+func (client *AlertScriptConfigClient) GetObject(options ...session.ApiOptionsParams) (*models.AlertScriptConfig, error) {
+	var obj *models.AlertScriptConfig
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("alertscriptconfig", newOptions...)
+	return obj, err
+}
+
 // Create a new AlertScriptConfig object
 func (client *AlertScriptConfigClient) Create(obj *models.AlertScriptConfig) (*models.AlertScriptConfig, error) {
 	var robj *models.AlertScriptConfig
@@ -92,4 +105,9 @@ func (client *AlertScriptConfigClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AlertScriptConfigClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

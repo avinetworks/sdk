@@ -65,6 +65,19 @@ func (client *VIPGNameInfoClient) GetByName(name string) (*models.VIPGNameInfo, 
 	return obj, err
 }
 
+// GetObject - Get an existing VIPGNameInfo by filters like name, cloud, tenant
+// Api creates VIPGNameInfo object with every call.
+func (client *VIPGNameInfoClient) GetObject(options ...session.ApiOptionsParams) (*models.VIPGNameInfo, error) {
+	var obj *models.VIPGNameInfo
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vipgnameinfo", newOptions...)
+	return obj, err
+}
+
 // Create a new VIPGNameInfo object
 func (client *VIPGNameInfoClient) Create(obj *models.VIPGNameInfo) (*models.VIPGNameInfo, error) {
 	var robj *models.VIPGNameInfo
@@ -92,4 +105,9 @@ func (client *VIPGNameInfoClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIPGNameInfoClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

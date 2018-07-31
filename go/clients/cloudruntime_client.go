@@ -65,6 +65,19 @@ func (client *CloudRuntimeClient) GetByName(name string) (*models.CloudRuntime, 
 	return obj, err
 }
 
+// GetObject - Get an existing CloudRuntime by filters like name, cloud, tenant
+// Api creates CloudRuntime object with every call.
+func (client *CloudRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.CloudRuntime, error) {
+	var obj *models.CloudRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("cloudruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new CloudRuntime object
 func (client *CloudRuntimeClient) Create(obj *models.CloudRuntime) (*models.CloudRuntime, error) {
 	var robj *models.CloudRuntime
@@ -92,4 +105,9 @@ func (client *CloudRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *CloudRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

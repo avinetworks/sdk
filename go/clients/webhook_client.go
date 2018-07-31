@@ -65,6 +65,19 @@ func (client *WebhookClient) GetByName(name string) (*models.Webhook, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Webhook by filters like name, cloud, tenant
+// Api creates Webhook object with every call.
+func (client *WebhookClient) GetObject(options ...session.ApiOptionsParams) (*models.Webhook, error) {
+	var obj *models.Webhook
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("webhook", newOptions...)
+	return obj, err
+}
+
 // Create a new Webhook object
 func (client *WebhookClient) Create(obj *models.Webhook) (*models.Webhook, error) {
 	var robj *models.Webhook
@@ -92,4 +105,9 @@ func (client *WebhookClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *WebhookClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
