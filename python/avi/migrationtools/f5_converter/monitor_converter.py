@@ -486,8 +486,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
+        if send == 'none':
+            send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         destination = f5_monitor.get(self.dest_key, "*:*")
@@ -531,8 +534,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
+        if send == 'none':
+            send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]}
         monitor_dict["https_monitor"]['ssl_attributes'] = dict()
@@ -630,7 +636,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if request:
             request = request.replace('\\\\', '\\')
             request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+            if request == 'none':
+                request = None
         response = f5_monitor.get("recv", None)
+        if response == 'none':
+            response = None
         tcp_monitor = None
         if request or response:
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
@@ -680,7 +690,11 @@ class MonitorConfigConvV11(MonitorConfigConv):
         request = f5_monitor.get("send", None)
         request = request.replace('\\\\', '\\')
         request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+        if request == 'none':
+            request = None
         response = f5_monitor.get("recv", None)
+        if response == 'none':
+            response = None
         udp_monitor = None
         if request or response:
             udp_monitor = {"udp_request": request, "udp_response": response}
@@ -868,8 +882,11 @@ class MonitorConfigConvV10(MonitorConfigConv):
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
+        if send == 'none':
+            send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
@@ -916,8 +933,11 @@ class MonitorConfigConvV10(MonitorConfigConv):
         send = send.replace('\\\\', '\\')
         send = send.replace('"', '')
         send = conv_utils.rreplace(send, '\\r\\n', '', 1)
+        if send == 'none':
+            send = None
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
+            "exact_http_request": True,
             "http_request": send,
             "http_response_code": ["HTTP_2XX", "HTTP_3XX"]
         }
@@ -980,11 +1000,15 @@ class MonitorConfigConvV10(MonitorConfigConv):
         if request:
             request = request.replace('\\\\', '\\')
             request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+            if request == 'none':
+                request = None
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
             request = request.replace('\"', '') if request else None
             response = response.replace('\"', '') if response else None
+            if response == 'none':
+                response = None
             tcp_monitor = {"tcp_request": request, "tcp_response": response}
             monitor_dict["tcp_monitor"] = tcp_monitor
         # Added mapping for http_response.
@@ -1031,11 +1055,15 @@ class MonitorConfigConvV10(MonitorConfigConv):
         request = f5_monitor.get("send", None)
         request = request.replace('\\\\', '\\')
         request = conv_utils.rreplace(request, '\\r\\n', '', 1)
+        if request == 'none':
+            request = None
         response = f5_monitor.get("recv", None)
         udp_monitor = None
         if request or response:
             request = request.replace('\"', '') if request else None
             response = response.replace('\"', '') if response else None
+            if response == 'none':
+                response = None
             udp_monitor = {"udp_request": request, "udp_response": response}
             monitor_dict["udp_monitor"] = udp_monitor
         # Added mapping for http_response.

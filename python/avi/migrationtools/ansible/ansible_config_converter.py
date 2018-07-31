@@ -12,9 +12,11 @@ import argparse
 import re
 import requests
 import os
+import urlparse
+from urllib import urlencode
 from copy import deepcopy
 from avi.migrationtools.avi_orphan_object import \
-    filter_for_vs, get_vs_ref, get_name_and_entity
+    filter_for_vs, get_vs_ref, get_name_and_entity, PATH_KEY_MAP
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
      APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
@@ -40,7 +42,8 @@ class AviAnsibleConverter(object):
     skip_types = set(DEFAULT_SKIP_TYPES)
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
-    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z]+\=[A-z]+\&[A-z]+\=.*')
+    REL_REF_MATCH = re.compile(
+        '/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None, ns_vs_name_dict=None, test_vip=None):
@@ -94,15 +97,18 @@ class AviAnsibleConverter(object):
             for p in ref_parts[1].split('&'):
                 k, v = p.split('=')
                 # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
-                if k.strip() == 'cloud' or 'cloud' in ref_parts[0]:
-                    obj['cloud_ref'] = '/api/cloud?name=%s' % v.strip()
-                elif k.strip() == 'tenant' or 'tenant' in ref_parts[0]:
-                    obj['tenant_ref'] = '/api/tenant?name=%s' % v.strip()
+                if k.strip() == 'cloud' or 'cloud'in ref_parts[0]:
+                    obj['cloud_ref'] = '/api/cloud?name=%s' % v
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
-        else:
-            LOG.info('%s did not match ref' % x)
+
+        u = urlparse.urlparse(x)
+        query = {'name': urlparse.parse_qs(u.query)['name']}
+        # query.pop('tenant', None)
+        # query.pop('cloud', None)
+        u = u._replace(query=urlencode(query, True))
+        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):
@@ -190,7 +196,11 @@ class AviAnsibleConverter(object):
             task.update({'api_context': "{{api_context | default(omit)}}"})
             task.update({API_VERSION: self.api_version})
             # Check object present in list for tag.
-            name = '%s-%s' % (obj['name'], obj_type)
+            tenant = None
+            if 'tenant_ref' in obj:
+                link, tenant = get_name_and_entity(obj['tenant_ref'])
+            key = PATH_KEY_MAP.get(obj_type, '')
+            name = '%s-%s-%s' % (obj['name'], key, tenant)
             if inuse_list and name not in inuse_list:
                 used_tag = 'not_in_use'
 

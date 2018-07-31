@@ -8,7 +8,7 @@ LOG = logging.getLogger(__name__)
 urllib3.disable_warnings()
 
 def upload_config_to_controller(avi_config_dict, controller_ip, username,
-                                password, tenant, api_version='17.1.1'):
+                                password, tenant, api_version='17.2.1'):
     LOG.debug("Uploading config to controller")
     session = ApiSession.get_session(controller_ip, username, password=password,
                                      tenant=tenant, api_version=api_version)

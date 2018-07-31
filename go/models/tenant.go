@@ -7,6 +7,10 @@ package models
 // swagger:model Tenant
 type Tenant struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Placeholder for description of property config_settings of obj type Tenant field type str  type object
 	ConfigSettings *TenantConfiguration `json:"config_settings,omitempty"`
 

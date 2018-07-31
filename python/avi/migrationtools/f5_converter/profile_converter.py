@@ -530,11 +530,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
             header_erase = profile.get('header-erase', None)
             header_erase = None if header_erase == 'none' else header_erase
             if header_erase:
-                header_erase = header_erase.replace('\"', '')
+                header_erase = header_erase.replace('\"', '').strip()
             header_insert = profile.get('header-insert', None)
             header_insert = None if header_insert == 'none' else header_insert
             if header_insert:
-                header_insert = header_insert.replace('\"', '')
+                header_insert = header_insert.replace('\"', '').strip()
 
             if header_erase or header_insert:
                 rules = []
@@ -1497,8 +1497,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
         encpt_cookie = False if encpt_cookie == 'none' else True
         con_mltplxng = profile.get('oneconnect transformations', 'disabled')
         con_mltplxng = False if con_mltplxng == 'disabled' else True
-        http_profile['x_forwarded_proto_enabled'] = profile.get(
-            'insert xforwarded for', False)
+        insert_xff = profile.get('insert xforwarded for', 'disabled')
+        insert_xff = True if insert_xff == 'enabled' else False
+        http_profile['x_forwarded_proto_enabled'] = insert_xff
         http_profile['xff_alternate_name'] = profile.get(
             'xff alternative names', None)
         header_size = profile.get('max header size', final.DEFAULT_MAX_HEADER)
@@ -1584,11 +1585,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
         header_erase = None if header_erase == 'none' else header_erase
 
         if header_erase:
-            header_erase = header_erase.replace('\"', '')
+            header_erase = header_erase.replace('\"', '').strip()
         header_insert = profile.get('header-insert', None)
         header_insert = None if header_insert == 'none' else header_insert
         if header_insert:
-            header_insert = header_insert.replace('\"', '')
+            header_insert = header_insert.replace('\"', '').strip()
 
         if header_erase or header_insert:
             rules = []

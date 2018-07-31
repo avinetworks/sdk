@@ -7,6 +7,10 @@ package models
 // swagger:model ClusterCloudDetails
 type ClusterCloudDetails struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// Azure info to configure cluster_vip on the controller. Field introduced in 17.2.5.
 	AzureInfo *AzureClusterInfo `json:"azure_info,omitempty"`
 

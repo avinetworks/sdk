@@ -3,7 +3,7 @@
  * AVI CONFIDENTIAL
  * __________________
  *
- * [2013] - [2017] Avi Networks Incorporated
+ * [2013] - [2018] Avi Networks Incorporated
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains the property
@@ -58,9 +58,7 @@ type AviClient struct {
 	ErrorPageBody                  *ErrorPageBodyClient
 	ErrorPageProfile               *ErrorPageProfileClient
 	Gslb                           *GslbClient
-	GslbApplicationPersistenceProfile *GslbApplicationPersistenceProfileClient
 	GslbGeoDbProfile               *GslbGeoDbProfileClient
-	GslbHealthMonitor              *GslbHealthMonitorClient
 	GslbService                    *GslbServiceClient
 	HTTPPolicySet                  *HTTPPolicySetClient
 	HardwareSecurityModuleGroup    *HardwareSecurityModuleGroupClient
@@ -68,6 +66,7 @@ type AviClient struct {
 	IPAMDNSProviderProfile         *IPAMDNSProviderProfileClient
 	IPAddrGroup                    *IPAddrGroupClient
 	JobEntry                       *JobEntryClient
+	L4PolicySet                    *L4PolicySetClient
 	LogControllerMapping           *LogControllerMappingClient
 	MicroService                   *MicroServiceClient
 	MicroServiceGroup              *MicroServiceGroupClient
@@ -160,9 +159,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ErrorPageBody = NewErrorPageBodyClient(aviSession)
 	aviClient.ErrorPageProfile = NewErrorPageProfileClient(aviSession)
 	aviClient.Gslb = NewGslbClient(aviSession)
-	aviClient.GslbApplicationPersistenceProfile = NewGslbApplicationPersistenceProfileClient(aviSession)
 	aviClient.GslbGeoDbProfile = NewGslbGeoDbProfileClient(aviSession)
-	aviClient.GslbHealthMonitor = NewGslbHealthMonitorClient(aviSession)
 	aviClient.GslbService = NewGslbServiceClient(aviSession)
 	aviClient.HTTPPolicySet = NewHTTPPolicySetClient(aviSession)
 	aviClient.HardwareSecurityModuleGroup = NewHardwareSecurityModuleGroupClient(aviSession)
@@ -170,6 +167,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.IPAMDNSProviderProfile = NewIPAMDNSProviderProfileClient(aviSession)
 	aviClient.IPAddrGroup = NewIPAddrGroupClient(aviSession)
 	aviClient.JobEntry = NewJobEntryClient(aviSession)
+	aviClient.L4PolicySet = NewL4PolicySetClient(aviSession)
 	aviClient.LogControllerMapping = NewLogControllerMappingClient(aviSession)
 	aviClient.MicroService = NewMicroServiceClient(aviSession)
 	aviClient.MicroServiceGroup = NewMicroServiceGroupClient(aviSession)

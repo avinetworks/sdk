@@ -7,6 +7,10 @@ package models
 // swagger:model VIMgrVMRuntime
 type VIMgrVMRuntime struct {
 
+	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
+	// Read Only: true
+	LastModified string `json:"_last_modified,omitempty"`
+
 	// availability_zone of VIMgrVMRuntime.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
 
@@ -63,7 +67,7 @@ type VIMgrVMRuntime struct {
 	// Number of num_cpu.
 	NumCPU int32 `json:"num_cpu,omitempty"`
 
-	//  Field introduced in 17.1.3.
+	//  Field introduced in 17.1.1,17.1.3.
 	OvfAvisetypeField string `json:"ovf_avisetype_field,omitempty"`
 
 	// powerstate of VIMgrVMRuntime.

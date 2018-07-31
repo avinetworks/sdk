@@ -10,6 +10,9 @@ type VNIC struct {
 	// adapter of vNIC.
 	Adapter string `json:"adapter,omitempty"`
 
+	//  Field introduced in 17.2.7.
+	AggregatorChgd bool `json:"aggregator_chgd,omitempty"`
+
 	// Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean
 	CanSeDpTakeover bool `json:"can_se_dp_takeover,omitempty"`
 
@@ -27,6 +30,9 @@ type VNIC struct {
 
 	// if_name of vNIC.
 	IfName string `json:"if_name,omitempty"`
+
+	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
+	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
 
 	// Placeholder for description of property is_asm of obj type vNIC field type str  type boolean
 	IsAsm bool `json:"is_asm,omitempty"`
