@@ -1159,5 +1159,29 @@ class TestF5Converter:
                         pool][0]
                 assert pool == poolName
 
+    @pytest.mark.travis
+    def test_check_header_insert_policy_onV11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+
+        vsData = [data for data in vsObject if data['name'] == "vs_1_up"]
+        httppolicies = vsData[0]['http_policies']
+        for i in httppolicies:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[
+                0]
+            httppolicy = [data['name'] for data in httpPolicySet if
+                          data['name'] == policyName][0]
+            assert policyName == httppolicy
+
 def teardown():
     pass
