@@ -465,17 +465,22 @@ class MigrationUtil(object):
 
     def check_certificate_expiry(self, input_dir, cert_file_name):
         cert_file_name = cert_file_name.replace(':Common:', '')
-        cert_date = crypto.load_certificate(crypto.FILETYPE_PEM,
-                                       file(input_dir + os.path.sep
-                                            + cert_file_name).read())
-        expiry_date = datetime.strptime(cert_date.get_notAfter(),
-                                        "%Y%m%d%H%M%SZ")
-        present_date = datetime.now()
-        if expiry_date < present_date:
-            LOG.warning("Certificate %s is expired creating self "
-                        "signed cert." % cert_file_name)
-            return False
+        cert_text = self.upload_file(input_dir + os.path.sep + cert_file_name)
+        if cert_text:
+            cert_date = crypto.load_certificate(crypto.FILETYPE_PEM, cert_text)
+            expiry_date = datetime.strptime(cert_date.get_notAfter(),
+                                            "%Y%m%d%H%M%SZ")
+            present_date = datetime.now()
+            if expiry_date < present_date:
+                LOG.warning("Certificate %s is expired creating self "
+                            "signed cert." % cert_file_name)
+                return False
+            else:
+                return True
         else:
+            LOG.warn('Cannot load cert %s to check expiry skipping the check' %
+                     cert_file_name)
+            update_count('warning')
             return True
 
     def make_graph(self, avi_config):
