@@ -412,6 +412,8 @@ class VSConfigConv(object):
                     self.prefix, conv_utils.get_tenant_ref(name)[1]) if
                                     self.prefix else conv_utils.get_tenant_ref(
                     name)[1] for name in f5_vs['policies'].keys()])
+        if app_prof_obj and 'HTTPPolicySet' in app_prof_obj[0]:
+            vs_policies.append(app_prof_obj[0]['HTTPPolicySet'])
         if vs_policies:
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
                                cloud_name, vs_obj)
