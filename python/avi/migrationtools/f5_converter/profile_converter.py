@@ -624,8 +624,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
             insert_xff = profile.get('insert-xforwarded-for', 'disabled')
             insert_xff = True if insert_xff == 'enabled' else False
             http_profile['x_forwarded_proto_enabled'] = insert_xff
-            http_profile['xff_alternate_name'] = \
-                profile.get('xff-alternative-names', None)
+            xff_alt_names = profile.get('xff-alternative-names', None)
+            xff_alt_names = None if xff_alt_names == 'none' else xff_alt_names
+            http_profile['xff_alternate_name'] = xff_alt_names
             http_profile['secure_cookie_enabled'] = encpt_cookie
             http_profile['xff_enabled'] = insert_xff
             http_profile['connection_multiplexing_enabled'] = con_mltplxng
@@ -1616,8 +1617,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
         insert_xff = profile.get('insert xforwarded for', 'disabled')
         insert_xff = True if insert_xff == 'enabled' else False
         http_profile['x_forwarded_proto_enabled'] = insert_xff
-        http_profile['xff_alternate_name'] = profile.get(
-            'xff alternative names', None)
+        xff_alt_names = profile.get('xff alternative names', None)
+        xff_alt_names = None if xff_alt_names == 'none' else xff_alt_names
+        http_profile['xff_alternate_name'] = xff_alt_names
         header_size = profile.get('max header size', final.DEFAULT_MAX_HEADER)
         http_profile['client_max_header_size'] = int(
             header_size)/final.BYTES_IN_KB
