@@ -149,6 +149,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	glog.Infof("name %s: ", npool2.Name)
 
 	var npool3 models.Pool
+	var npool4 models.Pool
 	// Test patch before deleting the pool
 	var patch = make(map[string]interface{})
 	server := models.Server{}
@@ -168,6 +169,15 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 		t.Error("Pool Patch failed %v", npool3)
 	}
 
+	//Patch delete API call.
+	err = avisess.Patch("api/pool/"+npool2.UUID, patch, "delete", &npool4)
+	if err != nil{
+		t.Fatalf("Pool Patch delete failed %s", err)
+	}
+
+	if len(npool4.Servers) != 0 {
+		t.Errorf("Pool Patch delete failed %v", npool4)
+	}
 
 	err = avisess.Delete("api/pool/" + npool2.UUID)
 	if err != nil {
