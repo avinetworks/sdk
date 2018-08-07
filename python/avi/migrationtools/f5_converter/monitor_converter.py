@@ -64,6 +64,17 @@ class MonitorConfigConv(object):
                          name):
         pass
 
+    def update_request_for_avi(self, send, is_http):
+        if not send:
+            return None
+        send = send.replace('\\\\', '\\')
+        send = send.replace('"', '')
+        if send == 'none':
+            send = None
+        if is_http and send and 'HTTP' not in send:
+            send = send.replace('\\r\\n', ' HTTP/1.1\\r\\n', 1)
+        return send
+
     def create_sslprofile(self, monitor_dict, f5_monitor, avi_config,
                            tenant, cloud_name, merge_object_mapping, sys_dict):
         """
@@ -224,6 +235,8 @@ class MonitorConfigConv(object):
                 continue
             f5_monitor = self.get_defaults(monitor_config, key)
             monitor_type, name = self.get_name_type(f5_monitor, key)
+            if '/' in monitor_type:
+                monitor_type = monitor_type.split('/')[-1]
             m_tenant, m_name = conv_utils.get_tenant_ref(name)
             # Check if custom cofig present for this HM
             r_hm = [obj for obj in custom_config if
@@ -325,6 +338,8 @@ class MonitorConfigConv(object):
         :return: monitor_dict
         """
         monitor_type, name = self.get_name_type(f5_monitor, key)
+        if '/' in monitor_type:
+            monitor_type = monitor_type.split('/')[-1]
         skipped = [val for val in f5_monitor.keys()
                    if val not in self.supported_attributes]
         indirect = copy.deepcopy(self.indirect_mappings)
@@ -513,10 +528,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         """
         skipped = [key for key in skipped if key not in self.http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
-        send = send.replace('\\\\', '\\')
-        send = send.replace('"', '')
-        if send == 'none':
-            send = None
+        send = self.update_request_for_avi(send, True)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "exact_http_request": True,
@@ -560,10 +572,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
         """
         skipped = [key for key in skipped if key not in self.https_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
-        send = send.replace('\\\\', '\\')
-        send = send.replace('"', '')
-        if send == 'none':
-            send = None
+        send = self.update_request_for_avi(send, True)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "exact_http_request": True,
@@ -661,10 +670,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
-        if request:
-            request = request.replace('\\\\', '\\')
-            if request == 'none':
-                request = None
+        request = self.update_request_for_avi(request, False)
         response = f5_monitor.get("recv", None)
         if response == 'none':
             response = None
@@ -715,9 +721,7 @@ class MonitorConfigConvV11(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
-        request = request.replace('\\\\', '\\')
-        if request == 'none':
-            request = None
+        request = self.update_request_for_avi(request, False)
         response = f5_monitor.get("recv", None)
         if response == 'none':
             response = None
@@ -905,10 +909,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         http_attr = self.http_attr + ignore_list
         skipped = [key for key in skipped if key not in http_attr]
         send = f5_monitor.get('send', 'HEAD / HTTP/1.0')
-        send = send.replace('\\\\', '\\')
-        send = send.replace('"', '')
-        if send == 'none':
-            send = None
+        send = self.update_request_for_avi(send, False)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTP"
         monitor_dict["http_monitor"] = {
             "exact_http_request": True,
@@ -955,10 +956,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
         https_attr = ignore_list + self.https_attr
         skipped = [key for key in skipped if key not in https_attr]
         send = f5_monitor.get('send', None)
-        send = send.replace('\\\\', '\\')
-        send = send.replace('"', '')
-        if send == 'none':
-            send = None
+        send = self.update_request_for_avi(send, False)
         monitor_dict["type"] = "HEALTH_MONITOR_HTTPS"
         monitor_dict["https_monitor"] = {
             "exact_http_request": True,
@@ -1021,10 +1019,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_TCP"
         request = f5_monitor.get("send", None)
-        if request:
-            request = request.replace('\\\\', '\\')
-            if request == 'none':
-                request = None
+        request = self.update_request_for_avi(request, False)
         response = f5_monitor.get("recv", None)
         tcp_monitor = None
         if request or response:
@@ -1076,9 +1071,7 @@ class MonitorConfigConvV10(MonitorConfigConv):
             monitor_dict["monitor_port"] = dest_str[1]
         monitor_dict["type"] = "HEALTH_MONITOR_UDP"
         request = f5_monitor.get("send", None)
-        request = request.replace('\\\\', '\\')
-        if request == 'none':
-            request = None
+        request = self.update_request_for_avi(request, False)
         response = f5_monitor.get("recv", None)
         udp_monitor = None
         if request or response:
