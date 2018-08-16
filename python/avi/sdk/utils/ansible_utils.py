@@ -64,6 +64,13 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
             fact_context = {key: api_context}
 
     obj_val = rsp.json() if rsp else existing_obj
+
+    if (obj_val and module.params.get("obj_username", None) and
+                "username" in obj_val):
+        obj_val["obj_username"] = obj_val["username"]
+    if (obj_val and module.params.get("obj_password", None) and
+                "password" in obj_val):
+        obj_val["obj_password"] = obj_val["password"]
     old_obj_val = existing_obj if changed and existing_obj else None
     api_context_val = api_context if disable_fact else None
     ansible_facts_val = dict(
@@ -505,7 +512,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         else:
             rsp = api.post(obj_type, data=obj, tenant=tenant,
                            tenant_uuid=tenant_uuid, api_version=api_version)
-
     return ansible_return(module, rsp, changed, req, existing_obj=existing_obj,
                           api_context=api.get_context())
 
