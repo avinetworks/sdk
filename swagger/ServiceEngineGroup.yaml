@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.2'
+    version: '18.1.3'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -87,7 +87,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -130,7 +130,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -177,7 +177,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -240,7 +240,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -291,7 +291,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -342,7 +342,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -384,7 +384,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -433,7 +433,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -488,7 +488,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -523,7 +523,7 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
                 type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
@@ -660,8 +660,7 @@ definitions:
             _last_modified:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
-                type: integer
-                format: int64
+                type: string
             active_standby:
                 description: "Service Engines in active/standby mode for HA failover."
                 type: boolean
@@ -821,7 +820,7 @@ definitions:
                 type: integer
                 format: int32
             free_list_size:
-                description: "Number of entries in the free list. Field introduced in 17.2.10."
+                description: "Number of entries in the free list. Field introduced in 17.2.10, 18.1.2."
                 type: integer
                 default: 1024
                 format: int32
@@ -882,7 +881,7 @@ definitions:
                 description: "Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
                 type: string
             license_type:
-                description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
+                description: "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
                 type: string
             log_disksz:
                 description: "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data."
@@ -949,6 +948,11 @@ definitions:
                 type: integer
                 default: 1
                 format: int32
+            min_se:
+                description: "Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3."
+                type: integer
+                default: 1
+                format: int32
             minimum_connection_memory:
                 description: "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2."
                 type: integer
@@ -959,7 +963,7 @@ definitions:
                 type: integer
                 format: int32
             n_log_streaming_threads:
-                description: "Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2."
+                description: "Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2."
                 type: integer
                 default: 1
                 format: int32
@@ -970,6 +974,10 @@ definitions:
                 description: "This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3."
                 type: integer
                 default: 100
+                format: int32
+            num_dispatcher_cores:
+                description: "Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3."
+                type: integer
                 format: int32
             num_flow_cores_sum_changes_to_ignore:
                 description: "Number of changes in num flow cores sum to ignore."
@@ -1015,6 +1023,10 @@ definitions:
             se_dos_profile:
                 description: "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
+            se_dpdk_pmd:
+                description: "Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 18.1.3."
+                type: integer
+                format: int32
             se_ipc_udp_port:
                 description: "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2."
                 type: integer
@@ -1024,6 +1036,14 @@ definitions:
                 description: "Prefix to use for virtual machine name of Service Engines."
                 type: string
                 default: "Avi"
+            se_pcap_reinit_frequency:
+                description: "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3."
+                type: integer
+                format: int32
+            se_pcap_reinit_threshold:
+                description: "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3."
+                type: integer
+                format: int32
             se_probe_port:
                 description: "TCP port on SE where echo service will be run. Field introduced in 17.2.2."
                 type: integer
@@ -1051,7 +1071,7 @@ definitions:
                 description: "Traceroute port range. Field introduced in 17.2.8."
                 $ref: '#/definitions/PortRange'
             se_tunnel_mode:
-                description: "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1."
+                description: "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1."
                 type: integer
                 format: int32
             se_tunnel_udp_port:
@@ -1060,13 +1080,17 @@ definitions:
                 default: 1550
                 format: int32
             se_udp_encap_ipc:
-                description: "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2."
+                description: "Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. Allowed values are 0-1. Field introduced in 17.1.2."
+                type: integer
+                format: int32
+            se_use_dpdk:
+                description: "Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3."
                 type: integer
                 format: int32
             se_vs_hb_max_pkts_in_batch:
                 description: "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1."
                 type: integer
-                default: 8
+                default: 64
                 format: int32
             se_vs_hb_max_vs_in_pkt:
                 description: "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1."
@@ -1096,6 +1120,10 @@ definitions:
                 type: integer
                 default: 100
                 format: int32
+            ssl_preprocess_sni_hostname:
+                description: "(Beta) Preprocess SSL Client Hello for SNI hostname extension. If set to True, this will apply SNI child's SSL protocol(s) if they are different from SNI Parent's allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3."
+                type: boolean
+                default: True
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
@@ -1247,6 +1275,11 @@ definitions:
     VipAutoscalePolicy:
         type: object
         properties:
+            dns_cooldown:
+                description: "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12,18.1.2."
+                type: integer
+                default: 60
+                format: int32
             max_size:
                 description: "The maximum size of the group. Field introduced in 18.1.2."
                 type: integer
@@ -1258,19 +1291,22 @@ definitions:
                 default: 1
                 format: int32
             suspend:
-                description: "When set, scaling is suspended. Field introduced in 18.1.2."
+                description: "When set, scaling is suspended. Field introduced in 17.2.12,18.1.2."
                 type: boolean
     VipAutoscaleZones:
         type: object
         properties:
             availability_zone:
-                description: " Field introduced in 18.1.2."
+                description: "Availability zone associated with the subnet. Field introduced in 18.1.2."
+                readOnly: True
                 type: string
-            subnet_uuids:
-                description: " Field introduced in 18.1.2."
-                type: array
-                items:
-                    type: string
+            fip_capable:
+                description: "Determines if the subnet is capable of hosting publicly accessible IP. Field introduced in 18.1.2."
+                readOnly: True
+                type: boolean
+            subnet_uuid:
+                description: "UUID of the subnet for new IP address allocation. Field introduced in 18.1.2."
+                type: string
     VssPlacement:
         type: object
         properties:
