@@ -64,6 +64,13 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
             fact_context = {key: api_context}
 
     obj_val = rsp.json() if rsp else existing_obj
+
+    if (obj_val and module.params.get("obj_username", None) and
+            "username" in obj_val):
+        obj_val["obj_username"] = obj_val["username"]
+    if (obj_val and module.params.get("obj_password", None) and
+            "password" in obj_val):
+        obj_val["obj_password"] = obj_val["password"]
     old_obj_val = existing_obj if changed and existing_obj else None
     api_context_val = api_context if disable_fact else None
     ansible_facts_val = dict(
@@ -302,8 +309,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
 
 POP_FIELDS = ['state', 'controller', 'username', 'password', 'api_version',
               'avi_credentials', 'avi_api_update_method', 'avi_api_patch_op',
-              'api_context', 'obj_password', 'obj_username', 'tenant',
-              'tenant_uuid', 'avi_disable_session_cache_as_fact']
+              'api_context', 'tenant', 'tenant_uuid', 'avi_disable_session_cache_as_fact']
 
 
 def get_api_context(module, api_creds):
@@ -371,6 +377,13 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     else:
         obj_path = '%s/' % obj_type
     obj = deepcopy(module.params)
+    tenant = obj.pop('tenant', '')
+    tenant_uuid = obj.pop('tenant_uuid', '')
+    # obj.pop('cloud_ref', None)
+    for k in POP_FIELDS:
+        obj.pop(k, None)
+    purge_optional_fields(obj, module)
+
     # Special code to handle situation where object has a field
     # named username. This is used in case of api/user
     # The following code copies the username and password
@@ -381,13 +394,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if 'obj_password' in obj:
         obj['password'] = obj['obj_password']
         obj.pop('obj_password')
-
-    tenant = obj.pop('tenant', '')
-    tenant_uuid = obj.pop('tenant_uuid', '')
-    # obj.pop('cloud_ref', None)
-    for k in POP_FIELDS:
-        obj.pop(k, None)
-    purge_optional_fields(obj, module)
+    if obj_type == "user":
+        obj['full_name'] = obj['name']
 
     log.info('passed object %s ', obj)
 
