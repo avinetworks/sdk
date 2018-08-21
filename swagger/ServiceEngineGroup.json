@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.1.2", 
+        "version": "18.1.3", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -49,7 +49,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -157,7 +157,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -225,7 +225,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -307,7 +307,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -384,7 +384,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -478,7 +478,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -555,7 +555,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -625,7 +625,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -681,7 +681,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -722,16 +722,19 @@
         "VipAutoscaleZones": {
             "type": "object", 
             "properties": {
-                "subnet_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 18.1.2."
+                "subnet_uuid": {
+                    "type": "string", 
+                    "description": "UUID of the subnet for new IP address allocation. Field introduced in 18.1.2."
                 }, 
                 "availability_zone": {
+                    "readOnly": true, 
                     "type": "string", 
-                    "description": " Field introduced in 18.1.2."
+                    "description": "Availability zone associated with the subnet. Field introduced in 18.1.2."
+                }, 
+                "fip_capable": {
+                    "readOnly": true, 
+                    "type": "boolean", 
+                    "description": "Determines if the subnet is capable of hosting publicly accessible IP. Field introduced in 18.1.2."
                 }
             }
         }, 
@@ -914,7 +917,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -1026,7 +1029,7 @@
                 "free_list_size": {
                     "default": 1024, 
                     "type": "integer", 
-                    "description": "Number of entries in the free list. Field introduced in 17.2.10.", 
+                    "description": "Number of entries in the free list. Field introduced in 17.2.10, 18.1.2.", 
                     "format": "int32"
                 }, 
                 "uuid": {
@@ -1041,7 +1044,7 @@
                 }, 
                 "se_udp_encap_ipc": {
                     "type": "integer", 
-                    "description": "Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.", 
+                    "description": "Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. Allowed values are 0-1. Field introduced in 17.1.2.", 
                     "format": "int32"
                 }, 
                 "min_cpu_usage": {
@@ -1078,6 +1081,11 @@
                     }, 
                     "type": "array", 
                     "description": "Iptable Rules."
+                }, 
+                "num_dispatcher_cores": {
+                    "type": "integer", 
+                    "description": "Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3.", 
+                    "format": "int32"
                 }, 
                 "connection_memory_percentage": {
                     "default": 50, 
@@ -1146,7 +1154,7 @@
                 }, 
                 "license_type": {
                     "type": "string", 
-                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5."
+                    "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
                 }, 
                 "se_dos_profile": {
                     "description": "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object", 
@@ -1179,6 +1187,11 @@
                 "realtime_se_metrics": {
                     "description": "Enable or disable real time SE metrics.", 
                     "$ref": "#/definitions/MetricsRealTimeUpdate"
+                }, 
+                "se_dpdk_pmd": {
+                    "type": "integer", 
+                    "description": "Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 18.1.3.", 
+                    "format": "int32"
                 }, 
                 "memory_for_config_update": {
                     "default": 15, 
@@ -1287,6 +1300,11 @@
                     "type": "boolean", 
                     "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
                 }, 
+                "ssl_preprocess_sni_hostname": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "(Beta) Preprocess SSL Client Hello for SNI hostname extension. If set to True, this will apply SNI child's SSL protocol(s) if they are different from SNI Parent's allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3."
+                }, 
                 "allow_burst": {
                     "type": "boolean", 
                     "description": "Allow SEs to be created using burst license. Field introduced in 17.2.5."
@@ -1373,9 +1391,15 @@
                     "type": "boolean", 
                     "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 }, 
+                "min_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3.", 
+                    "format": "int32"
+                }, 
                 "se_tunnel_mode": {
                     "type": "integer", 
-                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.", 
+                    "description": "Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
                 "memory_per_se": {
@@ -1448,11 +1472,11 @@
                 "n_log_streaming_threads": {
                     "default": 1, 
                     "type": "integer", 
-                    "description": "Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2.", 
+                    "description": "Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2.", 
                     "format": "int32"
                 }, 
                 "se_vs_hb_max_pkts_in_batch": {
-                    "default": 8, 
+                    "default": 64, 
                     "type": "integer", 
                     "description": "Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.", 
                     "format": "int32"
@@ -1488,6 +1512,11 @@
                     "default": 8, 
                     "type": "integer", 
                     "description": "Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "se_pcap_reinit_threshold": {
+                    "type": "integer", 
+                    "description": "Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3.", 
                     "format": "int32"
                 }, 
                 "hm_on_standby": {
@@ -1530,6 +1559,11 @@
                     "default": 10000, 
                     "type": "integer", 
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
+                    "format": "int32"
+                }, 
+                "se_use_dpdk": {
+                    "type": "integer", 
+                    "description": "Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3.", 
                     "format": "int32"
                 }, 
                 "openstack_availability_zone": {
@@ -1579,6 +1613,11 @@
                     "description": "Amount of extra memory to be reserved for use by the Operating System on a Service Engine.", 
                     "format": "int32"
                 }, 
+                "se_pcap_reinit_frequency": {
+                    "type": "integer", 
+                    "description": "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3.", 
+                    "format": "int32"
+                }, 
                 "description": {
                     "type": "string", 
                     "description": "User defined description for the object."
@@ -1612,9 +1651,8 @@
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
-                    "type": "integer", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
-                    "format": "int64"
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "license_tier": {
                     "type": "string", 
@@ -1692,12 +1730,18 @@
                 }, 
                 "suspend": {
                     "type": "boolean", 
-                    "description": "When set, scaling is suspended. Field introduced in 18.1.2."
+                    "description": "When set, scaling is suspended. Field introduced in 17.2.12,18.1.2."
                 }, 
                 "max_size": {
                     "default": 5, 
                     "type": "integer", 
                     "description": "The maximum size of the group. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "dns_cooldown": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12,18.1.2.", 
                     "format": "int32"
                 }
             }
