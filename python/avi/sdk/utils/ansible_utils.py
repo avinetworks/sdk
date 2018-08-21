@@ -387,7 +387,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if 'obj_password' in obj:
         obj['password'] = obj['obj_password']
         obj.pop('obj_password')
-    if 'full_name' not in obj and 'name' in obj and obj_type == "user":
+    if obj_type == "user":
         obj['full_name'] = obj['name']
 
     log.info('passed object %s ', obj)
