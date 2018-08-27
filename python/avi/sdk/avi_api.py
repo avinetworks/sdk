@@ -543,7 +543,7 @@ class ApiSession(Session):
         return api_hdrs
 
     def _api(self, api_name, path, tenant, tenant_uuid, data=None,
-             headers=None, timeout=None, api_version=None, **kwargs):
+             headers=None, timeout=300, api_version=None, **kwargs):
         """
         It calls the requests.Session APIs and handles session expiry
         and other situations where session needs to be reset.
@@ -636,7 +636,7 @@ class ApiSession(Session):
         }
         return result
 
-    def get(self, path, tenant='', tenant_uuid='', timeout=None, params=None,
+    def get(self, path, tenant='', tenant_uuid='', timeout=300, params=None,
             api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
@@ -659,7 +659,7 @@ class ApiSession(Session):
                          params=params, api_version=api_version, **kwargs)
 
     def get_object_by_name(self, path, name, tenant='', tenant_uuid='',
-                           timeout=None, params=None, api_version=None,
+                           timeout=300, params=None, api_version=None,
                            **kwargs):
         """
         Helper function to access Avi REST Objects using object
@@ -738,7 +738,7 @@ class ApiSession(Session):
                          api_version=api_version, **kwargs)
 
     def put(self, path, data=None, tenant='', tenant_uuid='',
-            timeout=None, params=None, api_version=None, **kwargs):
+            timeout=300, params=None, api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -762,7 +762,7 @@ class ApiSession(Session):
                          api_version=api_version, **kwargs)
 
     def patch(self, path, data=None, tenant='', tenant_uuid='',
-              timeout=None, params=None, api_version=None, **kwargs):
+              timeout=300, params=None, api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -786,7 +786,7 @@ class ApiSession(Session):
                          api_version=api_version, **kwargs)
 
     def put_by_name(self, path, name, data=None, tenant='',
-                    tenant_uuid='', timeout=None, params=None,
+                    tenant_uuid='', timeout=300, params=None,
                     api_version=None, **kwargs):
         """
         Helper function to perform HTTP PUT on Avi REST Objects using object
@@ -812,7 +812,7 @@ class ApiSession(Session):
         return self.put(path, data, tenant, tenant_uuid, timeout=timeout,
                         params=params, api_version=api_version, **kwargs)
 
-    def delete(self, path, tenant='', tenant_uuid='', timeout=None, params=None,
+    def delete(self, path, tenant='', tenant_uuid='', timeout=300, params=None,
                data=None, api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
@@ -837,7 +837,7 @@ class ApiSession(Session):
                          api_version=api_version, **kwargs)
 
     def delete_by_name(self, path, name, tenant='', tenant_uuid='',
-                       timeout=None, params=None, api_version=None, **kwargs):
+                       timeout=300, params=None, api_version=None, **kwargs):
         """
         Helper function to perform HTTP DELETE on Avi REST Objects using object
         type and name.Internally, it transforms the request to
