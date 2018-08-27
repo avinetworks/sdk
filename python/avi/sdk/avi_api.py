@@ -255,7 +255,7 @@ class ApiSession(Session):
                 self.prefix = 'https://{x}:{y}'.format(
                     x=self.avi_credentials.controller,
                     y=self.avi_credentials.port)
-        self.timeout = timeout
+        self.timeout = AviCredentials.timeout
         self.key = '%s:%s:%s' % (self.avi_credentials.controller,
                                  self.avi_credentials.username, k_port)
         # Added api token and session id to sessionDict for handle single
@@ -410,7 +410,7 @@ class ApiSession(Session):
             user_session = ApiSession(
                 controller_ip, username, password, token=token, tenant=tenant,
                 tenant_uuid=tenant_uuid, verify=verify, port=port,
-                timeout=timeout, retry_conxn_errors=retry_conxn_errors,
+                timeout=AviCredentials.timeout, retry_conxn_errors=retry_conxn_errors,
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
@@ -709,7 +709,7 @@ class ApiSession(Session):
         self._update_session_last_used()
         return obj
 
-    def post(self, path, data=None, tenant='', tenant_uuid='', timeout=None,
+    def post(self, path, data=None, tenant='', tenant_uuid='', timeout=300,
              force_uuid=None, params=None, api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
