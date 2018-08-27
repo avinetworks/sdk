@@ -734,7 +734,7 @@ class ApiSession(Session):
             headers[self.AVI_SLUG] = force_uuid
             kwargs['headers'] = headers
         return self._api('post', path, tenant, tenant_uuid, data=data,
-                         timeout=timeout, params=params,
+                         timeout=300.0, params=params,
                          api_version=api_version, **kwargs)
 
     def put(self, path, data=None, tenant='', tenant_uuid='',
