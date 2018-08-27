@@ -192,7 +192,7 @@ class ApiSession(Session):
 
     def __init__(self, controller_ip=None, username=None, password=None,
                  token=None, tenant=None, tenant_uuid=None, verify=False,
-                 port=None, timeout=60, api_version=None,
+                 port=None, timeout=300, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
                  lazy_authentication=False, max_api_retries=None):
@@ -369,7 +369,7 @@ class ApiSession(Session):
     @staticmethod
     def get_session(
             controller_ip=None, username=None, password=None, token=None, tenant=None,
-            tenant_uuid=None, verify=False, port=None, timeout=60,
+            tenant_uuid=None, verify=False, port=None, timeout=300,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
             lazy_authentication=False, max_api_retries=None):
