@@ -70,6 +70,7 @@ class PolicyConverter(object):
         """
         policy_lables = ns_config.get('bind cs policylabel', {})
         policy_config = ns_config.get('add cs policy', {})
+        cs_action_config = ns_config.get('add cs action', {})
         responder_policy_config = ns_config.get('add responder policy', {})
         rewrite_policy_config = ns_config.get('add rewrite policy', {})
         responder_action_config = ns_config.get('add responder action', {})
@@ -77,6 +78,7 @@ class PolicyConverter(object):
         bind_patset = ns_config.get('bind policy patset', {})
         patset_config = ns_config.get('add policy patset', {})
         policy_expression_config = ns_config.get('add policy expression', {})
+
         http_request_policy = {
             'rules': []
         }
@@ -161,6 +163,15 @@ class PolicyConverter(object):
                 policy, policy_type = self.get_policy_from_policy_name(
                     policy_name, policy_config, rewrite_policy_config,
                     responder_policy_config)
+
+                if policy and not targetLBVserver and 'action' in policy:
+                    cs_action = cs_action_config[policy['action']]
+                    targetLBVserver = cs_action.get('targetLBVserver', None)
+                    cs_action_cmd = ns_util.get_netscalar_full_command(
+                        'add cs action', cs_action)
+                    ns_util.add_status_row(
+                        cs_action['line_no'], 'add cs action',
+                        cs_action['attrs'][0], cs_action_cmd, STATUS_SUCCESSFUL)
 
                 if not policy:
                     skipped_status = 'Skipped: Policy is not created %s' \
@@ -618,6 +629,28 @@ class PolicyConverter(object):
                 element = re.sub('[\\\/]', '', element)
                 match["host_hdr"]["value"].append(element)
 
+        elif ('HTTP.REQ.HOSTNAME.CONTAINS' in query.upper()):
+            match = {"host_hdr": host_header}
+            match["host_hdr"]["match_criteria"] = "HDR_CONTAINS"
+            matches = re.findall('\\\\(.+?)\\\\', query)
+            if len(matches) == 0:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            for element in matches:
+                element = re.sub('[\\\/]', '', element)
+                match["host_hdr"]["value"].append(element)
+
+        elif ('HTTP.REQ.HOSTNAME.STARTSWITH' in query.upper()):
+            match = {"host_hdr": host_header}
+            match["host_hdr"]["match_criteria"] = "HDR_BEGINS_WITH"
+            matches = re.findall('\\\\(.+?)\\\\', query)
+            if len(matches) == 0:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            for element in matches:
+                element = re.sub('[\\\/]', '', element)
+                match["host_hdr"]["value"].append(element)
+
         elif ('HTTP.REQ.COOKIE' in query.upper()
               and 'CONTAINS' in query.upper()) or \
                 ('HTTP.REQ.COOKIE' in query.upper() and 'EQ(' in query.upper()):
@@ -778,7 +811,8 @@ class PolicyConverter(object):
                 element = re.sub('[\\\/]', '', element)
                 match["path"]["match_str"].append(element)
 
-        elif 'HTTP.REQ.URL.EQ' in query.upper():
+        elif ('HTTP.REQ.URL.EQ' in query.upper() or
+              'HTTP.REQ.URL.CONTAINS' in query.upper()):
             match = {"query": path_query}
             match["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
 
@@ -947,8 +981,8 @@ class PolicyConverter(object):
             policy_rule = copy.deepcopy(policy_rules)
             policy_rule['hdr_action'] = hdr_action
             if len(policy_action['attrs']) > 3:
-                matches = [policy_action['attrs'][3].replace('\\"',
-                                                            '').replace('"','')]
+                matches = [policy_action['attrs'][3].replace(
+                    '\\"', '').replace('"','')]
                 if matches:
                     value = {'val': matches[0]}
                     policy_rule['hdr_action'][0]['hdr']['value'].update(value)
@@ -959,6 +993,23 @@ class PolicyConverter(object):
                         policy_action['line_no'], ns_action_command,
                         policy_name, ns_action_complete_command,
                         STATUS_SUCCESSFUL, policy_rule)
+
+        if policy_action and policy_action['attrs'][1] == 'delete_http_header':
+            hdr_action = [{
+                'action': 'HTTP_REMOVE_HDR',
+                'hdr': {
+                    'name': policy_action['attrs'][2],
+                }
+            }]
+            policy_rule = copy.deepcopy(policy_rules)
+            policy_rule['hdr_action'] = hdr_action
+            LOG.info('Conversion successful: %s %s' % (
+                ns_action_command, policy_name))
+            # Add status successful in CSV/report for policy action
+            ns_util.add_status_row(
+                policy_action['line_no'], ns_action_command,
+                policy_name, ns_action_complete_command,
+                STATUS_SUCCESSFUL, policy_rule)
 
         elif policy_action and policy_action['attrs'][1] == 'replace':
             policy_rule = copy.deepcopy(policy_rules)
