@@ -43,6 +43,7 @@ SupportedCommands:
 - 'add gslb service'
 - 'add gslb vserver'
 - 'bind gslb vserver'
+- 'add cs action'
 
 NotApplicableCommands:
 - 'set system'

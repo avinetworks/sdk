@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.2'
+    version: '18.1.3'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -1685,6 +1685,10 @@ definitions:
                 format: double
             avg_persistent_table_usage:
                 description: "Placeholder for description of property avg_persistent_table_usage of obj type ServiceEngineResourcesScoreData field type str  type number"
+                type: number
+                format: double
+            avg_shared_memory_usage:
+                description: "Use shared memory usage in computation of SE resource penalty."
                 type: number
                 format: double
             avg_ssl_session_cache_usage:

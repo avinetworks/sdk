@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi  Object API", 
-        "version": "18.1.2", 
+        "version": "18.1.3", 
         "description": "", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2100,6 +2100,11 @@
                 "oper_state": {
                     "type": "string", 
                     "description": " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
+                }, 
+                "avg_shared_memory_usage": {
+                    "type": "number", 
+                    "description": "Use shared memory usage in computation of SE resource penalty.", 
+                    "format": "double"
                 }, 
                 "reason": {
                     "type": "string", 

@@ -10,7 +10,6 @@ from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
     AviCredentials
 
-
 if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
     log = logging.getLogger(__name__)
 else:
@@ -22,6 +21,7 @@ class AviCheckModeResponse(object):
     """
     Class to support ansible check mode.
     """
+
     def __init__(self, obj, status_code=200):
         self.obj = obj
         self.status_code = status_code
@@ -66,10 +66,10 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     obj_val = rsp.json() if rsp else existing_obj
 
     if (obj_val and module.params.get("obj_username", None) and
-            "username" in obj_val):
+                "username" in obj_val):
         obj_val["obj_username"] = obj_val["username"]
     if (obj_val and module.params.get("obj_password", None) and
-            "password" in obj_val):
+                "password" in obj_val):
         obj_val["obj_password"] = obj_val["password"]
     old_obj_val = existing_obj if changed and existing_obj else None
     api_context_val = api_context if disable_fact else None
@@ -394,7 +394,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if 'obj_password' in obj:
         obj['password'] = obj['obj_password']
         obj.pop('obj_password')
-    if obj_type == "user":
+    if 'full_name' not in obj and 'name' in obj and obj_type == "user":
         obj['full_name'] = obj['name']
 
     log.info('passed object %s ', obj)
@@ -512,7 +512,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         else:
             rsp = api.post(obj_type, data=obj, tenant=tenant,
                            tenant_uuid=tenant_uuid, api_version=api_version)
-
     return ansible_return(module, rsp, changed, req, existing_obj=existing_obj,
                           api_context=api.get_context())
 
