@@ -451,23 +451,22 @@ class LbvsConverter(object):
                         backup_pool_group = [
                             pg for pg in avi_config.get("PoolGroup", [])
                             if pg['name'] == backup_pool_group_ref]
-
-                        backup_pool_ref = ns_util.get_name(
-                            backup_pool_group[0]['members'][0]['pool_ref']
-                        )
-                        # Added backupvserver to poolgroup
-                        new_backup_pool_ref = ns_util.clone_pool(
-                            backup_pool_ref, pool_group['name'], avi_config,
-                            userprefix=self.prefix)
-                        new_backup_pool_ref = ns_util.get_object_ref(
-                            new_backup_pool_ref, OBJECT_TYPE_POOL,
-                            self.tenant_name, self.cloud_name)
-                        backup_pool = {
-                            'pool_ref': new_backup_pool_ref,
-                            'ratio': 1,
-                            'priority_label': '2'
-                        }
-                        pool_group['members'].append(backup_pool)
+                        for bkp_pg_member in backup_pool_group[0]['members']:
+                            backup_pool_ref = ns_util.get_name(
+                                bkp_pg_member['pool_ref'])
+                            # Added backupvserver to poolgroup
+                            new_backup_pool_ref = ns_util.clone_pool(
+                                backup_pool_ref, pool_group['name'], avi_config,
+                                userprefix=self.prefix)
+                            new_backup_pool_ref = ns_util.get_object_ref(
+                                new_backup_pool_ref, OBJECT_TYPE_POOL,
+                                self.tenant_name, self.cloud_name)
+                            backup_pool = {
+                                'pool_ref': new_backup_pool_ref,
+                                'ratio': 1,
+                                'priority_label': '2'
+                            }
+                            pool_group['members'].append(backup_pool)
                         backup_configured = True
                     except Exception as e:
                         update_count('warning')

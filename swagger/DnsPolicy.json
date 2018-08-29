@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "18.1.2", 
+        "version": "18.1.3", 
         "description": "CLI\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -49,7 +49,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -157,7 +157,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -220,7 +220,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -297,7 +297,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -391,7 +391,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -468,7 +468,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -764,6 +764,19 @@
                 }
             }
         }, 
+        "DnsRuleActionPoolSwitching": {
+            "type": "object", 
+            "properties": {
+                "pool_ref": {
+                    "type": "string", 
+                    "description": "Reference of the pool to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type Pool. Field introduced in 18.1.3, 17.2.12."
+                }, 
+                "pool_group_ref": {
+                    "type": "string", 
+                    "description": "Reference of the pool group to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type PoolGroup. Field introduced in 18.1.3, 17.2.12."
+                }
+            }
+        }, 
         "DnsPolicy": {
             "required": [
                 "name"
@@ -772,9 +785,8 @@
             "properties": {
                 "_last_modified": {
                     "readOnly": true, 
-                    "type": "integer", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
-                    "format": "int64"
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "name": {
                     "type": "string", 
@@ -817,13 +829,13 @@
             "type": "object", 
             "properties": {
                 "resource_record_set": {
-                    "description": "DNS resource record set - (records in the resource record set share the DNS domain name, type, and class). Field introduced in 18.1.2.", 
+                    "description": "DNS resource record set - (records in the resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2.", 
                     "$ref": "#/definitions/DnsRrSet"
                 }, 
                 "section": {
                     "default": "DNS_MESSAGE_SECTION_ANSWER", 
                     "type": "string", 
-                    "description": "DNS message section for the resource record set. Enum options - DNS_MESSAGE_SECTION_QUESTION, DNS_MESSAGE_SECTION_ANSWER, DNS_MESSAGE_SECTION_AUTHORITY, DNS_MESSAGE_SECTION_ADDITIONAL. Field introduced in 18.1.2."
+                    "description": "DNS message section for the resource record set. Enum options - DNS_MESSAGE_SECTION_QUESTION, DNS_MESSAGE_SECTION_ANSWER, DNS_MESSAGE_SECTION_AUTHORITY, DNS_MESSAGE_SECTION_ADDITIONAL. Field introduced in 17.2.12, 18.1.2."
                 }
             }
         }, 
@@ -860,7 +872,7 @@
             "type": "object", 
             "properties": {
                 "ip_address": {
-                    "description": "IP address for fqdn.", 
+                    "description": "IP address for FQDN.", 
                     "$ref": "#/definitions/IpAddr"
                 }
             }
@@ -907,7 +919,7 @@
                         "$ref": "#/definitions/DnsRuleDnsRrSet"
                     }, 
                     "type": "array", 
-                    "description": "DNS resource record sets - (resource record set share the DNS domain name, type, and class). Field introduced in 18.1.2."
+                    "description": "DNS resource record sets - (resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2."
                 }, 
                 "truncation": {
                     "type": "boolean", 
@@ -959,6 +971,10 @@
         "DnsRuleAction": {
             "type": "object", 
             "properties": {
+                "pool_switching": {
+                    "description": "Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 18.1.3, 17.2.12.", 
+                    "$ref": "#/definitions/DnsRuleActionPoolSwitching"
+                }, 
                 "allow": {
                     "description": "Allow or drop the DNS query. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/DnsRuleActionAllowDrop"
@@ -982,7 +998,7 @@
             "type": "object", 
             "properties": {
                 "cname": {
-                    "description": "Canonical name in CNAME record. Field introduced in 18.1.2.", 
+                    "description": "Canonical name in CNAME record. Field introduced in 17.2.12, 18.1.2.", 
                     "$ref": "#/definitions/DnsCnameRdata"
                 }, 
                 "ip6_addresses": {
@@ -997,27 +1013,27 @@
                         "$ref": "#/definitions/DnsARdata"
                     }, 
                     "type": "array", 
-                    "description": "IP address in A record. Field introduced in 18.1.2."
+                    "description": "IP address in A record. Field introduced in 17.2.12, 18.1.2."
                 }, 
                 "ttl": {
                     "type": "integer", 
-                    "description": "Time To Live for this DNS record. Allowed values are 0-2147483647. Field introduced in 18.1.2.", 
+                    "description": "Time To Live for this DNS record. Allowed values are 0-2147483647. Field introduced in 17.2.12, 18.1.2.", 
                     "format": "int32"
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.1.2."
+                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 17.2.12, 18.1.2."
                 }, 
                 "fqdn": {
                     "type": "string", 
-                    "description": "Fully Qualified Domain Name. Field introduced in 18.1.2."
+                    "description": "Fully Qualified Domain Name. Field introduced in 17.2.12, 18.1.2."
                 }, 
                 "nses": {
                     "items": {
                         "$ref": "#/definitions/DnsNsRdata"
                     }, 
                     "type": "array", 
-                    "description": "Name Server information in NS record. Field introduced in 18.1.2."
+                    "description": "Name Server information in NS record. Field introduced in 17.2.12, 18.1.2."
                 }
             }
         }

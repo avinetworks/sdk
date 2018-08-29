@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "18.1.2", 
+        "version": "18.1.3", 
         "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -56,7 +56,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -133,7 +133,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -227,7 +227,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -304,7 +304,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -475,7 +475,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -504,7 +504,7 @@
                 }, 
                 "se_dpdk_pmd": {
                     "type": "integer", 
-                    "description": "Controls the use of DPDK poll mode driver      0        Automatically determine based on hypervisor/NIC type    1        Unconditionally use DPDK poll mode driver    ~[0,1]   Don't use DPDK poll mode driver.", 
+                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.", 
                     "format": "int32"
                 }, 
                 "se_pcap_pkt_count": {
@@ -547,7 +547,7 @@
                 }, 
                 "se_use_dpdk": {
                     "type": "integer", 
-                    "description": "Determines if DPDK library should be used or not       0        Automatically determine based on hypervisor type    1        Use DPDK unconditionally    ~[0,1]   Don't use DPDK.", 
+                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.", 
                     "format": "int32"
                 }, 
                 "se_emulated_cores": {
@@ -726,7 +726,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -1417,9 +1417,9 @@
                     "description": "min object size.", 
                     "format": "int32"
                 }, 
-                "se_auth_ldap_servers_failover_only": {
+                "se_dump_core_on_assert": {
                     "type": "boolean", 
-                    "description": "LDAP basicauth uses multiple ldap servers in the event of a failover only."
+                    "description": "Enable core dump on assert. Field introduced in 18.1.3."
                 }, 
                 "lb_fail_max_time": {
                     "default": 5, 
@@ -1441,7 +1441,7 @@
                 "lb_batch_push_frequency": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8.", 
+                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field deprecated in 18.1.3. Field introduced in 17.2.8.", 
                     "format": "int32"
                 }, 
                 "mcache_enabled": {
@@ -1471,6 +1471,10 @@
                     "type": "integer", 
                     "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.", 
                     "format": "int32"
+                }, 
+                "se_auth_ldap_servers_failover_only": {
+                    "type": "boolean", 
+                    "description": "LDAP basicauth uses multiple ldap servers in the event of a failover only."
                 }, 
                 "se_handle_interface_routes": {
                     "type": "boolean", 
@@ -1618,6 +1622,12 @@
                     "description": " Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
+                "ns_helper_deq_interval_msec": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3.", 
+                    "format": "int32"
+                }, 
                 "dp_deq_interval_msec": {
                     "default": 20, 
                     "type": "integer", 
@@ -1660,6 +1670,12 @@
                     "description": "Number of dp_max_wait_rsp_time_sec.", 
                     "format": "int32"
                 }, 
+                "send_se_ready_timeout": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3.", 
+                    "format": "int32"
+                }, 
                 "controller_rpc_timeout": {
                     "default": 10, 
                     "type": "integer", 
@@ -1667,7 +1683,7 @@
                     "format": "int32"
                 }, 
                 "controller_registration_timeout_sec": {
-                    "default": 10, 
+                    "default": 30, 
                     "type": "integer", 
                     "description": "Number of controller_registration_timeout_sec.", 
                     "format": "int32"
@@ -1710,9 +1726,8 @@
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
-                    "type": "integer", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
-                    "format": "int64"
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "url": {
                     "readOnly": true, 
