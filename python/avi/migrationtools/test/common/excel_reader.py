@@ -141,3 +141,22 @@ def output_vs_level_status(path_to_excel):
     if len(col_list) == 2:
         return True
     else: return False
+
+def check_add_cs_action_status(path_to_excel):
+
+    path = path_to_excel
+    wb = open_workbook(path)
+    cols_id = None
+    for s in wb.sheets():
+        for col in range(s.ncols):
+            if s.cell(0, col).value == "Netscaler Command":
+                cols_id = col
+            if s.cell(0, col).value == "Status":
+                cols_status = col
+        if cols_id and cols_status:
+            for row in range(s.nrows):
+                if row == 0:
+                    continue
+                if s.cell(row, cols_id).value == 'add cs action' and \
+                                 s.cell(row, cols_status).value == 'SUCCESSFUL':
+                    return True

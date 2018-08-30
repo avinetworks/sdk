@@ -15,7 +15,7 @@ from avi.migrationtools.netscaler_converter.netscaler_converter \
 from avi.migrationtools.netscaler_converter.netscaler_parser import \
     get_ns_conf_dict
 from avi.migrationtools.test.common.excel_reader \
-    import percentage_success, output_sanitization
+    import percentage_success, output_sanitization, check_add_cs_action_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
@@ -399,6 +399,19 @@ class TestNetscalerConverter:
                     pool = [pool for pool in avi_config['Pool'] if
                             pool['name'] == pool_name][0]
                     assert pool['lb_algorithm'] == algo
+
+    @pytest.mark.travis
+    def test_add_cs_action_status(self, cleanup):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       cloud_name=file_attribute['cloud_name'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        for each_file in os.listdir(output_file):
+            filepath = os.path.join(output_file, each_file)
+            if filepath.endswith('.xlsx'):
+                assert check_add_cs_action_status(filepath)
 
 
 def teardown():
