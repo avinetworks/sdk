@@ -405,11 +405,11 @@ class TestNetscalerConverter:
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
                        cloud_name=file_attribute['cloud_name'],
-                       output_file_path=setup.get('output_file_path'),
+                       output_file_path='output',
                        controller_version=setup.get('controller_version_v17'))
 
-        for each_file in os.listdir(output_file):
-            filepath = os.path.join(output_file, each_file)
+        for each_file in os.listdir('output/'):
+            filepath = os.path.join('output/', each_file)
             if filepath.endswith('.xlsx'):
                 assert check_add_cs_action_status(filepath)
 
