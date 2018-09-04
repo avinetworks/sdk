@@ -187,7 +187,8 @@ def ref_n_str_cmp(x, y):
 
     if HTTP_REF_W_NAME_MATCH.match(y):
         path = y.split('api/', 1)[1]
-        _, uuid_or_name = path.split('/')
+        # Fetching name or uuid from path /xxxx_xx/xx/xx_x/uuid_or_name
+        uuid_or_name = path.split('/')[-1]
         parts = uuid_or_name.rsplit('#', 1)
         y_uuid = parts[0]
         y_name = parts[1] if len(parts) > 1 else ''
@@ -396,6 +397,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         obj.pop('obj_password')
     if 'full_name' not in obj and 'name' in obj and obj_type == "user":
         obj['full_name'] = obj['name']
+        # Special case as name represent full_name in user module
+        # As per API response, name is always same as username regardless of full_name
+        obj['name'] = obj['username']
 
     log.info('passed object %s ', obj)
 
