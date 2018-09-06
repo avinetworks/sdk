@@ -519,9 +519,7 @@ class PolicyConverter(object):
         }
 
         if 'true' == query.lower():
-            match = {"path": path_query}
-            match["path"]["match_str"].append('/')
-            match["path"]["match_criteria"] = "CONTAINS"
+            match = {'any': 'any'}
 
         elif 'URL ==' in query.upper() or 'REQ.HTTP.URL ==' in query.upper():
             a, b = query.split("==")
@@ -534,10 +532,11 @@ class PolicyConverter(object):
             match["path"]["match_str"].append(match_str)
             match["path"]["match_criteria"] = "EQUALS"
 
-        elif 'HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or \
-                        'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or \
-                        'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or \
-                        'HTTP.REQ.URL.STARTSWITH' in query.upper():
+        elif ('HTTP.REQ.URL.PATH_AND_QUERY.CONTAINS' in query.upper() or
+              'HTTP.REQ.URL.QUERY.CONTAINS' in query.upper() or
+              'HTTP.REQ.URL.PATH.STARTSWITH' in query.upper() or
+              'HTTP.REQ.URL.STARTSWITH' in query.upper() or
+              'HTTP.REQ.URL.CONTAINS' in query.upper()):
             match = {"query": path_query}
             match["query"]["match_criteria"] = "QUERY_MATCH_CONTAINS"
             matches = re.findall('\\\\(.+?)\\\\', query)
@@ -629,7 +628,9 @@ class PolicyConverter(object):
                 element = re.sub('[\\\/]', '', element)
                 match["host_hdr"]["value"].append(element)
 
-        elif ('HTTP.REQ.HOSTNAME.CONTAINS' in query.upper()):
+        elif ('HTTP.REQ.HOSTNAME.CONTAINS' in query.upper() or
+              ('HTTP.REQ.HOSTNAME.DOMAIN.SET_TEXT_MODE' in query.upper() and
+              'CONTAINS' in query.upper())):
             match = {"host_hdr": host_header}
             match["host_hdr"]["match_criteria"] = "HDR_CONTAINS"
             matches = re.findall('\\\\(.+?)\\\\', query)
@@ -1199,6 +1200,16 @@ class PolicyConverter(object):
                 STATUS_SUCCESSFUL, policy_rule)
         elif policy_action and policy_action['attrs'][1] == 'redirect':
             policy_rule = copy.deepcopy(policy_rules)
+            redirect_rule = policy_action['attrs'][2]
+            if '+HTTP.REQ.HOSTNAME+HTTP.REQ.URL.PATH_AND_QUERY' in \
+                redirect_rule:
+                redirect_rule = redirect_rule.replace(
+                    '+HTTP.REQ.HOSTNAME+HTTP.REQ.URL.PATH_AND_QUERY', '')
+                redirect_rule = redirect_rule.replace('"', '')
+                if redirect_rule.endswith('.'):
+                    redirect_rule = redirect_rule[:-1]
+                policy_action['attrs'][2] = redirect_rule
+
             if "\"+" in policy_action['attrs'][2] or "\" +" in \
                     policy_action['attrs'][2]:
                 msg = ("Concatenation in redirect url not supported: %s %s" % (
@@ -1216,8 +1227,12 @@ class PolicyConverter(object):
             redirect_url = ns_util.parse_url(redirect_url)
             protocol = str(redirect_url.scheme).upper()
             protocol = enable_ssl and 'HTTPS' or 'HTTP' if not protocol else \
-                        protocol
-            hostname = str(redirect_url.hostname)
+                        protocol \
+
+            hostname = None
+            if redirect_url.hostname:
+                hostname = str(redirect_url.hostname)
+
             pathstring = str(redirect_url.path)
             querystring = str(redirect_url.query)
             full_path = '%s?%s' % (pathstring, querystring) if pathstring and \
