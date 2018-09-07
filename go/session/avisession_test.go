@@ -12,6 +12,8 @@ import (
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
 var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
+var AVI_VERSION = os.Getenv("18.1.3")
+
 
 func TestMain(m *testing.M) {
 	// call flag.Parse() here if TestMain uses flags
@@ -44,7 +46,7 @@ func getAuthToken() string {
 func getSessions(t *testing.T) []*AviSession {
 	/* Test username/password authentication */
 	credentialsSession, err := NewAviSession(AVI_CONTROLLER,
-		"admin", SetPassword(AVI_PASSWORD), SetInsecure)
+		"admin", SetPassword(AVI_PASSWORD), SetInsecure, SetVersion(AVI_VERSION))
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
 	}
@@ -68,7 +70,7 @@ func getSessions(t *testing.T) []*AviSession {
 		SetInsecure)
 
 	if err != nil {
-		t.Fatalf("Session Creation failed: %s", err)
+		t.Errorf("Session Creation failed: %s", err)
 	}
 
 	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback}
@@ -139,7 +141,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	err := avisess.Post("api/pool", tpool, &res)
 	glog.Infof("res: %s, err: %s", res, err)
 	if err != nil {
-		t.Fatalf("Pool Creation failed: %s", err)
+		t.Errorf("Pool Creation failed: %s", err)
 	}
 
 	var npool2 models.Pool
@@ -161,17 +163,16 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	patch["servers"] = servers
 	err = avisess.Patch("api/pool/"+npool2.UUID, patch, "add", &npool3)
 	if err != nil{
-		t.Fatalf("Pool Patch failed %s", err)
+		t.Errorf("Pool Patch failed %s", err)
 	}
 
 	if len(npool3.Servers) != 1 {
 		t.Error("Pool Patch failed %v", npool3)
 	}
 
-
 	err = avisess.Delete("api/pool/" + npool2.UUID)
 	if err != nil {
-		t.Fatalf("Pool deletion failed: %s", err)
+		t.Errorf("Pool deletion failed: %s", err)
 	}
 }
 
@@ -186,6 +187,68 @@ func TestAviPool(t *testing.T) {
 		testAviPool(t, session)
 	}
 }
+
+
+func testAviDefaultFields(t *testing.T, avisess *AviSession) {
+	tpool := models.Pool{}
+	pname := "gosdk-test-pool"
+	tpool.Name = pname
+	tpool.InlineHealthMonitor = true
+	var res models.Pool
+	err := avisess.Post("api/pool", tpool, &res)
+	glog.Infof("res: %s, err: %s", res, err)
+	if err != nil {
+		t.Errorf("Pool Creation failed: %s", err)
+	}
+
+	if res.InlineHealthMonitor == false {
+		t.Errorf("Pool iniline health monitor setting changed")
+	}
+
+	var npool2 models.Pool
+	err = avisess.GetObjectByName("pool", pname, &npool2)
+
+	if err != nil {
+		t.Errorf("Pool %s lookup failed", pname)
+	}
+
+	if npool2.InlineHealthMonitor == false {
+		t.Errorf("Pool iniline health monitor setting changed")
+	}
+
+	server := models.Server{}
+	ipaddr := models.IPAddr{}
+	ipaddr.Addr = "10.90.164.222"
+	ipaddr.Type = "V4"
+	server.IP = &ipaddr
+	npool2.Servers = append(npool2.Servers, &server)
+	npool2.InlineHealthMonitor = false
+
+	var npool3 models.Pool
+	err = avisess.Put("api/pool/"+npool2.UUID, npool2, &npool3)
+
+	if err != nil{
+		t.Errorf("Pool Patch failed %s", err)
+	}
+
+	// AV-44749: This logic should be flipped after fixing AV-44749.
+	if npool3.InlineHealthMonitor == false {
+		t.Errorf("Pool iniline health monitor setting changed to true")
+	}
+
+	err = avisess.Delete("api/pool/" + npool2.UUID)
+	if err != nil {
+		t.Errorf("Pool deletion failed: %s", err)
+	}
+}
+
+
+func TestAviDefaultFields(t *testing.T) {
+	for _, session := range getSessions(t) {
+		testAviDefaultFields(t, session)
+	}
+}
+
 
 func bogusAuthTokenFunction() string {
 	return "incorrect-auth-token"
@@ -203,7 +266,7 @@ func TestTokenAuthRobustness(t *testing.T) {
 	var res interface{}
 	err = authTokenSessionCallback.Get("api/tenant", &res)
 	if err == nil {
-		t.Fatalf("ERROR: Expected an error from incorrect token auth")
+		t.Errorf("ERROR: Expected an error from incorrect token auth")
 	}
 
 	authTokenSession, err := NewAviSession(AVI_CONTROLLER, "admin",
@@ -211,6 +274,6 @@ func TestTokenAuthRobustness(t *testing.T) {
 		SetInsecure)
 	err = authTokenSession.Get("api/tenant", &res)
 	if err == nil {
-		t.Fatalf("ERROR: Expected an error from incorrect token auth")
+		t.Errorf("ERROR: Expected an error from incorrect token auth")
 	}
 }
