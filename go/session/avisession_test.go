@@ -12,7 +12,6 @@ import (
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
 var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
-var AVI_VERSION = os.Getenv("18.1.3")
 
 
 func TestMain(m *testing.M) {
@@ -45,8 +44,13 @@ func getAuthToken() string {
 
 func getSessions(t *testing.T) []*AviSession {
 	/* Test username/password authentication */
+
+	aviVersion, ok := os.LookupEnv("AVI_VERSION")
+	if !ok {
+		aviVersion = "18.1.3"
+	}
 	credentialsSession, err := NewAviSession(AVI_CONTROLLER,
-		"admin", SetPassword(AVI_PASSWORD), SetInsecure, SetVersion(AVI_VERSION))
+		"admin", SetPassword(AVI_PASSWORD), SetInsecure, SetVersion(aviVersion))
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
 	}
@@ -202,7 +206,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	}
 
 	if res.InlineHealthMonitor == false {
-		t.Errorf("Pool iniline health monitor setting changed")
+		t.Errorf("Pool inline health monitor setting changed")
 	}
 
 	var npool2 models.Pool
@@ -213,7 +217,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	}
 
 	if npool2.InlineHealthMonitor == false {
-		t.Errorf("Pool iniline health monitor setting changed")
+		t.Errorf("Pool inline health monitor setting changed")
 	}
 
 	server := models.Server{}
@@ -233,7 +237,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 
 	// AV-44749: This logic should be flipped after fixing AV-44749.
 	if npool3.InlineHealthMonitor == false {
-		t.Errorf("Pool iniline health monitor setting changed to true")
+		t.Errorf("Pool inline health monitor setting changed to true")
 	}
 
 	err = avisess.Delete("api/pool/" + npool2.UUID)
