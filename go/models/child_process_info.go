@@ -8,8 +8,8 @@ package models
 type ChildProcessInfo struct {
 
 	// Amount of memory (in MB) used by the sub process.
-	Memory int32 `json:"memory,omitempty"`
+	Memory *int32 `json:"memory,omitempty"`
 
 	// Process Id of the sub process.
-	Pid int32 `json:"pid,omitempty"`
+	Pid *int32 `json:"pid,omitempty"`
 }

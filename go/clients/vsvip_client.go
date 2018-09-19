@@ -88,7 +88,7 @@ func (client *VsVipClient) Create(obj *models.VsVip) (*models.VsVip, error) {
 // Update an existing VsVip object
 func (client *VsVipClient) Update(obj *models.VsVip) (*models.VsVip, error) {
 	var robj *models.VsVip
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VsVipClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

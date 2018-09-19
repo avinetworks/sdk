@@ -88,7 +88,7 @@ func (client *UserActivityClient) Create(obj *models.UserActivity) (*models.User
 // Update an existing UserActivity object
 func (client *UserActivityClient) Update(obj *models.UserActivity) (*models.UserActivity, error) {
 	var robj *models.UserActivity
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *UserActivityClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

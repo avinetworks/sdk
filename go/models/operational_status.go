@@ -14,11 +14,11 @@ type OperationalStatus struct {
 	Reason []string `json:"reason,omitempty"`
 
 	// Number of reason_code.
-	ReasonCode int64 `json:"reason_code,omitempty"`
+	ReasonCode *int64 `json:"reason_code,omitempty"`
 
 	// reason_code_string of OperationalStatus.
-	ReasonCodeString string `json:"reason_code_string,omitempty"`
+	ReasonCodeString *string `json:"reason_code_string,omitempty"`
 
 	//  Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL.
-	State string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }

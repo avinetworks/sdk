@@ -88,7 +88,7 @@ func (client *AlertSyslogConfigClient) Create(obj *models.AlertSyslogConfig) (*m
 // Update an existing AlertSyslogConfig object
 func (client *AlertSyslogConfigClient) Update(obj *models.AlertSyslogConfig) (*models.AlertSyslogConfig, error) {
 	var robj *models.AlertSyslogConfig
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *AlertSyslogConfigClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

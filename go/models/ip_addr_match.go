@@ -15,7 +15,7 @@ type IPAddrMatch struct {
 
 	// Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN.
 	// Required: true
-	MatchCriteria string `json:"match_criteria"`
+	MatchCriteria *string `json:"match_criteria"`
 
 	// IP address prefix(es).
 	Prefixes []*IPAddrPrefix `json:"prefixes,omitempty"`

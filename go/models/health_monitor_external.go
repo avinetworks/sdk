@@ -9,14 +9,14 @@ type HealthMonitorExternal struct {
 
 	// Command script provided inline.
 	// Required: true
-	CommandCode string `json:"command_code"`
+	CommandCode *string `json:"command_code"`
 
 	// Optional arguments to feed into the script.
-	CommandParameters string `json:"command_parameters,omitempty"`
+	CommandParameters *string `json:"command_parameters,omitempty"`
 
 	// Path of external health monitor script.
-	CommandPath string `json:"command_path,omitempty"`
+	CommandPath *string `json:"command_path,omitempty"`
 
 	// Environment variables to be fed into the script.
-	CommandVariables string `json:"command_variables,omitempty"`
+	CommandVariables *string `json:"command_variables,omitempty"`
 }

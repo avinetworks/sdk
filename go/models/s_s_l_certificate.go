@@ -8,22 +8,22 @@ package models
 type SSLCertificate struct {
 
 	// certificate of SSLCertificate.
-	Certificate string `json:"certificate,omitempty"`
+	Certificate *string `json:"certificate,omitempty"`
 
 	// certificate_signing_request of SSLCertificate.
-	CertificateSigningRequest string `json:"certificate_signing_request,omitempty"`
+	CertificateSigningRequest *string `json:"certificate_signing_request,omitempty"`
 
 	// Placeholder for description of property chain_verified of obj type SSLCertificate field type str  type boolean
-	ChainVerified bool `json:"chain_verified,omitempty"`
+	ChainVerified *bool `json:"chain_verified,omitempty"`
 
 	// Number of days_until_expire.
-	DaysUntilExpire int32 `json:"days_until_expire,omitempty"`
+	DaysUntilExpire *int32 `json:"days_until_expire,omitempty"`
 
 	//  Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED.
-	ExpiryStatus string `json:"expiry_status,omitempty"`
+	ExpiryStatus *string `json:"expiry_status,omitempty"`
 
 	// fingerprint of SSLCertificate.
-	Fingerprint string `json:"fingerprint,omitempty"`
+	Fingerprint *string `json:"fingerprint,omitempty"`
 
 	// Placeholder for description of property issuer of obj type SSLCertificate field type str  type object
 	Issuer *SSLCertificateDescription `json:"issuer,omitempty"`
@@ -32,25 +32,25 @@ type SSLCertificate struct {
 	KeyParams *SSLKeyParams `json:"key_params,omitempty"`
 
 	// not_after of SSLCertificate.
-	NotAfter string `json:"not_after,omitempty"`
+	NotAfter *string `json:"not_after,omitempty"`
 
 	// not_before of SSLCertificate.
-	NotBefore string `json:"not_before,omitempty"`
+	NotBefore *string `json:"not_before,omitempty"`
 
 	// public_key of SSLCertificate.
-	PublicKey string `json:"public_key,omitempty"`
+	PublicKey *string `json:"public_key,omitempty"`
 
 	// Placeholder for description of property self_signed of obj type SSLCertificate field type str  type boolean
-	SelfSigned bool `json:"self_signed,omitempty"`
+	SelfSigned *bool `json:"self_signed,omitempty"`
 
 	// serial_number of SSLCertificate.
-	SerialNumber string `json:"serial_number,omitempty"`
+	SerialNumber *string `json:"serial_number,omitempty"`
 
 	// signature of SSLCertificate.
-	Signature string `json:"signature,omitempty"`
+	Signature *string `json:"signature,omitempty"`
 
 	// signature_algorithm of SSLCertificate.
-	SignatureAlgorithm string `json:"signature_algorithm,omitempty"`
+	SignatureAlgorithm *string `json:"signature_algorithm,omitempty"`
 
 	// Placeholder for description of property subject of obj type SSLCertificate field type str  type object
 	Subject *SSLCertificateDescription `json:"subject,omitempty"`
@@ -59,8 +59,8 @@ type SSLCertificate struct {
 	SubjectAltNames []string `json:"subject_alt_names,omitempty"`
 
 	// text of SSLCertificate.
-	Text string `json:"text,omitempty"`
+	Text *string `json:"text,omitempty"`
 
 	// version of SSLCertificate.
-	Version string `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 }

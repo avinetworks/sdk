@@ -11,10 +11,10 @@ type CloneServer struct {
 	IPAddress *IPAddr `json:"ip_address,omitempty"`
 
 	// MAC Address of the Clone Server. Field introduced in 17.1.1.
-	Mac string `json:"mac,omitempty"`
+	Mac *string `json:"mac,omitempty"`
 
 	// Network to clone the traffic to. It is a reference to an object of type Network. Field introduced in 17.1.1.
-	NetworkRef string `json:"network_ref,omitempty"`
+	NetworkRef *string `json:"network_ref,omitempty"`
 
 	// Subnet of the network to clone the traffic to. Field introduced in 17.1.1.
 	Subnet *IPAddrPrefix `json:"subnet,omitempty"`

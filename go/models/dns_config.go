@@ -9,5 +9,5 @@ type DNSConfig struct {
 
 	// GSLB subdomain used for GSLB service FQDN match and placement. .
 	// Required: true
-	DomainName string `json:"domain_name"`
+	DomainName *string `json:"domain_name"`
 }

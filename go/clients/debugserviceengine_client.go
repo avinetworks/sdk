@@ -88,7 +88,7 @@ func (client *DebugServiceEngineClient) Create(obj *models.DebugServiceEngine) (
 // Update an existing DebugServiceEngine object
 func (client *DebugServiceEngineClient) Update(obj *models.DebugServiceEngine) (*models.DebugServiceEngine, error) {
 	var robj *models.DebugServiceEngine
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *DebugServiceEngineClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -88,7 +88,7 @@ func (client *PKIprofileClient) Create(obj *models.PKIprofile) (*models.PKIprofi
 // Update an existing PKIprofile object
 func (client *PKIprofileClient) Update(obj *models.PKIprofile) (*models.PKIprofile, error) {
 	var robj *models.PKIprofile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *PKIprofileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

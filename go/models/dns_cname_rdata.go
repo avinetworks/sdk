@@ -9,5 +9,5 @@ type DNSCnameRdata struct {
 
 	// Canonical name.
 	// Required: true
-	Cname string `json:"cname"`
+	Cname *string `json:"cname"`
 }

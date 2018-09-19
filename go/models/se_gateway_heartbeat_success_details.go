@@ -9,11 +9,11 @@ type SeGatewayHeartbeatSuccessDetails struct {
 
 	// IP address of gateway monitored.
 	// Required: true
-	GatewayIP string `json:"gateway_ip"`
+	GatewayIP *string `json:"gateway_ip"`
 
 	// Name of Virtual Routing Context in which this gateway is present.
-	VrfName string `json:"vrf_name,omitempty"`
+	VrfName *string `json:"vrf_name,omitempty"`
 
 	// UUID of the Virtual Routing Context in which this gateway is present.
-	VrfUUID string `json:"vrf_uuid,omitempty"`
+	VrfUUID *string `json:"vrf_uuid,omitempty"`
 }

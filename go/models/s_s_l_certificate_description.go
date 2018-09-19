@@ -8,26 +8,26 @@ package models
 type SSLCertificateDescription struct {
 
 	// common_name of SSLCertificateDescription.
-	CommonName string `json:"common_name,omitempty"`
+	CommonName *string `json:"common_name,omitempty"`
 
 	// country of SSLCertificateDescription.
-	Country string `json:"country,omitempty"`
+	Country *string `json:"country,omitempty"`
 
 	// distinguished_name of SSLCertificateDescription.
-	DistinguishedName string `json:"distinguished_name,omitempty"`
+	DistinguishedName *string `json:"distinguished_name,omitempty"`
 
 	// email_address of SSLCertificateDescription.
-	EmailAddress string `json:"email_address,omitempty"`
+	EmailAddress *string `json:"email_address,omitempty"`
 
 	// locality of SSLCertificateDescription.
-	Locality string `json:"locality,omitempty"`
+	Locality *string `json:"locality,omitempty"`
 
 	// organization of SSLCertificateDescription.
-	Organization string `json:"organization,omitempty"`
+	Organization *string `json:"organization,omitempty"`
 
 	// organization_unit of SSLCertificateDescription.
-	OrganizationUnit string `json:"organization_unit,omitempty"`
+	OrganizationUnit *string `json:"organization_unit,omitempty"`
 
 	// state of SSLCertificateDescription.
-	State string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 }

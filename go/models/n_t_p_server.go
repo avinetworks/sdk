@@ -8,7 +8,7 @@ package models
 type NTPServer struct {
 
 	// Key number from the list of trusted keys used to authenticate this server. Allowed values are 1-65534.
-	KeyNumber int32 `json:"key_number,omitempty"`
+	KeyNumber *int32 `json:"key_number,omitempty"`
 
 	// IP Address of the NTP Server.
 	// Required: true

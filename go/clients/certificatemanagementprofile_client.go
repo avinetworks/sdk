@@ -88,7 +88,7 @@ func (client *CertificateManagementProfileClient) Create(obj *models.Certificate
 // Update an existing CertificateManagementProfile object
 func (client *CertificateManagementProfileClient) Update(obj *models.CertificateManagementProfile) (*models.CertificateManagementProfile, error) {
 	var robj *models.CertificateManagementProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *CertificateManagementProfileClient) DeleteByName(name string) erro
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

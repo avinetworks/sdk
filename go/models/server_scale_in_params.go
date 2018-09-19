@@ -8,11 +8,11 @@ package models
 type ServerScaleInParams struct {
 
 	// Reason for the manual scalein.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// List of server IDs that should be scaled in.
 	Servers []*ServerID `json:"servers,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }
