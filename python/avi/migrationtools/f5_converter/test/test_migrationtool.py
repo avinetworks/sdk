@@ -1183,5 +1183,29 @@ class TestF5Converter:
                           data['name'] == policyName][0]
             assert policyName == httppolicy
 
+    @pytest.mark.travis
+    def test_check_health_monitor_request_url(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            HMObject = data['HealthMonitor']
+            monitorUrls = []
+            for monitor in HMObject:
+                if 'https_monitor' in monitor:
+                    monitorUrls.append(monitor['https_monitor'][
+                                            'http_request'])
+                elif 'http_monitor' in monitor:
+                    monitorUrls.append(monitor['http_monitor']['http_request'])
+            for eachUrl in monitorUrls:
+                request = eachUrl.split('\\r')[0]
+                assert request.endswith('HTTP/1.1') or request.endswith(
+                    'HTTP/1.0') == True
 def teardown():
     pass
