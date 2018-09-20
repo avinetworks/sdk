@@ -760,6 +760,8 @@ class ProfileConfigConvV11(ProfileConfigConv):
             cache_config['default_expire'] = \
                 profile.get('cache-max-age', final.DEFAULT_CACHE_MAX_AGE)
             max_entities = profile.get('cache-max-entries', 0)
+            if cache_config['max_object_size']:
+                cache_config['max_object_size'] = 0
             cache_config['max_cache_size'] = \
                 (int(max_entities) * int(cache_config['max_object_size']))
             exclude_uri = profile.get("cache-uri-exclude", None)
