@@ -12,7 +12,7 @@ import (
 func TestDeleteConfigurations(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
 		session.SetPassword("fr3sca$%^"),
-		session.SetTenant("admin"),
+		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
 
