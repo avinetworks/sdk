@@ -87,7 +87,7 @@ class PolicyConfigConv(object):
         :param policy_name: name of policy
         :return: skip elements for rule or message
         """
-        if 'rules' in config:
+        if 'rules' in config and not config['rules'] == 'none':
             skip_rule = dict()
             for index, each_rule in enumerate(config['rules']):
                 if config['rules'][each_rule].get('conditions') and config[
