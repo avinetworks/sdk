@@ -352,18 +352,26 @@ def create_ace_grammer():
                          Keyword('check') + name)
     grammer_12_4_1 = Keyword('rserver') + ~Word(
         'host') + name + ZeroOrMore(num)
-    grammer_12_4_2 = Keyword('inservice')
-    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_2))
+    grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
+    grammer_12_4_3 = Group(Keyword('probe') + restOfLine)
+    grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
+
+    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
+                         ZeroOrMore(grammer_12_4_4) +
+                         ZeroOrMore(grammer_12_4_2))
     grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
                          Keyword('slowstart') + num)
-    grammer_12_6 = Group(Keyword('description') + printables)
-    grammer_12_7 = Group(Keyword('predictor') + printables)
     grammer_12_6 = Group(Keyword('description') + restOfLine)
     grammer_12_7 = Group(Keyword('predictor') + restOfLine)
+    grammer_12_8 = Group(Keyword('retcode') + restOfLine)
+    grammer_12_9 = Group(Keyword('failaction') + restOfLine)
+    grammer_12_10 = Keyword('fail-on-all')
+
 
     grammer_12 = Group(grammer_12_1 + ZeroOrMore(
-        grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
-        grammer_12_5 | grammer_12_6 | grammer_12_7))
+        grammer_12_2 | grammer_12_3 | grammer_12_4 | grammer_12_5 |
+        grammer_12_6 | grammer_12_7 | grammer_12_8 | grammer_12_9 |
+        grammer_12_10))
 
     # grammer ssl
     # ssl-proxy service SSL_CLIENT
@@ -598,16 +606,18 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 #Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input configuration file.
                 elif 'rserver' in match:
-                    if len(match) == 4:
+                    if len(match) >= 4:
                         temp_dict = {
                             match[0]: match[1],
-                            'port': match[2],       #if port no is present in configuration.
-                            'enabled': match[3]     #inservice keyword
+                            # if port no is present in configuration.
+                            'port': match[2],
+                            # inservice status
+                            'enabled': match[4] if len(match) > 4 else match[3]
                         }
                     else:
                         temp_dict = {
                             match[0]: match[1],
-                            'enabled': match[2]
+                            'enabled': match[2] if len(match)>2 else 'false'
                         }
                 #Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add that filed into serverfarm otherwise just ignore.
                 if len(temp_dict.keys()) > 1:
@@ -886,4 +896,50 @@ class Parser():
         overall_grammer = create_ace_grammer()
         parsed_ace_config = parse_ace_grammer(overall_grammer, input_data, file_size, out_dict, final_excel, total_parse_count)
         return parsed_ace_config
+
+
+if __name__ == '__main__':
+    s = """
+serverfarm host sfarm_IDST-EXTADRESSBUCH-HTTPS
+  probe probe_L7_IDST-EXTADRESSBUCH-HTTPS
+  fail-on-all
+  rserver rserver_L0550022 443
+    inservice
+  rserver rserver_L0551022 443
+    inservice
+        """
+
+    name = Word(printables)
+    num = Word(nums)
+    serverfarm = Keyword('serverfarm')
+    host = Keyword('host')
+    grammer_12_1 = Group(serverfarm + host + name)
+    grammer_12_2 = Group(Keyword('probe') + name)
+    grammer_12_3 = Group(Keyword('inband-health') +
+                         Keyword('check') + name)
+    grammer_12_4_1 = Keyword('rserver') + ~Word(
+        'host') + name + ZeroOrMore(num)
+    grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
+    grammer_12_4_3 = Group(Keyword('probe')+ restOfLine)
+    grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
+
+    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
+                         ZeroOrMore(grammer_12_4_4) +
+                         ZeroOrMore(grammer_12_4_2))
+    grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
+                         Keyword('slowstart') + num)
+    # grammer_12_6 = Group(Keyword('description') + printables)
+    # grammer_12_7 = Group(Keyword('predictor') + printables)
+    grammer_12_6 = Group(Keyword('description') + restOfLine)
+    grammer_12_7 = Group(Keyword('predictor') + restOfLine)
+    grammer_12_8 = Group(Keyword('retcode') + restOfLine)
+    grammer_12_9 = Keyword('fail-on-all')
+
+    grammer_12 = Group(grammer_12_1 + ZeroOrMore(
+        grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
+        grammer_12_5 | grammer_12_6 | grammer_12_7 | grammer_12_8 |
+        grammer_12_9))
+
+    for match, start, end in grammer_12.scanString(s):
+        print match
 

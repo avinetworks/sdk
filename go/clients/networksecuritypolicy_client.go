@@ -65,6 +65,19 @@ func (client *NetworkSecurityPolicyClient) GetByName(name string) (*models.Netwo
 	return obj, err
 }
 
+// GetObject - Get an existing NetworkSecurityPolicy by filters like name, cloud, tenant
+// Api creates NetworkSecurityPolicy object with every call.
+func (client *NetworkSecurityPolicyClient) GetObject(options ...session.ApiOptionsParams) (*models.NetworkSecurityPolicy, error) {
+	var obj *models.NetworkSecurityPolicy
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("networksecuritypolicy", newOptions...)
+	return obj, err
+}
+
 // Create a new NetworkSecurityPolicy object
 func (client *NetworkSecurityPolicyClient) Create(obj *models.NetworkSecurityPolicy) (*models.NetworkSecurityPolicy, error) {
 	var robj *models.NetworkSecurityPolicy
@@ -92,4 +105,9 @@ func (client *NetworkSecurityPolicyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *NetworkSecurityPolicyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

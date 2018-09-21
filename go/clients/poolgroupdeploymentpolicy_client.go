@@ -65,6 +65,19 @@ func (client *PoolGroupDeploymentPolicyClient) GetByName(name string) (*models.P
 	return obj, err
 }
 
+// GetObject - Get an existing PoolGroupDeploymentPolicy by filters like name, cloud, tenant
+// Api creates PoolGroupDeploymentPolicy object with every call.
+func (client *PoolGroupDeploymentPolicyClient) GetObject(options ...session.ApiOptionsParams) (*models.PoolGroupDeploymentPolicy, error) {
+	var obj *models.PoolGroupDeploymentPolicy
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("poolgroupdeploymentpolicy", newOptions...)
+	return obj, err
+}
+
 // Create a new PoolGroupDeploymentPolicy object
 func (client *PoolGroupDeploymentPolicyClient) Create(obj *models.PoolGroupDeploymentPolicy) (*models.PoolGroupDeploymentPolicy, error) {
 	var robj *models.PoolGroupDeploymentPolicy
@@ -92,4 +105,9 @@ func (client *PoolGroupDeploymentPolicyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *PoolGroupDeploymentPolicyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

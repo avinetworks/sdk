@@ -152,6 +152,7 @@ class ServiceConverter(object):
                         LOG.warning(skipped_status)
                     continue
                 ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
+                service_type = lb_vs['attrs'][1]
                 algo = ns_util.get_avi_lb_algorithm(ns_algo)
                 pg_members = []
                 for element in group:
@@ -175,10 +176,26 @@ class ServiceConverter(object):
                                 pool_name, group_key, avi_config,
                                 userprefix=self.prefix)
                         pool[0]['lb_algorithm'] = algo
+                        if not pool[0].get('health_monitor_refs'):
+                            if service_type == 'TCP':
+                                pool[0]['health_monitor_refs'] = [
+                                    ns_util.get_object_ref(
+                                        'tcp-default',
+                                        OBJECT_TYPE_HEALTH_MONITOR,
+                                        self.tenant_name)]
+                            else:
+                                pool[0]['health_monitor_refs'] = [
+                                    ns_util.get_object_ref(
+                                        'ping-default',
+                                        OBJECT_TYPE_HEALTH_MONITOR,
+                                        self.tenant_name)]
                         updated_pool_ref = ns_util.get_object_ref(
                             pool_name, OBJECT_TYPE_POOL, self.tenant_name,
                             self.cloud_name)
-                        pg_members.append({'pool_ref': updated_pool_ref})
+                        pg_members.append({'pool_ref': updated_pool_ref,
+                                           'ratio': 1,
+                                           'priority_label': '10'
+                                           })
                         used_pool_ref.append(pool_name)
                         LOG.info('Conversion successful : %s' % full_cmd)
                         # Add summery of add server in CSV/report

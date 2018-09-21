@@ -65,6 +65,19 @@ func (client *VIMgrSEVMRuntimeClient) GetByName(name string) (*models.VIMgrSEVMR
 	return obj, err
 }
 
+// GetObject - Get an existing VIMgrSEVMRuntime by filters like name, cloud, tenant
+// Api creates VIMgrSEVMRuntime object with every call.
+func (client *VIMgrSEVMRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.VIMgrSEVMRuntime, error) {
+	var obj *models.VIMgrSEVMRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("vimgrsevmruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new VIMgrSEVMRuntime object
 func (client *VIMgrSEVMRuntimeClient) Create(obj *models.VIMgrSEVMRuntime) (*models.VIMgrSEVMRuntime, error) {
 	var robj *models.VIMgrSEVMRuntime
@@ -92,4 +105,9 @@ func (client *VIMgrSEVMRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *VIMgrSEVMRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

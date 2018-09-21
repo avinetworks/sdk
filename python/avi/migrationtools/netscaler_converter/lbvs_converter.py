@@ -148,11 +148,11 @@ class LbvsConverter(object):
                 if self.prefix:
                     pool_group_name = self.prefix + '-' + pool_group_name
                 pool_group_name = re.sub('[:]', '-', pool_group_name)
-                pool_group = [pool_group for pool_group in
-                              avi_config.get("PoolGroup", [])
-                              if pool_group['name'] == pool_group_name]
+                pool_group = [obj for obj in avi_config.get("PoolGroup", [])
+                              if obj['name'] == pool_group_name]
                 pool_group_ref = None
                 if pool_group:
+                    pool_group = pool_group[0]
                     pool_group_ref = pool_group_name
                     ns_algo = lb_vs.get('lbMethod', 'LEASTCONNECTIONS')
                     algo = ns_util.get_avi_lb_algorithm(ns_algo)
@@ -451,24 +451,22 @@ class LbvsConverter(object):
                         backup_pool_group = [
                             pg for pg in avi_config.get("PoolGroup", [])
                             if pg['name'] == backup_pool_group_ref]
-
-                        backup_pool_ref = ns_util.get_name(
-                            backup_pool_group[0]['members'][0]['pool_ref']
-                        )
-                        # Added backupvserver to poolgroup
-                        new_backup_pool_ref = ns_util.clone_pool(
-                            backup_pool_ref, pool_group['name'], avi_config,
-                            userprefix=self.prefix)
-                        new_backup_pool_ref = ns_util.get_object_ref(
-                            new_backup_pool_ref, OBJECT_TYPE_POOL,
-                            self.tenant_name, self.cloud_name)
-                        backup_pool = {
-                            'type': 'FAIL_ACTION_BACKUP_POOL',
-                            'backup_pool': {
-                                'backup_pool_ref': new_backup_pool_ref
+                        for bkp_pg_member in backup_pool_group[0]['members']:
+                            backup_pool_ref = ns_util.get_name(
+                                bkp_pg_member['pool_ref'])
+                            # Added backupvserver to poolgroup
+                            new_backup_pool_ref = ns_util.clone_pool(
+                                backup_pool_ref, pool_group['name'], avi_config,
+                                userprefix=self.prefix)
+                            new_backup_pool_ref = ns_util.get_object_ref(
+                                new_backup_pool_ref, OBJECT_TYPE_POOL,
+                                self.tenant_name, self.cloud_name)
+                            backup_pool = {
+                                'pool_ref': new_backup_pool_ref,
+                                'ratio': 1,
+                                'priority_label': '2'
                             }
-                        }
-                        pool_group['fail_action'] = backup_pool
+                            pool_group['members'].append(backup_pool)
                         backup_configured = True
                     except Exception as e:
                         update_count('warning')

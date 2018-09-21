@@ -65,6 +65,19 @@ func (client *HealthMonitorClient) GetByName(name string) (*models.HealthMonitor
 	return obj, err
 }
 
+// GetObject - Get an existing HealthMonitor by filters like name, cloud, tenant
+// Api creates HealthMonitor object with every call.
+func (client *HealthMonitorClient) GetObject(options ...session.ApiOptionsParams) (*models.HealthMonitor, error) {
+	var obj *models.HealthMonitor
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("healthmonitor", newOptions...)
+	return obj, err
+}
+
 // Create a new HealthMonitor object
 func (client *HealthMonitorClient) Create(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
 	var robj *models.HealthMonitor
@@ -92,4 +105,9 @@ func (client *HealthMonitorClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *HealthMonitorClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

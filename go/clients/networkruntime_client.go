@@ -65,6 +65,19 @@ func (client *NetworkRuntimeClient) GetByName(name string) (*models.NetworkRunti
 	return obj, err
 }
 
+// GetObject - Get an existing NetworkRuntime by filters like name, cloud, tenant
+// Api creates NetworkRuntime object with every call.
+func (client *NetworkRuntimeClient) GetObject(options ...session.ApiOptionsParams) (*models.NetworkRuntime, error) {
+	var obj *models.NetworkRuntime
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("networkruntime", newOptions...)
+	return obj, err
+}
+
 // Create a new NetworkRuntime object
 func (client *NetworkRuntimeClient) Create(obj *models.NetworkRuntime) (*models.NetworkRuntime, error) {
 	var robj *models.NetworkRuntime
@@ -92,4 +105,9 @@ func (client *NetworkRuntimeClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *NetworkRuntimeClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

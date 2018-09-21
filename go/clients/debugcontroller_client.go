@@ -65,6 +65,19 @@ func (client *DebugControllerClient) GetByName(name string) (*models.DebugContro
 	return obj, err
 }
 
+// GetObject - Get an existing DebugController by filters like name, cloud, tenant
+// Api creates DebugController object with every call.
+func (client *DebugControllerClient) GetObject(options ...session.ApiOptionsParams) (*models.DebugController, error) {
+	var obj *models.DebugController
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("debugcontroller", newOptions...)
+	return obj, err
+}
+
 // Create a new DebugController object
 func (client *DebugControllerClient) Create(obj *models.DebugController) (*models.DebugController, error) {
 	var robj *models.DebugController
@@ -92,4 +105,9 @@ func (client *DebugControllerClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *DebugControllerClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

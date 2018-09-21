@@ -65,6 +65,19 @@ func (client *JobEntryClient) GetByName(name string) (*models.JobEntry, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing JobEntry by filters like name, cloud, tenant
+// Api creates JobEntry object with every call.
+func (client *JobEntryClient) GetObject(options ...session.ApiOptionsParams) (*models.JobEntry, error) {
+	var obj *models.JobEntry
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("jobentry", newOptions...)
+	return obj, err
+}
+
 // Create a new JobEntry object
 func (client *JobEntryClient) Create(obj *models.JobEntry) (*models.JobEntry, error) {
 	var robj *models.JobEntry
@@ -92,4 +105,9 @@ func (client *JobEntryClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *JobEntryClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

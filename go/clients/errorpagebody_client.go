@@ -65,6 +65,19 @@ func (client *ErrorPageBodyClient) GetByName(name string) (*models.ErrorPageBody
 	return obj, err
 }
 
+// GetObject - Get an existing ErrorPageBody by filters like name, cloud, tenant
+// Api creates ErrorPageBody object with every call.
+func (client *ErrorPageBodyClient) GetObject(options ...session.ApiOptionsParams) (*models.ErrorPageBody, error) {
+	var obj *models.ErrorPageBody
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("errorpagebody", newOptions...)
+	return obj, err
+}
+
 // Create a new ErrorPageBody object
 func (client *ErrorPageBodyClient) Create(obj *models.ErrorPageBody) (*models.ErrorPageBody, error) {
 	var robj *models.ErrorPageBody
@@ -92,4 +105,9 @@ func (client *ErrorPageBodyClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *ErrorPageBodyClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

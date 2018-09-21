@@ -65,6 +65,19 @@ func (client *HardwareSecurityModuleGroupClient) GetByName(name string) (*models
 	return obj, err
 }
 
+// GetObject - Get an existing HardwareSecurityModuleGroup by filters like name, cloud, tenant
+// Api creates HardwareSecurityModuleGroup object with every call.
+func (client *HardwareSecurityModuleGroupClient) GetObject(options ...session.ApiOptionsParams) (*models.HardwareSecurityModuleGroup, error) {
+	var obj *models.HardwareSecurityModuleGroup
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("hardwaresecuritymodulegroup", newOptions...)
+	return obj, err
+}
+
 // Create a new HardwareSecurityModuleGroup object
 func (client *HardwareSecurityModuleGroupClient) Create(obj *models.HardwareSecurityModuleGroup) (*models.HardwareSecurityModuleGroup, error) {
 	var robj *models.HardwareSecurityModuleGroup
@@ -92,4 +105,9 @@ func (client *HardwareSecurityModuleGroupClient) DeleteByName(name string) error
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *HardwareSecurityModuleGroupClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

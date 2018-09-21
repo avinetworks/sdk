@@ -65,6 +65,19 @@ func (client *AutoScaleLaunchConfigClient) GetByName(name string) (*models.AutoS
 	return obj, err
 }
 
+// GetObject - Get an existing AutoScaleLaunchConfig by filters like name, cloud, tenant
+// Api creates AutoScaleLaunchConfig object with every call.
+func (client *AutoScaleLaunchConfigClient) GetObject(options ...session.ApiOptionsParams) (*models.AutoScaleLaunchConfig, error) {
+	var obj *models.AutoScaleLaunchConfig
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("autoscalelaunchconfig", newOptions...)
+	return obj, err
+}
+
 // Create a new AutoScaleLaunchConfig object
 func (client *AutoScaleLaunchConfigClient) Create(obj *models.AutoScaleLaunchConfig) (*models.AutoScaleLaunchConfig, error) {
 	var robj *models.AutoScaleLaunchConfig
@@ -92,4 +105,9 @@ func (client *AutoScaleLaunchConfigClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *AutoScaleLaunchConfigClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

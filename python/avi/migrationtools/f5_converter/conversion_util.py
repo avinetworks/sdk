@@ -100,7 +100,7 @@ class F5Util(MigrationUtil):
         return avi_algo_val
 
     def add_conv_status(self, f5_type, f5_sub_type, f5_id, conv_status,
-                        avi_object=None):
+                        avi_object=None, need_review=None):
         """
         Adds as status row in conversion status csv
         :param f5_type: Object type
@@ -121,7 +121,8 @@ class F5Util(MigrationUtil):
             'Indirect mapping': str(conv_status.get('indirect', '')),
             'Not Applicable': str(conv_status.get('na_list', '')),
             'User Ignored': str(conv_status.get('user_ignore', '')),
-            'Avi Object': str(avi_object)
+            'Avi Object': str(avi_object),
+            'Needs Review': need_review
         }
         csv_writer_dict_list.append(row)
 
@@ -268,7 +269,7 @@ class F5Util(MigrationUtil):
         return sg_obj
 
     def get_vs_ssl_profiles(self, profiles, avi_config, prefix,
-                            merge_object_mapping, sys_dict):
+                            merge_object_mapping, sys_dict, f5_config):
         """
         Searches for profile refs in converted profile config if not found
         creates default profiles
@@ -279,6 +280,7 @@ class F5Util(MigrationUtil):
         :param sys_dict: System object dict
         :return: returns list of profile refs assigned to VS in avi config
         """
+        # f5_profiles = f5_config.get("profile", {})
         vs_ssl_profile_names = []
         pool_ssl_profile_names = []
         if not profiles:
@@ -289,7 +291,6 @@ class F5Util(MigrationUtil):
         for key in profiles.keys():
             # Called tenant ref to get object name.
             tenant, name = self.get_tenant_ref(key)
-            # Added prefix for objects
             if prefix:
                 name = prefix + '-' + name
             ssl_profile_list = avi_config.get("SSLProfile", [])
@@ -300,13 +301,16 @@ class F5Util(MigrationUtil):
                                   if (obj['name'] == name or name in
                                       obj.get("dup_of", []))]
             if ssl_profiles:
+                cert_name = ssl_profiles[0].get('cert_name', None)
+                if not cert_name:
+                    cert_name = name
                 ssl_key_cert_list = avi_config.get("SSLKeyAndCertificate", [])
                 sys_key_cert = sys_dict['SSLKeyAndCertificate']
                 key_cert = [ob for ob in sys_key_cert if ob['name'] ==
-                            merge_object_mapping['ssl_cert_key'].get(name)
+                            merge_object_mapping['ssl_cert_key'].get(cert_name)
                             ] or [obj for obj in ssl_key_cert_list if
-                                  (obj['name'] == name or obj['name'] ==
-                                   name + '-dummy' or name in
+                                  (obj['name'] == cert_name or obj['name'] ==
+                                   cert_name + '-dummy' or cert_name in
                                    obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
@@ -371,9 +375,7 @@ class F5Util(MigrationUtil):
         :return: returns list of profile refs assigned to VS in avi config
         """
         app_profile_refs = []
-        policy_name = None
-        f_host = None
-        realm = None
+        app_prof_conf = dict()
         app_profile_list = avi_config.get("ApplicationProfile", [])
         unsupported_profiles = avi_config.get('UnsupportedProfiles', [])
         sys_app = sys_dict['ApplicationProfile']
@@ -400,12 +402,12 @@ class F5Util(MigrationUtil):
                     tenant=self.get_name(app_profiles[0]['tenant_ref'])))
 
                 if app_profiles[0].get('HTTPPolicySet', None):
-                    policy_name = app_profiles[0]['HTTPPolicySet']
+                    app_prof_conf['policy_name'] = app_profiles[0]['HTTPPolicySet']
                 if app_profiles[0].get('fallback_host', None):
-                    f_host = app_profiles[0]['fallback_host']
+                    app_prof_conf['f_host'] = app_profiles[0]['fallback_host']
                 # prerequisite user need to create default auth profile
                 if app_profiles[0].get('realm', None):
-                    realm = {
+                    app_prof_conf['realm'] = {
                         "type": "HTTP_BASIC_AUTH",
                         "auth_profile_ref": self.get_object_ref(
                             'System-Default-Auth-Profile', 'authprofile',
@@ -420,11 +422,19 @@ class F5Util(MigrationUtil):
             if not_supported:
                 LOG.warning(
                     'Profiles not supported by Avi : %s' % not_supported)
-                return app_profile_refs, f_host, realm, policy_name
-            if oc_prof or enable_ssl:
-                value = 'http'
+                return app_prof_conf
+            if enable_ssl:
+                app_profile_refs.append(
+                    self.get_object_ref('System-SSL-Application',
+                                        'applicationprofile', tenant='admin'))
+                app_prof_conf['app_prof'] = app_profile_refs
+                return app_prof_conf
             else:
-                value = 'fastL4'
+                app_profile_refs.append(
+                    self.get_object_ref('System-L4-Application',
+                                        'applicationprofile', tenant='admin'))
+                app_prof_conf['app_prof'] = app_profile_refs
+                return app_prof_conf
             # Added prefix for objects
             if prefix:
                 value = '%s-%s' % (prefix, value)
@@ -439,7 +449,8 @@ class F5Util(MigrationUtil):
             app_profile_refs.append(
                 self.get_object_ref(default_app_profile[0]['name'],
                                     'applicationprofile', tenant=tenant))
-        return app_profile_refs, f_host, realm, policy_name
+        app_prof_conf['app_prof'] = app_profile_refs
+        return app_prof_conf
 
     def get_vs_ntwk_profiles(self, profiles, avi_config, prefix,
                              merge_object_mapping, sys_dict):
@@ -644,8 +655,8 @@ class F5Util(MigrationUtil):
     def clone_pool(self, pool_name, clone_for, avi_pool_list, is_vs,
                    tenant=None):
         """
-        If pool is shared with other VS pool is cloned for other VS as Avi dose not
-        support shared pools with new pool name as <pool_name>-<vs_name>
+        If pool is shared with other VS pool is cloned for other VS as Avi dose
+        not support shared pools with new pool name as <pool_name>-<vs_name>
         :param pool_name: Name of the pool to be cloned
         :param clone_for: Name of the VS for pool to be cloned
         :param avi_pool_list: new pool to be added to this list
@@ -653,6 +664,7 @@ class F5Util(MigrationUtil):
         :param tenant: if pool is shared across partition then coned for tenant
         :return: new pool object
         """
+        LOG.debug("Cloning pool %s for %s " % (pool_name, clone_for))
         new_pool = None
         for pool in avi_pool_list:
             if pool["name"] == pool_name:
@@ -675,6 +687,8 @@ class F5Util(MigrationUtil):
                 new_pool["pki_profile_ref"] = None
             avi_pool_list.append(new_pool)
             pool_ref = new_pool["name"]
+            LOG.debug("Cloned pool successfully %s for %s " % (
+                new_pool["name"], clone_for))
             return pool_ref
 
     def remove_https_mon_from_pool(self, avi_config, pool_ref, tenant, sysdict):
@@ -915,6 +929,8 @@ class F5Util(MigrationUtil):
             profile.pop('fallback_host', [])
         for profile in avi_config.get('PKIProfile', []):
             profile.pop('mode', None)
+        for profile in avi_config.get('SSLProfile', []):
+            profile.pop('cert_name', None)
         if 'Tenant' in avi_config:
             for tenant in avi_config['Tenant']:
                 if tenant['name'] == 'admin':
@@ -1251,6 +1267,11 @@ class F5Util(MigrationUtil):
                     'local': True
                 })
 
+    def get_cell_format(self, workbook, cell_format_info):
+        format_col = cell_format_info['col']
+        format = workbook.add_format(cell_format_info['fromat'])
+        return format_col, format
+
     def write_status_report_and_pivot_table_in_xlsx(
             self, output_dir, report_name, vs_level_status):
         """
@@ -1270,13 +1291,13 @@ class F5Util(MigrationUtil):
                           'Not Applicable', 'User Ignored',
                           'Skipped for defaults', 'Complexity Level',
                           'VS Reference', 'Overall skipped settings',
-                          'Avi Object']
+                          'Avi Object', 'Needs Review']
         else:
             fieldnames = ['F5 type', 'F5 SubType', 'F5 ID', 'Status',
                           'Skipped settings', 'Indirect mapping',
                           'Not Applicable',
                           'User Ignored', 'Skipped for defaults',
-                          'Complexity Level', 'Avi Object']
+                          'Complexity Level', 'Avi Object', 'Needs Review']
 
         # xlsx workbook
         report_path = output_dir + os.path.sep + "%s-ConversionStatus.xlsx" % \
@@ -1980,9 +2001,6 @@ class F5Util(MigrationUtil):
                 elif rule['switching_action'].get('pool_ref'):
                     pool_ref = self.get_name(rule['switching_action'][
                                                  'pool_ref'])
-                    pool_ref = self.clone_pool(
-                        pool_ref, policy_name, avi_config['Pool'],
-                        False, tenant_name)
                     if pool_ref:
                         updated_pool_ref = self.get_object_ref(
                             pool_ref, conv_const.OBJECT_TYPE_POOL, tenant_name,
@@ -2321,3 +2339,27 @@ class F5Util(MigrationUtil):
                 avi_config['HTTPPolicySet'].append(policy)
                 converted_rules.append(rule)
         return vs_ds, req_policies, nw_policy, converted_rules
+
+    def update_with_default_profile(self, profile_type, profile,
+                                    profile_config, profile_name):
+        """
+        Profiles can have inheritance used by attribute defaults-from in F5
+        configuration this method recursively gets all the attributes from the
+        default objects and forms complete object
+        :param profile_type: type of profile
+        :param profile: currant profile object
+        :param profile_config: F5 profile config dict
+        :param profile_name: Name of profile
+        :return: Complete profile with updated attributes from defaults
+        """
+        parent_name = profile.get('defaults-from', None)
+        if parent_name and profile_name != parent_name:
+            parent_profile = profile_config.get(profile_type + " " +
+                                                parent_name, None)
+            if parent_profile:
+                parent_profile = self.update_with_default_profile(
+                    profile_type, parent_profile, profile_config, parent_name)
+                parent_profile = copy.deepcopy(parent_profile)
+                parent_profile.update(profile)
+                profile = parent_profile
+        return profile

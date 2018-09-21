@@ -15,6 +15,7 @@ from avi.migrationtools.f5_converter import conversion_util
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
 from avi.migrationtools.avi_migration_utils import update_count
+from avi.migrationtools.f5_converter.datagroup_converter import DataGroupConfigConv
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -27,7 +28,8 @@ merge_object_mapping = {
     'app_per_profile': {'no': 0},
     'pki_profile': {'no': 0},
     'health_monitor': {'no': 0},
-    'ssl_cert_key' : {'no': 0}
+    'ssl_cert_key': {'no': 0},
+    'ip_group': {'no': 0}
 }
 
 # Creating f5 object for util library.
@@ -37,7 +39,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
             con_snatpool, user_ignore, profile_path, tenant='admin',
             cloud_name='Default-Cloud', keypassphrase=None,
-            vs_level_status=False, vrf=None, segroup=None, rule_config=None):
+            vs_level_status=False, vrf=None, segroup=None,
+            custom_mappings=None):
     """
     Converts f5 config to avi config pops the config lists for conversion of
     each type from f5 config and remaining marked as skipped in the
@@ -58,8 +61,9 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param cloud_name: cloud for which config need to be converted
     :param keypassphrase: path of keypassphrase file.
     :param vs_level_status: flag to add cloumn of vs reference.
-    :param vrf vrf ref object
-    :param segroup segroup ref
+    :param vrf: vrf name to write vrf_ref value
+    :param segroup: segroup ref value for VS
+    :param custom_mappings: custom mappings to overwrite monitor or map irules
     :return: Converted avi objects
     """
 
@@ -70,7 +74,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         f5_attributes = conv_const.init(version)
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile', 'SSLKeyAndCertificate',
-                             'ApplicationPersistenceProfile', 'HealthMonitor']
+                             'ApplicationPersistenceProfile', 'HealthMonitor',
+                             'IpAddrGroup']
         for key in merge_object_type:
             sys_dict[key] = []
             avi_config_dict[key] = []
@@ -91,7 +96,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             version, f5_attributes, prefix, object_merge_check)
         mon_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                          tenant, cloud_name, controller_version,
-                         merge_object_mapping, sys_dict)
+                         merge_object_mapping, sys_dict, custom_mappings)
 
         pool_conv = PoolConfigConv.get_instance(version, f5_attributes, prefix)
         pool_conv.convert(f5_config, avi_config_dict, user_ignore, tenant,
@@ -107,10 +112,17 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         policy_conv.convert(f5_config, avi_config_dict, tenant)
 
         vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
-                                            con_snatpool, rule_config)
+                                            con_snatpool, custom_mappings)
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup)
+
+        dg_conv = DataGroupConfigConv.get_instance(
+            version, prefix, merge_object_mapping, f5_attributes)
+        dg_conv.convert(f5_config, avi_config_dict, user_ignore,
+                        tenant, merge_object_mapping, sys_dict)
+
+
         # Updating application profile from L4 to http if service has ssl enable
         conv_utils.update_app_profile(avi_config_dict, sys_dict)
         # Updated network profile to TCP PROXY if application profile is HTTP

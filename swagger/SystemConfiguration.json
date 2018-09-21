@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "18.1.2", 
+        "version": "18.1.3", 
         "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -56,7 +56,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -133,7 +133,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -227,7 +227,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -304,7 +304,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -475,7 +475,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -531,7 +531,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. If unset, the version will be defaulted to 16.4.3. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -718,9 +718,8 @@
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
-                    "type": "integer", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).", 
-                    "format": "int64"
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "dns_virtualservice_refs": {
                     "items": {
@@ -991,6 +990,10 @@
                     "type": "string", 
                     "description": "Type of SMTP Mail Service. Enum options - SMTP_NONE, SMTP_LOCAL_HOST, SMTP_SERVER, SMTP_ANONYMOUS_SERVER."
                 }, 
+                "disable_tls": {
+                    "type": "boolean", 
+                    "description": "When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3."
+                }, 
                 "auth_password": {
                     "type": "string", 
                     "description": "Password for mail server."
@@ -1186,20 +1189,24 @@
         "MgmtIpAccessControl": {
             "type": "object", 
             "properties": {
-                "snmp_access": {
-                    "description": "Configure IP addresses to access controller using SNMP.", 
+                "sysint_access": {
+                    "description": "Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3.", 
                     "$ref": "#/definitions/IpAddrMatch"
                 }, 
                 "api_access": {
                     "description": "Configure IP addresses to access controller using API.", 
                     "$ref": "#/definitions/IpAddrMatch"
                 }, 
-                "ssh_access": {
-                    "description": "Configure IP addresses to access controller using SSH.", 
+                "snmp_access": {
+                    "description": "Configure IP addresses to access controller using SNMP.", 
                     "$ref": "#/definitions/IpAddrMatch"
                 }, 
                 "shell_server_access": {
                     "description": "Configure IP addresses to access controller using CLI Shell.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "ssh_access": {
+                    "description": "Configure IP addresses to access controller using SSH.", 
                     "$ref": "#/definitions/IpAddrMatch"
                 }
             }

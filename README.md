@@ -73,7 +73,7 @@ for vs in resp.json()['results']:
     print vs['name']
 
 # delete virtualservice
-resp = api.delete('virtualservice', 'sample_vs')
+resp = api.delete_by_name('virtualservice', 'sample_vs')
 ```
 
 If ApiSession is invoked in the context of a control script, then token can be used for authentication.

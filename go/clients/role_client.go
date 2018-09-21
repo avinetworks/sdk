@@ -65,6 +65,19 @@ func (client *RoleClient) GetByName(name string) (*models.Role, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Role by filters like name, cloud, tenant
+// Api creates Role object with every call.
+func (client *RoleClient) GetObject(options ...session.ApiOptionsParams) (*models.Role, error) {
+	var obj *models.Role
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("role", newOptions...)
+	return obj, err
+}
+
 // Create a new Role object
 func (client *RoleClient) Create(obj *models.Role) (*models.Role, error) {
 	var robj *models.Role
@@ -92,4 +105,9 @@ func (client *RoleClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(res.UUID)
+}
+
+// GetAviSession
+func (client *RoleClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }
