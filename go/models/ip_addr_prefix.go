@@ -13,5 +13,5 @@ type IPAddrPrefix struct {
 
 	// Number of mask.
 	// Required: true
-	Mask int32 `json:"mask"`
+	Mask *int32 `json:"mask"`
 }

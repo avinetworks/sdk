@@ -11,5 +11,5 @@ type TCPFastPathProfile struct {
 	EnableSynProtection bool `json:"enable_syn_protection,omitempty"`
 
 	// The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'.
-	SessionIDLETimeout int32 `json:"session_idle_timeout,omitempty"`
+	SessionIDLETimeout *int32 `json:"session_idle_timeout,omitempty"`
 }

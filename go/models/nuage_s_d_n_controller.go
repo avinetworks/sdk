@@ -14,7 +14,7 @@ type NuageSDNController struct {
 	NuagePassword string `json:"nuage_password,omitempty"`
 
 	// Number of nuage_port.
-	NuagePort int32 `json:"nuage_port,omitempty"`
+	NuagePort *int32 `json:"nuage_port,omitempty"`
 
 	// nuage_username of NuageSDNController.
 	NuageUsername string `json:"nuage_username,omitempty"`

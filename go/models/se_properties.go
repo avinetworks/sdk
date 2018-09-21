@@ -25,5 +25,5 @@ type SeProperties struct {
 	URL string `json:"url,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

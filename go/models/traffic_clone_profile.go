@@ -19,7 +19,7 @@ type TrafficCloneProfile struct {
 
 	// Name for the Traffic Clone Profile. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Specifies if client IP needs to be preserved to clone destination. Field introduced in 17.1.1.
 	PreserveClientIP bool `json:"preserve_client_ip,omitempty"`

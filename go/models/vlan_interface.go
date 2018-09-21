@@ -8,14 +8,14 @@ package models
 type VlanInterface struct {
 
 	// Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean
-	DhcpEnabled bool `json:"dhcp_enabled,omitempty"`
+	DhcpEnabled *bool `json:"dhcp_enabled,omitempty"`
 
 	// if_name of VlanInterface.
 	// Required: true
-	IfName string `json:"if_name"`
+	IfName *string `json:"if_name"`
 
 	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
-	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+	Ip6AutocfgEnabled *bool `json:"ip6_autocfg_enabled,omitempty"`
 
 	// Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean
 	IsMgmt bool `json:"is_mgmt,omitempty"`

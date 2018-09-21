@@ -8,7 +8,7 @@ package models
 type OpenstackLogin struct {
 
 	// admin_tenant of OpenstackLogin.
-	AdminTenant string `json:"admin_tenant,omitempty"`
+	AdminTenant *string `json:"admin_tenant,omitempty"`
 
 	// auth_url of OpenstackLogin.
 	AuthURL string `json:"auth_url,omitempty"`
@@ -18,12 +18,12 @@ type OpenstackLogin struct {
 
 	// password of OpenstackLogin.
 	// Required: true
-	Password string `json:"password"`
+	Password *string `json:"password"`
 
 	// region of OpenstackLogin.
 	Region string `json:"region,omitempty"`
 
 	// username of OpenstackLogin.
 	// Required: true
-	Username string `json:"username"`
+	Username *string `json:"username"`
 }

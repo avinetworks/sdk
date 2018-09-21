@@ -18,17 +18,17 @@ type Network struct {
 	ConfiguredSubnets []*Subnet `json:"configured_subnets,omitempty"`
 
 	// Select the IP address management scheme for this Network.
-	DhcpEnabled bool `json:"dhcp_enabled,omitempty"`
+	DhcpEnabled *bool `json:"dhcp_enabled,omitempty"`
 
 	// When selected, excludes all discovered subnets in this network from consideration for virtual service placement.
 	ExcludeDiscoveredSubnets bool `json:"exclude_discovered_subnets,omitempty"`
 
 	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
-	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+	Ip6AutocfgEnabled *bool `json:"ip6_autocfg_enabled,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property synced_from_se of obj type Network field type str  type boolean
 	SyncedFromSe bool `json:"synced_from_se,omitempty"`
@@ -44,7 +44,7 @@ type Network struct {
 	UUID string `json:"uuid,omitempty"`
 
 	// Placeholder for description of property vcenter_dvs of obj type Network field type str  type boolean
-	VcenterDvs bool `json:"vcenter_dvs,omitempty"`
+	VcenterDvs *bool `json:"vcenter_dvs,omitempty"`
 
 	//  It is a reference to an object of type VIMgrNWRuntime.
 	// Read Only: true

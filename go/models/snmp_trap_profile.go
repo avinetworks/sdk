@@ -13,7 +13,7 @@ type SnmpTrapProfile struct {
 
 	// A user-friendly name of the SNMP trap configuration.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

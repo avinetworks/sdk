@@ -18,5 +18,5 @@ type SeUpgradeEventDetails struct {
 
 	// Unique object identifier of se.
 	// Required: true
-	SeUUID string `json:"se_uuid"`
+	SeUUID *string `json:"se_uuid"`
 }

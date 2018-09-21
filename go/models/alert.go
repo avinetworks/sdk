@@ -16,7 +16,7 @@ type Alert struct {
 
 	//  It is a reference to an object of type AlertConfig.
 	// Required: true
-	AlertConfigRef string `json:"alert_config_ref"`
+	AlertConfigRef *string `json:"alert_config_ref"`
 
 	// Placeholder for description of property app_events of obj type Alert field type str  type object
 	AppEvents []*ApplicationLog `json:"app_events,omitempty"`
@@ -38,40 +38,40 @@ type Alert struct {
 
 	// Resolved Alert Type. Enum options - ALERT_LOW, ALERT_MEDIUM, ALERT_HIGH.
 	// Required: true
-	Level string `json:"level"`
+	Level *string `json:"level"`
 
 	// Placeholder for description of property metric_info of obj type Alert field type str  type object
 	MetricInfo []*MetricLog `json:"metric_info,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// UUID of the resource.
 	// Required: true
-	ObjKey string `json:"obj_key"`
+	ObjKey *string `json:"obj_key"`
 
 	// Name of the resource.
 	ObjName string `json:"obj_name,omitempty"`
 
 	// UUID of the resource.
 	// Required: true
-	ObjUUID string `json:"obj_uuid"`
+	ObjUUID *string `json:"obj_uuid"`
 
 	// reason of Alert.
 	// Required: true
-	Reason string `json:"reason"`
+	Reason *string `json:"reason"`
 
 	// related uuids for the connection log. Only Log agent needs to fill this. Server uuid should be in formatpool_uuid-ip-port. In case of no port is set for server it shouldstill be operational port for the server.
 	RelatedUuids []string `json:"related_uuids,omitempty"`
 
 	// State of the alert. It would be active when createdIt would be changed to state read when read by the admin. Enum options - ALERT_STATE_ON, ALERT_STATE_DISMISSED, ALERT_STATE_THROTTLED.
 	// Required: true
-	State string `json:"state"`
+	State *string `json:"state"`
 
 	// summary of alert based on alert config.
 	// Required: true
-	Summary string `json:"summary"`
+	Summary *string `json:"summary"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

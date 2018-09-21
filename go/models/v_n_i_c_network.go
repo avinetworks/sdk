@@ -16,5 +16,5 @@ type VNICNetwork struct {
 
 	//  Enum options - DHCP, STATIC, VIP, DOCKER_HOST.
 	// Required: true
-	Mode string `json:"mode"`
+	Mode *string `json:"mode"`
 }

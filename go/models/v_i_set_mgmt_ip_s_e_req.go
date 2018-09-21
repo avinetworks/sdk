@@ -24,12 +24,12 @@ type VISetMgmtIPSEReq struct {
 	IPParams *VISeVMIPConfParams `json:"ip_params"`
 
 	// Placeholder for description of property power_on of obj type VISetMgmtIpSEReq field type str  type boolean
-	PowerOn bool `json:"power_on,omitempty"`
+	PowerOn *bool `json:"power_on,omitempty"`
 
 	// rm_cookie of VISetMgmtIpSEReq.
 	RmCookie string `json:"rm_cookie,omitempty"`
 
 	// Unique object identifier of sevm.
 	// Required: true
-	SevmUUID string `json:"sevm_uuid"`
+	SevmUUID *string `json:"sevm_uuid"`
 }

@@ -19,14 +19,14 @@ type APICLifsRuntime struct {
 
 	// lif_label of APICLifsRuntime.
 	// Required: true
-	LifLabel string `json:"lif_label"`
+	LifLabel *string `json:"lif_label"`
 
 	// Placeholder for description of property multi_vrf of obj type APICLifsRuntime field type str  type boolean
 	MultiVrf bool `json:"multi_vrf,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// network of APICLifsRuntime.
 	Network string `json:"network,omitempty"`
@@ -39,7 +39,7 @@ type APICLifsRuntime struct {
 
 	// tenant_name of APICLifsRuntime.
 	// Required: true
-	TenantName string `json:"tenant_name"`
+	TenantName *string `json:"tenant_name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

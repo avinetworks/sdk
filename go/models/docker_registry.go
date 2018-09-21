@@ -17,7 +17,7 @@ type DockerRegistry struct {
 	Private bool `json:"private,omitempty"`
 
 	// Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo.
-	Registry string `json:"registry,omitempty"`
+	Registry *string `json:"registry,omitempty"`
 
 	// Avi Controller will push ServiceEngine image to docker repository.
 	SeRepositoryPush bool `json:"se_repository_push,omitempty"`

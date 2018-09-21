@@ -9,7 +9,7 @@ type CustomTag struct {
 
 	// tag_key of CustomTag.
 	// Required: true
-	TagKey string `json:"tag_key"`
+	TagKey *string `json:"tag_key"`
 
 	// tag_val of CustomTag.
 	TagVal string `json:"tag_val,omitempty"`

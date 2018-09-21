@@ -15,5 +15,5 @@ type RetryPlacementParams struct {
 
 	// Indicates the vip_id that needs placement retrial. Field introduced in 17.1.2.
 	// Required: true
-	VipID string `json:"vip_id"`
+	VipID *string `json:"vip_id"`
 }

@@ -12,7 +12,7 @@ type DNSEdnsOption struct {
 
 	// EDNS option code. Enum options - EDNS_OPTION_CODE_NSID, EDNS_OPTION_CODE_DNSSEC_DAU, EDNS_OPTION_CODE_DNSSEC_DHU, EDNS_OPTION_CODE_DNSSEC_N3U, EDNS_OPTION_CODE_CLIENT_SUBNET, EDNS_OPTION_CODE_EXPIRE, EDNS_OPTION_CODE_COOKIE, EDNS_OPTION_CODE_TCP_KEEPALIVE, EDNS_OPTION_CODE_PADDING, EDNS_OPTION_CODE_CHAIN. Field introduced in 17.1.1.
 	// Required: true
-	Code string `json:"code"`
+	Code *string `json:"code"`
 
 	// Scope prefix length of address. Field introduced in 17.1.1.
 	ScopePrefixLen int32 `json:"scope_prefix_len,omitempty"`

@@ -8,7 +8,7 @@ package models
 type AdminAuthConfiguration struct {
 
 	// Allow any user created locally to login with local credentials. Field introduced in 17.1.1.
-	AllowLocalUserLogin bool `json:"allow_local_user_login,omitempty"`
+	AllowLocalUserLogin *bool `json:"allow_local_user_login,omitempty"`
 
 	//  It is a reference to an object of type AuthProfile.
 	AuthProfileRef string `json:"auth_profile_ref,omitempty"`

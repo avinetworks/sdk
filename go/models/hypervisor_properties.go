@@ -9,7 +9,7 @@ type HypervisorProperties struct {
 
 	//  Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	// Required: true
-	Htype string `json:"htype"`
+	Htype *string `json:"htype"`
 
 	// Number of max_ips_per_nic.
 	MaxIpsPerNic int32 `json:"max_ips_per_nic,omitempty"`

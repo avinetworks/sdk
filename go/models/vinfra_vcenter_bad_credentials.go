@@ -18,7 +18,7 @@ type VinfraVcenterBadCredentials struct {
 
 	// vcenter of VinfraVcenterBadCredentials.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 
 	// vcenter_name of VinfraVcenterBadCredentials.
 	VcenterName string `json:"vcenter_name,omitempty"`

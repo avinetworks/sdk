@@ -11,8 +11,8 @@ type UDPFastPathProfile struct {
 	PerPktLoadbalance bool `json:"per_pkt_loadbalance,omitempty"`
 
 	// The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600.
-	SessionIDLETimeout int32 `json:"session_idle_timeout,omitempty"`
+	SessionIDLETimeout *int32 `json:"session_idle_timeout,omitempty"`
 
 	// When disabled, Source NAT will not be performed for all client UDP packets.
-	Snat bool `json:"snat,omitempty"`
+	Snat *bool `json:"snat,omitempty"`
 }

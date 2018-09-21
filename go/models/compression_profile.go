@@ -12,7 +12,7 @@ type CompressionProfile struct {
 
 	// Compress HTTP response content if it wasn't already compressed.
 	// Required: true
-	Compression bool `json:"compression"`
+	Compression *bool `json:"compression"`
 
 	// Custom filters used when auto compression is not selected.
 	Filter []*CompressionFilter `json:"filter,omitempty"`
@@ -23,5 +23,5 @@ type CompressionProfile struct {
 
 	// Compress content automatically or add custom filters to define compressible content and compression levels. Enum options - AUTO_COMPRESSION, CUSTOM_COMPRESSION.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

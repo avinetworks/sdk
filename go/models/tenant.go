@@ -21,11 +21,11 @@ type Tenant struct {
 	Description string `json:"description,omitempty"`
 
 	// Placeholder for description of property local of obj type Tenant field type str  type boolean
-	Local bool `json:"local,omitempty"`
+	Local *bool `json:"local,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// url
 	// Read Only: true

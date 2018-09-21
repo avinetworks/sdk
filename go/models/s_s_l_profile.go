@@ -12,7 +12,7 @@ type SSLProfile struct {
 	LastModified string `json:"_last_modified,omitempty"`
 
 	// Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html).
-	AcceptedCiphers string `json:"accepted_ciphers,omitempty"`
+	AcceptedCiphers *string `json:"accepted_ciphers,omitempty"`
 
 	// Set of versions accepted by the server.
 	AcceptedVersions []*SSLVersion `json:"accepted_versions,omitempty"`
@@ -27,23 +27,23 @@ type SSLProfile struct {
 	Dhparam string `json:"dhparam,omitempty"`
 
 	// Enable SSL session re-use.
-	EnableSslSessionReuse bool `json:"enable_ssl_session_reuse,omitempty"`
+	EnableSslSessionReuse *bool `json:"enable_ssl_session_reuse,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Prefer the SSL cipher ordering presented by the client during the SSL handshake over the one specified in the SSL Profile.
 	PreferClientCipherOrdering bool `json:"prefer_client_cipher_ordering,omitempty"`
 
 	// Send 'close notify' alert message for a clean shutdown of the SSL connection.
-	SendCloseNotify bool `json:"send_close_notify,omitempty"`
+	SendCloseNotify *bool `json:"send_close_notify,omitempty"`
 
 	// Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object
 	SslRating *SSLRating `json:"ssl_rating,omitempty"`
 
 	// The amount of time before an SSL session expires.
-	SslSessionTimeout int32 `json:"ssl_session_timeout,omitempty"`
+	SslSessionTimeout *int32 `json:"ssl_session_timeout,omitempty"`
 
 	// Placeholder for description of property tags of obj type SSLProfile field type str  type object
 	Tags []*Tag `json:"tags,omitempty"`
@@ -52,7 +52,7 @@ type SSLProfile struct {
 	TenantRef string `json:"tenant_ref,omitempty"`
 
 	// SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8.
-	Type string `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// url
 	// Read Only: true

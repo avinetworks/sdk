@@ -40,7 +40,7 @@ type PoolGroup struct {
 
 	// The name of the pool group.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority. It is a reference to an object of type PriorityLabels.
 	PriorityLabelsRef string `json:"priority_labels_ref,omitempty"`

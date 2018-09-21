@@ -9,7 +9,7 @@ type VIVMVnicInfo struct {
 
 	// mac_addr of VIVmVnicInfo.
 	// Required: true
-	MacAddr string `json:"mac_addr"`
+	MacAddr *string `json:"mac_addr"`
 
 	// vcenter_portgroup of VIVmVnicInfo.
 	VcenterPortgroup string `json:"vcenter_portgroup,omitempty"`

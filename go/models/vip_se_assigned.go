@@ -11,8 +11,7 @@ type VipSeAssigned struct {
 	AdminDownRequested bool `json:"admin_down_requested,omitempty"`
 
 	// Placeholder for description of property connected of obj type VipSeAssigned field type str  type boolean
-	// Required: true
-	Connected bool `json:"connected"`
+	Connected bool `json:"connected,omitempty"`
 
 	// Name of the object.
 	Name string `json:"name,omitempty"`

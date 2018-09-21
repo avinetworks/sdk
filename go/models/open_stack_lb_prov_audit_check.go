@@ -18,16 +18,16 @@ type OpenStackLbProvAuditCheck struct {
 
 	// id of OpenStackLbProvAuditCheck.
 	// Required: true
-	ID string `json:"id"`
+	ID *string `json:"id"`
 
 	// result of OpenStackLbProvAuditCheck.
 	Result string `json:"result,omitempty"`
 
 	// tenant of OpenStackLbProvAuditCheck.
 	// Required: true
-	Tenant string `json:"tenant"`
+	Tenant *string `json:"tenant"`
 
 	// user of OpenStackLbProvAuditCheck.
 	// Required: true
-	User string `json:"user"`
+	User *string `json:"user"`
 }

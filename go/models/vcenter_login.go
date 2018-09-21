@@ -11,13 +11,13 @@ type VcenterLogin struct {
 	CloudUUID string `json:"cloud_uuid,omitempty"`
 
 	// password of VcenterLogin.
-	Password string `json:"password,omitempty"`
+	Password *string `json:"password,omitempty"`
 
 	// Number of start_ts.
 	StartTs int64 `json:"start_ts,omitempty"`
 
 	// username of VcenterLogin.
-	Username string `json:"username,omitempty"`
+	Username *string `json:"username,omitempty"`
 
 	// vcenter_url of VcenterLogin.
 	VcenterURL string `json:"vcenter_url,omitempty"`

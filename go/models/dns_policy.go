@@ -19,7 +19,7 @@ type DNSPolicy struct {
 
 	// Name of the DNS Policy. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// DNS rules. Field introduced in 17.1.1.
 	Rule []*DNSRule `json:"rule,omitempty"`

@@ -19,7 +19,7 @@ type HTTPResponseRule struct {
 
 	// Index of the rule.
 	// Required: true
-	Index int32 `json:"index"`
+	Index *int32 `json:"index"`
 
 	// Location header rewrite action.
 	LocHdrAction *HTTPRewriteLocHdrAction `json:"loc_hdr_action,omitempty"`
@@ -32,5 +32,5 @@ type HTTPResponseRule struct {
 
 	// Name of the rule.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }

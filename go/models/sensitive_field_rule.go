@@ -8,7 +8,7 @@ package models
 type SensitiveFieldRule struct {
 
 	// Action for the matched log field, for instance the matched field can be removed or masked off. Enum options - LOG_FIELD_REMOVE, LOG_FIELD_MASKOFF. Field introduced in 17.2.10, 18.1.2.
-	Action string `json:"action,omitempty"`
+	Action *string `json:"action,omitempty"`
 
 	// Enable rule to match the sensitive fields. Field introduced in 17.2.10, 18.1.2.
 	Enabled bool `json:"enabled,omitempty"`

@@ -15,7 +15,7 @@ type CustomParams struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// value of CustomParams.
 	Value string `json:"value,omitempty"`

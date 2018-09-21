@@ -15,7 +15,7 @@ type Scheduler struct {
 	BackupConfigRef string `json:"backup_config_ref,omitempty"`
 
 	// Placeholder for description of property enabled of obj type Scheduler field type str  type boolean
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// Scheduler end date and time.
 	EndDateTime string `json:"end_date_time,omitempty"`
@@ -28,7 +28,7 @@ type Scheduler struct {
 
 	// Name of scheduler.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Scheduler Run Mode. Enum options - RUN_MODE_PERIODIC, RUN_MODE_AT, RUN_MODE_NOW.
 	RunMode string `json:"run_mode,omitempty"`
@@ -37,7 +37,7 @@ type Scheduler struct {
 	RunScriptRef string `json:"run_script_ref,omitempty"`
 
 	// Define Scheduler Action. Enum options - SCHEDULER_ACTION_RUN_A_SCRIPT, SCHEDULER_ACTION_BACKUP.
-	SchedulerAction string `json:"scheduler_action,omitempty"`
+	SchedulerAction *string `json:"scheduler_action,omitempty"`
 
 	// Scheduler start date and time.
 	StartDateTime string `json:"start_date_time,omitempty"`

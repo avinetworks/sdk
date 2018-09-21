@@ -12,5 +12,5 @@ type URIParam struct {
 
 	// URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

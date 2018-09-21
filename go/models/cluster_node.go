@@ -15,7 +15,7 @@ type ClusterNode struct {
 	IP *IPAddr `json:"ip"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Public IP address or hostname of the controller VM. Field introduced in 17.2.3.
 	PublicIPOrName *IPAddr `json:"public_ip_or_name,omitempty"`

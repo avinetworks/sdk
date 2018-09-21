@@ -9,7 +9,7 @@ type HttpsecurityAction struct {
 
 	// Type of the security action to perform. Enum options - HTTP_SECURITY_ACTION_CLOSE_CONN, HTTP_SECURITY_ACTION_SEND_RESPONSE, HTTP_SECURITY_ACTION_ALLOW, HTTP_SECURITY_ACTION_REDIRECT_TO_HTTPS, HTTP_SECURITY_ACTION_RATE_LIMIT.
 	// Required: true
-	Action string `json:"action"`
+	Action *string `json:"action"`
 
 	// File to be used for generating HTTP local response.
 	File *HTTPLocalFile `json:"file,omitempty"`

@@ -12,14 +12,14 @@ type AnomalyEventDetails struct {
 
 	// metric_id of AnomalyEventDetails.
 	// Required: true
-	MetricID string `json:"metric_id"`
+	MetricID *string `json:"metric_id"`
 
 	// metric_timestamp of AnomalyEventDetails.
 	// Required: true
-	MetricTimestamp string `json:"metric_timestamp"`
+	MetricTimestamp *string `json:"metric_timestamp"`
 
 	// Deprecated. Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS.
-	Model string `json:"model,omitempty"`
+	Model *string `json:"model,omitempty"`
 
 	//  Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS.
 	Models []string `json:"models,omitempty"`
@@ -38,7 +38,7 @@ type AnomalyEventDetails struct {
 
 	//  Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW.
 	// Required: true
-	Priority string `json:"priority"`
+	Priority *string `json:"priority"`
 
 	// server of AnomalyEventDetails.
 	Server string `json:"server,omitempty"`

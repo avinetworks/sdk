@@ -8,7 +8,7 @@ package models
 type SeHBEventDetails struct {
 
 	// HB Request/Response not received.
-	HbType int32 `json:"hb_type,omitempty"`
+	HbType *int32 `json:"hb_type,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
 	SeRef1 string `json:"se_ref1,omitempty"`

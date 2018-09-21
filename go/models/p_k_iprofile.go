@@ -18,7 +18,7 @@ type PKIprofile struct {
 	CreatedBy string `json:"created_by,omitempty"`
 
 	// When enabled, Avi will verify via CRL checks that certificates in the trust chain have not been revoked.
-	CrlCheck bool `json:"crl_check,omitempty"`
+	CrlCheck *bool `json:"crl_check,omitempty"`
 
 	// Certificate Revocation Lists.
 	Crls []*CRL `json:"crls,omitempty"`
@@ -31,7 +31,7 @@ type PKIprofile struct {
 
 	// Name of the PKI Profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
@@ -44,5 +44,5 @@ type PKIprofile struct {
 	UUID string `json:"uuid,omitempty"`
 
 	// When enabled, Avi will only validate the revocation status of the leaf certificate using CRL. To enable validation for the entire chain, disable this option and provide all the relevant CRLs.
-	ValidateOnlyLeafCrl bool `json:"validate_only_leaf_crl,omitempty"`
+	ValidateOnlyLeafCrl *bool `json:"validate_only_leaf_crl,omitempty"`
 }

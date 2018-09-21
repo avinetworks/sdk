@@ -15,8 +15,8 @@ type DNSGeoLocationMatch struct {
 
 	// Criterion to use for matching the client IP's geographical location. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.1.5.
 	// Required: true
-	MatchCriteria string `json:"match_criteria"`
+	MatchCriteria *string `json:"match_criteria"`
 
 	// Use the IP address from the EDNS client subnet option, if available, to derive geo location of the DNS query. Field introduced in 17.1.5.
-	UseEdnsClientSubnetIP bool `json:"use_edns_client_subnet_ip,omitempty"`
+	UseEdnsClientSubnetIP *bool `json:"use_edns_client_subnet_ip,omitempty"`
 }

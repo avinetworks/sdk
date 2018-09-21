@@ -21,5 +21,5 @@ type VsScaleinParams struct {
 
 	//  Field introduced in 17.1.1.
 	// Required: true
-	VipID string `json:"vip_id"`
+	VipID *string `json:"vip_id"`
 }

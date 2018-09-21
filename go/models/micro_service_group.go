@@ -19,7 +19,7 @@ type MicroServiceGroup struct {
 
 	// Name of the MicroService group.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Configure MicroService(es). It is a reference to an object of type MicroService.
 	ServiceRefs []string `json:"service_refs,omitempty"`

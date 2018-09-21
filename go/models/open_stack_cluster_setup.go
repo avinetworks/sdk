@@ -21,7 +21,7 @@ type OpenStackClusterSetup struct {
 
 	// keystone_host of OpenStackClusterSetup.
 	// Required: true
-	KeystoneHost string `json:"keystone_host"`
+	KeystoneHost *string `json:"keystone_host"`
 
 	//  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
 	Privilege string `json:"privilege,omitempty"`

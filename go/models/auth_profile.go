@@ -22,7 +22,7 @@ type AuthProfile struct {
 
 	// Name of the Auth Profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// SAML settings. Field introduced in 17.2.3.
 	Saml *SamlSettings `json:"saml,omitempty"`
@@ -35,7 +35,7 @@ type AuthProfile struct {
 
 	// Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

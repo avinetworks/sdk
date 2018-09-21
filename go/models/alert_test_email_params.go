@@ -9,11 +9,11 @@ type AlertTestEmailParams struct {
 
 	// The Subject line of the originating email from  Avi Controller.
 	// Required: true
-	Subject string `json:"subject"`
+	Subject *string `json:"subject"`
 
 	// The email context.
 	// Required: true
-	Text string `json:"text"`
+	Text *string `json:"text"`
 
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`

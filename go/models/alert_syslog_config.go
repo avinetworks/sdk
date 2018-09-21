@@ -16,7 +16,7 @@ type AlertSyslogConfig struct {
 
 	// A user-friendly name of the syslog notification.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// The list of syslog servers.
 	SyslogServers []*AlertSyslogServer `json:"syslog_servers,omitempty"`

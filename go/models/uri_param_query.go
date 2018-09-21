@@ -11,5 +11,5 @@ type URIParamQuery struct {
 	AddString string `json:"add_string,omitempty"`
 
 	// Use or drop the query of the incoming request URI in the request URI to the backend server.
-	KeepQuery bool `json:"keep_query,omitempty"`
+	KeepQuery *bool `json:"keep_query,omitempty"`
 }

@@ -15,7 +15,7 @@ type VCASetup struct {
 
 	// instance of VCASetup.
 	// Required: true
-	Instance string `json:"instance"`
+	Instance *string `json:"instance"`
 
 	//  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
 	Privilege string `json:"privilege,omitempty"`

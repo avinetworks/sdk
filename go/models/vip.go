@@ -14,7 +14,7 @@ type Vip struct {
 	AutoAllocateIP bool `json:"auto_allocate_ip,omitempty"`
 
 	// Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1.
-	AutoAllocateIPType string `json:"auto_allocate_ip_type,omitempty"`
+	AutoAllocateIPType *string `json:"auto_allocate_ip_type,omitempty"`
 
 	// Availability-zone to place the Virtual Service. Field introduced in 17.1.1.
 	AvailabilityZone string `json:"availability_zone,omitempty"`
@@ -29,7 +29,7 @@ type Vip struct {
 	DiscoveredNetworks []*DiscoveredNetwork `json:"discovered_networks,omitempty"`
 
 	// Enable or disable the Vip. Field introduced in 17.1.1.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// Floating IPv4 to associate with this Vip. Field introduced in 17.1.1.
 	FloatingIP *IPAddr `json:"floating_ip,omitempty"`
@@ -72,5 +72,5 @@ type Vip struct {
 
 	// Unique ID associated with the vip. Field introduced in 17.1.1.
 	// Required: true
-	VipID string `json:"vip_id"`
+	VipID *string `json:"vip_id"`
 }

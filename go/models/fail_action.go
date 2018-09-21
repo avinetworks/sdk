@@ -18,5 +18,5 @@ type FailAction struct {
 
 	// Enables a response to client when pool experiences a failure. By default TCP connection is closed. Enum options - FAIL_ACTION_HTTP_REDIRECT, FAIL_ACTION_HTTP_LOCAL_RSP, FAIL_ACTION_CLOSE_CONN, FAIL_ACTION_BACKUP_POOL.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

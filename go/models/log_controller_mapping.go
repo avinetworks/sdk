@@ -15,7 +15,7 @@ type LogControllerMapping struct {
 	ControllerIP string `json:"controller_ip,omitempty"`
 
 	//  Enum options - METRICS_MGR_PORT_0, METRICS_MGR_PORT_1, METRICS_MGR_PORT_2, METRICS_MGR_PORT_3.
-	MetricsMgrPort string `json:"metrics_mgr_port,omitempty"`
+	MetricsMgrPort *string `json:"metrics_mgr_port,omitempty"`
 
 	// Unique object identifier of node.
 	NodeUUID string `json:"node_uuid,omitempty"`
@@ -24,7 +24,7 @@ type LogControllerMapping struct {
 	PrevControllerIP string `json:"prev_controller_ip,omitempty"`
 
 	//  Enum options - METRICS_MGR_PORT_0, METRICS_MGR_PORT_1, METRICS_MGR_PORT_2, METRICS_MGR_PORT_3.
-	PrevMetricsMgrPort string `json:"prev_metrics_mgr_port,omitempty"`
+	PrevMetricsMgrPort *string `json:"prev_metrics_mgr_port,omitempty"`
 
 	// Placeholder for description of property static_mapping of obj type LogControllerMapping field type str  type boolean
 	StaticMapping bool `json:"static_mapping,omitempty"`
@@ -41,5 +41,5 @@ type LogControllerMapping struct {
 
 	// Unique object identifier of vs.
 	// Required: true
-	VsUUID string `json:"vs_uuid"`
+	VsUUID *string `json:"vs_uuid"`
 }

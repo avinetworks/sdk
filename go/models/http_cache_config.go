@@ -8,16 +8,16 @@ package models
 type HTTPCacheConfig struct {
 
 	// Add an Age header to content served from cache, which indicates to the client the number of seconds the object has been in the cache.
-	AgeHeader bool `json:"age_header,omitempty"`
+	AgeHeader *bool `json:"age_header,omitempty"`
 
 	// Enable/disable caching objects without Cache-Control headers.
 	Aggressive bool `json:"aggressive,omitempty"`
 
 	// If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache.
-	DateHeader bool `json:"date_header,omitempty"`
+	DateHeader *bool `json:"date_header,omitempty"`
 
 	// Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting.
-	DefaultExpire int32 `json:"default_expire,omitempty"`
+	DefaultExpire *int32 `json:"default_expire,omitempty"`
 
 	// Enable/disable HTTP object caching.
 	Enabled bool `json:"enabled,omitempty"`
@@ -32,7 +32,7 @@ type HTTPCacheConfig struct {
 	MaxCacheSize int64 `json:"max_cache_size,omitempty"`
 
 	// Maximum size of an object to store in the cache.
-	MaxObjectSize int32 `json:"max_object_size,omitempty"`
+	MaxObjectSize *int32 `json:"max_object_size,omitempty"`
 
 	// Blacklist string group of non-cacheable mime types. It is a reference to an object of type StringGroup.
 	MimeTypesBlackGroupRefs []string `json:"mime_types_black_group_refs,omitempty"`
@@ -47,7 +47,7 @@ type HTTPCacheConfig struct {
 	MimeTypesList []string `json:"mime_types_list,omitempty"`
 
 	// Minimum size of an object to store in the cache.
-	MinObjectSize int32 `json:"min_object_size,omitempty"`
+	MinObjectSize *int32 `json:"min_object_size,omitempty"`
 
 	// Allow caching of objects whose URI included a query argument.  When disabled, these objects are not cached.  When enabled, the request must match the URI query to be considered a hit.
 	QueryCacheable bool `json:"query_cacheable,omitempty"`
@@ -56,5 +56,5 @@ type HTTPCacheConfig struct {
 	URINonCacheable *PathMatch `json:"uri_non_cacheable,omitempty"`
 
 	// Add an X-Cache header to content served from cache, which indicates to the client that the object was served from an intermediate cache.
-	XcacheHeader bool `json:"xcache_header,omitempty"`
+	XcacheHeader *bool `json:"xcache_header,omitempty"`
 }

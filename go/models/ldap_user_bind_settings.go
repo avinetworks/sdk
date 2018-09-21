@@ -11,7 +11,7 @@ type LdapUserBindSettings struct {
 	DnTemplate string `json:"dn_template,omitempty"`
 
 	// LDAP token is replaced with real user name in the user DN pattern.
-	Token string `json:"token,omitempty"`
+	Token *string `json:"token,omitempty"`
 
 	// LDAP user attributes to fetch on a successful user bind.
 	UserAttributes []string `json:"user_attributes,omitempty"`

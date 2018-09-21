@@ -20,13 +20,13 @@ type LinuxServerConfiguration struct {
 	SeLogDiskPath string `json:"se_log_disk_path,omitempty"`
 
 	// SE Client Log disk size for cloud.
-	SeLogDiskSizeGB int32 `json:"se_log_disk_size_GB,omitempty"`
+	SeLogDiskSizeGB *int32 `json:"se_log_disk_size_GB,omitempty"`
 
 	// SE System Logs disk path for cloud.
 	SeSysDiskPath string `json:"se_sys_disk_path,omitempty"`
 
 	// SE System Logs disk size for cloud.
-	SeSysDiskSizeGB int32 `json:"se_sys_disk_size_GB,omitempty"`
+	SeSysDiskSizeGB *int32 `json:"se_sys_disk_size_GB,omitempty"`
 
 	// Parameters for SSH to hosts. Field deprecated in 17.1.1.
 	SSHAttr *SSHSeDeployment `json:"ssh_attr,omitempty"`

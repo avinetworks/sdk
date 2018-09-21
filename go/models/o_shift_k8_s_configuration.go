@@ -8,10 +8,10 @@ package models
 type OShiftK8SConfiguration struct {
 
 	// Sync frequency in seconds with frameworks.
-	AppSyncFrequency int32 `json:"app_sync_frequency,omitempty"`
+	AppSyncFrequency *int32 `json:"app_sync_frequency,omitempty"`
 
 	// Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8.
-	AutoAssignFqdn bool `json:"auto_assign_fqdn,omitempty"`
+	AutoAssignFqdn *bool `json:"auto_assign_fqdn,omitempty"`
 
 	// Avi Linux bridge subnet on OpenShift/K8s nodes.
 	AviBridgeSubnet *IPAddrPrefix `json:"avi_bridge_subnet,omitempty"`
@@ -26,13 +26,13 @@ type OShiftK8SConfiguration struct {
 	ClusterTag string `json:"cluster_tag,omitempty"`
 
 	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP.
-	ContainerPortMatchHTTPService bool `json:"container_port_match_http_service,omitempty"`
+	ContainerPortMatchHTTPService *bool `json:"container_port_match_http_service,omitempty"`
 
 	// Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change.
-	CoredumpDirectory string `json:"coredump_directory,omitempty"`
+	CoredumpDirectory *string `json:"coredump_directory,omitempty"`
 
 	// If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration.
-	DefaultServiceAsEastWestService bool `json:"default_service_as_east_west_service,omitempty"`
+	DefaultServiceAsEastWestService *bool `json:"default_service_as_east_west_service,omitempty"`
 
 	// Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.
 	DefaultSharedVirtualservice *OshiftSharedVirtualService `json:"default_shared_virtualservice,omitempty"`
@@ -56,10 +56,10 @@ type OShiftK8SConfiguration struct {
 	EastWestPlacementSubnet *IPAddrPrefix `json:"east_west_placement_subnet,omitempty"`
 
 	// Enable Kubernetes event subscription.
-	EnableEventSubscription bool `json:"enable_event_subscription,omitempty"`
+	EnableEventSubscription *bool `json:"enable_event_subscription,omitempty"`
 
 	// Enable proxy ARP from Host interface for Front End  proxies.
-	FeproxyVipsEnableProxyArp bool `json:"feproxy_vips_enable_proxy_arp,omitempty"`
+	FeproxyVipsEnableProxyArp *bool `json:"feproxy_vips_enable_proxy_arp,omitempty"`
 
 	// Optional fleet remote endpoint if fleet is used for SE deployment.
 	FleetEndpoint string `json:"fleet_endpoint,omitempty"`
@@ -85,14 +85,17 @@ type OShiftK8SConfiguration struct {
 	// Nuage Overlay SDN Controller information.
 	NuageController *NuageSDNController `json:"nuage_controller,omitempty"`
 
+	// Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3.
+	OverrideServicePorts bool `json:"override_service_ports,omitempty"`
+
 	// Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.
 	RoutesShareVirtualservice bool `json:"routes_share_virtualservice,omitempty"`
 
 	// Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode.
-	SdnOverlay bool `json:"sdn_overlay,omitempty"`
+	SdnOverlay *bool `json:"sdn_overlay,omitempty"`
 
 	// Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD.
-	SeDeploymentMethod string `json:"se_deployment_method,omitempty"`
+	SeDeploymentMethod *string `json:"se_deployment_method,omitempty"`
 
 	// Exclude hosts with attributes for SE creation.
 	SeExcludeAttributes []*MesosAttribute `json:"se_exclude_attributes,omitempty"`
@@ -104,10 +107,10 @@ type OShiftK8SConfiguration struct {
 	SeIncludeAttributes []*MesosAttribute `json:"se_include_attributes,omitempty"`
 
 	// New SE spawn rate per minute.
-	SeSpawnRate int32 `json:"se_spawn_rate,omitempty"`
+	SeSpawnRate *int32 `json:"se_spawn_rate,omitempty"`
 
 	// Host volume to be used as a disk for Avi SE, This is a disruptive change.
-	SeVolume string `json:"se_volume,omitempty"`
+	SeVolume *string `json:"se_volume,omitempty"`
 
 	// Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1.
 	SecureEgressMode bool `json:"secure_egress_mode,omitempty"`
@@ -129,6 +132,9 @@ type OShiftK8SConfiguration struct {
 
 	// If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se.
 	UseControllerImage bool `json:"use_controller_image,omitempty"`
+
+	// Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13, 18.1.4.
+	UseResourceDefinitionAsSsot bool `json:"use_resource_definition_as_ssot,omitempty"`
 
 	// Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled.
 	UseSchedulingDisabledNodes bool `json:"use_scheduling_disabled_nodes,omitempty"`

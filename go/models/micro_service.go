@@ -13,7 +13,7 @@ type MicroService struct {
 
 	// application_name of MicroService.
 	// Required: true
-	ApplicationName string `json:"application_name"`
+	ApplicationName *string `json:"application_name"`
 
 	// Checksum of cloud configuration for Microservice. Internally set by cloud connector. Field introduced in 17.2.8.
 	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
@@ -32,11 +32,11 @@ type MicroService struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// orchestrator_name of MicroService.
 	// Required: true
-	OrchestratorName string `json:"orchestrator_name"`
+	OrchestratorName *string `json:"orchestrator_name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

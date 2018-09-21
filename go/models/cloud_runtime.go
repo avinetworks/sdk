@@ -13,7 +13,7 @@ type CloudRuntime struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property network_sync_complete of obj type CloudRuntime field type str  type boolean
 	NetworkSyncComplete bool `json:"network_sync_complete,omitempty"`

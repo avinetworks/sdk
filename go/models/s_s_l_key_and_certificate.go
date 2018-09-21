@@ -37,7 +37,7 @@ type SSLKeyAndCertificate struct {
 	EnckeyName string `json:"enckey_name,omitempty"`
 
 	// Format of the Key/Certificate file. Enum options - SSL_PEM, SSL_PKCS12. Field introduced in 18.1.2.
-	Format string `json:"format,omitempty"`
+	Format *string `json:"format,omitempty"`
 
 	//  It is a reference to an object of type HardwareSecurityModuleGroup.
 	HardwaresecuritymodulegroupRef string `json:"hardwaresecuritymodulegroup_ref,omitempty"`
@@ -56,10 +56,10 @@ type SSLKeyAndCertificate struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  Enum options - SSL_CERTIFICATE_FINISHED, SSL_CERTIFICATE_PENDING.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

@@ -12,7 +12,7 @@ type GslbThirdPartySite struct {
 	ClusterUUID string `json:"cluster_uuid,omitempty"`
 
 	// Enable or disable the third-party Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance. A disabled site's configuration shall be retained  but it will not get any new configuration updates.   VIPs associated with the disabled site shall not be sent in DNS response. . Field introduced in 17.1.1.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1.
 	HmProxies []*GslbHealthMonitorProxy `json:"hm_proxies,omitempty"`
@@ -22,7 +22,7 @@ type GslbThirdPartySite struct {
 
 	// Name of the third-party Site. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// User can overide the individual GslbPoolMember ratio for all the VIPs of this site. If this field is not configured, then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1.
 	Ratio int32 `json:"ratio,omitempty"`

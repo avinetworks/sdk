@@ -18,11 +18,11 @@ type BackupConfiguration struct {
 	BackupPassphrase string `json:"backup_passphrase,omitempty"`
 
 	// Rotate the backup files based on this count. Allowed values are 1-20.
-	MaximumBackupsStored int32 `json:"maximum_backups_stored,omitempty"`
+	MaximumBackupsStored *int32 `json:"maximum_backups_stored,omitempty"`
 
 	// Name of backup configuration.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Directory at remote destination with write permission for ssh user.
 	RemoteDirectory string `json:"remote_directory,omitempty"`

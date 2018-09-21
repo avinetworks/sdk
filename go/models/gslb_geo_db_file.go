@@ -19,7 +19,7 @@ type GslbGeoDbFile struct {
 	Filename string `json:"filename,omitempty"`
 
 	// This field indicates the file format. Enum options - GSLB_GEODB_FILE_FORMAT_AVI, GSLB_GEODB_FILE_FORMAT_MAXMIND_CITY. Field introduced in 17.1.1.
-	Format string `json:"format,omitempty"`
+	Format *string `json:"format,omitempty"`
 
 	// Internal timestamp associated with the file. Field introduced in 17.1.1.
 	// Read Only: true

@@ -68,19 +68,19 @@ type VirtualServiceRuntime struct {
 	RedisPort int32 `json:"redis_port,omitempty"`
 
 	// Placeholder for description of property rules_configured of obj type VirtualServiceRuntime field type str  type boolean
-	RulesConfigured bool `json:"rules_configured,omitempty"`
+	RulesConfigured *bool `json:"rules_configured,omitempty"`
 
 	// Enable Service Engines to elect a primary amongst themselves in the absence of connectivity to controller. Field introduced in 18.1.2.
 	SelfSeElection bool `json:"self_se_election,omitempty"`
 
 	// Placeholder for description of property servers_configured of obj type VirtualServiceRuntime field type str  type boolean
-	ServersConfigured bool `json:"servers_configured,omitempty"`
+	ServersConfigured *bool `json:"servers_configured,omitempty"`
 
 	// Placeholder for description of property tls_ticket_key of obj type VirtualServiceRuntime field type str  type object
 	TLSTicketKey []*TLSTicket `json:"tls_ticket_key,omitempty"`
 
 	//  Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD.
-	Type string `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`
@@ -93,4 +93,7 @@ type VirtualServiceRuntime struct {
 
 	// Placeholder for description of property vip_runtime of obj type VirtualServiceRuntime field type str  type object
 	VipRuntime []*VipRuntime `json:"vip_runtime,omitempty"`
+
+	// VS update request received before warmstart finished. Field introduced in 18.1.4.
+	VsUpdatePending *VirtualService `json:"vs_update_pending,omitempty"`
 }

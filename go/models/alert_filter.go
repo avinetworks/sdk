@@ -12,5 +12,5 @@ type AlertFilter struct {
 
 	// filter_string of AlertFilter.
 	// Required: true
-	FilterString string `json:"filter_string"`
+	FilterString *string `json:"filter_string"`
 }

@@ -9,7 +9,7 @@ type IptableRule struct {
 
 	//  Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE.
 	// Required: true
-	Action string `json:"action"`
+	Action *string `json:"action"`
 
 	// Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object
 	DnatIP *IPAddr `json:"dnat_ip,omitempty"`

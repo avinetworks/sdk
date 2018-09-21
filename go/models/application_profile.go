@@ -25,7 +25,7 @@ type ApplicationProfile struct {
 
 	// The name of the application profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing.
 	PreserveClientIP bool `json:"preserve_client_ip,omitempty"`
@@ -33,7 +33,7 @@ type ApplicationProfile struct {
 	// Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7.
 	PreserveClientPort bool `json:"preserve_client_port,omitempty"`
 
-	// Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8.
+	// Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3.
 	SipServiceProfile *SipServiceApplicationProfile `json:"sip_service_profile,omitempty"`
 
 	// Specifies the TCP application proxy profile parameters.
@@ -44,7 +44,7 @@ type ApplicationProfile struct {
 
 	// Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

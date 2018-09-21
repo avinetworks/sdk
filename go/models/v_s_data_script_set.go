@@ -25,7 +25,7 @@ type VSDataScriptSet struct {
 
 	// Name for the virtual service datascript collection.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// UUID of pool groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type PoolGroup.
 	PoolGroupRefs []string `json:"pool_group_refs,omitempty"`

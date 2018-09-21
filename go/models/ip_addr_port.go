@@ -18,5 +18,5 @@ type IPAddrPort struct {
 
 	// Port number of server. Allowed values are 1-65535.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 }

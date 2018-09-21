@@ -21,10 +21,10 @@ type CloudIPChange struct {
 	Ip6 *IPAddr `json:"ip6,omitempty"`
 
 	//  Field introduced in 18.1.1.
-	Ip6Mask int32 `json:"ip6_mask,omitempty"`
+	Ip6Mask *int32 `json:"ip6_mask,omitempty"`
 
 	//  Field introduced in 17.1.1.
-	IPMask int32 `json:"ip_mask,omitempty"`
+	IPMask *int32 `json:"ip_mask,omitempty"`
 
 	// mac_addr of CloudIpChange.
 	MacAddr string `json:"mac_addr,omitempty"`

@@ -31,14 +31,14 @@ type ApplicationPersistenceProfile struct {
 
 	// A user-friendly name for the persistence profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Method used to persist clients to the same server for a duration of time or a session. Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS, PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE.
 	// Required: true
-	PersistenceType string `json:"persistence_type"`
+	PersistenceType *string `json:"persistence_type"`
 
 	// Specifies behavior when a persistent server has been marked down by a health monitor. Enum options - HM_DOWN_PICK_NEW_SERVER, HM_DOWN_ABORT_CONNECTION, HM_DOWN_CONTINUE_PERSISTENT_SERVER.
-	ServerHmDownRecovery string `json:"server_hm_down_recovery,omitempty"`
+	ServerHmDownRecovery *string `json:"server_hm_down_recovery,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

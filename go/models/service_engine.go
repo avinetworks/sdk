@@ -21,7 +21,7 @@ type ServiceEngine struct {
 	ContainerMode bool `json:"container_mode,omitempty"`
 
 	//  Enum options - CONTAINER_TYPE_BRIDGE, CONTAINER_TYPE_HOST, CONTAINER_TYPE_HOST_DPDK.
-	ContainerType string `json:"container_type,omitempty"`
+	ContainerType *string `json:"container_type,omitempty"`
 
 	// Placeholder for description of property controller_created of obj type ServiceEngine field type str  type boolean
 	ControllerCreated bool `json:"controller_created,omitempty"`
@@ -33,7 +33,7 @@ type ServiceEngine struct {
 	DataVnics []*VNIC `json:"data_vnics,omitempty"`
 
 	// inorder to disable SE set this field appropriately. Enum options - SE_STATE_ENABLED, SE_STATE_DISABLED_FOR_PLACEMENT, SE_STATE_DISABLED, SE_STATE_DISABLED_FORCE.
-	EnableState string `json:"enable_state,omitempty"`
+	EnableState *string `json:"enable_state,omitempty"`
 
 	// flavor of ServiceEngine.
 	Flavor string `json:"flavor,omitempty"`
@@ -48,7 +48,7 @@ type ServiceEngine struct {
 	MgmtVnic *VNIC `json:"mgmt_vnic,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Placeholder for description of property resources of obj type ServiceEngine field type str  type object
 	Resources *SeResources `json:"resources,omitempty"`

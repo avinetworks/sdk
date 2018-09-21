@@ -11,5 +11,5 @@ type TCPApplicationProfile struct {
 	ProxyProtocolEnabled bool `json:"proxy_protocol_enabled,omitempty"`
 
 	// Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2.
-	ProxyProtocolVersion string `json:"proxy_protocol_version,omitempty"`
+	ProxyProtocolVersion *string `json:"proxy_protocol_version,omitempty"`
 }

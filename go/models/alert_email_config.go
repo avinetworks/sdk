@@ -19,14 +19,14 @@ type AlertEmailConfig struct {
 
 	// A user-friendly name of the email notification service.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
 	// Alerts are sent to the comma separated list of  email recipients.
 	// Required: true
-	ToEmails string `json:"to_emails"`
+	ToEmails *string `json:"to_emails"`
 
 	// url
 	// Read Only: true

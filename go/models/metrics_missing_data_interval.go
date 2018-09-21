@@ -9,9 +9,9 @@ type MetricsMissingDataInterval struct {
 
 	// end of MetricsMissingDataInterval.
 	// Required: true
-	End string `json:"end"`
+	End *string `json:"end"`
 
 	// start of MetricsMissingDataInterval.
 	// Required: true
-	Start string `json:"start"`
+	Start *string `json:"start"`
 }

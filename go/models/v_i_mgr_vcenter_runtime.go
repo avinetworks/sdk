@@ -35,7 +35,7 @@ type VIMgrVcenterRuntime struct {
 	// inventory_progress of VIMgrVcenterRuntime.
 	InventoryProgress string `json:"inventory_progress,omitempty"`
 
-	//  Enum options - VCENTER_DISCOVERY_BAD_CREDENTIALS, VCENTER_DISCOVERY_RETRIEVING_DC, VCENTER_DISCOVERY_WAITING_DC, VCENTER_DISCOVERY_RETRIEVING_NW, VCENTER_DISCOVERY_ONGOING, VCENTER_DISCOVERY_RESYNCING, VCENTER_DISCOVERY_COMPLETE, VCENTER_DISCOVERY_DELETING_VCENTER, VCENTER_DISCOVERY_FAILURE, VCENTER_DISCOVERY_COMPLETE_NO_MGMT_NW, VCENTER_DISCOVERY_COMPLETE_PER_TENANT_IP_ROUTE, VCENTER_DISCOVERY_MAKING_SE_OVA, VCENTER_DISCOVERY_RESYNC_FAILED.
+	//  Enum options - VCENTER_DISCOVERY_BAD_CREDENTIALS, VCENTER_DISCOVERY_RETRIEVING_DC, VCENTER_DISCOVERY_WAITING_DC, VCENTER_DISCOVERY_RETRIEVING_NW, VCENTER_DISCOVERY_ONGOING, VCENTER_DISCOVERY_RESYNCING, VCENTER_DISCOVERY_COMPLETE, VCENTER_DISCOVERY_DELETING_VCENTER, VCENTER_DISCOVERY_FAILURE, VCENTER_DISCOVERY_COMPLETE_NO_MGMT_NW, VCENTER_DISCOVERY_COMPLETE_PER_TENANT_IP_ROUTE, VCENTER_DISCOVERY_MAKING_SE_OVA, VCENTER_DISCOVERY_RESYNC_FAILED, VCENTER_DISCOVERY_OBJECT_LIMIT_REACHED.
 	InventoryState string `json:"inventory_state,omitempty"`
 
 	// management_network of VIMgrVcenterRuntime.
@@ -43,7 +43,7 @@ type VIMgrVcenterRuntime struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Number of num_clusters.
 	NumClusters int64 `json:"num_clusters,omitempty"`
@@ -65,7 +65,7 @@ type VIMgrVcenterRuntime struct {
 
 	// password of VIMgrVcenterRuntime.
 	// Required: true
-	Password string `json:"password"`
+	Password *string `json:"password"`
 
 	//  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
 	Privilege string `json:"privilege,omitempty"`
@@ -78,7 +78,7 @@ type VIMgrVcenterRuntime struct {
 
 	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true
@@ -86,7 +86,7 @@ type VIMgrVcenterRuntime struct {
 
 	// username of VIMgrVcenterRuntime.
 	// Required: true
-	Username string `json:"username"`
+	Username *string `json:"username"`
 
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`
@@ -102,5 +102,5 @@ type VIMgrVcenterRuntime struct {
 
 	// vcenter_url of VIMgrVcenterRuntime.
 	// Required: true
-	VcenterURL string `json:"vcenter_url"`
+	VcenterURL *string `json:"vcenter_url"`
 }

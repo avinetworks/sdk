@@ -24,5 +24,5 @@ type VinfraDiscSummaryDetails struct {
 
 	// vcenter of VinfraDiscSummaryDetails.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 }

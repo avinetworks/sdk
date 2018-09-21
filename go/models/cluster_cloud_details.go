@@ -16,7 +16,7 @@ type ClusterCloudDetails struct {
 
 	//  Field introduced in 17.2.5.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant. Field introduced in 17.2.5.
 	TenantRef string `json:"tenant_ref,omitempty"`

@@ -12,31 +12,31 @@ type AnalyticsProfile struct {
 	LastModified string `json:"_last_modified,omitempty"`
 
 	// If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000.
-	ApdexResponseThreshold int32 `json:"apdex_response_threshold,omitempty"`
+	ApdexResponseThreshold *int32 `json:"apdex_response_threshold,omitempty"`
 
 	// Client tolerated response latency factor. Client must receive a response within this factor times the satisfactory threshold (apdex_response_threshold) to be considered tolerated. Allowed values are 1-1000.
 	ApdexResponseToleratedFactor *float64 `json:"apdex_response_tolerated_factor,omitempty"`
 
 	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000.
-	ApdexRttThreshold int32 `json:"apdex_rtt_threshold,omitempty"`
+	ApdexRttThreshold *int32 `json:"apdex_rtt_threshold,omitempty"`
 
 	// Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.
 	ApdexRttToleratedFactor *float64 `json:"apdex_rtt_tolerated_factor,omitempty"`
 
 	// If a client is able to load a page in less than the Satisfactory Latency Threshold, the PageLoad is considered Satisfied.  It is considered tolerated if it is greater than Satisfied but less than the Tolerated Latency multiplied by Satisifed Latency. Greater than this number and the client's request is considered Frustrated.  A PageLoad includes the time for DNS lookup, download of all HTTP objects, and page render time. Allowed values are 1-30000.
-	ApdexRumThreshold int32 `json:"apdex_rum_threshold,omitempty"`
+	ApdexRumThreshold *int32 `json:"apdex_rum_threshold,omitempty"`
 
 	// Virtual service threshold factor for tolerated Page Load Time (PLT) as multiple of apdex_rum_threshold. Allowed values are 1-1000.
 	ApdexRumToleratedFactor *float64 `json:"apdex_rum_tolerated_factor,omitempty"`
 
 	// A server HTTP response is considered Satisfied if latency is less than the Satisfactory Latency Threshold. The response is considered tolerated when it is greater than Satisfied but less than the Tolerated Latency Factor * S_Latency.  Greater than this number and the server response is considered Frustrated. Allowed values are 1-30000.
-	ApdexServerResponseThreshold int32 `json:"apdex_server_response_threshold,omitempty"`
+	ApdexServerResponseThreshold *int32 `json:"apdex_server_response_threshold,omitempty"`
 
 	// Server tolerated response latency factor. Servermust response within this factor times the satisfactory threshold (apdex_server_response_threshold) to be considered tolerated. Allowed values are 1-1000.
 	ApdexServerResponseToleratedFactor *float64 `json:"apdex_server_response_tolerated_factor,omitempty"`
 
 	// Satisfactory client to Avi Round Trip Time(RTT). Allowed values are 1-2000.
-	ApdexServerRttThreshold int32 `json:"apdex_server_rtt_threshold,omitempty"`
+	ApdexServerRttThreshold *int32 `json:"apdex_server_rtt_threshold,omitempty"`
 
 	// Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.
 	ApdexServerRttToleratedFactor *float64 `json:"apdex_server_rtt_tolerated_factor,omitempty"`
@@ -48,28 +48,28 @@ type AnalyticsProfile struct {
 	ClientLogStreamingConfig *ClientLogStreamingConfig `json:"client_log_streaming_config,omitempty"`
 
 	// A connection between client and Avi is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.
-	ConnLossyOooThreshold int32 `json:"conn_lossy_ooo_threshold,omitempty"`
+	ConnLossyOooThreshold *int32 `json:"conn_lossy_ooo_threshold,omitempty"`
 
 	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100.
-	ConnLossyTimeoRexmtThreshold int32 `json:"conn_lossy_timeo_rexmt_threshold,omitempty"`
+	ConnLossyTimeoRexmtThreshold *int32 `json:"conn_lossy_timeo_rexmt_threshold,omitempty"`
 
 	// A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.
-	ConnLossyTotalRexmtThreshold int32 `json:"conn_lossy_total_rexmt_threshold,omitempty"`
+	ConnLossyTotalRexmtThreshold *int32 `json:"conn_lossy_total_rexmt_threshold,omitempty"`
 
 	// A client connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100.
-	ConnLossyZeroWinSizeEventThreshold int32 `json:"conn_lossy_zero_win_size_event_threshold,omitempty"`
+	ConnLossyZeroWinSizeEventThreshold *int32 `json:"conn_lossy_zero_win_size_event_threshold,omitempty"`
 
 	// A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.
-	ConnServerLossyOooThreshold int32 `json:"conn_server_lossy_ooo_threshold,omitempty"`
+	ConnServerLossyOooThreshold *int32 `json:"conn_server_lossy_ooo_threshold,omitempty"`
 
 	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted due to timeout. Allowed values are 1-100.
-	ConnServerLossyTimeoRexmtThreshold int32 `json:"conn_server_lossy_timeo_rexmt_threshold,omitempty"`
+	ConnServerLossyTimeoRexmtThreshold *int32 `json:"conn_server_lossy_timeo_rexmt_threshold,omitempty"`
 
 	// A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.
-	ConnServerLossyTotalRexmtThreshold int32 `json:"conn_server_lossy_total_rexmt_threshold,omitempty"`
+	ConnServerLossyTotalRexmtThreshold *int32 `json:"conn_server_lossy_total_rexmt_threshold,omitempty"`
 
 	// A server connection is considered lossy when percentage of times a packet could not be trasmitted due to TCP zero window is above this threshold. Allowed values are 0-100.
-	ConnServerLossyZeroWinSizeEventThreshold int32 `json:"conn_server_lossy_zero_win_size_event_threshold,omitempty"`
+	ConnServerLossyZeroWinSizeEventThreshold *int32 `json:"conn_server_lossy_zero_win_size_event_threshold,omitempty"`
 
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
@@ -125,20 +125,23 @@ type AnalyticsProfile struct {
 	// Exclude unsupported dns queries from the list of errors.
 	ExcludeUnsupportedDNSQueryAsError bool `json:"exclude_unsupported_dns_query_as_error,omitempty"`
 
+	// Skips health score computation of pool servers when number of servers in a pool is more than this setting. Allowed values are 0-5000. Special values are 0- 'server health score is disabled'. Field introduced in 17.2.13, 18.1.4.
+	HealthscoreMaxServerLimit *int32 `json:"healthscore_max_server_limit,omitempty"`
+
 	// Time window (in secs) within which only unique health change events should occur.
-	HsEventThrottleWindow int32 `json:"hs_event_throttle_window,omitempty"`
+	HsEventThrottleWindow *int32 `json:"hs_event_throttle_window,omitempty"`
 
 	// Maximum penalty that may be deducted from health score for anomalies. Allowed values are 0-100.
-	HsMaxAnomalyPenalty int32 `json:"hs_max_anomaly_penalty,omitempty"`
+	HsMaxAnomalyPenalty *int32 `json:"hs_max_anomaly_penalty,omitempty"`
 
 	// Maximum penalty that may be deducted from health score for high resource utilization. Allowed values are 0-100.
-	HsMaxResourcesPenalty int32 `json:"hs_max_resources_penalty,omitempty"`
+	HsMaxResourcesPenalty *int32 `json:"hs_max_resources_penalty,omitempty"`
 
 	// Maximum penalty that may be deducted from health score based on security assessment. Allowed values are 0-100.
-	HsMaxSecurityPenalty int32 `json:"hs_max_security_penalty,omitempty"`
+	HsMaxSecurityPenalty *int32 `json:"hs_max_security_penalty,omitempty"`
 
 	// DoS connection rate below which the DoS security assessment will not kick in.
-	HsMinDosRate int32 `json:"hs_min_dos_rate,omitempty"`
+	HsMinDosRate *int32 `json:"hs_min_dos_rate,omitempty"`
 
 	// Adds free performance score credits to health score. It can be used for compensating health score for known slow applications. Allowed values are 0-100.
 	HsPerformanceBoost int32 `json:"hs_performance_boost,omitempty"`
@@ -205,10 +208,10 @@ type AnalyticsProfile struct {
 
 	// The name of the analytics profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// This flag sets the time duration of no live data traffic after which Virtual Service metrics processing is suspended. It is applicable only when disable_ondemand_metrics is set to false. Field introduced in 18.1.1.
-	OndemandMetricsIDLETimeout int32 `json:"ondemand_metrics_idle_timeout,omitempty"`
+	OndemandMetricsIDLETimeout *int32 `json:"ondemand_metrics_idle_timeout,omitempty"`
 
 	// List of HTTP status code ranges to be excluded from being classified as an error.
 	Ranges []*HttpstatusRange `json:"ranges,omitempty"`

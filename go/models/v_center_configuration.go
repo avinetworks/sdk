@@ -21,7 +21,7 @@ type VCenterConfiguration struct {
 
 	// Set the access mode to vCenter as either Read, which allows Avi to discover networks and servers, or Write, which also allows Avi to create Service Engines and configure their network properties. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
 	// Required: true
-	Privilege string `json:"privilege"`
+	Privilege *string `json:"privilege"`
 
 	// The username Avi Vantage will use when authenticating with vCenter.
 	Username string `json:"username,omitempty"`

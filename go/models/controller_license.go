@@ -22,7 +22,7 @@ type ControllerLicense struct {
 
 	// customer_name of ControllerLicense.
 	// Required: true
-	CustomerName string `json:"customer_name"`
+	CustomerName *string `json:"customer_name"`
 
 	//  Field introduced in 17.2.5.
 	DisableEnforcement bool `json:"disable_enforcement,omitempty"`
@@ -66,5 +66,5 @@ type ControllerLicense struct {
 
 	// valid_until of ControllerLicense.
 	// Required: true
-	ValidUntil string `json:"valid_until"`
+	ValidUntil *string `json:"valid_until"`
 }

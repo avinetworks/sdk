@@ -23,5 +23,5 @@ type StaticRoute struct {
 
 	// route_id of StaticRoute.
 	// Required: true
-	RouteID string `json:"route_id"`
+	RouteID *string `json:"route_id"`
 }

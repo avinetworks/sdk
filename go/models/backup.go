@@ -16,7 +16,7 @@ type Backup struct {
 
 	// The file name of backup.
 	// Required: true
-	FileName string `json:"file_name"`
+	FileName *string `json:"file_name"`
 
 	// URL to download the backup file.
 	LocalFileURL string `json:"local_file_url,omitempty"`

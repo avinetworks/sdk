@@ -18,5 +18,5 @@ type URIParamToken struct {
 
 	// Token type for constructing the URI. Enum options - URI_TOKEN_TYPE_HOST, URI_TOKEN_TYPE_PATH, URI_TOKEN_TYPE_STRING, URI_TOKEN_TYPE_STRING_GROUP, URI_TOKEN_TYPE_REGEX.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

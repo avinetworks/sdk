@@ -16,7 +16,7 @@ type HttpsecurityRule struct {
 
 	// Index of the rule.
 	// Required: true
-	Index int32 `json:"index"`
+	Index *int32 `json:"index"`
 
 	// Log HTTP request upon rule match.
 	Log bool `json:"log,omitempty"`
@@ -26,5 +26,5 @@ type HttpsecurityRule struct {
 
 	// Name of the rule.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }

@@ -26,7 +26,7 @@ type Server struct {
 	DiscoveredSubnet []*IPAddrPrefix `json:"discovered_subnet,omitempty"`
 
 	// Enable, Disable or Graceful Disable determine if new or existing connections to the server are allowed.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// UID of server in external orchestration systems.
 	ExternalOrchestrationID string `json:"external_orchestration_id,omitempty"`
@@ -57,7 +57,7 @@ type Server struct {
 	PrstHdrVal string `json:"prst_hdr_val,omitempty"`
 
 	// Ratio of selecting eligible servers in the pool. Allowed values are 1-20.
-	Ratio int32 `json:"ratio,omitempty"`
+	Ratio *int32 `json:"ratio,omitempty"`
 
 	// Auto resolve server's IP using DNS name.
 	ResolveServerByDNS bool `json:"resolve_server_by_dns,omitempty"`

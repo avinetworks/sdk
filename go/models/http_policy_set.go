@@ -34,7 +34,7 @@ type HTTPPolicySet struct {
 
 	// Name of the HTTP Policy Set.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

@@ -21,7 +21,7 @@ type AuthMappingRule struct {
 
 	// Number of index.
 	// Required: true
-	Index int32 `json:"index"`
+	Index *int32 `json:"index"`
 
 	// Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean
 	IsSuperuser bool `json:"is_superuser,omitempty"`

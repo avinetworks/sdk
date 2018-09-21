@@ -8,28 +8,28 @@ package models
 type BgpPeer struct {
 
 	// Advertise SNAT IP to this Peer.
-	AdvertiseSnatIP bool `json:"advertise_snat_ip,omitempty"`
+	AdvertiseSnatIP *bool `json:"advertise_snat_ip,omitempty"`
 
 	// Advertise VIP to this Peer.
-	AdvertiseVip bool `json:"advertise_vip,omitempty"`
+	AdvertiseVip *bool `json:"advertise_vip,omitempty"`
 
 	// Advertisement interval for this Peer. Allowed values are 1-60.
-	AdvertisementInterval int32 `json:"advertisement_interval,omitempty"`
+	AdvertisementInterval *int32 `json:"advertisement_interval,omitempty"`
 
 	// Enable Bi-Directional Forward Detection. Only async mode supported.
-	Bfd bool `json:"bfd,omitempty"`
+	Bfd *bool `json:"bfd,omitempty"`
 
 	// Connect timer for this Peer. Allowed values are 1-120.
-	ConnectTimer int32 `json:"connect_timer,omitempty"`
+	ConnectTimer *int32 `json:"connect_timer,omitempty"`
 
 	// TTL for multihop ebgp Peer. Allowed values are 0-255. Field introduced in 17.1.3.
 	EbgpMultihop int32 `json:"ebgp_multihop,omitempty"`
 
 	// Hold time for this Peer. Allowed values are 3-7200.
-	HoldTime int32 `json:"hold_time,omitempty"`
+	HoldTime *int32 `json:"hold_time,omitempty"`
 
 	// Keepalive interval for this Peer. Allowed values are 0-3600.
-	KeepaliveInterval int32 `json:"keepalive_interval,omitempty"`
+	KeepaliveInterval *int32 `json:"keepalive_interval,omitempty"`
 
 	// Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2.
 	LocalAs int32 `json:"local_as,omitempty"`

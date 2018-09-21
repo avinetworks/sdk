@@ -15,7 +15,7 @@ type ServicePoolSelector struct {
 
 	// Pool based destination port. Allowed values are 1-65535.
 	// Required: true
-	ServicePort int32 `json:"service_port"`
+	ServicePort *int32 `json:"service_port"`
 
 	// The end of the Service port number range. Allowed values are 1-65535. Special values are 0- 'single port'. Field introduced in 17.2.4.
 	ServicePortRangeEnd int32 `json:"service_port_range_end,omitempty"`

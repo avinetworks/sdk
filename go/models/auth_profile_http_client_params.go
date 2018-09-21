@@ -8,7 +8,7 @@ package models
 type AuthProfileHTTPClientParams struct {
 
 	// The max allowed length of time a clients authentication is cached. Allowed values are 1-30.
-	CacheExpirationTime int32 `json:"cache_expiration_time,omitempty"`
+	CacheExpirationTime *int32 `json:"cache_expiration_time,omitempty"`
 
 	// Group member entries contain full DNs instead of just user id attribute values.
 	GroupMemberIsFullDn bool `json:"group_member_is_full_dn,omitempty"`

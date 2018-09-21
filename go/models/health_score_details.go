@@ -17,7 +17,7 @@ type HealthScoreDetails struct {
 	PerformanceReason string `json:"performance_reason,omitempty"`
 
 	// Number of performance_score.
-	PerformanceScore int32 `json:"performance_score,omitempty"`
+	PerformanceScore *int32 `json:"performance_score,omitempty"`
 
 	// Placeholder for description of property previous_value of obj type HealthScoreDetails field type str  type number
 	// Required: true
@@ -46,7 +46,7 @@ type HealthScoreDetails struct {
 
 	// timestamp of HealthScoreDetails.
 	// Required: true
-	Timestamp string `json:"timestamp"`
+	Timestamp *string `json:"timestamp"`
 
 	// Placeholder for description of property value of obj type HealthScoreDetails field type str  type number
 	// Required: true

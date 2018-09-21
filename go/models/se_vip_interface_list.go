@@ -18,7 +18,7 @@ type SeVipInterfaceList struct {
 
 	// vip_intf_mac of SeVipInterfaceList.
 	// Required: true
-	VipIntfMac string `json:"vip_intf_mac"`
+	VipIntfMac *string `json:"vip_intf_mac"`
 
 	// Number of vlan_id.
 	VlanID int32 `json:"vlan_id,omitempty"`

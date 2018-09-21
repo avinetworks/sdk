@@ -8,7 +8,7 @@ package models
 type ErrorPage struct {
 
 	// Enable or disable the error page. Field introduced in 17.2.4.
-	Enable bool `json:"enable,omitempty"`
+	Enable *bool `json:"enable,omitempty"`
 
 	// Custom error page body used to sent to the client. It is a reference to an object of type ErrorPageBody. Field introduced in 17.2.4.
 	ErrorPageBodyRef string `json:"error_page_body_ref,omitempty"`

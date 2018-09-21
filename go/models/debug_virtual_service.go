@@ -21,7 +21,7 @@ type DebugVirtualService struct {
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
-	DebugHm string `json:"debug_hm,omitempty"`
+	DebugHm *string `json:"debug_hm,omitempty"`
 
 	// Placeholder for description of property debug_ip of obj type DebugVirtualService field type str  type object
 	DebugIP *DebugIPAddr `json:"debug_ip,omitempty"`
@@ -31,7 +31,10 @@ type DebugVirtualService struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
+
+	// This option re-synchronizes flows between Active-Standby service engines for all the virtual services placed on them. It should be used with caution because as it can cause a flood between Active-Standby. Field introduced in 18.1.3.
+	ResyncFlows bool `json:"resync_flows,omitempty"`
 
 	// Placeholder for description of property se_params of obj type DebugVirtualService field type str  type object
 	SeParams *DebugVirtualServiceSeParams `json:"se_params,omitempty"`

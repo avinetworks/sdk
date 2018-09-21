@@ -14,7 +14,7 @@ type AWSLogin struct {
 	IamAssumeRole string `json:"iam_assume_role,omitempty"`
 
 	// AWS region.
-	Region string `json:"region,omitempty"`
+	Region *string `json:"region,omitempty"`
 
 	// secret_access_key of AWSLogin.
 	SecretAccessKey string `json:"secret_access_key,omitempty"`

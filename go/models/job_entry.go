@@ -13,15 +13,15 @@ type JobEntry struct {
 
 	// expires_at of JobEntry.
 	// Required: true
-	ExpiresAt string `json:"expires_at"`
+	ExpiresAt *string `json:"expires_at"`
 
 	//  Field introduced in 18.1.2.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// obj_key of JobEntry.
 	// Required: true
-	ObjKey string `json:"obj_key"`
+	ObjKey *string `json:"obj_key"`
 
 	//  Field introduced in 18.1.1.
 	Subjobs []*SubJob `json:"subjobs,omitempty"`

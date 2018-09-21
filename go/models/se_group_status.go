@@ -54,11 +54,11 @@ type SeGroupStatus struct {
 
 	// se_group_name of SeGroupStatus.
 	// Required: true
-	SeGroupName string `json:"se_group_name"`
+	SeGroupName *string `json:"se_group_name"`
 
 	// Unique object identifier of se_group.
 	// Required: true
-	SeGroupUUID string `json:"se_group_uuid"`
+	SeGroupUUID *string `json:"se_group_uuid"`
 
 	//  It is a reference to an object of type ServiceEngine.
 	SeRebootInProgressRef string `json:"se_reboot_in_progress_ref,omitempty"`

@@ -18,7 +18,7 @@ type SingleLicense struct {
 
 	// customer_name of SingleLicense.
 	// Required: true
-	CustomerName string `json:"customer_name"`
+	CustomerName *string `json:"customer_name"`
 
 	// enforced_params of SingleLicense.
 	EnforcedParams []string `json:"enforced_params,omitempty"`
@@ -31,7 +31,7 @@ type SingleLicense struct {
 
 	// license_name of SingleLicense.
 	// Required: true
-	LicenseName string `json:"license_name"`
+	LicenseName *string `json:"license_name"`
 
 	// license_string of SingleLicense.
 	LicenseString string `json:"license_string,omitempty"`
@@ -59,7 +59,7 @@ type SingleLicense struct {
 
 	// valid_until of SingleLicense.
 	// Required: true
-	ValidUntil string `json:"valid_until"`
+	ValidUntil *string `json:"valid_until"`
 
 	// version of SingleLicense.
 	Version string `json:"version,omitempty"`

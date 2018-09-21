@@ -20,10 +20,10 @@ type VipRuntime struct {
 	FirstTimePlacement bool `json:"first_time_placement,omitempty"`
 
 	// fsm_state_id of VipRuntime.
-	FsmStateID string `json:"fsm_state_id,omitempty"`
+	FsmStateID *string `json:"fsm_state_id,omitempty"`
 
 	// fsm_state_name of VipRuntime.
-	FsmStateName string `json:"fsm_state_name,omitempty"`
+	FsmStateName *string `json:"fsm_state_name,omitempty"`
 
 	// Placeholder for description of property last_changed_time of obj type VipRuntime field type str  type object
 	LastChangedTime *TimeStamp `json:"last_changed_time,omitempty"`
@@ -77,7 +77,7 @@ type VipRuntime struct {
 	SeList []*SeList `json:"se_list,omitempty"`
 
 	// Placeholder for description of property servers_configured of obj type VipRuntime field type str  type boolean
-	ServersConfigured bool `json:"servers_configured,omitempty"`
+	ServersConfigured *bool `json:"servers_configured,omitempty"`
 
 	// Placeholder for description of property supp_runtime_status of obj type VipRuntime field type str  type object
 	SuppRuntimeStatus *OperationalStatus `json:"supp_runtime_status,omitempty"`
@@ -87,4 +87,10 @@ type VipRuntime struct {
 
 	// vip_id of VipRuntime.
 	VipID string `json:"vip_id,omitempty"`
+
+	// VIP finished resyncing with resource manager. Field introduced in 18.1.4.
+	WarmstartResyncDone bool `json:"warmstart_resync_done,omitempty"`
+
+	// RPC sent to resource manager for warmstart resync. Field introduced in 18.1.4.
+	WarmstartResyncSent bool `json:"warmstart_resync_sent,omitempty"`
 }

@@ -14,13 +14,13 @@ type PortalConfiguration struct {
 	DisableRemoteCliShell bool `json:"disable_remote_cli_shell,omitempty"`
 
 	// Enable/Disable Clickjacking protection.
-	EnableClickjackingProtection bool `json:"enable_clickjacking_protection,omitempty"`
+	EnableClickjackingProtection *bool `json:"enable_clickjacking_protection,omitempty"`
 
 	// Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean
-	EnableHTTP bool `json:"enable_http,omitempty"`
+	EnableHTTP *bool `json:"enable_http,omitempty"`
 
 	// Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean
-	EnableHTTPS bool `json:"enable_https,omitempty"`
+	EnableHTTPS *bool `json:"enable_https,omitempty"`
 
 	// HTTP port.
 	HTTPPort int32 `json:"http_port,omitempty"`
@@ -32,7 +32,7 @@ type PortalConfiguration struct {
 	PasswordStrengthCheck bool `json:"password_strength_check,omitempty"`
 
 	// Placeholder for description of property redirect_to_https of obj type PortalConfiguration field type str  type boolean
-	RedirectToHTTPS bool `json:"redirect_to_https,omitempty"`
+	RedirectToHTTPS *bool `json:"redirect_to_https,omitempty"`
 
 	// Certificates for system portal. Maximum 2 allowed. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate.
 	SslkeyandcertificateRefs []string `json:"sslkeyandcertificate_refs,omitempty"`

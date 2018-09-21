@@ -11,7 +11,7 @@ type BgpProfile struct {
 	Community []string `json:"community,omitempty"`
 
 	// Hold time for Peers. Allowed values are 3-7200.
-	HoldTime int32 `json:"hold_time,omitempty"`
+	HoldTime *int32 `json:"hold_time,omitempty"`
 
 	// BGP peer type.
 	// Required: true
@@ -21,17 +21,17 @@ type BgpProfile struct {
 	IPCommunities []*IPCommunity `json:"ip_communities,omitempty"`
 
 	// Keepalive interval for Peers. Allowed values are 0-3600.
-	KeepaliveInterval int32 `json:"keepalive_interval,omitempty"`
+	KeepaliveInterval *int32 `json:"keepalive_interval,omitempty"`
 
 	// Local Autonomous System ID. Allowed values are 1-4294967295.
 	// Required: true
-	LocalAs int32 `json:"local_as"`
+	LocalAs *int32 `json:"local_as"`
 
 	// BGP Peers.
 	Peers []*BgpPeer `json:"peers,omitempty"`
 
 	// Send community attribute to all peers. Field introduced in 17.1.2.
-	SendCommunity bool `json:"send_community,omitempty"`
+	SendCommunity *bool `json:"send_community,omitempty"`
 
 	// Shutdown the bgp. Field introduced in 17.2.4.
 	Shutdown bool `json:"shutdown,omitempty"`

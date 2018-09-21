@@ -18,7 +18,7 @@ type Service struct {
 
 	// The Virtual Service's port number. Allowed values are 1-65535.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 
 	// The end of the Virtual Service's port number range. Allowed values are 1-65535. Special values are 0- 'single port'.
 	PortRangeEnd int32 `json:"port_range_end,omitempty"`

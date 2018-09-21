@@ -22,7 +22,7 @@ type AutoScaleLaunchConfig struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property openstack of obj type AutoScaleLaunchConfig field type str  type object
 	Openstack *AutoScaleOpenStackSettings `json:"openstack,omitempty"`
@@ -35,7 +35,7 @@ type AutoScaleLaunchConfig struct {
 	URL string `json:"url,omitempty"`
 
 	// If set to True, ServerAutoscalePolicy will use the autoscaling group (external_autoscaling_groups) from Pool to perform scale up and scale down. Pool should have single autoscaling group configured. Field introduced in 17.2.3.
-	UseExternalAsg bool `json:"use_external_asg,omitempty"`
+	UseExternalAsg *bool `json:"use_external_asg,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID string `json:"uuid,omitempty"`

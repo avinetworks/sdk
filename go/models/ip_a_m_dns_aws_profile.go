@@ -23,7 +23,7 @@ type IPAMDNSAwsProfile struct {
 	SecretAccessKey string `json:"secret_access_key,omitempty"`
 
 	// Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.
-	TTL int32 `json:"ttl,omitempty"`
+	TTL *int32 `json:"ttl,omitempty"`
 
 	// Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1.
 	UsableDomains []string `json:"usable_domains,omitempty"`
@@ -39,7 +39,7 @@ type IPAMDNSAwsProfile struct {
 
 	// VPC ID.
 	// Required: true
-	VpcID string `json:"vpc_id"`
+	VpcID *string `json:"vpc_id"`
 
 	// Network configuration for Virtual IP per AZ. Field introduced in 17.1.3.
 	Zones []*AwsZoneNetwork `json:"zones,omitempty"`

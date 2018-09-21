@@ -11,5 +11,5 @@ type AwsEncryption struct {
 	MasterKey string `json:"master_key,omitempty"`
 
 	// AWS encryption mode. Enum options - AWS_ENCRYPTION_MODE_NONE, AWS_ENCRYPTION_MODE_SSE_KMS. Field introduced in 17.2.3.
-	Mode string `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 }

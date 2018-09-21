@@ -32,7 +32,7 @@ type AzureConfiguration struct {
 	UseEnhancedHa bool `json:"use_enhanced_ha,omitempty"`
 
 	// Use Azure managed disks for SE storage. Field introduced in 17.2.2.
-	UseManagedDisks bool `json:"use_managed_disks,omitempty"`
+	UseManagedDisks *bool `json:"use_managed_disks,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7.
 	UseStandardAlb bool `json:"use_standard_alb,omitempty"`

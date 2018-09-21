@@ -31,7 +31,7 @@ type VrfContext struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property static_routes of obj type VrfContext field type str  type object
 	StaticRoutes []*StaticRoute `json:"static_routes,omitempty"`

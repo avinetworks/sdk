@@ -9,7 +9,7 @@ type HSMSafenetLunaServer struct {
 
 	//  Field introduced in 16.5.2,17.2.3.
 	// Required: true
-	Index int32 `json:"index"`
+	Index *int32 `json:"index"`
 
 	// Password of the partition assigned to this client.
 	PartitionPasswd string `json:"partition_passwd,omitempty"`
@@ -19,9 +19,9 @@ type HSMSafenetLunaServer struct {
 
 	// IP address of the Safenet/Gemalto HSM device.
 	// Required: true
-	RemoteIP string `json:"remote_ip"`
+	RemoteIP *string `json:"remote_ip"`
 
 	// CA certificate of the server.
 	// Required: true
-	ServerCert string `json:"server_cert"`
+	ServerCert *string `json:"server_cert"`
 }

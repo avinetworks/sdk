@@ -9,7 +9,7 @@ type VsAwaitingSeEventDetails struct {
 
 	// Number of awaitingse_timeout.
 	// Required: true
-	AwaitingseTimeout int32 `json:"awaitingse_timeout"`
+	AwaitingseTimeout *int32 `json:"awaitingse_timeout"`
 
 	// ip of VsAwaitingSeEventDetails.
 	IP string `json:"ip,omitempty"`
@@ -22,5 +22,5 @@ type VsAwaitingSeEventDetails struct {
 
 	// Unique object identifier of vs.
 	// Required: true
-	VsUUID string `json:"vs_uuid"`
+	VsUUID *string `json:"vs_uuid"`
 }

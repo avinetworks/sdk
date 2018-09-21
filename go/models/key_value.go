@@ -9,7 +9,7 @@ type KeyValue struct {
 
 	// Key.
 	// Required: true
-	Key string `json:"key"`
+	Key *string `json:"key"`
 
 	// Value.
 	Value string `json:"value,omitempty"`

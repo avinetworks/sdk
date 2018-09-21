@@ -12,5 +12,5 @@ type SEFaultInjectExhaustParam struct {
 
 	// Number of num.
 	// Required: true
-	Num int64 `json:"num"`
+	Num *int64 `json:"num"`
 }

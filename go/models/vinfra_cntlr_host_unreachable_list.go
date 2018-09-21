@@ -12,5 +12,5 @@ type VinfraCntlrHostUnreachableList struct {
 
 	// vcenter of VinfraCntlrHostUnreachableList.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 }

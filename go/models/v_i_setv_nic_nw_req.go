@@ -18,7 +18,7 @@ type VISetvNicNwReq struct {
 
 	// Unique object identifier of sevm.
 	// Required: true
-	SevmUUID string `json:"sevm_uuid"`
+	SevmUUID *string `json:"sevm_uuid"`
 
 	// Placeholder for description of property vcenter_admin of obj type VISetvNicNwReq field type str  type object
 	VcenterAdmin *VIAdminCredentials `json:"vcenter_admin,omitempty"`

@@ -21,10 +21,10 @@ type VIMgrHostRuntime struct {
 	ClusterUUID string `json:"cluster_uuid,omitempty"`
 
 	// Placeholder for description of property cntlr_accessible of obj type VIMgrHostRuntime field type str  type boolean
-	CntlrAccessible bool `json:"cntlr_accessible,omitempty"`
+	CntlrAccessible *bool `json:"cntlr_accessible,omitempty"`
 
 	// connection_state of VIMgrHostRuntime.
-	ConnectionState string `json:"connection_state,omitempty"`
+	ConnectionState *string `json:"connection_state,omitempty"`
 
 	// Number of cpu_hz.
 	CPUHz int64 `json:"cpu_hz,omitempty"`
@@ -34,7 +34,7 @@ type VIMgrHostRuntime struct {
 
 	// managed_object_id of VIMgrHostRuntime.
 	// Required: true
-	ManagedObjectID string `json:"managed_object_id"`
+	ManagedObjectID *string `json:"managed_object_id"`
 
 	// Number of mem.
 	Mem int64 `json:"mem,omitempty"`
@@ -44,7 +44,7 @@ type VIMgrHostRuntime struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Unique object identifiers of networks.
 	NetworkUuids []string `json:"network_uuids,omitempty"`
@@ -71,7 +71,7 @@ type VIMgrHostRuntime struct {
 	Quarantined bool `json:"quarantined,omitempty"`
 
 	// Number of quarantined_periods.
-	QuarantinedPeriods int32 `json:"quarantined_periods,omitempty"`
+	QuarantinedPeriods *int32 `json:"quarantined_periods,omitempty"`
 
 	// Number of se_fail_cnt.
 	SeFailCnt int32 `json:"se_fail_cnt,omitempty"`
@@ -84,7 +84,7 @@ type VIMgrHostRuntime struct {
 
 	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

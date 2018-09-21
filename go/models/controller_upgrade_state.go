@@ -12,7 +12,7 @@ type ControllerUpgradeState struct {
 
 	// Placeholder for description of property in_progress of obj type ControllerUpgradeState field type str  type boolean
 	// Required: true
-	InProgress bool `json:"in_progress"`
+	InProgress *bool `json:"in_progress"`
 
 	// notes of ControllerUpgradeState.
 	Notes []string `json:"notes,omitempty"`
@@ -22,7 +22,7 @@ type ControllerUpgradeState struct {
 
 	//  Enum options - UPGRADE_STARTED, UPGRADE_WAITING, UPGRADE_IN_PROGRESS, UPGRADE_CONTROLLER_COMPLETED, UPGRADE_COMPLETED, UPGRADE_ABORT_IN_PROGRESS, UPGRADE_ABORTED.
 	// Required: true
-	State string `json:"state"`
+	State *string `json:"state"`
 
 	// Placeholder for description of property tasks_completed of obj type ControllerUpgradeState field type str  type object
 	TasksCompleted []*UpgradeTask `json:"tasks_completed,omitempty"`

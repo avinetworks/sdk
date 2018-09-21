@@ -14,7 +14,7 @@ type RateProfile struct {
 	// Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- 'automatic'.
 	BurstSz int32 `json:"burst_sz,omitempty"`
 
-	// Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- 'unlimited'.
+	// Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'.
 	Count int32 `json:"count,omitempty"`
 
 	// Explicitly tracks an attacker across rate periods.
@@ -30,5 +30,5 @@ type RateProfile struct {
 	HTTPHeader string `json:"http_header,omitempty"`
 
 	// Time value in seconds to enforce rate count. Allowed values are 1-300.
-	Period int32 `json:"period,omitempty"`
+	Period *int32 `json:"period,omitempty"`
 }

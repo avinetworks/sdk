@@ -12,7 +12,7 @@ type SamlServiceProviderNode struct {
 
 	// Refers to the Cluster name identifier (Virtual IP or FQDN). Field introduced in 17.2.3.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Service Provider signing certificate for metadata. Field introduced in 17.2.3.
 	SigningCert string `json:"signing_cert,omitempty"`

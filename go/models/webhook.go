@@ -19,7 +19,7 @@ type Webhook struct {
 
 	// The name of the webhook profile. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant. Field introduced in 17.1.1.
 	TenantRef string `json:"tenant_ref,omitempty"`

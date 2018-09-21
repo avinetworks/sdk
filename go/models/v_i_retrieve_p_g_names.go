@@ -14,10 +14,10 @@ type VIRetrievePGNames struct {
 	Datacenter string `json:"datacenter,omitempty"`
 
 	// password of VIRetrievePGNames.
-	Password string `json:"password,omitempty"`
+	Password *string `json:"password,omitempty"`
 
 	// username of VIRetrievePGNames.
-	Username string `json:"username,omitempty"`
+	Username *string `json:"username,omitempty"`
 
 	// vcenter_url of VIRetrievePGNames.
 	VcenterURL string `json:"vcenter_url,omitempty"`

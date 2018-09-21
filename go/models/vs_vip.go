@@ -22,7 +22,7 @@ type VsVip struct {
 
 	// Name for the VsVip object. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant. Field introduced in 17.1.1.
 	TenantRef string `json:"tenant_ref,omitempty"`

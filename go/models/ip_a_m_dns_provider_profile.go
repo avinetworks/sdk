@@ -34,7 +34,10 @@ type IPAMDNSProviderProfile struct {
 
 	// Name for the IPAM/DNS Provider profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
+
+	// Provider details for Oracle Cloud. Field introduced in 18.1.3.
+	OciProfile *IPAMDNSOCIprofile `json:"oci_profile,omitempty"`
 
 	// Provider details if type is OpenStack.
 	OpenstackProfile *IPAMDNSOpenstackProfile `json:"openstack_profile,omitempty"`
@@ -45,9 +48,9 @@ type IPAMDNSProviderProfile struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
-	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
+	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

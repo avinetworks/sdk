@@ -13,7 +13,7 @@ type NetworkRuntime struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Unique object identifier of se.
 	SeUUID []string `json:"se_uuid,omitempty"`

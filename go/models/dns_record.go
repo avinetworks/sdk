@@ -8,7 +8,7 @@ package models
 type DNSRecord struct {
 
 	// Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is round-robin. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1.
-	Algorithm string `json:"algorithm,omitempty"`
+	Algorithm *string `json:"algorithm,omitempty"`
 
 	// Canonical name in CNAME record.
 	Cname *DNSCnameRdata `json:"cname,omitempty"`
@@ -42,7 +42,7 @@ type DNSRecord struct {
 
 	// DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// Enable wild-card match of fqdn  if an exact match is not found in the DNS table, the longest match is chosen by wild-carding the fqdn in the DNS request. Default is false. Field introduced in 17.1.1.
 	WildcardMatch bool `json:"wildcard_match,omitempty"`

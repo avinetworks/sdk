@@ -12,18 +12,18 @@ type SeResources struct {
 
 	// Number of disk.
 	// Required: true
-	Disk int32 `json:"disk"`
+	Disk *int32 `json:"disk"`
 
 	// Placeholder for description of property hyper_threading of obj type SeResources field type str  type boolean
 	HyperThreading bool `json:"hyper_threading,omitempty"`
 
 	// Number of memory.
 	// Required: true
-	Memory int32 `json:"memory"`
+	Memory *int32 `json:"memory"`
 
 	// Number of num_vcpus.
 	// Required: true
-	NumVcpus int32 `json:"num_vcpus"`
+	NumVcpus *int32 `json:"num_vcpus"`
 
 	// Number of sockets.
 	Sockets int32 `json:"sockets,omitempty"`

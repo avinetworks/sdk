@@ -19,14 +19,14 @@ type StringGroup struct {
 
 	// Name of the string group.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`
 
 	// Type of StringGroup. Enum options - SG_TYPE_STRING, SG_TYPE_KEYVAL.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

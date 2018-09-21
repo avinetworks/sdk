@@ -18,5 +18,5 @@ type OpenStackVnicChange struct {
 
 	// Unique object identifier of se_vm.
 	// Required: true
-	SeVMUUID string `json:"se_vm_uuid"`
+	SeVMUUID *string `json:"se_vm_uuid"`
 }

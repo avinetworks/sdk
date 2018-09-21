@@ -30,7 +30,7 @@ type MetricsDataHeader struct {
 
 	// name of the column.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// object ID of the series when object ID was specified in the metric.
 	ObjID string `json:"obj_id,omitempty"`
@@ -42,7 +42,7 @@ type MetricsDataHeader struct {
 	PoolUUID string `json:"pool_uuid,omitempty"`
 
 	// Placeholder for description of property priority of obj type MetricsDataHeader field type str  type boolean
-	Priority bool `json:"priority,omitempty"`
+	Priority *bool `json:"priority,omitempty"`
 
 	// server ip port.
 	Server string `json:"server,omitempty"`
@@ -57,5 +57,5 @@ type MetricsDataHeader struct {
 	TenantUUID string `json:"tenant_uuid,omitempty"`
 
 	// units of the column data. Enum options - METRIC_COUNT, BITS_PER_SECOND, MILLISECONDS, SECONDS, PER_SECOND, BYTES, PERCENT, KILO_BYTES, KILO_BYTES_PER_SECOND, BYTES_PER_SECOND, KILO_BITS_PER_SECOND, GIGA_BYTES, MEGA_BYTES, NORMALIZED, STRING, SEC, MIN, DAYS, KB, MB, GB, MBPS, GHZ, RATIO, WORD, MICROSECONDS, HEALTH.
-	Units string `json:"units,omitempty"`
+	Units *string `json:"units,omitempty"`
 }

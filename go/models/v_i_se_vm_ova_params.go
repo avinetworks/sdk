@@ -12,7 +12,7 @@ type VISeVMOvaParams struct {
 
 	// controller_ip_addr of VISeVmOvaParams.
 	// Required: true
-	ControllerIPAddr string `json:"controller_ip_addr"`
+	ControllerIPAddr *string `json:"controller_ip_addr"`
 
 	//  Enum options - APIC_MODE, NON_APIC_MODE.
 	Mode string `json:"mode,omitempty"`
@@ -25,7 +25,7 @@ type VISeVMOvaParams struct {
 
 	// sevm_name of VISeVmOvaParams.
 	// Required: true
-	SevmName string `json:"sevm_name"`
+	SevmName *string `json:"sevm_name"`
 
 	// Placeholder for description of property single_socket_affinity of obj type VISeVmOvaParams field type str  type boolean
 	SingleSocketAffinity bool `json:"single_socket_affinity,omitempty"`
@@ -46,22 +46,22 @@ type VISeVMOvaParams struct {
 	VcenterHost string `json:"vcenter_host,omitempty"`
 
 	// vcenter_internal of VISeVmOvaParams.
-	VcenterInternal string `json:"vcenter_internal,omitempty"`
+	VcenterInternal *string `json:"vcenter_internal,omitempty"`
 
 	// Placeholder for description of property vcenter_mem_reserv of obj type VISeVmOvaParams field type str  type boolean
 	VcenterMemReserv bool `json:"vcenter_mem_reserv,omitempty"`
 
 	// Number of vcenter_num_mem.
-	VcenterNumMem int64 `json:"vcenter_num_mem,omitempty"`
+	VcenterNumMem *int64 `json:"vcenter_num_mem,omitempty"`
 
 	// Number of vcenter_num_se_cores.
-	VcenterNumSeCores int32 `json:"vcenter_num_se_cores,omitempty"`
+	VcenterNumSeCores *int32 `json:"vcenter_num_se_cores,omitempty"`
 
 	// vcenter_ovf_path of VISeVmOvaParams.
 	VcenterOvfPath string `json:"vcenter_ovf_path,omitempty"`
 
 	// Number of vcenter_se_disk_size_KB.
-	VcenterSeDiskSizeKB int32 `json:"vcenter_se_disk_size_KB,omitempty"`
+	VcenterSeDiskSizeKB *int32 `json:"vcenter_se_disk_size_KB,omitempty"`
 
 	// vcenter_se_mgmt_nw of VISeVmOvaParams.
 	VcenterSeMgmtNw string `json:"vcenter_se_mgmt_nw,omitempty"`

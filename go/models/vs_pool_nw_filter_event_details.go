@@ -9,13 +9,13 @@ type VsPoolNwFilterEventDetails struct {
 
 	// filter of VsPoolNwFilterEventDetails.
 	// Required: true
-	Filter string `json:"filter"`
+	Filter *string `json:"filter"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// network of VsPoolNwFilterEventDetails.
 	// Required: true
-	Network string `json:"network"`
+	Network *string `json:"network"`
 }

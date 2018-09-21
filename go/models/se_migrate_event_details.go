@@ -18,7 +18,7 @@ type SeMigrateEventDetails struct {
 
 	// Unique object identifier of se.
 	// Required: true
-	SeUUID string `json:"se_uuid"`
+	SeUUID *string `json:"se_uuid"`
 
 	// vs_name of SeMigrateEventDetails.
 	VsName string `json:"vs_name,omitempty"`

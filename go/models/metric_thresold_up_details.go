@@ -18,7 +18,7 @@ type MetricThresoldUpDetails struct {
 
 	// metric_name of MetricThresoldUpDetails.
 	// Required: true
-	MetricName string `json:"metric_name"`
+	MetricName *string `json:"metric_name"`
 
 	// Identity of the Pool.
 	PoolUUID string `json:"pool_uuid,omitempty"`

@@ -18,7 +18,7 @@ type CloudVipParkingIntf struct {
 
 	// subnet_id of CloudVipParkingIntf.
 	// Required: true
-	SubnetID string `json:"subnet_id"`
+	SubnetID *string `json:"subnet_id"`
 
 	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	Vtype string `json:"vtype,omitempty"`

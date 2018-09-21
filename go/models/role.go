@@ -13,7 +13,7 @@ type Role struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property privileges of obj type Role field type str  type object
 	Privileges []*Permission `json:"privileges,omitempty"`

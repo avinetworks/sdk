@@ -19,7 +19,10 @@ type CloudConnectorUser struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
+
+	// Credentials for Oracle Cloud Infrastructure. Field introduced in 18.1.3.
+	OciCredentials *OCICredentials `json:"oci_credentials,omitempty"`
 
 	// password of CloudConnectorUser.
 	Password string `json:"password,omitempty"`

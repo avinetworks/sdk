@@ -14,7 +14,7 @@ type GslbDNSGsStatus struct {
 	NumPartialUpdates int32 `json:"num_partial_updates,omitempty"`
 
 	// Threshold after which a full GS Status is sent. . Field introduced in 17.1.1.
-	PartialUpdateThreshold int32 `json:"partial_update_threshold,omitempty"`
+	PartialUpdateThreshold *int32 `json:"partial_update_threshold,omitempty"`
 
 	// State variable to trigger full or partial update. Enum options - GSLB_FULL_UPDATE_PENDING, GSLB_PARTIAL_UPDATE_PENDING. Field introduced in 17.1.1.
 	State string `json:"state,omitempty"`

@@ -297,7 +297,7 @@ type VserverL7MetricsObj struct {
 
 	// node_obj_id of VserverL7MetricsObj.
 	// Required: true
-	NodeObjID string `json:"node_obj_id"`
+	NodeObjID *string `json:"node_obj_id"`
 
 	// Percentage cache hit of requests.
 	PctCacheHits float64 `json:"pct_cache_hits,omitempty"`

@@ -9,7 +9,7 @@ type MesosAttribute struct {
 
 	// Attribute to match.
 	// Required: true
-	Attribute string `json:"attribute"`
+	Attribute *string `json:"attribute"`
 
 	// Attribute value. If not set, match any value.
 	Value string `json:"value,omitempty"`

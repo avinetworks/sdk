@@ -12,7 +12,7 @@ type HSMSafenetLuna struct {
 
 	// Set to indicate HA across more than one servers.
 	// Required: true
-	IsHa bool `json:"is_ha"`
+	IsHa *bool `json:"is_ha"`
 
 	// Node specific information.
 	NodeInfo []*HSMSafenetClientInfo `json:"node_info,omitempty"`

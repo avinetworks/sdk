@@ -38,7 +38,7 @@ type GslbSiteRuntimeInfo struct {
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
 	// Site Role  Leader or Follower. Enum options - GSLB_LEADER, GSLB_MEMBER, GSLB_NOT_A_MEMBER.
-	Role string `json:"role,omitempty"`
+	Role *string `json:"role,omitempty"`
 
 	// Current outstanding request-response token of the message to this site.
 	Rrtoken []string `json:"rrtoken,omitempty"`
@@ -47,11 +47,11 @@ type GslbSiteRuntimeInfo struct {
 	SiteType string `json:"site_type,omitempty"`
 
 	//  Enum options - SITE_STATE_NULL, SITE_STATE_JOIN_IN_PROGRESS, SITE_STATE_LEAVE_IN_PROGRESS, SITE_STATE_INIT, SITE_STATE_UNREACHABLE, SITE_STATE_MMODE, SITE_STATE_DISABLE_IN_PROGRESS, SITE_STATE_DISABLED.
-	State string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	// State - Reason.
 	StateReason string `json:"state_reason,omitempty"`
 
 	// Current Software version of the site.
-	SwVersion string `json:"sw_version,omitempty"`
+	SwVersion *string `json:"sw_version,omitempty"`
 }

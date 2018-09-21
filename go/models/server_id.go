@@ -16,5 +16,5 @@ type ServerID struct {
 
 	// Number of port.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 }

@@ -34,7 +34,7 @@ type IPAddrGroup struct {
 
 	// Name of the IP address group.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Configure IP address prefix(es).
 	Prefixes []*IPAddrPrefix `json:"prefixes,omitempty"`

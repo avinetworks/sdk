@@ -25,7 +25,7 @@ type SecureChannelMapping struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// pub_key of SecureChannelMapping.
 	PubKey string `json:"pub_key,omitempty"`
@@ -34,7 +34,7 @@ type SecureChannelMapping struct {
 	PubKeyPem string `json:"pub_key_pem,omitempty"`
 
 	//  Enum options - SECURE_CHANNEL_NONE, SECURE_CHANNEL_CONNECTED, SECURE_CHANNEL_AUTH_SSH_SUCCESS, SECURE_CHANNEL_AUTH_SSH_FAILED, SECURE_CHANNEL_AUTH_TOKEN_SUCCESS, SECURE_CHANNEL_AUTH_TOKEN_FAILED, SECURE_CHANNEL_AUTH_ERRORS, SECURE_CHANNEL_AUTH_IGNORED.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// url
 	// Read Only: true

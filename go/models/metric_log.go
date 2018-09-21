@@ -12,7 +12,7 @@ type MetricLog struct {
 
 	// metric_id of MetricLog.
 	// Required: true
-	MetricID string `json:"metric_id"`
+	MetricID *string `json:"metric_id"`
 
 	// Placeholder for description of property report_timestamp of obj type MetricLog field type str  type number
 	ReportTimestamp float64 `json:"report_timestamp,omitempty"`

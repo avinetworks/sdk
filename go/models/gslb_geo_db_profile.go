@@ -18,11 +18,11 @@ type GslbGeoDbProfile struct {
 	Entries []*GslbGeoDbEntry `json:"entries,omitempty"`
 
 	// This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3.
-	IsFederated bool `json:"is_federated,omitempty"`
+	IsFederated *bool `json:"is_federated,omitempty"`
 
 	// A user-friendly name for the geodb profile. Field introduced in 17.1.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant. Field introduced in 17.1.1.
 	TenantRef string `json:"tenant_ref,omitempty"`

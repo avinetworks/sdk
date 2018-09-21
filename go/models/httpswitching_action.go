@@ -9,7 +9,7 @@ type HttpswitchingAction struct {
 
 	// Content switching action type. Enum options - HTTP_SWITCHING_SELECT_POOL, HTTP_SWITCHING_SELECT_LOCAL, HTTP_SWITCHING_SELECT_POOLGROUP.
 	// Required: true
-	Action string `json:"action"`
+	Action *string `json:"action"`
 
 	// File from which to serve local response to the request.
 	File *HTTPLocalFile `json:"file,omitempty"`

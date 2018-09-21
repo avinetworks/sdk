@@ -14,7 +14,7 @@ type VNIC struct {
 	AggregatorChgd bool `json:"aggregator_chgd,omitempty"`
 
 	// Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean
-	CanSeDpTakeover bool `json:"can_se_dp_takeover,omitempty"`
+	CanSeDpTakeover *bool `json:"can_se_dp_takeover,omitempty"`
 
 	// Placeholder for description of property connected of obj type vNIC field type str  type boolean
 	Connected bool `json:"connected,omitempty"`
@@ -23,16 +23,16 @@ type VNIC struct {
 	DelPending bool `json:"del_pending,omitempty"`
 
 	// Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean
-	DhcpEnabled bool `json:"dhcp_enabled,omitempty"`
+	DhcpEnabled *bool `json:"dhcp_enabled,omitempty"`
 
 	// Placeholder for description of property enabled of obj type vNIC field type str  type boolean
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// if_name of vNIC.
 	IfName string `json:"if_name,omitempty"`
 
 	// Enable IPv6 auto configuration. Field introduced in 18.1.1.
-	Ip6AutocfgEnabled bool `json:"ip6_autocfg_enabled,omitempty"`
+	Ip6AutocfgEnabled *bool `json:"ip6_autocfg_enabled,omitempty"`
 
 	// Placeholder for description of property is_asm of obj type vNIC field type str  type boolean
 	IsAsm bool `json:"is_asm,omitempty"`
@@ -54,13 +54,13 @@ type VNIC struct {
 
 	// mac_address of vNIC.
 	// Required: true
-	MacAddress string `json:"mac_address"`
+	MacAddress *string `json:"mac_address"`
 
 	// Placeholder for description of property members of obj type vNIC field type str  type object
 	Members []*MemberInterface `json:"members,omitempty"`
 
 	// Number of mtu.
-	Mtu int32 `json:"mtu,omitempty"`
+	Mtu *int32 `json:"mtu,omitempty"`
 
 	// network_name of vNIC.
 	NetworkName string `json:"network_name,omitempty"`

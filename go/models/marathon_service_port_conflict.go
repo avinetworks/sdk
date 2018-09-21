@@ -15,9 +15,9 @@ type MarathonServicePortConflict struct {
 
 	// marathon_url of MarathonServicePortConflict.
 	// Required: true
-	MarathonURL string `json:"marathon_url"`
+	MarathonURL *string `json:"marathon_url"`
 
 	// Number of port.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 }

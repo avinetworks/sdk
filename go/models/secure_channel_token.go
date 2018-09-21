@@ -19,7 +19,7 @@ type SecureChannelToken struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Unique object identifier of node.
 	NodeUUID string `json:"node_uuid,omitempty"`

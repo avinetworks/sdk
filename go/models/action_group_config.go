@@ -25,15 +25,15 @@ type ActionGroupConfig struct {
 
 	// Generate Alert only to external destinations.
 	// Required: true
-	ExternalOnly bool `json:"external_only"`
+	ExternalOnly *bool `json:"external_only"`
 
 	// When an alert is generated, mark its priority via the Alert Level. Enum options - ALERT_LOW, ALERT_MEDIUM, ALERT_HIGH.
 	// Required: true
-	Level string `json:"level"`
+	Level *string `json:"level"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Select the SNMP Trap Notification to use when sending alerts via SNMP Trap. It is a reference to an object of type SnmpTrapProfile.
 	SnmpTrapProfileRef string `json:"snmp_trap_profile_ref,omitempty"`

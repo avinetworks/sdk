@@ -12,7 +12,7 @@ type SeHmEventShmDetails struct {
 
 	// Health Monitor name. It is a reference to an object of type HealthMonitor.
 	// Required: true
-	HealthMonitor string `json:"health_monitor"`
+	HealthMonitor *string `json:"health_monitor"`
 
 	// resp_string of SeHmEventShmDetails.
 	RespString string `json:"resp_string,omitempty"`

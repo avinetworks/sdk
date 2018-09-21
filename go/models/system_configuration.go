@@ -15,7 +15,7 @@ type SystemConfiguration struct {
 	AdminAuthConfiguration *AdminAuthConfiguration `json:"admin_auth_configuration,omitempty"`
 
 	// Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
-	DefaultLicenseTier string `json:"default_license_tier,omitempty"`
+	DefaultLicenseTier *string `json:"default_license_tier,omitempty"`
 
 	// Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object
 	DNSConfiguration *DNSConfiguration `json:"dns_configuration,omitempty"`
@@ -46,6 +46,9 @@ type SystemConfiguration struct {
 
 	// Placeholder for description of property proxy_configuration of obj type SystemConfiguration field type str  type object
 	ProxyConfiguration *ProxyConfiguration `json:"proxy_configuration,omitempty"`
+
+	// Configure Secure Channel properties. Field introduced in 18.1.4, 18.2.1.
+	SecureChannelConfiguration *SecureChannelConfiguration `json:"secure_channel_configuration,omitempty"`
 
 	// Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object
 	SnmpConfiguration *SnmpConfiguration `json:"snmp_configuration,omitempty"`

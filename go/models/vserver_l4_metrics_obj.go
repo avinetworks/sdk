@@ -73,7 +73,7 @@ type VserverL4MetricsObj struct {
 	// DoS attack  Requests dropped due to Cookie rate limit.
 	AvgDosReqCookieRlDrop float64 `json:"avg_dos_req_cookie_rl_drop,omitempty"`
 
-	// DoS attack  Requests dropped due to Custom rate limit. Field introduced in 18.1.3.
+	// DoS attack  Requests dropped due to Custom rate limit. Field introduced in 17.2.13,18.1.3.
 	AvgDosReqCustomRlDrop float64 `json:"avg_dos_req_custom_rl_drop,omitempty"`
 
 	// DoS attack  Requests dropped due to Header rate limit.
@@ -207,7 +207,7 @@ type VserverL4MetricsObj struct {
 
 	// node_obj_id of VserverL4MetricsObj.
 	// Required: true
-	NodeObjID string `json:"node_obj_id"`
+	NodeObjID *string `json:"node_obj_id"`
 
 	// Fraction of L7 requests owing to DoS.
 	PctApplicationDosAttacks float64 `json:"pct_application_dos_attacks,omitempty"`

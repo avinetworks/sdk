@@ -36,11 +36,11 @@ type DNSResourceRecord struct {
 
 	// Number of seconds the resource record can be cached.
 	// Required: true
-	TTL int32 `json:"ttl"`
+	TTL *int32 `json:"ttl"`
 
 	// Type of resource record. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// Virtual Service name - applicable only for Avi VS GSLB member.
 	VsName string `json:"vs_name,omitempty"`

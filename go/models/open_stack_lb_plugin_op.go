@@ -12,7 +12,7 @@ type OpenStackLbPluginOp struct {
 
 	// command of OpenStackLbPluginOp.
 	// Required: true
-	Command string `json:"command"`
+	Command *string `json:"command"`
 
 	// detail of OpenStackLbPluginOp.
 	Detail string `json:"detail,omitempty"`
@@ -22,11 +22,11 @@ type OpenStackLbPluginOp struct {
 
 	// id of OpenStackLbPluginOp.
 	// Required: true
-	ID string `json:"id"`
+	ID *string `json:"id"`
 
 	// prov of OpenStackLbPluginOp.
 	// Required: true
-	Prov string `json:"prov"`
+	Prov *string `json:"prov"`
 
 	// result of OpenStackLbPluginOp.
 	Result string `json:"result,omitempty"`

@@ -21,7 +21,7 @@ type DebugServiceEngine struct {
 	Flags []*DebugSeDataplane `json:"flags,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object
 	SeagentDebug []*DebugSeAgent `json:"seagent_debug,omitempty"`

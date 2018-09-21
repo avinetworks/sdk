@@ -17,10 +17,10 @@ type SSLCertificate struct {
 	ChainVerified bool `json:"chain_verified,omitempty"`
 
 	// Number of days_until_expire.
-	DaysUntilExpire int32 `json:"days_until_expire,omitempty"`
+	DaysUntilExpire *int32 `json:"days_until_expire,omitempty"`
 
 	//  Enum options - SSL_CERTIFICATE_GOOD, SSL_CERTIFICATE_EXPIRY_WARNING, SSL_CERTIFICATE_EXPIRED.
-	ExpiryStatus string `json:"expiry_status,omitempty"`
+	ExpiryStatus *string `json:"expiry_status,omitempty"`
 
 	// fingerprint of SSLCertificate.
 	Fingerprint string `json:"fingerprint,omitempty"`

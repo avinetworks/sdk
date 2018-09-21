@@ -20,6 +20,9 @@ type Pool struct {
 	// Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.
 	AbPriority int32 `json:"ab_priority,omitempty"`
 
+	// Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4.
+	AnalyticsProfileRef string `json:"analytics_profile_ref,omitempty"`
+
 	// Synchronize Cisco APIC EPG members with pool servers.
 	ApicEpgName string `json:"apic_epg_name,omitempty"`
 
@@ -48,13 +51,13 @@ type Pool struct {
 	CloudRef string `json:"cloud_ref,omitempty"`
 
 	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
-	ConnectionRampDuration int32 `json:"connection_ramp_duration,omitempty"`
+	ConnectionRampDuration *int32 `json:"connection_ramp_duration,omitempty"`
 
 	// Creator name.
 	CreatedBy string `json:"created_by,omitempty"`
 
 	// Traffic sent to servers will use this destination server port unless overridden by the server's specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535.
-	DefaultServerPort int32 `json:"default_server_port,omitempty"`
+	DefaultServerPort *int32 `json:"default_server_port,omitempty"`
 
 	// A description of the pool.
 	Description string `json:"description,omitempty"`
@@ -66,7 +69,7 @@ type Pool struct {
 	EastWest bool `json:"east_west,omitempty"`
 
 	// Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2.
 	ExternalAutoscaleGroups []string `json:"external_autoscale_groups,omitempty"`
@@ -75,14 +78,14 @@ type Pool struct {
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
 	// Periodicity of feedback for fewest tasks server selection algorithm. Allowed values are 1-300.
-	FewestTasksFeedbackDelay int32 `json:"fewest_tasks_feedback_delay,omitempty"`
+	FewestTasksFeedbackDelay *int32 `json:"fewest_tasks_feedback_delay,omitempty"`
 
 	// Used to gracefully disable a server. Virtual service waits for the specified time before terminating the existing connections  to the servers that are disabled. Allowed values are 1-7200. Special values are 0 - 'Immediate', -1 - 'Infinite'.
-	GracefulDisableTimeout int32 `json:"graceful_disable_timeout,omitempty"`
+	GracefulDisableTimeout *int32 `json:"graceful_disable_timeout,omitempty"`
 
 	// Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1.
 	// Read Only: true
-	GslbSpEnabled bool `json:"gslb_sp_enabled,omitempty"`
+	GslbSpEnabled *bool `json:"gslb_sp_enabled,omitempty"`
 
 	// Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor.
 	HealthMonitorRefs []string `json:"health_monitor_refs,omitempty"`
@@ -91,22 +94,22 @@ type Pool struct {
 	HostCheckEnabled bool `json:"host_check_enabled,omitempty"`
 
 	// The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin.
-	InlineHealthMonitor bool `json:"inline_health_monitor,omitempty"`
+	InlineHealthMonitor *bool `json:"inline_health_monitor,omitempty"`
 
 	// Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup.
 	IpaddrgroupRef string `json:"ipaddrgroup_ref,omitempty"`
 
 	// The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY.
-	LbAlgorithm string `json:"lb_algorithm,omitempty"`
+	LbAlgorithm *string `json:"lb_algorithm,omitempty"`
 
 	// HTTP header name to be used for the hash key.
 	LbAlgorithmConsistentHashHdr string `json:"lb_algorithm_consistent_hash_hdr,omitempty"`
 
 	// Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3.
-	LbAlgorithmCoreNonaffinity int32 `json:"lb_algorithm_core_nonaffinity,omitempty"`
+	LbAlgorithmCoreNonaffinity *int32 `json:"lb_algorithm_core_nonaffinity,omitempty"`
 
 	// Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING, LB_ALGORITHM_CONSISTENT_HASH_CALLID.
-	LbAlgorithmHash string `json:"lb_algorithm_hash,omitempty"`
+	LbAlgorithmHash *string `json:"lb_algorithm_hash,omitempty"`
 
 	// Allow server lookup by name. Field introduced in 17.1.11,17.2.4.
 	LookupServerByName bool `json:"lookup_server_by_name,omitempty"`
@@ -119,7 +122,7 @@ type Pool struct {
 
 	// The name of the pool.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// (internal-use) Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter. This field is used internally by Avi, not editable by the user.
 	Networks []*NetworkFilter `json:"networks,omitempty"`
@@ -137,7 +140,7 @@ type Pool struct {
 	PrstHdrName string `json:"prst_hdr_name,omitempty"`
 
 	// Minimum number of requests to be queued when pool is full.
-	RequestQueueDepth int32 `json:"request_queue_depth,omitempty"`
+	RequestQueueDepth *int32 `json:"request_queue_depth,omitempty"`
 
 	// Enable request queue when pool is full.
 	RequestQueueEnabled bool `json:"request_queue_enabled,omitempty"`
@@ -164,7 +167,7 @@ type Pool struct {
 	Servers []*Server `json:"servers,omitempty"`
 
 	// Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake.
-	SniEnabled bool `json:"sni_enabled,omitempty"`
+	SniEnabled *bool `json:"sni_enabled,omitempty"`
 
 	// Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate.
 	SslKeyAndCertificateRef string `json:"ssl_key_and_certificate_ref,omitempty"`

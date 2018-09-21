@@ -22,7 +22,7 @@ type SecureChannelAvailableLocalIps struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Number of start.
 	Start int32 `json:"start,omitempty"`

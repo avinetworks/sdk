@@ -14,19 +14,19 @@ type ClientLogFilter struct {
 	ClientIP *IPAddrMatch `json:"client_ip,omitempty"`
 
 	//  Special values are 0 - 'infinite'.
-	Duration int32 `json:"duration,omitempty"`
+	Duration *int32 `json:"duration,omitempty"`
 
 	// Placeholder for description of property enabled of obj type ClientLogFilter field type str  type boolean
 	// Required: true
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled"`
 
 	// Number of index.
 	// Required: true
-	Index int32 `json:"index"`
+	Index *int32 `json:"index"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Placeholder for description of property uri of obj type ClientLogFilter field type str  type object
 	URI *StringMatch `json:"uri,omitempty"`

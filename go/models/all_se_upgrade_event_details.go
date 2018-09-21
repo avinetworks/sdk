@@ -12,7 +12,7 @@ type AllSeUpgradeEventDetails struct {
 
 	// Number of num_se.
 	// Required: true
-	NumSe int32 `json:"num_se"`
+	NumSe *int32 `json:"num_se"`
 
 	// Number of num_vs.
 	NumVs int32 `json:"num_vs,omitempty"`

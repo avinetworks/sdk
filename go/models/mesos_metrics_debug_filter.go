@@ -17,5 +17,5 @@ type MesosMetricsDebugFilter struct {
 	MetricEntity string `json:"metric_entity,omitempty"`
 
 	// Number of metrics_collection_frq.
-	MetricsCollectionFrq int32 `json:"metrics_collection_frq,omitempty"`
+	MetricsCollectionFrq *int32 `json:"metrics_collection_frq,omitempty"`
 }
