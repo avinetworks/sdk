@@ -76,7 +76,7 @@ class DataGroupConfigConv(object):
         """
         avi_config['IpAddrGroup'] = []
         converted_objs = []
-        f5_datagroup_dict = f5_config.get('data-group')
+        f5_datagroup_dict = f5_config.get('data-group', {})
         user_ignore = user_ignore.get('data-group', {})
         # Added variable to get total object count.
         progressbar_count = 0
@@ -136,7 +136,7 @@ class DataGroupConfigConv(object):
                 self.update_conv_status_for_error(name, dg_type, key)
         count = len(avi_config["IpAddrGroup"])
         LOG.debug("Converted %s ip group" % count)
-        f5_config.pop('data-group')
+        f5_config.pop('data-group', None)
 
 
 
