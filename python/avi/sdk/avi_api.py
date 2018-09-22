@@ -449,7 +449,7 @@ class ApiSession(Session):
         err = None
         try:
             rsp = super(ApiSession, self).post(self.prefix+"/login", body,
-                                               timeout=self.timeout)
+                                               timeout=self.timeout, verify=self.verify)
 
             if rsp.status_code == 200:
                 self.num_session_retries = 0
