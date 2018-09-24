@@ -75,14 +75,13 @@ class SSLConverter(object):
         for ssl in self.parsed.get('ssl-proxy', ''):
             key = None
             cert = None
+            key_loc = None
             name = ssl['name']
             key_and_cert = None
             for val in ssl['desc']:
                 if val.get('key', ''):
                     key_file = val['key']
                     key_loc = '%s/%s' % (self.in_path, val['key'])
-                    if not os.path.isfile(key_loc):
-                        key_loc = None
                 if val.get('cert', ''):
                     cert_file = val['cert']
                     cert_loc = '%s/%s' % (self.in_path, val['cert'])
