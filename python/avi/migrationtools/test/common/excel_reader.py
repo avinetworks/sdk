@@ -51,7 +51,8 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
     with open(path_to_out_json, 'r') as file_strem:
         file_strem = json.load(file_strem)
         for entity in file_strem:
-            if entity <> 'META' and entity <> 'VsVip':
+            if entity <> 'META' and entity <> 'VsVip' and entity <> \
+                    "OneConnect" and entity <> "hash_algorithm":
                 for obj in file_strem[entity]:
                     out_obj.append(obj.get('name'))
     excel_obj.sort()
