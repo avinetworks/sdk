@@ -44,6 +44,7 @@ SupportedCommands:
 - 'add gslb vserver'
 - 'bind gslb vserver'
 - 'add cs action'
+- 'link ssl certKey'
 
 NotApplicableCommands:
 - 'set system'
@@ -118,7 +119,6 @@ IndirectCommands:
 - 'add HA node'
 - 'add vlan'
 - 'bind vlan'
-- 'link ssl certKey'
 - 'set appfw profile'
 - 'add appfw'
 
