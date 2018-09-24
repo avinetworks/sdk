@@ -98,12 +98,19 @@ setup = dict(
     custom_config_file = input_role_config_file
 )
 
-mylogger = logging.getLogger()
+if not os.path.exists(setup.get("output_file_path")):
+    os.mkdir(setup.get("output_file_path"))
 
+formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
+logging.basicConfig(filename=os.path.join(setup.get('output_file_path'),
+                                          'converter.log'),
+                            level=logging.DEBUG, format=formatter)
+mylogger = logging.getLogger(__name__)
 
 class Namespace:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
+
 
 
 def f5_conv(
