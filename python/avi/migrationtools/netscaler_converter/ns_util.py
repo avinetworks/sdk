@@ -96,8 +96,7 @@ class NsUtil(MigrationUtil):
                 if isinstance(element_object_list, dict):
                     element_object_list = [element_object_list]
                 for element_object in element_object_list:
-                    match = [match for match in csv_writer_dict_list
-                             if
+                    match = [match for match in csv_writer_dict_list if
                              match['Line Number'] == element_object['line_no']]
                     if not match:
                         ns_complete_command = self.get_netscalar_full_command(
