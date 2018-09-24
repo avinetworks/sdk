@@ -169,7 +169,8 @@ class SSLConverter(object):
         certificate_list = list()
         if not crypto_obj:
             return certificate_list
-        for cert_name in crypto_obj[0]['cert']:
+        certs = crypto_obj[0].get('cert', [])
+        for cert_name in certs:
             ssl_c_obj = None
             cert = None
             ca_cert = None
