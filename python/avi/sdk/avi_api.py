@@ -468,6 +468,13 @@ class ApiSession(Session):
                 logger.debug("authentication success for user %s",
                              self.avi_credentials.username)
                 return
+            # Check for bad request and invalid credentials response code
+            elif rsp.status_code in [401, 403]:
+                logger.error('Status Code %s msg %s' % (
+                    rsp.status_code, rsp.text))
+                err = APIError('Status Code %s msg %s' % (
+                    rsp.status_code, rsp.text), rsp)
+                raise err
             else:
                 logger.error("Error status code %s msg %s", rsp.status_code,
                              rsp.text)
