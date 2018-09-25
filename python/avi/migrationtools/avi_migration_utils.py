@@ -1,34 +1,18 @@
-import logging
 import copy
-import ast
-import urlparse
+import logging
 import os
-import pandas
-import json
-import re
 import random
-import csv
+import string
+import urlparse
+from datetime import datetime
+from socket import gethostname
+
+import avi.migrationtools.f5_converter.converter_constants as conv_const
+import networkx as nx
 import pexpect
 import yaml
-import string
-import avi.migrationtools.f5_converter.converter_constants as conv_const
-import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
-from pkg_resources import parse_version
-from socket import gethostname
 from OpenSSL import crypto
-from datetime import datetime
-from xlsxwriter import Workbook
-from openpyxl import load_workbook
-from avi.migrationtools.netscaler_converter.ns_constants \
-    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
-            STATUS_NOT_APPLICABLE, STATUS_PARTIAL, STATUS_DATASCRIPT,
-            STATUS_INCOMPLETE_CONFIGURATION, STATUS_COMMAND_NOT_SUPPORTED,
-            OBJECT_TYPE_POOL_GROUP, OBJECT_TYPE_POOL, STATUS_NOT_IN_USE,
-            OBJECT_TYPE_HTTP_POLICY_SET, STATUS_LIST, COMPLEXITY_ADVANCED,
-            COMPLEXITY_BASIC, OBJECT_TYPE_APPLICATION_PERSISTENCE_PROFILE,
-            OBJECT_TYPE_APPLICATION_PROFILE)
 from avi.migrationtools.vs_filter import path_key_map, get_name_and_entity
-import networkx as nx
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
