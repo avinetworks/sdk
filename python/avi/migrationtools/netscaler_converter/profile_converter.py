@@ -160,6 +160,8 @@ class ProfileConverter(object):
         bind_ssl_service = ns_config.get('bind ssl service', {})
         set_ssl_service_group = ns_config.get('set ssl serviceGroup', {})
         bind_ssl_service_group = ns_config.get('bind ssl serviceGroup', {})
+        ca_cert_config = ns_config.get('link ssl certKey', {})
+
         avi_config["SSLKeyAndCertificate"] = []
         LOG.debug("Conversion started for HTTP profiles")
         # Calculate total object length for progress bar.
@@ -287,6 +289,9 @@ class ProfileConverter(object):
             set_ssl_service_group, bind_ssl_service_group, ssl_key_and_cert,
             input_dir, ns_config, avi_config, 'set ssl serviceGroup',
             'bind ssl serviceGroup', sysdict)
+
+        # Link ssl certKey conversion
+        self.convert_ca_certs(ca_cert_config, input_dir, avi_config)
 
         LOG.debug("SSL profiles conversion completed")
 
@@ -844,3 +849,50 @@ class ProfileConverter(object):
             return [cipher], ciphersuite
 
         return ciphers, ciphersuite
+
+    def convert_ca_certs(self, intermediate_cert_config, input_dir, avi_config):
+        for link_key in intermediate_cert_config.keys():
+            try:
+                cert_link = intermediate_cert_config[link_key]
+                LOG.debug('converting intermediate cert %s' % link_key)
+                full_command = ns_util.get_netscalar_full_command(
+                    'link ssl certKey', cert_link)
+                ca_cert_name = cert_link['attrs'][1]
+                cert_name = [cert['name'] for cert in
+                             avi_config['SSLKeyAndCertificate']
+                             if cert['name'] == ca_cert_name and
+                             cert['type'] == 'SSL_CERTIFICATE_TYPE_CA']
+
+                if cert_name:
+                    LOG.warning(
+                        'SSL ca cert is already exist for %s is %s' % (
+                            ca_cert_name, cert_name[0]))
+                    continue
+                ca_cert = ns_util.upload_file(
+                    input_dir + os.path.sep + ca_cert_name)
+                if ca_cert:
+                    cert = {"certificate": ca_cert}
+                    ca_cert_obj = {
+                        'name': ca_cert_name,
+                        'tenant_ref': self.tenant_ref,
+                        'certificate': cert,
+                        'type': 'SSL_CERTIFICATE_TYPE_CA'
+                    }
+                    avi_config['SSLKeyAndCertificate'].append(ca_cert_obj)
+                    ns_util.add_status_row(
+                        cert_link['line_no'], 'link ssl certKey', ca_cert_name,
+                        full_command, STATUS_SUCCESSFUL, ca_cert_obj)
+                    LOG.debug('Successfully converted intermediate cert %s' %
+                              link_key)
+                else:
+                    skipped_status = ('Skipped: Cert file not found or '
+                                      'cannot read: %s' % full_command)
+                    ns_util.add_status_row(
+                        cert_link['line_no'], 'link ssl certKey', ca_cert_name,
+                        full_command, STATUS_SKIPPED, skipped_status)
+                    LOG.warn("Skipped intermediate cert cannot read file %s" %
+                             link_key)
+            except:
+                update_count('error')
+                LOG.error("Cannot convert intermediate cert %s" % link_key,
+                          exc_info=True)
