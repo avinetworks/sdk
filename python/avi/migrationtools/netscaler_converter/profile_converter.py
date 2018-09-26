@@ -252,8 +252,9 @@ class ProfileConverter(object):
             obj = self.get_key_cert(mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config,
                                     'bind ssl vserver')
-            if obj.get('cert', None):
-                avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
+
+            certs = obj.get('cert', [])
+            avi_config["SSLKeyAndCertificate"] += certs
             if obj.get('pki', None):
                 if self.object_merge_check:
                     # Check pki profile is duplicate of other pki profile then
@@ -369,8 +370,8 @@ class ProfileConverter(object):
                         'accepted_ciphers')
                     ssl_profile['description'] = obj.get('ciphersuite')
                     # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
-                if obj.get('cert', None):
-                    avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
+                certs = obj.get('cert', [])
+                avi_config["SSLKeyAndCertificate"] += certs
                 if obj.get('pki', None):
                     if self.object_merge_check:
                         # Check pki profile is duplicate of other pki profile
@@ -551,7 +552,6 @@ class ProfileConverter(object):
         obj = dict()
         ciphers = []
         for mapping in ssl_mappings:
-            key_passphrase = None
             output = None
             bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd,
                                                                    mapping)
@@ -696,8 +696,8 @@ class ProfileConverter(object):
                 # Generate dummy cert and key
                 if not cert or not key:
                     key, cert = ns_util.create_self_signed_cert()
-                    LOG.warning('Create self cerificate and key for : %s' % name)
-                ssl_kc_obj = None
+                    LOG.warning(
+                        'Create self cerificate and key for : %s' % name)
                 if key and cert:
                     cert = {"certificate": cert}
                     ssl_kc_obj = {
@@ -711,7 +711,10 @@ class ProfileConverter(object):
                     if key_passphrase:
                         ssl_kc_obj['key_passphrase'] = key_passphrase
                     tmp_ssl_key_and_cert_list.append(name)
-                    obj['cert'] = ssl_kc_obj
+                    if 'cert' in obj:
+                        obj['cert'].append(ssl_kc_obj)
+                    else:
+                        obj['cert'] = [ssl_kc_obj]
                     output = ssl_kc_obj
                     # Add ssummery in CSV/report for ssl service
                     ns_util.add_status_row(
