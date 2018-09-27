@@ -214,13 +214,13 @@ class PolicyConfigConv(object):
                             skip_parameter.append('local')
                         ipgrp_name = 'ipaddrgroup%s-%s' % (rule_name,
                                                       str(each_index))
-                        ip_addr_group = {'name': ipgrp_name,
-                                         'tenant_ref':
-                                                      conv_utils.get_object_ref(
-                                                            'admin', 'tenant'),
-                                         'country_codes': result[
-                                                                'values'].keys()
-                                         }
+                        ip_addr_group = {
+                            'name': ipgrp_name,
+                            'tenant_ref': conv_utils.get_object_ref(
+                                 'admin', 'tenant'),
+                            'country_codes': result['values'].keys()
+                        }
+
                         if 'IpAddrGroup' not in avi_config:
                             avi_config['IpAddrGroup'] = []
                         avi_config['IpAddrGroup'].append(ip_addr_group)
