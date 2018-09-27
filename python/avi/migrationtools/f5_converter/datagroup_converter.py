@@ -74,7 +74,8 @@ class DataGroupConfigConv(object):
         :param sys_dict: baseline profile
         :return:
         """
-        avi_config['IpAddrGroup'] = []
+        if 'IpAddrGroup' not in avi_config:
+            avi_config['IpAddrGroup'] = []
         converted_objs = []
         f5_datagroup_dict = f5_config.get('data-group', {})
         user_ignore = user_ignore.get('data-group', {})
