@@ -726,7 +726,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error){
 		state_resp, err := avisess.client.Do(check_req)
 		if state_resp != nil {
 			//Checking controller response
-			if state_resp.StatusCode != 503 && state_resp.StatusCode != 502 {
+			if state_resp.StatusCode != 503 && state_resp.StatusCode != 502 && state_resp.StatusCode != 500 {
 				break
 			}
 		}
