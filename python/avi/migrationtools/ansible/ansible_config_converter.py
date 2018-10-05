@@ -90,7 +90,6 @@ class AviAnsibleConverter(object):
         if self.REF_MATCH.match(x):
             name = x.rsplit('#', 1)[1]
             obj_type = x.split('/api/')[1].split('/')[0]
-            # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
         elif self.REL_REF_MATCH.match(x):
             ref_parts = x.split('?')
@@ -109,7 +108,6 @@ class AviAnsibleConverter(object):
             # query.pop('tenant', None)
             # query.pop('cloud', None)
             u = u._replace(query=urlencode(query, True))
-        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):
