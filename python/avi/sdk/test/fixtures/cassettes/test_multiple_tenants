@@ -6,7 +6,7 @@
                 "body": "{\"name\": \"test-tenant\"}",
                 "headers": {
                     "X-CSRFToken": [
-                        "MLvhrNttwBWb41DTp48y2OaMkFE3GVbf"
+                        "3mVUIQB7rDCPEQEe281qbFurOKsMdAZr"
                     ],
                     "Content-Length": [
                         "23"
@@ -15,23 +15,23 @@
                         "admin"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MLvhrNttwBWb41DTp48y2OaMkFE3GVbf for 10.10.28.98/>, <Cookie sessionid=ucu6fmz1q0t4k86e23on05gcxnucmbb2 for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=3mVUIQB7rDCPEQEe281qbFurOKsMdAZr for 10.10.28.48/>, <Cookie avi-sessionid=43bvfvryk5j8y83t32ee7b9tvjcy9i63 for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "POST",
-                "uri": "https://10.10.28.98/api/tenant"
+                "uri": "https://10.10.28.48/api/tenant"
             },
             "response": {
                 "status": {
@@ -39,11 +39,21 @@
                     "code": 201
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=43bvfvryk5j8y83t32ee7b9tvjcy9i63; expires=Fri, 05-Oct-2018 12:39:08 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=43bvfvryk5j8y83t32ee7b9tvjcy9i63; expires=Fri, 05-Oct-2018 12:39:08 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -52,22 +62,22 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
                     ],
                     "location": [
-                        "https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc#test-tenant"
+                        "https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876#test-tenant"
                     ],
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:00 GMT"
+                        "Thu, 04 Oct 2018 12:39:08 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -77,10 +87,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"_last_modified\": \"1522060019879542\", \"url\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc#test-tenant\", \"uuid\": \"tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}"
+                    "string": "{\"url\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876#test-tenant\", \"uuid\": \"tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"name\": \"test-tenant\", \"_last_modified\": \"1538656748227635\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}"
                 }
             }
         },
@@ -96,7 +109,7 @@
                     ]
                 },
                 "method": "POST",
-                "uri": "https://10.10.28.98/login"
+                "uri": "https://10.10.28.48/login"
             },
             "response": {
                 "status": {
@@ -107,12 +120,19 @@
                     "access-control-allow-credentials": [
                         "true"
                     ],
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
                     ],
                     "set-cookie": [
-                        "csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm; expires=Mon, 25-Mar-2019 10:27:02 GMT; Max-Age=31449600; Path=/; secure",
-                        "sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du; expires=Tue, 27-Mar-2018 10:27:02 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n; expires=Thu, 03-Oct-2019 12:39:10 GMT; Max-Age=31449600; Path=/; secure",
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:10 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:10 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -130,10 +150,10 @@
                         "POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:02 GMT"
+                        "Thu, 04 Oct 2018 12:39:10 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -143,10 +163,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1522059506881152\", \"email_configuration\": {\"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\", \"server_list\": [{\"type\": \"V4\", \"addr\": \"10.10.0.100\"}]}, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"docker_mode\": false, \"snmp_configuration\": {\"version\": \"SNMP_VER2\", \"sys_contact\": \"support@avinetworks.com\", \"community\": \"<sensitive>\"}, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1f029094-2d7f-44f9-905a-e3c192ace730\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-7e9e4f3f-4456-4246-8e23-24ebe0a1ea96\", \"/api/sslkeyandcertificate/sslkeyandcertificate-78d5e608-19f1-4f5a-81dc-9a1d4e39e96a\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": false, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"17.2.8\", \"build\": 9020, \"Tag\": \"17.2.8-9020-20180326.080645\", \"Date\": \"2018-03-26T08:06:45+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{\\\"pageSize\\\":30}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.28.98/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.28.98/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"uuid\": \"tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"name\": \"test-tenant\", \"_last_modified\": \"1522060019879542\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}]}"
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1538654630221311\", \"email_configuration\": {\"disable_tls\": false, \"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"dns_configuration\": {\"search_domain\": \"\"}, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"docker_mode\": false, \"snmp_configuration\": {\"version\": \"SNMP_VER2\", \"sys_contact\": \"support@avinetworks.com\", \"community\": \"<sensitive>\"}, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-28817ad2-2e6c-41d1-9038-9450842d5da9\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-41c90bd1-3359-4c65-ac67-81a3ffb6eb5f\", \"/api/sslkeyandcertificate/sslkeyandcertificate-3094f87b-ad58-47cd-8153-cba2fd10deb4\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"18.1.3\", \"build\": 9143, \"Tag\": \"18.1.3-9143-20180818.030149\", \"Date\": \"2018-08-18T03:01:49+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.28.48/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.28.48/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"uuid\": \"tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"name\": \"test-tenant\", \"_last_modified\": \"1538656748227635\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}], \"session_cookie_name\": \"avi-sessionid\"}"
                 }
             }
         },
@@ -155,26 +178,26 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/tenant?name=test-tenant"
+                "uri": "https://10.10.28.48/api/tenant?name=test-tenant"
             },
             "response": {
                 "status": {
@@ -182,11 +205,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:10 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:10 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -204,10 +237,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:02 GMT"
+                        "Thu, 04 Oct 2018 12:39:10 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -217,10 +250,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1522060019879542\", \"url\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"uuid\": \"tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1538656748227635\", \"url\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"uuid\": \"tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
                 }
             }
         },
@@ -229,7 +265,7 @@
                 "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-test-tenant\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}",
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "Content-Length": [
                         "186"
@@ -238,20 +274,20 @@
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "POST",
-                "uri": "https://10.10.28.98/api/pool"
+                "uri": "https://10.10.28.48/api/pool"
             },
             "response": {
                 "status": {
@@ -259,11 +295,21 @@
                     "code": 201
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -278,16 +324,16 @@
                         "keep-alive"
                     ],
                     "location": [
-                        "https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4#basic_vs-pool-test-tenant"
+                        "https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598#basic_vs-pool-test-tenant"
                     ],
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:02 GMT"
+                        "Thu, 04 Oct 2018 12:39:11 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -297,10 +343,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc#test-tenant\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1522060022813558\", \"cloud_ref\": \"https://10.10.28.98/api/cloud/cloud-78035a6a-eca5-43bd-a9cb-b32f6710cd17#Default-Cloud\", \"vrf_ref\": \"https://10.10.28.98/api/vrfcontext/vrfcontext-f81bc0bc-5774-4238-836c-52f030f7955e#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4#basic_vs-pool-test-tenant\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876#test-tenant\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1538656751090232\", \"cloud_ref\": \"https://10.10.28.48/api/cloud/cloud-27964ebb-f50b-4f89-b94c-b7e7800bdac9#Default-Cloud\", \"vrf_ref\": \"https://10.10.28.48/api/vrfcontext/vrfcontext-9306755c-8a38-4f4c-8f41-91521ddd396d#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598#basic_vs-pool-test-tenant\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         },
@@ -309,29 +358,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "admin"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -339,11 +388,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -352,7 +411,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
@@ -361,10 +420,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:03 GMT"
+                        "Thu, 04 Oct 2018 12:39:11 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -374,6 +433,9 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
@@ -386,26 +448,26 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -413,11 +475,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:11 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -435,10 +507,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:03 GMT"
+                        "Thu, 04 Oct 2018 12:39:11 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -448,10 +520,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1522060022813558\", \"cloud_ref\": \"https://10.10.28.98/api/cloud/cloud-78035a6a-eca5-43bd-a9cb-b32f6710cd17\", \"vrf_ref\": \"https://10.10.28.98/api/vrfcontext/vrfcontext-f81bc0bc-5774-4238-836c-52f030f7955e\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"enabled\": true, \"uuid\": \"pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1538656751090232\", \"cloud_ref\": \"https://10.10.28.48/api/cloud/cloud-27964ebb-f50b-4f89-b94c-b7e7800bdac9\", \"vrf_ref\": \"https://10.10.28.48/api/vrfcontext/vrfcontext-9306755c-8a38-4f4c-8f41-91521ddd396d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"enabled\": true, \"uuid\": \"pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         },
@@ -460,29 +535,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Tenant-UUID": [
-                        "tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc"
+                        "tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -490,11 +565,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:12 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:12 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -503,7 +588,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
@@ -512,10 +597,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:03 GMT"
+                        "Thu, 04 Oct 2018 12:39:12 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -525,10 +610,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1522060022813558\", \"cloud_ref\": \"https://10.10.28.98/api/cloud/cloud-78035a6a-eca5-43bd-a9cb-b32f6710cd17\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.28.98/api/vrfcontext/vrfcontext-f81bc0bc-5774-4238-836c-52f030f7955e\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"enabled\": true, \"uuid\": \"pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"enabled\": true, \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1538656751090232\", \"cloud_ref\": \"https://10.10.28.48/api/cloud/cloud-27964ebb-f50b-4f89-b94c-b7e7800bdac9\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.28.48/api/vrfcontext/vrfcontext-9306755c-8a38-4f4c-8f41-91521ddd396d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"tenant_ref\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"uuid\": \"pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         },
@@ -537,29 +625,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -567,11 +655,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:12 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:12 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -580,7 +678,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
@@ -589,10 +687,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:04 GMT"
+                        "Thu, 04 Oct 2018 12:39:12 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -602,10 +700,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1522060022813558\", \"cloud_ref\": \"https://10.10.28.98/api/cloud/cloud-78035a6a-eca5-43bd-a9cb-b32f6710cd17\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.28.98/api/vrfcontext/vrfcontext-f81bc0bc-5774-4238-836c-52f030f7955e\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"enabled\": true, \"uuid\": \"pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"enabled\": true, \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1538656751090232\", \"cloud_ref\": \"https://10.10.28.48/api/cloud/cloud-27964ebb-f50b-4f89-b94c-b7e7800bdac9\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.28.48/api/vrfcontext/vrfcontext-9306755c-8a38-4f4c-8f41-91521ddd396d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"tenant_ref\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"uuid\": \"pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         },
@@ -614,26 +715,26 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -641,11 +742,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -663,10 +774,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:04 GMT"
+                        "Thu, 04 Oct 2018 12:39:13 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -676,10 +787,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"server_auto_scale\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"rewrite_host_header_to_server_name\": false, \"_last_modified\": \"1522060022813558\", \"cloud_ref\": \"https://10.10.28.98/api/cloud/cloud-78035a6a-eca5-43bd-a9cb-b32f6710cd17\", \"vrf_ref\": \"https://10.10.28.98/api/vrfcontext/vrfcontext-f81bc0bc-5774-4238-836c-52f030f7955e\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"enabled\": true, \"uuid\": \"pool-f065011c-efdc-4f25-8396-ab9c9924b4c4\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1538656751090232\", \"cloud_ref\": \"https://10.10.28.48/api/cloud/cloud-27964ebb-f50b-4f89-b94c-b7e7800bdac9\", \"vrf_ref\": \"https://10.10.28.48/api/vrfcontext/vrfcontext-9306755c-8a38-4f4c-8f41-91521ddd396d\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-test-tenant\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"enabled\": true, \"uuid\": \"pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         },
@@ -688,7 +802,7 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "Content-Length": [
                         "0"
@@ -697,20 +811,20 @@
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "DELETE",
-                "uri": "https://10.10.28.98/api/pool/pool-f065011c-efdc-4f25-8396-ab9c9924b4c4"
+                "uri": "https://10.10.28.48/api/pool/pool-591aa4bf-97a8-40b0-9bfc-617c45d3d598"
             },
             "response": {
                 "status": {
@@ -718,14 +832,24 @@
                     "code": 204
                 },
                 "headers": {
+                    "access-control-allow-credentials": [
+                        "true"
+                    ],
                     "content-length": [
                         "0"
                     ],
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    "x-xss-protection": [
+                        "1; mode=block"
                     ],
-                    "access-control-allow-credentials": [
-                        "true"
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -743,10 +867,10 @@
                         "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:05 GMT"
+                        "Thu, 04 Oct 2018 12:39:13 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -756,6 +880,9 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
@@ -768,29 +895,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "test-tenant"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/pool?name=basic_vs-pool-test-tenant"
+                "uri": "https://10.10.28.48/api/pool?name=basic_vs-pool-test-tenant"
             },
             "response": {
                 "status": {
@@ -798,14 +925,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
-                    "server-timing": [
-                        "reverse_migrate_version=205.38687706,"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:13 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -814,7 +948,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
@@ -823,10 +957,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:05 GMT"
+                        "Thu, 04 Oct 2018 12:39:13 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -836,6 +970,9 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
@@ -848,26 +985,26 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "X-Avi-Tenant": [
                         "admin"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/tenant?name=test-tenant"
+                "uri": "https://10.10.28.48/api/tenant?name=test-tenant"
             },
             "response": {
                 "status": {
@@ -875,11 +1012,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:14 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:14 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -897,10 +1044,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:05 GMT"
+                        "Thu, 04 Oct 2018 12:39:14 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -910,10 +1057,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1522060019879542\", \"url\": \"https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"uuid\": \"tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"_last_modified\": \"1538656748227635\", \"url\": \"https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"uuid\": \"tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876\", \"name\": \"test-tenant\", \"local\": true, \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}}]}"
                 }
             }
         },
@@ -922,7 +1072,7 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm"
+                        "sthmBE6NNJvzj375fxyr7btOBqTDn21n"
                     ],
                     "Content-Length": [
                         "0"
@@ -931,20 +1081,20 @@
                         "admin"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=MbjwBhIQudyN09eDZlw9h2jBJYN0rDWm for 10.10.28.98/>, <Cookie sessionid=m6hdqc7u910coq88qjq8fi2gcznhg0du for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=sthmBE6NNJvzj375fxyr7btOBqTDn21n for 10.10.28.48/>, <Cookie avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "60"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "DELETE",
-                "uri": "https://10.10.28.98/api/tenant/tenant-790b9d43-8e2c-46a8-95ed-8c2fab4ffecc"
+                "uri": "https://10.10.28.48/api/tenant/tenant-850d69a0-1d89-4e47-95f2-0ce63fcc1876"
             },
             "response": {
                 "status": {
@@ -952,17 +1102,27 @@
                     "code": 204
                 },
                 "headers": {
+                    "access-control-allow-credentials": [
+                        "true"
+                    ],
                     "content-length": [
                         "0"
                     ],
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
                     ],
                     "avi_api_version": [
                         "16_4_2"
                     ],
-                    "access-control-allow-credentials": [
-                        "true"
+                    "set-cookie": [
+                        "sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:15 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=8k0emngfissang2zjz1vqaojkgms5ewz; expires=Fri, 05-Oct-2018 12:39:15 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -971,7 +1131,7 @@
                         "Accept, Cookie"
                     ],
                     "server-timing": [
-                        "destroy=295.339107513,"
+                        "destroy=288.008928299,"
                     ],
                     "connection": [
                         "keep-alive"
@@ -980,10 +1140,10 @@
                         "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:27:06 GMT"
+                        "Thu, 04 Oct 2018 12:39:15 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -993,6 +1153,9 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
