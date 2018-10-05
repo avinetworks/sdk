@@ -1029,6 +1029,8 @@ class F5Util(MigrationUtil):
             tenant = 'admin'
         if '/' in name:
             name = name.split('/')[1]
+        if ' ' in tenant:
+            tenant = tenant.split(' ')[-1]
         return tenant, name
 
     def get_app_profile_type(self, profile_name, avi_config):
