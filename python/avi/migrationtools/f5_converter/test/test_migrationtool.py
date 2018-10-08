@@ -171,6 +171,7 @@ class TestF5Converter:
                     print(e)
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_download_v11(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -183,6 +184,7 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'))
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_download_v10(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -475,6 +477,7 @@ class TestF5Converter:
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_v10_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -496,6 +499,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_auto_upload_v10_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -510,6 +514,7 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -531,6 +536,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -559,6 +565,7 @@ class TestF5Converter:
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -580,6 +587,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -945,6 +953,7 @@ class TestF5Converter:
                    'external_monitor']['command_code']
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -966,6 +975,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_custom_config_object_upload(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -997,6 +1007,7 @@ class TestF5Converter:
         assert output_vs_level_status(self.excel_path)
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1018,6 +1029,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_segroup_and_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -1044,6 +1056,7 @@ class TestF5Converter:
            raise Exception("Controller segroup creation faild %s" % res.content)
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1065,6 +1078,7 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_vrf_ref_upload_v11_17_1_1(self):
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
                      file_attribute['controller_user_17_1_1'],
