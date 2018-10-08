@@ -118,6 +118,7 @@ class TestNetscalerConverter:
         conv.csv_writer_dict_list = list()
 
     @pytest.mark.skip_travis
+    @pytest.mark.skip()
     def test_download(self, cleanup):
         """
         Download Input File Flow.
