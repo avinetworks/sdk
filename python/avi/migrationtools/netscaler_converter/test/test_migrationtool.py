@@ -117,16 +117,15 @@ class TestNetscalerConverter:
         import avi.migrationtools.f5_converter.conversion_util as conv
         conv.csv_writer_dict_list = list()
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_download(self, cleanup):
-        """
-        Download Input File Flow.
-        """
-        netscaler_conv(ns_host_ip=setup.get('ns_host_ip'),
-                       ns_ssh_user=setup.get('ns_ssh_user'),
-                       ns_ssh_password=setup.get('ns_ssh_password'),
-                       controller_version=setup.get('controller_version_v17'))
+    # @pytest.mark.skip_travis
+    # def test_download(self, cleanup):
+    #     """
+    #     Download Input File Flow.
+    #     """
+    #     netscaler_conv(ns_host_ip=setup.get('ns_host_ip'),
+    #                    ns_ssh_user=setup.get('ns_ssh_user'),
+    #                    ns_ssh_password=setup.get('ns_ssh_password'),
+    #                    controller_version=setup.get('controller_version_v17'))
 
     @pytest.mark.travis
     def test_output_sanitization_17_1_1(self, cleanup):

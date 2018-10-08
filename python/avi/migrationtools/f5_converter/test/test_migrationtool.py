@@ -170,31 +170,29 @@ class TestF5Converter:
                 except Exception as e:
                     print(e)
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_download_v11(self, cleanup):
-        """
-        Download Input File Flow, Test for Controller v17.1.1
-        """
-        f5_conv(f5_host_ip=setup.get('f5_host_ip_v11'),
-                controller_version=setup.get('controller_version_v17'),
-                f5_ssh_user=setup.get('f5_ssh_user'),
-                f5_ssh_password=setup.get('f5_ssh_password'),
-                f5_ssh_port=setup.get('f5_ssh_port'),
-                f5_config_version=setup.get('file_version_v11'))
+    # @pytest.mark.skip_travis
+    # def test_download_v11(self, cleanup):
+    #     """
+    #     Download Input File Flow, Test for Controller v17.1.1
+    #     """
+    #     f5_conv(f5_host_ip=setup.get('f5_host_ip_v11'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             f5_ssh_user=setup.get('f5_ssh_user'),
+    #             f5_ssh_password=setup.get('f5_ssh_password'),
+    #             f5_ssh_port=setup.get('f5_ssh_port'),
+    #             f5_config_version=setup.get('file_version_v11'))
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_download_v10(self, cleanup):
-        """
-        Download Input File Flow, Test for Controller v17.1.1
-        """
-        f5_conv(f5_host_ip=setup.get('f5_host_ip_v10'),
-                controller_version=setup.get('controller_version_v17'),
-                f5_ssh_user=setup.get('f5_ssh_user_10'),
-                f5_ssh_password=setup.get('f5_ssh_password'),
-                f5_ssh_port=setup.get('f5_ssh_port'),
-                f5_config_version=setup.get('file_version_v10'))
+    # @pytest.mark.skip_travis
+    # def test_download_v10(self, cleanup):
+    #     """
+    #     Download Input File Flow, Test for Controller v17.1.1
+    #     """
+    #     f5_conv(f5_host_ip=setup.get('f5_host_ip_v10'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             f5_ssh_user=setup.get('f5_ssh_user_10'),
+    #             f5_ssh_password=setup.get('f5_ssh_password'),
+    #             f5_ssh_port=setup.get('f5_ssh_port'),
+    #             f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
     def test_output_sanitization_v10(self, cleanup):
@@ -476,80 +474,76 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'),
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_v10_17_1_1(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_v10_17_1_1(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_auto_upload_v10_17_1_1(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1,
-        AutoUpload Flow
-        """
-        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
-                f5_config_version=setup.get('file_version_v10'),
-                controller_version=setup.get('controller_version_v17'),
-                option=setup.get('option'),
-                controller_ip=setup.get('controller_ip_17_1_1'),
-                user=setup.get('controller_user_17_1_1'),
-                password=setup.get('controller_password_17_1_1'))
+    # @pytest.mark.skip_travis
+    # def test_auto_upload_v10_17_1_1(self, cleanup):
+    #     """
+    #     Input File on Local Filesystem, Test for Controller v17.1.1,
+    #     AutoUpload Flow
+    #     """
+    #     f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+    #             f5_config_version=setup.get('file_version_v10'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             option=setup.get('option'),
+    #             controller_ip=setup.get('controller_ip_17_1_1'),
+    #             user=setup.get('controller_user_17_1_1'),
+    #             password=setup.get('controller_password_17_1_1'))
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_v11_17_1_1(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_v11_17_1_1(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_auto_upload_v11_17_1_1(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1,
-        AutoUpload Flow
-        """
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                output_file_path=setup.get('output_file_path'),
-                f5_config_version=setup.get('file_version_v11'),
-                controller_version=setup.get('controller_version_v17'),
-                option=setup.get('option'),
-                controller_ip=setup.get('controller_ip_17_1_1'),
-                user=setup.get('controller_user_17_1_1'),
-                password=setup.get('controller_password_17_1_1'))
+    # @pytest.mark.skip_travis
+    # def test_auto_upload_v11_17_1_1(self, cleanup):
+    #     """
+    #     Input File on Local Filesystem, Test for Controller v17.1.1,
+    #     AutoUpload Flow
+    #     """
+    #     f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+    #             output_file_path=setup.get('output_file_path'),
+    #             f5_config_version=setup.get('file_version_v11'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             option=setup.get('option'),
+    #             controller_ip=setup.get('controller_ip_17_1_1'),
+    #             user=setup.get('controller_user_17_1_1'),
+    #             password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
     def test_create_ansible_object_creation_v11(self, cleanup):
@@ -564,49 +558,47 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1
-        AutoUpload Flow
-        """
-        print(subprocess.check_output('pip install avisdk --upgrade',
-                                      shell=True))
-        print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
-            shell=True))
-        try:
-            output = subprocess.check_output('/usr/local/bin/ansible-playbook '
-                    '-s %s --extra-vars "controller=%s username=%s password=%s"'
-                    % (setup.get('f5_ansible_object'), setup.get(
-                    'controller_ip_17_1_1'), setup.get(
-                    'controller_user_17_1_1'), setup.get(
-                    'controller_password_17_1_1')), shell=True)
-        except subprocess.CalledProcessError as e:
-            output = e.output
+    # @pytest.mark.skip_travis
+    # def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
+    #     """
+    #     Input File on Local Filesystem, Test for Controller v17.1.1
+    #     AutoUpload Flow
+    #     """
+    #     print(subprocess.check_output('pip install avisdk --upgrade',
+    #                                   shell=True))
+    #     print(subprocess.check_output(
+    #         '/usr/local/bin/ansible-galaxy install avinetworks.avisdk',
+    #         shell=True))
+    #     try:
+    #         output = subprocess.check_output('/usr/local/bin/ansible-playbook '
+    #                 '-s %s --extra-vars "controller=%s username=%s password=%s"'
+    #                 % (setup.get('f5_ansible_object'), setup.get(
+    #                 'controller_ip_17_1_1'), setup.get(
+    #                 'controller_user_17_1_1'), setup.get(
+    #                 'controller_password_17_1_1')), shell=True)
+    #     except subprocess.CalledProcessError as e:
+    #         output = e.output
 
     @pytest.mark.travis
     def test_create_ansible_object_v10(self, cleanup):
@@ -952,42 +944,40 @@ class TestF5Converter:
                config_data['avi_config'][
                    'external_monitor']['command_code']
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_custom_config_object_upload(self):
-
-        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                f5_config_version=setup.get('file_version_v11'),
-                controller_version=setup.get('controller_version_v17'),
-                controller_ip=setup.get('controller_ip_17_1_1'),
-                user=setup.get('controller_user_17_1_1'),
-                password=setup.get('controller_password_17_1_1'),
-                option=setup.get('option'),
-                output_file_path=setup.get('output_file_path'),
-                custom_config=setup.get('custom_config_file'),
-                f5_ssh_port=setup.get('f5_ssh_port'),)
+    # @pytest.mark.skip_travis
+    # def test_custom_config_object_upload(self):
+    #
+    #     f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+    #             f5_config_version=setup.get('file_version_v11'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             controller_ip=setup.get('controller_ip_17_1_1'),
+    #             user=setup.get('controller_user_17_1_1'),
+    #             password=setup.get('controller_password_17_1_1'),
+    #             option=setup.get('option'),
+    #             output_file_path=setup.get('output_file_path'),
+    #             custom_config=setup.get('custom_config_file'),
+    #             f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
     def test_vs_level_status_with_v11(self):
@@ -1006,97 +996,93 @@ class TestF5Converter:
         )
         assert output_vs_level_status(self.excel_path)
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_segroup_and_upload_v11_17_1_1(self, cleanup):
-        """
-        Input File on Local Filesystem, Test for Controller v17.1.1,
-        AutoUpload Flow
-        """
-        res = create_segroup(file_attribute['controller_ip_17_1_1'],
-                                                      file_attribute[
-                                     'controller_user_17_1_1'],
-                                                      file_attribute[
-                                     'controller_password_17_1_1'],
-                                    setup.get('segroup'))
+    # @pytest.mark.skip_travis
+    # def test_segroup_and_upload_v11_17_1_1(self, cleanup):
+    #     """
+    #     Input File on Local Filesystem, Test for Controller v17.1.1,
+    #     AutoUpload Flow
+    #     """
+    #     res = create_segroup(file_attribute['controller_ip_17_1_1'],
+    #                                                   file_attribute[
+    #                                  'controller_user_17_1_1'],
+    #                                                   file_attribute[
+    #                                  'controller_password_17_1_1'],
+    #                                 setup.get('segroup'))
+    #
+    #     if res.status_code in [200, 201]:
+    #         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+    #             output_file_path=setup.get('output_file_path'),
+    #             f5_config_version=setup.get('file_version_v11'),
+    #             controller_version=setup.get('controller_version_v17'),
+    #             option=setup.get('option'),
+    #             controller_ip=setup.get('controller_ip_17_1_1'),
+    #             user=setup.get('controller_user_17_1_1'),
+    #             password=setup.get('controller_password_17_1_1'),
+    #             segroup=setup.get('segroup'))
+    #     else:
+    #        raise Exception("Controller segroup creation faild %s" % res.content)
 
-        if res.status_code in [200, 201]:
-            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                output_file_path=setup.get('output_file_path'),
-                f5_config_version=setup.get('file_version_v11'),
-                controller_version=setup.get('controller_version_v17'),
-                option=setup.get('option'),
-                controller_ip=setup.get('controller_ip_17_1_1'),
-                user=setup.get('controller_user_17_1_1'),
-                password=setup.get('controller_password_17_1_1'),
-                segroup=setup.get('segroup'))
-        else:
-           raise Exception("Controller segroup creation faild %s" % res.content)
+    # @pytest.mark.skip_travis
+    # def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
+    #     """""
+    #     Verify Controller v17.1.1 is running and clean reboot avi api.
+    #     After controller setup completed, upload the AviInternal certificate file.
+    #     """
+    #     is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_user_17_1_1'],
+    #                                     file_attribute[
+    #                                         'controller_password_17_1_1'])
+    #     if is_up:
+    #         clean_reboot(file_attribute['controller_ip_17_1_1'],
+    #                      file_attribute['controller_user_17_1_1'],
+    #                      file_attribute['controller_password_17_1_1'],
+    #                      file_attribute['controller_version_v17'],
+    #                      file_attribute['license_file_path'])
+    #         print "Controller is running properly."
+    #     else:
+    #         print "Controller is not running properly."
 
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
-        """""
-        Verify Controller v17.1.1 is running and clean reboot avi api.
-        After controller setup completed, upload the AviInternal certificate file.
-        """
-        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
-                                        file_attribute[
-                                            'controller_user_17_1_1'],
-                                        file_attribute[
-                                            'controller_password_17_1_1'])
-        if is_up:
-            clean_reboot(file_attribute['controller_ip_17_1_1'],
-                         file_attribute['controller_user_17_1_1'],
-                         file_attribute['controller_password_17_1_1'],
-                         file_attribute['controller_version_v17'],
-                         file_attribute['license_file_path'])
-            print "Controller is running properly."
-        else:
-            print "Controller is not running properly."
-
-    @pytest.mark.skip_travis
-    @pytest.mark.skip()
-    def test_vrf_ref_upload_v11_17_1_1(self):
-        res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
-                     file_attribute['controller_user_17_1_1'],
-                     file_attribute['controller_password_17_1_1'],
-                     vrf_name=setup.get('vrf'))
-
-        if res.status_code in [200, 201]:
-            f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
-                    f5_config_version=setup.get('file_version_v11'),
-                    controller_version=setup.get('controller_version_v17'),
-                    output_file_path=setup.get('output_file_path'),
-                    controller_ip=setup.get('controller_ip_17_1_1'),
-                    user=setup.get('controller_user_17_1_1'),
-                    password=setup.get('controller_password_17_1_1'),
-                    option=setup.get('option'),
-                    vrf=setup.get('vrf'))
-        else:
-            raise Exception("Controller vrf creation faild %s" % res.content)
+    # @pytest.mark.skip_travis
+    # def test_vrf_ref_upload_v11_17_1_1(self):
+    #     res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
+    #                  file_attribute['controller_user_17_1_1'],
+    #                  file_attribute['controller_password_17_1_1'],
+    #                  vrf_name=setup.get('vrf'))
+    #
+    #     if res.status_code in [200, 201]:
+    #         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+    #                 f5_config_version=setup.get('file_version_v11'),
+    #                 controller_version=setup.get('controller_version_v17'),
+    #                 output_file_path=setup.get('output_file_path'),
+    #                 controller_ip=setup.get('controller_ip_17_1_1'),
+    #                 user=setup.get('controller_user_17_1_1'),
+    #                 password=setup.get('controller_password_17_1_1'),
+    #                 option=setup.get('option'),
+    #                 vrf=setup.get('vrf'))
+    #     else:
+    #         raise Exception("Controller vrf creation faild %s" % res.content)
 
     @pytest.mark.travis
     def test_application_profile_on_v11(self, cleanup):
