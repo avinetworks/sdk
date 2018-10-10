@@ -565,13 +565,21 @@ class ApiSession(Session):
                                          api_version)
         connection_error = False
         err = None
+        cookies = {
+            'csrftoken': api_hdrs['X-CSRFToken'],
+        }
+        try:
+            if self.session_cookie_name:
+                cookies[self.session_cookie_name] = sessionDict[self.key]['session_id']
+        except KeyError:
+            pass
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
         except (ConnectionError, SSLError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
