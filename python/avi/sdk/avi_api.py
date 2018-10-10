@@ -502,13 +502,6 @@ class ApiSession(Session):
         if self.key in sessionDict and 'csrftoken' in sessionDict.get(self.key):
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
             # Added Cookie to handle single session
-            api_hdrs['Cookie'] = "[<Cookie csrftoken=%s " \
-                                 "for %s/>, " \
-                                 "<Cookie sessionid=%s " \
-                                 "for %s/>]" %(sessionDict[self.key]['csrftoken'],
-                                               self.avi_credentials.controller,
-                                               sessionDict[self.key]['session_id'],
-                                               self.avi_credentials.controller)
         else:
             self.authenticate_session()
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
