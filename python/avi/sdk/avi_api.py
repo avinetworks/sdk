@@ -562,8 +562,7 @@ class ApiSession(Session):
             'csrftoken': api_hdrs['X-CSRFToken'],
         }
         try:
-            if self.session_cookie_name:
-                cookies[self.session_cookie_name] = sessionDict[self.key]['session_id']
+            cookies['avi-sessionid'] = sessionDict[self.key]['session_id']
         except KeyError:
             pass
         try:
