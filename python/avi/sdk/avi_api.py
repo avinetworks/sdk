@@ -227,6 +227,7 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
+        self.session_cookie_name = ''
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
@@ -452,12 +453,13 @@ class ApiSession(Session):
             if rsp.status_code == 200:
                 self.num_session_retries = 0
                 self.remote_api_version = rsp.json().get('version', {})
+                self.session_cookie_name = rsp.json().get('session_cookie_name', 'sessionid')
                 self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
                     sessionDict[self.key] = {
                         'csrftoken': csrftoken,
-                        'session_id': rsp.cookies['sessionid'],
+                        'session_id': rsp.cookies[self.session_cookie_name],
                         'last_used': datetime.utcnow(),
                         'api': self,
                         'connected': True
@@ -502,13 +504,6 @@ class ApiSession(Session):
         if self.key in sessionDict and 'csrftoken' in sessionDict.get(self.key):
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
             # Added Cookie to handle single session
-            api_hdrs['Cookie'] = "[<Cookie csrftoken=%s " \
-                                 "for %s/>, " \
-                                 "<Cookie sessionid=%s " \
-                                 "for %s/>]" %(sessionDict[self.key]['csrftoken'],
-                                               self.avi_credentials.controller,
-                                               sessionDict[self.key]['session_id'],
-                                               self.avi_credentials.controller)
         else:
             self.authenticate_session()
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
@@ -565,13 +560,21 @@ class ApiSession(Session):
                                          api_version)
         connection_error = False
         err = None
+        cookies = {
+            'csrftoken': api_hdrs['X-CSRFToken'],
+        }
+        try:
+            cookies[self.session_cookie_name] = \
+                sessionDict[self.key]['session_id']
+        except KeyError:
+            pass
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
         except (ConnectionError, SSLError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
