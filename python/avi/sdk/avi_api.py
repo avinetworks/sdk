@@ -512,14 +512,14 @@ class ApiSession(Session):
         if self.key in sessionDict and 'csrftoken' in sessionDict.get(self.key):
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
             # Added Cookie to handle single session
-            api_hdrs['Cookie'] = "[<Cookie csrftoken=%s " \
-                                 "for %s/>, " \
-                                 "<Cookie %s=%s " \
-                                 "for %s/>]" %(sessionDict[self.key]['csrftoken'],
-                                               self.avi_credentials.controller,
-                                               self.session_cookie_name,
-                                               sessionDict[self.key]['session_id'],
-                                               self.avi_credentials.controller)
+            #api_hdrs['Cookie'] = "[<Cookie csrftoken=%s " \
+            #                     "for %s/>, " \
+            #                     "<Cookie %s=%s " \
+            #                     "for %s/>]" %(sessionDict[self.key]['csrftoken'],
+            #                                   self.avi_credentials.controller,
+            #                                   self.session_cookie_name,
+            #                                   sessionDict[self.key]['session_id'],
+            #                                   self.avi_credentials.controller)
         else:
             self.authenticate_session()
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
@@ -576,13 +576,21 @@ class ApiSession(Session):
                                          api_version)
         connection_error = False
         err = None
+        cookies = {
+            'csrftoken': api_hdrs['X-CSRFToken'],
+        }
+        try:
+            if self.session_cookie_name:
+                cookies[self.session_cookie_name] = sessionDict[self.key]['session_id']
+        except KeyError:
+            pass
         try:
             if (data is not None) and (type(data) == dict):
                 resp = fn(fullpath, data=json.dumps(data), headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
-                          timeout=timeout, **kwargs)
+                          timeout=timeout, cookies=cookies, **kwargs)
         except (ConnectionError, SSLError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
