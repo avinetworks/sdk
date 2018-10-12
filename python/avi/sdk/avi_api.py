@@ -4,6 +4,7 @@ import copy
 import json
 import logging
 import time
+import requests
 from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
@@ -549,6 +550,27 @@ class ApiSession(Session):
             api_hdrs.update(headers)
         return api_hdrs
 
+    def controller_wait(self):
+        """
+        It waits for controller to come up for certain time (1 hour).
+        :return: controller_up: Boolean value for controller up state.
+        """
+        count = 0
+        path = self._get_api_path('login')
+        while True:
+            r = requests.get(path, timeout=10, verify=False)
+            if r.status_code in (500, 502, 503) and count < 720:
+                logger.info('Retrying... Waiting for controller to come up! response code: %s response: %s'
+                            %(r.status_code, r.json()))
+                time.sleep(3)
+                count += 1
+            elif count >= 720:
+                logger.info('Time Out! Controller not in up state! response code: %s response: %s'
+                            %(r.status_code, r.json()))
+                return False
+            else:
+                return True
+
     def _api(self, api_name, path, tenant, tenant_uuid, data=None,
              headers=None, timeout=None, api_version=None, **kwargs):
         """
@@ -571,6 +593,9 @@ class ApiSession(Session):
         if timeout is None:
             timeout = self.timeout
         fullpath = self._get_api_path(path)
+        controller_up = self.controller_wait()
+        if not controller_up:
+            logger.error('Something Wrong with controller. The Controller is not in up state.')
         fn = getattr(super(ApiSession, self), api_name)
         api_hdrs = self._get_api_headers(tenant, tenant_uuid, timeout, headers,
                                          api_version)
