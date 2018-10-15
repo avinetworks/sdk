@@ -9,9 +9,9 @@ type OpenStackRoleMapping struct {
 
 	// Role name in Avi.
 	// Required: true
-	AviRole string `json:"avi_role"`
+	AviRole *string `json:"avi_role"`
 
 	// Role name in OpenStack.
 	// Required: true
-	OsRole string `json:"os_role"`
+	OsRole *string `json:"os_role"`
 }

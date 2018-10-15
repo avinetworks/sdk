@@ -18,4 +18,7 @@ type MgmtIPAccessControl struct {
 
 	// Configure IP addresses to access controller using SSH.
 	SSHAccess *IPAddrMatch `json:"ssh_access,omitempty"`
+
+	// Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3.
+	SysintAccess *IPAddrMatch `json:"sysint_access,omitempty"`
 }

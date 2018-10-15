@@ -8,22 +8,22 @@ package models
 type RmSpawnSeEventDetails struct {
 
 	// availability_zone of RmSpawnSeEventDetails.
-	AvailabilityZone string `json:"availability_zone,omitempty"`
+	AvailabilityZone *string `json:"availability_zone,omitempty"`
 
 	// cloud_name of RmSpawnSeEventDetails.
-	CloudName string `json:"cloud_name,omitempty"`
+	CloudName *string `json:"cloud_name,omitempty"`
 
 	// Unique object identifier of cloud.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 
 	// host_name of RmSpawnSeEventDetails.
-	HostName string `json:"host_name,omitempty"`
+	HostName *string `json:"host_name,omitempty"`
 
 	// Unique object identifier of host.
-	HostUUID string `json:"host_uuid,omitempty"`
+	HostUUID *string `json:"host_uuid,omitempty"`
 
 	// Number of memory.
-	Memory int32 `json:"memory,omitempty"`
+	Memory *int32 `json:"memory,omitempty"`
 
 	// network_names of RmSpawnSeEventDetails.
 	NetworkNames []string `json:"network_names,omitempty"`
@@ -32,32 +32,32 @@ type RmSpawnSeEventDetails struct {
 	Networks []string `json:"networks,omitempty"`
 
 	// reason of RmSpawnSeEventDetails.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// se_cookie of RmSpawnSeEventDetails.
-	SeCookie string `json:"se_cookie,omitempty"`
+	SeCookie *string `json:"se_cookie,omitempty"`
 
 	// se_grp_name of RmSpawnSeEventDetails.
-	SeGrpName string `json:"se_grp_name,omitempty"`
+	SeGrpName *string `json:"se_grp_name,omitempty"`
 
 	// Unique object identifier of se_grp.
-	SeGrpUUID string `json:"se_grp_uuid,omitempty"`
+	SeGrpUUID *string `json:"se_grp_uuid,omitempty"`
 
 	// se_name of RmSpawnSeEventDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 
 	// Unique object identifier of se.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 
 	// Number of status_code.
-	StatusCode int64 `json:"status_code,omitempty"`
+	StatusCode *int64 `json:"status_code,omitempty"`
 
 	// Number of vcpus.
-	Vcpus int32 `json:"vcpus,omitempty"`
+	Vcpus *int32 `json:"vcpus,omitempty"`
 
 	// vs_name of RmSpawnSeEventDetails.
-	VsName string `json:"vs_name,omitempty"`
+	VsName *string `json:"vs_name,omitempty"`
 
 	// Unique object identifier of vs.
-	VsUUID string `json:"vs_uuid,omitempty"`
+	VsUUID *string `json:"vs_uuid,omitempty"`
 }

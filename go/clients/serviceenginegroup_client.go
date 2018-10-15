@@ -88,7 +88,7 @@ func (client *ServiceEngineGroupClient) Create(obj *models.ServiceEngineGroup) (
 // Update an existing ServiceEngineGroup object
 func (client *ServiceEngineGroupClient) Update(obj *models.ServiceEngineGroup) (*models.ServiceEngineGroup, error) {
 	var robj *models.ServiceEngineGroup
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ServiceEngineGroupClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

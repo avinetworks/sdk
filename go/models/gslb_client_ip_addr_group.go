@@ -18,5 +18,5 @@ type GslbClientIPAddrGroup struct {
 
 	// Specify whether this client IP address range is public or private. Enum options - GSLB_IP_PUBLIC, GSLB_IP_PRIVATE. Field introduced in 17.1.2.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

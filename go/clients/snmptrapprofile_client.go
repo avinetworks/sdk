@@ -88,7 +88,7 @@ func (client *SnmpTrapProfileClient) Create(obj *models.SnmpTrapProfile) (*model
 // Update an existing SnmpTrapProfile object
 func (client *SnmpTrapProfileClient) Update(obj *models.SnmpTrapProfile) (*models.SnmpTrapProfile, error) {
 	var robj *models.SnmpTrapProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SnmpTrapProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

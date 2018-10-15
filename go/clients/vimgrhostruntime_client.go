@@ -88,7 +88,7 @@ func (client *VIMgrHostRuntimeClient) Create(obj *models.VIMgrHostRuntime) (*mod
 // Update an existing VIMgrHostRuntime object
 func (client *VIMgrHostRuntimeClient) Update(obj *models.VIMgrHostRuntime) (*models.VIMgrHostRuntime, error) {
 	var robj *models.VIMgrHostRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VIMgrHostRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

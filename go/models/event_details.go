@@ -232,6 +232,9 @@ type EventDetails struct {
 	// Placeholder for description of property nw_summarized_details of obj type EventDetails field type str  type object
 	NwSummarizedDetails *SummarizedInfo `json:"nw_summarized_details,omitempty"`
 
+	// Placeholder for description of property oci_info of obj type EventDetails field type str  type object
+	OciInfo *OCISetup `json:"oci_info,omitempty"`
+
 	// Placeholder for description of property os_infra_details of obj type EventDetails field type str  type object
 	OsInfraDetails *OpenStackClusterSetup `json:"os_infra_details,omitempty"`
 
@@ -423,6 +426,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property vcenter_disc_failure of obj type EventDetails field type str  type object
 	VcenterDiscFailure *VinfraVcenterDiscoveryFailure `json:"vcenter_disc_failure,omitempty"`
+
+	// Placeholder for description of property vcenter_network_limit of obj type EventDetails field type str  type object
+	VcenterNetworkLimit *VinfraVcenterNetworkLimit `json:"vcenter_network_limit,omitempty"`
 
 	// Placeholder for description of property vcenter_obj_delete_details of obj type EventDetails field type str  type object
 	VcenterObjDeleteDetails *VinfraVcenterObjDeleteDetails `json:"vcenter_obj_delete_details,omitempty"`

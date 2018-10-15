@@ -11,5 +11,5 @@ type VcenterHosts struct {
 	HostRefs []string `json:"host_refs,omitempty"`
 
 	// Placeholder for description of property include of obj type VcenterHosts field type str  type boolean
-	Include bool `json:"include,omitempty"`
+	Include *bool `json:"include,omitempty"`
 }

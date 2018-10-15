@@ -11,5 +11,5 @@ type SidebandProfile struct {
 	IP []*IPAddr `json:"ip,omitempty"`
 
 	// Maximum size of the request body that will be sent on the sideband. Allowed values are 0-16384.
-	SidebandMaxRequestBodySize int32 `json:"sideband_max_request_body_size,omitempty"`
+	SidebandMaxRequestBodySize *int32 `json:"sideband_max_request_body_size,omitempty"`
 }

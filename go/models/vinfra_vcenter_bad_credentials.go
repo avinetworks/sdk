@@ -8,21 +8,21 @@ package models
 type VinfraVcenterBadCredentials struct {
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Number of previous_count.
-	PreviousCount int64 `json:"previous_count,omitempty"`
+	PreviousCount *int64 `json:"previous_count,omitempty"`
 
 	// user of VinfraVcenterBadCredentials.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 
 	// vcenter of VinfraVcenterBadCredentials.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 
 	// vcenter_name of VinfraVcenterBadCredentials.
-	VcenterName string `json:"vcenter_name,omitempty"`
+	VcenterName *string `json:"vcenter_name,omitempty"`
 
 	// vcenter_object of VinfraVcenterBadCredentials.
-	VcenterObject string `json:"vcenter_object,omitempty"`
+	VcenterObject *string `json:"vcenter_object,omitempty"`
 }

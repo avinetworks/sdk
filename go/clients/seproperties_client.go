@@ -88,7 +88,7 @@ func (client *SePropertiesClient) Create(obj *models.SeProperties) (*models.SePr
 // Update an existing SeProperties object
 func (client *SePropertiesClient) Update(obj *models.SeProperties) (*models.SeProperties, error) {
 	var robj *models.SeProperties
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SePropertiesClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -2,10 +2,11 @@ package test
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/session"
-	"testing"
-	"os"
 )
 
 func TestDeleteConfigurations(t *testing.T) {
@@ -14,6 +15,7 @@ func TestDeleteConfigurations(t *testing.T) {
 		session.SetTenant("avinetworks"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
+
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
 		t.Fail()

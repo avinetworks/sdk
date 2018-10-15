@@ -9,7 +9,7 @@ type MatchReplacePair struct {
 
 	// String to be matched.
 	// Required: true
-	MatchString string `json:"match_string"`
+	MatchString *string `json:"match_string"`
 
 	// Replacement string.
 	ReplacementString *ReplaceStringVar `json:"replacement_string,omitempty"`

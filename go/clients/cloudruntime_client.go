@@ -88,7 +88,7 @@ func (client *CloudRuntimeClient) Create(obj *models.CloudRuntime) (*models.Clou
 // Update an existing CloudRuntime object
 func (client *CloudRuntimeClient) Update(obj *models.CloudRuntime) (*models.CloudRuntime, error) {
 	var robj *models.CloudRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *CloudRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

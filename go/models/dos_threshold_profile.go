@@ -12,5 +12,5 @@ type DosThresholdProfile struct {
 
 	// Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.
 	// Required: true
-	ThreshPeriod int32 `json:"thresh_period"`
+	ThreshPeriod *int32 `json:"thresh_period"`
 }

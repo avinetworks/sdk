@@ -88,7 +88,7 @@ func (client *NetworkRuntimeClient) Create(obj *models.NetworkRuntime) (*models.
 // Update an existing NetworkRuntime object
 func (client *NetworkRuntimeClient) Update(obj *models.NetworkRuntime) (*models.NetworkRuntime, error) {
 	var robj *models.NetworkRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *NetworkRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

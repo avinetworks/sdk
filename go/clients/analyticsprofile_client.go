@@ -88,7 +88,7 @@ func (client *AnalyticsProfileClient) Create(obj *models.AnalyticsProfile) (*mod
 // Update an existing AnalyticsProfile object
 func (client *AnalyticsProfileClient) Update(obj *models.AnalyticsProfile) (*models.AnalyticsProfile, error) {
 	var robj *models.AnalyticsProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *AnalyticsProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

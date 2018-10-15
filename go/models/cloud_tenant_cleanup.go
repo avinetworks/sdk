@@ -8,20 +8,20 @@ package models
 type CloudTenantCleanup struct {
 
 	// id of CloudTenantCleanup.
-	ID string `json:"id,omitempty"`
+	ID *string `json:"id,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Number of num_ports.
-	NumPorts int32 `json:"num_ports,omitempty"`
+	NumPorts *int32 `json:"num_ports,omitempty"`
 
 	// Number of num_se.
-	NumSe int32 `json:"num_se,omitempty"`
+	NumSe *int32 `json:"num_se,omitempty"`
 
 	// Number of num_secgrp.
-	NumSecgrp int32 `json:"num_secgrp,omitempty"`
+	NumSecgrp *int32 `json:"num_secgrp,omitempty"`
 
 	// Number of num_svrgrp.
-	NumSvrgrp int32 `json:"num_svrgrp,omitempty"`
+	NumSvrgrp *int32 `json:"num_svrgrp,omitempty"`
 }

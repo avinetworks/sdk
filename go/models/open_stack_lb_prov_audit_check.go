@@ -8,26 +8,26 @@ package models
 type OpenStackLbProvAuditCheck struct {
 
 	// cc_id of OpenStackLbProvAuditCheck.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// detail of OpenStackLbProvAuditCheck.
-	Detail string `json:"detail,omitempty"`
+	Detail *string `json:"detail,omitempty"`
 
 	// Number of elapsed.
-	Elapsed int32 `json:"elapsed,omitempty"`
+	Elapsed *int32 `json:"elapsed,omitempty"`
 
 	// id of OpenStackLbProvAuditCheck.
 	// Required: true
-	ID string `json:"id"`
+	ID *string `json:"id"`
 
 	// result of OpenStackLbProvAuditCheck.
-	Result string `json:"result,omitempty"`
+	Result *string `json:"result,omitempty"`
 
 	// tenant of OpenStackLbProvAuditCheck.
 	// Required: true
-	Tenant string `json:"tenant"`
+	Tenant *string `json:"tenant"`
 
 	// user of OpenStackLbProvAuditCheck.
 	// Required: true
-	User string `json:"user"`
+	User *string `json:"user"`
 }

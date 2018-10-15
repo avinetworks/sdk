@@ -8,8 +8,8 @@ package models
 type OpenStackSyncServices struct {
 
 	// error_string of OpenStackSyncServices.
-	ErrorString string `json:"error_string,omitempty"`
+	ErrorString *string `json:"error_string,omitempty"`
 
 	// Unique object identifier of se_vm.
-	SeVMUUID string `json:"se_vm_uuid,omitempty"`
+	SeVMUUID *string `json:"se_vm_uuid,omitempty"`
 }

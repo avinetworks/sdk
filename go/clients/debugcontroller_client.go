@@ -88,7 +88,7 @@ func (client *DebugControllerClient) Create(obj *models.DebugController) (*model
 // Update an existing DebugController object
 func (client *DebugControllerClient) Update(obj *models.DebugController) (*models.DebugController, error) {
 	var robj *models.DebugController
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *DebugControllerClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

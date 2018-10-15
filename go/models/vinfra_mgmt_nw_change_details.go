@@ -9,13 +9,13 @@ type VinfraMgmtNwChangeDetails struct {
 
 	// existing_nw of VinfraMgmtNwChangeDetails.
 	// Required: true
-	ExistingNw string `json:"existing_nw"`
+	ExistingNw *string `json:"existing_nw"`
 
 	// new_nw of VinfraMgmtNwChangeDetails.
 	// Required: true
-	NewNw string `json:"new_nw"`
+	NewNw *string `json:"new_nw"`
 
 	// vcenter of VinfraMgmtNwChangeDetails.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 }

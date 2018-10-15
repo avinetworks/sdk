@@ -8,8 +8,8 @@ package models
 type CCProperties struct {
 
 	// Number of rpc_poll_interval.
-	RPCPollInterval int32 `json:"rpc_poll_interval,omitempty"`
+	RPCPollInterval *int32 `json:"rpc_poll_interval,omitempty"`
 
 	// Number of rpc_queue_size.
-	RPCQueueSize int32 `json:"rpc_queue_size,omitempty"`
+	RPCQueueSize *int32 `json:"rpc_queue_size,omitempty"`
 }

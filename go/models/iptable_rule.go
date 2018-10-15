@@ -9,7 +9,7 @@ type IptableRule struct {
 
 	//  Enum options - ACCEPT, DROP, REJECT, DNAT, MASQUERADE.
 	// Required: true
-	Action string `json:"action"`
+	Action *string `json:"action"`
 
 	// Placeholder for description of property dnat_ip of obj type IptableRule field type str  type object
 	DnatIP *IPAddr `json:"dnat_ip,omitempty"`
@@ -21,13 +21,13 @@ type IptableRule struct {
 	DstPort *PortRange `json:"dst_port,omitempty"`
 
 	// input_interface of IptableRule.
-	InputInterface string `json:"input_interface,omitempty"`
+	InputInterface *string `json:"input_interface,omitempty"`
 
 	// output_interface of IptableRule.
-	OutputInterface string `json:"output_interface,omitempty"`
+	OutputInterface *string `json:"output_interface,omitempty"`
 
 	//  Enum options - PROTO_TCP, PROTO_UDP, PROTO_ICMP, PROTO_ALL.
-	Proto string `json:"proto,omitempty"`
+	Proto *string `json:"proto,omitempty"`
 
 	// Placeholder for description of property src_ip of obj type IptableRule field type str  type object
 	SrcIP *IPAddrPrefix `json:"src_ip,omitempty"`
@@ -36,5 +36,5 @@ type IptableRule struct {
 	SrcPort *PortRange `json:"src_port,omitempty"`
 
 	// tag of IptableRule.
-	Tag string `json:"tag,omitempty"`
+	Tag *string `json:"tag,omitempty"`
 }

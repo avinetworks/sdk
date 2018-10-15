@@ -11,5 +11,5 @@ type ClusterNodeStartedEvent struct {
 	IP *IPAddr `json:"ip,omitempty"`
 
 	// Name of controller node.
-	NodeName string `json:"node_name,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
 }

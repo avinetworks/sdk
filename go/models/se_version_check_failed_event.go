@@ -8,11 +8,11 @@ package models
 type SeVersionCheckFailedEvent struct {
 
 	// Software version on the controller.
-	ControllerVersion string `json:"controller_version,omitempty"`
+	ControllerVersion *string `json:"controller_version,omitempty"`
 
 	// UUID of the SE.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 
 	// Software version on the SE.
-	SeVersion string `json:"se_version,omitempty"`
+	SeVersion *string `json:"se_version,omitempty"`
 }

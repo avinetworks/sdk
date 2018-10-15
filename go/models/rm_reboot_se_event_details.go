@@ -8,8 +8,8 @@ package models
 type RmRebootSeEventDetails struct {
 
 	// reason of RmRebootSeEventDetails.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// se_name of RmRebootSeEventDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 }

@@ -88,7 +88,7 @@ func (client *ErrorPageBodyClient) Create(obj *models.ErrorPageBody) (*models.Er
 // Update an existing ErrorPageBody object
 func (client *ErrorPageBodyClient) Update(obj *models.ErrorPageBody) (*models.ErrorPageBody, error) {
 	var robj *models.ErrorPageBody
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ErrorPageBodyClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

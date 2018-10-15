@@ -17,5 +17,5 @@ type GslbDNSSeInfo struct {
 	IP *IPAddr `json:"ip,omitempty"`
 
 	// UUID of the service engine. Field introduced in 17.1.1.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

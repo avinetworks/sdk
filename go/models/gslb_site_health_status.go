@@ -32,8 +32,8 @@ type GslbSiteHealthStatus struct {
 	GsTable []*CfgState `json:"gs_table,omitempty"`
 
 	// Current Software version of the site.
-	SwVersion string `json:"sw_version,omitempty"`
+	SwVersion *string `json:"sw_version,omitempty"`
 
 	// Timestamp of Health-Status generation.
-	Timestamp float32 `json:"timestamp,omitempty"`
+	Timestamp *float32 `json:"timestamp,omitempty"`
 }

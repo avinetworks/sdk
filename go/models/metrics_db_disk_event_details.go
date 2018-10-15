@@ -12,9 +12,9 @@ type MetricsDbDiskEventDetails struct {
 
 	// Number of metrics_free_sz.
 	// Required: true
-	MetricsFreeSz int64 `json:"metrics_free_sz"`
+	MetricsFreeSz *int64 `json:"metrics_free_sz"`
 
 	// Number of metrics_quota.
 	// Required: true
-	MetricsQuota int64 `json:"metrics_quota"`
+	MetricsQuota *int64 `json:"metrics_quota"`
 }

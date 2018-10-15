@@ -88,7 +88,7 @@ func (client *SystemConfigurationClient) Create(obj *models.SystemConfiguration)
 // Update an existing SystemConfiguration object
 func (client *SystemConfigurationClient) Update(obj *models.SystemConfiguration) (*models.SystemConfiguration, error) {
 	var robj *models.SystemConfiguration
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SystemConfigurationClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

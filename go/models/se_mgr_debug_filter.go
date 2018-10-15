@@ -8,5 +8,5 @@ package models
 type SeMgrDebugFilter struct {
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

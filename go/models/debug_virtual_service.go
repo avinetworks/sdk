@@ -9,19 +9,19 @@ type DebugVirtualService struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property capture of obj type DebugVirtualService field type str  type boolean
-	Capture bool `json:"capture,omitempty"`
+	Capture *bool `json:"capture,omitempty"`
 
 	// Placeholder for description of property capture_params of obj type DebugVirtualService field type str  type object
 	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
-	CloudRef string `json:"cloud_ref,omitempty"`
+	CloudRef *string `json:"cloud_ref,omitempty"`
 
 	// This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE.
-	DebugHm string `json:"debug_hm,omitempty"`
+	DebugHm *string `json:"debug_hm,omitempty"`
 
 	// Placeholder for description of property debug_ip of obj type DebugVirtualService field type str  type object
 	DebugIP *DebugIPAddr `json:"debug_ip,omitempty"`
@@ -31,18 +31,21 @@ type DebugVirtualService struct {
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
+
+	// This option re-synchronizes flows between Active-Standby service engines for all the virtual services placed on them. It should be used with caution because as it can cause a flood between Active-Standby. Field introduced in 18.1.3.
+	ResyncFlows *bool `json:"resync_flows,omitempty"`
 
 	// Placeholder for description of property se_params of obj type DebugVirtualService field type str  type object
 	SeParams *DebugVirtualServiceSeParams `json:"se_params,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
-	TenantRef string `json:"tenant_ref,omitempty"`
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

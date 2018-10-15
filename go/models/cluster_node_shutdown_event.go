@@ -11,8 +11,8 @@ type ClusterNodeShutdownEvent struct {
 	IP *IPAddr `json:"ip,omitempty"`
 
 	// Name of controller node.
-	NodeName string `json:"node_name,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
 
 	// Reason for controller node shutdown.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 }

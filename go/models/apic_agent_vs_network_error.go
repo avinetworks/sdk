@@ -8,14 +8,14 @@ package models
 type ApicAgentVsNetworkError struct {
 
 	// pool_name of ApicAgentVsNetworkError.
-	PoolName string `json:"pool_name,omitempty"`
+	PoolName *string `json:"pool_name,omitempty"`
 
 	// pool_network of ApicAgentVsNetworkError.
-	PoolNetwork string `json:"pool_network,omitempty"`
+	PoolNetwork *string `json:"pool_network,omitempty"`
 
 	// vs_name of ApicAgentVsNetworkError.
-	VsName string `json:"vs_name,omitempty"`
+	VsName *string `json:"vs_name,omitempty"`
 
 	// vs_network of ApicAgentVsNetworkError.
-	VsNetwork string `json:"vs_network,omitempty"`
+	VsNetwork *string `json:"vs_network,omitempty"`
 }

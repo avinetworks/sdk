@@ -8,23 +8,23 @@ package models
 type ConfigDeleteDetails struct {
 
 	// Error message if request failed.
-	ErrorMessage string `json:"error_message,omitempty"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 
 	// API path.
-	Path string `json:"path,omitempty"`
+	Path *string `json:"path,omitempty"`
 
 	// Deleted data of the resource.
-	ResourceData string `json:"resource_data,omitempty"`
+	ResourceData *string `json:"resource_data,omitempty"`
 
 	// Name of the deleted resource.
-	ResourceName string `json:"resource_name,omitempty"`
+	ResourceName *string `json:"resource_name,omitempty"`
 
 	// Config type of the deleted resource.
-	ResourceType string `json:"resource_type,omitempty"`
+	ResourceType *string `json:"resource_type,omitempty"`
 
 	// Status.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }
