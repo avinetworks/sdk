@@ -8,8 +8,8 @@ package models
 type SeLicensedBandwdithExceededEventDetails struct {
 
 	// Number of packets dropped since the last event.
-	NumPktsDropped int32 `json:"num_pkts_dropped,omitempty"`
+	NumPktsDropped *int32 `json:"num_pkts_dropped,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 }

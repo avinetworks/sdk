@@ -88,7 +88,7 @@ func (client *ServerAutoScalePolicyClient) Create(obj *models.ServerAutoScalePol
 // Update an existing ServerAutoScalePolicy object
 func (client *ServerAutoScalePolicyClient) Update(obj *models.ServerAutoScalePolicy) (*models.ServerAutoScalePolicy, error) {
 	var robj *models.ServerAutoScalePolicy
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ServerAutoScalePolicyClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

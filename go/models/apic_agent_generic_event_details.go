@@ -20,23 +20,23 @@ type ApicAgentGenericEventDetails struct {
 	Networks []string `json:"networks,omitempty"`
 
 	// Unique object identifier of se.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 
 	// service_engine_vnics of ApicAgentGenericEventDetails.
 	ServiceEngineVnics []string `json:"service_engine_vnics,omitempty"`
 
 	// tenant_name of ApicAgentGenericEventDetails.
-	TenantName string `json:"tenant_name,omitempty"`
+	TenantName *string `json:"tenant_name,omitempty"`
 
 	// Unique object identifier of tenant.
-	TenantUUID string `json:"tenant_uuid,omitempty"`
+	TenantUUID *string `json:"tenant_uuid,omitempty"`
 
 	// vnic_network_attachment of ApicAgentGenericEventDetails.
 	VnicNetworkAttachment []string `json:"vnic_network_attachment,omitempty"`
 
 	// vs_name of ApicAgentGenericEventDetails.
-	VsName string `json:"vs_name,omitempty"`
+	VsName *string `json:"vs_name,omitempty"`
 
 	// Unique object identifier of vs.
-	VsUUID string `json:"vs_uuid,omitempty"`
+	VsUUID *string `json:"vs_uuid,omitempty"`
 }

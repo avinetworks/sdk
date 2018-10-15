@@ -8,14 +8,14 @@ package models
 type ConfigUserAuthrzByRule struct {
 
 	// assigned roles.
-	Roles string `json:"roles,omitempty"`
+	Roles *string `json:"roles,omitempty"`
 
 	// matching rule string.
-	Rule string `json:"rule,omitempty"`
+	Rule *string `json:"rule,omitempty"`
 
 	// assigned tenants.
-	Tenants string `json:"tenants,omitempty"`
+	Tenants *string `json:"tenants,omitempty"`
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }

@@ -88,7 +88,7 @@ func (client *DebugVirtualServiceClient) Create(obj *models.DebugVirtualService)
 // Update an existing DebugVirtualService object
 func (client *DebugVirtualServiceClient) Update(obj *models.DebugVirtualService) (*models.DebugVirtualService, error) {
 	var robj *models.DebugVirtualService
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *DebugVirtualServiceClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

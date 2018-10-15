@@ -8,14 +8,14 @@ package models
 type SeIpfailureEventDetails struct {
 
 	// Mac Address.
-	Mac string `json:"mac,omitempty"`
+	Mac *string `json:"mac,omitempty"`
 
 	// Network UUID.
-	NetworkUUID string `json:"network_uuid,omitempty"`
+	NetworkUUID *string `json:"network_uuid,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 
 	// Vnic name.
-	VnicName string `json:"vnic_name,omitempty"`
+	VnicName *string `json:"vnic_name,omitempty"`
 }

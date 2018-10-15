@@ -8,5 +8,5 @@ package models
 type SSLRenewDetails struct {
 
 	// Name of SSL Certificate.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

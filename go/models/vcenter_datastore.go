@@ -9,5 +9,5 @@ type VcenterDatastore struct {
 
 	// datastore_name of VcenterDatastore.
 	// Required: true
-	DatastoreName string `json:"datastore_name"`
+	DatastoreName *string `json:"datastore_name"`
 }

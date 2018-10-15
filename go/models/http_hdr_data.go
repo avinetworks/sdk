@@ -8,7 +8,7 @@ package models
 type HTTPHdrData struct {
 
 	// HTTP header name.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// HTTP header value.
 	Value *HTTPHdrValue `json:"value,omitempty"`

@@ -11,5 +11,5 @@ type VcenterClusters struct {
 	ClusterRefs []string `json:"cluster_refs,omitempty"`
 
 	// Placeholder for description of property include of obj type VcenterClusters field type str  type boolean
-	Include bool `json:"include,omitempty"`
+	Include *bool `json:"include,omitempty"`
 }

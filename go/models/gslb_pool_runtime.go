@@ -11,5 +11,5 @@ type GslbPoolRuntime struct {
 	Members []*GslbPoolMemberRuntimeInfo `json:"members,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

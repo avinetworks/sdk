@@ -88,7 +88,7 @@ func (client *PriorityLabelsClient) Create(obj *models.PriorityLabels) (*models.
 // Update an existing PriorityLabels object
 func (client *PriorityLabelsClient) Update(obj *models.PriorityLabels) (*models.PriorityLabels, error) {
 	var robj *models.PriorityLabels
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *PriorityLabelsClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

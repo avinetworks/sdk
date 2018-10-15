@@ -9,9 +9,9 @@ type AppInfo struct {
 
 	// app_hdr_name of AppInfo.
 	// Required: true
-	AppHdrName string `json:"app_hdr_name"`
+	AppHdrName *string `json:"app_hdr_name"`
 
 	// app_hdr_value of AppInfo.
 	// Required: true
-	AppHdrValue string `json:"app_hdr_value"`
+	AppHdrValue *string `json:"app_hdr_value"`
 }

@@ -88,7 +88,7 @@ func (client *HealthMonitorClient) Create(obj *models.HealthMonitor) (*models.He
 // Update an existing HealthMonitor object
 func (client *HealthMonitorClient) Update(obj *models.HealthMonitor) (*models.HealthMonitor, error) {
 	var robj *models.HealthMonitor
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *HealthMonitorClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

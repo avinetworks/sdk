@@ -8,7 +8,7 @@ package models
 type DNSConfiguration struct {
 
 	// Search domain to use in DNS lookup.
-	SearchDomain string `json:"search_domain,omitempty"`
+	SearchDomain *string `json:"search_domain,omitempty"`
 
 	// List of DNS Server IP addresses.
 	ServerList []*IPAddr `json:"server_list,omitempty"`

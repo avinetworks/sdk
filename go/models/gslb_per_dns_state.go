@@ -14,7 +14,7 @@ type GslbPerDNSState struct {
 	GslbDownload *GslbDownloadStatus `json:"gslb_download,omitempty"`
 
 	// Configured dns-vs-name at the site.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Placeholder for description of property oper_status of obj type GslbPerDnsState field type str  type object
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
@@ -26,8 +26,8 @@ type GslbPerDNSState struct {
 	SeList []string `json:"se_list,omitempty"`
 
 	// Configured dns-vs-uuid at the site.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 
 	// This field indicates that the local VS is configured to be a DNS service. The services, network profile and application profile are configured in Virtual Service for DNS operations. .
-	ValidDNSVs bool `json:"valid_dns_vs,omitempty"`
+	ValidDNSVs *bool `json:"valid_dns_vs,omitempty"`
 }

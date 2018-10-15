@@ -8,9 +8,9 @@ package models
 type AlertFilter struct {
 
 	// filter_action of AlertFilter.
-	FilterAction string `json:"filter_action,omitempty"`
+	FilterAction *string `json:"filter_action,omitempty"`
 
 	// filter_string of AlertFilter.
 	// Required: true
-	FilterString string `json:"filter_string"`
+	FilterString *string `json:"filter_string"`
 }

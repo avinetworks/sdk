@@ -8,5 +8,5 @@ package models
 type AutoScaleMesosSettings struct {
 
 	// Apply scaleout even when there are deployments inprogress.
-	Force bool `json:"force,omitempty"`
+	Force *bool `json:"force,omitempty"`
 }

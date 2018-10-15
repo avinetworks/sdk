@@ -88,7 +88,7 @@ func (client *ApplicationClient) Create(obj *models.Application) (*models.Applic
 // Update an existing Application object
 func (client *ApplicationClient) Update(obj *models.Application) (*models.Application, error) {
 	var robj *models.Application
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ApplicationClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

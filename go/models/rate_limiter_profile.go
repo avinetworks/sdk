@@ -25,7 +25,7 @@ type RateLimiterProfile struct {
 	// Rate Limit all HTTP requests from any single client IP address to any single URL.
 	ClientIPToURIRequestsRateLimit *RateProfile `json:"client_ip_to_uri_requests_rate_limit,omitempty"`
 
-	// Rate Limit all HTTP requests that map to any custom string to all URLs of the Virtual Service. Field introduced in 18.1.3.
+	// Rate Limit all HTTP requests that map to any custom string. Field introduced in 17.2.13,18.1.3.
 	CustomRequestsRateLimit *RateProfile `json:"custom_requests_rate_limit,omitempty"`
 
 	// Rate Limit all HTTP requests from all client IP addresses that contain any single HTTP header value. Field introduced in 17.1.1.

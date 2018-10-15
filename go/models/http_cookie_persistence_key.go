@@ -8,11 +8,11 @@ package models
 type HTTPCookiePersistenceKey struct {
 
 	// aes_key of HttpCookiePersistenceKey.
-	AesKey string `json:"aes_key,omitempty"`
+	AesKey *string `json:"aes_key,omitempty"`
 
 	// hmac_key of HttpCookiePersistenceKey.
-	HmacKey string `json:"hmac_key,omitempty"`
+	HmacKey *string `json:"hmac_key,omitempty"`
 
 	// name to use for cookie encryption.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

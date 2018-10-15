@@ -8,16 +8,16 @@ package models
 type AlertSyslogServer struct {
 
 	// Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8.
-	Format string `json:"format,omitempty"`
+	Format *string `json:"format,omitempty"`
 
 	// The destination Syslog server IP address or hostname.
 	// Required: true
-	SyslogServer string `json:"syslog_server"`
+	SyslogServer *string `json:"syslog_server"`
 
 	// The destination Syslog server's service port.
-	SyslogServerPort int32 `json:"syslog_server_port,omitempty"`
+	SyslogServerPort *int32 `json:"syslog_server_port,omitempty"`
 
 	// Network protocol to establish syslog session.
 	// Required: true
-	UDP bool `json:"udp"`
+	UDP *bool `json:"udp"`
 }

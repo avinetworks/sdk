@@ -9,7 +9,7 @@ type SeProperties struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object
 	SeAgentProperties *SeAgentProperties `json:"se_agent_properties,omitempty"`
@@ -22,8 +22,8 @@ type SeProperties struct {
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

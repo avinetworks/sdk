@@ -88,7 +88,7 @@ func (client *DNSPolicyClient) Create(obj *models.DNSPolicy) (*models.DNSPolicy,
 // Update an existing DNSPolicy object
 func (client *DNSPolicyClient) Update(obj *models.DNSPolicy) (*models.DNSPolicy, error) {
 	var robj *models.DNSPolicy
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *DNSPolicyClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

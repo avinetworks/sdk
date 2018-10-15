@@ -8,15 +8,15 @@ package models
 type VISeVMIPConfParams struct {
 
 	// default_gw of VISeVmIpConfParams.
-	DefaultGw string `json:"default_gw,omitempty"`
+	DefaultGw *string `json:"default_gw,omitempty"`
 
 	// mgmt_ip_addr of VISeVmIpConfParams.
-	MgmtIPAddr string `json:"mgmt_ip_addr,omitempty"`
+	MgmtIPAddr *string `json:"mgmt_ip_addr,omitempty"`
 
 	//  Enum options - VNIC_IP_TYPE_DHCP, VNIC_IP_TYPE_STATIC.
 	// Required: true
-	MgmtIPType string `json:"mgmt_ip_type"`
+	MgmtIPType *string `json:"mgmt_ip_type"`
 
 	// mgmt_net_mask of VISeVmIpConfParams.
-	MgmtNetMask string `json:"mgmt_net_mask,omitempty"`
+	MgmtNetMask *string `json:"mgmt_net_mask,omitempty"`
 }

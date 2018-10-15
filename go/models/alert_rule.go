@@ -11,13 +11,13 @@ type AlertRule struct {
 	ConnAppLogRule *AlertFilter `json:"conn_app_log_rule,omitempty"`
 
 	// event_match_filter of AlertRule.
-	EventMatchFilter string `json:"event_match_filter,omitempty"`
+	EventMatchFilter *string `json:"event_match_filter,omitempty"`
 
 	// Placeholder for description of property metrics_rule of obj type AlertRule field type str  type object
 	MetricsRule []*AlertRuleMetric `json:"metrics_rule,omitempty"`
 
 	//  Enum options - OPERATOR_AND, OPERATOR_OR.
-	Operator string `json:"operator,omitempty"`
+	Operator *string `json:"operator,omitempty"`
 
 	// Placeholder for description of property sys_event_rule of obj type AlertRule field type str  type object
 	SysEventRule []*AlertRuleEvent `json:"sys_event_rule,omitempty"`

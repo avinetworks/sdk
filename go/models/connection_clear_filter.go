@@ -8,8 +8,8 @@ package models
 type ConnectionClearFilter struct {
 
 	// IP address in dotted decimal notation.
-	IPAddr string `json:"ip_addr,omitempty"`
+	IPAddr *string `json:"ip_addr,omitempty"`
 
 	// Port number.
-	Port int32 `json:"port,omitempty"`
+	Port *int32 `json:"port,omitempty"`
 }

@@ -9,7 +9,7 @@ type CloudProperties struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// CloudConnector properties.
 	CcProps *CCProperties `json:"cc_props,omitempty"`
@@ -25,8 +25,8 @@ type CloudProperties struct {
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

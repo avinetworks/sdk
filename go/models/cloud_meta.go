@@ -9,9 +9,9 @@ type CloudMeta struct {
 
 	// key of CloudMeta.
 	// Required: true
-	Key string `json:"key"`
+	Key *string `json:"key"`
 
 	// value of CloudMeta.
 	// Required: true
-	Value string `json:"value"`
+	Value *string `json:"value"`
 }

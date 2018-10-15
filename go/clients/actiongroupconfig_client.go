@@ -88,7 +88,7 @@ func (client *ActionGroupConfigClient) Create(obj *models.ActionGroupConfig) (*m
 // Update an existing ActionGroupConfig object
 func (client *ActionGroupConfigClient) Update(obj *models.ActionGroupConfig) (*models.ActionGroupConfig, error) {
 	var robj *models.ActionGroupConfig
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ActionGroupConfigClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

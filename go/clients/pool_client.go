@@ -88,7 +88,7 @@ func (client *PoolClient) Create(obj *models.Pool) (*models.Pool, error) {
 // Update an existing Pool object
 func (client *PoolClient) Update(obj *models.Pool) (*models.Pool, error) {
 	var robj *models.Pool
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *PoolClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -8,11 +8,11 @@ package models
 type RmAddVnic struct {
 
 	// network_name of RmAddVnic.
-	NetworkName string `json:"network_name,omitempty"`
+	NetworkName *string `json:"network_name,omitempty"`
 
 	// Unique object identifier of network.
-	NetworkUUID string `json:"network_uuid,omitempty"`
+	NetworkUUID *string `json:"network_uuid,omitempty"`
 
 	// subnet of RmAddVnic.
-	Subnet string `json:"subnet,omitempty"`
+	Subnet *string `json:"subnet,omitempty"`
 }

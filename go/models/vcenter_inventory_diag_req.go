@@ -8,5 +8,5 @@ package models
 type VcenterInventoryDiagReq struct {
 
 	// Unique object identifier of cloud.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 }

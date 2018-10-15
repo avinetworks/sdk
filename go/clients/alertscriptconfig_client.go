@@ -88,7 +88,7 @@ func (client *AlertScriptConfigClient) Create(obj *models.AlertScriptConfig) (*m
 // Update an existing AlertScriptConfig object
 func (client *AlertScriptConfigClient) Update(obj *models.AlertScriptConfig) (*models.AlertScriptConfig, error) {
 	var robj *models.AlertScriptConfig
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *AlertScriptConfigClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -8,11 +8,11 @@ package models
 type ConfigUserNotAuthrzByRule struct {
 
 	// assigned roles.
-	Roles string `json:"roles,omitempty"`
+	Roles *string `json:"roles,omitempty"`
 
 	// assigned tenants.
-	Tenants string `json:"tenants,omitempty"`
+	Tenants *string `json:"tenants,omitempty"`
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }

@@ -9,7 +9,7 @@ type NetworkSubnetClash struct {
 
 	// ip_nw of NetworkSubnetClash.
 	// Required: true
-	IPNw string `json:"ip_nw"`
+	IPNw *string `json:"ip_nw"`
 
 	// networks of NetworkSubnetClash.
 	Networks []string `json:"networks,omitempty"`

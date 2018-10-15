@@ -9,9 +9,9 @@ type NetworkSecurityPolicyActionRLParam struct {
 
 	// Maximum number of connections or requests or packets to be rate limited instantaneously.
 	// Required: true
-	BurstSize int32 `json:"burst_size"`
+	BurstSize *int32 `json:"burst_size"`
 
 	// Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295.
 	// Required: true
-	MaxRate int32 `json:"max_rate"`
+	MaxRate *int32 `json:"max_rate"`
 }

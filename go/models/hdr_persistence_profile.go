@@ -8,5 +8,5 @@ package models
 type HdrPersistenceProfile struct {
 
 	// Header name for custom header persistence.
-	PrstHdrName string `json:"prst_hdr_name,omitempty"`
+	PrstHdrName *string `json:"prst_hdr_name,omitempty"`
 }
