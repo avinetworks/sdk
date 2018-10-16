@@ -620,9 +620,16 @@ class VSConfigConv(object):
                     clone_policy = conv_utils.clone_http_policy_set(
                         policy_obj[0], vs_name, avi_config, tenant, cloud_name)
                     pol_name = clone_policy['name']
-                    avi_config['HTTPPolicySet'].append(clone_policy)
-                    LOG.debug('Policy cloned %s for vs %s', pol_name,
-                              vs_name)
+                    pol_tenant = conv_utils.get_name(clone_policy['tenant_ref'])
+                    if pol_tenant == tenant:
+                        avi_config['HTTPPolicySet'].append(clone_policy)
+                        LOG.debug('Policy cloned %s for vs %s', pol_name,
+                                  vs_name)
+                    else:
+                        LOG.debug('Policy with different tenant not '
+                                   'supported  %s for vs %s', pol_name,
+                                  vs_name)
+                        continue
                 used_policy.append(pol_name)
                 pol = {
                     'index': 11,
