@@ -134,6 +134,10 @@ class TestModulesAce(unittest2.TestCase):
         self.assertEquals(self.MonitorConvertor_obj_app.healthmonitor_conversion()[0]['type'],
                           'HEALTH_MONITOR_HTTPS')
 
+    def test_monitor_port_support(self):
+        self.assertTrue('monitor_port' in
+                        self.MonitorConvertor_obj_app.healthmonitor_conversion()[1])
+
     """ Persistance Converter"""
 
     def test_persistance_convertor_true(self):

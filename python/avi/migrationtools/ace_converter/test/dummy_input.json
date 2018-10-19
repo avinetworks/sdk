@@ -74,6 +74,16 @@
         "type": "https",
         "port": "9114",
         "method": "get"
+    },
+    {
+        "status": "200",
+        "url": "/test/test.server:ping",
+        "status1": "200",
+        "name": "test_tcp",
+        "receive": "1",
+        "type": "tcp",
+        "port": "9135",
+        "method": "get"
     }],
     "ssl-proxy": [{
         "type": "service",
