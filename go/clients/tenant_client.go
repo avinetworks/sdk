@@ -88,7 +88,7 @@ func (client *TenantClient) Create(obj *models.Tenant) (*models.Tenant, error) {
 // Update an existing Tenant object
 func (client *TenantClient) Update(obj *models.Tenant) (*models.Tenant, error) {
 	var robj *models.Tenant
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *TenantClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

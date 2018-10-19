@@ -8,14 +8,14 @@ package models
 type VIdeleteNetworkFilter struct {
 
 	//  Field introduced in 17.1.3.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 
 	//  Field introduced in 17.1.3.
-	Datacenter string `json:"datacenter,omitempty"`
+	Datacenter *string `json:"datacenter,omitempty"`
 
 	//  Field introduced in 17.1.3.
-	NetworkUUID string `json:"network_uuid,omitempty"`
+	NetworkUUID *string `json:"network_uuid,omitempty"`
 
 	//  Field introduced in 17.1.3.
-	VcenterURL string `json:"vcenter_url,omitempty"`
+	VcenterURL *string `json:"vcenter_url,omitempty"`
 }

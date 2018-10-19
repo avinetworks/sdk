@@ -11,13 +11,13 @@ type RmAddNetworksEventDetails struct {
 	Networks []*RmAddVnic `json:"networks,omitempty"`
 
 	// reason of RmAddNetworksEventDetails.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// se_name of RmAddNetworksEventDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 
 	// Unique object identifier of se.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 
 	// vs_name of RmAddNetworksEventDetails.
 	VsName []string `json:"vs_name,omitempty"`

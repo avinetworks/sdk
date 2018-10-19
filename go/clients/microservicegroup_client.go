@@ -88,7 +88,7 @@ func (client *MicroServiceGroupClient) Create(obj *models.MicroServiceGroup) (*m
 // Update an existing MicroServiceGroup object
 func (client *MicroServiceGroupClient) Update(obj *models.MicroServiceGroup) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *MicroServiceGroupClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

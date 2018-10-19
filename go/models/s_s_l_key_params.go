@@ -9,7 +9,7 @@ type SSLKeyParams struct {
 
 	//  Enum options - SSL_KEY_ALGORITHM_RSA, SSL_KEY_ALGORITHM_EC.
 	// Required: true
-	Algorithm string `json:"algorithm"`
+	Algorithm *string `json:"algorithm"`
 
 	// Placeholder for description of property ec_params of obj type SSLKeyParams field type str  type object
 	EcParams *SSLKeyECParams `json:"ec_params,omitempty"`

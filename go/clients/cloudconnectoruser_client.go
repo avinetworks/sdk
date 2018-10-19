@@ -88,7 +88,7 @@ func (client *CloudConnectorUserClient) Create(obj *models.CloudConnectorUser) (
 // Update an existing CloudConnectorUser object
 func (client *CloudConnectorUserClient) Update(obj *models.CloudConnectorUser) (*models.CloudConnectorUser, error) {
 	var robj *models.CloudConnectorUser
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *CloudConnectorUserClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

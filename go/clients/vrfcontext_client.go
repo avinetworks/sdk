@@ -88,7 +88,7 @@ func (client *VrfContextClient) Create(obj *models.VrfContext) (*models.VrfConte
 // Update an existing VrfContext object
 func (client *VrfContextClient) Update(obj *models.VrfContext) (*models.VrfContext, error) {
 	var robj *models.VrfContext
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VrfContextClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

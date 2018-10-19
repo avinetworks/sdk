@@ -11,11 +11,11 @@ type ConfigInfo struct {
 	Queue []*VersionInfo `json:"queue,omitempty"`
 
 	// Number of reader_count.
-	ReaderCount int32 `json:"reader_count,omitempty"`
+	ReaderCount *int32 `json:"reader_count,omitempty"`
 
 	//  Enum options - REPL_NONE, REPL_ENABLED, REPL_DISABLED.
-	State string `json:"state,omitempty"`
+	State *string `json:"state,omitempty"`
 
 	// Number of writer_count.
-	WriterCount int32 `json:"writer_count,omitempty"`
+	WriterCount *int32 `json:"writer_count,omitempty"`
 }

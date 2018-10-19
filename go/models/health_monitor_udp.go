@@ -8,11 +8,11 @@ package models
 type HealthMonitorUDP struct {
 
 	// Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.
-	MaintenanceResponse string `json:"maintenance_response,omitempty"`
+	MaintenanceResponse *string `json:"maintenance_response,omitempty"`
 
 	// Send UDP request.
-	UDPRequest string `json:"udp_request,omitempty"`
+	UDPRequest *string `json:"udp_request,omitempty"`
 
 	// Match for keyword in the UDP response.
-	UDPResponse string `json:"udp_response,omitempty"`
+	UDPResponse *string `json:"udp_response,omitempty"`
 }

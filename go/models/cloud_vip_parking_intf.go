@@ -8,18 +8,18 @@ package models
 type CloudVipParkingIntf struct {
 
 	// cc_id of CloudVipParkingIntf.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// error_string of CloudVipParkingIntf.
-	ErrorString string `json:"error_string,omitempty"`
+	ErrorString *string `json:"error_string,omitempty"`
 
 	// intf_id of CloudVipParkingIntf.
-	IntfID string `json:"intf_id,omitempty"`
+	IntfID *string `json:"intf_id,omitempty"`
 
 	// subnet_id of CloudVipParkingIntf.
 	// Required: true
-	SubnetID string `json:"subnet_id"`
+	SubnetID *string `json:"subnet_id"`
 
 	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
-	Vtype string `json:"vtype,omitempty"`
+	Vtype *string `json:"vtype,omitempty"`
 }

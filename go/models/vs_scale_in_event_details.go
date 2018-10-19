@@ -8,16 +8,16 @@ package models
 type VsScaleInEventDetails struct {
 
 	// error_message of VsScaleInEventDetails.
-	ErrorMessage string `json:"error_message,omitempty"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 
 	// ip of VsScaleInEventDetails.
-	IP string `json:"ip,omitempty"`
+	IP *string `json:"ip,omitempty"`
 
 	// ip6 of VsScaleInEventDetails.
-	Ip6 string `json:"ip6,omitempty"`
+	Ip6 *string `json:"ip6,omitempty"`
 
 	// Number of rpc_status.
-	RPCStatus int64 `json:"rpc_status,omitempty"`
+	RPCStatus *int64 `json:"rpc_status,omitempty"`
 
 	// Placeholder for description of property scale_status of obj type VsScaleInEventDetails field type str  type object
 	ScaleStatus *ScaleStatus `json:"scale_status,omitempty"`
@@ -30,5 +30,5 @@ type VsScaleInEventDetails struct {
 
 	// Unique object identifier of vs.
 	// Required: true
-	VsUUID string `json:"vs_uuid"`
+	VsUUID *string `json:"vs_uuid"`
 }

@@ -88,7 +88,7 @@ func (client *LogControllerMappingClient) Create(obj *models.LogControllerMappin
 // Update an existing LogControllerMapping object
 func (client *LogControllerMappingClient) Update(obj *models.LogControllerMapping) (*models.LogControllerMapping, error) {
 	var robj *models.LogControllerMapping
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *LogControllerMappingClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

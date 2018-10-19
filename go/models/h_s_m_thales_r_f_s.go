@@ -12,5 +12,5 @@ type HSMThalesRFS struct {
 	IP *IPAddr `json:"ip"`
 
 	// Port at which the RFS server accepts the sync request from clients for Thales encrypted private key. Allowed values are 1-65535.
-	Port int32 `json:"port,omitempty"`
+	Port *int32 `json:"port,omitempty"`
 }

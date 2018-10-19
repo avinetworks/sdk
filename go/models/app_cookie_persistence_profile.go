@@ -8,12 +8,12 @@ package models
 type AppCookiePersistenceProfile struct {
 
 	// Key to use for cookie encryption.
-	EncryptionKey string `json:"encryption_key,omitempty"`
+	EncryptionKey *string `json:"encryption_key,omitempty"`
 
 	// Header or cookie name for application cookie persistence.
 	// Required: true
-	PrstHdrName string `json:"prst_hdr_name"`
+	PrstHdrName *string `json:"prst_hdr_name"`
 
 	// The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720.
-	Timeout int32 `json:"timeout,omitempty"`
+	Timeout *int32 `json:"timeout,omitempty"`
 }

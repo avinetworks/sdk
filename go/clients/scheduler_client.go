@@ -88,7 +88,7 @@ func (client *SchedulerClient) Create(obj *models.Scheduler) (*models.Scheduler,
 // Update an existing Scheduler object
 func (client *SchedulerClient) Update(obj *models.Scheduler) (*models.Scheduler, error) {
 	var robj *models.Scheduler
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SchedulerClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

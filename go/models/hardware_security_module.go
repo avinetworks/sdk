@@ -21,5 +21,5 @@ type HardwareSecurityModule struct {
 
 	// HSM type to use. Enum options - HSM_TYPE_THALES_NETHSM, HSM_TYPE_SAFENET_LUNA, HSM_TYPE_AWS_CLOUDHSM.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

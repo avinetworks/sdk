@@ -8,9 +8,9 @@ package models
 type MetricsRealTimeUpdate struct {
 
 	// Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.
-	Duration int32 `json:"duration,omitempty"`
+	Duration *int32 `json:"duration,omitempty"`
 
 	// Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track.
 	// Required: true
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled"`
 }

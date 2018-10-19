@@ -8,8 +8,8 @@ package models
 type SSLExpireDetails struct {
 
 	// Number of days until certificate is expired.
-	DaysLeft int32 `json:"days_left,omitempty"`
+	DaysLeft *int32 `json:"days_left,omitempty"`
 
 	// Name of SSL Certificate.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

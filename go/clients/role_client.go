@@ -88,7 +88,7 @@ func (client *RoleClient) Create(obj *models.Role) (*models.Role, error) {
 // Update an existing Role object
 func (client *RoleClient) Update(obj *models.Role) (*models.Role, error) {
 	var robj *models.Role
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *RoleClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -88,7 +88,7 @@ func (client *TrafficCloneProfileClient) Create(obj *models.TrafficCloneProfile)
 // Update an existing TrafficCloneProfile object
 func (client *TrafficCloneProfileClient) Update(obj *models.TrafficCloneProfile) (*models.TrafficCloneProfile, error) {
 	var robj *models.TrafficCloneProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *TrafficCloneProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

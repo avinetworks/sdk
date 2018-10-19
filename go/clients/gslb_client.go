@@ -88,7 +88,7 @@ func (client *GslbClient) Create(obj *models.Gslb) (*models.Gslb, error) {
 // Update an existing Gslb object
 func (client *GslbClient) Update(obj *models.Gslb) (*models.Gslb, error) {
 	var robj *models.Gslb
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *GslbClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

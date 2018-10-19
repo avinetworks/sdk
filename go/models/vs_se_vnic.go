@@ -8,13 +8,13 @@ package models
 type VsSeVnic struct {
 
 	// lif of VsSeVnic.
-	Lif string `json:"lif,omitempty"`
+	Lif *string `json:"lif,omitempty"`
 
 	// mac of VsSeVnic.
 	// Required: true
-	Mac string `json:"mac"`
+	Mac *string `json:"mac"`
 
 	//  Enum options - VNIC_TYPE_FE, VNIC_TYPE_BE.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 }

@@ -11,8 +11,8 @@ type VsEvStatus struct {
 	Notes []string `json:"notes,omitempty"`
 
 	// request of VsEvStatus.
-	Request string `json:"request,omitempty"`
+	Request *string `json:"request,omitempty"`
 
 	// result of VsEvStatus.
-	Result string `json:"result,omitempty"`
+	Result *string `json:"result,omitempty"`
 }

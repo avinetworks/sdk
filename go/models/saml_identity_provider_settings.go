@@ -8,5 +8,5 @@ package models
 type SamlIdentityProviderSettings struct {
 
 	// SAML IDP metadata. Field introduced in 17.2.3.
-	Metadata string `json:"metadata,omitempty"`
+	Metadata *string `json:"metadata,omitempty"`
 }

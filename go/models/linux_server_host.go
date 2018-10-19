@@ -15,8 +15,8 @@ type LinuxServerHost struct {
 	HostIP *IPAddr `json:"host_ip"`
 
 	// Node's availability zone. ServiceEngines belonging to the availability zone will be rebooted during a manual DR failover.
-	NodeAvailabilityZone string `json:"node_availability_zone,omitempty"`
+	NodeAvailabilityZone *string `json:"node_availability_zone,omitempty"`
 
 	// The SE Group association for the SE. If None, then 'Default-Group' SEGroup is associated with the SE. It is a reference to an object of type ServiceEngineGroup. Field introduced in 17.2.1.
-	SeGroupRef string `json:"se_group_ref,omitempty"`
+	SeGroupRef *string `json:"se_group_ref,omitempty"`
 }

@@ -8,18 +8,18 @@ package models
 type VCASetup struct {
 
 	// cc_id of VCASetup.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// error_string of VCASetup.
-	ErrorString string `json:"error_string,omitempty"`
+	ErrorString *string `json:"error_string,omitempty"`
 
 	// instance of VCASetup.
 	// Required: true
-	Instance string `json:"instance"`
+	Instance *string `json:"instance"`
 
 	//  Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS.
-	Privilege string `json:"privilege,omitempty"`
+	Privilege *string `json:"privilege,omitempty"`
 
 	// username of VCASetup.
-	Username string `json:"username,omitempty"`
+	Username *string `json:"username,omitempty"`
 }

@@ -8,9 +8,9 @@ package models
 type SEFaultInjectExhaustParam struct {
 
 	// Placeholder for description of property leak of obj type SEFaultInjectExhaustParam field type str  type boolean
-	Leak bool `json:"leak,omitempty"`
+	Leak *bool `json:"leak,omitempty"`
 
 	// Number of num.
 	// Required: true
-	Num int64 `json:"num"`
+	Num *int64 `json:"num"`
 }

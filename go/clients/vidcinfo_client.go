@@ -88,7 +88,7 @@ func (client *VIDCInfoClient) Create(obj *models.VIDCInfo) (*models.VIDCInfo, er
 // Update an existing VIDCInfo object
 func (client *VIDCInfoClient) Update(obj *models.VIDCInfo) (*models.VIDCInfo, error) {
 	var robj *models.VIDCInfo
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VIDCInfoClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

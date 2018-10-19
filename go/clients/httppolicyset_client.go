@@ -88,7 +88,7 @@ func (client *HTTPPolicySetClient) Create(obj *models.HTTPPolicySet) (*models.HT
 // Update an existing HTTPPolicySet object
 func (client *HTTPPolicySetClient) Update(obj *models.HTTPPolicySet) (*models.HTTPPolicySet, error) {
 	var robj *models.HTTPPolicySet
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *HTTPPolicySetClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

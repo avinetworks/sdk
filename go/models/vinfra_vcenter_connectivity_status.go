@@ -9,13 +9,13 @@ type VinfraVcenterConnectivityStatus struct {
 
 	// cloud of VinfraVcenterConnectivityStatus.
 	// Required: true
-	Cloud string `json:"cloud"`
+	Cloud *string `json:"cloud"`
 
 	// datacenter of VinfraVcenterConnectivityStatus.
 	// Required: true
-	Datacenter string `json:"datacenter"`
+	Datacenter *string `json:"datacenter"`
 
 	// vcenter of VinfraVcenterConnectivityStatus.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 }
