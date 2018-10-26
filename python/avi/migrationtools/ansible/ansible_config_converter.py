@@ -46,7 +46,8 @@ class AviAnsibleConverter(object):
         '/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
-                 filter_types=None, ns_vs_name_dict=None, test_vip=None):
+                 filter_types=None, ns_vs_name_dict=None, test_vip=None,
+                 partitions=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
@@ -57,6 +58,7 @@ class AviAnsibleConverter(object):
         self.ns_vs_name_dict = ns_vs_name_dict
         # for test vip
         self.test_vip = test_vip
+        self.partitions = partitions
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -343,8 +345,23 @@ class AviAnsibleConverter(object):
         trafic_obj = TrafficGen.get_instance(instace_type, self.prefix,
                                              ns_vs_name_dict=self.ns_vs_name_dict)
         for vs in self.avi_cfg['VirtualService']:
-            if trafic_obj.get_status_vs(vs[NAME], f5server, f5username, f5password):
-                tenant = 'admin'
+
+            # Added tenant in playbook for avi api calls.
+            tenant = 'admin'
+            if 'tenant_ref' in vs:
+                tenant = str(vs['tenant_ref']).split('=')[-1]
+            if type(self.partitions) == str:
+                with open(self.partitions) as f:
+                    data = yaml.load(f)
+                partition = data['partition-vs-mappings']
+            else:
+                partition = self.partitions
+            ip = vs[VIP][0]['ip_address']['addr']
+            port = vs[SERVICES][0]['port']
+            vip = '%s:%s' %(ip,port)
+            if trafic_obj.get_status_vs(vs[NAME],vip, f5server, f5username,
+                                        f5password, tenant,
+                                        partitions=partition):
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
                 vs_dict[VIP] = vs[VIP]
@@ -353,9 +370,7 @@ class AviAnsibleConverter(object):
                 vs_dict[USERNAME] = USER_NAME
                 vs_dict[PASSWORD] = PASSWORD_NAME
                 vs_dict[API_VERSION] = self.api_version
-                # Added tenant in playbook for avi api calls.
-                if 'tenant_ref' in vs:
-                    tenant = str(vs['tenant_ref']).split('=')[-1]
+
                 if POOL_REF in vs:
                     sep_ele = vs[POOL_REF].split('&')
                     removed_ref = sep_ele[0].split('?')
@@ -373,6 +388,7 @@ class AviAnsibleConverter(object):
                     self.generate_avi_vs_traffic(
                         vs_dict, ansible_dict,
                         vs[APPLICATION_PROFILE_REF],
+                        tenant=tenant,
                         test_vip=self.test_vip
                     )
                 else:
@@ -496,12 +512,17 @@ if __name__ == '__main__':
              'Pool will do ansible conversion only for '
              'Virtualservice and Pool objects',
         default=[])
+    parser.add_argument(
+        '-p', '--partition_file', help='location of partition file',
+        default='avi_config.yml')
     args = parser.parse_args()
 
     with open(args.config_file, "r+") as f:
         avi_cfg = json.loads(f.read())
-        aac = AviAnsibleConverter(
-            avi_cfg, args.output_dir, skip_types=args.skip_types,
-            filter_types=args.filter_types)
+        aac = AviAnsibleConverter(avi_cfg, args.output_dir,
+                                  None, None,
+                                  skip_types=args.skip_types,
+                                  filter_types=args.filter_types,
+                                  partitions=args.partition_file)
         aac.write_ansible_playbook()
 # avi_cfg, outdir, prefix, not_in_use, skip_types=None, filter_types=None
