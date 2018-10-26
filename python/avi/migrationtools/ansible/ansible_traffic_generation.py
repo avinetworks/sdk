@@ -190,7 +190,9 @@ class F5TrafficGen(TrafficGen):
                 WHEN: RESULT
             })
 
-    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None, verify=False):
+    def get_status_vs(self, vs_name,vip, f5server, username, password,
+                      tenant= None, ns_vs_name_dict=None, verify=False,
+                      partitions=[]):
         """
         This function is used for getting status for F5 virtualservice.
         :param vs_name: virtualservice name
@@ -199,9 +201,21 @@ class F5TrafficGen(TrafficGen):
         :param password: f5 password
         :return: if enabled tag present.
         """
+
+        global url
         if self.prefix:
             vs_name = self.remove_prefix(vs_name)
-        url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
+        if vip in partitions.keys():
+            data = partitions.get(vip)
+            url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (
+            f5server, data['partition'],
+            data['vs_name'])
+        else:
+            if tenant == 'admin':
+                url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
+            else:
+                url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (f5server, tenant,
+                                                          vs_name)
         status = requests.get(url, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if status.pop(ENABLE, None):
