@@ -309,7 +309,8 @@ class TestNetscalerConverter:
         """
         print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
         print(subprocess.check_output(
-            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
+            '/usr/local/bin/ansible-galaxy install avinetworks.avisdk -c -f',
+            shell=True))
         try:
             output = subprocess.check_output('/usr/local/bin/ansible-playbook -s %s --extra-vars '
                                              '"controller=%s username=%s password=%s"' %
