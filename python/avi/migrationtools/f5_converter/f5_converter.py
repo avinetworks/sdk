@@ -522,7 +522,8 @@ if __name__ == "__main__":
     parser.add_argument('--skip_default_file',
                         help='Flag for skip default file', action='store_true')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
+                        help='traffic_enabled state of VS created',
+                        default='disable')
     # Adding support for test vip
     parser.add_argument('--segroup',
                     help='Update the available segroup ref with the'
