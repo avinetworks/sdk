@@ -61,6 +61,7 @@ BIGIP_VS_SERVER = 'bigip_virtual_server'
 BIGIP_VIRTUAL_ADDRESS = 'bigip_virtual_address'
 DELEGETE_TO = 'delegate_to'
 LOCAL_HOST = 'localhost'
+TRAFFIC_ENABLE = 'traffic_enabled'
 ENABLE = 'enabled'
 F5_SERVER = "{{f5_host_ip}}"
 F5_USERNAME = "{{f5_username}}"
