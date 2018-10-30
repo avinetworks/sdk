@@ -330,7 +330,8 @@ if __name__ == "__main__":
     parser.add_argument('--redirect', help='redirect http vs to https vs if '
                         'there is no pool assigned', action="store_true")
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
+                        help='traffic_enabled state of VS created',
+                        default='disable')
     parser.add_argument('--segroup',
                         help='Update the available segroup ref with the'
                              'custom ref')

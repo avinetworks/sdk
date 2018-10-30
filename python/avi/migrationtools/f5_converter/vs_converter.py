@@ -356,7 +356,8 @@ class VSConfigConv(object):
             'name': vs_name,
             'description': description,
             'type': 'VS_TYPE_NORMAL',
-            'enabled': enabled,
+            'enabled': True,
+            'traffic_enabled': enabled,
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
             'services': services_obj,

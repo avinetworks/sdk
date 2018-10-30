@@ -7,7 +7,7 @@ from avi.migrationtools.ansible.ansible_constant import \
      IP_ADDRESS, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
      LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, ENABLE_NETSCALER,
      NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS,
-     ARP_STATE, BIGIP_VIRTUAL_ADDRESS)
+     ARP_STATE, BIGIP_VIRTUAL_ADDRESS, TRAFFIC_ENABLE)
 
 
 class TrafficGen(object):
@@ -46,7 +46,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = True
+        avi_enable[TRAFFIC_ENABLE] = True
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
@@ -71,7 +71,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
+        avi_enable[TRAFFIC_ENABLE] = False
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
@@ -91,7 +91,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
+        avi_enable[TRAFFIC_ENABLE] = False
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
