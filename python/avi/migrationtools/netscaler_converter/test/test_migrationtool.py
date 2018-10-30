@@ -125,7 +125,11 @@ class TestNetscalerConverter:
         netscaler_conv(ns_host_ip=setup.get('ns_host_ip'),
                        ns_ssh_user=setup.get('ns_ssh_user'),
                        ns_ssh_password=setup.get('ns_ssh_password'),
-                       controller_version=setup.get('controller_version_v17'))
+                       controller_version=setup.get('controller_version_v17'),
+                       option=setup.get('option'),
+		                   controller_ip=setup.get('controller_ip_17_1_1'),
+		                   user=setup.get('controller_user_17_1_1'),
+		                   password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
     def test_output_sanitization_17_1_1(self, cleanup):
