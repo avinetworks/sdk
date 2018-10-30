@@ -187,7 +187,11 @@ class TestF5Converter:
                 f5_ssh_user=setup.get('f5_ssh_user'),
                 f5_ssh_password=setup.get('f5_ssh_password'),
                 f5_ssh_port=setup.get('f5_ssh_port'),
-                f5_config_version=setup.get('file_version_v11'))
+                f5_config_version=setup.get('file_version_v11'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
     def test_download_v10(self, cleanup):
