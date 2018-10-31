@@ -6,7 +6,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from datetime import datetime
 from OpenSSL import crypto as c
 from avi.migrationtools.netscaler_converter.ns_constants \
-    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT, STATUS_DUMMY,
             STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
@@ -641,6 +641,7 @@ class ProfileConverter(object):
                     continue
 
             elif 'certkeyName' in mapping.keys():
+                is_dummy_cert = False
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
                 if not key_cert:
                     continue
@@ -696,6 +697,7 @@ class ProfileConverter(object):
                 # Generate dummy cert and key
                 if not cert or not key:
                     key, cert = ns_util.create_self_signed_cert()
+                    is_dummy_cert = True
                     LOG.warning(
                         'Create self cerificate and key for : %s' % name)
                 if key and cert:
@@ -717,9 +719,19 @@ class ProfileConverter(object):
                         obj['cert'] = [ssl_kc_obj]
                     output = ssl_kc_obj
                     # Add ssummery in CSV/report for ssl service
+                    cert_status = STATUS_SUCCESSFUL
+                    avi_obj = ssl_kc_obj
+                    if is_dummy_cert:
+                        cert_status = STATUS_DUMMY
+                        avi_obj = "Cannot read the cert please verify " \
+                                  "if cert and key files present certificate " \
+                                  "is not expired and if passphrase " \
+                                  "protected passphrase is present in " \
+                                  "passphrase yml file"
                     ns_util.add_status_row(
                         key_cert['line_no'], netscalar_cmd,
-                        key_cert['attrs'][0], full_cmd, STATUS_INDIRECT)
+                        key_cert['attrs'][0], full_cmd, cert_status,
+                        avi_object=avi_obj)
                     bind_ssl_success = True
                 else:
                     skipped_status = 'Skipped: Key and certificate not ' \
