@@ -586,7 +586,7 @@ class ApiSession(Session):
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
                           timeout=timeout, cookies=cookies, **kwargs)
-        except (ConnectionError, SSLError) as e:
+        except (ConnectionError, SSLError, ChunkedEncodingError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
                 raise
