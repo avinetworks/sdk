@@ -15,7 +15,8 @@ from avi.migrationtools.netscaler_converter.netscaler_converter \
 from avi.migrationtools.netscaler_converter.netscaler_parser import \
     get_ns_conf_dict
 from avi.migrationtools.test.common.excel_reader \
-    import percentage_success, output_sanitization
+    import percentage_success, output_sanitization, \
+    check_dummy_cert_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
@@ -421,6 +422,17 @@ class TestNetscalerConverter:
             for each_member in pool['members']:
                 if 'Web-Append-HTT' in each_member['pool_ref']:
                     assert each_member['priority_label'] == '2'
+
+    @pytest.mark.travis
+    def test_sslcert_dummy_status(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        dummy_obj = 'Lab-Test-Cert'
+        assert check_dummy_cert_status('./output/ns-ConversionStatus.xlsx',
+                        certObj=dummy_obj) == True
 
 
 def teardown():
