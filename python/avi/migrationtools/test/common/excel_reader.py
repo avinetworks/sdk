@@ -142,3 +142,32 @@ def output_vs_level_status(path_to_excel):
     if len(col_list) == 2:
         return True
     else: return False
+
+
+
+def check_dummy_cert_status(path_to_excel, certObj):
+    # Percentage Success from Excel Reports
+    # find the status column
+    path = path_to_excel
+    wb = open_workbook(path)
+    for s in wb.sheets():
+        for col in range(s.ncols):
+            if s.cell(0, col).value == "Status":
+                col_status_val = col
+            if s.cell(0, col).value == "F5 type" or \
+                            s.cell(0, col).value == "Netscaler Command":
+                col_type_val = col
+            if s.cell(0, col).value == "Object Name":
+                col_obj_val = col
+        break
+    report_dict = dict()
+    for s in wb.sheets():
+        for row in range(s.nrows):
+            if row == 0:
+                continue
+            # taking col_type_val column for type and col_status_val for status
+            type, state, obj = s.cell(row,col_type_val), s.cell(row,col_status_val),\
+                               s.cell(row,col_obj_val),
+            if state.value == "DUMMY" and obj.value == certObj and \
+                    type.value == 'add ssl certKey':
+                return True
