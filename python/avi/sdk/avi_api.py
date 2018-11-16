@@ -428,7 +428,7 @@ class ApiSession(Session):
         for k, v in self.headers.items():
             if k not in self.SHARED_USER_HDRS:
                 self.user_hdrs[k] = v
-        self.headers = {}
+        self.headers = self.user_hdrs
         self.authenticate_session()
 
     def authenticate_session(self):
