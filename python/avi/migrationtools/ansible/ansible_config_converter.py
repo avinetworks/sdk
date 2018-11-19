@@ -27,7 +27,8 @@ from avi.migrationtools.ansible.ansible_constant import \
      CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
      DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
      AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
-     ANSIBLE_STR)
+     ANSIBLE_STR, RETRIES, RETRIES_TIME, DELAY_TIME, DELAY,
+     RESULT_STATUS, UNTIL)
 from avi.migrationtools.avi_migration_utils import MigrationUtil
 from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
 
@@ -307,7 +308,10 @@ class AviAnsibleConverter(object):
                 NAME: name,
                 AVI_TRAFFIC: avi_traffic_dict,
                 TAGS: [vs_dict[NAME], GEN_TRAFFIC],
-                REGISTER: VALUE
+                REGISTER: VALUE,
+                RETRIES: RETRIES_TIME,
+                DELAY: DELAY_TIME,
+                UNTIL: RESULT_STATUS
             })
 
     def get_request_type(self, name):

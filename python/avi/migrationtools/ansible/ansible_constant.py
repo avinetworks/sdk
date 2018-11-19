@@ -83,6 +83,12 @@ NS_USERNAME = "{{ns_username}}"
 NS_PASSWORD = "{{ns_password}}"
 NS_HOST = "{{ns_host}}"
 NETSCALER_VS_STATUS = 'netscaler_vs_status'
+RETRIES = 'retries'
+RETRIES_TIME = 240
+DELAY = 'delay'
+DELAY_TIME = 5
+UNTIL = "until"
+RESULT_STATUS = 'result.success == 0'
 HELP_STR = '''
 Converts Avi Config JSON to Ansible Playbooks.
 Please ensure configuration is exported with options

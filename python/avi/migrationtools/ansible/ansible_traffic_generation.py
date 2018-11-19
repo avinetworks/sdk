@@ -47,6 +47,7 @@ class TrafficGen(object):
         """
         avi_enable = deepcopy(vs_dict)
         avi_enable[TRAFFIC_ENABLE] = True
+        avi_enable[ENABLE] = True
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
