@@ -356,11 +356,12 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		if cookie.Name == "sessionid" {
 			avisess.sessionid = cookie.Value
 		}
+		if cookie.Name == "avi-sessionid" {
+			avisess.sessionid = cookie.Value
+		}
 	}
-	glog.Infof("Response code: %v", resp.StatusCode)
 
 	if resp.StatusCode == 419 {
-		// session got reset; try again
 		return avisess.restRequest(verb, uri, payload, retry+1)
 	}
 
@@ -374,7 +375,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		glog.Errorf("Error: %v", resp)
 		bres, berr := ioutil.ReadAll(resp.Body)
 		if berr == nil {
 			mres, _ := convertAviResponseToMapInterface(bres)
