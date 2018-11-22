@@ -233,6 +233,7 @@ class ApiSession(Session):
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
+        self.num_api_retries = 0
         self.retry_wait_time = 0
         self.max_session_retries = (
             self.MAX_API_RETRIES if max_api_retries is None
@@ -615,11 +616,11 @@ class ApiSession(Session):
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
             ApiSession.reset_session(self)
-            self.num_session_retries += 1
-            if self.num_session_retries > self.max_session_retries:
+            self.num_api_retries += 1
+            if self.num_api_retries > self.max_session_retries:
                 # Added this such that any code which re-tries can succeed
                 # eventually.
-                self.num_session_retries = 0
+                self.num_api_retries = 0
                 if not connection_error:
                     err = APIError('Status Code %s msg %s' % (
                         resp.status_code, resp.text), resp)
@@ -631,7 +632,7 @@ class ApiSession(Session):
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
                              headers=headers, api_version=api_version,
                              timeout=timeout, **kwargs)
-            self.num_session_retries = 0
+            self.num_api_retries = 0
 
         if resp.cookies and 'csrftoken' in resp.cookies:
             csrftoken = resp.cookies['csrftoken']
