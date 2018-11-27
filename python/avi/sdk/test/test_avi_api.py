@@ -349,6 +349,20 @@ class Test(unittest.TestCase):
         papi.reset_session()
         papi.reset_session()
 
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_retry_unauth_api(self):
+        papi = ApiSession(controller_ip=api.avi_credentials.controller,
+                          username=api.avi_credentials.username,
+                          password=api.avi_credentials.password,
+                          verify=False,
+                          api_version=api.avi_credentials.api_version,
+                          data_log=api.data_log)
+        papi.keystone_token = 'invalid'
+        resp = papi.post('tenant', data={'name': 'tenant1', 'local': 'true'})
+        assert resp.status_code == 201
+        papi.delete_by_name('tenant', 'tenant1')
+
     # Added test cases for getter and setter methods in avi_api
     @pytest.mark.travis
     @my_vcr.use_cassette()
