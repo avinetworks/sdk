@@ -5,32 +5,31 @@ Created on September 15, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
 
+import argparse
 import json
 import logging
-import yaml
-import argparse
-import re
-import requests
 import os
+import re
 import urlparse
-from urllib import urlencode
 from copy import deepcopy
+from urllib import urlencode
+
+import yaml
+from avi.migrationtools.ansible.ansible_constant import \
+    (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE, DNS_TYPE, L4_TYPE, AVI_CONTROLLER,
+     APPLICATION_PROFILE_REF, CREATE_OBJECT, GEN_TRAFFIC, common_task_args,
+     ansible_dict, SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
+     SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, SERVER, VALIDATE_CERT,
+     USER, REQEST_TYPE, IP_ADDRESS, TASKS, CONTROLLER_INPUT, USER_NAME,
+     PASSWORD_NAME, F5_SERVER, F5_USERNAME, F5_PASSWORD, AVI_TRAFFIC, PORT,
+     ADDR, VS_NAME, REGISTER, VALUE, AVI_CON_TENANT, ANSIBLE_STR, RETRIES,
+     RETRIES_TIME, DELAY_TIME, DELAY, RESULT_STATUS, UNTIL, AVI_VS_IP_ADDRESS,
+     AVI_CON_USERNAME, AVI_CON_PASSWORD)
+
+from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
+from avi.migrationtools.avi_migration_utils import MigrationUtil
 from avi.migrationtools.avi_orphan_object import \
     filter_for_vs, get_vs_ref, get_name_and_entity, PATH_KEY_MAP
-from avi.migrationtools.ansible.ansible_constant import \
-    (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
-     APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
-     CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC, common_task_args, ansible_dict,
-     SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
-     SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, AVI_VIRTUALSERVICE,
-     SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
-     CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
-     DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
-     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
-     ANSIBLE_STR, RETRIES, RETRIES_TIME, DELAY_TIME, DELAY,
-     RESULT_STATUS, UNTIL)
-from avi.migrationtools.avi_migration_utils import MigrationUtil
-from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
@@ -291,17 +290,17 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[REQEST_TYPE] = \
                 self.get_request_type(application_profile.split('name=')[1])
         if avi_traffic_dict[REQEST_TYPE] != 'dns':
-            avi_traffic_dict[PORT] = vs_dict[SERVICES][0][PORT]
+            avi_traffic_dict[PORT] = vs_dict[SERVICES][0]['port']
             ip = vs_dict[VIP][0][IP_ADDRESS][ADDR]
             if test_vip:
                 test_vip = self.test_vip.split('.')[:3]
                 ip = '.'.join(test_vip + ip.split('.')[3:])
-            avi_traffic_dict[IP_ADDRESS] = ip
+            avi_traffic_dict[AVI_VS_IP_ADDRESS] = ip
             avi_traffic_dict[VS_NAME] = vs_dict[NAME]
-            avi_traffic_dict[CONTROLLER] = CONTROLLER_INPUT
-            avi_traffic_dict[USERNAME] = USER_NAME
-            avi_traffic_dict[PASSWORD] = PASSWORD_NAME
-            avi_traffic_dict[TENANT] = tenant
+            avi_traffic_dict[AVI_CONTROLLER] = CONTROLLER_INPUT
+            avi_traffic_dict[AVI_CON_USERNAME] = USER_NAME
+            avi_traffic_dict[AVI_CON_PASSWORD] = PASSWORD_NAME
+            avi_traffic_dict[AVI_CON_TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {

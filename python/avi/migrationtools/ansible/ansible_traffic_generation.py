@@ -1,13 +1,13 @@
-import requests
 import json
 from copy import deepcopy
+
+import requests
 from avi.migrationtools.ansible.ansible_constant import \
-    (ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI, VIRTUALSERVICE, ansible_dict,
-     NAME, TAGS, AVI_VIRTUALSERVICE, SERVER, VALIDATE_CERT, USER, REQEST_TYPE,
-     IP_ADDRESS, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
-     LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, ENABLE_NETSCALER,
-     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS,
-     ARP_STATE, BIGIP_VIRTUAL_ADDRESS, TRAFFIC_ENABLE)
+    (ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI, VIRTUALSERVICE, NAME, TAGS,
+     AVI_VIRTUALSERVICE, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
+     LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, NS_USERNAME,
+     NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, ARP_STATE,
+     BIGIP_VIRTUAL_ADDRESS, TRAFFIC_ENABLE)
 
 
 class TrafficGen(object):
@@ -248,9 +248,9 @@ class NetscalerTrafficGen(TrafficGen):
         """
         vs_name = self.get_ns_name(vs_dict[NAME])
         vs_dict = {
-            'username': NS_USERNAME,
-            'password': NS_PASSWORD,
-            'state': 'disable',
+            'ns_username': NS_USERNAME,
+            'ns_password': NS_PASSWORD,
+            'vs_state': 'disable',
             'vs_name': vs_name,
             'vs_type': 'lbvs',
             'ns_host': NS_HOST
@@ -272,9 +272,9 @@ class NetscalerTrafficGen(TrafficGen):
         """
         vs_name = self.get_ns_name(vs_dict[NAME])
         vs_dict = {
-            'username': NS_USERNAME,
-            'password': NS_PASSWORD,
-            'state': 'enable',
+            'ns_username': NS_USERNAME,
+            'ns_password': NS_PASSWORD,
+            'vs_state': 'enable',
             'vs_name': vs_name,
             'vs_type': 'lbvs',
             'ns_host': NS_HOST
