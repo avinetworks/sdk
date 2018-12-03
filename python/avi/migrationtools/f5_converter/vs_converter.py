@@ -324,8 +324,8 @@ class VSConfigConv(object):
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
-            if oc_prof and not ssl_vs and persist_type == \
-                    'PERSISTENCE_TYPE_TLS':
+            if oc_prof and not ssl_vs and persist_type == 'PERSISTENCE_TYPE_TLS' or \
+                    persist_type == 'PERSISTENCE_TYPE_TLS' and not enable_ssl:
                 msg = ("Skipped VS : '%s' Secure persistence is applicable only"
                        " if SSL is enabled for Virtual Service" % vs_name)
                 LOG.warning(msg)
@@ -365,7 +365,6 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
-
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
