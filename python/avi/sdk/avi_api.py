@@ -940,8 +940,6 @@ class ApiSession(Session):
                 continue
             keys_to_delete.append(key)
         for key in keys_to_delete:
-            # Logout inactive sessions
-            ApiSession._api('logout', headers=session_cache[key])
             del session_cache[key]
             logger.debug("Removed session for : %s", key)
 
