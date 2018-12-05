@@ -942,11 +942,7 @@ class ApiSession(Session):
         for key in keys_to_delete:
             # Logout inactive sessions
             try:
-                key_split = key.split(':')
                 inactive_session = ApiSession.get_session(
-                    controller_ip=key_split[0],
-                    username=key_split[1],
-                    port=key_split[2],
                     csrftoken=session_cache[key]['csrftoken'],
                     session_id=session_cache[key]['session_id'])
                 inactive_session.post('logout')
