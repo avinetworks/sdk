@@ -20,6 +20,7 @@ branches:
   - 18.1.3
   - 18.1.4
   - 18.1.5
+  - 18.2.1
 
 matrix:
   include:
