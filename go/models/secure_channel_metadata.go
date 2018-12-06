@@ -8,8 +8,8 @@ package models
 type SecureChannelMetadata struct {
 
 	// key of SecureChannelMetadata.
-	Key string `json:"key,omitempty"`
+	Key *string `json:"key,omitempty"`
 
 	// val of SecureChannelMetadata.
-	Val string `json:"val,omitempty"`
+	Val *string `json:"val,omitempty"`
 }

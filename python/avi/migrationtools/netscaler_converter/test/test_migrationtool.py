@@ -15,7 +15,8 @@ from avi.migrationtools.netscaler_converter.netscaler_converter \
 from avi.migrationtools.netscaler_converter.netscaler_parser import \
     get_ns_conf_dict
 from avi.migrationtools.test.common.excel_reader \
-    import percentage_success, output_sanitization
+    import percentage_success, output_sanitization, \
+    check_dummy_cert_status
 from avi.migrationtools.test.common.test_clean_reboot \
     import verify_controller_is_up, clean_reboot
 from avi.migrationtools.test.common.test_tenant_cloud \
@@ -28,7 +29,8 @@ input_file = pytest.config.getoption("--file")
 output_file = pytest.config.getoption("--out")
 
 if input_file is None:
-    input_file = 'python/avi/migrationtools/netscaler_converter/test/ns.conf'
+    input_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                              'ns.conf'))
 
 with open(config_file) as f:
     file_attribute = yaml.load(f)
@@ -125,7 +127,11 @@ class TestNetscalerConverter:
         netscaler_conv(ns_host_ip=setup.get('ns_host_ip'),
                        ns_ssh_user=setup.get('ns_ssh_user'),
                        ns_ssh_password=setup.get('ns_ssh_password'),
-                       controller_version=setup.get('controller_version_v17'))
+                       controller_version=setup.get('controller_version_v17'),
+                       option=setup.get('option'),
+		                   controller_ip=setup.get('controller_ip_17_1_1'),
+		                   user=setup.get('controller_user_17_1_1'),
+		                   password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
     def test_output_sanitization_17_1_1(self, cleanup):
@@ -369,7 +375,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 1
+        assert get_count('warning') == 5
 
     @pytest.mark.travis
     def test_lb_algorithm_match(self):
@@ -399,6 +405,34 @@ class TestNetscalerConverter:
                     pool = [pool for pool in avi_config['Pool'] if
                             pool['name'] == pool_name][0]
                     assert pool['lb_algorithm'] == algo
+
+    @pytest.mark.travis
+    def test_multiple_backup_pool(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        with open('./output/ns-Output.json', 'r') as file_strem:
+            avi_config = json.load(file_strem)
+            pooGroup = avi_config['PoolGroup']
+            pool = [pool for pool in pooGroup if pool['name'] == \
+                'Web-ServersApp-SSL-poolgroup'][0]
+
+            for each_member in pool['members']:
+                if 'Web-Append-HTT' in each_member['pool_ref']:
+                    assert each_member['priority_label'] == '2'
+
+    @pytest.mark.travis
+    def test_sslcert_dummy_status(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        dummy_obj = 'Lab-Test-Cert'
+        assert check_dummy_cert_status('./output/ns-ConversionStatus.xlsx',
+                        certObj=dummy_obj) == True
 
 
 def teardown():

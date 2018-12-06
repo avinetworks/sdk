@@ -8,26 +8,26 @@ package models
 type ConfigActionDetails struct {
 
 	// Name of the action.
-	ActionName string `json:"action_name,omitempty"`
+	ActionName *string `json:"action_name,omitempty"`
 
 	// Error message if request failed.
-	ErrorMessage string `json:"error_message,omitempty"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 
 	// Parameter data.
-	ParameterData string `json:"parameter_data,omitempty"`
+	ParameterData *string `json:"parameter_data,omitempty"`
 
 	// API path.
-	Path string `json:"path,omitempty"`
+	Path *string `json:"path,omitempty"`
 
 	// Name of the resource.
-	ResourceName string `json:"resource_name,omitempty"`
+	ResourceName *string `json:"resource_name,omitempty"`
 
 	// Config type of the resource.
-	ResourceType string `json:"resource_type,omitempty"`
+	ResourceType *string `json:"resource_type,omitempty"`
 
 	// Status.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }

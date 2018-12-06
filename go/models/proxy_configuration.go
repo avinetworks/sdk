@@ -9,15 +9,15 @@ type ProxyConfiguration struct {
 
 	// Proxy hostname or IP address.
 	// Required: true
-	Host string `json:"host"`
+	Host *string `json:"host"`
 
 	// Password for proxy.
-	Password string `json:"password,omitempty"`
+	Password *string `json:"password,omitempty"`
 
 	// Proxy port.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 
 	// Username for proxy.
-	Username string `json:"username,omitempty"`
+	Username *string `json:"username,omitempty"`
 }

@@ -9,9 +9,9 @@ type WafDataFile struct {
 
 	// Stringified WAF File Data. Field introduced in 17.2.1.
 	// Required: true
-	Data string `json:"data"`
+	Data *string `json:"data"`
 
 	// WAF Data File Name. Field introduced in 17.2.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }

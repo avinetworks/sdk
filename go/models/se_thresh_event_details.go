@@ -9,9 +9,9 @@ type SeThreshEventDetails struct {
 
 	// Number of curr_value.
 	// Required: true
-	CurrValue int64 `json:"curr_value"`
+	CurrValue *int64 `json:"curr_value"`
 
 	// Number of thresh.
 	// Required: true
-	Thresh int64 `json:"thresh"`
+	Thresh *int64 `json:"thresh"`
 }

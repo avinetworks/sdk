@@ -8,29 +8,29 @@ package models
 type ConfigUpdateDetails struct {
 
 	// Error message if request failed.
-	ErrorMessage string `json:"error_message,omitempty"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 
 	// New updated data of the resource.
-	NewResourceData string `json:"new_resource_data,omitempty"`
+	NewResourceData *string `json:"new_resource_data,omitempty"`
 
 	// Old & overwritten data of the resource.
-	OldResourceData string `json:"old_resource_data,omitempty"`
+	OldResourceData *string `json:"old_resource_data,omitempty"`
 
 	// API path.
-	Path string `json:"path,omitempty"`
+	Path *string `json:"path,omitempty"`
 
 	// Request data if request failed.
-	RequestData string `json:"request_data,omitempty"`
+	RequestData *string `json:"request_data,omitempty"`
 
 	// Name of the created resource.
-	ResourceName string `json:"resource_name,omitempty"`
+	ResourceName *string `json:"resource_name,omitempty"`
 
 	// Config type of the updated resource.
-	ResourceType string `json:"resource_type,omitempty"`
+	ResourceType *string `json:"resource_type,omitempty"`
 
 	// Status.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }

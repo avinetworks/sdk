@@ -88,7 +88,7 @@ func (client *SecureChannelTokenClient) Create(obj *models.SecureChannelToken) (
 // Update an existing SecureChannelToken object
 func (client *SecureChannelTokenClient) Update(obj *models.SecureChannelToken) (*models.SecureChannelToken, error) {
 	var robj *models.SecureChannelToken
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SecureChannelTokenClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

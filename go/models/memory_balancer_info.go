@@ -11,17 +11,17 @@ type MemoryBalancerInfo struct {
 	Child []*ChildProcessInfo `json:"child,omitempty"`
 
 	// Controller memory.
-	ControllerMemory int32 `json:"controller_memory,omitempty"`
+	ControllerMemory *int32 `json:"controller_memory,omitempty"`
 
 	// Limit on the memory (in MB) for the Process.
-	Limit int32 `json:"limit,omitempty"`
+	Limit *int32 `json:"limit,omitempty"`
 
 	// Amount of memory (in MB) used by the Process.
-	MemoryUsed int32 `json:"memory_used,omitempty"`
+	MemoryUsed *int32 `json:"memory_used,omitempty"`
 
 	// PID of the Process.
-	Pid int32 `json:"pid,omitempty"`
+	Pid *int32 `json:"pid,omitempty"`
 
 	// Name of the Process.
-	Process string `json:"process,omitempty"`
+	Process *string `json:"process,omitempty"`
 }

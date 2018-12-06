@@ -88,7 +88,7 @@ func (client *VIMgrVcenterRuntimeClient) Create(obj *models.VIMgrVcenterRuntime)
 // Update an existing VIMgrVcenterRuntime object
 func (client *VIMgrVcenterRuntimeClient) Update(obj *models.VIMgrVcenterRuntime) (*models.VIMgrVcenterRuntime, error) {
 	var robj *models.VIMgrVcenterRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VIMgrVcenterRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

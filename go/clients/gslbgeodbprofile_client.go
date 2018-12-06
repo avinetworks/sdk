@@ -88,7 +88,7 @@ func (client *GslbGeoDbProfileClient) Create(obj *models.GslbGeoDbProfile) (*mod
 // Update an existing GslbGeoDbProfile object
 func (client *GslbGeoDbProfileClient) Update(obj *models.GslbGeoDbProfile) (*models.GslbGeoDbProfile, error) {
 	var robj *models.GslbGeoDbProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *GslbGeoDbProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

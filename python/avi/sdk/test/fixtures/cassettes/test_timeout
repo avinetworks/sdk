@@ -6,29 +6,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "iIrctRollISGOtqWpRuKkcLO6jNdFq3A"
+                        "UHtis5jeTvRrR44dUenSo20Y98G53KHa"
                     ],
                     "X-Avi-Tenant": [
                         "admin"
                     ],
                     "Cookie": [
-                        "[<Cookie csrftoken=iIrctRollISGOtqWpRuKkcLO6jNdFq3A for 10.10.28.98/>, <Cookie sessionid=t2h6nkzcyonjw1xocfdoeoj5dwlwg015 for 10.10.28.98/>]"
+                        "[<Cookie csrftoken=UHtis5jeTvRrR44dUenSo20Y98G53KHa for 10.10.28.48/>, <Cookie avi-sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8 for 10.10.28.48/>]"
                     ],
                     "timeout": [
                         "2"
                     ],
                     "Referer": [
-                        "https://10.10.28.98"
+                        "https://10.10.28.48"
                     ],
                     "X-Avi-Version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.98/api/tenant?name=admin"
+                "uri": "https://10.10.28.48/api/tenant?name=admin"
             },
             "response": {
                 "status": {
@@ -36,11 +36,21 @@
                     "code": 200
                 },
                 "headers": {
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ],
                     "access-control-allow-credentials": [
                         "true"
+                    ],
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ],
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ],
+                    "x-content-type-options": [
+                        "nosniff"
+                    ],
+                    "set-cookie": [
+                        "sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8; expires=Fri, 05-Oct-2018 12:40:23 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8; expires=Fri, 05-Oct-2018 12:40:23 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -49,7 +59,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "17.1.6"
+                        "18.1.3"
                     ],
                     "connection": [
                         "keep-alive"
@@ -58,10 +68,10 @@
                         "HEAD, GET, POST, OPTIONS"
                     ],
                     "cache-control": [
-                        "no-store, no-cache"
+                        "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Mon, 26 Mar 2018 10:28:03 GMT"
+                        "Thu, 04 Oct 2018 12:40:23 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -71,10 +81,13 @@
                     ],
                     "content-type": [
                         "application/json"
+                    ],
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"url\": \"https://10.10.28.98/api/tenant/admin\", \"local\": true, \"uuid\": \"admin\", \"name\": \"admin\"}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"url\": \"https://10.10.28.48/api/tenant/admin\", \"local\": true, \"name\": \"admin\", \"uuid\": \"admin\"}]}"
                 }
             }
         }

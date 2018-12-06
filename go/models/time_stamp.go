@@ -9,9 +9,9 @@ type TimeStamp struct {
 
 	// Number of secs.
 	// Required: true
-	Secs int64 `json:"secs"`
+	Secs *int64 `json:"secs"`
 
 	// Number of usecs.
 	// Required: true
-	Usecs int64 `json:"usecs"`
+	Usecs *int64 `json:"usecs"`
 }

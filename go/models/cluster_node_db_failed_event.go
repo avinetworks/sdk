@@ -8,11 +8,11 @@ package models
 type ClusterNodeDbFailedEvent struct {
 
 	// Number of failures.
-	FailureCount int32 `json:"failure_count,omitempty"`
+	FailureCount *int32 `json:"failure_count,omitempty"`
 
 	// IP address of the controller VM.
 	IP *IPAddr `json:"ip,omitempty"`
 
 	// Name of controller node.
-	NodeName string `json:"node_name,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
 }

@@ -9,9 +9,9 @@ type VlanRange struct {
 
 	// Number of end.
 	// Required: true
-	End int32 `json:"end"`
+	End *int32 `json:"end"`
 
 	// Number of start.
 	// Required: true
-	Start int32 `json:"start"`
+	Start *int32 `json:"start"`
 }

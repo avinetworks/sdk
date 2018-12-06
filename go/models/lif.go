@@ -11,11 +11,11 @@ type Lif struct {
 	Cifs []*Cif `json:"cifs,omitempty"`
 
 	// lif of Lif.
-	Lif string `json:"lif,omitempty"`
+	Lif *string `json:"lif,omitempty"`
 
 	// lif_label of Lif.
-	LifLabel string `json:"lif_label,omitempty"`
+	LifLabel *string `json:"lif_label,omitempty"`
 
 	// subnet of Lif.
-	Subnet string `json:"subnet,omitempty"`
+	Subnet *string `json:"subnet,omitempty"`
 }

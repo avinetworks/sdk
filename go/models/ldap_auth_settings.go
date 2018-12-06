@@ -8,22 +8,22 @@ package models
 type LdapAuthSettings struct {
 
 	// The LDAP base DN.  For example, avinetworks,com would be DC=avinetworks,DC=com.
-	BaseDn string `json:"base_dn,omitempty"`
+	BaseDn *string `json:"base_dn,omitempty"`
 
 	// LDAP administrator credentials are used to search for users and group memberships.
-	BindAsAdministrator bool `json:"bind_as_administrator,omitempty"`
+	BindAsAdministrator *bool `json:"bind_as_administrator,omitempty"`
 
 	// LDAP attribute that refers to user email.
-	EmailAttribute string `json:"email_attribute,omitempty"`
+	EmailAttribute *string `json:"email_attribute,omitempty"`
 
 	// LDAP attribute that refers to user's full name.
-	FullNameAttribute string `json:"full_name_attribute,omitempty"`
+	FullNameAttribute *string `json:"full_name_attribute,omitempty"`
 
 	// Query the LDAP servers on this port.
-	Port int32 `json:"port,omitempty"`
+	Port *int32 `json:"port,omitempty"`
 
 	// LDAP connection security mode. Enum options - AUTH_LDAP_SECURE_NONE, AUTH_LDAP_SECURE_USE_LDAPS.
-	SecurityMode string `json:"security_mode,omitempty"`
+	SecurityMode *string `json:"security_mode,omitempty"`
 
 	// LDAP server IP address.
 	Server []string `json:"server,omitempty"`

@@ -88,7 +88,7 @@ func (client *VSDataScriptSetClient) Create(obj *models.VSDataScriptSet) (*model
 // Update an existing VSDataScriptSet object
 func (client *VSDataScriptSetClient) Update(obj *models.VSDataScriptSet) (*models.VSDataScriptSet, error) {
 	var robj *models.VSDataScriptSet
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VSDataScriptSetClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

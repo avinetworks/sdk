@@ -14,5 +14,5 @@ type GslbSiteCfgSyncInfo struct {
 	LastChangedTime *TimeStamp `json:"last_changed_time,omitempty"`
 
 	// Configuration sync-state of the site . Enum options - GSLB_SITE_CFG_IN_SYNC, GSLB_SITE_CFG_OUT_OF_SYNC, GSLB_SITE_CFG_SYNC_DISABLED, GSLB_SITE_CFG_SYNC_IN_PROGRESS, GSLB_SITE_CFG_SYNC_NOT_APPLICABLE.
-	SyncState string `json:"sync_state,omitempty"`
+	SyncState *string `json:"sync_state,omitempty"`
 }

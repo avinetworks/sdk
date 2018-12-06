@@ -8,12 +8,12 @@ package models
 type VinfraVMDetails struct {
 
 	// datacenter of VinfraVmDetails.
-	Datacenter string `json:"datacenter,omitempty"`
+	Datacenter *string `json:"datacenter,omitempty"`
 
 	// host of VinfraVmDetails.
-	Host string `json:"host,omitempty"`
+	Host *string `json:"host,omitempty"`
 
 	// Name of the object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }

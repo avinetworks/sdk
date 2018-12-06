@@ -9,7 +9,7 @@ type HttpstatusMatch struct {
 
 	// Criterion to use for matching the HTTP response status code(s). Enum options - IS_IN, IS_NOT_IN.
 	// Required: true
-	MatchCriteria string `json:"match_criteria"`
+	MatchCriteria *string `json:"match_criteria"`
 
 	// HTTP response status code range(s).
 	Ranges []*HttpstatusRange `json:"ranges,omitempty"`

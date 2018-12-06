@@ -88,7 +88,7 @@ func (client *SSLProfileClient) Create(obj *models.SSLProfile) (*models.SSLProfi
 // Update an existing SSLProfile object
 func (client *SSLProfileClient) Update(obj *models.SSLProfile) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SSLProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

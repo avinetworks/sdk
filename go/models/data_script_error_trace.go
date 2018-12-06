@@ -8,11 +8,11 @@ package models
 type DataScriptErrorTrace struct {
 
 	// error of DataScriptErrorTrace.
-	Error string `json:"error,omitempty"`
+	Error *string `json:"error,omitempty"`
 
 	// event of DataScriptErrorTrace.
-	Event string `json:"event,omitempty"`
+	Event *string `json:"event,omitempty"`
 
 	// stack_trace of DataScriptErrorTrace.
-	StackTrace string `json:"stack_trace,omitempty"`
+	StackTrace *string `json:"stack_trace,omitempty"`
 }

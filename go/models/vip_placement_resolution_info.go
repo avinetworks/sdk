@@ -14,5 +14,5 @@ type VipPlacementResolutionInfo struct {
 	Networks []*DiscoveredNetwork `json:"networks,omitempty"`
 
 	// Unique object identifier of pool.
-	PoolUUID string `json:"pool_uuid,omitempty"`
+	PoolUUID *string `json:"pool_uuid,omitempty"`
 }

@@ -8,18 +8,18 @@ package models
 type IPAMDNSInfobloxProfile struct {
 
 	// DNS view.
-	DNSView string `json:"dns_view,omitempty"`
+	DNSView *string `json:"dns_view,omitempty"`
 
 	// Address of Infoblox appliance.
 	// Required: true
 	IPAddress *IPAddr `json:"ip_address"`
 
 	// Network view.
-	NetworkView string `json:"network_view,omitempty"`
+	NetworkView *string `json:"network_view,omitempty"`
 
 	// Password for API access for Infoblox appliance.
 	// Required: true
-	Password string `json:"password"`
+	Password *string `json:"password"`
 
 	// Usable domains to pick from Infoblox.
 	UsableDomains []string `json:"usable_domains,omitempty"`
@@ -29,8 +29,8 @@ type IPAMDNSInfobloxProfile struct {
 
 	// Username for API access for Infoblox appliance.
 	// Required: true
-	Username string `json:"username"`
+	Username *string `json:"username"`
 
 	// WAPI version.
-	WapiVersion string `json:"wapi_version,omitempty"`
+	WapiVersion *string `json:"wapi_version,omitempty"`
 }

@@ -9,7 +9,7 @@ type VinfraPoolServerDeleteDetails struct {
 
 	// pool_name of VinfraPoolServerDeleteDetails.
 	// Required: true
-	PoolName string `json:"pool_name"`
+	PoolName *string `json:"pool_name"`
 
 	// server_ip of VinfraPoolServerDeleteDetails.
 	ServerIP []string `json:"server_ip,omitempty"`

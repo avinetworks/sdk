@@ -88,7 +88,7 @@ func (client *UserAccountProfileClient) Create(obj *models.UserAccountProfile) (
 // Update an existing UserAccountProfile object
 func (client *UserAccountProfileClient) Update(obj *models.UserAccountProfile) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *UserAccountProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

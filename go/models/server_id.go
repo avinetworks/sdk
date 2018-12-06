@@ -8,7 +8,7 @@ package models
 type ServerID struct {
 
 	// This is the external cloud uuid of the Pool server.
-	ExternalUUID string `json:"external_uuid,omitempty"`
+	ExternalUUID *string `json:"external_uuid,omitempty"`
 
 	// Placeholder for description of property ip of obj type ServerId field type str  type object
 	// Required: true
@@ -16,5 +16,5 @@ type ServerID struct {
 
 	// Number of port.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 }

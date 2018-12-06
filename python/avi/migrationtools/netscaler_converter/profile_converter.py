@@ -6,7 +6,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from datetime import datetime
 from OpenSSL import crypto as c
 from avi.migrationtools.netscaler_converter.ns_constants \
-    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT,
+    import (STATUS_SKIPPED, STATUS_SUCCESSFUL, STATUS_INDIRECT, STATUS_DUMMY,
             STATUS_MISSING_FILE, STATUS_COMMAND_NOT_SUPPORTED)
 from avi.migrationtools.netscaler_converter.monitor_converter \
     import merge_object_mapping
@@ -160,6 +160,8 @@ class ProfileConverter(object):
         bind_ssl_service = ns_config.get('bind ssl service', {})
         set_ssl_service_group = ns_config.get('set ssl serviceGroup', {})
         bind_ssl_service_group = ns_config.get('bind ssl serviceGroup', {})
+        ca_cert_config = ns_config.get('link ssl certKey', {})
+
         avi_config["SSLKeyAndCertificate"] = []
         LOG.debug("Conversion started for HTTP profiles")
         # Calculate total object length for progress bar.
@@ -250,8 +252,9 @@ class ProfileConverter(object):
             obj = self.get_key_cert(mapping, ssl_key_and_cert,
                                     input_dir, None, ns_config,
                                     'bind ssl vserver')
-            if obj.get('cert', None):
-                avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
+
+            certs = obj.get('cert', [])
+            avi_config["SSLKeyAndCertificate"] += certs
             if obj.get('pki', None):
                 if self.object_merge_check:
                     # Check pki profile is duplicate of other pki profile then
@@ -287,6 +290,9 @@ class ProfileConverter(object):
             set_ssl_service_group, bind_ssl_service_group, ssl_key_and_cert,
             input_dir, ns_config, avi_config, 'set ssl serviceGroup',
             'bind ssl serviceGroup', sysdict)
+
+        # Link ssl certKey conversion
+        self.convert_ca_certs(ca_cert_config, input_dir, avi_config)
 
         LOG.debug("SSL profiles conversion completed")
 
@@ -364,8 +370,8 @@ class ProfileConverter(object):
                         'accepted_ciphers')
                     ssl_profile['description'] = obj.get('ciphersuite')
                     # ssl_profile['accepted_ciphers'] = 'AES:3DES:RC4'
-                if obj.get('cert', None):
-                    avi_config["SSLKeyAndCertificate"].append(obj.get('cert'))
+                certs = obj.get('cert', [])
+                avi_config["SSLKeyAndCertificate"] += certs
                 if obj.get('pki', None):
                     if self.object_merge_check:
                         # Check pki profile is duplicate of other pki profile
@@ -546,7 +552,6 @@ class ProfileConverter(object):
         obj = dict()
         ciphers = []
         for mapping in ssl_mappings:
-            key_passphrase = None
             output = None
             bind_ssl_full_cmd = ns_util.get_netscalar_full_command(bind_ssl_cmd,
                                                                    mapping)
@@ -636,6 +641,7 @@ class ProfileConverter(object):
                     continue
 
             elif 'certkeyName' in mapping.keys():
+                is_dummy_cert = False
                 key_cert = ssl_key_and_cert.get(mapping.get('certkeyName'))
                 if not key_cert:
                     continue
@@ -691,8 +697,9 @@ class ProfileConverter(object):
                 # Generate dummy cert and key
                 if not cert or not key:
                     key, cert = ns_util.create_self_signed_cert()
-                    LOG.warning('Create self cerificate and key for : %s' % name)
-                ssl_kc_obj = None
+                    is_dummy_cert = True
+                    LOG.warning(
+                        'Create self cerificate and key for : %s' % name)
                 if key and cert:
                     cert = {"certificate": cert}
                     ssl_kc_obj = {
@@ -706,12 +713,25 @@ class ProfileConverter(object):
                     if key_passphrase:
                         ssl_kc_obj['key_passphrase'] = key_passphrase
                     tmp_ssl_key_and_cert_list.append(name)
-                    obj['cert'] = ssl_kc_obj
+                    if 'cert' in obj:
+                        obj['cert'].append(ssl_kc_obj)
+                    else:
+                        obj['cert'] = [ssl_kc_obj]
                     output = ssl_kc_obj
                     # Add ssummery in CSV/report for ssl service
+                    cert_status = STATUS_SUCCESSFUL
+                    avi_obj = ssl_kc_obj
+                    if is_dummy_cert:
+                        cert_status = STATUS_DUMMY
+                        avi_obj = "Cannot read the cert please verify " \
+                                  "if cert and key files present certificate " \
+                                  "is not expired and if passphrase " \
+                                  "protected passphrase is present in " \
+                                  "passphrase yml file"
                     ns_util.add_status_row(
                         key_cert['line_no'], netscalar_cmd,
-                        key_cert['attrs'][0], full_cmd, STATUS_INDIRECT)
+                        key_cert['attrs'][0], full_cmd, cert_status,
+                        avi_object=avi_obj)
                     bind_ssl_success = True
                 else:
                     skipped_status = 'Skipped: Key and certificate not ' \
@@ -844,3 +864,50 @@ class ProfileConverter(object):
             return [cipher], ciphersuite
 
         return ciphers, ciphersuite
+
+    def convert_ca_certs(self, intermediate_cert_config, input_dir, avi_config):
+        for link_key in intermediate_cert_config.keys():
+            try:
+                cert_link = intermediate_cert_config[link_key]
+                LOG.debug('converting intermediate cert %s' % link_key)
+                full_command = ns_util.get_netscalar_full_command(
+                    'link ssl certKey', cert_link)
+                ca_cert_name = cert_link['attrs'][1]
+                cert_name = [cert['name'] for cert in
+                             avi_config['SSLKeyAndCertificate']
+                             if cert['name'] == ca_cert_name and
+                             cert['type'] == 'SSL_CERTIFICATE_TYPE_CA']
+
+                if cert_name:
+                    LOG.warning(
+                        'SSL ca cert is already exist for %s is %s' % (
+                            ca_cert_name, cert_name[0]))
+                    continue
+                ca_cert = ns_util.upload_file(
+                    input_dir + os.path.sep + ca_cert_name)
+                if ca_cert:
+                    cert = {"certificate": ca_cert}
+                    ca_cert_obj = {
+                        'name': ca_cert_name,
+                        'tenant_ref': self.tenant_ref,
+                        'certificate': cert,
+                        'type': 'SSL_CERTIFICATE_TYPE_CA'
+                    }
+                    avi_config['SSLKeyAndCertificate'].append(ca_cert_obj)
+                    ns_util.add_status_row(
+                        cert_link['line_no'], 'link ssl certKey', ca_cert_name,
+                        full_command, STATUS_SUCCESSFUL, ca_cert_obj)
+                    LOG.debug('Successfully converted intermediate cert %s' %
+                              link_key)
+                else:
+                    skipped_status = ('Skipped: Cert file not found or '
+                                      'cannot read: %s' % full_command)
+                    ns_util.add_status_row(
+                        cert_link['line_no'], 'link ssl certKey', ca_cert_name,
+                        full_command, STATUS_SKIPPED, skipped_status)
+                    LOG.warn("Skipped intermediate cert cannot read file %s" %
+                             link_key)
+            except:
+                update_count('error')
+                LOG.error("Cannot convert intermediate cert %s" % link_key,
+                          exc_info=True)

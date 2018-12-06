@@ -8,5 +8,5 @@ package models
 type VcenterCloudStatusReq struct {
 
 	// Unique object identifier of cloud.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 }

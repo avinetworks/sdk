@@ -88,7 +88,7 @@ func (client *L4PolicySetClient) Create(obj *models.L4PolicySet) (*models.L4Poli
 // Update an existing L4PolicySet object
 func (client *L4PolicySetClient) Update(obj *models.L4PolicySet) (*models.L4PolicySet, error) {
 	var robj *models.L4PolicySet
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *L4PolicySetClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

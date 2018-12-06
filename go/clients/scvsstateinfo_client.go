@@ -88,7 +88,7 @@ func (client *SCVsStateInfoClient) Create(obj *models.SCVsStateInfo) (*models.SC
 // Update an existing SCVsStateInfo object
 func (client *SCVsStateInfoClient) Update(obj *models.SCVsStateInfo) (*models.SCVsStateInfo, error) {
 	var robj *models.SCVsStateInfo
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SCVsStateInfoClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession
