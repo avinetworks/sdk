@@ -8,11 +8,11 @@ package models
 type SeHBEventDetails struct {
 
 	// HB Request/Response not received.
-	HbType int32 `json:"hb_type,omitempty"`
+	HbType *int32 `json:"hb_type,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef1 string `json:"se_ref1,omitempty"`
+	SeRef1 *string `json:"se_ref1,omitempty"`
 
 	// UUID of a SE in the SE-Group which failed to respond. It is a reference to an object of type ServiceEngine.
-	SeRef2 string `json:"se_ref2,omitempty"`
+	SeRef2 *string `json:"se_ref2,omitempty"`
 }

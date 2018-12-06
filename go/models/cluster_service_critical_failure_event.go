@@ -8,8 +8,8 @@ package models
 type ClusterServiceCriticalFailureEvent struct {
 
 	// Name of controller node.
-	NodeName string `json:"node_name,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
 
 	// Name of the controller service.
-	ServiceName string `json:"service_name,omitempty"`
+	ServiceName *string `json:"service_name,omitempty"`
 }

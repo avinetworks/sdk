@@ -8,5 +8,5 @@ package models
 type DispatcherTableDumpClear struct {
 
 	// Unique object identifier of se.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 }

@@ -88,7 +88,7 @@ func (client *CloudPropertiesClient) Create(obj *models.CloudProperties) (*model
 // Update an existing CloudProperties object
 func (client *CloudPropertiesClient) Update(obj *models.CloudProperties) (*models.CloudProperties, error) {
 	var robj *models.CloudProperties
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *CloudPropertiesClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

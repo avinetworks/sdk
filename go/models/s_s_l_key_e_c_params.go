@@ -8,5 +8,5 @@ package models
 type SSLKeyECParams struct {
 
 	//  Enum options - SSL_KEY_EC_CURVE_SECP256R1, SSL_KEY_EC_CURVE_SECP384R1, SSL_KEY_EC_CURVE_SECP521R1.
-	Curve string `json:"curve,omitempty"`
+	Curve *string `json:"curve,omitempty"`
 }

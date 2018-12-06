@@ -9,7 +9,7 @@ type HardwareSecurityModuleGroup struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// Hardware Security Module configuration.
 	// Required: true
@@ -17,15 +17,15 @@ type HardwareSecurityModuleGroup struct {
 
 	// Name of the HSM Group configuration object.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
-	TenantRef string `json:"tenant_ref,omitempty"`
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// UUID of the HSM Group configuration object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

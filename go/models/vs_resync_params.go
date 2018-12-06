@@ -11,5 +11,5 @@ type VsResyncParams struct {
 	SeRef []string `json:"se_ref,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

@@ -88,7 +88,7 @@ func (client *BackupClient) Create(obj *models.Backup) (*models.Backup, error) {
 // Update an existing Backup object
 func (client *BackupClient) Update(obj *models.Backup) (*models.Backup, error) {
 	var robj *models.Backup
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *BackupClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

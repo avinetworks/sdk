@@ -88,7 +88,7 @@ func (client *SecureChannelAvailableLocalIpsClient) Create(obj *models.SecureCha
 // Update an existing SecureChannelAvailableLocalIps object
 func (client *SecureChannelAvailableLocalIpsClient) Update(obj *models.SecureChannelAvailableLocalIps) (*models.SecureChannelAvailableLocalIps, error) {
 	var robj *models.SecureChannelAvailableLocalIps
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SecureChannelAvailableLocalIpsClient) DeleteByName(name string) er
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

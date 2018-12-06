@@ -12,10 +12,10 @@ type AllSeUpgradeEventDetails struct {
 
 	// Number of num_se.
 	// Required: true
-	NumSe int32 `json:"num_se"`
+	NumSe *int32 `json:"num_se"`
 
 	// Number of num_vs.
-	NumVs int32 `json:"num_vs,omitempty"`
+	NumVs *int32 `json:"num_vs,omitempty"`
 
 	// Placeholder for description of property request of obj type AllSeUpgradeEventDetails field type str  type object
 	Request *SeUpgradeParams `json:"request,omitempty"`

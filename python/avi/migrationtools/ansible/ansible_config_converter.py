@@ -5,31 +5,31 @@ Created on September 15, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
 
+import argparse
 import json
 import logging
-import yaml
-import argparse
-import re
-import requests
 import os
+import re
 import urlparse
-from urllib import urlencode
 from copy import deepcopy
+from urllib import urlencode
+
+import yaml
+from avi.migrationtools.ansible.ansible_constant import \
+    (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE, DNS_TYPE, L4_TYPE, AVI_CONTROLLER,
+     APPLICATION_PROFILE_REF, CREATE_OBJECT, GEN_TRAFFIC, common_task_args,
+     ansible_dict, SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
+     SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, SERVER, VALIDATE_CERT,
+     USER, REQEST_TYPE, IP_ADDRESS, TASKS, CONTROLLER_INPUT, USER_NAME,
+     PASSWORD_NAME, F5_SERVER, F5_USERNAME, F5_PASSWORD, AVI_TRAFFIC, PORT,
+     ADDR, VS_NAME, REGISTER, VALUE, AVI_CON_TENANT, ANSIBLE_STR, RETRIES,
+     RETRIES_TIME, DELAY_TIME, DELAY, RESULT_STATUS, UNTIL, AVI_VS_IP_ADDRESS,
+     AVI_CON_USERNAME, AVI_CON_PASSWORD)
+
+from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
+from avi.migrationtools.avi_migration_utils import MigrationUtil
 from avi.migrationtools.avi_orphan_object import \
     filter_for_vs, get_vs_ref, get_name_and_entity, PATH_KEY_MAP
-from avi.migrationtools.ansible.ansible_constant import \
-    (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE,  DNS_TYPE, L4_TYPE,
-     APPLICATION_PROFILE_REF, ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI,
-     CREATE_OBJECT, VIRTUALSERVICE, GEN_TRAFFIC, common_task_args, ansible_dict,
-     SKIP_FIELDS, DEFAULT_SKIP_TYPES, HELP_STR, NAME, VIP,
-     SERVICES, CONTROLLER, API_VERSION, POOL_REF, TAGS, AVI_VIRTUALSERVICE,
-     SERVER, VALIDATE_CERT, USER, REQEST_TYPE, IP_ADDRESS, TASKS,
-     CONTROLLER_INPUT, USER_NAME, PASSWORD_NAME, STATE, DISABLE, BIGIP_VS_SERVER,
-     DELEGETE_TO, LOCAL_HOST, ENABLE, F5_SERVER, F5_USERNAME, F5_PASSWORD,
-     AVI_TRAFFIC, PORT, ADDR, VS_NAME, WHEN, RESULT, REGISTER, VALUE, TENANT,
-     ANSIBLE_STR)
-from avi.migrationtools.avi_migration_utils import MigrationUtil
-from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
 
 DEFAULT_SKIP_TYPES = DEFAULT_SKIP_TYPES
 LOG = logging.getLogger(__name__)
@@ -46,7 +46,8 @@ class AviAnsibleConverter(object):
         '/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
-                 filter_types=None, ns_vs_name_dict=None, test_vip=None):
+                 filter_types=None, ns_vs_name_dict=None, test_vip=None,
+                 partitions=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.api_version = avi_cfg['META']['version']['Version']
@@ -57,6 +58,7 @@ class AviAnsibleConverter(object):
         self.ns_vs_name_dict = ns_vs_name_dict
         # for test vip
         self.test_vip = test_vip
+        self.partitions = partitions
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
@@ -90,7 +92,6 @@ class AviAnsibleConverter(object):
         if self.REF_MATCH.match(x):
             name = x.rsplit('#', 1)[1]
             obj_type = x.split('/api/')[1].split('/')[0]
-            # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
         elif self.REL_REF_MATCH.match(x):
             ref_parts = x.split('?')
@@ -102,13 +103,13 @@ class AviAnsibleConverter(object):
                 # Added value of keyname
                 if k.strip() == 'name':
                     x = '%s?name=%s' % (ref_parts[0], v)
-
         u = urlparse.urlparse(x)
-        query = {'name': urlparse.parse_qs(u.query)['name']}
-        # query.pop('tenant', None)
-        # query.pop('cloud', None)
-        u = u._replace(query=urlencode(query, True))
-        x = urlparse.urlunparse(u)
+        # Checking name field in a referenced uri
+        if urlparse.parse_qs(u.query).get('name', ''):
+            query = {'name': urlparse.parse_qs(u.query)['name']}
+            # query.pop('tenant', None)
+            # query.pop('cloud', None)
+            u = u._replace(query=urlencode(query, True))
         return x
 
     def transform_obj_refs(self, obj):
@@ -289,24 +290,27 @@ class AviAnsibleConverter(object):
             avi_traffic_dict[REQEST_TYPE] = \
                 self.get_request_type(application_profile.split('name=')[1])
         if avi_traffic_dict[REQEST_TYPE] != 'dns':
-            avi_traffic_dict[PORT] = vs_dict[SERVICES][0][PORT]
+            avi_traffic_dict[PORT] = vs_dict[SERVICES][0]['port']
             ip = vs_dict[VIP][0][IP_ADDRESS][ADDR]
             if test_vip:
                 test_vip = self.test_vip.split('.')[:3]
                 ip = '.'.join(test_vip + ip.split('.')[3:])
-            avi_traffic_dict[IP_ADDRESS] = ip
+            avi_traffic_dict[AVI_VS_IP_ADDRESS] = ip
             avi_traffic_dict[VS_NAME] = vs_dict[NAME]
-            avi_traffic_dict[CONTROLLER] = CONTROLLER_INPUT
-            avi_traffic_dict[USERNAME] = USER_NAME
-            avi_traffic_dict[PASSWORD] = PASSWORD_NAME
-            avi_traffic_dict[TENANT] = tenant
+            avi_traffic_dict[AVI_CONTROLLER] = CONTROLLER_INPUT
+            avi_traffic_dict[AVI_CON_USERNAME] = USER_NAME
+            avi_traffic_dict[AVI_CON_PASSWORD] = PASSWORD_NAME
+            avi_traffic_dict[AVI_CON_TENANT] = tenant
         name = "Generate Avi virtualservice traffic: %s" % vs_dict[NAME]
         ansible_dict[TASKS].append(
             {
                 NAME: name,
                 AVI_TRAFFIC: avi_traffic_dict,
                 TAGS: [vs_dict[NAME], GEN_TRAFFIC],
-                REGISTER: VALUE
+                REGISTER: VALUE,
+                RETRIES: RETRIES_TIME,
+                DELAY: DELAY_TIME,
+                UNTIL: RESULT_STATUS
             })
 
     def get_request_type(self, name):
@@ -344,8 +348,23 @@ class AviAnsibleConverter(object):
         trafic_obj = TrafficGen.get_instance(instace_type, self.prefix,
                                              ns_vs_name_dict=self.ns_vs_name_dict)
         for vs in self.avi_cfg['VirtualService']:
-            if trafic_obj.get_status_vs(vs[NAME], f5server, f5username, f5password):
-                tenant = 'admin'
+
+            # Added tenant in playbook for avi api calls.
+            tenant = 'admin'
+            if 'tenant_ref' in vs:
+                tenant = str(vs['tenant_ref']).split('=')[-1]
+            if type(self.partitions) == str:
+                with open(self.partitions) as f:
+                    data = yaml.load(f)
+                partition = data['partition-vs-mappings']
+            else:
+                partition = self.partitions
+            ip = vs[VIP][0]['ip_address']['addr']
+            port = vs[SERVICES][0]['port']
+            vip = '%s:%s' %(ip,port)
+            if trafic_obj.get_status_vs(vs[NAME],vip, f5server, f5username,
+                                        f5password, tenant,
+                                        partitions=partition):
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
                 vs_dict[VIP] = vs[VIP]
@@ -354,9 +373,7 @@ class AviAnsibleConverter(object):
                 vs_dict[USERNAME] = USER_NAME
                 vs_dict[PASSWORD] = PASSWORD_NAME
                 vs_dict[API_VERSION] = self.api_version
-                # Added tenant in playbook for avi api calls.
-                if 'tenant_ref' in vs:
-                    tenant = str(vs['tenant_ref']).split('=')[-1]
+
                 if POOL_REF in vs:
                     sep_ele = vs[POOL_REF].split('&')
                     removed_ref = sep_ele[0].split('?')
@@ -374,6 +391,7 @@ class AviAnsibleConverter(object):
                     self.generate_avi_vs_traffic(
                         vs_dict, ansible_dict,
                         vs[APPLICATION_PROFILE_REF],
+                        tenant=tenant,
                         test_vip=self.test_vip
                     )
                 else:
@@ -497,12 +515,17 @@ if __name__ == '__main__':
              'Pool will do ansible conversion only for '
              'Virtualservice and Pool objects',
         default=[])
+    parser.add_argument(
+        '-p', '--partition_file', help='location of partition file',
+        default='avi_config.yml')
     args = parser.parse_args()
 
     with open(args.config_file, "r+") as f:
         avi_cfg = json.loads(f.read())
-        aac = AviAnsibleConverter(
-            avi_cfg, args.output_dir, skip_types=args.skip_types,
-            filter_types=args.filter_types)
+        aac = AviAnsibleConverter(avi_cfg, args.output_dir,
+                                  None, None,
+                                  skip_types=args.skip_types,
+                                  filter_types=args.filter_types,
+                                  partitions=args.partition_file)
         aac.write_ansible_playbook()
 # avi_cfg, outdir, prefix, not_in_use, skip_types=None, filter_types=None

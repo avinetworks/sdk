@@ -9,16 +9,16 @@ type HTTPPolicySet struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// Checksum of cloud configuration for Pool. Internally set by cloud connector.
-	CloudConfigCksum string `json:"cloud_config_cksum,omitempty"`
+	CloudConfigCksum *string `json:"cloud_config_cksum,omitempty"`
 
 	// Creator name.
-	CreatedBy string `json:"created_by,omitempty"`
+	CreatedBy *string `json:"created_by,omitempty"`
 
 	// User defined description for the object.
-	Description string `json:"description,omitempty"`
+	Description *string `json:"description,omitempty"`
 
 	// HTTP request policy for the virtual service.
 	HTTPRequestPolicy *HTTPRequestPolicy `json:"http_request_policy,omitempty"`
@@ -30,19 +30,19 @@ type HTTPPolicySet struct {
 	HTTPSecurityPolicy *HttpsecurityPolicy `json:"http_security_policy,omitempty"`
 
 	// Placeholder for description of property is_internal_policy of obj type HTTPPolicySet field type str  type boolean
-	IsInternalPolicy bool `json:"is_internal_policy,omitempty"`
+	IsInternalPolicy *bool `json:"is_internal_policy,omitempty"`
 
 	// Name of the HTTP Policy Set.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	//  It is a reference to an object of type Tenant.
-	TenantRef string `json:"tenant_ref,omitempty"`
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// UUID of the HTTP Policy Set.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

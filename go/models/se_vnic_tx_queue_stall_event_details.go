@@ -8,14 +8,14 @@ package models
 type SeVnicTxQueueStallEventDetails struct {
 
 	// Vnic name.
-	IfName string `json:"if_name,omitempty"`
+	IfName *string `json:"if_name,omitempty"`
 
 	// Vnic Linux name.
-	LinuxName string `json:"linux_name,omitempty"`
+	LinuxName *string `json:"linux_name,omitempty"`
 
 	// Queue number.
-	Queue int32 `json:"queue,omitempty"`
+	Queue *int32 `json:"queue,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 }

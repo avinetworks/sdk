@@ -88,7 +88,7 @@ func (client *SCPoolServerStateInfoClient) Create(obj *models.SCPoolServerStateI
 // Update an existing SCPoolServerStateInfo object
 func (client *SCPoolServerStateInfoClient) Update(obj *models.SCPoolServerStateInfo) (*models.SCPoolServerStateInfo, error) {
 	var robj *models.SCPoolServerStateInfo
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SCPoolServerStateInfoClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

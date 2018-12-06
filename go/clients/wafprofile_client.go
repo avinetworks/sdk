@@ -88,7 +88,7 @@ func (client *WafProfileClient) Create(obj *models.WafProfile) (*models.WafProfi
 // Update an existing WafProfile object
 func (client *WafProfileClient) Update(obj *models.WafProfile) (*models.WafProfile, error) {
 	var robj *models.WafProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *WafProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

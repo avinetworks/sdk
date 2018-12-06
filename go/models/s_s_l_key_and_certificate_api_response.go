@@ -9,7 +9,7 @@ type SSLKeyAndCertificateAPIResponse struct {
 
 	// count
 	// Required: true
-	Count int32 `json:"count"`
+	Count *int32 `json:"count"`
 
 	// results
 	// Required: true

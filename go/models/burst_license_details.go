@@ -8,17 +8,17 @@ package models
 type BurstLicenseDetails struct {
 
 	// Number of cores.
-	Cores int32 `json:"cores,omitempty"`
+	Cores *int32 `json:"cores,omitempty"`
 
 	// end_time of BurstLicenseDetails.
-	EndTime string `json:"end_time,omitempty"`
+	EndTime *string `json:"end_time,omitempty"`
 
 	// se_name of BurstLicenseDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 
 	// Unique object identifier of se.
-	SeUUID string `json:"se_uuid,omitempty"`
+	SeUUID *string `json:"se_uuid,omitempty"`
 
 	// start_time of BurstLicenseDetails.
-	StartTime string `json:"start_time,omitempty"`
+	StartTime *string `json:"start_time,omitempty"`
 }

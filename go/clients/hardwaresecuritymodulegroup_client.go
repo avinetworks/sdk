@@ -88,7 +88,7 @@ func (client *HardwareSecurityModuleGroupClient) Create(obj *models.HardwareSecu
 // Update an existing HardwareSecurityModuleGroup object
 func (client *HardwareSecurityModuleGroupClient) Update(obj *models.HardwareSecurityModuleGroup) (*models.HardwareSecurityModuleGroup, error) {
 	var robj *models.HardwareSecurityModuleGroup
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *HardwareSecurityModuleGroupClient) DeleteByName(name string) error
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

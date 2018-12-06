@@ -8,14 +8,14 @@ package models
 type SeVsFaultEventDetails struct {
 
 	// Name of the object responsible for the fault.
-	FaultObject string `json:"fault_object,omitempty"`
+	FaultObject *string `json:"fault_object,omitempty"`
 
 	// Reason for the fault.
-	FaultReason string `json:"fault_reason,omitempty"`
+	FaultReason *string `json:"fault_reason,omitempty"`
 
 	// SE uuid. It is a reference to an object of type ServiceEngine.
-	ServiceEngine string `json:"service_engine,omitempty"`
+	ServiceEngine *string `json:"service_engine,omitempty"`
 
 	// VS name. It is a reference to an object of type VirtualService.
-	VirtualService string `json:"virtual_service,omitempty"`
+	VirtualService *string `json:"virtual_service,omitempty"`
 }

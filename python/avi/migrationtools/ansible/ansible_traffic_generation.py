@@ -1,13 +1,13 @@
-import requests
 import json
 from copy import deepcopy
+
+import requests
 from avi.migrationtools.ansible.ansible_constant import \
-    (ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI, VIRTUALSERVICE, ansible_dict,
-     NAME, TAGS, AVI_VIRTUALSERVICE, SERVER, VALIDATE_CERT, USER, REQEST_TYPE,
-     IP_ADDRESS, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
-     LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, ENABLE_NETSCALER,
-     NS_USERNAME, NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, RESULT_SUCCESS,
-     ARP_STATE, BIGIP_VIRTUAL_ADDRESS)
+    (ENABLE_F5, DISABLE_F5, ENABLE_AVI, DISABLE_AVI, VIRTUALSERVICE, NAME, TAGS,
+     AVI_VIRTUALSERVICE, TASKS, STATE, DISABLE, BIGIP_VS_SERVER, DELEGETE_TO,
+     LOCAL_HOST, ENABLE, WHEN, RESULT, DISABLE_NETSCALER, NS_USERNAME,
+     NS_PASSWORD, NS_HOST, NETSCALER_VS_STATUS, ARP_STATE,
+     BIGIP_VIRTUAL_ADDRESS, TRAFFIC_ENABLE)
 
 
 class TrafficGen(object):
@@ -46,6 +46,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
+        avi_enable[TRAFFIC_ENABLE] = True
         avi_enable[ENABLE] = True
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
@@ -71,7 +72,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
+        avi_enable[TRAFFIC_ENABLE] = False
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
@@ -91,7 +92,7 @@ class TrafficGen(object):
         :return: None
         """
         avi_enable = deepcopy(vs_dict)
-        avi_enable[ENABLE] = False
+        avi_enable[TRAFFIC_ENABLE] = False
         vip = avi_enable.pop('vip')
         vip_ref = '/api/vsvip/?name=%s-vsvip' % vip[0]['ip_address']['addr']
         avi_enable['vsvip_ref'] = vip_ref
@@ -190,7 +191,9 @@ class F5TrafficGen(TrafficGen):
                 WHEN: RESULT
             })
 
-    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None, verify=False):
+    def get_status_vs(self, vs_name,vip, f5server, username, password,
+                      tenant= None, ns_vs_name_dict=None, verify=False,
+                      partitions=[]):
         """
         This function is used for getting status for F5 virtualservice.
         :param vs_name: virtualservice name
@@ -199,9 +202,21 @@ class F5TrafficGen(TrafficGen):
         :param password: f5 password
         :return: if enabled tag present.
         """
+
+        global url
         if self.prefix:
             vs_name = self.remove_prefix(vs_name)
-        url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
+        if vip in partitions.keys():
+            data = partitions.get(vip)
+            url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (
+            f5server, data['partition'],
+            data['vs_name'])
+        else:
+            if tenant == 'admin':
+                url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
+            else:
+                url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (f5server, tenant,
+                                                          vs_name)
         status = requests.get(url, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if status.pop(ENABLE, None):
@@ -233,9 +248,9 @@ class NetscalerTrafficGen(TrafficGen):
         """
         vs_name = self.get_ns_name(vs_dict[NAME])
         vs_dict = {
-            'username': NS_USERNAME,
-            'password': NS_PASSWORD,
-            'state': 'disable',
+            'ns_username': NS_USERNAME,
+            'ns_password': NS_PASSWORD,
+            'vs_state': 'disable',
             'vs_name': vs_name,
             'vs_type': 'lbvs',
             'ns_host': NS_HOST
@@ -257,9 +272,9 @@ class NetscalerTrafficGen(TrafficGen):
         """
         vs_name = self.get_ns_name(vs_dict[NAME])
         vs_dict = {
-            'username': NS_USERNAME,
-            'password': NS_PASSWORD,
-            'state': 'enable',
+            'ns_username': NS_USERNAME,
+            'ns_password': NS_PASSWORD,
+            'vs_state': 'enable',
             'vs_name': vs_name,
             'vs_type': 'lbvs',
             'ns_host': NS_HOST

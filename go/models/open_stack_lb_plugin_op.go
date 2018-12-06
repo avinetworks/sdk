@@ -8,26 +8,26 @@ package models
 type OpenStackLbPluginOp struct {
 
 	// cc_id of OpenStackLbPluginOp.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// command of OpenStackLbPluginOp.
 	// Required: true
-	Command string `json:"command"`
+	Command *string `json:"command"`
 
 	// detail of OpenStackLbPluginOp.
-	Detail string `json:"detail,omitempty"`
+	Detail *string `json:"detail,omitempty"`
 
 	// Number of elapsed.
-	Elapsed int32 `json:"elapsed,omitempty"`
+	Elapsed *int32 `json:"elapsed,omitempty"`
 
 	// id of OpenStackLbPluginOp.
 	// Required: true
-	ID string `json:"id"`
+	ID *string `json:"id"`
 
 	// prov of OpenStackLbPluginOp.
 	// Required: true
-	Prov string `json:"prov"`
+	Prov *string `json:"prov"`
 
 	// result of OpenStackLbPluginOp.
-	Result string `json:"result,omitempty"`
+	Result *string `json:"result,omitempty"`
 }

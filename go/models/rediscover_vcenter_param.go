@@ -9,5 +9,5 @@ type RediscoverVcenterParam struct {
 
 	// cloud of RediscoverVcenterParam.
 	// Required: true
-	Cloud string `json:"cloud"`
+	Cloud *string `json:"cloud"`
 }

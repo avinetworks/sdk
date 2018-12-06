@@ -195,7 +195,8 @@ class LbvsConverter(object):
                     'type': 'VS_TYPE_NORMAL',
                     'tenant_ref': self.tenant_ref,
                     'cloud_ref': self.cloud_ref,
-                    'enabled': enabled,
+                    'enabled': True,
+                    'traffic_enabled': enabled,
                     'services': [],
                 }
 

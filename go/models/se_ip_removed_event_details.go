@@ -8,29 +8,29 @@ package models
 type SeIPRemovedEventDetails struct {
 
 	// Vnic name.
-	IfName string `json:"if_name,omitempty"`
+	IfName *string `json:"if_name,omitempty"`
 
 	// IP added.
-	IP string `json:"ip,omitempty"`
+	IP *string `json:"ip,omitempty"`
 
 	// Vnic linux name.
-	LinuxName string `json:"linux_name,omitempty"`
+	LinuxName *string `json:"linux_name,omitempty"`
 
 	// Mac Address.
-	Mac string `json:"mac,omitempty"`
+	Mac *string `json:"mac,omitempty"`
 
 	// Mask .
-	Mask int32 `json:"mask,omitempty"`
+	Mask *int32 `json:"mask,omitempty"`
 
 	// DCHP or Static.
-	Mode string `json:"mode,omitempty"`
+	Mode *string `json:"mode,omitempty"`
 
 	// Network UUID.
-	NetworkUUID string `json:"network_uuid,omitempty"`
+	NetworkUUID *string `json:"network_uuid,omitempty"`
 
 	// Namespace.
-	Ns string `json:"ns,omitempty"`
+	Ns *string `json:"ns,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 }

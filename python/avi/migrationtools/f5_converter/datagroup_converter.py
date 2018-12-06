@@ -25,7 +25,7 @@ class DataGroupConfigConv(object):
             return DataGroupConfigConvV11(prefix, object_merge_check,
                                           dg_command_status)
 
-    def convert_ip_group(self, name, d_group, skipped, tenant):
+    def convert_ip_group(self, name, d_group, avi_config, skipped, tenant):
         pass
 
     def update_conv_status_for_skip(self, dg_type, name, msg):
@@ -74,9 +74,10 @@ class DataGroupConfigConv(object):
         :param sys_dict: baseline profile
         :return:
         """
-        avi_config['IpAddrGroup'] = []
+        if 'IpAddrGroup' not in avi_config:
+            avi_config['IpAddrGroup'] = []
         converted_objs = []
-        f5_datagroup_dict = f5_config.get('data-group')
+        f5_datagroup_dict = f5_config.get('data-group', {})
         user_ignore = user_ignore.get('data-group', {})
         # Added variable to get total object count.
         progressbar_count = 0
@@ -105,7 +106,9 @@ class DataGroupConfigConv(object):
 
                 dg_type = dg_config['type']
                 if dg_type == 'ip':
-                    ip_group = self.convert_ip_group(name, dg_config, skipped,
+                    ip_group = self.convert_ip_group(name, dg_config,
+                                                     avi_config,
+                                                     skipped,
                                                      tenant)
                 else:
                     msg = 'data-group type not supported skipping ' \
@@ -136,7 +139,7 @@ class DataGroupConfigConv(object):
                 self.update_conv_status_for_error(name, dg_type, key)
         count = len(avi_config["IpAddrGroup"])
         LOG.debug("Converted %s ip group" % count)
-        f5_config.pop('data-group')
+        f5_config.pop('data-group', None)
 
 
 
@@ -154,17 +157,24 @@ class DataGroupConfigConvV11(DataGroupConfigConv):
         self.dg_count = 0
 
 
-    def convert_ip_group(self, name, d_group, skipped, tenant):
+    def convert_ip_group(self, name, d_group, avi_config, skipped, tenant):
 
         skipped += [attr for attr in d_group.keys()
                     if attr not in self.supported_attr]
         prefixes = []
         for record in d_group.get('records', []):
+            ip_address = None
+            if "%" in record:
+                ip_address = record.split('%')[0]
+                vrf = record.split('%')[1].split('/')[0]
+                conv_utils.add_vrf(avi_config, vrf, None)
+            else:
+                ip_address = record.split('/')[0]
             prefix = {
                 'mask': record.split('/')[1],
                 'ip_addr': {
-                    'type': "V4",
-                    'addr': record.split('/')[0]
+                    'type':     "V4",
+                    'addr': ip_address
                 }
             }
             prefixes.append(prefix)
@@ -190,18 +200,25 @@ class DataGroupConfigConvV10(DataGroupConfigConv):
         self.object_merge_check = object_merge_check
         self.dg_count = 0
 
-    def convert_ip_group(self, name, d_group, skipped, tenant):
+    def convert_ip_group(self, name, d_group, avi_config, skipped, tenant):
 
         skipped += [attr for attr in d_group.keys()
                     if attr not in self.supported_attr]
         prefixes = []
         for record in d_group.get('records', []):
             for ip in record:
+                ip_address = None
+                if "%" in ip:
+                    ip_address = ip.split('%')[0]
+                    vrf = ip.split('%')[1].split('/')[0]
+                    conv_utils.add_vrf(avi_config, vrf, None)
+                else:
+                    ip_address = ip.split('/')[0]
                 prefix = {
                     'mask': ip.split('/')[1],
                     'ip_addr': {
                         'type': "V4",
-                        'addr': ip.split('/')[0]
+                        'addr': ip_address
                     }
                 }
                 prefixes.append(prefix)

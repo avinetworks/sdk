@@ -88,7 +88,7 @@ func (client *ControllerLicenseClient) Create(obj *models.ControllerLicense) (*m
 // Update an existing ControllerLicense object
 func (client *ControllerLicenseClient) Update(obj *models.ControllerLicense) (*models.ControllerLicense, error) {
 	var robj *models.ControllerLicense
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ControllerLicenseClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

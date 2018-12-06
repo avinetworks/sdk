@@ -8,11 +8,11 @@ package models
 type AuthTacacsPlusAttributeValuePair struct {
 
 	// mandatory.
-	Mandatory bool `json:"mandatory,omitempty"`
+	Mandatory *bool `json:"mandatory,omitempty"`
 
 	// attribute name.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// attribute value.
-	Value string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty"`
 }

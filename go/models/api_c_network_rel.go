@@ -8,11 +8,11 @@ package models
 type APICNetworkRel struct {
 
 	// connector of APICNetworkRel.
-	Connector string `json:"connector,omitempty"`
+	Connector *string `json:"connector,omitempty"`
 
 	// rel_key of APICNetworkRel.
-	RelKey string `json:"rel_key,omitempty"`
+	RelKey *string `json:"rel_key,omitempty"`
 
 	// target_network of APICNetworkRel.
-	TargetNetwork string `json:"target_network,omitempty"`
+	TargetNetwork *string `json:"target_network,omitempty"`
 }

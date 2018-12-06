@@ -9,7 +9,7 @@ type L4RulePortMatch struct {
 
 	// Criterion to use for Virtual Service port matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7.
 	// Required: true
-	MatchCriteria string `json:"match_criteria"`
+	MatchCriteria *string `json:"match_criteria"`
 
 	// Range of TCP/UDP port numbers of the Virtual Service. Field introduced in 17.2.7.
 	PortRanges []*PortRange `json:"port_ranges,omitempty"`

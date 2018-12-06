@@ -8,8 +8,8 @@ package models
 type SSLRenewFailedDetails struct {
 
 	// Error when renewing certificate.
-	Error string `json:"error,omitempty"`
+	Error *string `json:"error,omitempty"`
 
 	// Name of SSL Certificate.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

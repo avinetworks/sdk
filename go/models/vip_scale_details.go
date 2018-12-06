@@ -8,17 +8,17 @@ package models
 type VipScaleDetails struct {
 
 	// availability_zone of VipScaleDetails.
-	AvailabilityZone string `json:"availability_zone,omitempty"`
+	AvailabilityZone *string `json:"availability_zone,omitempty"`
 
 	// error of VipScaleDetails.
-	Error string `json:"error,omitempty"`
+	Error *string `json:"error,omitempty"`
 
 	// Unique object identifier of subnet.
-	SubnetUUID string `json:"subnet_uuid,omitempty"`
+	SubnetUUID *string `json:"subnet_uuid,omitempty"`
 
 	// vip_id of VipScaleDetails.
-	VipID string `json:"vip_id,omitempty"`
+	VipID *string `json:"vip_id,omitempty"`
 
 	// Unique object identifier of vsvip.
-	VsvipUUID string `json:"vsvip_uuid,omitempty"`
+	VsvipUUID *string `json:"vsvip_uuid,omitempty"`
 }

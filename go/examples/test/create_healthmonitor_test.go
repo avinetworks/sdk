@@ -2,11 +2,12 @@ package test
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
-	"testing"
-	"os"
 )
 
 func TestCreateHealthmonitor(t *testing.T) {
@@ -15,6 +16,7 @@ func TestCreateHealthmonitor(t *testing.T) {
 		session.SetTenant("admin"),
 		session.SetVersion("17.2.8"),
 		session.SetInsecure)
+
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
 		t.Fail()
@@ -24,15 +26,23 @@ func TestCreateHealthmonitor(t *testing.T) {
 
 	// Create health monitor in webapp tenant
 	hmobj := models.HealthMonitor{}
-	hmobj.Name = "Test-Hm"
-	hmobj.Type = "HEALTH_MONITOR_HTTP"
-	hmobj.ReceiveTimeout = 2
-	hmobj.SendInterval = 3
-	hmobj.SuccessfulChecks = 10
-	hmobj.TenantRef = "/api/tenant?name=admin"
+	name := "Test-Hm"
+	hmobj.Name = &name
+	Type := "HEALTH_MONITOR_HTTP"
+	hmobj.Type = &Type
+	rt := (int32)(2)
+	hmobj.ReceiveTimeout = &rt
+	si := (int32)(3)
+	hmobj.SendInterval = &si
+	sc := (int32)(10)
+	hmobj.SuccessfulChecks = &sc
+	tr := "/api/tenant?name=admin"
+	hmobj.TenantRef = &tr
 	httpmonitor := models.HealthMonitorHTTP{}
-	httpmonitor.ExactHTTPRequest = false
-	httpmonitor.HTTPRequest = "HEAD / HTTP/1.0"
+	ehr := false
+	httpmonitor.ExactHTTPRequest = &ehr
+	hr := "HEAD / HTTP/1.0"
+	httpmonitor.HTTPRequest = &hr
 	httpmonitor.HTTPResponseCode = append(httpmonitor.HTTPResponseCode, "HTTP_3XX")
 	hmobj.HTTPMonitor = &httpmonitor
 	nvsobj, err := aviClient.HealthMonitor.Create(&hmobj)
@@ -43,16 +53,21 @@ func TestCreateHealthmonitor(t *testing.T) {
 	fmt.Printf("\n Healthmonitor obj: %+v", *nvsobj)
 
 	// Update healthmonitor
-	profobj:= models.HealthMonitor{}
+	profobj := models.HealthMonitor{}
 	err = aviClient.AviSession.GetObjectByName("healthmonitor", "Test-Hm", &profobj)
 	if err == nil {
-		profobj.Name = "Test-Healthmonitor"
-		profobj.ReceiveTimeout = 3
-		profobj.SendInterval = 4
-		profobj.SuccessfulChecks = 10
-		profobj.Type = "HEALTH_MONITOR_HTTP"
+		name := "Test-Healthmonitor"
+		profobj.Name = &name
+		rt := (int32)(3)
+		profobj.ReceiveTimeout = &rt
+		si := (int32)(4)
+		profobj.SendInterval = &si
+		sc := (int32)(10)
+		profobj.SuccessfulChecks = &sc
+		Type := "HEALTH_MONITOR_HTTP"
+		profobj.Type = &Type
 
-		upObj , err := aviClient.HealthMonitor.Update(&profobj)
+		upObj, err := aviClient.HealthMonitor.Update(&profobj)
 		if err != nil {
 			fmt.Println("\n [ERROR] : ", err)
 			t.Fail()

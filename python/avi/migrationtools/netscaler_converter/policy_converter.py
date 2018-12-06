@@ -52,7 +52,6 @@ class PolicyConverter(object):
         # Added prefix for objects
         self.prefix = prefix
 
-
     def convert(self, bind_conf_list, ns_config, avi_config, tmp_pool_ref,
                 redirect_pools, netscalar_command, case_sensitive, enable_ssl):
         """
@@ -280,7 +279,6 @@ class PolicyConverter(object):
                 self.get_targetvserver_policylabel(
                     self, policyLabels, policy_lables, depth=depth-1)
 
-
     def rule_converter(self, policy, policy_type, priority_index,
                        redirect_pools, bind_patset, patset_config,
                        rewrite_action_config, responder_action_config,
@@ -307,6 +305,8 @@ class PolicyConverter(object):
         netscalar_command = None
         rule_name = policy['attrs'][0]
         ns_rule = policy.get('rule', None)
+        if not ns_rule and 'url' in policy:
+            ns_rule = 'URL ==%s' % policy['url']
         if policy_type == 'cs':
             netscalar_command = 'add cs policy'
         elif policy_type == 'rewrite':
@@ -468,7 +468,6 @@ class PolicyConverter(object):
         if policy_rules:
             priority_index = priority_index + 1
         return policy_rules, priority_index
-
 
     def query_converter(self, rule, policy_name, bind_patset, patset_config,
                         avi_config, case_sensitive):

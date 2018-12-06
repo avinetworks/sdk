@@ -11,5 +11,5 @@ type FailActionHTTPLocalResponse struct {
 	File *HTTPLocalFile `json:"file,omitempty"`
 
 	//  Enum options - FAIL_HTTP_STATUS_CODE_200, FAIL_HTTP_STATUS_CODE_503.
-	StatusCode string `json:"status_code,omitempty"`
+	StatusCode *string `json:"status_code,omitempty"`
 }

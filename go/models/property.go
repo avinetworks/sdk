@@ -9,8 +9,8 @@ type Property struct {
 
 	// Property name. Field introduced in 17.2.1.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
 	// Property value. Field introduced in 17.2.1.
-	Value string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty"`
 }

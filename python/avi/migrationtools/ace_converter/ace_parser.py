@@ -489,14 +489,11 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
     for match, start, end in grammer.scanString(data):
         key = ''
         extra_dict = {}
-
         # printing progress bar
         msg = ''
         printProgressBar(end, file_size, msg, prefix='Progress', suffix='')
-
         if match:
             matched = match.asList()
-            command = data[start: end]
             out_dict.append(matched)
             if type(matched[0][0][0]) is list:
                 key = matched[0][0][0][0]
@@ -504,10 +501,7 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
             else:
                 key = matched[0][0][0]
                 name_to_log = matched[0][0][1]
-
         LOG.info('Parsing happening for :{} ->  {}'.format(key, name_to_log))
-        # LOG.debug('Parsing value {}'.format(matched))
-
         excel_dict = {
             'name': '',
             'type': '',
@@ -519,12 +513,10 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
             'NA': [],
             'Avi Object': ''
         }
-
         name_to_log = None
         type_to_log = ['logging', 'access-list', 'rserver', 'serverfarm',
                        'parameter-map', 'class-map', 'policy-map', 'sticky',
                        'probe', 'action-list', 'crypto']
-
         if key == 'logging':
             matched = matched[0][0]
             name_to_log = matched[1]
@@ -546,8 +538,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     'packet': matched[3]
                 }
             LOG.info('parsing: Logging for value : {}'.format(name_to_log))
-            # LOG.debug('Logging value {}'.format(extra_dict))
-
         if key == 'access-list':
             matched = matched[0][0]
             name_to_log = "{} line {}".format(matched[0][1], matched[0][4])
@@ -561,8 +551,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 'ip3': matched[9]
             }
             LOG.info('parsing: Access-list {}'.format(name_to_log))
-            # LOG.debug('Access-list value {}'.format(extra_dict))
-
         if key == 'rserver':
             matched = matched[0][0]
             name_to_log = matched[0][2]
@@ -571,7 +559,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 'desc': []
             }
             for match in matched[1:]:
-                temp_dict = dict()
                 if len(match) == 1:
                     temp_dict = {
                         'type': match[0]
@@ -587,15 +574,12 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                         match[0]: match[1]
                     }
                 extra_dict['desc'].append(temp_dict)
-
             LOG.info('parsing: rserver for value : {}'.format(name_to_log))
-            # LOG.debug('rserver value {}'.format(extra_dict))
-
         if key == 'serverfarm':
             matched = matched[0][0]
             name_to_log = matched[0][2]
             extra_dict = {
-                matched[0][1]: matched[0][2],   #getting serverfarm name
+                matched[0][1]: matched[0][2],   # getting serverfarm name
                 'desc': []
             }
             for match in matched[1:]:
@@ -604,7 +588,9 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     temp_dict = {
                         match[0]: match[1]
                     }
-                #Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input configuration file.
+                # Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as
+                # ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input
+                # configuration file.
                 elif 'rserver' in match:
                     if len(match) >= 4:
                         temp_dict = {
@@ -619,15 +605,11 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                             match[0]: match[1],
                             'enabled': match[2] if len(match)>2 else 'false'
                         }
-                #Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add that filed into serverfarm otherwise just ignore.
+                # Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add
+                # that filed into serverfarm otherwise just ignore.
                 if len(temp_dict.keys()) > 1:
                     extra_dict['desc'].append(temp_dict)
-
-
-
             LOG.info('parsing: server farm for value : {}'.format(name_to_log))
-            # LOG.debug('serverfarm value {}'.format(extra_dict))
-
         if key == 'parameter-map':
             matched = matched[0][0]
             name_to_log = matched[0][3]
@@ -637,7 +619,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 'desc': []
             }
             for match in matched[1:]:
-                temp_dict = dict()
                 if len(match) == 2:
                     temp_dict = {
                         match[0]: match[1]
@@ -651,7 +632,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
 
             LOG.info(
                 'parsing: parameter-map for value : {}'.format(name_to_log))
-
         if key == 'class-map':
             matched = matched[0][0]
             name_to_log = matched[0][2]
@@ -682,8 +662,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: class-map for value : {}'.format(name_to_log))
-            # LOG.debug('class-map value {}'.format(extra_dict))
-
         if key == 'policy-map':
             matched = matched[0][0]
             if len(matched[0]) == 5:
@@ -722,7 +700,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     temp_dict['class_desc'].append(temp_dict_1)
                 extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: policy-map for value : {}'.format(name_to_log))
-
         if key == 'sticky':
             matched = matched[0][0]
             if len(matched[0]) == 6:
@@ -747,8 +724,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: sticky for value : {}'.format(name_to_log))
-            # LOG.debug('sticky value {}'.format(extra_dict))
-
         if key == 'ssl-proxy':
             matched = matched[0][0]
             name_to_log = matched[0][2]
@@ -768,9 +743,9 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                         'name': match[2]
                     }
                 extra_dict['desc'].append(temp_dict)
-    # action-list type modify http test-ssl-rewrite
-    #   ssl url rewrite location ".*"
-    #   header rewrite request Host header-value "(.*)" replace "%1\/"
+        # action-list type modify http test-ssl-rewrite
+        # ssl url rewrite location ".*"
+        # header rewrite request Host header-value "(.*)" replace "%1\/"
         if key == 'action-list':
             matched = matched[0][0]
             name_to_log = matched[0][4]
@@ -796,7 +771,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: action-list for value : {}'.format(name_to_log))
-
         if key == 'probe':
             matched = matched[0][0]
             name_to_log = matched[0][2]
@@ -833,7 +807,6 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 extra_dict.update(temp_dict)
             LOG.info('parsing: probe for value : {}'.format(name_to_log))
-
         if key == 'crypto':
             matched = matched[0][0]
             name_to_log = matched[0][2]
@@ -846,10 +819,12 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
             for match in matched[0:]:
                 temp_dict = dict()
                 if 'cert' in match:
-                    extra_dict['cert'].append(match[1]) #getting chaingroup certs
+                    # getting chaingroup certs
+                    extra_dict['cert'].append(match[1])
                 elif 'csr-params' in match:
                     temp_dict = {
-                        match[1]: match[2]  #getting CSR params such as country, state, organization name.
+                        # getting CSR params such as country, state, organization name.
+                        match[1]: match[2]
                     }
                 else:
                     temp_dict = {
@@ -857,18 +832,15 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     }
                 extra_dict.update(temp_dict)
             LOG.info('parsing: crypto for value : {}'.format(name_to_log))
-
-        # updating excel sheet
+        # Updating excel sheet
         if key in type_to_log and name_to_log:
             excel_dict['name'] = name_to_log
             excel_dict['type'] = key
             final_excel.append(excel_dict)
-
         if key not in final_dict.keys():
             final_dict.update({key: [extra_dict]})
         else:
             final_dict[key].append(extra_dict)
-
     set_excel_dict(final_excel)
     printProgressBar(file_size, file_size, msg,
                      prefix='Progress', suffix='')

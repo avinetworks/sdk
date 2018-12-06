@@ -8,17 +8,17 @@ package models
 type SeHmEventGSDetails struct {
 
 	// GslbService name. It is a reference to an object of type GslbService.
-	GslbService string `json:"gslb_service,omitempty"`
+	GslbService *string `json:"gslb_service,omitempty"`
 
 	// HA Compromised reason.
-	HaReason string `json:"ha_reason,omitempty"`
+	HaReason *string `json:"ha_reason,omitempty"`
 
 	// Reason Gslb Service is down.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// Service Engine name.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 
 	// UUID of the event generator.
-	SrcUUID string `json:"src_uuid,omitempty"`
+	SrcUUID *string `json:"src_uuid,omitempty"`
 }

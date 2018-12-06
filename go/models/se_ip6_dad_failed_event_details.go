@@ -11,8 +11,8 @@ type SeIp6DadFailedEventDetails struct {
 	DadIP *IPAddr `json:"dad_ip,omitempty"`
 
 	// Vnic name.
-	IfName string `json:"if_name,omitempty"`
+	IfName *string `json:"if_name,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 }

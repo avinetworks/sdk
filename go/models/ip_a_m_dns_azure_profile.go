@@ -17,10 +17,10 @@ type IPAMDNSAzureProfile struct {
 	EgressServiceSubnets []string `json:"egress_service_subnets,omitempty"`
 
 	// Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1.
-	ResourceGroup string `json:"resource_group,omitempty"`
+	ResourceGroup *string `json:"resource_group,omitempty"`
 
 	// Subscription Id for the Azure subscription. Field introduced in 17.2.1.
-	SubscriptionID string `json:"subscription_id,omitempty"`
+	SubscriptionID *string `json:"subscription_id,omitempty"`
 
 	// Usable domains to pick from Azure DNS. Field introduced in 17.2.1.
 	UsableDomains []string `json:"usable_domains,omitempty"`
@@ -29,10 +29,10 @@ type IPAMDNSAzureProfile struct {
 	UsableNetworkUuids []string `json:"usable_network_uuids,omitempty"`
 
 	// Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1.
-	UseEnhancedHa bool `json:"use_enhanced_ha,omitempty"`
+	UseEnhancedHa *bool `json:"use_enhanced_ha,omitempty"`
 
 	// Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7.
-	UseStandardAlb bool `json:"use_standard_alb,omitempty"`
+	UseStandardAlb *bool `json:"use_standard_alb,omitempty"`
 
 	// Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1.
 	VirtualNetworkIds []string `json:"virtual_network_ids,omitempty"`

@@ -11,18 +11,18 @@ type HTTPRedirectAction struct {
 	Host *URIParam `json:"host,omitempty"`
 
 	// Keep or drop the query of the incoming request URI in the redirected URI.
-	KeepQuery bool `json:"keep_query,omitempty"`
+	KeepQuery *bool `json:"keep_query,omitempty"`
 
 	// Path config.
 	Path *URIParam `json:"path,omitempty"`
 
 	// Port to which redirect the request. Allowed values are 1-65535.
-	Port int32 `json:"port,omitempty"`
+	Port *int32 `json:"port,omitempty"`
 
 	// Protocol type. Enum options - HTTP, HTTPS.
 	// Required: true
-	Protocol string `json:"protocol"`
+	Protocol *string `json:"protocol"`
 
 	// HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307.
-	StatusCode string `json:"status_code,omitempty"`
+	StatusCode *string `json:"status_code,omitempty"`
 }

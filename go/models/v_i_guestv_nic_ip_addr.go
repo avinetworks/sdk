@@ -9,9 +9,9 @@ type VIGuestvNicIPAddr struct {
 
 	// ip_addr of VIGuestvNicIPAddr.
 	// Required: true
-	IPAddr string `json:"ip_addr"`
+	IPAddr *string `json:"ip_addr"`
 
 	// Number of mask.
 	// Required: true
-	Mask int32 `json:"mask"`
+	Mask *int32 `json:"mask"`
 }

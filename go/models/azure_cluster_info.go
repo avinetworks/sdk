@@ -9,9 +9,9 @@ type AzureClusterInfo struct {
 
 	//  It is a reference to an object of type CloudConnectorUser. Field introduced in 17.2.5.
 	// Required: true
-	CloudCredentialRef string `json:"cloud_credential_ref"`
+	CloudCredentialRef *string `json:"cloud_credential_ref"`
 
 	//  Field introduced in 17.2.5.
 	// Required: true
-	SubscriptionID string `json:"subscription_id"`
+	SubscriptionID *string `json:"subscription_id"`
 }
