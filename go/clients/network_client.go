@@ -88,7 +88,7 @@ func (client *NetworkClient) Create(obj *models.Network) (*models.Network, error
 // Update an existing Network object
 func (client *NetworkClient) Update(obj *models.Network) (*models.Network, error) {
 	var robj *models.Network
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *NetworkClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

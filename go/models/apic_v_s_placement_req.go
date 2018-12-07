@@ -8,7 +8,7 @@ package models
 type ApicVSPlacementReq struct {
 
 	// graph of ApicVSPlacementReq.
-	Graph string `json:"graph,omitempty"`
+	Graph *string `json:"graph,omitempty"`
 
 	// Placeholder for description of property lifs of obj type ApicVSPlacementReq field type str  type object
 	Lifs []*Lif `json:"lifs,omitempty"`
@@ -17,11 +17,11 @@ type ApicVSPlacementReq struct {
 	NetworkRel []*APICNetworkRel `json:"network_rel,omitempty"`
 
 	// tenant_name of ApicVSPlacementReq.
-	TenantName string `json:"tenant_name,omitempty"`
+	TenantName *string `json:"tenant_name,omitempty"`
 
 	// vdev of ApicVSPlacementReq.
-	Vdev string `json:"vdev,omitempty"`
+	Vdev *string `json:"vdev,omitempty"`
 
 	// vgrp of ApicVSPlacementReq.
-	Vgrp string `json:"vgrp,omitempty"`
+	Vgrp *string `json:"vgrp,omitempty"`
 }

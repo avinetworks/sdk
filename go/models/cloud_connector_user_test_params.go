@@ -8,5 +8,5 @@ package models
 type CloudConnectorUserTestParams struct {
 
 	// host of CloudConnectorUserTestParams.
-	Host string `json:"host,omitempty"`
+	Host *string `json:"host,omitempty"`
 }

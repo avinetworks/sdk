@@ -88,7 +88,7 @@ func (client *APICLifsRuntimeClient) Create(obj *models.APICLifsRuntime) (*model
 // Update an existing APICLifsRuntime object
 func (client *APICLifsRuntimeClient) Update(obj *models.APICLifsRuntime) (*models.APICLifsRuntime, error) {
 	var robj *models.APICLifsRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *APICLifsRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

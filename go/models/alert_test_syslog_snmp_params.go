@@ -9,8 +9,8 @@ type AlertTestSyslogSnmpParams struct {
 
 	// The contents of the Syslog message/SNMP Trap contents.
 	// Required: true
-	Text string `json:"text"`
+	Text *string `json:"text"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

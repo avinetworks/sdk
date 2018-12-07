@@ -8,13 +8,13 @@ package models
 type VsInitialPlacementEventDetails struct {
 
 	// error_message of VsInitialPlacementEventDetails.
-	ErrorMessage string `json:"error_message,omitempty"`
+	ErrorMessage *string `json:"error_message,omitempty"`
 
 	// ip of VsInitialPlacementEventDetails.
-	IP string `json:"ip,omitempty"`
+	IP *string `json:"ip,omitempty"`
 
 	// Number of rpc_status.
-	RPCStatus int64 `json:"rpc_status,omitempty"`
+	RPCStatus *int64 `json:"rpc_status,omitempty"`
 
 	// Placeholder for description of property se_assigned of obj type VsInitialPlacementEventDetails field type str  type object
 	SeAssigned []*VipSeAssigned `json:"se_assigned,omitempty"`
@@ -24,5 +24,5 @@ type VsInitialPlacementEventDetails struct {
 
 	// Unique object identifier of vs.
 	// Required: true
-	VsUUID string `json:"vs_uuid"`
+	VsUUID *string `json:"vs_uuid"`
 }

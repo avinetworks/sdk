@@ -8,7 +8,7 @@ package models
 type IPAMDNSCustomProfile struct {
 
 	//  It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1.
-	CustomIPAMDNSProfileRef string `json:"custom_ipam_dns_profile_ref,omitempty"`
+	CustomIPAMDNSProfileRef *string `json:"custom_ipam_dns_profile_ref,omitempty"`
 
 	// Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1.
 	DynamicParams []*CustomParams `json:"dynamic_params,omitempty"`

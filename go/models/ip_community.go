@@ -7,7 +7,7 @@ package models
 // swagger:model IpCommunity
 type IPCommunity struct {
 
-	// Community string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.3.
+	// Community *string either in aa nn format where aa, nn is within [1,65535] or local-AS|no-advertise|no-export|internet. Field introduced in 17.1.3.
 	Community []string `json:"community,omitempty"`
 
 	// Beginning of IP address range. Field introduced in 17.1.3.

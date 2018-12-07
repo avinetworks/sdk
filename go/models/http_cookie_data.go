@@ -8,8 +8,8 @@ package models
 type HTTPCookieData struct {
 
 	// Cookie name.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Cookie value.
-	Value string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty"`
 }

@@ -15,5 +15,5 @@ type DNSNsRdata struct {
 
 	// Name Server name. Field introduced in 17.1.1.
 	// Required: true
-	Nsname string `json:"nsname"`
+	Nsname *string `json:"nsname"`
 }

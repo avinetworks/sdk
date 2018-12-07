@@ -88,7 +88,7 @@ func (client *NetworkSecurityPolicyClient) Create(obj *models.NetworkSecurityPol
 // Update an existing NetworkSecurityPolicy object
 func (client *NetworkSecurityPolicyClient) Update(obj *models.NetworkSecurityPolicy) (*models.NetworkSecurityPolicy, error) {
 	var robj *models.NetworkSecurityPolicy
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *NetworkSecurityPolicyClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

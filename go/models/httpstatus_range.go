@@ -9,9 +9,9 @@ type HttpstatusRange struct {
 
 	// Starting HTTP response status code.
 	// Required: true
-	Begin int32 `json:"begin"`
+	Begin *int32 `json:"begin"`
 
 	// Ending HTTP response status code.
 	// Required: true
-	End int32 `json:"end"`
+	End *int32 `json:"end"`
 }

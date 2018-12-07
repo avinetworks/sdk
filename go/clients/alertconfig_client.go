@@ -88,7 +88,7 @@ func (client *AlertConfigClient) Create(obj *models.AlertConfig) (*models.AlertC
 // Update an existing AlertConfig object
 func (client *AlertConfigClient) Update(obj *models.AlertConfig) (*models.AlertConfig, error) {
 	var robj *models.AlertConfig
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *AlertConfigClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

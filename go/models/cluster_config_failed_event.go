@@ -8,5 +8,5 @@ package models
 type ClusterConfigFailedEvent struct {
 
 	// Failure reason.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 }

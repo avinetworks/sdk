@@ -9,9 +9,9 @@ type PortRange struct {
 
 	// TCP/UDP port range end (inclusive). Allowed values are 1-65535.
 	// Required: true
-	End int32 `json:"end"`
+	End *int32 `json:"end"`
 
 	// TCP/UDP port range start (inclusive). Allowed values are 1-65535.
 	// Required: true
-	Start int32 `json:"start"`
+	Start *int32 `json:"start"`
 }

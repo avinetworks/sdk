@@ -8,14 +8,14 @@ package models
 type SeDupipEventDetails struct {
 
 	// Mac Address.
-	LocalMac string `json:"local_mac,omitempty"`
+	LocalMac *string `json:"local_mac,omitempty"`
 
 	// Mac Address.
-	RemoteMac string `json:"remote_mac,omitempty"`
+	RemoteMac *string `json:"remote_mac,omitempty"`
 
 	// Vnic IP.
-	VnicIP string `json:"vnic_ip,omitempty"`
+	VnicIP *string `json:"vnic_ip,omitempty"`
 
 	// Vnic name.
-	VnicName string `json:"vnic_name,omitempty"`
+	VnicName *string `json:"vnic_name,omitempty"`
 }

@@ -8,8 +8,8 @@ package models
 type BMSetup struct {
 
 	// cc_id of BMSetup.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// error_string of BMSetup.
-	ErrorString string `json:"error_string,omitempty"`
+	ErrorString *string `json:"error_string,omitempty"`
 }

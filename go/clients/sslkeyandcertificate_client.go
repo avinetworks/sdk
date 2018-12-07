@@ -88,7 +88,7 @@ func (client *SSLKeyAndCertificateClient) Create(obj *models.SSLKeyAndCertificat
 // Update an existing SSLKeyAndCertificate object
 func (client *SSLKeyAndCertificateClient) Update(obj *models.SSLKeyAndCertificate) (*models.SSLKeyAndCertificate, error) {
 	var robj *models.SSLKeyAndCertificate
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SSLKeyAndCertificateClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

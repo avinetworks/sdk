@@ -9,5 +9,5 @@ type FailActionBackupPool struct {
 
 	// Specifies the UUID of the Pool acting as backup pool. It is a reference to an object of type Pool.
 	// Required: true
-	BackupPoolRef string `json:"backup_pool_ref"`
+	BackupPoolRef *string `json:"backup_pool_ref"`
 }

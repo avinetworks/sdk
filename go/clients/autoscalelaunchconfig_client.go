@@ -88,7 +88,7 @@ func (client *AutoScaleLaunchConfigClient) Create(obj *models.AutoScaleLaunchCon
 // Update an existing AutoScaleLaunchConfig object
 func (client *AutoScaleLaunchConfigClient) Update(obj *models.AutoScaleLaunchConfig) (*models.AutoScaleLaunchConfig, error) {
 	var robj *models.AutoScaleLaunchConfig
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *AutoScaleLaunchConfigClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

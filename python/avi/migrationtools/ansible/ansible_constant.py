@@ -9,7 +9,7 @@ common_task_args = {'controller': "{{ controller }}",
 ansible_dict = dict({
     'connection': 'local',
     'hosts': 'localhost',
-    'roles': ['avinetworks.avisdk'],
+    'roles': ['avinetworks.avisdk', 'avinetworks.avimigrationtools'],
     'vars': deepcopy(common_task_args),
     'tasks': []})
 
@@ -37,17 +37,21 @@ VIRTUALSERVICE = 'virtualservice'
 GEN_TRAFFIC = 'generate_traffic'
 USERNAME = 'username'
 PASSWORD = 'password'
+AVI_CON_USERNAME = 'avi_con_username'
+AVI_CON_PASSWORD = 'avi_con_password'
 NAME = 'name'
 VIP = 'vip'
 SERVICES = 'services'
 CONTROLLER = 'controller'
+AVI_CONTROLLER = 'avi_controller'
 API_VERSION = 'api_version'
 POOL_REF = 'pool_ref'
 TAGS = 'tags'
 SERVER = 'server'
 USER = 'user'
-REQEST_TYPE = 'request_type'
+REQEST_TYPE = 'avi_vs_type'
 IP_ADDRESS = 'ip_address'
+AVI_VS_IP_ADDRESS = 'avi_vs_ip_address'
 VALIDATE_CERT = 'validate_certs'
 TASKS = 'tasks'
 CONTROLLER_INPUT = "{{controller}}"
@@ -61,20 +65,21 @@ BIGIP_VS_SERVER = 'bigip_virtual_server'
 BIGIP_VIRTUAL_ADDRESS = 'bigip_virtual_address'
 DELEGETE_TO = 'delegate_to'
 LOCAL_HOST = 'localhost'
+TRAFFIC_ENABLE = 'traffic_enabled'
 ENABLE = 'enabled'
-F5_SERVER = "{{server}}"
+F5_SERVER = "{{f5_host_ip}}"
 F5_USERNAME = "{{f5_username}}"
 F5_PASSWORD = "{{f5_password}}"
 AVI_TRAFFIC = 'avi_traffic'
-PORT = 'port'
+PORT = 'avi_vs_port'
 ADDR = 'addr'
 WHEN = 'when'
 REGISTER = 'register'
 VALUE = 'result'
 RESULT = "result.success!=0"
 RESULT_SUCCESS = 'result.success==0'
-VS_NAME = 'vs_name'
-TENANT = 'tenant'
+VS_NAME = 'avi_vs_name'
+AVI_CON_TENANT = 'avi_con_tenant'
 ANSIBLE_STR = '# Auto-generated from Avi Configuration\n'
 DISABLE_NETSCALER = 'disablenetscaler'
 ENABLE_NETSCALER = 'enablenetscaler'
@@ -82,6 +87,12 @@ NS_USERNAME = "{{ns_username}}"
 NS_PASSWORD = "{{ns_password}}"
 NS_HOST = "{{ns_host}}"
 NETSCALER_VS_STATUS = 'netscaler_vs_status'
+RETRIES = 'retries'
+RETRIES_TIME = 240
+DELAY = 'delay'
+DELAY_TIME = 5
+UNTIL = "until"
+RESULT_STATUS = 'result.success == 0'
 HELP_STR = '''
 Converts Avi Config JSON to Ansible Playbooks.
 Please ensure configuration is exported with options

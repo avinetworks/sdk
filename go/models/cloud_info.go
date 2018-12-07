@@ -17,12 +17,12 @@ type CloudInfo struct {
 	FlavorProps []*CloudFlavor `json:"flavor_props,omitempty"`
 
 	// flavor_regex_filter of CloudInfo.
-	FlavorRegexFilter string `json:"flavor_regex_filter,omitempty"`
+	FlavorRegexFilter *string `json:"flavor_regex_filter,omitempty"`
 
 	// Supported hypervisors. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN.
 	Htypes []string `json:"htypes,omitempty"`
 
 	// Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
 	// Required: true
-	Vtype string `json:"vtype"`
+	Vtype *string `json:"vtype"`
 }

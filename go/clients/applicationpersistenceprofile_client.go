@@ -88,7 +88,7 @@ func (client *ApplicationPersistenceProfileClient) Create(obj *models.Applicatio
 // Update an existing ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Update(obj *models.ApplicationPersistenceProfile) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ApplicationPersistenceProfileClient) DeleteByName(name string) err
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

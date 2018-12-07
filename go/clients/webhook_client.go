@@ -88,7 +88,7 @@ func (client *WebhookClient) Create(obj *models.Webhook) (*models.Webhook, error
 // Update an existing Webhook object
 func (client *WebhookClient) Update(obj *models.Webhook) (*models.Webhook, error) {
 	var robj *models.Webhook
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *WebhookClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

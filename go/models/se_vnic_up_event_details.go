@@ -8,14 +8,14 @@ package models
 type SeVnicUpEventDetails struct {
 
 	// Vnic name.
-	IfName string `json:"if_name,omitempty"`
+	IfName *string `json:"if_name,omitempty"`
 
 	// Vnic linux name.
-	LinuxName string `json:"linux_name,omitempty"`
+	LinuxName *string `json:"linux_name,omitempty"`
 
 	// Mac Address.
-	Mac string `json:"mac,omitempty"`
+	Mac *string `json:"mac,omitempty"`
 
 	// UUID of the SE responsible for this event. It is a reference to an object of type ServiceEngine.
-	SeRef string `json:"se_ref,omitempty"`
+	SeRef *string `json:"se_ref,omitempty"`
 }

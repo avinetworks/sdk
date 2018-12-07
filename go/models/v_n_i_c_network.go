@@ -8,7 +8,7 @@ package models
 type VNICNetwork struct {
 
 	// Placeholder for description of property ctlr_alloc of obj type vNICNetwork field type str  type boolean
-	CtlrAlloc bool `json:"ctlr_alloc,omitempty"`
+	CtlrAlloc *bool `json:"ctlr_alloc,omitempty"`
 
 	// Placeholder for description of property ip of obj type vNICNetwork field type str  type object
 	// Required: true
@@ -16,5 +16,5 @@ type VNICNetwork struct {
 
 	//  Enum options - DHCP, STATIC, VIP, DOCKER_HOST.
 	// Required: true
-	Mode string `json:"mode"`
+	Mode *string `json:"mode"`
 }

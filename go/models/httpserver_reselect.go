@@ -9,13 +9,13 @@ type HttpserverReselect struct {
 
 	// Enable HTTP request reselect when server responds with specific response codes.
 	// Required: true
-	Enabled bool `json:"enabled"`
+	Enabled *bool `json:"enabled"`
 
 	// Number of times to retry an HTTP request when server responds with configured status codes.
-	NumRetries int32 `json:"num_retries,omitempty"`
+	NumRetries *int32 `json:"num_retries,omitempty"`
 
 	// Allow retry of non-idempotent HTTP requests.
-	RetryNonidempotent bool `json:"retry_nonidempotent,omitempty"`
+	RetryNonidempotent *bool `json:"retry_nonidempotent,omitempty"`
 
 	// Server response codes which will trigger an HTTP request retry.
 	SvrRespCode *HTTPReselectRespCode `json:"svr_resp_code,omitempty"`

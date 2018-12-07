@@ -8,19 +8,19 @@ package models
 type GslbPoolMember struct {
 
 	// The Cloud UUID of the Site. Field introduced in 17.1.2.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 
 	// The Cluster UUID of the Site.
-	ClusterUUID string `json:"cluster_uuid,omitempty"`
+	ClusterUUID *string `json:"cluster_uuid,omitempty"`
 
 	// User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.
-	Description string `json:"description,omitempty"`
+	Description *string `json:"description,omitempty"`
 
 	// Enable or Disable member to decide if this address should be provided in DNS responses.
-	Enabled bool `json:"enabled,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 
 	// The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. .
-	Fqdn string `json:"fqdn,omitempty"`
+	Fqdn *string `json:"fqdn,omitempty"`
 
 	// Internal generated system-field. Field introduced in 17.1.1.
 	HmProxies []*GslbHealthMonitorProxy `json:"hm_proxies,omitempty"`
@@ -35,8 +35,8 @@ type GslbPoolMember struct {
 	PublicIP *GslbIPAddr `json:"public_ip,omitempty"`
 
 	// Overrides the default ratio of 1.  Reduces the percentage the LB algorithm would pick the server in relation to its peers.  Range is 1-20. Allowed values are 1-20.
-	Ratio int32 `json:"ratio,omitempty"`
+	Ratio *int32 `json:"ratio,omitempty"`
 
 	// Select local virtual service in the specified controller cluster belonging to this GSLB service. The virtual service may have multiple IP addresses and FQDNs.  User will have to choose IP address or FQDN and configure it in the respective field. .
-	VsUUID string `json:"vs_uuid,omitempty"`
+	VsUUID *string `json:"vs_uuid,omitempty"`
 }

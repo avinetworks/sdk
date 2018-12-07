@@ -8,17 +8,17 @@ package models
 type LicenseDetails struct {
 
 	// Number of backend_servers.
-	BackendServers int32 `json:"backend_servers,omitempty"`
+	BackendServers *int32 `json:"backend_servers,omitempty"`
 
 	// expiry_at of LicenseDetails.
-	ExpiryAt string `json:"expiry_at,omitempty"`
+	ExpiryAt *string `json:"expiry_at,omitempty"`
 
 	// license_id of LicenseDetails.
-	LicenseID string `json:"license_id,omitempty"`
+	LicenseID *string `json:"license_id,omitempty"`
 
 	// license_type of LicenseDetails.
-	LicenseType string `json:"license_type,omitempty"`
+	LicenseType *string `json:"license_type,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 }

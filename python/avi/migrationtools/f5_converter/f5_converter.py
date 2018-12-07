@@ -205,7 +205,7 @@ class F5Converter(AviConverter):
         self.dict_merge(f5_defaults_dict, f5_config_dict)
         f5_config_dict = f5_defaults_dict
         report_name = os.path.splitext(os.path.basename(source_file.name))[0]
-        avi_config_dict = f5_config_converter.convert(
+        avi_config_dict, part_mapping = f5_config_converter.convert(
             f5_config_dict, output_dir, self.vs_state, input_dir,
             self.f5_config_version, self.object_merge_check,
             self.controller_version, report_name, self.prefix,
@@ -226,7 +226,8 @@ class F5Converter(AviConverter):
         if self.create_ansible:
             avi_traffic = AviAnsibleConverter(
                 avi_config, output_dir, self.prefix, self.not_in_use,
-                test_vip=self.test_vip, skip_types=self.ansible_skip_types)
+                test_vip=self.test_vip, skip_types=self.ansible_skip_types,
+                partitions=part_mapping)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
@@ -521,7 +522,8 @@ if __name__ == "__main__":
     parser.add_argument('--skip_default_file',
                         help='Flag for skip default file', action='store_true')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
-                        help='state of VS created', default='disable')
+                        help='traffic_enabled state of VS created',
+                        default='disable')
     # Adding support for test vip
     parser.add_argument('--segroup',
                     help='Update the available segroup ref with the'

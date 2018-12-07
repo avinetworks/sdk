@@ -1,0 +1,17 @@
+---
+partition-vs-mappings:
+  10.80.71.67:80: 
+   vs_name: 'partition_admin'
+   partition: 'Test-Partition'
+  10.80.41.35:443: 
+     vs_name: 'https_backend'
+     partition: 'Migration'
+  10.80.71.25:80: 
+     vs_name: 'http'
+     partition: 'Migration'
+  10.80.71.64:443: 
+     vs_name: 'https'
+     partition: 'Migration'
+  10.80.71.66:80: 
+     vs_name: 'tcp'
+     partition: 'Migration'

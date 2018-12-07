@@ -8,20 +8,20 @@ package models
 type ConfigSeGrpFlvUpdate struct {
 
 	// New Flavor Name.
-	NewFlv string `json:"new_flv,omitempty"`
+	NewFlv *string `json:"new_flv,omitempty"`
 
 	// Old Flavor Name.
-	OldFlv string `json:"old_flv,omitempty"`
+	OldFlv *string `json:"old_flv,omitempty"`
 
 	// SE Group Name.
-	SeGroupName string `json:"se_group_name,omitempty"`
+	SeGroupName *string `json:"se_group_name,omitempty"`
 
 	// SE Group UUID.
-	SeGroupUUID string `json:"se_group_uuid,omitempty"`
+	SeGroupUUID *string `json:"se_group_uuid,omitempty"`
 
 	// Tenant Name.
-	TenantName string `json:"tenant_name,omitempty"`
+	TenantName *string `json:"tenant_name,omitempty"`
 
 	// Tenant UUID.
-	TenantUUID string `json:"tenant_uuid,omitempty"`
+	TenantUUID *string `json:"tenant_uuid,omitempty"`
 }

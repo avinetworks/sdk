@@ -40,9 +40,27 @@ class VSConfigConv(object):
                                sys_dict):
         pass
 
+    def create_partition_mapping(self, f5_vs, vs_name):
+        dest = f5_vs['destination']
+        tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
+        if not tenant:
+            tenant = 'admin'
+        if not tenant in dest:
+            vip = dest
+        else:
+            vip = dest.split('/')[-1]
+        p_mapping = {
+            vip: {
+                'vs_name': vs_name,
+                'partition': tenant
+            }
+        }
+        return p_mapping
+
+
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict,
-                vrf=None, segroup=None):
+                vrf=None, segroup=None, partition_mapping=None):
         """
 
         :param f5_config: Parsed f5 config dict
@@ -82,6 +100,9 @@ class VSConfigConv(object):
                     conv_utils.add_status_row('virtual', None, vs_name,
                                               final.STATUS_SKIPPED, msg)
                     continue
+                mapping = self.create_partition_mapping(f5_vs, vs_name)
+                partition_mapping.update(mapping)
+
                 vs_obj = self.convert_vs(
                     vs_name, f5_vs, vs_state, avi_config, f5_snat_pools,
                     user_ignore, tenant, cloud_name, controller_version,
@@ -142,7 +163,7 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(
             profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
-            f5_config)
+            f5_config, tenant)
 
         if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool)> 1):
             needs_review = True
@@ -303,8 +324,8 @@ class VSConfigConv(object):
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
-            if oc_prof and not ssl_vs and persist_type == \
-                    'PERSISTENCE_TYPE_TLS':
+            if oc_prof and not ssl_vs and persist_type == 'PERSISTENCE_TYPE_TLS' or \
+                    persist_type == 'PERSISTENCE_TYPE_TLS' and not enable_ssl:
                 msg = ("Skipped VS : '%s' Secure persistence is applicable only"
                        " if SSL is enabled for Virtual Service" % vs_name)
                 LOG.warning(msg)
@@ -335,7 +356,8 @@ class VSConfigConv(object):
             'name': vs_name,
             'description': description,
             'type': 'VS_TYPE_NORMAL',
-            'enabled': enabled,
+            'enabled': True,
+            'traffic_enabled': enabled,
             'cloud_ref': conv_utils.get_object_ref(
                 cloud_name, 'cloud', tenant=tenant),
             'services': services_obj,
@@ -343,7 +365,6 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
-
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
@@ -620,9 +641,16 @@ class VSConfigConv(object):
                     clone_policy = conv_utils.clone_http_policy_set(
                         policy_obj[0], vs_name, avi_config, tenant, cloud_name)
                     pol_name = clone_policy['name']
-                    avi_config['HTTPPolicySet'].append(clone_policy)
-                    LOG.debug('Policy cloned %s for vs %s', pol_name,
-                              vs_name)
+                    pol_tenant = conv_utils.get_name(clone_policy['tenant_ref'])
+                    if pol_tenant == tenant:
+                        avi_config['HTTPPolicySet'].append(clone_policy)
+                        LOG.debug('Policy cloned %s for vs %s', pol_name,
+                                  vs_name)
+                    else:
+                        LOG.debug('Policy with different tenant not '
+                                   'supported  %s for vs %s', pol_name,
+                                  vs_name)
+                        continue
                 used_policy.append(pol_name)
                 pol = {
                     'index': 11,
@@ -698,7 +726,6 @@ class VSConfigConvV11(VSConfigConv):
                     sys_dict['HealthMonitor'])
             elif port_translate == 'enabled':
                 return
-
 
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,

@@ -88,7 +88,7 @@ func (client *IPAMDNSProviderProfileClient) Create(obj *models.IPAMDNSProviderPr
 // Update an existing IPAMDNSProviderProfile object
 func (client *IPAMDNSProviderProfileClient) Update(obj *models.IPAMDNSProviderProfile) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *IPAMDNSProviderProfileClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

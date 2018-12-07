@@ -88,7 +88,7 @@ func (client *VIMgrNWRuntimeClient) Create(obj *models.VIMgrNWRuntime) (*models.
 // Update an existing VIMgrNWRuntime object
 func (client *VIMgrNWRuntimeClient) Update(obj *models.VIMgrNWRuntime) (*models.VIMgrNWRuntime, error) {
 	var robj *models.VIMgrNWRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VIMgrNWRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

@@ -9,5 +9,5 @@ type VIMgrInterestedEntity struct {
 
 	// Unique object identifier of interested.
 	// Required: true
-	InterestedUUID string `json:"interested_uuid"`
+	InterestedUUID *string `json:"interested_uuid"`
 }
