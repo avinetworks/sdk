@@ -11,6 +11,12 @@ type ApplicationProfile struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Checksum of application profiles. Internally set by cloud connector. Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	CloudConfigCksum *string `json:"cloud_config_cksum,omitempty"`
+
+	// Name of the application profile creator. Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	CreatedBy *string `json:"created_by,omitempty"`
+
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 

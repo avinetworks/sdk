@@ -16,7 +16,7 @@ type MetricsQueryResponse struct {
 	// Number of limit.
 	Limit *int32 `json:"limit,omitempty"`
 
-	//  Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+	//  Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
 	MetricEntity *string `json:"metric_entity,omitempty"`
 
 	// metric_id of MetricsQueryResponse.

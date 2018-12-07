@@ -20,6 +20,9 @@ type Pool struct {
 	// Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.
 	AbPriority *int32 `json:"ab_priority,omitempty"`
 
+	// Determines analytics settings for the pool. Field introduced in 18.1.5.
+	AnalyticsPolicy *PoolAnalyticsPolicy `json:"analytics_policy,omitempty"`
+
 	// Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4.
 	AnalyticsProfileRef *string `json:"analytics_profile_ref,omitempty"`
 
@@ -163,8 +166,14 @@ type Pool struct {
 	// Server reselect configuration for HTTP requests.
 	ServerReselect *HttpserverReselect `json:"server_reselect,omitempty"`
 
+	// Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5.
+	ServerTimeout *int32 `json:"server_timeout,omitempty"`
+
 	// The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group.
 	Servers []*Server `json:"servers,omitempty"`
+
+	// Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5.
+	ServiceMetadata *string `json:"service_metadata,omitempty"`
 
 	// Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake.
 	SniEnabled *bool `json:"sni_enabled,omitempty"`

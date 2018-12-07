@@ -11,6 +11,9 @@ type ServiceEngineGroup struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Enable acclerated networking option for Azure SE. Accelerated networking enables single root I/O virtualization (SR-IOV) to a SE VM. This improves networking performance. Field introduced in 17.2.14,18.1.5.
+	AcceleratedNetworking *bool `json:"accelerated_networking,omitempty"`
+
 	// Service Engines in active/standby mode for HA failover.
 	ActiveStandby *bool `json:"active_standby,omitempty"`
 
@@ -52,6 +55,9 @@ type ServiceEngineGroup struct {
 
 	// Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.
 	AutoRedistributeActiveStandbyLoad *bool `json:"auto_redistribute_active_standby_load,omitempty"`
+
+	// BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5.
+	BgpStateUpdateInterval *int32 `json:"bgp_state_update_interval,omitempty"`
 
 	// Excess Service Engine capacity provisioned for HA failover.
 	BufferSe *int32 `json:"buffer_se,omitempty"`
@@ -125,6 +131,12 @@ type ServiceEngineGroup struct {
 	// Use Virtual MAC address for interfaces on which floating interface IPs are placed.
 	EnableVMAC *bool `json:"enable_vmac,omitempty"`
 
+	// End local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5.
+	EphemeralPortrangeEnd *int32 `json:"ephemeral_portrange_end,omitempty"`
+
+	// Start local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5.
+	EphemeralPortrangeStart *int32 `json:"ephemeral_portrange_start,omitempty"`
+
 	// Multiplier for extra config to support large VS/Pool config.
 	ExtraConfigMultiplier *float64 `json:"extra_config_multiplier,omitempty"`
 
@@ -196,6 +208,9 @@ type ServiceEngineGroup struct {
 
 	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.
 	MaxCPUUsage *int32 `json:"max_cpu_usage,omitempty"`
+
+	// Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.
+	MaxMemoryPerMempool *int32 `json:"max_memory_per_mempool,omitempty"`
 
 	// Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxPublicIpsPerLb *int32 `json:"max_public_ips_per_lb,omitempty"`
@@ -414,6 +429,12 @@ type ServiceEngineGroup struct {
 
 	// Time to wait for the scaled out SE to become ready before marking the scaleout done.
 	VsScaleoutTimeout *int32 `json:"vs_scaleout_timeout,omitempty"`
+
+	// Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5.
+	VsSeScaleoutAdditionalWaitTime *int32 `json:"vs_se_scaleout_additional_wait_time,omitempty"`
+
+	// Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-60. Field introduced in 18.1.5.
+	VsSeScaleoutReadyTimeout *int32 `json:"vs_se_scaleout_ready_timeout,omitempty"`
 
 	// During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4.
 	VsSwitchoverTimeout *int32 `json:"vs_switchover_timeout,omitempty"`

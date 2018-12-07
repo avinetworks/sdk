@@ -19,7 +19,7 @@ type VirtualServiceRuntime struct {
 	// Placeholder for description of property east_west of obj type VirtualServiceRuntime field type str  type boolean
 	EastWest *bool `json:"east_west,omitempty"`
 
-	//  Field introduced in 17.1.1.
+	// Deprecated, handled by SE Datastore. Field deprecated in 18.1.5. Field introduced in 17.1.1.
 	GslbDNSGeoUpdate *GslbDNSGeoUpdate `json:"gslb_dns_geo_update,omitempty"`
 
 	// Placeholder for description of property gslb_dns_update of obj type VirtualServiceRuntime field type str  type object
@@ -61,7 +61,7 @@ type VirtualServiceRuntime struct {
 	// Number of redis_db.
 	RedisDb *int32 `json:"redis_db,omitempty"`
 
-	// redis_ip of VirtualServiceRuntime.
+	//  Field deprecated in 18.1.5.
 	RedisIP *string `json:"redis_ip,omitempty"`
 
 	// Number of redis_port.

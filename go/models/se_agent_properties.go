@@ -82,6 +82,9 @@ type SeAgentProperties struct {
 	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3.
 	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
 
+	// Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 17.2.14, 18.1.5.
+	StatesFlushInterval *int32 `json:"states_flush_interval,omitempty"`
+
 	// DHCP ip check interval. Allowed values are 1-1000.
 	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
 

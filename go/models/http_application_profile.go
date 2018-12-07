@@ -43,6 +43,9 @@ type HTTPApplicationProfile struct {
 	// Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size.
 	EnableRequestBodyBuffering *bool `json:"enable_request_body_buffering,omitempty"`
 
+	// Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5.
+	EnableRequestBodyMetrics *bool `json:"enable_request_body_metrics,omitempty"`
+
 	// Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS.
 	HstsEnabled *bool `json:"hsts_enabled,omitempty"`
 

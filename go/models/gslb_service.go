@@ -63,7 +63,7 @@ type GslbService struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 1-86400.
+	// TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400.
 	TTL *int32 `json:"ttl,omitempty"`
 
 	// url
