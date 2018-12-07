@@ -8,10 +8,10 @@ package models
 type StaticRoute struct {
 
 	// Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1.
-	DisableGatewayMonitor bool `json:"disable_gateway_monitor,omitempty"`
+	DisableGatewayMonitor *bool `json:"disable_gateway_monitor,omitempty"`
 
 	// if_name of StaticRoute.
-	IfName string `json:"if_name,omitempty"`
+	IfName *string `json:"if_name,omitempty"`
 
 	// Placeholder for description of property next_hop of obj type StaticRoute field type str  type object
 	// Required: true
@@ -23,5 +23,5 @@ type StaticRoute struct {
 
 	// route_id of StaticRoute.
 	// Required: true
-	RouteID string `json:"route_id"`
+	RouteID *string `json:"route_id"`
 }

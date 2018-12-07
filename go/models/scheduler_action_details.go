@@ -11,14 +11,14 @@ type SchedulerActionDetails struct {
 	BackupURI []string `json:"backup_uri,omitempty"`
 
 	// control_script_output of SchedulerActionDetails.
-	ControlScriptOutput string `json:"control_script_output,omitempty"`
+	ControlScriptOutput *string `json:"control_script_output,omitempty"`
 
 	// execution_datestamp of SchedulerActionDetails.
-	ExecutionDatestamp string `json:"execution_datestamp,omitempty"`
+	ExecutionDatestamp *string `json:"execution_datestamp,omitempty"`
 
 	// Unique object identifier of scheduler.
-	SchedulerUUID string `json:"scheduler_uuid,omitempty"`
+	SchedulerUUID *string `json:"scheduler_uuid,omitempty"`
 
 	// status of SchedulerActionDetails.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }

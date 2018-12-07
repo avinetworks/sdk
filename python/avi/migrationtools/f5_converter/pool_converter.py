@@ -135,9 +135,19 @@ class PoolConfigConv(object):
             if monitor_obj:
                 tenant = conv_utils.get_name(
                     monitor_obj[0]['tenant_ref'])
-                monitor_refs.append(conv_utils.get_object_ref(
-                    monitor_obj[0]['name'], 'healthmonitor',
-                    tenant=tenant))
+                # Added to handle cross tenant references of health monitor object.
+                if 'admin' not in str(tenant).lower() and tenant != tenant_ref:
+                    # Clone health monitor to tenant_ref
+                    clone_hm = copy.deepcopy(monitor_obj[0])
+                    clone_hm['name'] += '-clone'
+                    updated_tenant_ref = conv_utils.get_object_ref(tenant_ref, 'tenant'),
+                    clone_hm['tenant_ref'] = updated_tenant_ref[0]
+                    monitor_config_list.append(clone_hm)
+                    monitor_refs.append(conv_utils.get_object_ref(clone_hm['name'], 'healthmonitor', tenant=tenant_ref))
+                else:
+                    monitor_refs.append(conv_utils.get_object_ref(
+                        monitor_obj[0]['name'], 'healthmonitor',
+                        tenant=tenant))
             else:
                 LOG.warning("Monitor not found: %s for pool %s" %
                             (monitor, pool_name))

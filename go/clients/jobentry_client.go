@@ -88,7 +88,7 @@ func (client *JobEntryClient) Create(obj *models.JobEntry) (*models.JobEntry, er
 // Update an existing JobEntry object
 func (client *JobEntryClient) Update(obj *models.JobEntry) (*models.JobEntry, error) {
 	var robj *models.JobEntry
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *JobEntryClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

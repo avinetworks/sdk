@@ -8,11 +8,11 @@ package models
 type AlertMgrDebugFilter struct {
 
 	// filter debugs for entity uuid.
-	AlertObjid string `json:"alert_objid,omitempty"`
+	AlertObjid *string `json:"alert_objid,omitempty"`
 
 	// filter debugs for an alert id.
-	AlertUUID string `json:"alert_uuid,omitempty"`
+	AlertUUID *string `json:"alert_uuid,omitempty"`
 
 	// filter debugs for an alert config.
-	CfgUUID string `json:"cfg_uuid,omitempty"`
+	CfgUUID *string `json:"cfg_uuid,omitempty"`
 }

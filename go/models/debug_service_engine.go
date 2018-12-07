@@ -9,7 +9,7 @@ type DebugServiceEngine struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object
 	CPUShares []*DebugSeCPUShares `json:"cpu_shares,omitempty"`
@@ -21,18 +21,18 @@ type DebugServiceEngine struct {
 	Flags []*DebugSeDataplane `json:"flags,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object
 	SeagentDebug []*DebugSeAgent `json:"seagent_debug,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
-	TenantRef string `json:"tenant_ref,omitempty"`
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

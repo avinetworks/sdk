@@ -88,7 +88,7 @@ func (client *VIMgrClusterRuntimeClient) Create(obj *models.VIMgrClusterRuntime)
 // Update an existing VIMgrClusterRuntime object
 func (client *VIMgrClusterRuntimeClient) Update(obj *models.VIMgrClusterRuntime) (*models.VIMgrClusterRuntime, error) {
 	var robj *models.VIMgrClusterRuntime
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *VIMgrClusterRuntimeClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

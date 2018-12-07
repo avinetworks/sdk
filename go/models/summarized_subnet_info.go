@@ -9,9 +9,9 @@ type SummarizedSubnetInfo struct {
 
 	// cidr_prefix of SummarizedSubnetInfo.
 	// Required: true
-	CidrPrefix string `json:"cidr_prefix"`
+	CidrPrefix *string `json:"cidr_prefix"`
 
 	// network of SummarizedSubnetInfo.
 	// Required: true
-	Network string `json:"network"`
+	Network *string `json:"network"`
 }

@@ -8,17 +8,17 @@ package models
 type ContainerCloudService struct {
 
 	// cc_id of ContainerCloudService.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// object of ContainerCloudService.
-	Object string `json:"object,omitempty"`
+	Object *string `json:"object,omitempty"`
 
 	// reason of ContainerCloudService.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// service of ContainerCloudService.
-	Service string `json:"service,omitempty"`
+	Service *string `json:"service,omitempty"`
 
 	// status of ContainerCloudService.
-	Status string `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 }

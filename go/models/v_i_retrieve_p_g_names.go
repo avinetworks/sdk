@@ -8,17 +8,17 @@ package models
 type VIRetrievePGNames struct {
 
 	// Unique object identifier of cloud.
-	CloudUUID string `json:"cloud_uuid,omitempty"`
+	CloudUUID *string `json:"cloud_uuid,omitempty"`
 
 	// datacenter of VIRetrievePGNames.
-	Datacenter string `json:"datacenter,omitempty"`
+	Datacenter *string `json:"datacenter,omitempty"`
 
 	// password of VIRetrievePGNames.
-	Password string `json:"password,omitempty"`
+	Password *string `json:"password,omitempty"`
 
 	// username of VIRetrievePGNames.
-	Username string `json:"username,omitempty"`
+	Username *string `json:"username,omitempty"`
 
 	// vcenter_url of VIRetrievePGNames.
-	VcenterURL string `json:"vcenter_url,omitempty"`
+	VcenterURL *string `json:"vcenter_url,omitempty"`
 }

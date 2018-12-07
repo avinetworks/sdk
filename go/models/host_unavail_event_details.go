@@ -8,11 +8,11 @@ package models
 type HostUnavailEventDetails struct {
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// reasons of HostUnavailEventDetails.
 	Reasons []string `json:"reasons,omitempty"`
 
 	// vs_name of HostUnavailEventDetails.
-	VsName string `json:"vs_name,omitempty"`
+	VsName *string `json:"vs_name,omitempty"`
 }

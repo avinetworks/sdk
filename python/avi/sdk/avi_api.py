@@ -7,6 +7,7 @@ import time
 from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
+from requests.exceptions import ChunkedEncodingError
 from requests.sessions import Session
 from ssl import SSLError
 
@@ -232,6 +233,7 @@ class ApiSession(Session):
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
+        self.num_api_retries = 0
         self.retry_wait_time = 0
         self.max_session_retries = (
             self.MAX_API_RETRIES if max_api_retries is None
@@ -264,7 +266,7 @@ class ApiSession(Session):
             sessionDict[self.key] = {
                 'api': self,
                 "csrftoken": self.avi_credentials.csrftoken,
-                "session_id":self.avi_credentials.session_id,
+                "session_id": self.avi_credentials.session_id,
                 "last_used": datetime.utcnow()
             }
         elif lazy_authentication:
@@ -368,8 +370,8 @@ class ApiSession(Session):
 
     @staticmethod
     def get_session(
-            controller_ip=None, username=None, password=None, token=None, tenant=None,
-            tenant_uuid=None, verify=False, port=None, timeout=60,
+            controller_ip=None, username=None, password=None, token=None,
+            tenant=None, tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
             lazy_authentication=False, max_api_retries=None):
@@ -448,13 +450,15 @@ class ApiSession(Session):
         self.cookies.clear()
         err = None
         try:
-            rsp = super(ApiSession, self).post(self.prefix+"/login", body,
-                                               timeout=self.timeout)
+            rsp = super(ApiSession, self).post(
+                self.prefix+"/login", body, timeout=self.timeout,
+                verify=self.verify)
 
             if rsp.status_code == 200:
                 self.num_session_retries = 0
                 self.remote_api_version = rsp.json().get('version', {})
-                self.session_cookie_name = rsp.json().get('session_cookie_name', 'sessionid')
+                self.session_cookie_name = rsp.json().get(
+                    'session_cookie_name', 'sessionid')
                 self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
@@ -468,12 +472,19 @@ class ApiSession(Session):
                 logger.debug("authentication success for user %s",
                              self.avi_credentials.username)
                 return
+            # Check for bad request and invalid credentials response code
+            elif rsp.status_code in [401, 403]:
+                logger.error('Status Code %s msg %s' % (
+                    rsp.status_code, rsp.text))
+                err = APIError('Status Code %s msg %s' % (
+                    rsp.status_code, rsp.text), rsp)
+                raise err
             else:
                 logger.error("Error status code %s msg %s", rsp.status_code,
                              rsp.text)
                 err = APIError('Status Code %s msg %s' % (
                     rsp.status_code, rsp.text), rsp)
-        except (ConnectionError, SSLError) as e:
+        except (ConnectionError, SSLError, ChunkedEncodingError) as e:
             if not self.retry_conxn_errors:
                 raise
             logger.warning('Connection error retrying %s', e)
@@ -504,15 +515,6 @@ class ApiSession(Session):
         api_hdrs['timeout'] = str(timeout)
         if self.key in sessionDict and 'csrftoken' in sessionDict.get(self.key):
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
-            # Added Cookie to handle single session
-            #api_hdrs['Cookie'] = "[<Cookie csrftoken=%s " \
-            #                     "for %s/>, " \
-            #                     "<Cookie %s=%s " \
-            #                     "for %s/>]" %(sessionDict[self.key]['csrftoken'],
-            #                                   self.avi_credentials.controller,
-            #                                   self.session_cookie_name,
-            #                                   sessionDict[self.key]['session_id'],
-            #                                   self.avi_credentials.controller)
         else:
             self.authenticate_session()
             api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
@@ -574,7 +576,8 @@ class ApiSession(Session):
         }
         try:
             if self.session_cookie_name:
-                cookies[self.session_cookie_name] = sessionDict[self.key]['session_id']
+                cookies[self.session_cookie_name] = sessionDict[self.key][
+                    'session_id']
         except KeyError:
             pass
         try:
@@ -584,7 +587,7 @@ class ApiSession(Session):
             else:
                 resp = fn(fullpath, data=data, headers=api_hdrs,
                           timeout=timeout, cookies=cookies, **kwargs)
-        except (ConnectionError, SSLError) as e:
+        except (ConnectionError, SSLError, ChunkedEncodingError) as e:
             logger.warning('Connection error retrying %s', e)
             if not self.retry_conxn_errors:
                 raise
@@ -613,11 +616,11 @@ class ApiSession(Session):
                 logger.info('received error %d %s so resetting connection',
                             resp.status_code, resp.text)
             ApiSession.reset_session(self)
-            self.num_session_retries += 1
-            if self.num_session_retries > self.max_session_retries:
+            self.num_api_retries += 1
+            if self.num_api_retries > self.max_session_retries:
                 # Added this such that any code which re-tries can succeed
                 # eventually.
-                self.num_session_retries = 0
+                self.num_api_retries = 0
                 if not connection_error:
                     err = APIError('Status Code %s msg %s' % (
                         resp.status_code, resp.text), resp)
@@ -629,7 +632,7 @@ class ApiSession(Session):
             resp = self._api(api_name, path, tenant, tenant_uuid, data,
                              headers=headers, api_version=api_version,
                              timeout=timeout, **kwargs)
-            self.num_session_retries = 0
+            self.num_api_retries = 0
 
         if resp.cookies and 'csrftoken' in resp.cookies:
             csrftoken = resp.cookies['csrftoken']

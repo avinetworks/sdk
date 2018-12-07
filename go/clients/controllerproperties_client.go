@@ -88,7 +88,7 @@ func (client *ControllerPropertiesClient) Create(obj *models.ControllerPropertie
 // Update an existing ControllerProperties object
 func (client *ControllerPropertiesClient) Update(obj *models.ControllerProperties) (*models.ControllerProperties, error) {
 	var robj *models.ControllerProperties
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ControllerPropertiesClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

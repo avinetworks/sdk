@@ -14,5 +14,5 @@ type GslbPoolMemberDatapathStatus struct {
 	OperStatus *OperationalStatus `json:"oper_status,omitempty"`
 
 	// Unique object identifier of site.
-	SiteUUID string `json:"site_uuid,omitempty"`
+	SiteUUID *string `json:"site_uuid,omitempty"`
 }

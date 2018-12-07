@@ -8,16 +8,16 @@ package models
 type MarathonServicePortConflict struct {
 
 	// app_name of MarathonServicePortConflict.
-	AppName string `json:"app_name,omitempty"`
+	AppName *string `json:"app_name,omitempty"`
 
 	// cc_id of MarathonServicePortConflict.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// marathon_url of MarathonServicePortConflict.
 	// Required: true
-	MarathonURL string `json:"marathon_url"`
+	MarathonURL *string `json:"marathon_url"`
 
 	// Number of port.
 	// Required: true
-	Port int32 `json:"port"`
+	Port *int32 `json:"port"`
 }

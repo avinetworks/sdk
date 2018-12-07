@@ -8,11 +8,11 @@ package models
 type RmSeBootupFailEventDetails struct {
 
 	// host_name of RmSeBootupFailEventDetails.
-	HostName string `json:"host_name,omitempty"`
+	HostName *string `json:"host_name,omitempty"`
 
 	// reason of RmSeBootupFailEventDetails.
-	Reason string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 
 	// se_name of RmSeBootupFailEventDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 }

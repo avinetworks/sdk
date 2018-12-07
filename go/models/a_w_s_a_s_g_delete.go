@@ -11,8 +11,8 @@ type AWSASGDelete struct {
 	Asgs []string `json:"asgs,omitempty"`
 
 	// UUID of the cloud. Field introduced in 17.2.10,18.1.2.
-	CcID string `json:"cc_id,omitempty"`
+	CcID *string `json:"cc_id,omitempty"`
 
 	// UUID of the Pool. Field introduced in 17.2.10,18.1.2.
-	PoolUUID string `json:"pool_uuid,omitempty"`
+	PoolUUID *string `json:"pool_uuid,omitempty"`
 }

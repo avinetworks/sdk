@@ -9,9 +9,9 @@ type VinfraVcenterDiscoveryFailure struct {
 
 	// state of VinfraVcenterDiscoveryFailure.
 	// Required: true
-	State string `json:"state"`
+	State *string `json:"state"`
 
 	// vcenter of VinfraVcenterDiscoveryFailure.
 	// Required: true
-	Vcenter string `json:"vcenter"`
+	Vcenter *string `json:"vcenter"`
 }

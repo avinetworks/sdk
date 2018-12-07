@@ -12,5 +12,5 @@ type RebalanceScaleoutEventDetails struct {
 
 	// Unique object identifier of vs.
 	// Required: true
-	VsUUID string `json:"vs_uuid"`
+	VsUUID *string `json:"vs_uuid"`
 }

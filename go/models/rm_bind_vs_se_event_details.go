@@ -8,29 +8,29 @@ package models
 type RmBindVsSeEventDetails struct {
 
 	// ip of RmBindVsSeEventDetails.
-	IP string `json:"ip,omitempty"`
+	IP *string `json:"ip,omitempty"`
 
 	// ip6 of RmBindVsSeEventDetails.
-	Ip6 string `json:"ip6,omitempty"`
+	Ip6 *string `json:"ip6,omitempty"`
 
 	// Placeholder for description of property primary of obj type RmBindVsSeEventDetails field type str  type boolean
-	Primary bool `json:"primary,omitempty"`
+	Primary *bool `json:"primary,omitempty"`
 
 	// se_name of RmBindVsSeEventDetails.
-	SeName string `json:"se_name,omitempty"`
+	SeName *string `json:"se_name,omitempty"`
 
 	// Placeholder for description of property standby of obj type RmBindVsSeEventDetails field type str  type boolean
-	Standby bool `json:"standby,omitempty"`
+	Standby *bool `json:"standby,omitempty"`
 
 	// type of RmBindVsSeEventDetails.
-	Type string `json:"type,omitempty"`
+	Type *string `json:"type,omitempty"`
 
 	// vip_vnics of RmBindVsSeEventDetails.
 	VipVnics []string `json:"vip_vnics,omitempty"`
 
 	// vs_name of RmBindVsSeEventDetails.
-	VsName string `json:"vs_name,omitempty"`
+	VsName *string `json:"vs_name,omitempty"`
 
 	// Unique object identifier of vs.
-	VsUUID string `json:"vs_uuid,omitempty"`
+	VsUUID *string `json:"vs_uuid,omitempty"`
 }

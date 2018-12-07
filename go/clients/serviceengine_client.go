@@ -88,7 +88,7 @@ func (client *ServiceEngineClient) Create(obj *models.ServiceEngine) (*models.Se
 // Update an existing ServiceEngine object
 func (client *ServiceEngineClient) Update(obj *models.ServiceEngine) (*models.ServiceEngine, error) {
 	var robj *models.ServiceEngine
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ServiceEngineClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

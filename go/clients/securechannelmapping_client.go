@@ -88,7 +88,7 @@ func (client *SecureChannelMappingClient) Create(obj *models.SecureChannelMappin
 // Update an existing SecureChannelMapping object
 func (client *SecureChannelMappingClient) Update(obj *models.SecureChannelMapping) (*models.SecureChannelMapping, error) {
 	var robj *models.SecureChannelMapping
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *SecureChannelMappingClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

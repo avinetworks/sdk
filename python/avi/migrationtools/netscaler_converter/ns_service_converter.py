@@ -176,7 +176,8 @@ class ServiceConverter(object):
                                 pool_name, group_key, avi_config,
                                 userprefix=self.prefix)
                         pool[0]['lb_algorithm'] = algo
-                        if not pool[0].get('health_monitor_refs'):
+                        if not pool[0].get('health_monitor_refs') and not \
+                                pool[0].get('use_service_port', False):
                             if service_type == 'TCP':
                                 pool[0]['health_monitor_refs'] = [
                                     ns_util.get_object_ref(

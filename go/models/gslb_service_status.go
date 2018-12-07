@@ -14,8 +14,8 @@ type GslbServiceStatus struct {
 	GsRuntime *GslbServiceRuntime `json:"gs_runtime,omitempty"`
 
 	// Name of the object.
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 
 	// Unique object identifier of the object.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }

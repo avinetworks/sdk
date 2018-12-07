@@ -8,8 +8,8 @@ package models
 type SSLKeyRSAParams struct {
 
 	// Number of exponent.
-	Exponent int32 `json:"exponent,omitempty"`
+	Exponent *int32 `json:"exponent,omitempty"`
 
 	//  Enum options - SSL_KEY_1024_BITS, SSL_KEY_2048_BITS, SSL_KEY_3072_BITS, SSL_KEY_4096_BITS.
-	KeySize string `json:"key_size,omitempty"`
+	KeySize *string `json:"key_size,omitempty"`
 }

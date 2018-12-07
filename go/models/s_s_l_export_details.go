@@ -8,5 +8,5 @@ package models
 type SSLExportDetails struct {
 
 	// Request user.
-	User string `json:"user,omitempty"`
+	User *string `json:"user,omitempty"`
 }

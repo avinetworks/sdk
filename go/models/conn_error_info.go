@@ -8,47 +8,47 @@ package models
 type ConnErrorInfo struct {
 
 	// Number of num_syn_retransmit.
-	NumSynRetransmit int32 `json:"num_syn_retransmit,omitempty"`
+	NumSynRetransmit *int32 `json:"num_syn_retransmit,omitempty"`
 
 	// Number of num_window_shrink.
-	NumWindowShrink int32 `json:"num_window_shrink,omitempty"`
+	NumWindowShrink *int32 `json:"num_window_shrink,omitempty"`
 
 	// Number of out_of_orders.
-	OutOfOrders int32 `json:"out_of_orders,omitempty"`
+	OutOfOrders *int32 `json:"out_of_orders,omitempty"`
 
 	// Number of retransmits.
-	Retransmits int32 `json:"retransmits,omitempty"`
+	Retransmits *int32 `json:"retransmits,omitempty"`
 
 	// Number of rx_pkts.
-	RxPkts int64 `json:"rx_pkts,omitempty"`
+	RxPkts *int64 `json:"rx_pkts,omitempty"`
 
 	// Number of server_num_window_shrink.
-	ServerNumWindowShrink int32 `json:"server_num_window_shrink,omitempty"`
+	ServerNumWindowShrink *int32 `json:"server_num_window_shrink,omitempty"`
 
 	// Number of server_out_of_orders.
-	ServerOutOfOrders int32 `json:"server_out_of_orders,omitempty"`
+	ServerOutOfOrders *int32 `json:"server_out_of_orders,omitempty"`
 
 	// Number of server_retransmits.
-	ServerRetransmits int32 `json:"server_retransmits,omitempty"`
+	ServerRetransmits *int32 `json:"server_retransmits,omitempty"`
 
 	// Number of server_rx_pkts.
-	ServerRxPkts int64 `json:"server_rx_pkts,omitempty"`
+	ServerRxPkts *int64 `json:"server_rx_pkts,omitempty"`
 
 	// Number of server_timeouts.
-	ServerTimeouts int32 `json:"server_timeouts,omitempty"`
+	ServerTimeouts *int32 `json:"server_timeouts,omitempty"`
 
 	// Number of server_tx_pkts.
-	ServerTxPkts int64 `json:"server_tx_pkts,omitempty"`
+	ServerTxPkts *int64 `json:"server_tx_pkts,omitempty"`
 
 	// Number of server_zero_window_size_events.
-	ServerZeroWindowSizeEvents int64 `json:"server_zero_window_size_events,omitempty"`
+	ServerZeroWindowSizeEvents *int64 `json:"server_zero_window_size_events,omitempty"`
 
 	// Number of timeouts.
-	Timeouts int32 `json:"timeouts,omitempty"`
+	Timeouts *int32 `json:"timeouts,omitempty"`
 
 	// Number of tx_pkts.
-	TxPkts int64 `json:"tx_pkts,omitempty"`
+	TxPkts *int64 `json:"tx_pkts,omitempty"`
 
 	// Number of zero_window_size_events.
-	ZeroWindowSizeEvents int64 `json:"zero_window_size_events,omitempty"`
+	ZeroWindowSizeEvents *int64 `json:"zero_window_size_events,omitempty"`
 }

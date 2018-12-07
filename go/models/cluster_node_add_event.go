@@ -11,8 +11,8 @@ type ClusterNodeAddEvent struct {
 	IP *IPAddr `json:"ip,omitempty"`
 
 	// Name of controller node.
-	NodeName string `json:"node_name,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
 
 	// Role of the controller within the cluster. Enum options - CLUSTER_LEADER, CLUSTER_FOLLOWER.
-	Role string `json:"role,omitempty"`
+	Role *string `json:"role,omitempty"`
 }

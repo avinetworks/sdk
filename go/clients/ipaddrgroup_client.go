@@ -88,7 +88,7 @@ func (client *IPAddrGroupClient) Create(obj *models.IPAddrGroup) (*models.IPAddr
 // Update an existing IPAddrGroup object
 func (client *IPAddrGroupClient) Update(obj *models.IPAddrGroup) (*models.IPAddrGroup, error) {
 	var robj *models.IPAddrGroup
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *IPAddrGroupClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

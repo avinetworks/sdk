@@ -13,9 +13,9 @@ type IPAllocInfo struct {
 
 	// mac of IpAllocInfo.
 	// Required: true
-	Mac string `json:"mac"`
+	Mac *string `json:"mac"`
 
 	// Unique object identifier of se.
 	// Required: true
-	SeUUID string `json:"se_uuid"`
+	SeUUID *string `json:"se_uuid"`
 }

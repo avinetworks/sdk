@@ -8,7 +8,7 @@ package models
 type SubnetRuntime struct {
 
 	// Number of free_ip_count.
-	FreeIPCount int32 `json:"free_ip_count,omitempty"`
+	FreeIPCount *int32 `json:"free_ip_count,omitempty"`
 
 	// Placeholder for description of property ip_alloced of obj type SubnetRuntime field type str  type object
 	IPAlloced []*IPAllocInfo `json:"ip_alloced,omitempty"`
@@ -18,8 +18,8 @@ type SubnetRuntime struct {
 	Prefix *IPAddrPrefix `json:"prefix"`
 
 	// Number of total_ip_count.
-	TotalIPCount int32 `json:"total_ip_count,omitempty"`
+	TotalIPCount *int32 `json:"total_ip_count,omitempty"`
 
 	// Number of used_ip_count.
-	UsedIPCount int32 `json:"used_ip_count,omitempty"`
+	UsedIPCount *int32 `json:"used_ip_count,omitempty"`
 }

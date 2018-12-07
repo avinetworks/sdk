@@ -47,7 +47,7 @@ class MonitorConverter(object):
             elif health_monitor['type'].strip() == 'tcp':
                 monitor['type'] = 'HEALTH_MONITOR_TCP'
                 extra_details = {
-                                    "health_monitor_port": health_monitor.get('port', 80),
+                                    "monitor_port": health_monitor.get('port', 80),
                                     "tcp_monitor": {
                                         "tcp_request": "",
                                         "tcp_response": "",

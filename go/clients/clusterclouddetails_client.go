@@ -88,7 +88,7 @@ func (client *ClusterCloudDetailsClient) Create(obj *models.ClusterCloudDetails)
 // Update an existing ClusterCloudDetails object
 func (client *ClusterCloudDetailsClient) Update(obj *models.ClusterCloudDetails) (*models.ClusterCloudDetails, error) {
 	var robj *models.ClusterCloudDetails
-	path := client.getAPIPath(obj.UUID)
+	path := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj)
 	return robj, err
 }
@@ -104,7 +104,7 @@ func (client *ClusterCloudDetailsClient) DeleteByName(name string) error {
 	if err != nil {
 		return err
 	}
-	return client.Delete(res.UUID)
+	return client.Delete(*res.UUID)
 }
 
 // GetAviSession

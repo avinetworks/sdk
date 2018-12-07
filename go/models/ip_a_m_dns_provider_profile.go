@@ -9,10 +9,10 @@ type IPAMDNSProviderProfile struct {
 
 	// UNIX time since epoch in microseconds. Units(MICROSECONDS).
 	// Read Only: true
-	LastModified string `json:"_last_modified,omitempty"`
+	LastModified *string `json:"_last_modified,omitempty"`
 
 	// If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4.
-	AllocateIPInVrf bool `json:"allocate_ip_in_vrf,omitempty"`
+	AllocateIPInVrf *bool `json:"allocate_ip_in_vrf,omitempty"`
 
 	// Provider details if type is AWS.
 	AwsProfile *IPAMDNSAwsProfile `json:"aws_profile,omitempty"`
@@ -34,7 +34,10 @@ type IPAMDNSProviderProfile struct {
 
 	// Name for the IPAM/DNS Provider profile.
 	// Required: true
-	Name string `json:"name"`
+	Name *string `json:"name"`
+
+	// Provider details for Oracle Cloud. Field introduced in 18.1.3.
+	OciProfile *IPAMDNSOCIprofile `json:"oci_profile,omitempty"`
 
 	// Provider details if type is OpenStack.
 	OpenstackProfile *IPAMDNSOpenstackProfile `json:"openstack_profile,omitempty"`
@@ -43,16 +46,16 @@ type IPAMDNSProviderProfile struct {
 	ProxyConfiguration *ProxyConfiguration `json:"proxy_configuration,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
-	TenantRef string `json:"tenant_ref,omitempty"`
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
+	// Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.
 	// Required: true
-	Type string `json:"type"`
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true
-	URL string `json:"url,omitempty"`
+	URL *string `json:"url,omitempty"`
 
 	// UUID of the IPAM/DNS Provider profile.
-	UUID string `json:"uuid,omitempty"`
+	UUID *string `json:"uuid,omitempty"`
 }
