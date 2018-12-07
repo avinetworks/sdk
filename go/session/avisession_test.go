@@ -2,22 +2,30 @@ package session
 
 import (
 	"encoding/json"
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/golang/glog"
 	"os"
 	"os/exec"
 	"reflect"
+	"strconv"
 	"testing"
-
-	"github.com/avinetworks/sdk/go/models"
-	"github.com/golang/glog"
+	"time"
 )
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
 var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
+var AVI_POOL_NAME = os.Getenv("")
+var AVI_VIRTUALSERVICE_NAME = os.Getenv("")
+var AVI_AUTH_TOKEN = os.Getenv("AVI_AUTH_TOKEN")
+var AVI_API_ITERATIONS int
 
 func TestMain(m *testing.M) {
 	// call flag.Parse() here if TestMain uses flags
 	if AVI_CONTROLLER == "" {
 		AVI_CONTROLLER = "localhost"
+	}
+	if iterations, err := strconv.Atoi(os.Getenv("AVI_API_ITERATIONS")); err == nil {
+		AVI_API_ITERATIONS = iterations
 	}
 	os.Exit(m.Run())
 }
@@ -49,10 +57,15 @@ func getSessions(t *testing.T) []*AviSession {
 		aviVersion = "18.1.3"
 	}
 
-	credentialsSession, err := NewAviSession(AVI_CONTROLLER,
-		"admin", SetPassword(AVI_PASSWORD), SetInsecure, SetVersion(aviVersion))
-	if err != nil {
-		t.Fatalf("Session Creation failed: %s", err)
+	var err error
+	var credentialsSession *AviSession
+
+	if AVI_PASSWORD != "" {
+		credentialsSession, err = NewAviSession(AVI_CONTROLLER,
+			"admin", SetPassword(AVI_PASSWORD), SetInsecure, SetVersion(aviVersion))
+	} else {
+		credentialsSession, err = NewAviSession(AVI_CONTROLLER,
+			"admin", SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetVersion(aviVersion))
 	}
 
 	if AVI_CONTROLLER != "localhost" {
@@ -282,5 +295,61 @@ func TestTokenAuthRobustness(t *testing.T) {
 	err = authTokenSession.Get("api/tenant", &res)
 	if err == nil {
 		t.Errorf("ERROR: Expected an error from incorrect token auth")
+	}
+}
+
+func checkTime(t *testing.T, start time.Time, testcase string) {
+	now := time.Now()
+	delta := now.Sub(start)
+	if delta.Seconds() > 2 {
+		t.Error("Testcase %s took %v seconds", testcase, delta)
+	}
+}
+
+func TestAviReads(t *testing.T) {
+	for _, avisess := range getSessions(t) {
+		for i := 0; i < AVI_API_ITERATIONS; i++ {
+			start := time.Now()
+			var res interface{}
+			err := avisess.Get("api/tenant", &res)
+			glog.Infof("res: %s, err: %s", res, err)
+			resp := res.(map[string]interface{})
+			glog.Infof("count: %s", resp["count"])
+			checkTime(t, start, "GetTenant")
+
+			if AVI_POOL_NAME != "" {
+				err := avisess.GetObjectByName("pool", AVI_POOL_NAME, &res)
+				glog.Infof("res: %s, err: %s", res, err)
+				checkTime(t, start, "GetPoolByName")
+			}
+
+			err = avisess.Get("api/pool", &res)
+			glog.Infof("res: %s, err: %s", res, err)
+			resp = res.(map[string]interface{})
+			glog.Infof("count: %s", resp["count"])
+			checkTime(t, start, "GetPool")
+
+			err = avisess.Get("api/pool-inventory", &res)
+			glog.Infof("res: %s, err: %s", res, err)
+			resp = res.(map[string]interface{})
+			checkTime(t, start, "GetPoolInventory")
+
+			if AVI_VIRTUALSERVICE_NAME != "" {
+				err := avisess.GetObjectByName("virtualservice", AVI_POOL_NAME, &res)
+				glog.Infof("res: %s, err: %s", res, err)
+				checkTime(t, start, "GetVirtualServiceByName")
+			}
+
+			err = avisess.Get("api/virtualservice", &res)
+			glog.Infof("res: %s, err: %s", res, err)
+			resp = res.(map[string]interface{})
+			checkTime(t, start, "GetVirtualServiceList")
+
+			err = avisess.Get("api/virtualservice", &res)
+			glog.Infof("res: %s, err: %s", res, err)
+			resp = res.(map[string]interface{})
+			checkTime(t, start, "GetVirtualServiceInventory")
+
+		}
 	}
 }
