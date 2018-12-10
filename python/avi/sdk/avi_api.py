@@ -417,7 +417,7 @@ class ApiSession(Session):
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
                 max_api_retries=max_api_retries)
-            ApiSession._clean_inactive_sessions()
+        ApiSession._clean_inactive_sessions()
         return user_session
 
     def reset_session(self):
@@ -940,6 +940,18 @@ class ApiSession(Session):
                 continue
             keys_to_delete.append(key)
         for key in keys_to_delete:
+            # Logout inactive sessions
+            try:
+                key_split = key.split(':')
+                inactive_session = ApiSession.get_session(
+                    controller_ip=key_split[0],
+                    username=key_split[1],
+                    port=key_split[2],
+                    csrftoken=session_cache[key]['csrftoken'],
+                    session_id=session_cache[key]['session_id'])
+                inactive_session.post('logout')
+            except:
+                logger.warning('Error to logout inactive session: %s', key)
             del session_cache[key]
             logger.debug("Removed session for : %s", key)
 
