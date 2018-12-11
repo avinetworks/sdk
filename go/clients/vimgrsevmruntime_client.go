@@ -93,13 +93,13 @@ func (client *VIMgrSEVMRuntimeClient) Update(obj *models.VIMgrSEVMRuntime) (*mod
 	return robj, err
 }
 
-// Patch an existing VIMgrSEVMRuntime object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.VIMgrSEVMRuntime
+// Patch an existing VIMgrSEVMRuntime object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.VIMgrSEVMRuntime
 // or it should be json compatible of form map[string]interface{}
-func (client *VIMgrSEVMRuntimeClient) Patch(obj *models.VIMgrSEVMRuntime, patch interface{}, patchOp string) (*models.VIMgrSEVMRuntime, error) {
+func (client *VIMgrSEVMRuntimeClient) Patch(uuid string, patch interface{}, patchOp string) (*models.VIMgrSEVMRuntime, error) {
 	var robj *models.VIMgrSEVMRuntime
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

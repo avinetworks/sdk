@@ -93,13 +93,13 @@ func (client *HTTPPolicySetClient) Update(obj *models.HTTPPolicySet) (*models.HT
 	return robj, err
 }
 
-// Patch an existing HTTPPolicySet object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.HTTPPolicySet
+// Patch an existing HTTPPolicySet object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.HTTPPolicySet
 // or it should be json compatible of form map[string]interface{}
-func (client *HTTPPolicySetClient) Patch(obj *models.HTTPPolicySet, patch interface{}, patchOp string) (*models.HTTPPolicySet, error) {
+func (client *HTTPPolicySetClient) Patch(uuid string, patch interface{}, patchOp string) (*models.HTTPPolicySet, error) {
 	var robj *models.HTTPPolicySet
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

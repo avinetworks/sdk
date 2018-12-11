@@ -148,12 +148,12 @@ func TestAviPoolPatch(t *testing.T) {
 		servers[0] = server
 		patch["servers"] = servers
 		var patchedPool *models.Pool
-		patchedPool, err = pclient.Patch(objp, patch, "add")
+		patchedPool, err = pclient.Patch(*objp.UUID, patch, "add")
 
 		if len(patchedPool.Servers) == 0 {
 			t.Fatalf("Patching of Pool Failed server add %v", server)
 		}
-		patchedPool, err = pclient.Patch(patchedPool, patch, "delete")
+		patchedPool, err = pclient.Patch(*objp.UUID, patch, "delete")
 		if err != nil {
 			t.Fatalf("Patching failed err %v", err)
 		}

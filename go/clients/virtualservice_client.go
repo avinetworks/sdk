@@ -93,13 +93,13 @@ func (client *VirtualServiceClient) Update(obj *models.VirtualService) (*models.
 	return robj, err
 }
 
-// Patch an existing VirtualService object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.VirtualService
+// Patch an existing VirtualService object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.VirtualService
 // or it should be json compatible of form map[string]interface{}
-func (client *VirtualServiceClient) Patch(obj *models.VirtualService, patch interface{}, patchOp string) (*models.VirtualService, error) {
+func (client *VirtualServiceClient) Patch(uuid string, patch interface{}, patchOp string) (*models.VirtualService, error) {
 	var robj *models.VirtualService
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

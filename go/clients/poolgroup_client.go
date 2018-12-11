@@ -93,13 +93,13 @@ func (client *PoolGroupClient) Update(obj *models.PoolGroup) (*models.PoolGroup,
 	return robj, err
 }
 
-// Patch an existing PoolGroup object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.PoolGroup
+// Patch an existing PoolGroup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.PoolGroup
 // or it should be json compatible of form map[string]interface{}
-func (client *PoolGroupClient) Patch(obj *models.PoolGroup, patch interface{}, patchOp string) (*models.PoolGroup, error) {
+func (client *PoolGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.PoolGroup, error) {
 	var robj *models.PoolGroup
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

@@ -93,13 +93,13 @@ func (client *AlertEmailConfigClient) Update(obj *models.AlertEmailConfig) (*mod
 	return robj, err
 }
 
-// Patch an existing AlertEmailConfig object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.AlertEmailConfig
+// Patch an existing AlertEmailConfig object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.AlertEmailConfig
 // or it should be json compatible of form map[string]interface{}
-func (client *AlertEmailConfigClient) Patch(obj *models.AlertEmailConfig, patch interface{}, patchOp string) (*models.AlertEmailConfig, error) {
+func (client *AlertEmailConfigClient) Patch(uuid string, patch interface{}, patchOp string) (*models.AlertEmailConfig, error) {
 	var robj *models.AlertEmailConfig
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

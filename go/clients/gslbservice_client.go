@@ -93,13 +93,13 @@ func (client *GslbServiceClient) Update(obj *models.GslbService) (*models.GslbSe
 	return robj, err
 }
 
-// Patch an existing GslbService object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.GslbService
+// Patch an existing GslbService object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.GslbService
 // or it should be json compatible of form map[string]interface{}
-func (client *GslbServiceClient) Patch(obj *models.GslbService, patch interface{}, patchOp string) (*models.GslbService, error) {
+func (client *GslbServiceClient) Patch(uuid string, patch interface{}, patchOp string) (*models.GslbService, error) {
 	var robj *models.GslbService
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

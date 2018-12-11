@@ -93,13 +93,13 @@ func (client *VIMgrDCRuntimeClient) Update(obj *models.VIMgrDCRuntime) (*models.
 	return robj, err
 }
 
-// Patch an existing VIMgrDCRuntime object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.VIMgrDCRuntime
+// Patch an existing VIMgrDCRuntime object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.VIMgrDCRuntime
 // or it should be json compatible of form map[string]interface{}
-func (client *VIMgrDCRuntimeClient) Patch(obj *models.VIMgrDCRuntime, patch interface{}, patchOp string) (*models.VIMgrDCRuntime, error) {
+func (client *VIMgrDCRuntimeClient) Patch(uuid string, patch interface{}, patchOp string) (*models.VIMgrDCRuntime, error) {
 	var robj *models.VIMgrDCRuntime
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

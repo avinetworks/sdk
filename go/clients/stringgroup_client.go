@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *
  * AVI CONFIDENTIAL
@@ -15,7 +14,7 @@
  * copyright law, and other laws. Dissemination of this information or
  * reproduction of this material is strictly forbidden unless prior written
  * permission is obtained from Avi Networks Incorporated.
-*/
+ */
 
 package clients
 
@@ -66,6 +65,19 @@ func (client *StringGroupClient) GetByName(name string) (*models.StringGroup, er
 	return obj, err
 }
 
+// GetObject - Get an existing StringGroup by filters like name, cloud, tenant
+// Api creates StringGroup object with every call.
+func (client *StringGroupClient) GetObject(options ...session.ApiOptionsParams) (*models.StringGroup, error) {
+	var obj *models.StringGroup
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("stringgroup", newOptions...)
+	return obj, err
+}
+
 // Create a new StringGroup object
 func (client *StringGroupClient) Create(obj *models.StringGroup) (*models.StringGroup, error) {
 	var robj *models.StringGroup
@@ -81,6 +93,17 @@ func (client *StringGroupClient) Update(obj *models.StringGroup) (*models.String
 	return robj, err
 }
 
+// Patch an existing StringGroup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.StringGroup
+// or it should be json compatible of form map[string]interface{}
+func (client *StringGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.StringGroup, error) {
+	var robj *models.StringGroup
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing StringGroup object with a given UUID
 func (client *StringGroupClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
@@ -93,4 +116,9 @@ func (client *StringGroupClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(*res.UUID)
+}
+
+// GetAviSession
+func (client *StringGroupClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

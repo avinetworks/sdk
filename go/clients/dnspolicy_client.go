@@ -93,13 +93,13 @@ func (client *DNSPolicyClient) Update(obj *models.DNSPolicy) (*models.DNSPolicy,
 	return robj, err
 }
 
-// Patch an existing DNSPolicy object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.DNSPolicy
+// Patch an existing DNSPolicy object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.DNSPolicy
 // or it should be json compatible of form map[string]interface{}
-func (client *DNSPolicyClient) Patch(obj *models.DNSPolicy, patch interface{}, patchOp string) (*models.DNSPolicy, error) {
+func (client *DNSPolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.DNSPolicy, error) {
 	var robj *models.DNSPolicy
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

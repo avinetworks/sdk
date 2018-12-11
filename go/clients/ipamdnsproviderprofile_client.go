@@ -93,13 +93,13 @@ func (client *IPAMDNSProviderProfileClient) Update(obj *models.IPAMDNSProviderPr
 	return robj, err
 }
 
-// Patch an existing IPAMDNSProviderProfile object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.IPAMDNSProviderProfile
+// Patch an existing IPAMDNSProviderProfile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.IPAMDNSProviderProfile
 // or it should be json compatible of form map[string]interface{}
-func (client *IPAMDNSProviderProfileClient) Patch(obj *models.IPAMDNSProviderProfile, patch interface{}, patchOp string) (*models.IPAMDNSProviderProfile, error) {
+func (client *IPAMDNSProviderProfileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

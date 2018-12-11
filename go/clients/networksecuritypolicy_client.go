@@ -93,13 +93,13 @@ func (client *NetworkSecurityPolicyClient) Update(obj *models.NetworkSecurityPol
 	return robj, err
 }
 
-// Patch an existing NetworkSecurityPolicy object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.NetworkSecurityPolicy
+// Patch an existing NetworkSecurityPolicy object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.NetworkSecurityPolicy
 // or it should be json compatible of form map[string]interface{}
-func (client *NetworkSecurityPolicyClient) Patch(obj *models.NetworkSecurityPolicy, patch interface{}, patchOp string) (*models.NetworkSecurityPolicy, error) {
+func (client *NetworkSecurityPolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.NetworkSecurityPolicy, error) {
 	var robj *models.NetworkSecurityPolicy
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

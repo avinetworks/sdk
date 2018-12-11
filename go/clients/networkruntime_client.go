@@ -93,13 +93,13 @@ func (client *NetworkRuntimeClient) Update(obj *models.NetworkRuntime) (*models.
 	return robj, err
 }
 
-// Patch an existing NetworkRuntime object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.NetworkRuntime
+// Patch an existing NetworkRuntime object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.NetworkRuntime
 // or it should be json compatible of form map[string]interface{}
-func (client *NetworkRuntimeClient) Patch(obj *models.NetworkRuntime, patch interface{}, patchOp string) (*models.NetworkRuntime, error) {
+func (client *NetworkRuntimeClient) Patch(uuid string, patch interface{}, patchOp string) (*models.NetworkRuntime, error) {
 	var robj *models.NetworkRuntime
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

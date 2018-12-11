@@ -93,13 +93,13 @@ func (client *UserActivityClient) Update(obj *models.UserActivity) (*models.User
 	return robj, err
 }
 
-// Patch an existing UserActivity object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.UserActivity
+// Patch an existing UserActivity object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.UserActivity
 // or it should be json compatible of form map[string]interface{}
-func (client *UserActivityClient) Patch(obj *models.UserActivity, patch interface{}, patchOp string) (*models.UserActivity, error) {
+func (client *UserActivityClient) Patch(uuid string, patch interface{}, patchOp string) (*models.UserActivity, error) {
 	var robj *models.UserActivity
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

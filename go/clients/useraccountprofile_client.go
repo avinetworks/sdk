@@ -93,13 +93,13 @@ func (client *UserAccountProfileClient) Update(obj *models.UserAccountProfile) (
 	return robj, err
 }
 
-// Patch an existing UserAccountProfile object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.UserAccountProfile
+// Patch an existing UserAccountProfile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.UserAccountProfile
 // or it should be json compatible of form map[string]interface{}
-func (client *UserAccountProfileClient) Patch(obj *models.UserAccountProfile, patch interface{}, patchOp string) (*models.UserAccountProfile, error) {
+func (client *UserAccountProfileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

@@ -93,13 +93,13 @@ func (client *SystemConfigurationClient) Update(obj *models.SystemConfiguration)
 	return robj, err
 }
 
-// Patch an existing SystemConfiguration object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.SystemConfiguration
+// Patch an existing SystemConfiguration object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.SystemConfiguration
 // or it should be json compatible of form map[string]interface{}
-func (client *SystemConfigurationClient) Patch(obj *models.SystemConfiguration, patch interface{}, patchOp string) (*models.SystemConfiguration, error) {
+func (client *SystemConfigurationClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SystemConfiguration, error) {
 	var robj *models.SystemConfiguration
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

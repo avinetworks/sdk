@@ -93,13 +93,13 @@ func (client *AlertClient) Update(obj *models.Alert) (*models.Alert, error) {
 	return robj, err
 }
 
-// Patch an existing Alert object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.Alert
+// Patch an existing Alert object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Alert
 // or it should be json compatible of form map[string]interface{}
-func (client *AlertClient) Patch(obj *models.Alert, patch interface{}, patchOp string) (*models.Alert, error) {
+func (client *AlertClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Alert, error) {
 	var robj *models.Alert
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

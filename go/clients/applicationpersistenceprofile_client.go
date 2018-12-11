@@ -93,13 +93,13 @@ func (client *ApplicationPersistenceProfileClient) Update(obj *models.Applicatio
 	return robj, err
 }
 
-// Patch an existing ApplicationPersistenceProfile object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.ApplicationPersistenceProfile
+// Patch an existing ApplicationPersistenceProfile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.ApplicationPersistenceProfile
 // or it should be json compatible of form map[string]interface{}
-func (client *ApplicationPersistenceProfileClient) Patch(obj *models.ApplicationPersistenceProfile, patch interface{}, patchOp string) (*models.ApplicationPersistenceProfile, error) {
+func (client *ApplicationPersistenceProfileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

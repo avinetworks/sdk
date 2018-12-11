@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *
  * AVI CONFIDENTIAL
@@ -15,7 +14,7 @@
  * copyright law, and other laws. Dissemination of this information or
  * reproduction of this material is strictly forbidden unless prior written
  * permission is obtained from Avi Networks Incorporated.
-*/
+ */
 
 package clients
 
@@ -66,6 +65,19 @@ func (client *BackupClient) GetByName(name string) (*models.Backup, error) {
 	return obj, err
 }
 
+// GetObject - Get an existing Backup by filters like name, cloud, tenant
+// Api creates Backup object with every call.
+func (client *BackupClient) GetObject(options ...session.ApiOptionsParams) (*models.Backup, error) {
+	var obj *models.Backup
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	newOptions[len(options)] = session.SetResult(&obj)
+	err := client.aviSession.GetObject("backup", newOptions...)
+	return obj, err
+}
+
 // Create a new Backup object
 func (client *BackupClient) Create(obj *models.Backup) (*models.Backup, error) {
 	var robj *models.Backup
@@ -81,6 +93,17 @@ func (client *BackupClient) Update(obj *models.Backup) (*models.Backup, error) {
 	return robj, err
 }
 
+// Patch an existing Backup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Backup
+// or it should be json compatible of form map[string]interface{}
+func (client *BackupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Backup, error) {
+	var robj *models.Backup
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Backup object with a given UUID
 func (client *BackupClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
@@ -93,4 +116,9 @@ func (client *BackupClient) DeleteByName(name string) error {
 		return err
 	}
 	return client.Delete(*res.UUID)
+}
+
+// GetAviSession
+func (client *BackupClient) GetAviSession() *session.AviSession {
+	return client.aviSession
 }

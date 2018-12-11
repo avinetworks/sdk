@@ -93,13 +93,13 @@ func (client *BackupConfigurationClient) Update(obj *models.BackupConfiguration)
 	return robj, err
 }
 
-// Patch an existing BackupConfiguration object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.BackupConfiguration
+// Patch an existing BackupConfiguration object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.BackupConfiguration
 // or it should be json compatible of form map[string]interface{}
-func (client *BackupConfigurationClient) Patch(obj *models.BackupConfiguration, patch interface{}, patchOp string) (*models.BackupConfiguration, error) {
+func (client *BackupConfigurationClient) Patch(uuid string, patch interface{}, patchOp string) (*models.BackupConfiguration, error) {
 	var robj *models.BackupConfiguration
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

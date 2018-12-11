@@ -93,13 +93,13 @@ func (client *PoolClient) Update(obj *models.Pool) (*models.Pool, error) {
 	return robj, err
 }
 
-// Patch an existing Pool object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.Pool
+// Patch an existing Pool object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Pool
 // or it should be json compatible of form map[string]interface{}
-func (client *PoolClient) Patch(obj *models.Pool, patch interface{}, patchOp string) (*models.Pool, error) {
+func (client *PoolClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Pool, error) {
 	var robj *models.Pool
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

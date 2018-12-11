@@ -93,13 +93,13 @@ func (client *NetworkProfileClient) Update(obj *models.NetworkProfile) (*models.
 	return robj, err
 }
 
-// Patch an existing NetworkProfile object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.NetworkProfile
+// Patch an existing NetworkProfile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.NetworkProfile
 // or it should be json compatible of form map[string]interface{}
-func (client *NetworkProfileClient) Patch(obj *models.NetworkProfile, patch interface{}, patchOp string) (*models.NetworkProfile, error) {
+func (client *NetworkProfileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.NetworkProfile, error) {
 	var robj *models.NetworkProfile
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

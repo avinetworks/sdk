@@ -93,13 +93,13 @@ func (client *VsVipClient) Update(obj *models.VsVip) (*models.VsVip, error) {
 	return robj, err
 }
 
-// Patch an existing VsVip object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.VsVip
+// Patch an existing VsVip object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.VsVip
 // or it should be json compatible of form map[string]interface{}
-func (client *VsVipClient) Patch(obj *models.VsVip, patch interface{}, patchOp string) (*models.VsVip, error) {
+func (client *VsVipClient) Patch(uuid string, patch interface{}, patchOp string) (*models.VsVip, error) {
 	var robj *models.VsVip
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

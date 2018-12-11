@@ -93,13 +93,13 @@ func (client *MicroServiceGroupClient) Update(obj *models.MicroServiceGroup) (*m
 	return robj, err
 }
 
-// Patch an existing MicroServiceGroup object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.MicroServiceGroup
+// Patch an existing MicroServiceGroup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.MicroServiceGroup
 // or it should be json compatible of form map[string]interface{}
-func (client *MicroServiceGroupClient) Patch(obj *models.MicroServiceGroup, patch interface{}, patchOp string) (*models.MicroServiceGroup, error) {
+func (client *MicroServiceGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }

@@ -93,13 +93,13 @@ func (client *SecurityPolicyClient) Update(obj *models.SecurityPolicy) (*models.
 	return robj, err
 }
 
-// Patch an existing SecurityPolicy object
-// patchOp: add, replace, or delete
-// payload should be compatible with the models.SecurityPolicy
+// Patch an existing SecurityPolicy object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.SecurityPolicy
 // or it should be json compatible of form map[string]interface{}
-func (client *SecurityPolicyClient) Patch(obj *models.SecurityPolicy, patch interface{}, patchOp string) (*models.SecurityPolicy, error) {
+func (client *SecurityPolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SecurityPolicy, error) {
 	var robj *models.SecurityPolicy
-	path := client.getAPIPath(*obj.UUID)
+	path := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj)
 	return robj, err
 }
