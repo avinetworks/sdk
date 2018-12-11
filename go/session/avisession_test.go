@@ -200,6 +200,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	//}
 
 	err = avisess.Delete("api/pool/" + *npool2.UUID)
+
 	if err != nil {
 		t.Errorf("Pool deletion failed: %s", err)
 	}
@@ -343,7 +344,7 @@ func TestAviReads(t *testing.T) {
 
 			if AVI_VIRTUALSERVICE_NAME != "" {
 				start = time.Now()
-				err := avisess.GetObjectByName("virtualservice", AVI_POOL_NAME, &res)
+				err := avisess.GetObjectByName("virtualservice", AVI_VIRTUALSERVICE_NAME, &res)
 				glog.Infof("res: %s, err: %s", res, err)
 				checkTime(t, start, "GetVirtualServiceByName")
 			}
@@ -355,7 +356,7 @@ func TestAviReads(t *testing.T) {
 			checkTime(t, start, "GetVirtualServiceList")
 
 			start = time.Now()
-			err = avisess.Get("api/virtualservice", &res)
+			err = avisess.Get("api/virtualservice-inventory", &res)
 			glog.Infof("res: %s, err: %s", res, err)
 			resp = res.(map[string]interface{})
 			checkTime(t, start, "GetVirtualServiceInventory")
