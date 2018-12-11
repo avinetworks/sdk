@@ -93,6 +93,17 @@ func (client *ErrorPageBodyClient) Update(obj *models.ErrorPageBody) (*models.Er
 	return robj, err
 }
 
+// Patch an existing ErrorPageBody object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.ErrorPageBody
+// or it should be json compatible of form map[string]interface{}
+func (client *ErrorPageBodyClient) Patch(obj *models.ErrorPageBody, patch interface{}, patchOp string) (*models.ErrorPageBody, error) {
+	var robj *models.ErrorPageBody
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing ErrorPageBody object with a given UUID
 func (client *ErrorPageBodyClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

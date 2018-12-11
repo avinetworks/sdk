@@ -93,6 +93,17 @@ func (client *CloudClient) Update(obj *models.Cloud) (*models.Cloud, error) {
 	return robj, err
 }
 
+// Patch an existing Cloud object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.Cloud
+// or it should be json compatible of form map[string]interface{}
+func (client *CloudClient) Patch(obj *models.Cloud, patch interface{}, patchOp string) (*models.Cloud, error) {
+	var robj *models.Cloud
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Cloud object with a given UUID
 func (client *CloudClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

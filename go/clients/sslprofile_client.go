@@ -93,6 +93,17 @@ func (client *SSLProfileClient) Update(obj *models.SSLProfile) (*models.SSLProfi
 	return robj, err
 }
 
+// Patch an existing SSLProfile object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.SSLProfile
+// or it should be json compatible of form map[string]interface{}
+func (client *SSLProfileClient) Patch(obj *models.SSLProfile, patch interface{}, patchOp string) (*models.SSLProfile, error) {
+	var robj *models.SSLProfile
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SSLProfile object with a given UUID
 func (client *SSLProfileClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

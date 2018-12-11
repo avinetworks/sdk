@@ -93,6 +93,17 @@ func (client *VIDCInfoClient) Update(obj *models.VIDCInfo) (*models.VIDCInfo, er
 	return robj, err
 }
 
+// Patch an existing VIDCInfo object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.VIDCInfo
+// or it should be json compatible of form map[string]interface{}
+func (client *VIDCInfoClient) Patch(obj *models.VIDCInfo, patch interface{}, patchOp string) (*models.VIDCInfo, error) {
+	var robj *models.VIDCInfo
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing VIDCInfo object with a given UUID
 func (client *VIDCInfoClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

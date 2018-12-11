@@ -93,6 +93,17 @@ func (client *SCPoolServerStateInfoClient) Update(obj *models.SCPoolServerStateI
 	return robj, err
 }
 
+// Patch an existing SCPoolServerStateInfo object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.SCPoolServerStateInfo
+// or it should be json compatible of form map[string]interface{}
+func (client *SCPoolServerStateInfoClient) Patch(obj *models.SCPoolServerStateInfo, patch interface{}, patchOp string) (*models.SCPoolServerStateInfo, error) {
+	var robj *models.SCPoolServerStateInfo
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SCPoolServerStateInfo object with a given UUID
 func (client *SCPoolServerStateInfoClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

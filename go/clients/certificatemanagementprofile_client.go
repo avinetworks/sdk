@@ -93,6 +93,17 @@ func (client *CertificateManagementProfileClient) Update(obj *models.Certificate
 	return robj, err
 }
 
+// Patch an existing CertificateManagementProfile object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.CertificateManagementProfile
+// or it should be json compatible of form map[string]interface{}
+func (client *CertificateManagementProfileClient) Patch(obj *models.CertificateManagementProfile, patch interface{}, patchOp string) (*models.CertificateManagementProfile, error) {
+	var robj *models.CertificateManagementProfile
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing CertificateManagementProfile object with a given UUID
 func (client *CertificateManagementProfileClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

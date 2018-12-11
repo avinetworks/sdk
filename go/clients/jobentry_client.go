@@ -93,6 +93,17 @@ func (client *JobEntryClient) Update(obj *models.JobEntry) (*models.JobEntry, er
 	return robj, err
 }
 
+// Patch an existing JobEntry object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.JobEntry
+// or it should be json compatible of form map[string]interface{}
+func (client *JobEntryClient) Patch(obj *models.JobEntry, patch interface{}, patchOp string) (*models.JobEntry, error) {
+	var robj *models.JobEntry
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing JobEntry object with a given UUID
 func (client *JobEntryClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

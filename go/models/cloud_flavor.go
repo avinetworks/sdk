@@ -20,7 +20,7 @@ type CloudFlavor struct {
 	// Required: true
 	ID *string `json:"id"`
 
-	// If a vm flavor is recommended for requested se_usage_type.Set to True if the chosen VM flavor is recommended for requested se_usage_type.Else set to False. Field introduced in 18.1.4.
+	// If a vm flavor is recommended for requested se_usage_type.Set to True if the chosen VM flavor is recommended for requested se_usage_type.Else set to False. Field introduced in 18.1.4, 18.2.1.
 	IsRecommended *bool `json:"is_recommended,omitempty"`
 
 	// Maximum number of IPv6 addresses that can be configured per NIC. Field introduced in 18.1.1.

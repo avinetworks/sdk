@@ -93,6 +93,17 @@ func (client *VIMgrControllerRuntimeClient) Update(obj *models.VIMgrControllerRu
 	return robj, err
 }
 
+// Patch an existing VIMgrControllerRuntime object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.VIMgrControllerRuntime
+// or it should be json compatible of form map[string]interface{}
+func (client *VIMgrControllerRuntimeClient) Patch(obj *models.VIMgrControllerRuntime, patch interface{}, patchOp string) (*models.VIMgrControllerRuntime, error) {
+	var robj *models.VIMgrControllerRuntime
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing VIMgrControllerRuntime object with a given UUID
 func (client *VIMgrControllerRuntimeClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

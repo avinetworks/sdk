@@ -93,6 +93,17 @@ func (client *LogControllerMappingClient) Update(obj *models.LogControllerMappin
 	return robj, err
 }
 
+// Patch an existing LogControllerMapping object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.LogControllerMapping
+// or it should be json compatible of form map[string]interface{}
+func (client *LogControllerMappingClient) Patch(obj *models.LogControllerMapping, patch interface{}, patchOp string) (*models.LogControllerMapping, error) {
+	var robj *models.LogControllerMapping
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing LogControllerMapping object with a given UUID
 func (client *LogControllerMappingClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

@@ -93,6 +93,17 @@ func (client *SecureChannelTokenClient) Update(obj *models.SecureChannelToken) (
 	return robj, err
 }
 
+// Patch an existing SecureChannelToken object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.SecureChannelToken
+// or it should be json compatible of form map[string]interface{}
+func (client *SecureChannelTokenClient) Patch(obj *models.SecureChannelToken, patch interface{}, patchOp string) (*models.SecureChannelToken, error) {
+	var robj *models.SecureChannelToken
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SecureChannelToken object with a given UUID
 func (client *SecureChannelTokenClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

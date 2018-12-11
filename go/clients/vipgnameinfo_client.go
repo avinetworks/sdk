@@ -93,6 +93,17 @@ func (client *VIPGNameInfoClient) Update(obj *models.VIPGNameInfo) (*models.VIPG
 	return robj, err
 }
 
+// Patch an existing VIPGNameInfo object
+// patchOp: add, replace, or delete
+// payload should be compatible with the models.VIPGNameInfo
+// or it should be json compatible of form map[string]interface{}
+func (client *VIPGNameInfoClient) Patch(obj *models.VIPGNameInfo, patch interface{}, patchOp string) (*models.VIPGNameInfo, error) {
+	var robj *models.VIPGNameInfo
+	path := client.getAPIPath(*obj.UUID)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing VIPGNameInfo object with a given UUID
 func (client *VIPGNameInfoClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
