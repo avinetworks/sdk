@@ -540,7 +540,7 @@ class F5Util(MigrationUtil):
                         service['port_range_end'] = int(port) - 1
                         new_service = {'port': new_port,
                                        'port_range_end': new_end,
-                                       'enable_ssl': enable_ssl}
+                                       'enable_ssl': service['enable_ssl']}
                         vs_new_service.append(new_service)
                 elif port == conv_const.PORT_START:
                     service['port'] = 2

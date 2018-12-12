@@ -165,7 +165,7 @@ class VSConfigConv(object):
             profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
             f5_config, tenant)
 
-        if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool)> 1):
+        if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool) > 1):
             needs_review = True
 
         oc_prof = False
@@ -324,8 +324,10 @@ class VSConfigConv(object):
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
-            if oc_prof and not ssl_vs and persist_type == 'PERSISTENCE_TYPE_TLS' or \
-                    persist_type == 'PERSISTENCE_TYPE_TLS' and not enable_ssl:
+            if (oc_prof and not ssl_vs and
+                    persist_type == 'PERSISTENCE_TYPE_TLS' or
+                    persist_type == 'PERSISTENCE_TYPE_TLS' and
+                    not enable_ssl):
                 msg = ("Skipped VS : '%s' Secure persistence is applicable only"
                        " if SSL is enabled for Virtual Service" % vs_name)
                 LOG.warning(msg)
