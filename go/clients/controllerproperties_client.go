@@ -93,6 +93,17 @@ func (client *ControllerPropertiesClient) Update(obj *models.ControllerPropertie
 	return robj, err
 }
 
+// Patch an existing ControllerProperties object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.ControllerProperties
+// or it should be json compatible of form map[string]interface{}
+func (client *ControllerPropertiesClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ControllerProperties, error) {
+	var robj *models.ControllerProperties
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing ControllerProperties object with a given UUID
 func (client *ControllerPropertiesClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

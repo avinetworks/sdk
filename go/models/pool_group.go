@@ -45,6 +45,9 @@ type PoolGroup struct {
 	// UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority. It is a reference to an object of type PriorityLabels.
 	PriorityLabelsRef *string `json:"priority_labels_ref,omitempty"`
 
+	// Metadata pertaining to the service provided by this PoolGroup. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1.
+	ServiceMetadata *string `json:"service_metadata,omitempty"`
+
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 

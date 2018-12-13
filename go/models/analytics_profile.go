@@ -83,6 +83,12 @@ type AnalyticsProfile struct {
 	// Disable analytics on backend servers. This may be desired in container environment when there are large number of ephemeral servers. Additionally, no healthscore of servers is computed when server analytics is disabled.
 	DisableServerAnalytics *bool `json:"disable_server_analytics,omitempty"`
 
+	// Disable VirtualService (frontend) Analytics. This flag disables metrics and healthscore for Virtualservice. Field introduced in 18.2.1.
+	DisableVsAnalytics *bool `json:"disable_vs_analytics,omitempty"`
+
+	// Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13, 18.1.5, 18.2.1.
+	EnableAdvancedAnalytics *bool `json:"enable_advanced_analytics,omitempty"`
+
 	// Exclude client closed connection before an HTTP request could be completed from being classified as an error.
 	ExcludeClientCloseBeforeRequestAsError *bool `json:"exclude_client_close_before_request_as_error,omitempty"`
 
@@ -115,6 +121,9 @@ type AnalyticsProfile struct {
 
 	// Exclude server TCP reset from errors.  It is common for applications like MS Exchange.
 	ExcludeServerTCPResetAsError *bool `json:"exclude_server_tcp_reset_as_error,omitempty"`
+
+	// List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13, 18.2.1.
+	ExcludeSipErrorCodes []int64 `json:"exclude_sip_error_codes,omitempty,omitempty"`
 
 	// Exclude 'server unanswered syns' from the list of errors.
 	ExcludeSynRetransmitAsError *bool `json:"exclude_syn_retransmit_as_error,omitempty"`
@@ -221,6 +230,9 @@ type AnalyticsProfile struct {
 
 	// Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10, 18.1.2.
 	SensitiveLogProfile *SensitiveLogProfile `json:"sensitive_log_profile,omitempty"`
+
+	// Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13, 18.2.1.
+	SipLogDepth *int32 `json:"sip_log_depth,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`

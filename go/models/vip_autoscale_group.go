@@ -7,9 +7,9 @@ package models
 // swagger:model VipAutoscaleGroup
 type VipAutoscaleGroup struct {
 
-	//  Field introduced in 18.1.2.
+	//  Field introduced in 17.2.12, 18.1.2.
 	Configuration *VipAutoscaleConfiguration `json:"configuration,omitempty"`
 
-	//  Field introduced in 18.1.2.
+	//  Field introduced in 17.2.12, 18.1.2.
 	Policy *VipAutoscalePolicy `json:"policy,omitempty"`
 }

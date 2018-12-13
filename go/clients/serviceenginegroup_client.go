@@ -93,6 +93,17 @@ func (client *ServiceEngineGroupClient) Update(obj *models.ServiceEngineGroup) (
 	return robj, err
 }
 
+// Patch an existing ServiceEngineGroup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.ServiceEngineGroup
+// or it should be json compatible of form map[string]interface{}
+func (client *ServiceEngineGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ServiceEngineGroup, error) {
+	var robj *models.ServiceEngineGroup
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing ServiceEngineGroup object with a given UUID
 func (client *ServiceEngineGroupClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

@@ -45,7 +45,7 @@ type HealthMonitor struct {
 	// Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.
 	SendInterval *int32 `json:"send_interval,omitempty"`
 
-	// Health monitor for SIP. Field introduced in 17.2.8, 18.1.3.
+	// Health monitor for SIP. Field introduced in 17.2.8, 18.1.3, 18.2.1.
 	SipMonitor *HealthMonitorSIP `json:"sip_monitor,omitempty"`
 
 	// Number of continuous successful health checks before server is marked up. Allowed values are 1-50.
