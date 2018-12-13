@@ -93,6 +93,17 @@ func (client *AutoScaleLaunchConfigClient) Update(obj *models.AutoScaleLaunchCon
 	return robj, err
 }
 
+// Patch an existing AutoScaleLaunchConfig object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.AutoScaleLaunchConfig
+// or it should be json compatible of form map[string]interface{}
+func (client *AutoScaleLaunchConfigClient) Patch(uuid string, patch interface{}, patchOp string) (*models.AutoScaleLaunchConfig, error) {
+	var robj *models.AutoScaleLaunchConfig
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing AutoScaleLaunchConfig object with a given UUID
 func (client *AutoScaleLaunchConfigClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

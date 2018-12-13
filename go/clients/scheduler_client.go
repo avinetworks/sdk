@@ -93,6 +93,17 @@ func (client *SchedulerClient) Update(obj *models.Scheduler) (*models.Scheduler,
 	return robj, err
 }
 
+// Patch an existing Scheduler object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Scheduler
+// or it should be json compatible of form map[string]interface{}
+func (client *SchedulerClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Scheduler, error) {
+	var robj *models.Scheduler
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Scheduler object with a given UUID
 func (client *SchedulerClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

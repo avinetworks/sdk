@@ -13,7 +13,7 @@ type EmailConfiguration struct {
 	// Username for mail server.
 	AuthUsername *string `json:"auth_username,omitempty"`
 
-	// When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3.
+	// When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	DisableTLS *bool `json:"disable_tls,omitempty"`
 
 	// Email address in From field.

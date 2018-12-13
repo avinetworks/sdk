@@ -10,7 +10,7 @@ type GslbDNSUpdate struct {
 	// Number of clear_on_max_retries.
 	ClearOnMaxRetries *int32 `json:"clear_on_max_retries,omitempty"`
 
-	// Gslb, GslbService objects that is pushed on a per Dns basis. . Field introduced in 17.1.1.
+	// Gslb, GslbService objects that is pushed on a per Dns basis. Field introduced in 17.1.1.
 	ObjInfo []*GslbObjectInfo `json:"obj_info,omitempty"`
 
 	// Number of send_interval.

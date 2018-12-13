@@ -93,6 +93,17 @@ func (client *DebugVirtualServiceClient) Update(obj *models.DebugVirtualService)
 	return robj, err
 }
 
+// Patch an existing DebugVirtualService object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.DebugVirtualService
+// or it should be json compatible of form map[string]interface{}
+func (client *DebugVirtualServiceClient) Patch(uuid string, patch interface{}, patchOp string) (*models.DebugVirtualService, error) {
+	var robj *models.DebugVirtualService
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing DebugVirtualService object with a given UUID
 func (client *DebugVirtualServiceClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
