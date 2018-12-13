@@ -93,6 +93,17 @@ func (client *SecureChannelMappingClient) Update(obj *models.SecureChannelMappin
 	return robj, err
 }
 
+// Patch an existing SecureChannelMapping object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.SecureChannelMapping
+// or it should be json compatible of form map[string]interface{}
+func (client *SecureChannelMappingClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SecureChannelMapping, error) {
+	var robj *models.SecureChannelMapping
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SecureChannelMapping object with a given UUID
 func (client *SecureChannelMappingClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

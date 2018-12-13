@@ -53,10 +53,10 @@ type SystemConfiguration struct {
 	// Placeholder for description of property snmp_configuration of obj type SystemConfiguration field type str  type object
 	SnmpConfiguration *SnmpConfiguration `json:"snmp_configuration,omitempty"`
 
-	// Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed. ssh -Q cipher provides the list of default ciphers supported.
+	// Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed.
 	SSHCiphers []string `json:"ssh_ciphers,omitempty"`
 
-	// Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed. ssh -Q mac provides the list of default HMACs supported.
+	// Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed.
 	SSHHmacs []string `json:"ssh_hmacs,omitempty"`
 
 	// url

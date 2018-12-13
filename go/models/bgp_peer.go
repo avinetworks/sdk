@@ -49,12 +49,12 @@ type BgpPeer struct {
 	// Peer Autonomous System ID. Allowed values are 1-4294967295.
 	RemoteAs *int32 `json:"remote_as,omitempty"`
 
-	// Shutdown the bgp peer. Field introduced in 17.2.4.
+	// Shutdown the BGP peer. Field introduced in 17.2.4.
 	Shutdown *bool `json:"shutdown,omitempty"`
 
 	// Subnet providing reachability for Peer.
 	Subnet *IPAddrPrefix `json:"subnet,omitempty"`
 
-	// Subnet v6 providing reachability for Peer. Field introduced in 18.1.1.
+	// IPv6 subnet providing reachability for Peer. Field introduced in 18.1.1.
 	Subnet6 *IPAddrPrefix `json:"subnet6,omitempty"`
 }

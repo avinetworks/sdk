@@ -93,6 +93,17 @@ func (client *WebhookClient) Update(obj *models.Webhook) (*models.Webhook, error
 	return robj, err
 }
 
+// Patch an existing Webhook object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Webhook
+// or it should be json compatible of form map[string]interface{}
+func (client *WebhookClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Webhook, error) {
+	var robj *models.Webhook
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Webhook object with a given UUID
 func (client *WebhookClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

@@ -93,6 +93,17 @@ func (client *SePropertiesClient) Update(obj *models.SeProperties) (*models.SePr
 	return robj, err
 }
 
+// Patch an existing SeProperties object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.SeProperties
+// or it should be json compatible of form map[string]interface{}
+func (client *SePropertiesClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SeProperties, error) {
+	var robj *models.SeProperties
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SeProperties object with a given UUID
 func (client *SePropertiesClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

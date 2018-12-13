@@ -46,7 +46,7 @@ type Vip struct {
 	// IPv6 Address of the Vip. Field introduced in 18.1.1.
 	Ip6Address *IPAddr `json:"ip6_address,omitempty"`
 
-	// IPv4 Address of the Vip. Field introduced in 17.1.1.
+	// IPv4 Address of the VIP. Field introduced in 17.1.1.
 	IPAddress *IPAddr `json:"ip_address,omitempty"`
 
 	// Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1.
