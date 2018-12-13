@@ -93,6 +93,17 @@ func (client *ClusterClient) Update(obj *models.Cluster) (*models.Cluster, error
 	return robj, err
 }
 
+// Patch an existing Cluster object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Cluster
+// or it should be json compatible of form map[string]interface{}
+func (client *ClusterClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Cluster, error) {
+	var robj *models.Cluster
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Cluster object with a given UUID
 func (client *ClusterClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

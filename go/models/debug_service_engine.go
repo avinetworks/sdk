@@ -11,8 +11,14 @@ type DebugServiceEngine struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.
+	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
+
 	// Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object
 	CPUShares []*DebugSeCPUShares `json:"cpu_shares,omitempty"`
+
+	// IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.
+	DebugIP *DebugIPAddr `json:"debug_ip,omitempty"`
 
 	// Params for SE fault injection. Field introduced in 18.1.2.
 	Fault *DebugSeFault `json:"fault,omitempty"`

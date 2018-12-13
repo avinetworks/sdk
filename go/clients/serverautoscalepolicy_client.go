@@ -93,6 +93,17 @@ func (client *ServerAutoScalePolicyClient) Update(obj *models.ServerAutoScalePol
 	return robj, err
 }
 
+// Patch an existing ServerAutoScalePolicy object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.ServerAutoScalePolicy
+// or it should be json compatible of form map[string]interface{}
+func (client *ServerAutoScalePolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ServerAutoScalePolicy, error) {
+	var robj *models.ServerAutoScalePolicy
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing ServerAutoScalePolicy object with a given UUID
 func (client *ServerAutoScalePolicyClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

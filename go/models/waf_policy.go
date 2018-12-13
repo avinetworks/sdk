@@ -11,6 +11,9 @@ type WafPolicy struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1.
+	AllowModeDelegation *bool `json:"allow_mode_delegation,omitempty"`
+
 	// Creator name. Field introduced in 17.2.4.
 	CreatedBy *string `json:"created_by,omitempty"`
 
@@ -26,7 +29,7 @@ type WafPolicy struct {
 	// Configure parameters for WAF learning. Field introduced in 18.1.2.
 	Learning *WafLearning `json:"learning,omitempty"`
 
-	// WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
+	// WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
 	// Required: true
 	Mode *string `json:"mode"`
 

@@ -67,7 +67,7 @@ type SeAgentProperties struct {
 	// Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean
 	IgnoreDockerMacChange *bool `json:"ignore_docker_mac_change,omitempty"`
 
-	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3.
+	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
 	// SDB pipeline flush interval. Allowed values are 1-10000.
@@ -79,8 +79,11 @@ type SeAgentProperties struct {
 	// SDB scan count. Allowed values are 1-1000.
 	SdbScanCount *int32 `json:"sdb_scan_count,omitempty"`
 
-	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3.
+	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
+
+	// Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.
+	StatesFlushInterval *int32 `json:"states_flush_interval,omitempty"`
 
 	// DHCP ip check interval. Allowed values are 1-1000.
 	VnicDhcpIPCheckInterval *int32 `json:"vnic_dhcp_ip_check_interval,omitempty"`
