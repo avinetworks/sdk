@@ -69,17 +69,16 @@ func main() {
 	for i := 0; i < AVI_API_ITERATIONS; i++ {
 		start := time.Now()
 		var res interface{}
-		var err error
 		if AVI_POOL_NAME != "" {
 			start = time.Now()
-			if err = avisess.GetObjectByName("pool", AVI_POOL_NAME, &res); err != nil {
+			if err := avisess.GetObjectByName("pool", AVI_POOL_NAME, &res); err != nil {
 				glog.Errorf("api/pool %s err: %s", AVI_POOL_NAME, err)
 			}
 			checkTime(start, "GetPoolByName")
 		}
 
 		start = time.Now()
-		if err = avisess.Get("api/pool", &res); err == nil {
+		if err := avisess.Get("api/pool", &res); err == nil {
 			resp := res.(map[string]interface{})
 			glog.Infof("count: %d", resp["count"])
 		} else {
@@ -89,7 +88,7 @@ func main() {
 		checkTime(start, "GetPoolList")
 
 		start = time.Now()
-		if err = avisess.Get("api/pool-inventory", &res); err == nil {
+		if err := avisess.Get("api/pool-inventory", &res); err == nil {
 			resp := res.(map[string]interface{})
 			glog.Infof("count: %d", resp["count"])
 		} else {
@@ -99,7 +98,7 @@ func main() {
 
 		if AVI_VIRTUALSERVICE_NAME != "" {
 			start = time.Now()
-			if err = avisess.GetObjectByName("virtualservice", AVI_VIRTUALSERVICE_NAME, &res); err != nil {
+			if err := avisess.GetObjectByName("virtualservice", AVI_VIRTUALSERVICE_NAME, &res); err != nil {
 				glog.Infof("vs %s: err %s", AVI_VIRTUALSERVICE_NAME, err)
 
 			}
@@ -107,7 +106,7 @@ func main() {
 		}
 
 		start = time.Now()
-		if err = avisess.Get("api/virtualservice", &res); err == nil {
+		if err := avisess.Get("api/virtualservice", &res); err == nil {
 			resp := res.(map[string]interface{})
 			glog.Infof("count: %d", resp["count"])
 		} else {
@@ -116,7 +115,7 @@ func main() {
 		checkTime(start, "GetVirtualServiceList")
 
 		start = time.Now()
-		if err = avisess.Get("api/virtualservice-inventory", &res); err == nil{
+		if err := avisess.Get("api/virtualservice-inventory", &res); err == nil{
 			resp := res.(map[string]interface{})
 			glog.Infof("count: %d", resp["count"])
 		} else {
