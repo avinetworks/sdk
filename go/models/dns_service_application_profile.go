@@ -31,12 +31,12 @@ type DNSServiceApplicationProfile struct {
 	// Drop or respond to client when the DNS service encounters an error processing a client query. By default, such a request is dropped without any response, or passed through to a passthrough pool, if configured. When set to respond, an appropriate response is sent to client, e.g. NXDOMAIN response for non-existent records, empty NOERROR response for unsupported queries, etc. Enum options - DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE.
 	ErrorResponse *string `json:"error_response,omitempty"`
 
-	// Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4.
+	// Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4.
 	NegativeCachingTTL *int32 `json:"negative_caching_ttl,omitempty"`
 
 	// Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- 'Return all IP addresses'.
 	NumDNSIP *int32 `json:"num_dns_ip,omitempty"`
 
-	// Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400.
+	// Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400.
 	TTL *int32 `json:"ttl,omitempty"`
 }

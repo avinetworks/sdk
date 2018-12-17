@@ -93,6 +93,17 @@ func (client *CloudRuntimeClient) Update(obj *models.CloudRuntime) (*models.Clou
 	return robj, err
 }
 
+// Patch an existing CloudRuntime object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.CloudRuntime
+// or it should be json compatible of form map[string]interface{}
+func (client *CloudRuntimeClient) Patch(uuid string, patch interface{}, patchOp string) (*models.CloudRuntime, error) {
+	var robj *models.CloudRuntime
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing CloudRuntime object with a given UUID
 func (client *CloudRuntimeClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

@@ -36,7 +36,7 @@ type IPAMDNSProviderProfile struct {
 	// Required: true
 	Name *string `json:"name"`
 
-	// Provider details for Oracle Cloud. Field introduced in 18.1.3.
+	// Provider details for Oracle Cloud. Field introduced in 18.2.1,18.1.3.
 	OciProfile *IPAMDNSOCIprofile `json:"oci_profile,omitempty"`
 
 	// Provider details if type is OpenStack.

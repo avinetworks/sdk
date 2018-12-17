@@ -7,7 +7,7 @@ package models
 // swagger:model VirtualServiceResource
 type VirtualServiceResource struct {
 
-	// Placeholder for description of property is_exclusive of obj type VirtualServiceResource field type str  type boolean
+	// This field is not being used. Field deprecated in 18.1.5, 18.2.1.
 	IsExclusive *bool `json:"is_exclusive,omitempty"`
 
 	// Number of memory.
@@ -22,9 +22,9 @@ type VirtualServiceResource struct {
 	// Number of num_vcpus.
 	NumVcpus *int32 `json:"num_vcpus,omitempty"`
 
-	// Placeholder for description of property scalein_primary of obj type VirtualServiceResource field type str  type boolean
+	// Indicates if the primary SE is being scaled in. This state is now derived from the Virtual Service runtime. Field deprecated in 18.1.5, 18.2.1.
 	ScaleinPrimary *bool `json:"scalein_primary,omitempty"`
 
-	// Unique object identifier of scalein_se.
+	// Indicates which SE is being scaled in. This information is now derived from the Virtual Service runtime. Field deprecated in 18.1.5, 18.2.1.
 	ScaleinSeUUID *string `json:"scalein_se_uuid,omitempty"`
 }

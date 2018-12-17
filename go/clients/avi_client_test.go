@@ -1,68 +1,41 @@
 package clients
 
 import (
-	"encoding/json"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
 	"github.com/golang/glog"
 	"os"
-	"os/exec"
 	"testing"
 )
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
 var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
+var AVI_USERNAME = os.Getenv("AVI_USERNAME")
+var AVI_TENANT = os.Getenv("AVI_TENANT")
 
-// Function that generates auth token from django
-// In future, this will become an internal API
-func getAuthToken() string {
-	output, err := exec.Command("/opt/avi/python/bin/portal/manage.py", "gen_auth_token", "--user", "admin", "--hours", "12").Output()
-	if err != nil {
-		glog.Infof("ERROR: %s", err)
-		return ""
+
+func TestMain(m *testing.M) {
+	// call flag.Parse() here if TestMain uses flags
+	if AVI_CONTROLLER == "" {
+		AVI_CONTROLLER = "localhost"
 	}
-	var jsonData interface{}
-	err = json.Unmarshal(output, &jsonData)
-	if err != nil {
-		glog.Infof("ERROR: %s", err)
-		return ""
+	if AVI_USERNAME == "" {
+		AVI_USERNAME = "admin"
 	}
-	jsonDataMap := jsonData.(map[string]interface{})
-	authToken := jsonDataMap["token"].(string)
-	return authToken
+	if AVI_TENANT == "" {
+		AVI_TENANT = "admin"
+	}
+	os.Exit(m.Run())
 }
 
 func getSessions(t *testing.T) []*session.AviSession {
 	/* Test username/password authentication */
-	credentialsSession, err := session.NewAviSession(AVI_CONTROLLER,
-		"admin", session.SetPassword(AVI_PASSWORD), session.SetInsecure)
+	credentialsSession, err := session.NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+		session.SetPassword(AVI_PASSWORD), session.SetTenant(AVI_TENANT), session.SetInsecure)
 	if err != nil {
 		t.Fatalf("Session Creation failed: %s", err)
 	}
-
-	if AVI_CONTROLLER != "localhost" {
-		return []*session.AviSession{credentialsSession}
-	}
-
-	/* Test token authentication */
-	authToken := getAuthToken()
-	authTokenSession, err := session.NewAviSession("localhost", "admin",
-		session.SetAuthToken(authToken), session.SetInsecure)
-
-	if err != nil {
-		t.Fatalf("Session Creation failed: %s", err)
-	}
-
-	/* Test token authentication with provided callback function */
-	authTokenSessionCallback, err := session.NewAviSession("localhost", "admin",
-		session.SetRefreshAuthTokenCallback(getAuthToken),
-		session.SetInsecure)
-
-	if err != nil {
-		t.Fatalf("Session Creation failed: %s", err)
-	}
-
-	return []*session.AviSession{credentialsSession, authTokenSession, authTokenSessionCallback}
+	return []*session.AviSession{credentialsSession}
 }
 
 // Create Pool
@@ -71,15 +44,14 @@ func getSessions(t *testing.T) []*session.AviSession {
 // Delete Pool
 func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 	pclient := NewPoolClient(aviSession)
-
 	avssn := pclient.GetAviSession()
-
 	if avssn == nil {
 		t.Fatalf("ERROR: AviSession Get Failed")
 	}
 
 	obj := models.Pool{}
-	obj.Name = "testpool"
+	pname := "testpool"
+	obj.Name = &pname
 	objp, err := pclient.Create(&obj)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
@@ -87,7 +59,9 @@ func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 	glog.Infof("res: %+v; err: %+v", *objp, err)
 
 	aserver := models.Server{}
-	aserver.IP = &models.IPAddr{Addr: "10.10.10.10", Type: "V4"}
+	addr := "10.10.10.10"
+	ipType := "V4"
+	aserver.IP = &models.IPAddr{Addr: &addr, Type: &ipType}
 	objp.Servers = append(objp.Servers, &aserver)
 
 	objp, err = pclient.Update(objp)
@@ -116,9 +90,10 @@ func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 		glog.Infof("res: %+v; err: %+v", *objp, err)
 	}
 
-	objp, err = pclient.Get(objp.UUID)
+	objp, err = pclient.Get(*objp.UUID)
 	glog.Infof("res: %+v; err: %+v", *objp, err)
-	objp.Enabled = false
+	enabled := false
+	objp.Enabled = &enabled
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
 	}
@@ -129,7 +104,7 @@ func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 		t.Fatalf("ERROR: %s", err)
 	}
 
-	err = pclient.Delete(objp.UUID)
+	err = pclient.Delete(*objp.UUID)
 	glog.Infof("err: %+v", err)
 	if err != nil {
 		t.Fatalf("ERROR: %s", err)
@@ -139,5 +114,56 @@ func testAviPoolClient(t *testing.T, aviSession *session.AviSession) {
 func TestAviPoolClient(t *testing.T) {
 	for _, session := range getSessions(t) {
 		testAviPoolClient(t, session)
+	}
+}
+
+
+func TestAviPoolPatch(t *testing.T) {
+	for _, aviSession := range getSessions(t) {
+		pclient := NewPoolClient(aviSession)
+		avssn := pclient.GetAviSession()
+		if avssn == nil {
+			t.Fatalf("ERROR: AviSession Get Failed")
+		}
+
+		obj := models.Pool{}
+		pname := "testpool-patch"
+		obj.Name = &pname
+		objp, err := pclient.Create(&obj)
+		if err != nil {
+			t.Fatalf("ERROR: %s", err)
+		}
+		glog.Infof("res: %+v; err: %+v", *objp, err)
+
+		//add server
+		server := models.Server{}
+		var patch = make(map[string]interface{})
+		ipaddr := models.IPAddr{}
+		addr := "10.90.164.222"
+		ipaddr.Addr = &addr
+		Type := "V4"
+		ipaddr.Type = &Type
+		server.IP = &ipaddr
+		var servers = make([]models.Server, 1)
+		servers[0] = server
+		patch["servers"] = servers
+		var patchedPool *models.Pool
+		patchedPool, err = pclient.Patch(*objp.UUID, patch, "add")
+
+		if len(patchedPool.Servers) == 0 {
+			t.Fatalf("Patching of Pool Failed server add %v", server)
+		}
+		patchedPool, err = pclient.Patch(*objp.UUID, patch, "delete")
+		if err != nil {
+			t.Fatalf("Patching failed err %v", err)
+		}
+		if len(patchedPool.Servers) > 0 {
+			t.Fatalf("Patching of Pool Failed server remove %v", server)
+		}
+		err = pclient.Delete(*patchedPool.UUID)
+		glog.Infof("err: %+v", err)
+		if err != nil {
+			t.Fatalf("ERROR: %s", err)
+		}
 	}
 }
