@@ -97,7 +97,7 @@ def find_and_add_objects(obj_dict, avi_config, new_config, depth):
     :param depth: Recursion depth to determine level in the vs reference tree
     """
     for key in obj_dict:
-        if (key.endswith('ref') and key not in ['cloud_ref', 'tenant_ref']) \
+        if (key.endswith('ref') and key not in ['cloud_ref', 'tenant_ref', 'se_group_ref']) \
                 or key == 'ssl_profile_name':
             if not obj_dict[key]:
                 continue

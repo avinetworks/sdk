@@ -23,7 +23,7 @@ type ControllerProperties struct {
 	//  Allowed values are 0-1440.
 	APIIDLETimeout *int32 `json:"api_idle_timeout,omitempty"`
 
-	// Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4.
+	// Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4, 18.2.1.
 	APIPerfLoggingThreshold *int32 `json:"api_perf_logging_threshold,omitempty"`
 
 	// Export configuration in appviewx compatibility mode. Field introduced in 17.1.1.
@@ -44,6 +44,9 @@ type ControllerProperties struct {
 	// Period for sessions cleanup job. Field introduced in 18.1.1.
 	CleanupSessionsTimeoutPeriod *int32 `json:"cleanup_sessions_timeout_period,omitempty"`
 
+	// Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14,18.1.5,18.2.1.
+	CloudReconcile *bool `json:"cloud_reconcile,omitempty"`
+
 	// Period for cluster ip gratuitous arp job.
 	ClusterIPGratuitousArpPeriod *int32 `json:"cluster_ip_gratuitous_arp_period,omitempty"`
 
@@ -61,6 +64,9 @@ type ControllerProperties struct {
 
 	// Number of dummy.
 	Dummy *int32 `json:"dummy,omitempty"`
+
+	// This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1.
+	EnableAPISharding *bool `json:"enable_api_sharding,omitempty"`
 
 	// Enable/Disable Memory Balancer. Field introduced in 17.2.8.
 	EnableMemoryBalancer *bool `json:"enable_memory_balancer,omitempty"`
@@ -180,6 +186,6 @@ type ControllerProperties struct {
 	// Number of warmstart_se_reconnect_wait_time.
 	WarmstartSeReconnectWaitTime *int32 `json:"warmstart_se_reconnect_wait_time,omitempty"`
 
-	// Timeout for warmstart VS resync. Field introduced in 18.1.4.
+	// Timeout for warmstart VS resync. Field introduced in 18.1.4, 18.2.1.
 	WarmstartVsResyncWaitTime *int32 `json:"warmstart_vs_resync_wait_time,omitempty"`
 }

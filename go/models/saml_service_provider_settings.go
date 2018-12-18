@@ -19,7 +19,7 @@ type SamlServiceProviderSettings struct {
 	// Service Provider Organization URL. Field introduced in 17.2.3.
 	OrgURL *string `json:"org_url,omitempty"`
 
-	// Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN. Field introduced in 17.2.3.
+	// Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3.
 	SamlEntityType *string `json:"saml_entity_type,omitempty"`
 
 	// Service Provider node information. Field introduced in 17.2.3.

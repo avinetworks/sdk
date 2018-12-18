@@ -93,6 +93,17 @@ func (client *RoleClient) Update(obj *models.Role) (*models.Role, error) {
 	return robj, err
 }
 
+// Patch an existing Role object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Role
+// or it should be json compatible of form map[string]interface{}
+func (client *RoleClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Role, error) {
+	var robj *models.Role
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Role object with a given UUID
 func (client *RoleClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

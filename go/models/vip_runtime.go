@@ -88,9 +88,9 @@ type VipRuntime struct {
 	// vip_id of VipRuntime.
 	VipID *string `json:"vip_id,omitempty"`
 
-	// VIP finished resyncing with resource manager. Field introduced in 18.1.4.
+	// VIP finished resyncing with resource manager. Field introduced in 18.1.4, 18.2.1.
 	WarmstartResyncDone *bool `json:"warmstart_resync_done,omitempty"`
 
-	// RPC sent to resource manager for warmstart resync. Field introduced in 18.1.4.
+	// RPC sent to resource manager for warmstart resync. Field introduced in 18.1.4, 18.2.1.
 	WarmstartResyncSent *bool `json:"warmstart_resync_sent,omitempty"`
 }

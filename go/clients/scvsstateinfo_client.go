@@ -93,6 +93,17 @@ func (client *SCVsStateInfoClient) Update(obj *models.SCVsStateInfo) (*models.SC
 	return robj, err
 }
 
+// Patch an existing SCVsStateInfo object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.SCVsStateInfo
+// or it should be json compatible of form map[string]interface{}
+func (client *SCVsStateInfoClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SCVsStateInfo, error) {
+	var robj *models.SCVsStateInfo
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing SCVsStateInfo object with a given UUID
 func (client *SCVsStateInfoClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

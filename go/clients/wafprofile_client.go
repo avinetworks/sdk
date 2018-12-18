@@ -93,6 +93,17 @@ func (client *WafProfileClient) Update(obj *models.WafProfile) (*models.WafProfi
 	return robj, err
 }
 
+// Patch an existing WafProfile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.WafProfile
+// or it should be json compatible of form map[string]interface{}
+func (client *WafProfileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.WafProfile, error) {
+	var robj *models.WafProfile
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing WafProfile object with a given UUID
 func (client *WafProfileClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

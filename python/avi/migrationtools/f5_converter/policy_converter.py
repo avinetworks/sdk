@@ -878,7 +878,7 @@ class PolicyConfigConv(object):
                             else:
                                 used_pools[pool_ref].add(policy_name)
                         else:
-                            pgobj = [ob for ob in avi_config.get['PoolGroup']
+                            pgobj = [ob for ob in avi_config['PoolGroup']
                                      if poolname == ob['name'] and
                                      conv_utils.get_name(obj[
                                      'tenant_ref']) == p_tenant]

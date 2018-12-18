@@ -93,6 +93,17 @@ func (client *VSDataScriptSetClient) Update(obj *models.VSDataScriptSet) (*model
 	return robj, err
 }
 
+// Patch an existing VSDataScriptSet object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.VSDataScriptSet
+// or it should be json compatible of form map[string]interface{}
+func (client *VSDataScriptSetClient) Patch(uuid string, patch interface{}, patchOp string) (*models.VSDataScriptSet, error) {
+	var robj *models.VSDataScriptSet
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing VSDataScriptSet object with a given UUID
 func (client *VSDataScriptSetClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

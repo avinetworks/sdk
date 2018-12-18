@@ -93,6 +93,17 @@ func (client *DebugControllerClient) Update(obj *models.DebugController) (*model
 	return robj, err
 }
 
+// Patch an existing DebugController object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.DebugController
+// or it should be json compatible of form map[string]interface{}
+func (client *DebugControllerClient) Patch(uuid string, patch interface{}, patchOp string) (*models.DebugController, error) {
+	var robj *models.DebugController
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing DebugController object with a given UUID
 func (client *DebugControllerClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))
