@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -16,7 +17,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -109,7 +109,6 @@ type AviSession struct {
 
 	// internal: reusable client
 	client *http.Client
-
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -185,7 +184,6 @@ func (avisess *AviSession) initiateSession() error {
 	if res != nil && reflect.TypeOf(res).Kind() != reflect.String {
 		glog.Infof("results: %v error %v", res.(map[string]interface{}), rerror)
 	}
-
 
 	return nil
 }
@@ -711,7 +709,7 @@ func debug(data []byte, err error) {
 //Checking for controller up state.
 //This is an infinite loop till the controller is in up state.
 //Return true when controller is in up state.
-func (avisess *AviSession) CheckControllerStatus() (bool, error){
+func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 	glog.Infof("Checking for controller up state ..!")
 	url := avisess.prefix + "login"
 
@@ -895,7 +893,6 @@ func (opts *ApiOptions) setResult(result interface{}) error {
 
 type ApiOptionsParams func(*ApiOptions) error
 
-
 func (avisess *AviSession) GetUri(obj string, options ...ApiOptionsParams) (string, error) {
 	opts := &ApiOptions{}
 	for _, opt := range options {
@@ -926,7 +923,6 @@ func (avisess *AviSession) GetUri(obj string, options ...ApiOptionsParams) (stri
 	}
 	return uri, nil
 }
-
 
 func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
 	opts := &ApiOptions{}

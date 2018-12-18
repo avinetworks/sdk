@@ -89,6 +89,7 @@ type AviClient struct {
 	SecureChannelAvailableLocalIps *SecureChannelAvailableLocalIpsClient
 	SecureChannelMapping           *SecureChannelMappingClient
 	SecureChannelToken             *SecureChannelTokenClient
+	SecurityPolicy                 *SecurityPolicyClient
 	ServerAutoScalePolicy          *ServerAutoScalePolicyClient
 	ServiceEngine                  *ServiceEngineClient
 	ServiceEngineGroup             *ServiceEngineGroupClient
@@ -190,6 +191,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.SecureChannelAvailableLocalIps = NewSecureChannelAvailableLocalIpsClient(aviSession)
 	aviClient.SecureChannelMapping = NewSecureChannelMappingClient(aviSession)
 	aviClient.SecureChannelToken = NewSecureChannelTokenClient(aviSession)
+	aviClient.SecurityPolicy = NewSecurityPolicyClient(aviSession)
 	aviClient.ServerAutoScalePolicy = NewServerAutoScalePolicyClient(aviSession)
 	aviClient.ServiceEngine = NewServiceEngineClient(aviSession)
 	aviClient.ServiceEngineGroup = NewServiceEngineGroupClient(aviSession)

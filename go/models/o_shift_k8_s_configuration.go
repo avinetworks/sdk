@@ -49,6 +49,9 @@ type OShiftK8SConfiguration struct {
 	// Disable SE creation.
 	DisableAutoSeCreation *bool `json:"disable_auto_se_creation,omitempty"`
 
+	// Host Docker server UNIX socket endpoint. Field introduced in 17.2.14, 18.1.5, 18.2.1.
+	DockerEndpoint *string `json:"docker_endpoint,omitempty"`
+
 	// Docker registry for ServiceEngine image.
 	DockerRegistrySe *DockerRegistry `json:"docker_registry_se,omitempty"`
 
@@ -61,11 +64,17 @@ type OShiftK8SConfiguration struct {
 	// Enable proxy ARP from Host interface for Front End  proxies.
 	FeproxyVipsEnableProxyArp *bool `json:"feproxy_vips_enable_proxy_arp,omitempty"`
 
-	// Optional fleet remote endpoint if fleet is used for SE deployment.
+	// Optional fleet remote endpoint if fleet is used for SE deployment. Field deprecated in 17.2.13,18.1.5,18.2.1.
 	FleetEndpoint *string `json:"fleet_endpoint,omitempty"`
 
 	// List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443.
 	HTTPContainerPorts []int64 `json:"http_container_ports,omitempty,omitempty"`
+
+	// Do not sync applications only for ingress that have these exclude attributes configured. Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	IngExcludeAttributes []*IngAttribute `json:"ing_exclude_attributes,omitempty"`
+
+	// Sync applications only for ingress objects that have these include attributes configured. Default values are populated for this field if not provided. The default value are  'attribute'  'kubernetes.io/ingress.class', 'value' 'avi'. Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	IngIncludeAttributes []*IngAttribute `json:"ing_include_attributes,omitempty"`
 
 	// Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools.
 	L4HealthMonitoring *bool `json:"l4_health_monitoring,omitempty"`
@@ -82,7 +91,7 @@ type OShiftK8SConfiguration struct {
 	// Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3.
 	NsIncludeAttributes []*MesosAttribute `json:"ns_include_attributes,omitempty"`
 
-	// Nuage Overlay SDN Controller information.
+	// Nuage Overlay SDN Controller information. Field deprecated in 17.2.13,18.1.5,18.2.1.
 	NuageController *NuageSDNController `json:"nuage_controller,omitempty"`
 
 	// Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3.
@@ -100,13 +109,22 @@ type OShiftK8SConfiguration struct {
 	// Exclude hosts with attributes for SE creation.
 	SeExcludeAttributes []*MesosAttribute `json:"se_exclude_attributes,omitempty"`
 
-	// OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3.
+	// OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3,18.2.1.
 	SeImagePullSecret *string `json:"se_image_pull_secret,omitempty"`
 
 	// Create SEs just on hosts with include attributes.
 	SeIncludeAttributes []*MesosAttribute `json:"se_include_attributes,omitempty"`
 
-	// New SE spawn rate per minute.
+	// Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1.
+	SePodTolerations []*PodToleration `json:"se_pod_tolerations,omitempty"`
+
+	// Restart ServiceEngines by batch on ServiceEngineGroup updates (cpu, memory..etc). Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	SeRestartBatchSize *int32 `json:"se_restart_batch_size,omitempty"`
+
+	// Restart ServiceEngines forcely if VirtualServices failed to migrate to another SE. Field introduced in 17.2.15, 18.1.5, 18.2.1.
+	SeRestartForce *bool `json:"se_restart_force,omitempty"`
+
+	// New SE spawn rate per minute. Field deprecated in 17.2.13,18.1.5,18.2.1.
 	SeSpawnRate *int32 `json:"se_spawn_rate,omitempty"`
 
 	// Host volume to be used as a disk for Avi SE, This is a disruptive change.
@@ -133,7 +151,7 @@ type OShiftK8SConfiguration struct {
 	// If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se.
 	UseControllerImage *bool `json:"use_controller_image,omitempty"`
 
-	// Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13.
+	// Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13, 18.1.4, 18.2.1.
 	UseResourceDefinitionAsSsot *bool `json:"use_resource_definition_as_ssot,omitempty"`
 
 	// Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled.

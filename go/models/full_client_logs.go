@@ -7,7 +7,7 @@ package models
 // swagger:model FullClientLogs
 type FullClientLogs struct {
 
-	// [DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4.
+	// [DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4, 18.2.1.
 	AllHeaders *bool `json:"all_headers,omitempty"`
 
 	// How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'.

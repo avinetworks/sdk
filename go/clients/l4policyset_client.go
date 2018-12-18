@@ -93,6 +93,17 @@ func (client *L4PolicySetClient) Update(obj *models.L4PolicySet) (*models.L4Poli
 	return robj, err
 }
 
+// Patch an existing L4PolicySet object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.L4PolicySet
+// or it should be json compatible of form map[string]interface{}
+func (client *L4PolicySetClient) Patch(uuid string, patch interface{}, patchOp string) (*models.L4PolicySet, error) {
+	var robj *models.L4PolicySet
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing L4PolicySet object with a given UUID
 func (client *L4PolicySetClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

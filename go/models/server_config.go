@@ -10,6 +10,9 @@ type ServerConfig struct {
 	// Placeholder for description of property def_port of obj type ServerConfig field type str  type boolean
 	DefPort *bool `json:"def_port,omitempty"`
 
+	// hostname of ServerConfig.
+	Hostname *string `json:"hostname,omitempty"`
+
 	// Placeholder for description of property ip_addr of obj type ServerConfig field type str  type object
 	// Required: true
 	IPAddr *IPAddr `json:"ip_addr"`

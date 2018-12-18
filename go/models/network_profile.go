@@ -11,7 +11,7 @@ type NetworkProfile struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// When enabled, Avi mirrors all TCP fastpath connections to standby.Applicable only in Legacy HA Mode. Field introduced in 18.1.3.
+	// When enabled, Avi mirrors all TCP fastpath connections to standby. Applicable only in Legacy HA Mode. Field introduced in 18.1.3,18.2.1.
 	ConnectionMirror *bool `json:"connection_mirror,omitempty"`
 
 	// User defined description for the object.

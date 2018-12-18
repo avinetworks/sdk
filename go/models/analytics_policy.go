@@ -7,7 +7,7 @@ package models
 // swagger:model AnalyticsPolicy
 type AnalyticsPolicy struct {
 
-	// Log all headers. Field introduced in 18.1.4.
+	// Log all headers. Field introduced in 18.1.4, 18.2.1.
 	AllHeaders *bool `json:"all_headers,omitempty"`
 
 	// Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.
@@ -19,7 +19,7 @@ type AnalyticsPolicy struct {
 	// Placeholder for description of property client_log_filters of obj type AnalyticsPolicy field type str  type object
 	ClientLogFilters []*ClientLogFilter `json:"client_log_filters,omitempty"`
 
-	// Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4.
+	// [DEPRECATED] Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Please use following fields in AnalytcsProfile to control this behavior instead. disable_vs_analytics (for VirtualServices metrics), disable_server_analytics (for Pool metrics) and client_log_config (for logs). Field deprecated in 18.2.1. Field introduced in 17.2.4.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object

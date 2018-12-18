@@ -11,6 +11,9 @@ type ServiceEngineGroup struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Enable accelerated networking option for Azure SE. Accelerated networking enables single root I/O virtualization (SR-IOV) to a SE VM. This improves networking performance. Field introduced in 17.2.14,18.1.5,18.2.1.
+	AcceleratedNetworking *bool `json:"accelerated_networking,omitempty"`
+
 	// Service Engines in active/standby mode for HA failover.
 	ActiveStandby *bool `json:"active_standby,omitempty"`
 
@@ -53,13 +56,16 @@ type ServiceEngineGroup struct {
 	// Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.
 	AutoRedistributeActiveStandbyLoad *bool `json:"auto_redistribute_active_standby_load,omitempty"`
 
+	// BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1.
+	BgpStateUpdateInterval *int32 `json:"bgp_state_update_interval,omitempty"`
+
 	// Excess Service Engine capacity provisioned for HA failover.
 	BufferSe *int32 `json:"buffer_se,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	// Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5.
+	// Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1.
 	ConfigDebugsOnAllCores *bool `json:"config_debugs_on_all_cores,omitempty"`
 
 	// Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.
@@ -86,7 +92,7 @@ type ServiceEngineGroup struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
-	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4.
+	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1.
 	DisableAviSecuritygroups *bool `json:"disable_avi_securitygroups,omitempty"`
 
 	// Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1.
@@ -124,6 +130,12 @@ type ServiceEngineGroup struct {
 
 	// Use Virtual MAC address for interfaces on which floating interface IPs are placed.
 	EnableVMAC *bool `json:"enable_vmac,omitempty"`
+
+	// End local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5, 18.2.1.
+	EphemeralPortrangeEnd *int32 `json:"ephemeral_portrange_end,omitempty"`
+
+	// Start local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5, 18.2.1.
+	EphemeralPortrangeStart *int32 `json:"ephemeral_portrange_start,omitempty"`
 
 	// Multiplier for extra config to support large VS/Pool config.
 	ExtraConfigMultiplier *float64 `json:"extra_config_multiplier,omitempty"`
@@ -197,6 +209,9 @@ type ServiceEngineGroup struct {
 	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.
 	MaxCPUUsage *int32 `json:"max_cpu_usage,omitempty"`
 
+	// Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.
+	MaxMemoryPerMempool *int32 `json:"max_memory_per_mempool,omitempty"`
+
 	// Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxPublicIpsPerLb *int32 `json:"max_public_ips_per_lb,omitempty"`
 
@@ -233,7 +248,7 @@ type ServiceEngineGroup struct {
 	// Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.
 	MinScaleoutPerVs *int32 `json:"min_scaleout_per_vs,omitempty"`
 
-	// Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3.
+	// Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3,18.2.1.
 	MinSe *int32 `json:"min_se,omitempty"`
 
 	// Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2.
@@ -252,7 +267,7 @@ type ServiceEngineGroup struct {
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
 
-	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3.
+	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	NumDispatcherCores *int32 `json:"num_dispatcher_cores,omitempty"`
 
 	// Number of changes in num flow cores sum to ignore.
@@ -294,10 +309,10 @@ type ServiceEngineGroup struct {
 	// Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 18.1.3.
 	SeDpdkPmd *int32 `json:"se_dpdk_pmd,omitempty"`
 
-	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4.
+	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeRetries *int32 `json:"se_flow_probe_retries,omitempty"`
 
-	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4.
+	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeTimer *int32 `json:"se_flow_probe_timer,omitempty"`
 
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
@@ -306,10 +321,10 @@ type ServiceEngineGroup struct {
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix *string `json:"se_name_prefix,omitempty"`
 
-	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3.
+	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitFrequency *int32 `json:"se_pcap_reinit_frequency,omitempty"`
 
-	// Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3.
+	// Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitThreshold *int32 `json:"se_pcap_reinit_threshold,omitempty"`
 
 	// TCP port on SE where echo service will be run. Field introduced in 17.2.2.
@@ -363,7 +378,7 @@ type ServiceEngineGroup struct {
 	// This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	SignificantLogThrottle *int32 `json:"significant_log_throttle,omitempty"`
 
-	// (Beta) Preprocess SSL Client Hello for SNI hostname extension. If set to True, this will apply SNI child's SSL protocol(s) if they are different from SNI Parent's allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3.
+	// (Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child's SSL protocol(s), if they are different from SNI Parent's allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3.
 	SslPreprocessSniHostname *bool `json:"ssl_preprocess_sni_hostname,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
@@ -400,7 +415,7 @@ type ServiceEngineGroup struct {
 	// Number of vcpus for each of the Service Engine virtual machines.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
 
-	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 18.1.2.
+	// When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.
 	VipAsg *VipAutoscaleGroup `json:"vip_asg,omitempty"`
 
 	// Ensure primary and secondary Service Engines are deployed on different physical hosts.
@@ -415,7 +430,13 @@ type ServiceEngineGroup struct {
 	// Time to wait for the scaled out SE to become ready before marking the scaleout done.
 	VsScaleoutTimeout *int32 `json:"vs_scaleout_timeout,omitempty"`
 
-	// During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4.
+	// Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1.
+	VsSeScaleoutAdditionalWaitTime *int32 `json:"vs_se_scaleout_additional_wait_time,omitempty"`
+
+	// Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-60. Field introduced in 18.1.5,18.2.1.
+	VsSeScaleoutReadyTimeout *int32 `json:"vs_se_scaleout_ready_timeout,omitempty"`
+
+	// During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1.
 	VsSwitchoverTimeout *int32 `json:"vs_switchover_timeout,omitempty"`
 
 	// Parameters to place Virtual Services on only a subset of the cores of an SE. Field introduced in 17.2.5.
