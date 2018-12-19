@@ -20,6 +20,6 @@ type NetworkProfileUnion struct {
 	// Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object
 	UDPFastPathProfile *UDPFastPathProfile `json:"udp_fast_path_profile,omitempty"`
 
-	// Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3.
+	// Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3, 18.2.1.
 	UDPProxyProfile *UDPProxyProfile `json:"udp_proxy_profile,omitempty"`
 }

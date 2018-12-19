@@ -93,6 +93,17 @@ func (client *NetworkClient) Update(obj *models.Network) (*models.Network, error
 	return robj, err
 }
 
+// Patch an existing Network object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.Network
+// or it should be json compatible of form map[string]interface{}
+func (client *NetworkClient) Patch(uuid string, patch interface{}, patchOp string) (*models.Network, error) {
+	var robj *models.Network
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing Network object with a given UUID
 func (client *NetworkClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

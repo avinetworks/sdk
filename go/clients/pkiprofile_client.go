@@ -93,6 +93,17 @@ func (client *PKIprofileClient) Update(obj *models.PKIprofile) (*models.PKIprofi
 	return robj, err
 }
 
+// Patch an existing PKIprofile object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.PKIprofile
+// or it should be json compatible of form map[string]interface{}
+func (client *PKIprofileClient) Patch(uuid string, patch interface{}, patchOp string) (*models.PKIprofile, error) {
+	var robj *models.PKIprofile
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing PKIprofile object with a given UUID
 func (client *PKIprofileClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

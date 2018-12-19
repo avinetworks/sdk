@@ -17,11 +17,14 @@ type CloudConnectorUser struct {
 	//  Field introduced in 17.2.1.
 	AzureUserpass *AzureUserPassCredentials `json:"azure_userpass,omitempty"`
 
+	// Credentials for Google Cloud Platform. Field introduced in 18.2.1.
+	GcpCredentials *GCPCredentials `json:"gcp_credentials,omitempty"`
+
 	// Name of the object.
 	// Required: true
 	Name *string `json:"name"`
 
-	// Credentials for Oracle Cloud Infrastructure. Field introduced in 18.1.3.
+	// Credentials for Oracle Cloud Infrastructure. Field introduced in 18.2.1,18.1.3.
 	OciCredentials *OCICredentials `json:"oci_credentials,omitempty"`
 
 	// password of CloudConnectorUser.

@@ -93,6 +93,17 @@ func (client *HardwareSecurityModuleGroupClient) Update(obj *models.HardwareSecu
 	return robj, err
 }
 
+// Patch an existing HardwareSecurityModuleGroup object specified using uuid
+// patchOp: Patch operation - add, replace, or delete
+// patch: Patch payload should be compatible with the models.HardwareSecurityModuleGroup
+// or it should be json compatible of form map[string]interface{}
+func (client *HardwareSecurityModuleGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.HardwareSecurityModuleGroup, error) {
+	var robj *models.HardwareSecurityModuleGroup
+	path := client.getAPIPath(uuid)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	return robj, err
+}
+
 // Delete an existing HardwareSecurityModuleGroup object with a given UUID
 func (client *HardwareSecurityModuleGroupClient) Delete(uuid string) error {
 	return client.aviSession.Delete(client.getAPIPath(uuid))

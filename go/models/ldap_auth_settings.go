@@ -7,7 +7,7 @@ package models
 // swagger:model LdapAuthSettings
 type LdapAuthSettings struct {
 
-	// The LDAP base DN.  For example, avinetworks,com would be DC=avinetworks,DC=com.
+	// The LDAP base DN.  For example, avinetworks.com would be DC=avinetworks,DC=com.
 	BaseDn *string `json:"base_dn,omitempty"`
 
 	// LDAP administrator credentials are used to search for users and group memberships.

@@ -17,6 +17,9 @@ type GslbPool struct {
 	// User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.
 	Description *string `json:"description,omitempty"`
 
+	// Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1.
+	Enabled *bool `json:"enabled,omitempty"`
+
 	// Select list of VIPs belonging to this GSLB service.
 	Members []*GslbPoolMember `json:"members,omitempty"`
 

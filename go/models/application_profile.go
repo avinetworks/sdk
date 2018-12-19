@@ -11,6 +11,12 @@ type ApplicationProfile struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Checksum of application profiles. Internally set by cloud connector. Field introduced in 17.2.14, 18.1.5, 18.2.1.
+	CloudConfigCksum *string `json:"cloud_config_cksum,omitempty"`
+
+	// Name of the application profile creator. Field introduced in 17.2.14, 18.1.5, 18.2.1.
+	CreatedBy *string `json:"created_by,omitempty"`
+
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
@@ -33,7 +39,7 @@ type ApplicationProfile struct {
 	// Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7.
 	PreserveClientPort *bool `json:"preserve_client_port,omitempty"`
 
-	// Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3.
+	// Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1.
 	SipServiceProfile *SipServiceApplicationProfile `json:"sip_service_profile,omitempty"`
 
 	// Specifies the TCP application proxy profile parameters.

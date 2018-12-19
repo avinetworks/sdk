@@ -60,7 +60,7 @@ type VirtualService struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
 	CloudType *string `json:"cloud_type,omitempty"`
 
 	// Rate limit the incoming connections to this virtual service.
@@ -153,6 +153,9 @@ type VirtualService struct {
 	// Microservice representing the virtual service. It is a reference to an object of type MicroService.
 	MicroserviceRef *string `json:"microservice_ref,omitempty"`
 
+	// Minimum number of UP pools to mark VS up. Field introduced in 18.2.1, 17.2.12.
+	MinPoolsUp *int32 `json:"min_pools_up,omitempty"`
+
 	// Name for the Virtual Service.
 	// Required: true
 	Name *string `json:"name"`
@@ -193,6 +196,9 @@ type VirtualService struct {
 	// The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. It is a reference to an object of type ServiceEngineGroup.
 	SeGroupRef *string `json:"se_group_ref,omitempty"`
 
+	// Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1.
+	SecurityPolicyRef *string `json:"security_policy_ref,omitempty"`
+
 	// Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile.
 	ServerNetworkProfileRef *string `json:"server_network_profile_ref,omitempty"`
 
@@ -223,6 +229,9 @@ type VirtualService struct {
 
 	// Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383.
 	SslSessCacheAvgSize *int32 `json:"ssl_sess_cache_avg_size,omitempty"`
+
+	// Client Authentication and Authorization Policy for the virtualservice. Field introduced in 18.2.1.
+	SsoPolicy *SSOPolicy `json:"sso_policy,omitempty"`
 
 	// List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses.
 	StaticDNSRecords []*DNSRecord `json:"static_dns_records,omitempty"`

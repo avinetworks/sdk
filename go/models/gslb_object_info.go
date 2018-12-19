@@ -7,7 +7,10 @@ package models
 // swagger:model GslbObjectInfo
 type GslbObjectInfo struct {
 
-	// Indicates the object uuid. . Field introduced in 17.1.1.
+	// Indicates the object uuid. Field introduced in 18.1.5, 18.2.1.
+	Obj *GslbObj `json:"obj,omitempty"`
+
+	// Indicates the object uuid. Field introduced in 17.1.1.
 	ObjectUUID *string `json:"object_uuid,omitempty"`
 
 	// Indicates the object type Gslb, GslbService or GslbGeoDbProfile. . Field introduced in 17.1.1.

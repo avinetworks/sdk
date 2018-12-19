@@ -20,7 +20,7 @@ type VlanInterface struct {
 	// Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean
 	IsMgmt *bool `json:"is_mgmt,omitempty"`
 
-	// Number of vlan_id.
+	// VLAN ID. Allowed values are 0-4096.
 	VlanID *int32 `json:"vlan_id,omitempty"`
 
 	// Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object
