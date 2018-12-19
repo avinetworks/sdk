@@ -1212,6 +1212,7 @@ class F5Util(MigrationUtil):
                                  app_prof_name]
                 app_prof_obj = app_prof_objs[0] if app_prof_objs else {}
                 app_prof_type = app_prof_obj['type'] if app_prof_obj else None
+
                 if self.is_pool_clone_criteria(
                         controller_version, app_prof_type, shared_apptype,
                         persist_type, pool_per_type, shared_appobj,
@@ -1236,7 +1237,10 @@ class F5Util(MigrationUtil):
                 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
                 shared_appobj.get('http_profile', {}).get(
                     'connection_multiplexing_enabled') != app_prof_obj.get(
-                    'http_profile', {}).get('connection_multiplexing_enabled')):
+                    'http_profile', {}).get('connection_multiplexing_enabled') or (
+                shared_appobj.get('http_profile', {}).get(
+                    'cache_config') != app_prof_obj.get(
+                    'http_profile', {}).get('cache_config'))):
             return True
         else:
             return False
