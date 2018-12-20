@@ -238,7 +238,7 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
-        self.session_cookie_name = ''
+        self.session_cookie_name = 'sessionid'
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
