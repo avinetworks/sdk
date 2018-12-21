@@ -6,29 +6,29 @@
                 "body": null,
                 "headers": {
                     "X-CSRFToken": [
-                        "UHtis5jeTvRrR44dUenSo20Y98G53KHa"
+                        "BLfZUegeqB1CnA4l3VWnpbKjjwKpFvAE"
                     ],
                     "X-Avi-Tenant": [
                         "admin"
                     ],
-                    "Cookie": [
-                        "[<Cookie csrftoken=UHtis5jeTvRrR44dUenSo20Y98G53KHa for 10.10.28.48/>, <Cookie avi-sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8 for 10.10.28.48/>]"
+                    "Referer": [
+                        "https://10.10.28.97"
                     ],
                     "timeout": [
                         "2"
                     ],
-                    "Referer": [
-                        "https://10.10.28.48"
+                    "Cookie": [
+                        "csrftoken=BLfZUegeqB1CnA4l3VWnpbKjjwKpFvAE; avi-sessionid=ic1mu7rx6i28osyfqwmvl992z5b2ck3n; csrftoken=PQehdBd31K1WzrozM4MtyXNr09t7rzdQ; sessionid=ck29xba2xdxthes9azhrr1hh2uriwyg2; avi-sessionid=ck29xba2xdxthes9azhrr1hh2uriwyg2"
                     ],
                     "X-Avi-Version": [
-                        "18.1.3"
+                        "18.2.1"
                     ],
                     "Content-Type": [
                         "application/json"
                     ]
                 },
                 "method": "GET",
-                "uri": "https://10.10.28.48/api/tenant?name=admin"
+                "uri": "https://10.10.28.97/api/tenant?name=admin"
             },
             "response": {
                 "status": {
@@ -49,8 +49,8 @@
                         "nosniff"
                     ],
                     "set-cookie": [
-                        "sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8; expires=Fri, 05-Oct-2018 12:40:23 GMT; httponly; Max-Age=86400; Path=/; secure",
-                        "avi-sessionid=gbpc66fgmp8j8d73fqbqqg0uzrf305b8; expires=Fri, 05-Oct-2018 12:40:23 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "sessionid=ck29xba2xdxthes9azhrr1hh2uriwyg2; expires=Fri, 21-Dec-2018 11:52:28 GMT; httponly; Max-Age=86400; Path=/; secure",
+                        "avi-sessionid=ck29xba2xdxthes9azhrr1hh2uriwyg2; expires=Fri, 21-Dec-2018 11:52:28 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ],
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -59,7 +59,7 @@
                         "Accept, Cookie"
                     ],
                     "avi_api_version": [
-                        "18.1.3"
+                        "18.2.1"
                     ],
                     "connection": [
                         "keep-alive"
@@ -71,7 +71,7 @@
                         "private, no-cache, must-revalidate"
                     ],
                     "date": [
-                        "Thu, 04 Oct 2018 12:40:23 GMT"
+                        "Thu, 20 Dec 2018 11:52:28 GMT"
                     ],
                     "x-frame-options": [
                         "SAMEORIGIN"
@@ -87,7 +87,7 @@
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"url\": \"https://10.10.28.48/api/tenant/admin\", \"local\": true, \"name\": \"admin\", \"uuid\": \"admin\"}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"url\": \"https://10.10.28.97/api/tenant/admin\", \"local\": true, \"name\": \"admin\", \"uuid\": \"admin\"}]}"
                 }
             }
         }
