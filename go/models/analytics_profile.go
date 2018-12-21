@@ -122,7 +122,7 @@ type AnalyticsProfile struct {
 	// Exclude server TCP reset from errors.  It is common for applications like MS Exchange.
 	ExcludeServerTCPResetAsError *bool `json:"exclude_server_tcp_reset_as_error,omitempty"`
 
-	// List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13, 18.2.1.
+	// List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13, 18.1.5, 18.2.1.
 	ExcludeSipErrorCodes []int64 `json:"exclude_sip_error_codes,omitempty,omitempty"`
 
 	// Exclude 'server unanswered syns' from the list of errors.
@@ -231,7 +231,7 @@ type AnalyticsProfile struct {
 	// Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10, 18.1.2.
 	SensitiveLogProfile *SensitiveLogProfile `json:"sensitive_log_profile,omitempty"`
 
-	// Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13, 18.2.1.
+	// Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.5, 18.2.1.
 	SipLogDepth *int32 `json:"sip_log_depth,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
