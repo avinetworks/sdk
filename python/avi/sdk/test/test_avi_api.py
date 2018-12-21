@@ -613,5 +613,27 @@ class Test(unittest.TestCase):
         res = api3.get('pool')
         assert res.status_code in [200, 204]
 
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_context_sharing(self):
+        api1 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          lazy_authentication=False)
+
+        context_api1 = api1.get_context()
+
+        api1.clear_cached_sessions()
+
+        api2 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          session_id= context_api1['session_id'],
+                          csrftoken=context_api1['csrftoken'],
+                          lazy_authentication=True)
+        api2.get('pool')
+        assert api2.get_context() == context_api1
+
+
 if __name__ == "__main__":
     unittest.main()

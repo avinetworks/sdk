@@ -286,7 +286,13 @@ class AviAnsibleConverter(object):
                 "Create or Update %s: %s" % (obj_type, obj['name'])
                 if 'name' in obj else obj_type)
             task_id = 'avi_%s' % obj_type.lower()
-            ansible_dict['tasks'].append({'name': task_name, task_id: task})
+            tags = [obj['name'], obj_type.lower()]
+            if obj_type.lower() == 'virtualservice':
+                # add entry for traffic_enabled.
+                traffic_enabled = obj.get('traffic_enabled', True)
+                task['traffic_enabled'] = "{{ avi_traffic_enabled | default(%s)}}" % traffic_enabled
+            #task.update({'tags': tags})
+            ansible_dict['tasks'].append({'name': task_name, 'tags': tags, task_id: task})
         return ansible_dict
 
     def build_yaml_objects(self, obj_type, objs, ansible_dict):
@@ -335,7 +341,7 @@ class AviAnsibleConverter(object):
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
             for k, v in task.iteritems():
-                if k == 'name':
+                if k == 'name' or 'tags':
                     continue
                 v['state'] = 'absent'
                 v['api_version'] = meta['version']['Version']
