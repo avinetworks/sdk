@@ -95,7 +95,7 @@ class ApiUtils(object):
         return rsp.json()
 
     def get_healthscore(
-            self, entity_type, entity_name, entity_uuid='',
+            self, entity_type, entity_name='', entity_uuid='',
             step=300, limit=1, start='', stop='', tenant='admin',
             tenant_uuid='', **query_options):
         """
