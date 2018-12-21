@@ -52,12 +52,15 @@ class ConfigPatch(object):
         :param param_name:
         :return:
         """
-        qp = avi_ref.split('?')[1]
-        params = qp.split('&')
-        for param in params:
-            k, v = param.split('=')
-            if k == param_name:
-                return v
+        try:
+          qp = avi_ref.split('?')[1]
+          params = qp.split('&')
+          for param in params:
+              k, v = param.split('=')
+              if k == param_name:
+                  return v
+        except:
+           return ""
         log.error('returning param %s %s', avi_ref, param_name)
         raise Exception('Could not find param %s in ref %s' %
                         (param_name, avi_ref))
