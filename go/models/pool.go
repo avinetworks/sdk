@@ -53,6 +53,9 @@ type Pool struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
+	// Connnection pool properties. Field introduced in 18.2.1.
+	ConnPoolProperties *ConnPoolProperties `json:"conn_pool_properties,omitempty"`
+
 	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
 	ConnectionRampDuration *int32 `json:"connection_ramp_duration,omitempty"`
 
