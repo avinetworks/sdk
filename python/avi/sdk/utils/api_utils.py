@@ -73,9 +73,6 @@ class ApiUtils(object):
         :query_options: All the query_options are sent as the query parameters
             for the API call as per the Avi API Guide.
         """
-        if entity_name and not entity_uuid:
-            resp = self.api.get_object_by_name(entity_type, entity_name)
-            entity_uuid = self.api.get_obj_uuid(resp)
         if entity_type == 'controller':
             path = 'analytics/metrics/%s' % entity_type
         else:
