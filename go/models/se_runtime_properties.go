@@ -298,13 +298,13 @@ type SeRuntimeProperties struct {
 	// Number of upstream_connpool_conn_idle_thresh_tmo.
 	UpstreamConnpoolConnIDLEThreshTmo *int32 `json:"upstream_connpool_conn_idle_thresh_tmo,omitempty"`
 
-	// Number of upstream_connpool_conn_idle_tmo.
+	// Deprecated. Field deprecated in 18.2.1.
 	UpstreamConnpoolConnIDLETmo *int32 `json:"upstream_connpool_conn_idle_tmo,omitempty"`
 
-	// Number of upstream_connpool_conn_life_tmo.
+	// Deprecated. Field deprecated in 18.2.1.
 	UpstreamConnpoolConnLifeTmo *int32 `json:"upstream_connpool_conn_life_tmo,omitempty"`
 
-	// Number of upstream_connpool_conn_max_reuse.
+	// Deprecated. Field deprecated in 18.2.1.
 	UpstreamConnpoolConnMaxReuse *int32 `json:"upstream_connpool_conn_max_reuse,omitempty"`
 
 	// Number of upstream_connpool_core_max_cache.
@@ -313,7 +313,7 @@ type SeRuntimeProperties struct {
 	// Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean
 	UpstreamConnpoolEnable *bool `json:"upstream_connpool_enable,omitempty"`
 
-	// Number of upstream_connpool_server_max_cache.
+	// Deprecated. Field deprecated in 18.2.1.
 	UpstreamConnpoolServerMaxCache *int32 `json:"upstream_connpool_server_max_cache,omitempty"`
 
 	// Number of upstream_connpool_strategy.
