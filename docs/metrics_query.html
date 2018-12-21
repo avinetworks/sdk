@@ -876,6 +876,13 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> False </td>
 </tr>
 <tr>
+<td> l4_client.avg_dos_req_custom_rl_drop </td>
+<td> DoS attack: Requests dropped due to Custom rate limit </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l4_client.avg_dos_req_hdr_rl_drop </td>
 <td> DoS attack: Requests dropped due to Header rate limit </td>
 <td> PER_SECOND </td>
@@ -1886,6 +1893,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> l7_client.avg_params_per_req </td>
+<td> Average number of HTTP request parameters per request, taking into account only requests with parameters. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> l7_client.avg_post_bytes </td>
 <td> Average size of HTTP POST request. </td>
 <td> BYTES </td>
@@ -2719,6 +2733,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> False </td>
 </tr>
 <tr>
+<td> l7_client.sum_reqs_with_params </td>
+<td> Total number of HTTP requests containing at least one parameter. </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l7_client.sum_resp_1xx </td>
 <td> Total number of HTTP 1XX responses </td>
 <td> METRIC_COUNT </td>
@@ -3435,6 +3456,13 @@ ServiceEngine Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> se_stats.avg_shared_memory_usage </td>
+<td> Shared memory usage as percentage of total available shared memory </td>
+<td> PERCENT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> se_stats.avg_ssl_session_cache </td>
 <td> ssl session cache </td>
 <td> METRIC_COUNT </td>
@@ -3576,9 +3604,23 @@ Controller Metrics
 <td> True </td>
 </tr>
 <tr>
+<td> controller_stats.avg_disk_read_bytes </td>
+<td> Average number of bytes per second read from disk. </td>
+<td> BYTES_PER_SECOND </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
 <td> controller_stats.avg_disk_usage </td>
 <td> Average disk usage </td>
 <td> PERCENT </td>
+<td> False </td>
+<td> True </td>
+</tr>
+<tr>
+<td> controller_stats.avg_disk_write_bytes </td>
+<td> Average number of bytes per second written to disk. </td>
+<td> BYTES_PER_SECOND </td>
 <td> False </td>
 <td> True </td>
 </tr>
@@ -4762,6 +4804,20 @@ VSERVER DNS metrics
 <td> True </td>
 </tr>
 <tr>
+<td> dns_client.avg_req_type_any </td>
+<td> Rate of DNS Requests of type ANY per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_dnskey </td>
+<td> Rate of DNS Requests of type DNSKEY per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> dns_client.avg_req_type_mx </td>
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
@@ -4783,8 +4839,22 @@ VSERVER DNS metrics
 <td> True </td>
 </tr>
 <tr>
+<td> dns_client.avg_req_type_rrsig </td>
+<td> Rate of DNS Requests of type RRSIG per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> dns_client.avg_req_type_srv </td>
 <td> Rate of DNS Requests of type SRV per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_req_type_txt </td>
+<td> Rate of DNS Requests of type TXT per second </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>
@@ -4834,6 +4904,13 @@ VSERVER DNS metrics
 <tr>
 <td> dns_client.avg_resp_type_srv </td>
 <td> Rate of DNS Requests of type SRV per second </td>
+<td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> dns_client.avg_resp_unsolicited </td>
+<td> Rate of DNS Response without a request per second </td>
 <td> PER_SECOND </td>
 <td> Y </td>
 <td> True </td>

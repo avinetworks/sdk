@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure sslprofile <key> - show sslprofile <key> ```  Examples - **sslprofile_example**: To create a standard security SSL profile   ```json     {u'accepted_ciphers': u'aECDSA:aECDH:kEDH:kRSA', u'accepted_versions': [{u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1'}, {u'type': u'SSL_VERSION_TLS1_1'}, {u'type': u'SSL_VERSION_TLS1_2'}], u'name': u'Standard'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -264,7 +264,7 @@ font-style: italic;
     "type" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789,
+    "_last_modified" : "aeiou",
     "tags" : [ {
       "type" : "aeiou",
       "value" : "aeiou"
@@ -344,7 +344,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -495,7 +495,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -586,7 +586,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -677,7 +677,7 @@ font-style: italic;
   "type" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "tags" : [ {
     "type" : "aeiou",
     "value" : "aeiou"
@@ -729,7 +729,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SSLProfile">SSLProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">accepted_ciphers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ciphers suites represented as defined by U(http //www.openssl.org/docs/apps/ciphers.html). </div>
 <div class="param">accepted_versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLVersion">array[SSLVersion]</a></span> Set of versions accepted by the server. </div>
 <div class="param">cipher_enums (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Enum options - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_RC4_128_SHA. </div>
@@ -740,7 +740,7 @@ font-style: italic;
 <div class="param">prefer_client_cipher_ordering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Prefer the SSL cipher ordering presented by the client during the SSL handshake over the one specified in the SSL Profile. </div>
 <div class="param">send_close_notify (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send &#39;close notify&#39; alert message for a clean shutdown of the SSL connection. </div>
 <div class="param">ssl_rating (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLRating">SSLRating</a></span> Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object </div>
-<div class="param">ssl_session_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time before an SSL session expires. format: int32</div>
+<div class="param">ssl_session_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time in seconds before an SSL session expires. format: int32</div>
 <div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#Tag">array[Tag]</a></span> Placeholder for description of property tags of obj type SSLProfile field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSL Profile Type. Enum options - SSL_PROFILE_TYPE_APPLICATION, SSL_PROFILE_TYPE_SYSTEM. Field introduced in 17.2.8. </div>
