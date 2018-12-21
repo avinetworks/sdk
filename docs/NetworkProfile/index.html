@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,7 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "connection_mirror" : true,
     "profile" : {
       "tcp_proxy_profile" : {
         "nagles_algorithm" : true,
@@ -268,12 +269,15 @@ font-style: italic;
         "aggressive_congestion_avoidance" : true,
         "idle_connection_type" : "aeiou",
         "reorder_threshold" : 123,
+        "reassembly_queue_size" : 123,
         "cc_algo" : "aeiou",
         "receive_window" : 123,
         "max_syn_retransmissions" : 123,
         "ignore_time_wait" : true,
         "max_segment_size" : 123,
-        "use_interface_mtu" : true
+        "congestion_recovery_scaling_factor" : 123,
+        "use_interface_mtu" : true,
+        "slow_start_scaling_factor" : 123
       },
       "udp_fast_path_profile" : {
         "per_pkt_loadbalance" : true,
@@ -294,7 +298,7 @@ font-style: italic;
     "description" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -349,6 +353,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "connection_mirror" : true,
   "profile" : {
     "tcp_proxy_profile" : {
       "nagles_algorithm" : true,
@@ -361,12 +366,15 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
-      "use_interface_mtu" : true
+      "congestion_recovery_scaling_factor" : 123,
+      "use_interface_mtu" : true,
+      "slow_start_scaling_factor" : 123
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
@@ -387,7 +395,7 @@ font-style: italic;
   "description" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -513,6 +521,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "connection_mirror" : true,
   "profile" : {
     "tcp_proxy_profile" : {
       "nagles_algorithm" : true,
@@ -525,12 +534,15 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
-      "use_interface_mtu" : true
+      "congestion_recovery_scaling_factor" : 123,
+      "use_interface_mtu" : true,
+      "slow_start_scaling_factor" : 123
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
@@ -551,7 +563,7 @@ font-style: italic;
   "description" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -617,6 +629,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "connection_mirror" : true,
   "profile" : {
     "tcp_proxy_profile" : {
       "nagles_algorithm" : true,
@@ -629,12 +642,15 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
-      "use_interface_mtu" : true
+      "congestion_recovery_scaling_factor" : 123,
+      "use_interface_mtu" : true,
+      "slow_start_scaling_factor" : 123
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
@@ -655,7 +671,7 @@ font-style: italic;
   "description" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -721,6 +737,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "connection_mirror" : true,
   "profile" : {
     "tcp_proxy_profile" : {
       "nagles_algorithm" : true,
@@ -733,12 +750,15 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
       "ignore_time_wait" : true,
       "max_segment_size" : 123,
-      "use_interface_mtu" : true
+      "congestion_recovery_scaling_factor" : 123,
+      "use_interface_mtu" : true,
+      "slow_start_scaling_factor" : 123
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
@@ -759,7 +779,7 @@ font-style: italic;
   "description" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -849,7 +869,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="NetworkProfile">NetworkProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">connection_mirror (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, Avi mirrors all TCP fastpath connections to standby. Applicable only in Legacy HA Mode. Field introduced in 18.1.3,18.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the network profile. </div>
 <div class="param">profile </div><div class="param-desc"><span class="param-type"><a href="#NetworkProfileUnion">NetworkProfileUnion</a></span> Placeholder for description of property profile of obj type NetworkProfile field type str  type object </div>
@@ -872,7 +893,7 @@ font-style: italic;
 <div class="param">tcp_proxy_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#TCPProxyProfile">TCPProxyProfile</a></span> Placeholder for description of property tcp_proxy_profile of obj type NetworkProfileUnion field type str  type object </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Configure one of either proxy or fast path profiles. Enum options - PROTOCOL_TYPE_TCP_PROXY, PROTOCOL_TYPE_TCP_FAST_PATH, PROTOCOL_TYPE_UDP_FAST_PATH, PROTOCOL_TYPE_UDP_PROXY. </div>
 <div class="param">udp_fast_path_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#UDPFastPathProfile">UDPFastPathProfile</a></span> Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object </div>
-<div class="param">udp_proxy_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#UDPProxyProfile">UDPProxyProfile</a></span>  Field introduced in 17.2.8. </div>
+<div class="param">udp_proxy_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#UDPProxyProfile">UDPProxyProfile</a></span> Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -888,6 +909,7 @@ font-style: italic;
       <div class="param">aggressive_congestion_avoidance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Controls the our congestion window to send, normally it&#39;s 1 mss, If this option is turned on, we use 10 msses. </div>
 <div class="param">automatic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dynamically pick the relevant parameters for connections. </div>
 <div class="param">cc_algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the congestion control algorithm we use. Enum options - CC_ALGO_NEW_RENO, CC_ALGO_CUBIC, CC_ALGO_HTCP. </div>
+<div class="param">congestion_recovery_scaling_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">idle_connection_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">idle_connection_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE. </div>
 <div class="param">ignore_time_wait (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> A new SYN is accepted from the same 4-tuple even if there is already a connection in TIME_WAIT state.  This is equivalent of setting Time Wait Delay to 0. </div>
@@ -897,8 +919,10 @@ font-style: italic;
 <div class="param">max_syn_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8. format: int32</div>
 <div class="param">min_rexmt_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. format: int32</div>
 <div class="param">nagles_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH. </div>
+<div class="param">reassembly_queue_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of TCP segments that can be queued for reassembly. Configuring this to 0 disables the feature and provides unlimited queuing. Field introduced in 17.2.13, 18.1.4, 18.2.1. format: int32</div>
 <div class="param">receive_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the receive window. Allowed values are 32-65536. format: int32</div>
 <div class="param">reorder_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7. format: int32</div>
+<div class="param">slow_start_scaling_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">time_wait_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - &#39;immediate&#39;. format: int32</div>
 <div class="param">use_interface_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use the interface MTU to calculate the TCP max segment size. </div>
     </div>  <!-- field-items -->
@@ -914,7 +938,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="UDPProxyProfile">UDPProxyProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8. format: int32</div>
+      <div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8, 18.1.3, 18.2.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
