@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -283,12 +283,14 @@ font-style: italic;
     "buffer_se" : 123,
     "max_public_ips_per_lb" : 123,
     "mem_reserve" : true,
+    "vs_se_scaleout_additional_wait_time" : 123,
     "openstack_mgmt_network_name" : "aeiou",
     "active_standby" : true,
     "additional_config_memory" : 123,
     "service_ip6_subnets" : [ "" ],
     "max_scaleout_per_vs" : 123,
     "min_scaleout_per_vs" : 123,
+    "se_use_dpdk" : 123,
     "self_se_election" : true,
     "enable_multi_lb" : true,
     "os_reserved_memory" : 123,
@@ -304,13 +306,16 @@ font-style: italic;
     "disk_per_se" : 123,
     "memory_for_config_update" : 123,
     "host_attribute_key" : "aeiou",
+    "accelerated_networking" : true,
     "license_tier" : "aeiou",
+    "bgp_state_update_interval" : 123,
     "host_attribute_value" : "aeiou",
     "instance_flavor" : "aeiou",
     "disable_se_memory_check" : true,
     "se_probe_port" : 123,
     "vcpus_per_se" : 123,
     "non_significant_log_throttle" : 123,
+    "se_flow_probe_timer" : 123,
     "allow_burst" : true,
     "log_disksz" : 123,
     "se_tunnel_udp_port" : 123,
@@ -319,6 +324,7 @@ font-style: italic;
     "ha_mode" : "aeiou",
     "se_sb_dedicated_core" : true,
     "disable_tso" : true,
+    "se_dpdk_pmd" : 123,
     "se_vs_hb_max_pkts_in_batch" : 123,
     "vss_placement_enabled" : true,
     "distribute_load_active_standby" : true,
@@ -328,6 +334,7 @@ font-style: italic;
     "flow_table_new_syn_max_entries" : 123,
     "waf_learning_memory" : 123,
     "auto_rebalance_criteria" : [ "aeiou" ],
+    "max_memory_per_mempool" : 123,
     "n_log_streaming_threads" : 123,
     "url" : "aeiou",
     "vs_scalein_timeout_for_upgrade" : 123,
@@ -339,6 +346,7 @@ font-style: italic;
     "advertise_backend_networks" : true,
     "num_flow_cores_sum_changes_to_ignore" : 123,
     "openstack_mgmt_network_uuid" : "aeiou",
+    "num_dispatcher_cores" : 123,
     "per_app" : true,
     "vcenter_folder" : "aeiou",
     "algo" : "aeiou",
@@ -351,10 +359,12 @@ font-style: italic;
     "openstack_availability_zones" : [ "aeiou" ],
     "se_tunnel_mode" : 123,
     "shm_minimum_config_memory" : 123,
+    "config_debugs_on_all_cores" : true,
     "se_vs_hb_max_vs_in_pkt" : 123,
     "least_load_core_selection" : true,
     "hardwaresecuritymodulegroup_ref" : "aeiou",
     "uuid" : "aeiou",
+    "vs_se_scaleout_ready_timeout" : 123,
     "enable_hsm_priming" : true,
     "se_udp_encap_ipc" : 123,
     "udf_log_throttle" : 123,
@@ -365,16 +375,21 @@ font-style: italic;
     },
     "custom_securitygroups_mgmt" : [ "aeiou" ],
     "disable_gro" : true,
+    "min_se" : 123,
     "openstack_availability_zone" : "aeiou",
     "se_thread_multiplier" : 123,
     "waf_mempool_size" : 123,
+    "ephemeral_portrange_start" : 123,
+    "se_flow_probe_retries" : 123,
     "se_remote_punt_udp_port" : 123,
+    "disable_avi_securitygroups" : true,
     "max_cpu_usage" : 123,
     "dedicated_dispatcher_core" : true,
     "hm_on_standby" : true,
     "auto_redistribute_active_standby_load" : true,
     "name" : "aeiou",
     "custom_securitygroups_data" : [ "aeiou" ],
+    "vs_switchover_timeout" : 123,
     "free_list_size" : 123,
     "min_cpu_usage" : 123,
     "iptables" : [ {
@@ -401,12 +416,13 @@ font-style: italic;
     } ],
     "enable_routing" : true,
     "cpu_socket_affinity" : true,
+    "se_pcap_reinit_threshold" : 123,
     "aggressive_failure_detection" : true,
     "floating_intf_ip_se_2" : [ "" ],
     "max_vs_per_se" : 123,
     "description" : "aeiou",
     "waf_learning_interval" : 123,
-    "_last_modified" : 123456789,
+    "_last_modified" : "aeiou",
     "significant_log_throttle" : 123,
     "se_tracert_port_range" : "",
     "async_ssl_threads" : 123,
@@ -416,11 +432,13 @@ font-style: italic;
     },
     "archive_shm_limit" : 123,
     "hypervisor" : "aeiou",
+    "se_pcap_reinit_frequency" : 123,
     "service_ip_subnets" : [ "" ],
     "memory_per_se" : 123,
     "auto_rebalance_capacity_per_se" : [ "" ],
     "disable_csum_offloads" : true,
     "cpu_reserve" : true,
+    "ssl_preprocess_sni_hostname" : true,
     "vs_host_redundancy" : true,
     "placement_mode" : "aeiou",
     "distribute_queues" : true,
@@ -430,17 +448,20 @@ font-style: italic;
       "configuration" : {
         "zones" : [ {
           "availability_zone" : "aeiou",
-          "subnet_uuids" : [ "aeiou" ]
+          "subnet_uuid" : "aeiou",
+          "fip_capable" : true
         } ]
       },
       "policy" : {
         "suspend" : true,
         "min_size" : 123,
+        "dns_cooldown" : 123,
         "max_size" : 123
       }
     },
     "mgmt_network_ref" : "aeiou",
     "async_ssl" : true,
+    "ephemeral_portrange_end" : 123,
     "vcenter_datastores" : [ {
       "datastore_name" : "aeiou"
     } ],
@@ -527,12 +548,14 @@ font-style: italic;
   "buffer_se" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "vs_se_scaleout_additional_wait_time" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
   "self_se_election" : true,
   "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
@@ -548,13 +571,16 @@ font-style: italic;
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
+  "accelerated_networking" : true,
   "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
   "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
@@ -563,6 +589,7 @@ font-style: italic;
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
+  "se_dpdk_pmd" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "vss_placement_enabled" : true,
   "distribute_load_active_standby" : true,
@@ -572,6 +599,7 @@ font-style: italic;
   "flow_table_new_syn_max_entries" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
@@ -583,6 +611,7 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -595,10 +624,12 @@ font-style: italic;
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "shm_minimum_config_memory" : 123,
+  "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "vs_se_scaleout_ready_timeout" : 123,
   "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
@@ -609,16 +640,21 @@ font-style: italic;
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
+  "ephemeral_portrange_start" : 123,
+  "se_flow_probe_retries" : 123,
   "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
   "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
@@ -645,12 +681,13 @@ font-style: italic;
   } ],
   "enable_routing" : true,
   "cpu_socket_affinity" : true,
+  "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "waf_learning_interval" : 123,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -660,11 +697,13 @@ font-style: italic;
   },
   "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
+  "se_pcap_reinit_frequency" : 123,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
+  "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
@@ -674,17 +713,20 @@ font-style: italic;
     "configuration" : {
       "zones" : [ {
         "availability_zone" : "aeiou",
-        "subnet_uuids" : [ "aeiou" ]
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
       } ]
     },
     "policy" : {
       "suspend" : true,
       "min_size" : 123,
+      "dns_cooldown" : 123,
       "max_size" : 123
     }
   },
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
+  "ephemeral_portrange_end" : 123,
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
   } ],
@@ -900,12 +942,14 @@ font-style: italic;
   "buffer_se" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "vs_se_scaleout_additional_wait_time" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
   "self_se_election" : true,
   "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
@@ -921,13 +965,16 @@ font-style: italic;
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
+  "accelerated_networking" : true,
   "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
   "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
@@ -936,6 +983,7 @@ font-style: italic;
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
+  "se_dpdk_pmd" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "vss_placement_enabled" : true,
   "distribute_load_active_standby" : true,
@@ -945,6 +993,7 @@ font-style: italic;
   "flow_table_new_syn_max_entries" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
@@ -956,6 +1005,7 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -968,10 +1018,12 @@ font-style: italic;
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "shm_minimum_config_memory" : 123,
+  "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "vs_se_scaleout_ready_timeout" : 123,
   "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
@@ -982,16 +1034,21 @@ font-style: italic;
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
+  "ephemeral_portrange_start" : 123,
+  "se_flow_probe_retries" : 123,
   "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
   "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
@@ -1018,12 +1075,13 @@ font-style: italic;
   } ],
   "enable_routing" : true,
   "cpu_socket_affinity" : true,
+  "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "waf_learning_interval" : 123,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -1033,11 +1091,13 @@ font-style: italic;
   },
   "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
+  "se_pcap_reinit_frequency" : 123,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
+  "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
@@ -1047,17 +1107,20 @@ font-style: italic;
     "configuration" : {
       "zones" : [ {
         "availability_zone" : "aeiou",
-        "subnet_uuids" : [ "aeiou" ]
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
       } ]
     },
     "policy" : {
       "suspend" : true,
       "min_size" : 123,
+      "dns_cooldown" : 123,
       "max_size" : 123
     }
   },
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
+  "ephemeral_portrange_end" : 123,
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
   } ],
@@ -1155,12 +1218,14 @@ font-style: italic;
   "buffer_se" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "vs_se_scaleout_additional_wait_time" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
   "self_se_election" : true,
   "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
@@ -1176,13 +1241,16 @@ font-style: italic;
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
+  "accelerated_networking" : true,
   "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
   "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
@@ -1191,6 +1259,7 @@ font-style: italic;
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
+  "se_dpdk_pmd" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "vss_placement_enabled" : true,
   "distribute_load_active_standby" : true,
@@ -1200,6 +1269,7 @@ font-style: italic;
   "flow_table_new_syn_max_entries" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
@@ -1211,6 +1281,7 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -1223,10 +1294,12 @@ font-style: italic;
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "shm_minimum_config_memory" : 123,
+  "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "vs_se_scaleout_ready_timeout" : 123,
   "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
@@ -1237,16 +1310,21 @@ font-style: italic;
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
+  "ephemeral_portrange_start" : 123,
+  "se_flow_probe_retries" : 123,
   "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
   "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
@@ -1273,12 +1351,13 @@ font-style: italic;
   } ],
   "enable_routing" : true,
   "cpu_socket_affinity" : true,
+  "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "waf_learning_interval" : 123,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -1288,11 +1367,13 @@ font-style: italic;
   },
   "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
+  "se_pcap_reinit_frequency" : 123,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
+  "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
@@ -1302,17 +1383,20 @@ font-style: italic;
     "configuration" : {
       "zones" : [ {
         "availability_zone" : "aeiou",
-        "subnet_uuids" : [ "aeiou" ]
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
       } ]
     },
     "policy" : {
       "suspend" : true,
       "min_size" : 123,
+      "dns_cooldown" : 123,
       "max_size" : 123
     }
   },
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
+  "ephemeral_portrange_end" : 123,
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
   } ],
@@ -1410,12 +1494,14 @@ font-style: italic;
   "buffer_se" : 123,
   "max_public_ips_per_lb" : 123,
   "mem_reserve" : true,
+  "vs_se_scaleout_additional_wait_time" : 123,
   "openstack_mgmt_network_name" : "aeiou",
   "active_standby" : true,
   "additional_config_memory" : 123,
   "service_ip6_subnets" : [ "" ],
   "max_scaleout_per_vs" : 123,
   "min_scaleout_per_vs" : 123,
+  "se_use_dpdk" : 123,
   "self_se_election" : true,
   "enable_multi_lb" : true,
   "os_reserved_memory" : 123,
@@ -1431,13 +1517,16 @@ font-style: italic;
   "disk_per_se" : 123,
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
+  "accelerated_networking" : true,
   "license_tier" : "aeiou",
+  "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
   "instance_flavor" : "aeiou",
   "disable_se_memory_check" : true,
   "se_probe_port" : 123,
   "vcpus_per_se" : 123,
   "non_significant_log_throttle" : 123,
+  "se_flow_probe_timer" : 123,
   "allow_burst" : true,
   "log_disksz" : 123,
   "se_tunnel_udp_port" : 123,
@@ -1446,6 +1535,7 @@ font-style: italic;
   "ha_mode" : "aeiou",
   "se_sb_dedicated_core" : true,
   "disable_tso" : true,
+  "se_dpdk_pmd" : 123,
   "se_vs_hb_max_pkts_in_batch" : 123,
   "vss_placement_enabled" : true,
   "distribute_load_active_standby" : true,
@@ -1455,6 +1545,7 @@ font-style: italic;
   "flow_table_new_syn_max_entries" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
+  "max_memory_per_mempool" : 123,
   "n_log_streaming_threads" : 123,
   "url" : "aeiou",
   "vs_scalein_timeout_for_upgrade" : 123,
@@ -1466,6 +1557,7 @@ font-style: italic;
   "advertise_backend_networks" : true,
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
+  "num_dispatcher_cores" : 123,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -1478,10 +1570,12 @@ font-style: italic;
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
   "shm_minimum_config_memory" : 123,
+  "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
   "least_load_core_selection" : true,
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
+  "vs_se_scaleout_ready_timeout" : 123,
   "enable_hsm_priming" : true,
   "se_udp_encap_ipc" : 123,
   "udf_log_throttle" : 123,
@@ -1492,16 +1586,21 @@ font-style: italic;
   },
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_thread_multiplier" : 123,
   "waf_mempool_size" : 123,
+  "ephemeral_portrange_start" : 123,
+  "se_flow_probe_retries" : 123,
   "se_remote_punt_udp_port" : 123,
+  "disable_avi_securitygroups" : true,
   "max_cpu_usage" : 123,
   "dedicated_dispatcher_core" : true,
   "hm_on_standby" : true,
   "auto_redistribute_active_standby_load" : true,
   "name" : "aeiou",
   "custom_securitygroups_data" : [ "aeiou" ],
+  "vs_switchover_timeout" : 123,
   "free_list_size" : 123,
   "min_cpu_usage" : 123,
   "iptables" : [ {
@@ -1528,12 +1627,13 @@ font-style: italic;
   } ],
   "enable_routing" : true,
   "cpu_socket_affinity" : true,
+  "se_pcap_reinit_threshold" : 123,
   "aggressive_failure_detection" : true,
   "floating_intf_ip_se_2" : [ "" ],
   "max_vs_per_se" : 123,
   "description" : "aeiou",
   "waf_learning_interval" : 123,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "significant_log_throttle" : 123,
   "se_tracert_port_range" : "",
   "async_ssl_threads" : 123,
@@ -1543,11 +1643,13 @@ font-style: italic;
   },
   "archive_shm_limit" : 123,
   "hypervisor" : "aeiou",
+  "se_pcap_reinit_frequency" : 123,
   "service_ip_subnets" : [ "" ],
   "memory_per_se" : 123,
   "auto_rebalance_capacity_per_se" : [ "" ],
   "disable_csum_offloads" : true,
   "cpu_reserve" : true,
+  "ssl_preprocess_sni_hostname" : true,
   "vs_host_redundancy" : true,
   "placement_mode" : "aeiou",
   "distribute_queues" : true,
@@ -1557,17 +1659,20 @@ font-style: italic;
     "configuration" : {
       "zones" : [ {
         "availability_zone" : "aeiou",
-        "subnet_uuids" : [ "aeiou" ]
+        "subnet_uuid" : "aeiou",
+        "fip_capable" : true
       } ]
     },
     "policy" : {
       "suspend" : true,
       "min_size" : 123,
+      "dns_cooldown" : 123,
       "max_size" : 123
     }
   },
   "mgmt_network_ref" : "aeiou",
   "async_ssl" : true,
+  "ephemeral_portrange_end" : 123,
   "vcenter_datastores" : [ {
     "datastore_name" : "aeiou"
   } ],
@@ -1745,7 +1850,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP. </div>
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP. </div>
 <div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
 <div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
     </div>  <!-- field-items -->
@@ -1811,7 +1916,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ServiceEngineGroup">ServiceEngineGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">accelerated_networking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable accelerated networking option for Azure SE. Accelerated networking enables single root I/O virtualization (SR-IOV) to a SE VM. This improves networking performance. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Service Engines in active/standby mode for HA failover. </div>
 <div class="param">additional_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. format: int32</div>
 <div class="param">advertise_backend_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature. </div>
@@ -1826,8 +1932,10 @@ font-style: italic;
 <div class="param">auto_rebalance_criteria (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Set of criteria for SE Auto Rebalance. Enum options - SE_AUTO_REBALANCE_CPU, SE_AUTO_REBALANCE_PPS, SE_AUTO_REBALANCE_MBPS, SE_AUTO_REBALANCE_OPEN_CONNS, SE_AUTO_REBALANCE_CPS. Field introduced in 17.2.3. </div>
 <div class="param">auto_rebalance_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency of rebalance, if &#39;Auto rebalance&#39; is enabled. format: int32</div>
 <div class="param">auto_redistribute_active_standby_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API. </div>
+<div class="param">bgp_state_update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1. format: int32</div>
 <div class="param">buffer_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Excess Service Engine capacity provisioned for HA failover. format: int32</div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">config_debugs_on_all_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. format: int32</div>
 <div class="param">cpu_reserve (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">cpu_socket_affinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud. </div>
@@ -1836,6 +1944,7 @@ font-style: italic;
 <div class="param">custom_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomTag">array[CustomTag]</a></span> Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name. </div>
 <div class="param">dedicated_dispatcher_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don&#39;t use it for TCP/IP and SSL functions. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">disable_avi_securitygroups (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1. </div>
 <div class="param">disable_csum_offloads (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1. </div>
 <div class="param">disable_gro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1. </div>
 <div class="param">disable_se_memory_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, disable the config memory check done in service engine. Field introduced in 18.1.2. </div>
@@ -1848,12 +1957,14 @@ font-style: italic;
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing for this ServiceEngineGroup . </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of SE. Field introduced in 17.1.1. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. </div>
+<div class="param">ephemeral_portrange_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> End local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5, 18.2.1. format: int32</div>
+<div class="param">ephemeral_portrange_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Start local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5, 18.2.1. format: int32</div>
 <div class="param">extra_config_multiplier (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Multiplier for extra config to support large VS/Pool config. format: double</div>
 <div class="param">extra_shared_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1. format: int32</div>
 <div class="param">floating_intf_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. </div>
 <div class="param">floating_intf_ip_se_2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. </div>
 <div class="param">flow_table_new_syn_max_entries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5. format: int32</div>
-<div class="param">free_list_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of entries in the free list. Field introduced in 17.2.10. format: int32</div>
+<div class="param">free_list_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of entries in the free list. Field introduced in 17.2.10, 18.1.2. format: int32</div>
 <div class="param">ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
 <div class="param">hardwaresecuritymodulegroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type HardwareSecurityModuleGroup. </div>
 <div class="param">heap_minimum_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. format: int32</div>
@@ -1869,9 +1980,10 @@ font-style: italic;
 <div class="param">iptables (optional)</div><div class="param-desc"><span class="param-type"><a href="#IptableRuleSet">array[IptableRuleSet]</a></span> Iptable Rules. </div>
 <div class="param">least_load_core_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select core with least load for new flow. </div>
 <div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
-<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
+<div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
 <div class="param">log_disksz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. format: int32</div>
 <div class="param">max_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. format: int32</div>
+<div class="param">max_memory_per_mempool (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5. format: int32</div>
 <div class="param">max_public_ips_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">max_rules_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">max_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
@@ -1884,11 +1996,13 @@ font-style: italic;
 <div class="param">mgmt_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Management subnet to use for Avi Service Engines. </div>
 <div class="param">min_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE falls below the minimum threshold, Virtual Services hosted on the SE may be consolidated onto other underutilized SEs. After consolidation, unused Service Engines may then be eligible for deletion. . Allowed values are 20-60. format: int32</div>
 <div class="param">min_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
+<div class="param">min_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3,18.2.1. format: int32</div>
 <div class="param">minimum_connection_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2. format: int32</div>
 <div class="param">minimum_required_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Required available config memory to apply any configuration. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1. format: int32</div>
-<div class="param">n_log_streaming_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of threads to use for log streaming. Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">n_log_streaming_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">non_significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">num_dispatcher_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">num_flow_cores_sum_changes_to_ignore (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of changes in num flow cores sum to ignore. format: int32</div>
 <div class="param">openstack_availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field deprecated in 17.1.1. </div>
 <div class="param">openstack_availability_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Field introduced in 17.1.1. </div>
@@ -1901,17 +2015,23 @@ font-style: italic;
 <div class="param">se_bandwidth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5. </div>
 <div class="param">se_deprovision_delay (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration to preserve unused Service Engine virtual machines before deleting them. If traffic to a Virtual Service were to spike up abruptly, this SE would still be available to be utilized again rather than creating a new SE. If this value is set to 0, Controller will never delete any SEs and administrator has to manually cleanup unused SEs. Allowed values are 0-525600. format: int32</div>
 <div class="param">se_dos_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DosThresholdProfile">DosThresholdProfile</a></span> Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object </div>
+<div class="param">se_dpdk_pmd (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don&#39;t use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 18.1.3. format: int32</div>
+<div class="param">se_flow_probe_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1. format: int32</div>
+<div class="param">se_flow_probe_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1. format: int32</div>
 <div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix to use for virtual machine name of Service Engines. </div>
+<div class="param">se_pcap_reinit_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- &#39;disable&#39;. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
+<div class="param">se_pcap_reinit_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">se_probe_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP port on SE where echo service will be run. Field introduced in 17.2.2. format: int32</div>
 <div class="param">se_remote_punt_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_sb_dedicated_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3. </div>
 <div class="param">se_sb_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3. format: int32</div>
 <div class="param">se_thread_multiplier (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Multiplier for SE threads based on vCPU. Allowed values are 1-10. format: int32</div>
 <div class="param">se_tracert_port_range (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortRange">PortRange</a></span> Traceroute port range. Field introduced in 17.2.8. </div>
-<div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1. format: int32</div>
+<div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_tunnel_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3. format: int32</div>
-<div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don&#39;t use UDP encap. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_udp_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. Allowed values are 0-1. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don&#39;t use DPDK. Allowed values are 0-2. Field introduced in 18.1.3. format: int32</div>
 <div class="param">se_vs_hb_max_pkts_in_batch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_vs_hb_max_vs_in_pkt (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1. format: int32</div>
 <div class="param">self_se_election (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2. </div>
@@ -1919,6 +2039,7 @@ font-style: italic;
 <div class="param">service_ip_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Subnets assigned to the SE group. Required for VS group placement. Field introduced in 17.1.1. </div>
 <div class="param">shm_minimum_config_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum required shared memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2. format: int32</div>
 <div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
+<div class="param">ssl_preprocess_sni_hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (Beta) Preprocess SSL Client Hello for SNI hostname extension.If set to True, this will apply SNI child&#39;s SSL protocol(s), if they are different from SNI Parent&#39;s allowed SSL protocol(s). Field introduced in 17.2.12, 18.1.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">udf_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
@@ -1930,11 +2051,14 @@ font-style: italic;
 <div class="param">vcenter_folder (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Folder to place all the Service Engine virtual machines in vCenter. </div>
 <div class="param">vcenter_hosts (optional)</div><div class="param-desc"><span class="param-type"><a href="#VcenterHosts">VcenterHosts</a></span> Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object </div>
 <div class="param">vcpus_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vcpus for each of the Service Engine virtual machines. format: int32</div>
-<div class="param">vip_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleGroup">VipAutoscaleGroup</a></span> When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 18.1.2. </div>
+<div class="param">vip_asg (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleGroup">VipAutoscaleGroup</a></span> When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2. </div>
 <div class="param">vs_host_redundancy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ensure primary and secondary Service Engines are deployed on different physical hosts. </div>
 <div class="param">vs_scalein_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled in SE to drain existing flows before marking the scalein done. format: int32</div>
 <div class="param">vs_scalein_timeout_for_upgrade (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> During SE upgrade, Time to wait for the scaled-in SE to drain existing flows before marking the scalein done. format: int32</div>
 <div class="param">vs_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done. format: int32</div>
+<div class="param">vs_se_scaleout_additional_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1. format: int32</div>
+<div class="param">vs_se_scaleout_ready_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-60. Field introduced in 18.1.5,18.2.1. format: int32</div>
+<div class="param">vs_switchover_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13,18.1.4,18.2.1. format: int32</div>
 <div class="param">vss_placement (optional)</div><div class="param-desc"><span class="param-type"><a href="#VssPlacement">VssPlacement</a></span> Parameters to place Virtual Services on only a subset of the cores of an SE. Field introduced in 17.2.5. </div>
 <div class="param">vss_placement_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1. </div>
 <div class="param">waf_learning_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2. format: int32</div>
@@ -1973,29 +2097,31 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VipAutoscaleConfiguration">VipAutoscaleConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleZones">array[VipAutoscaleZones]</a></span> This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 18.1.2. </div>
+      <div class="param">zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleZones">array[VipAutoscaleZones]</a></span> This is the list of AZ+Subnet in which Vips will be spawned. Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="VipAutoscaleGroup">VipAutoscaleGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleConfiguration">VipAutoscaleConfiguration</a></span>  Field introduced in 18.1.2. </div>
-<div class="param">policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscalePolicy">VipAutoscalePolicy</a></span>  Field introduced in 18.1.2. </div>
+      <div class="param">configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscaleConfiguration">VipAutoscaleConfiguration</a></span>  Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipAutoscalePolicy">VipAutoscalePolicy</a></span>  Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="VipAutoscalePolicy">VipAutoscalePolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum size of the group. Field introduced in 18.1.2. format: int32</div>
-<div class="param">min_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum size of the group. Field introduced in 18.1.2. format: int32</div>
-<div class="param">suspend (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set, scaling is suspended. Field introduced in 18.1.2. </div>
+      <div class="param">dns_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time, in seconds, when a Vip is withdrawn before a scaling activity starts. Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum size of the group. Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">min_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum size of the group. Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">suspend (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set, scaling is suspended. Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="VipAutoscaleZones">VipAutoscaleZones</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 18.1.2. </div>
-<div class="param">subnet_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  Field introduced in 18.1.2. </div>
+      <div class="param">availability_zone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Availability zone associated with the subnet. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">fip_capable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Determines if the subnet is capable of hosting publicly accessible IP. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the subnet for new IP address allocation. Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
