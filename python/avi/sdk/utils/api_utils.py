@@ -73,10 +73,13 @@ class ApiUtils(object):
         :query_options: All the query_options are sent as the query parameters
             for the API call as per the Avi API Guide.
         """
-        if entity_name and not entity_uuid:
-            resp = self.api.get_object_by_name(entity_type, entity_name)
-            entity_uuid = self.api.get_obj_uuid(resp)
-        path = 'analytics/metrics/%s/%s' % (entity_type, entity_uuid)
+        if entity_type == 'controller':
+            path = 'analytics/metrics/%s' % entity_type
+        else:
+            if entity_name and not entity_uuid:
+                resp = self.api.get_object_by_name(entity_type, entity_name)
+                entity_uuid = self.api.get_obj_uuid(resp)
+            path = 'analytics/metrics/%s/%s' % (entity_type, entity_uuid)
         if type(metric_id) == list:
             metric_id = ','.join(metric_id)
         if metric_id:
@@ -92,7 +95,7 @@ class ApiUtils(object):
         return rsp.json()
 
     def get_healthscore(
-            self, entity_type, entity_name, entity_uuid='',
+            self, entity_type, entity_name='', entity_uuid='',
             step=300, limit=1, start='', stop='', tenant='admin',
             tenant_uuid='', **query_options):
         """
