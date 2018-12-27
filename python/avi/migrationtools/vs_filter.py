@@ -39,7 +39,7 @@ def filter_for_vs(avi_config, vs_names):
     new_config['META'] = avi_config['META']
     new_config['VirtualService'] = []
     virtual_services = vs_names.split(',')
-
+    add_all_intermediate_certs(avi_config, new_config)
     for vs_name in virtual_services:
         vs = [vs for vs in avi_config['VirtualService']
               if vs['name'] == vs_name]
@@ -51,6 +51,15 @@ def filter_for_vs(avi_config, vs_names):
         print '%s(VirtualService)' % vs_name
         find_and_add_objects(vs, avi_config, new_config, depth=0)
     return new_config
+
+
+def add_all_intermediate_certs(avi_config, new_config):
+    if 'SSLKeyAndCertificate' not in avi_config:
+        return
+    ca_certs = [cert for cert in avi_config['SSLKeyAndCertificate']
+                if cert['type'] == 'SSL_CERTIFICATE_TYPE_CA']
+    if ca_certs:
+        new_config['SSLKeyAndCertificate'] = ca_certs
 
 
 def search_obj(entity, name, new_config, avi_config, depth):
@@ -97,8 +106,9 @@ def find_and_add_objects(obj_dict, avi_config, new_config, depth):
     :param depth: Recursion depth to determine level in the vs reference tree
     """
     for key in obj_dict:
-        if (key.endswith('ref') and key not in ['cloud_ref', 'tenant_ref', 'se_group_ref']) \
-                or key == 'ssl_profile_name':
+        if (key.endswith('ref') and key not in
+            ['cloud_ref', 'tenant_ref', 'se_group_ref']
+        ) or key == 'ssl_profile_name':
             if not obj_dict[key]:
                 continue
             entity, name = get_name_and_entity(obj_dict[key])
