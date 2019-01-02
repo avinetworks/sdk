@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"math"
@@ -18,6 +17,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -106,7 +107,7 @@ type AviSession struct {
 	prefix string
 
 	// internal: re-usable transport to enable connection reuse
-	tr *http.Transport
+	transport *http.Transport
 
 	// internal: reusable client
 	client *http.Client
@@ -140,11 +141,15 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		avisess.version = DEFAULT_AVI_VERSION
 	}
 
-	// create transport object
-	avisess.tr = &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	// create default transport object
+	if avisess.transport == nil {
+		avisess.transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
 	}
-	avisess.client = &http.Client{Transport: avisess.tr}
+
+	// attach transport object to client
+	avisess.client = &http.Client{Transport: avisess.transport}
 	err := avisess.initiateSession()
 	return avisess, err
 }
@@ -252,6 +257,18 @@ func (avisess *AviSession) setTenant(tenant string) error {
 // SetInsecure - Use this for NewAviSession option argument for allowing insecure connection to AviController
 func SetInsecure(avisess *AviSession) error {
 	avisess.insecure = true
+	return nil
+}
+
+// SetTransport - Use this for NewAviSession option argument for configuring http transport to enable connection
+func SetTransport(transport *http.Transport) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.setTransport(transport)
+	}
+}
+
+func (avisess *AviSession) setTransport(transport *http.Transport) error {
+	avisess.transport = transport
 	return nil
 }
 
