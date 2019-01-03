@@ -190,6 +190,24 @@ class MigrationUtil(object):
         parsed = urlparse.urlparse(url)
         return urlparse.parse_qs(parsed.query)['name'][0]
 
+    def get_tenant_from_ref(self, url):
+        """
+        This function defines that return tenant from url
+        :param url:
+        :return: Name of tenant
+        """
+        parsed = urlparse.urlparse(url)
+        return urlparse.parse_qs(parsed.query).get('tenant', ['admin'])[0]
+
+    def get_obj_type_from_ref(self, url):
+        type = url.split('?')[0]
+        if type.endswith('/'):
+            return type.split('/')[-2]
+        else:
+            return type.split('/')[-1]
+
+
+
     def get_object_ref(self, object_name, object_type, tenant='admin',
                        cloud_name='Default-Cloud', prefix=None):
         """
@@ -578,5 +596,3 @@ class MigrationUtil(object):
         if new_name:
             self.find_and_add_ne(found_obj, avi_config, avi_graph, new_name,
                                  depth)
-
-
