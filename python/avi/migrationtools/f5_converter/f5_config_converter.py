@@ -145,9 +145,10 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         # Validating the aviconfig after generation
         conv_utils.validation(avi_config_dict)
         # Clone cross tenant references
+        LOG.info("Started cross tenant object cloning")
         test_clone_obj = CloneObjects(avi_config_dict)
         test_clone_obj.find_clone_all()
-        LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
+        LOG.info("Finished cross tenant object cloning.")
 
     except:
         update_count('warning')

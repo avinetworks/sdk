@@ -53,7 +53,7 @@ class CloneObjects():
         if cloned_obj_ref in self.cloned:
             return None, cloned_obj_ref
         otenant = conv_utils.get_name(object['tenant_ref'])
-        LOG.info("Clonned object %s name %s from tenant %s to tenant %s.", obj_type, cloned_obj['name'], otenant,
+        LOG.info("Cloned object %s with name %s from tenant %s to tenant %s.", obj_type, cloned_obj['name'], otenant,
                  cross_tenant)
         return cloned_obj, cloned_obj_ref
 
