@@ -9,12 +9,12 @@ path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
                 'sslkeyandcertificate': 'SSLKeyAndCertificate', 'pool': 'Pool',
                 'networkprofile': 'NetworkProfile', 'pkiprofile': 'PKIProfile',
                 'stringgroup': 'StringGroup', 'vrfcontext': 'VrfContext',
-                'applicationprofile': 'ApplicationProfile', 'vsdatascriptset':
-                    'VSDataScriptSet', 'networksecuritypolicy':
-                    'NetworkSecurityPolicy', 'applicationpersistenceprofile':
-                    'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels', 'vsvip': 'VsVip',
-                    'ipaddrgroup': 'IpAddrGroup'
+                'applicationprofile': 'ApplicationProfile',
+                'vsdatascriptset': 'VSDataScriptSet', 'networksecuritypolicy':
+                'NetworkSecurityPolicy', 'applicationpersistenceprofile':
+                'ApplicationPersistenceProfile',
+                'prioritylabels': 'PriorityLabels', 'vsvip': 'VsVip',
+                'ipaddrgroup': 'IpAddrGroup', 'virtualservice': 'VirtualService'
                 }
 
 
