@@ -163,7 +163,7 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(
             profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
-            f5_config, tenant)
+            f5_config)
 
         if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool)> 1):
             needs_review = True

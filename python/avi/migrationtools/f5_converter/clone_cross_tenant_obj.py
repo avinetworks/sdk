@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import json
 import copy
 import logging
 from avi.migrationtools.f5_converter.conversion_util import F5Util
@@ -12,9 +11,15 @@ conv_utils = F5Util()
 
 obj_not_supported = ('vrfcontext', 'cloud', 'tenant',)
 
-admin_obj_not_visible_to_all = ('sslkeyandcertificate', 'sslprofile',
-                                'healthmonitor', 'networkprofile',)
+# These objects are present in admin tenant and visible across the other tenants.
+admin_obj_visible_to_all = ('poolgroup', 'httppolicyset', 'pool',
+                            'pkiprofile', 'stringgroup',
+                            'vrfcontext', 'applicationprofile',
+                            'vsdatascriptset', 'networksecuritypolicy',
+                            'applicationpersistenceprofile', 'prioritylabels',
+                            'vsvip', 'ipaddrgroup', 'virtualservice',)
 
+# Iterate over these objects and clone cross tenant objects.
 avi_object_types = (
     'VirtualService', 'L4PolicySet', 'VSDataScriptSet', 'HTTPPolicySet',
     'DnsPolicy', 'ServiceEngine', 'PoolGroup', 'ServiceEngineGroup', 'VsVip',
@@ -32,8 +37,8 @@ avi_object_types = (
     'ApplicationPersistenceProfile', 'GslbGeoDbProfile',
     'PoolGroupDeploymentPolicy', 'Gslb', 'HardwareSecurityModuleGroup',
     'SnmpTrapProfile', 'CloudConnectorUser', 'AuthProfile', 'Role',
-    'CloudProperties', 'ControllerProperties', 'Tenant', 'UserAccountProfile',
-    'SeProperties')
+    'CloudProperties', 'ControllerProperties', 'UserAccountProfile',
+    'SeProperties',)
 
 
 class CloneObjects:
@@ -41,7 +46,7 @@ class CloneObjects:
     def __init__(self, avi_configs):
         self.old_avi_config = avi_configs
 
-    # List of already cloned objects. Avoid duplicatation objects.
+    # List of already cloned objects. Avoid duplication of objects.
     cloned = []
 
     def clone_object(self, object, obj_type, cross_tenant):
@@ -96,11 +101,11 @@ class CloneObjects:
 
     def get_clone_ref_obj(self, p_tenant, ref_str='', ):
         """
-        Function to clone objects by verifying cross tenant reference.
+        Clone objects by verifying cross tenant reference.
 
         :param p_tenant: Parent object tenant in which object needs to be cloned
         :param ref_str:
-        :return:
+        :return: Cloned object and cloned object reference.
         """
         clone_objs = None
         clone_obj_ref = None
@@ -119,7 +124,7 @@ class CloneObjects:
 
     def find_refs_and_clone(self, obj_dict, parent_tenant=None):
         """
-        Function to find cross tenant referred objects, clone those objects and
+        Find cross tenant referred objects, clone those objects and
         update corresponding object in AVI configuration.
 
         :param obj_dict: single AVI object e.g. single virtualservice
@@ -142,8 +147,8 @@ class CloneObjects:
                     if obj_tenant == parent_tenant:
                         continue
                     o_type = conv_utils.get_obj_type_from_ref(ref)
-                    if (obj_tenant == 'admin' and o_type not in
-                            admin_obj_not_visible_to_all):
+                    if (obj_tenant == 'admin' and o_type in
+                            admin_obj_visible_to_all):
                         continue
                     c_obj, c_ref = self.get_clone_ref_obj(parent_tenant, ref)
                     if c_ref:
@@ -159,8 +164,8 @@ class CloneObjects:
                     o_type = conv_utils.get_obj_type_from_ref(v)
                     if o_tenant == parent_tenant:
                         continue
-                    if (o_tenant == 'admin' and o_type not in
-                            admin_obj_not_visible_to_all):
+                    if (o_tenant == 'admin' and o_type in
+                            admin_obj_visible_to_all):
                         continue
                     c_obj, c_ref = self.get_clone_ref_obj(parent_tenant, v)
                     if c_ref:
@@ -171,11 +176,23 @@ class CloneObjects:
 
     def find_clone_all(self):
         """
-        Function to iterate over AVI configuration of given objects in a list
+        Iterate over AVI configuration of given objects in a list
         above and clone cross tenant objects.
         :return: New AVI config object with cloned cross tenant references.
         """
+
+        total_size = len(avi_object_types)
+        progress_count = 0
+        LOG.info("Started Cloning of cross tenant objects")
+        print "Cloning cross tenant objects..."
+        msg = "Cloning started..."
         for object_type in avi_object_types:
+            progress_count += 1
+            conv_utils.print_progress_bar(progress_count, total_size,
+                                          msg, prefix='Progress',
+                                          suffix='')
             for obj in self.old_avi_config.get(object_type, []):
                 if obj:
                     self.find_refs_and_clone(obj)
+        LOG.info("Finished cloning of cross tenant objects.")
+        return

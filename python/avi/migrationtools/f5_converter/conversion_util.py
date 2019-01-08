@@ -22,7 +22,6 @@ global fully_migrated
 fully_migrated = 0
 used_pool_groups = {}
 used_pool = {}
-cloned_ssl_cert_name_list = []
 
 class F5Util(MigrationUtil):
 
@@ -270,7 +269,7 @@ class F5Util(MigrationUtil):
         return sg_obj
 
     def get_vs_ssl_profiles(self, profiles, avi_config, prefix,
-                            merge_object_mapping, sys_dict, f5_config, vs_tenant):
+                            merge_object_mapping, sys_dict, f5_config):
         """
         Searches for profile refs in converted profile config if not found
         creates default profiles
@@ -315,28 +314,9 @@ class F5Util(MigrationUtil):
                                    obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
-                    ssl_keycert_tenant = self.get_name(key_cert[0]['tenant_ref'])
-                    ssl_keycert_name = key_cert[0]['name']
-                    # Clone sslkeyandcertificate if not in VS's tenant.
-                    if vs_tenant != ssl_keycert_tenant:
-                        cloned_key_cert_name = key_cert[0]['name'] + "-clone"
-                        if cloned_key_cert_name not in cloned_ssl_cert_name_list:
-                            cloned_ssl_kc_obj = {
-                                'name': cloned_key_cert_name,
-                                'tenant_ref': self.get_object_ref(vs_tenant, 'tenant'),
-                                'key': key_cert[0]['key'],
-                                'certificate': key_cert[0]['certificate'],
-                                'type': key_cert[0]['type']
-                            }
-                            if key_cert[0].get('key_passphrase'):
-                                cloned_ssl_kc_obj['key_passphrase'] = key_cert[0]['key_passphrase']
-                            avi_config['SSLKeyAndCertificate'].append(cloned_ssl_kc_obj)
-                            cloned_ssl_cert_name_list.append(cloned_key_cert_name)
-                        ssl_keycert_tenant = vs_tenant
-                        ssl_keycert_name = cloned_key_cert_name
                     key_cert = self.get_object_ref(
-                        ssl_keycert_name, 'sslkeyandcertificate',
-                        tenant=ssl_keycert_tenant)
+                        key_cert[0]['name'], 'sslkeyandcertificate',
+                        tenant=self.get_name(key_cert[0]['tenant_ref']))
                 profile = profiles[key]
                 context = profile.get("context") if profile else None
                 if (not context) and isinstance(profile, dict):
