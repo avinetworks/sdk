@@ -7,7 +7,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"math"
@@ -18,6 +17,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -106,7 +107,7 @@ type AviSession struct {
 	prefix string
 
 	// internal: re-usable transport to enable connection reuse
-	tr *http.Transport
+	transport *http.Transport
 
 	// internal: reusable client
 	client *http.Client
@@ -140,11 +141,15 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		avisess.version = DEFAULT_AVI_VERSION
 	}
 
-	// create transport object
-	avisess.tr = &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
+	// create default transport object
+	if avisess.transport == nil {
+		avisess.transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
 	}
-	avisess.client = &http.Client{Transport: avisess.tr}
+
+	// attach transport object to client
+	avisess.client = &http.Client{Transport: avisess.transport}
 	err := avisess.initiateSession()
 	return avisess, err
 }
@@ -255,10 +260,21 @@ func SetInsecure(avisess *AviSession) error {
 	return nil
 }
 
+// SetTransport - Use this for NewAviSession option argument for configuring http transport to enable connection
+func SetTransport(transport *http.Transport) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.setTransport(transport)
+	}
+}
+
+func (avisess *AviSession) setTransport(transport *http.Transport) error {
+	avisess.transport = transport
+	return nil
+}
+
 func (avisess *AviSession) isTokenAuth() bool {
 	return avisess.authToken != "" || avisess.refreshAuthToken != nil
 }
-
 
 func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string) error {
 	if retry == 0 {
@@ -277,7 +293,6 @@ func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string
 	}
 	return nil
 }
-
 
 func (avisess *AviSession) newAviRequest(verb string, url string, payload io.Reader) (*http.Request, AviError) {
 	req, err := http.NewRequest(verb, url, payload)
@@ -311,7 +326,6 @@ func (avisess *AviSession) newAviRequest(verb string, url string, payload io.Rea
 // Helper routines for REST calls.
 //
 
-
 func (avisess *AviSession) collectCookiesFromResp(resp *http.Response) {
 	// collect cookies from the resp
 	for _, cookie := range resp.Cookies() {
@@ -328,9 +342,6 @@ func (avisess *AviSession) collectCookiesFromResp(resp *http.Response) {
 		}
 	}
 }
-
-
-
 
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
@@ -413,7 +424,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 			errorResult.Message = &emsg
 		} else {
 			return result, nil
-	    }
+		}
 	} else {
 		errmsg := fmt.Sprintf("Response body read failed: %v", err)
 		errorResult.Message = &errmsg
@@ -655,7 +666,7 @@ func debug(data []byte, err error) {
 func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 	url := avisess.prefix + "/api/initial-data"
 	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
-	for round :=0; round < 10; round++ {
+	for round := 0; round < 10; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error %v while generating http request.", err)
@@ -675,7 +686,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 			glog.Errorf("CheckControllerStatus Error while generating http request %v %v", url, err)
 		}
 		//wait before retry
-		time.Sleep(time.Duration(math.Exp(float64(round)) * 3) * time.Second)
+		time.Sleep(time.Duration(math.Exp(float64(round))*3) * time.Second)
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
 	return true, nil

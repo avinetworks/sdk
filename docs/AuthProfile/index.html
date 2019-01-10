@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure authprofile <key> - show authprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -293,6 +293,7 @@ font-style: italic;
       "sp" : {
         "org_url" : "aeiou",
         "sp_nodes" : [ {
+          "signing_ssl_key_and_certificate_ref" : "aeiou",
           "signing_key" : "aeiou",
           "name" : "aeiou",
           "signing_cert" : "aeiou",
@@ -328,7 +329,7 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -421,6 +422,7 @@ font-style: italic;
     "sp" : {
       "org_url" : "aeiou",
       "sp_nodes" : [ {
+        "signing_ssl_key_and_certificate_ref" : "aeiou",
         "signing_key" : "aeiou",
         "name" : "aeiou",
         "signing_cert" : "aeiou",
@@ -456,7 +458,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -620,6 +622,7 @@ font-style: italic;
     "sp" : {
       "org_url" : "aeiou",
       "sp_nodes" : [ {
+        "signing_ssl_key_and_certificate_ref" : "aeiou",
         "signing_key" : "aeiou",
         "name" : "aeiou",
         "signing_cert" : "aeiou",
@@ -655,7 +658,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -759,6 +762,7 @@ font-style: italic;
     "sp" : {
       "org_url" : "aeiou",
       "sp_nodes" : [ {
+        "signing_ssl_key_and_certificate_ref" : "aeiou",
         "signing_key" : "aeiou",
         "name" : "aeiou",
         "signing_cert" : "aeiou",
@@ -794,7 +798,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -898,6 +902,7 @@ font-style: italic;
     "sp" : {
       "org_url" : "aeiou",
       "sp_nodes" : [ {
+        "signing_ssl_key_and_certificate_ref" : "aeiou",
         "signing_key" : "aeiou",
         "name" : "aeiou",
         "signing_cert" : "aeiou",
@@ -933,7 +938,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -976,7 +981,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthProfile">AuthProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">http (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a></span> HTTP user authentication params. </div>
 <div class="param">ldap (optional)</div><div class="param-desc"><span class="param-type"><a href="#LdapAuthSettings">LdapAuthSettings</a></span> LDAP server and directory settings. </div>
@@ -1000,7 +1005,7 @@ font-style: italic;
     <h3 class="field-label"><a name="AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cache_expiration_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time a clients authentication is cached. Allowed values are 1-30. format: int32</div>
-<div class="param">group_member_is_full_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Group member entries contain full DNs instead of just user id attribute values. </div>
+<div class="param">group_member_is_full_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Group member entries contain full DNs instead of just user id attribute values. Field deprecated in 18.2.1. </div>
 <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client&#39;s HTTP Auth user ID. </div>
 <div class="param">require_user_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A user should be a member of these groups.  Each group is defined by the DN.  For example, CN&#x3D;testgroup,OU&#x3D;groups,dc&#x3D;example,dc&#x3D;avinetworks,DC&#x3D;com. </div>
     </div>  <!-- field-items -->
@@ -1016,7 +1021,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="LdapAuthSettings">LdapAuthSettings</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">base_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The LDAP base DN.  For example, avinetworks,com would be DC&#x3D;avinetworks,DC&#x3D;com. </div>
+      <div class="param">base_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The LDAP base DN.  For example, avinetworks.com would be DC&#x3D;avinetworks,DC&#x3D;com. </div>
 <div class="param">bind_as_administrator (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> LDAP administrator credentials are used to search for users and group memberships. </div>
 <div class="param">email_attribute (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> LDAP attribute that refers to user email. </div>
 <div class="param">full_name_attribute (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> LDAP attribute that refers to user&#39;s full name. </div>
@@ -1064,8 +1069,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">entity_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 17.2.3. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Refers to the Cluster name identifier (Virtual IP or FQDN). Field introduced in 17.2.3. </div>
-<div class="param">signing_cert (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider signing certificate for metadata. Field introduced in 17.2.3. </div>
-<div class="param">signing_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider signing key for metadata. Field introduced in 17.2.3. </div>
+<div class="param">signing_cert (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider signing certificate for metadata. Field deprecated in 18.2.1. Field introduced in 17.2.3. </div>
+<div class="param">signing_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider signing key for metadata. Field deprecated in 18.2.1. Field introduced in 17.2.3. </div>
+<div class="param">signing_ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engines will use this SSL certificate to sign assertions going to the IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.1. </div>
 <div class="param">single_signon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Single Signon URL to be programmed on the IDP. Field introduced in 17.2.3. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1076,7 +1082,7 @@ font-style: italic;
 <div class="param">org_display_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Display Name. Field introduced in 17.2.3. </div>
 <div class="param">org_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Name. Field introduced in 17.2.3. </div>
 <div class="param">org_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization URL. Field introduced in 17.2.3. </div>
-<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN. Field introduced in 17.2.3. </div>
+<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3. </div>
 <div class="param">sp_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#SamlServiceProviderNode">array[SamlServiceProviderNode]</a></span> Service Provider node information. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact email. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact name. Field introduced in 17.2.3. </div>

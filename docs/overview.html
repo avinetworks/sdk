@@ -50,8 +50,8 @@ Avi Controller REST APIs uses HTTP Headers and cookies for authentication, denot
 <tr>
 <td>X-Avi-Version</td>
 <td>Yes</td>
-<td>API version</td>
-<td>X-Avi-Version: 1</td>
+<td>API version to use for the API call. Avi controller supports all the API version which is less than equal to the version of the Controller. In order to use a feature that is released in a version, eg. 17.2.7, the API version should be greater than or equal to 17.2.7. It is important to remember that API version determines the version of the API data. As best practice, users once users have performed integration with a controller and API version then they should keep using it till they tested integration with the new API Version. </td>
+<td>X-Avi-Version: 18.1.2</td>acf
 </tr>
 <tr>
 <td>X-Avi-Tenant</td>
