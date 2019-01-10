@@ -795,25 +795,25 @@ and it supports several query options described in detail below.
 <td> client_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address of the client  </td>
+<td> IPv6 address of the client. </td>
 </tr>
 <tr>
 <td> vs_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> Virtual IPv6 address of the VS  </td>
+<td> Virtual IPv6 address of the VS. </td>
 </tr>
 <tr>
 <td> server_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address of the Server  </td>
+<td> IPv6 address of the Server. </td>
 </tr>
 <tr>
 <td> server_conn_src_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address used to connect to Server  </td>
+<td> IPv6 address used to connect to Server. </td>
 </tr>
 <tr>
 <td> request_id </td>
@@ -832,6 +832,54 @@ and it supports several query options described in detail below.
 <td> Integer </td>
 <td> gt,ge,ne,lt,le,eq </td>
 <td> Stream identifier corresponding to an HTTP/2 request. </td>
+</tr>
+<tr>
+<td> cipher_bytes </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> Byte stream of client cipher list sent on SSL_R_NO_SHARED_CIPHER error. </td>
+</tr>
+<tr>
+<td> client_cipher_list </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td> List of ciphers sent by client in TLS/SSL Client Hello. Only sent when TLS handshake fails due to no shared cipher. </td>
+</tr>
+<tr>
+<td> client_log_filter_name </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> Name of the Client Log Filter applied </td>
+</tr>
+<tr>
+<td> saml_authentication_used </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> SAML authentication is used. </td>
+</tr>
+<tr>
+<td> saml_session_cookie_valid </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> SAML authentication session cookie is valid. </td>
+</tr>
+<tr>
+<td> saml_auth_request_generated </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> SAML authentication request is generated. </td>
+</tr>
+<tr>
+<td> saml_auth_response_received </td>
+<td> Boolean </td>
+<td> eq,ne </td>
+<td> SAML authentication response is received. </td>
+</tr>
+<tr>
+<td> saml_auth_session_id </td>
+<td> Integer </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td> SAML authentication session ID. </td>
 </tr>
 </table>
 </div>
@@ -1268,31 +1316,43 @@ and it supports several query options described in detail below.
 <td> client_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address of the client  </td>
+<td> IPv6 address of the client. </td>
 </tr>
 <tr>
 <td> vs_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address of the VIP of the VS  </td>
+<td> IPv6 address of the VIP of the VS. </td>
 </tr>
 <tr>
 <td> server_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address of the Backend Server  </td>
+<td> IPv6 address of the Backend Server. </td>
 </tr>
 <tr>
 <td> server_conn_src_ip6 </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
-<td> IPv6 address used to connect to Backend Server  </td>
+<td> IPv6 address used to connect to Backend Server. </td>
 </tr>
 <tr>
 <td> sni_hostname </td>
 <td> String </td>
 <td> sw,nc,eq,ne,co </td>
 <td>  </td>
+</tr>
+<tr>
+<td> sip_log </td>
+<td> Message </td>
+<td> gt,ge,ne,lt,le,eq </td>
+<td> SIP related logging information </td>
+</tr>
+<tr>
+<td> client_log_filter_name </td>
+<td> String </td>
+<td> sw,nc,eq,ne,co </td>
+<td> Name of the Client Log Filter applied </td>
 </tr>
 </table>
 </div>

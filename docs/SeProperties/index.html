@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -305,6 +305,7 @@ font-style: italic;
       "max_throughput" : 123,
       "se_metrics_rt_enabled" : true,
       "lb_fail_max_time" : 123,
+      "se_dump_core_on_assert" : true,
       "se_dp_log_nf_enqueue_percent" : 123,
       "connections_lossy_log_rate_limiter_threshold" : 123,
       "scaleout_udp_per_pkt" : true,
@@ -443,6 +444,8 @@ font-style: italic;
     "se_agent_properties" : {
       "debug_mode" : true,
       "controller_echo_rpc_aggressive_timeout" : 123,
+      "states_flush_interval" : 123,
+      "ns_helper_deq_interval_msec" : 123,
       "dp_deq_interval_msec" : 123,
       "dp_max_wait_rsp_time_sec" : 123,
       "controller_heartbeat_miss_limit" : 123,
@@ -459,6 +462,7 @@ font-style: italic;
       "dp_reg_pending_max_wait_time" : 123,
       "ignore_docker_mac_change" : true,
       "sdb_flush_interval" : 123,
+      "send_se_ready_timeout" : 123,
       "dp_aggressive_deq_interval_msec" : 123,
       "vnic_dhcp_ip_max_retries" : 123,
       "dp_aggressive_enq_interval_msec" : 123,
@@ -471,7 +475,7 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -576,6 +580,7 @@ font-style: italic;
     "max_throughput" : 123,
     "se_metrics_rt_enabled" : true,
     "lb_fail_max_time" : 123,
+    "se_dump_core_on_assert" : true,
     "se_dp_log_nf_enqueue_percent" : 123,
     "connections_lossy_log_rate_limiter_threshold" : 123,
     "scaleout_udp_per_pkt" : true,
@@ -714,6 +719,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -730,6 +737,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -742,7 +750,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -918,6 +926,7 @@ font-style: italic;
     "max_throughput" : 123,
     "se_metrics_rt_enabled" : true,
     "lb_fail_max_time" : 123,
+    "se_dump_core_on_assert" : true,
     "se_dp_log_nf_enqueue_percent" : 123,
     "connections_lossy_log_rate_limiter_threshold" : 123,
     "scaleout_udp_per_pkt" : true,
@@ -1056,6 +1065,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1072,6 +1083,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1084,7 +1096,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1200,6 +1212,7 @@ font-style: italic;
     "max_throughput" : 123,
     "se_metrics_rt_enabled" : true,
     "lb_fail_max_time" : 123,
+    "se_dump_core_on_assert" : true,
     "se_dp_log_nf_enqueue_percent" : 123,
     "connections_lossy_log_rate_limiter_threshold" : 123,
     "scaleout_udp_per_pkt" : true,
@@ -1338,6 +1351,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1354,6 +1369,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1366,7 +1382,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1482,6 +1498,7 @@ font-style: italic;
     "max_throughput" : 123,
     "se_metrics_rt_enabled" : true,
     "lb_fail_max_time" : 123,
+    "se_dump_core_on_assert" : true,
     "se_dp_log_nf_enqueue_percent" : 123,
     "connections_lossy_log_rate_limiter_threshold" : 123,
     "scaleout_udp_per_pkt" : true,
@@ -1620,6 +1637,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1636,6 +1655,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1648,7 +1668,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1701,7 +1721,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP. </div>
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP. </div>
 <div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
 <div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
     </div>  <!-- field-items -->
@@ -1757,9 +1777,12 @@ font-style: italic;
 <div class="param">dp_reg_pending_max_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max time to wait for dp registration before assert. format: int32</div>
 <div class="param">headless_timeout_sec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of headless_timeout_sec. format: int32</div>
 <div class="param">ignore_docker_mac_change (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean </div>
+<div class="param">ns_helper_deq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">sdb_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline flush interval. Allowed values are 1-10000. format: int32</div>
 <div class="param">sdb_pipeline_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline size. Allowed values are 1-10000. format: int32</div>
 <div class="param">sdb_scan_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB scan count. Allowed values are 1-1000. format: int32</div>
+<div class="param">send_se_ready_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
+<div class="param">states_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5. format: int32</div>
 <div class="param">vnic_dhcp_ip_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip check interval. Allowed values are 1-1000. format: int32</div>
 <div class="param">vnic_dhcp_ip_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip max retries. format: int32</div>
 <div class="param">vnic_ip_delete_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> wait interval before deleting IP. format: int32</div>
@@ -1791,7 +1814,7 @@ font-style: italic;
 <div class="param">log_agent_debug_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable debug logs by default on Service Engine. This includes all other debugging logs. Debug logs can also be explcitly enabled from the CLI shell. </div>
 <div class="param">log_agent_trace_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable trace logs by default on Service Engine. Configuration operations are logged along with other important logs by Service Engine. </div>
 <div class="param">se_dp_compression (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeBootupCompressionProperties">SeBootupCompressionProperties</a></span> Placeholder for description of property se_dp_compression of obj type SeBootupProperties field type str  type object </div>
-<div class="param">se_dpdk_pmd (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Controls the use of DPDK poll mode driver      0        Automatically determine based on hypervisor/NIC type    1        Unconditionally use DPDK poll mode driver    ~[0,1]   Don&#39;t use DPDK poll mode driver. format: int32</div>
+<div class="param">se_dpdk_pmd (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3. format: int32</div>
 <div class="param">se_emulated_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Use this to emulate more/less cpus than is actually available. One datapath process is started for each core. format: int32</div>
 <div class="param">se_ip_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don&#39;t use IP encap. format: int32</div>
 <div class="param">se_l3_encap_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don&#39;t use SE interface IP. format: int32</div>
@@ -1811,7 +1834,7 @@ font-style: italic;
 <div class="param">se_rum_sampling_res_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> percentage of resource timing data to sample from the end user client for client insights. format: int32</div>
 <div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1. format: int32</div>
 <div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of packets to batch for transmit to the nic. format: int32</div>
-<div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DPDK library should be used or not       0        Automatically determine based on hypervisor type    1        Use DPDK unconditionally    ~[0,1]   Don&#39;t use DPDK. format: int32</div>
+<div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3. format: int32</div>
 <div class="param">ssl_sess_cache_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of ssl_sess_cache_per_vs. format: int32</div>
 <div class="param">ssl_sess_cache_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of ssl_sess_cache_timeout. format: int32</div>
 <div class="param">tcp_syncache_hashsize (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the TCP SYN cache hash table. format: int32</div>
@@ -1820,7 +1843,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SeProperties">SeProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">se_agent_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeAgentProperties">SeAgentProperties</a></span> Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object </div>
 <div class="param">se_bootup_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeBootupProperties">SeBootupProperties</a></span> Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object </div>
 <div class="param">se_runtime_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeRuntimeProperties">SeRuntimeProperties</a></span> Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object </div>
@@ -1881,7 +1904,7 @@ font-style: italic;
 <div class="param">global_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used. format: int32</div>
 <div class="param">http_rum_console_log (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Javascript console logs on the client browser when collecting client insights. </div>
 <div class="param">http_rum_min_content_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum response size content length to sample for client insights. format: int32</div>
-<div class="param">lb_batch_push_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field introduced in 17.2.8. format: int32</div>
+<div class="param">lb_batch_push_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field deprecated in 18.1.3. Field introduced in 17.2.8. format: int32</div>
 <div class="param">lb_fail_max_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 17.1.1. format: int32</div>
 <div class="param">lbaction_num_requests_to_dispatch (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of requests to dispatch from the request queue at a regular interval. format: int32</div>
 <div class="param">lbaction_rq_per_request_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum retries per request in the request queue. format: int32</div>
@@ -1934,6 +1957,7 @@ font-style: italic;
 <div class="param">se_dp_vnic_queue_stall_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1. format: int32</div>
 <div class="param">se_dp_vnic_restart_on_queue_stall_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
 <div class="param">se_dp_vnic_stall_se_restart_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
+<div class="param">se_dump_core_on_assert (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable core dump on assert. Field introduced in 18.1.3, 18.2.1. </div>
 <div class="param">se_handle_interface_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Accept/ignore interface routes (i.e, no next hop IP address). </div>
 <div class="param">se_hb_persist_fudge_bits (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal use only. Allowed values are 0-7. format: int32</div>
 <div class="param">se_mac_error_threshold_to_disable_promiscious (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of packets with wrong mac after which SE attempts to disable promiscious mode. format: int32</div>
@@ -1954,12 +1978,12 @@ font-style: italic;
 <div class="param">upstream_connect_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connect_timeout. format: int32</div>
 <div class="param">upstream_connpool_cache_thresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_cache_thresh. format: int32</div>
 <div class="param">upstream_connpool_conn_idle_thresh_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_conn_idle_thresh_tmo. format: int32</div>
-<div class="param">upstream_connpool_conn_idle_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_conn_idle_tmo. format: int32</div>
-<div class="param">upstream_connpool_conn_life_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_conn_life_tmo. format: int32</div>
-<div class="param">upstream_connpool_conn_max_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_conn_max_reuse. format: int32</div>
+<div class="param">upstream_connpool_conn_idle_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_conn_life_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_conn_max_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.1. format: int32</div>
 <div class="param">upstream_connpool_core_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_core_max_cache. format: int32</div>
 <div class="param">upstream_connpool_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean </div>
-<div class="param">upstream_connpool_server_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_server_max_cache. format: int32</div>
+<div class="param">upstream_connpool_server_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.1. format: int32</div>
 <div class="param">upstream_connpool_strategy (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_connpool_strategy. format: int32</div>
 <div class="param">upstream_keepalive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean </div>
 <div class="param">upstream_read_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of upstream_read_timeout. format: int32</div>

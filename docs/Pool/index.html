@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -282,6 +282,7 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "ipaddrgroup_ref" : "aeiou",
+    "min_health_monitors_up" : 123,
     "inline_health_monitor" : true,
     "default_server_port" : 123,
     "lookup_server_by_name" : true,
@@ -294,6 +295,9 @@ font-style: italic;
     "rewrite_host_header_to_server_name" : true,
     "ssl_key_and_certificate_ref" : "aeiou",
     "cloud_ref" : "aeiou",
+    "analytics_policy" : {
+      "enable_realtime_metrics" : true
+    },
     "health_monitor_refs" : [ "aeiou" ],
     "ab_pool" : {
       "pool_ref" : "aeiou",
@@ -316,6 +320,7 @@ font-style: italic;
     "autoscale_networks" : [ "aeiou" ],
     "created_by" : "aeiou",
     "external_autoscale_groups" : [ "aeiou" ],
+    "min_servers_up" : 123,
     "ab_priority" : 123,
     "capacity_estimation" : true,
     "name" : "aeiou",
@@ -334,9 +339,10 @@ font-style: italic;
     } ],
     "use_service_port" : true,
     "enabled" : true,
-    "_last_modified" : 123456789,
+    "_last_modified" : "aeiou",
     "a_pool" : "aeiou",
     "server_reselect" : {
+      "retry_timeout" : 123,
       "svr_resp_code" : {
         "resp_code_block" : [ "aeiou" ],
         "codes" : [ "" ],
@@ -434,16 +440,25 @@ font-style: italic;
       "http_cookie" : "aeiou",
       "http_header" : "aeiou"
     },
+    "analytics_profile_ref" : "aeiou",
     "max_concurrent_connections_per_server" : 123,
+    "service_metadata" : "aeiou",
     "capacity_estimation_ttfb_thresh" : 123,
     "lb_algorithm_hash" : "aeiou",
     "request_queue_enabled" : true,
     "host_check_enabled" : true,
+    "server_timeout" : 123,
     "url" : "aeiou",
     "nsx_securitygroup" : [ "aeiou" ],
     "pki_profile_ref" : "aeiou",
     "connection_ramp_duration" : 123,
     "tenant_ref" : "aeiou",
+    "conn_pool_properties" : {
+      "upstream_connpool_conn_idle_tmo" : 123,
+      "upstream_connpool_conn_life_tmo" : 123,
+      "upstream_connpool_conn_max_reuse" : 123,
+      "upstream_connpool_server_max_cache" : 123
+    },
     "server_count" : 123,
     "apic_epg_name" : "aeiou",
     "lb_algorithm_consistent_hash_hdr" : "aeiou",
@@ -503,6 +518,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ipaddrgroup_ref" : "aeiou",
+  "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
   "lookup_server_by_name" : true,
@@ -515,6 +531,9 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "analytics_policy" : {
+    "enable_realtime_metrics" : true
+  },
   "health_monitor_refs" : [ "aeiou" ],
   "ab_pool" : {
     "pool_ref" : "aeiou",
@@ -537,6 +556,7 @@ font-style: italic;
   "autoscale_networks" : [ "aeiou" ],
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
   "name" : "aeiou",
@@ -555,9 +575,10 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "a_pool" : "aeiou",
   "server_reselect" : {
+    "retry_timeout" : 123,
     "svr_resp_code" : {
       "resp_code_block" : [ "aeiou" ],
       "codes" : [ "" ],
@@ -655,16 +676,25 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
+  "analytics_profile_ref" : "aeiou",
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
+  "server_timeout" : 123,
   "url" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "pki_profile_ref" : "aeiou",
   "connection_ramp_duration" : 123,
   "tenant_ref" : "aeiou",
+  "conn_pool_properties" : {
+    "upstream_connpool_conn_idle_tmo" : 123,
+    "upstream_connpool_conn_life_tmo" : 123,
+    "upstream_connpool_conn_max_reuse" : 123,
+    "upstream_connpool_server_max_cache" : 123
+  },
   "server_count" : 123,
   "apic_epg_name" : "aeiou",
   "lb_algorithm_consistent_hash_hdr" : "aeiou",
@@ -1015,6 +1045,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ipaddrgroup_ref" : "aeiou",
+  "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
   "lookup_server_by_name" : true,
@@ -1027,6 +1058,9 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "analytics_policy" : {
+    "enable_realtime_metrics" : true
+  },
   "health_monitor_refs" : [ "aeiou" ],
   "ab_pool" : {
     "pool_ref" : "aeiou",
@@ -1049,6 +1083,7 @@ font-style: italic;
   "autoscale_networks" : [ "aeiou" ],
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
   "name" : "aeiou",
@@ -1067,9 +1102,10 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "a_pool" : "aeiou",
   "server_reselect" : {
+    "retry_timeout" : 123,
     "svr_resp_code" : {
       "resp_code_block" : [ "aeiou" ],
       "codes" : [ "" ],
@@ -1167,16 +1203,25 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
+  "analytics_profile_ref" : "aeiou",
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
+  "server_timeout" : 123,
   "url" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "pki_profile_ref" : "aeiou",
   "connection_ramp_duration" : 123,
   "tenant_ref" : "aeiou",
+  "conn_pool_properties" : {
+    "upstream_connpool_conn_idle_tmo" : 123,
+    "upstream_connpool_conn_life_tmo" : 123,
+    "upstream_connpool_conn_max_reuse" : 123,
+    "upstream_connpool_server_max_cache" : 123
+  },
   "server_count" : 123,
   "apic_epg_name" : "aeiou",
   "lb_algorithm_consistent_hash_hdr" : "aeiou",
@@ -1455,6 +1500,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ipaddrgroup_ref" : "aeiou",
+  "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
   "lookup_server_by_name" : true,
@@ -1467,6 +1513,9 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "analytics_policy" : {
+    "enable_realtime_metrics" : true
+  },
   "health_monitor_refs" : [ "aeiou" ],
   "ab_pool" : {
     "pool_ref" : "aeiou",
@@ -1489,6 +1538,7 @@ font-style: italic;
   "autoscale_networks" : [ "aeiou" ],
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
   "name" : "aeiou",
@@ -1507,9 +1557,10 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "a_pool" : "aeiou",
   "server_reselect" : {
+    "retry_timeout" : 123,
     "svr_resp_code" : {
       "resp_code_block" : [ "aeiou" ],
       "codes" : [ "" ],
@@ -1607,16 +1658,25 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
+  "analytics_profile_ref" : "aeiou",
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
+  "server_timeout" : 123,
   "url" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "pki_profile_ref" : "aeiou",
   "connection_ramp_duration" : 123,
   "tenant_ref" : "aeiou",
+  "conn_pool_properties" : {
+    "upstream_connpool_conn_idle_tmo" : 123,
+    "upstream_connpool_conn_life_tmo" : 123,
+    "upstream_connpool_conn_max_reuse" : 123,
+    "upstream_connpool_server_max_cache" : 123
+  },
   "server_count" : 123,
   "apic_epg_name" : "aeiou",
   "lb_algorithm_consistent_hash_hdr" : "aeiou",
@@ -1739,6 +1799,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ipaddrgroup_ref" : "aeiou",
+  "min_health_monitors_up" : 123,
   "inline_health_monitor" : true,
   "default_server_port" : 123,
   "lookup_server_by_name" : true,
@@ -1751,6 +1812,9 @@ font-style: italic;
   "rewrite_host_header_to_server_name" : true,
   "ssl_key_and_certificate_ref" : "aeiou",
   "cloud_ref" : "aeiou",
+  "analytics_policy" : {
+    "enable_realtime_metrics" : true
+  },
   "health_monitor_refs" : [ "aeiou" ],
   "ab_pool" : {
     "pool_ref" : "aeiou",
@@ -1773,6 +1837,7 @@ font-style: italic;
   "autoscale_networks" : [ "aeiou" ],
   "created_by" : "aeiou",
   "external_autoscale_groups" : [ "aeiou" ],
+  "min_servers_up" : 123,
   "ab_priority" : 123,
   "capacity_estimation" : true,
   "name" : "aeiou",
@@ -1791,9 +1856,10 @@ font-style: italic;
   } ],
   "use_service_port" : true,
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "a_pool" : "aeiou",
   "server_reselect" : {
+    "retry_timeout" : 123,
     "svr_resp_code" : {
       "resp_code_block" : [ "aeiou" ],
       "codes" : [ "" ],
@@ -1891,16 +1957,25 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
+  "analytics_profile_ref" : "aeiou",
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
+  "server_timeout" : 123,
   "url" : "aeiou",
   "nsx_securitygroup" : [ "aeiou" ],
   "pki_profile_ref" : "aeiou",
   "connection_ramp_duration" : 123,
   "tenant_ref" : "aeiou",
+  "conn_pool_properties" : {
+    "upstream_connpool_conn_idle_tmo" : 123,
+    "upstream_connpool_conn_life_tmo" : 123,
+    "upstream_connpool_conn_max_reuse" : 123,
+    "upstream_connpool_server_max_cache" : 123
+  },
   "server_count" : 123,
   "apic_epg_name" : "aeiou",
   "lb_algorithm_consistent_hash_hdr" : "aeiou",
@@ -2631,6 +2706,7 @@ font-style: italic;
   <h2>Table of Contents</h2>
   <ol>
     <li><a href="#AbPool"><code>AbPool</code></a></li>
+    <li><a href="#ConnPoolProperties"><code>ConnPoolProperties</code></a></li>
     <li><a href="#ConnpoolFilter"><code>ConnpoolFilter</code></a></li>
     <li><a href="#DiscoveredNetwork"><code>DiscoveredNetwork</code></a></li>
     <li><a href="#FailAction"><code>FailAction</code></a></li>
@@ -2650,6 +2726,7 @@ font-style: italic;
     <li><a href="#PersistenceFilter"><code>PersistenceFilter</code></a></li>
     <li><a href="#PlacementNetwork"><code>PlacementNetwork</code></a></li>
     <li><a href="#Pool"><code>Pool</code></a></li>
+    <li><a href="#PoolAnalyticsPolicy"><code>PoolAnalyticsPolicy</code></a></li>
     <li><a href="#PoolApiResponse"><code>PoolApiResponse</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
@@ -2666,6 +2743,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pool_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Pool configured as B pool for A/B testing. It is a reference to an object of type Pool. </div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Ratio of traffic diverted to the B pool, for A/B testing. Allowed values are 0-100. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ConnPoolProperties">ConnPoolProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">upstream_connpool_conn_idle_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection idle timeout. Field introduced in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_conn_life_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection life timeout. Field introduced in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_conn_max_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection max used times. Field introduced in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_server_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max cache connections per server. Field introduced in 18.2.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2758,6 +2844,7 @@ font-style: italic;
       <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request reselect when server responds with specific response codes. </div>
 <div class="param">num_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times to retry an HTTP request when server responds with configured status codes. format: int32</div>
 <div class="param">retry_nonidempotent (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow retry of non-idempotent HTTP requests. </div>
+<div class="param">retry_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. format: int32</div>
 <div class="param">svr_resp_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPReselectRespCode">HTTPReselectRespCode</a></span> Server response codes which will trigger an HTTP request retry. </div>
     </div>  <!-- field-items -->
   </div>
@@ -2822,10 +2909,12 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="Pool">Pool</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">a_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of container cloud application that constitutes A pool in a A-B pool configuration, if different from VS app. Field deprecated in 18.1.2. </div>
 <div class="param">ab_pool (optional)</div><div class="param-desc"><span class="param-type"><a href="#AbPool">AbPool</a></span> A/B pool configuration. Field deprecated in 18.1.2. </div>
 <div class="param">ab_priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2. format: int32</div>
+<div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolAnalyticsPolicy">PoolAnalyticsPolicy</a></span> Determines analytics settings for the pool. Field introduced in 18.1.5, 18.2.1. </div>
+<div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4,18.2.1. </div>
 <div class="param">apic_epg_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Synchronize Cisco APIC EPG members with pool servers. </div>
 <div class="param">application_persistence_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile. </div>
 <div class="param">autoscale_launch_config_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig. </div>
@@ -2835,6 +2924,7 @@ font-style: italic;
 <div class="param">capacity_estimation_ttfb_thresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - &#39;Automatic&#39;. format: int32</div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">conn_pool_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConnPoolProperties">ConnPoolProperties</a></span> Connnection pool properties. Field introduced in 18.2.1. </div>
 <div class="param">connection_ramp_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - &#39;Immediate&#39;. format: int32</div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">default_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Traffic sent to servers will use this destination server port unless overridden by the server&#39;s specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535. format: int32</div>
@@ -2858,6 +2948,8 @@ font-style: italic;
 <div class="param">lookup_server_by_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow server lookup by name. Field introduced in 17.1.11,17.2.4. </div>
 <div class="param">max_concurrent_connections_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of concurrent connections allowed to each server within the pool. NOTE  applied value will be no less than the number of service engines that the pool is placed on. If set to 0, no limit is applied. format: int32</div>
 <div class="param">max_conn_rate_per_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate Limit connections to each server. </div>
+<div class="param">min_health_monitors_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of health monitors in UP state to mark server UP. Field introduced in 18.2.1, 17.2.12. format: int32</div>
+<div class="param">min_servers_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of servers in UP state for marking the pool UP. Field introduced in 18.2.1, 17.2.12. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the pool. </div>
 <div class="param">networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#NetworkFilter">array[NetworkFilter]</a></span> (internal-use) Networks designated as containing servers for this pool.  The servers may be further narrowed down by a filter. This field is used internally by Avi, not editable by the user. </div>
 <div class="param">nsx_securitygroup (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A list of NSX Service Groups where the Servers for the Pool are created . Field introduced in 17.1.1. </div>
@@ -2869,10 +2961,12 @@ font-style: italic;
 <div class="param">rewrite_host_header_to_server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool. </div>
 <div class="param">rewrite_host_header_to_sni (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If SNI server name is specified, rewrite incoming host header to the SNI server name. </div>
 <div class="param">server_auto_scale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Server AutoScale. Not used anymore. Field deprecated in 18.1.2. </div>
-<div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 18.1.2. format: int32</div>
+<div class="param">server_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field deprecated in 18.2.1. format: int32</div>
 <div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead. </div>
 <div class="param">server_reselect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPServerReselect">HTTPServerReselect</a></span> Server reselect configuration for HTTP requests. </div>
+<div class="param">server_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1. format: int32</div>
 <div class="param">servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#Server">array[Server]</a></span> The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group. </div>
+<div class="param">service_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">sni_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake. </div>
 <div class="param">ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. It is a reference to an object of type SSLProfile. </div>
@@ -2881,6 +2975,12 @@ font-style: italic;
 <div class="param">use_service_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Do not translate the client&#39;s destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the pool. </div>
 <div class="param">vrf_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PoolAnalyticsPolicy">PoolAnalyticsPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">enable_realtime_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable real time metrics for server and pool metrics eg. l4_server.xxx, l7_server.xxx. Field introduced in 18.1.5, 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -2904,7 +3004,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
