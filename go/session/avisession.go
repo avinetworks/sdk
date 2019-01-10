@@ -750,8 +750,15 @@ func (avisess *AviSession) Patch(uri string, payload interface{}, patchOp string
 }
 
 // Delete issues a DELETE request against the avisess REST API.
-func (avisess *AviSession) Delete(uri string) error {
-	return avisess.restRequestInterfaceResponse("DELETE", uri, nil, nil)
+func (avisess *AviSession) Delete(uri string, params ...interface{}) error {
+	var payload, response interface{}
+	if len(params) > 0 {
+		payload = params[0]
+		if len(params) == 2 {
+			response = params[1]
+		}
+	}
+	return avisess.restRequestInterfaceResponse("DELETE", uri, payload, response)
 }
 
 // GetCollectionRaw issues a GET request and returns a AviCollectionResult with unmarshaled (raw) results section.
