@@ -413,7 +413,7 @@ if __name__ == "__main__":
      Usecase: Need to merge objects if there is migration of two
      f5 instances/box to single controller.
 
-    Example to provide passpharse of encrypted certs and certkey file location
+    Example to provide passphrase of encrypted certs and certkey file location
          f5_converter.py -f bigip.conf -l /home/certs/
          --f5_passphrase_file passphrase.yaml
          passphrase.yaml file contains
