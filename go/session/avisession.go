@@ -91,6 +91,9 @@ type AviSession struct {
 	// for connections to the Avi Controller.
 	insecure bool
 
+	// timeout specifies time limit for API request. Default value set to 60 seconds
+	timeout time.Duration
+
 	// optional tenant string to use for API request
 	tenant string
 
@@ -114,6 +117,7 @@ type AviSession struct {
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
+const DEFAULT_API_TIMEOUT = time.Duration(60 * time.Second)
 
 //NewAviSession initiates a session to AviController and returns it
 func NewAviSession(host string, username string, options ...func(*AviSession) error) (*AviSession, error) {
@@ -148,8 +152,16 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		}
 	}
 
+	// set default timeout
+	if avisess.timeout == 0 {
+		avisess.timeout = DEFAULT_API_TIMEOUT
+	}
+
 	// attach transport object to client
-	avisess.client = &http.Client{Transport: avisess.transport}
+	avisess.client = &http.Client{
+		Transport: avisess.transport,
+		Timeout:   avisess.timeout,
+	}
 	err := avisess.initiateSession()
 	return avisess, err
 }
@@ -269,6 +281,18 @@ func SetTransport(transport *http.Transport) func(*AviSession) error {
 
 func (avisess *AviSession) setTransport(transport *http.Transport) error {
 	avisess.transport = transport
+	return nil
+}
+
+// SetTimeout -
+func SetTimeout(timeout time.Duration) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.setTimeout(timeout)
+	}
+}
+
+func (avisess *AviSession) setTimeout(timeout time.Duration) error {
+	avisess.timeout = timeout
 	return nil
 }
 
