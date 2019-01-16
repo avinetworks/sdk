@@ -100,8 +100,7 @@ class ApiResponse(Response):
             # No response needed; e.g., delete operation
             return None
         elif self.status_code == 404:
-            raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
-                                    self.status_code, self.text), self)
+            raise ObjectNotFound()
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
                                     self.status_code, self.text), self)
@@ -238,7 +237,6 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
-        self.session_cookie_name = 'sessionid'
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
@@ -466,14 +464,12 @@ class ApiSession(Session):
             if rsp.status_code == 200:
                 self.num_session_retries = 0
                 self.remote_api_version = rsp.json().get('version', {})
-                self.session_cookie_name = rsp.json().get(
-                    'session_cookie_name', 'sessionid')
                 self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
                     sessionDict[self.key] = {
                         'csrftoken': csrftoken,
-                        'session_id': rsp.cookies[self.session_cookie_name],
+                        'session_id': rsp.cookies['sessionid'],
                         'last_used': datetime.utcnow(),
                         'api': self,
                         'connected': True
@@ -717,11 +713,7 @@ class ApiSession(Session):
         elif resp.status_code > 299:
             return obj
         try:
-            if 'results' in resp.json():
-                obj = resp.json()['results'][0]
-            else:
-                # For apis returning single object eg. api/cluster
-                obj = resp.json()
+            obj = resp.json()['results'][0]
         except IndexError:
             logger.warning('Warning: Object Not found for %s named %s' %
                            (path, name))
@@ -900,7 +892,7 @@ class ApiSession(Session):
     def get_obj_uuid(self, obj):
         """returns uuid from dict object"""
         if not obj:
-            raise ObjectNotFound('Object %s Not found' % (obj))
+            raise ObjectNotFound()
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
         if obj.get(0, None):
