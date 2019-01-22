@@ -2,14 +2,15 @@ package session
 
 import (
 	"encoding/json"
-	"github.com/avinetworks/sdk/go/models"
-	"github.com/golang/glog"
 	"os"
 	"os/exec"
 	"reflect"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/golang/glog"
 )
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
@@ -165,7 +166,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	pname := "testpool"
 	tpool.Name = &pname
 	var res models.Pool
-	err := avisess.Post("api/pool", tpool, &res)
+	err := avisess.Post("api/pool", &tpool, &res)
 	glog.Infof("res: %s, err: %s", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
@@ -190,7 +191,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	var servers = make([]models.Server, 1)
 	servers[0] = server
 	patch["servers"] = servers
-	err = avisess.Patch("api/pool/"+*npool2.UUID, patch, "add", &npool3)
+	err = avisess.Patch("api/pool/"+*npool2.UUID, &patch, "add", &npool3)
 	if err != nil {
 		t.Errorf("Pool Patch failed %s", err)
 	}
@@ -225,7 +226,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	//bt := true
 	//tpool.InlineHealthMonitor = &bt
 	var res models.Pool
-	err := avisess.Post("api/pool", tpool, &res)
+	err := avisess.Post("api/pool", &tpool, &res)
 	glog.Infof("res: %s, err: %s", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
@@ -258,7 +259,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	npool2.InlineHealthMonitor = &nt
 
 	var npool3 models.Pool
-	err = avisess.Put("api/pool/"+*npool2.UUID, npool2, &npool3)
+	err = avisess.Put("api/pool/"+*npool2.UUID, &npool2, &npool3)
 
 	if err != nil {
 		t.Errorf("Pool Patch failed %s", err)
