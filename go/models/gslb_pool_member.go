@@ -22,7 +22,7 @@ type GslbPoolMember struct {
 	// The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. .
 	Fqdn *string `json:"fqdn,omitempty"`
 
-	// Internal generated system-field. Field introduced in 17.1.1.
+	// Internal generated system-field. Field deprecated in 18.2.2. Field introduced in 17.1.1.
 	HmProxies []*GslbHealthMonitorProxy `json:"hm_proxies,omitempty"`
 
 	// IP address of the pool member. If this IP address is hosted via an AVI virtual service, then the user should configure the cluster uuid and virtual service uuid. If this IP address is hosted on a third-party device and the device is tagged/tethered to a third-party site, then user can configure the third-party site uuid.  User may configure the IP address without the cluster uuid or the virtual service uuid.  In this option, some advanced site related features cannot be enabled. If the user has configured a fqdn for the pool member, then it takes precedence and will overwrite the configured IP address. .

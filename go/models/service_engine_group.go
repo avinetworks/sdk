@@ -32,6 +32,9 @@ type ServiceEngineGroup struct {
 	// Allow SEs to be created using burst license. Field introduced in 17.2.5.
 	AllowBurst *bool `json:"allow_burst,omitempty"`
 
+	// A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.2.
+	AppCachePercent *int32 `json:"app_cache_percent,omitempty"`
+
 	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
 	ArchiveShmLimit *int32 `json:"archive_shm_limit,omitempty"`
 
