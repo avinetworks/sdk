@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugVirtualService Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- debug virtualservice <key>\n- show debug virtualservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -597,10 +597,14 @@
                     "type": "string", 
                     "description": "Name of the object."
                 }, 
-                "url": {
-                    "readOnly": true, 
+                "dns_options": {
+                    "description": "Dns debug options. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/DebugDnsOptions"
+                }, 
+                "debug_hm": {
+                    "default": "DEBUG_VS_HM_NONE", 
                     "type": "string", 
-                    "description": "url"
+                    "description": "This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE."
                 }, 
                 "flags": {
                     "items": {
@@ -609,14 +613,14 @@
                     "type": "array", 
                     "description": "Placeholder for description of property flags of obj type DebugVirtualService field type str  type object"
                 }, 
-                "debug_hm": {
-                    "default": "DEBUG_VS_HM_NONE", 
+                "url": {
+                    "readOnly": true, 
                     "type": "string", 
-                    "description": "This option controls the capture of Health Monitor flows. Enum options - DEBUG_VS_HM_NONE, DEBUG_VS_HM_ONLY, DEBUG_VS_HM_INCLUDE."
+                    "description": "url"
                 }, 
                 "resync_flows": {
                     "type": "boolean", 
-                    "description": "This option re-synchronizes flows between Active-Standby service engines for all the virtual services placed on them. It should be used with caution because as it can cause a flood between Active-Standby. Field introduced in 18.1.3."
+                    "description": "This option re-synchronizes flows between Active-Standby service engines for all the virtual services placed on them. It should be used with caution because as it can cause a flood between Active-Standby. Field introduced in 18.1.3,18.2.1."
                 }, 
                 "uuid": {
                     "type": "string", 
@@ -650,15 +654,22 @@
                 }
             }
         }, 
-        "DebugVsDataplane": {
+        "DebugVirtualServiceApiResponse": {
             "required": [
-                "flag"
+                "count", 
+                "results"
             ], 
             "type": "object", 
             "properties": {
-                "flag": {
-                    "type": "string", 
-                    "description": " Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE."
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/DebugVirtualService"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
@@ -671,6 +682,25 @@
                     }, 
                     "type": "array", 
                     "description": " It is a reference to an object of type ServiceEngine."
+                }
+            }
+        }, 
+        "DebugDnsOptions": {
+            "type": "object", 
+            "properties": {
+                "domain_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "This field filters the FQDN for Dns debug. Field introduced in 18.2.1."
+                }, 
+                "gslb_service_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "This field filters the Gslb service for Dns debug. Field introduced in 18.2.1."
                 }
             }
         }, 
@@ -695,22 +725,15 @@
                 }
             }
         }, 
-        "DebugVirtualServiceApiResponse": {
+        "DebugVsDataplane": {
             "required": [
-                "count", 
-                "results"
+                "flag"
             ], 
             "type": "object", 
             "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/DebugVirtualService"
-                    }, 
-                    "type": "array"
+                "flag": {
+                    "type": "string", 
+                    "description": " Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_DNS, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE."
                 }
             }
         }

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerProperties Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure controller properties\n- show controller properties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -605,10 +605,22 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
+                "max_dead_se_in_grp": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of max_dead_se_in_grp.", 
+                    "format": "int32"
+                }, 
                 "upgrade_lease_time": {
                     "default": 360, 
                     "type": "integer", 
                     "description": "Number of upgrade_lease_time.", 
+                    "format": "int32"
+                }, 
+                "warmstart_vs_resync_wait_time": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Timeout for warmstart VS resync. Field introduced in 18.1.4, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "se_create_timeout": {
@@ -647,11 +659,9 @@
                     "description": "Number of se_offline_del.", 
                     "format": "int32"
                 }, 
-                "max_dead_se_in_grp": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of max_dead_se_in_grp.", 
-                    "format": "int32"
+                "allow_ip_forwarding": {
+                    "type": "boolean", 
+                    "description": " Field introduced in 17.1.1."
                 }, 
                 "upgrade_dns_ttl": {
                     "default": 5, 
@@ -671,14 +681,22 @@
                     "description": "Period for refresh pool and gslb DNS job.", 
                     "format": "int32"
                 }, 
-                "allow_ip_forwarding": {
-                    "type": "boolean", 
-                    "description": " Field introduced in 17.1.1."
+                "api_perf_logging_threshold": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4, 18.2.1.", 
+                    "format": "int32"
                 }, 
                 "vs_se_attach_ip_fail": {
                     "default": 3600, 
                     "type": "integer", 
                     "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.", 
+                    "format": "int32"
+                }, 
+                "api_idle_timeout": {
+                    "default": 15, 
+                    "type": "integer", 
+                    "description": " Allowed values are 0-1440.", 
                     "format": "int32"
                 }, 
                 "max_seq_vnic_failures": {
@@ -699,8 +717,13 @@
                     "type": "string", 
                     "description": "Version of the safenet package installed on the controller. Field introduced in 16.5.2,17.2.3."
                 }, 
+                "se_from_marketplace": {
+                    "default": "IMAGE", 
+                    "type": "string", 
+                    "description": "This setting decides whether SE is to be deployed from the cloud marketplace or to be created by the controller. The setting is applicable only when BYOL license is selected. Enum options - MARKETPLACE, IMAGE. Field introduced in 18.1.4, 18.2.1."
+                }, 
                 "warmstart_se_reconnect_wait_time": {
-                    "default": 300, 
+                    "default": 480, 
                     "type": "integer", 
                     "description": "Number of warmstart_se_reconnect_wait_time.", 
                     "format": "int32"
@@ -775,11 +798,10 @@
                     "description": "Number of vs_se_create_fail.", 
                     "format": "int32"
                 }, 
-                "api_idle_timeout": {
-                    "default": 15, 
-                    "type": "integer", 
-                    "description": " Allowed values are 0-1440.", 
-                    "format": "int32"
+                "cloud_reconcile": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14,18.1.5,18.2.1."
                 }, 
                 "crashed_se_reboot": {
                     "default": 900, 
@@ -796,6 +818,11 @@
                     "type": "integer", 
                     "description": "Number of vs_awaiting_se_timeout.", 
                     "format": "int32"
+                }, 
+                "enable_api_sharding": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1."
                 }, 
                 "se_failover_attempt_interval": {
                     "default": 300, 

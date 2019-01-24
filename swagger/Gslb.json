@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Gslb Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure gslb <key>\n- show gslb <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -430,7 +430,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -846,25 +846,9 @@
             ], 
             "type": "object", 
             "properties": {
-                "dns_vs_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "The DNS VSes on which the GslbServices shall be placed. The site has to be an ACTIVE member.  This field is deprecated in 17.2.3 and replaced by 'dns_vses' field. . Field deprecated in 17.2.3."
-                }, 
                 "username": {
                     "type": "string", 
                     "description": "The username used when authenticating with the Site. ."
-                }, 
-                "ratio": {
-                    "type": "integer", 
-                    "description": "User can overide the individual GslbPoolMember ratio for all the VIPs/VS(es) of this site. If this field is not  configured then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the Site Controller Cluster."
                 }, 
                 "ip_addresses": {
                     "items": {
@@ -873,26 +857,10 @@
                     "type": "array", 
                     "description": "IP Address(es) of the Site's Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided."
                 }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site's configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site."
-                }, 
                 "member_type": {
                     "default": "GSLB_PASSIVE_MEMBER", 
                     "type": "string", 
                     "description": "The site's member type  A leader is set to ACTIVE while allmembers are set to passive. . Enum options - GSLB_ACTIVE_MEMBER, GSLB_PASSIVE_MEMBER."
-                }, 
-                "location": {
-                    "description": "Geographic location of the site. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/GslbGeoLocation"
-                }, 
-                "hm_proxies": {
-                    "items": {
-                        "$ref": "#/definitions/GslbHealthMonitorProxy"
-                    }, 
-                    "type": "array", 
-                    "description": "User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1."
                 }, 
                 "address": {
                     "type": "string", 
@@ -901,13 +869,6 @@
                 "cluster_uuid": {
                     "type": "string", 
                     "description": "UUID of the 'Cluster' object of the Controller Cluster in this site."
-                }, 
-                "dns_vses": {
-                    "items": {
-                        "$ref": "#/definitions/GslbSiteDnsVs"
-                    }, 
-                    "type": "array", 
-                    "description": "This field identifies the DNS VS and the subdomains it hosts for Gslb services. . Field introduced in 17.2.3."
                 }, 
                 "password": {
                     "type": "string", 
@@ -922,6 +883,49 @@
                 "uuid": {
                     "type": "string", 
                     "description": "This field is used as a key in the datastore for the GslbSite table to encapsulate site-related info. . Field introduced in 17.2.5."
+                }, 
+                "dns_vs_uuids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "The DNS VSes on which the GslbServices shall be placed. The site has to be an ACTIVE member.  This field is deprecated in 17.2.3 and replaced by 'dns_vses' field. . Field deprecated in 17.2.3."
+                }, 
+                "ratio": {
+                    "type": "integer", 
+                    "description": "User can overide the individual GslbPoolMember ratio for all the VIPs/VS(es) of this site. If this field is not  configured then the GslbPoolMember ratio gets applied. . Allowed values are 1-20. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name for the Site Controller Cluster."
+                }, 
+                "enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site's configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site."
+                }, 
+                "location": {
+                    "description": "Geographic location of the site. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/GslbGeoLocation"
+                }, 
+                "hm_proxies": {
+                    "items": {
+                        "$ref": "#/definitions/GslbHealthMonitorProxy"
+                    }, 
+                    "type": "array", 
+                    "description": "User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1."
+                }, 
+                "dns_vses": {
+                    "items": {
+                        "$ref": "#/definitions/GslbSiteDnsVs"
+                    }, 
+                    "type": "array", 
+                    "description": "This field identifies the DNS VS and the subdomains it hosts for Gslb services. . Field introduced in 17.2.3."
+                }, 
+                "hm_shard_enabled": {
+                    "type": "boolean", 
+                    "description": "This field enables the health monitor shard functionality on a site-basis. Field introduced in 18.2.2."
                 }
             }
         }, 

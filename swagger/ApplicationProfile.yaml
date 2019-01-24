@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -395,6 +395,12 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            cloud_config_cksum:
+                description: "Checksum of application profiles. Internally set by cloud connector. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
+            created_by:
+                description: "Name of the application profile creator. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
             description:
                 description: "User defined description for the object."
                 type: string
@@ -417,7 +423,7 @@ definitions:
                 description: "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
                 type: boolean
             sip_service_profile:
-                description: "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3."
+                description: "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 $ref: '#/definitions/SipServiceApplicationProfile'
             tcp_app_profile:
                 description: "Specifies the TCP application proxy profile parameters."
@@ -559,7 +565,7 @@ definitions:
                 type: string
                 default: "DNS_ERROR_RESPONSE_NONE"
             negative_caching_ttl:
-                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4."
+                description: "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4."
                 type: integer
                 default: 30
                 format: int32
@@ -569,7 +575,7 @@ definitions:
                 default: 1
                 format: int32
             ttl:
-                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400."
+                description: "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400."
                 type: integer
                 default: 30
                 format: int32
@@ -665,6 +671,9 @@ definitions:
             enable_request_body_buffering:
                 description: "Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size."
                 type: boolean
+            enable_request_body_metrics:
+                description: "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1."
+                type: boolean
             hsts_enabled:
                 description: "Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS."
                 type: boolean
@@ -673,6 +682,10 @@ definitions:
                 type: integer
                 default: 365
                 format: int64
+            hsts_subdomains_enabled:
+                description: "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1."
+                type: boolean
+                default: True
             http2_enabled:
                 description: "Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1."
                 type: boolean
@@ -988,7 +1001,7 @@ definitions:
                 description: "Rate Limit all HTTP requests from any single client IP address to any single URL."
                 $ref: '#/definitions/RateProfile'
             custom_requests_rate_limit:
-                description: "Rate Limit all HTTP requests that map to any custom string to all URLs of the Virtual Service. Field introduced in 17.2.13,18.1.3."
+                description: "Rate Limit all HTTP requests that map to any custom string. Field introduced in 17.2.13,18.1.3,18.2.1."
                 $ref: '#/definitions/RateProfile'
             http_header_rate_limits:
                 description: "Rate Limit all HTTP requests from all client IP addresses that contain any single HTTP header value. Field introduced in 17.1.1."
@@ -1041,7 +1054,7 @@ definitions:
         type: object
         properties:
             transaction_timeout:
-                description: "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3."
+                description: "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 type: integer
                 default: 32
                 format: int32

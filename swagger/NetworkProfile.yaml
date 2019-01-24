@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -396,7 +396,7 @@ definitions:
                 readOnly: True
                 type: string
             connection_mirror:
-                description: "When enabled, Avi mirrors all TCP fastpath connections to standby.Applicable only in Legacy HA Mode. Field introduced in 18.1.3."
+                description: "When enabled, Avi mirrors all TCP fastpath connections to standby. Applicable only in Legacy HA Mode. Field introduced in 18.1.3,18.2.1."
                 type: boolean
             description:
                 description: "User defined description for the object."
@@ -449,7 +449,7 @@ definitions:
                 description: "Placeholder for description of property udp_fast_path_profile of obj type NetworkProfileUnion field type str  type object"
                 $ref: '#/definitions/UDPFastPathProfile'
             udp_proxy_profile:
-                description: "Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3."
+                description: "Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 $ref: '#/definitions/UDPProxyProfile'
     TCPFastPathProfile:
         type: object
@@ -477,7 +477,7 @@ definitions:
                 type: string
                 default: "CC_ALGO_NEW_RENO"
             congestion_recovery_scaling_factor:
-                description: "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3."
+                description: "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1."
                 type: integer
                 default: 2
                 format: int32
@@ -518,6 +518,10 @@ definitions:
             nagles_algorithm:
                 description: "Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH."
                 type: boolean
+            reassembly_queue_size:
+                description: "Maximum number of TCP segments that can be queued for reassembly. Configuring this to 0 disables the feature and provides unlimited queuing. Field introduced in 17.2.13, 18.1.4, 18.2.1."
+                type: integer
+                format: int32
             receive_window:
                 description: "Size of the receive window. Allowed values are 32-65536."
                 type: integer
@@ -528,9 +532,9 @@ definitions:
                 type: integer
                 format: int32
             slow_start_scaling_factor:
-                description: "Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3."
+                description: "Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1."
                 type: integer
-                default: 4
+                default: 1
                 format: int32
             time_wait_delay:
                 description: "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'."
@@ -560,7 +564,7 @@ definitions:
         type: object
         properties:
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8, 18.1.3."
+                description: "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 type: integer
                 default: 10
                 format: int32
