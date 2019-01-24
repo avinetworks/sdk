@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\nExamples\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1147,7 +1147,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -2331,6 +2331,33 @@
                 }
             }
         }, 
+        "ConnPoolProperties": {
+            "type": "object", 
+            "properties": {
+                "upstream_connpool_conn_idle_tmo": {
+                    "default": 60000, 
+                    "type": "integer", 
+                    "description": "Connection idle timeout. Field introduced in 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "upstream_connpool_conn_life_tmo": {
+                    "default": 600000, 
+                    "type": "integer", 
+                    "description": "Connection life timeout. Field introduced in 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "upstream_connpool_conn_max_reuse": {
+                    "type": "integer", 
+                    "description": "Connection max used times. Field introduced in 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "upstream_connpool_server_max_cache": {
+                    "type": "integer", 
+                    "description": "Max cache connections per server. Field introduced in 18.2.1.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "FailAction": {
             "required": [
                 "type"
@@ -2369,6 +2396,11 @@
                 "enabled": {
                     "type": "boolean", 
                     "description": "Enable HTTP request reselect when server responds with specific response codes."
+                }, 
+                "retry_timeout": {
+                    "type": "integer", 
+                    "description": "Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1.", 
+                    "format": "int32"
                 }, 
                 "num_retries": {
                     "default": 4, 
@@ -2502,6 +2534,15 @@
                 "addr": {
                     "type": "string", 
                     "description": "IP address."
+                }
+            }
+        }, 
+        "PoolAnalyticsPolicy": {
+            "type": "object", 
+            "properties": {
+                "enable_realtime_metrics": {
+                    "type": "boolean", 
+                    "description": "Enable real time metrics for server and pool metrics eg. l4_server.xxx, l7_server.xxx. Field introduced in 18.1.5, 18.2.1."
                 }
             }
         }, 
@@ -2663,39 +2704,13 @@
             ], 
             "type": "object", 
             "properties": {
-                "lb_algorithm": {
-                    "default": "LB_ALGORITHM_LEAST_CONNECTIONS", 
-                    "type": "string", 
-                    "description": "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY."
-                }, 
-                "use_service_port": {
-                    "type": "boolean", 
-                    "description": "Do not translate the client's destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring."
-                }, 
-                "rewrite_host_header_to_server_name": {
-                    "type": "boolean", 
-                    "description": "Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool."
-                }, 
                 "host_check_enabled": {
                     "type": "boolean", 
                     "description": "Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match."
                 }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors."
-                }, 
-                "rewrite_host_header_to_sni": {
-                    "type": "boolean", 
-                    "description": "If SNI server name is specified, rewrite incoming host header to the SNI server name."
-                }, 
                 "capacity_estimation": {
                     "type": "boolean", 
                     "description": "Inline estimation of capacity of servers."
-                }, 
-                "max_conn_rate_per_server": {
-                    "description": "Rate Limit connections to each server.", 
-                    "$ref": "#/definitions/RateProfile"
                 }, 
                 "servers": {
                     "items": {
@@ -2703,6 +2718,11 @@
                     }, 
                     "type": "array", 
                     "description": "The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group."
+                }, 
+                "capacity_estimation_ttfb_thresh": {
+                    "type": "integer", 
+                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.", 
+                    "format": "int32"
                 }, 
                 "fewest_tasks_feedback_delay": {
                     "default": 10, 
@@ -2717,19 +2737,6 @@
                 "ipaddrgroup_ref": {
                     "type": "string", 
                     "description": "Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup."
-                }, 
-                "capacity_estimation_ttfb_thresh": {
-                    "type": "integer", 
-                    "description": "The maximum time-to-first-byte of a server. Allowed values are 1-5000. Special values are 0 - 'Automatic'.", 
-                    "format": "int32"
-                }, 
-                "ab_pool": {
-                    "description": "A/B pool configuration. Field deprecated in 18.1.2.", 
-                    "$ref": "#/definitions/AbPool"
-                }, 
-                "fail_action": {
-                    "description": "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.", 
-                    "$ref": "#/definitions/FailAction"
                 }, 
                 "lookup_server_by_name": {
                     "type": "boolean", 
@@ -2747,35 +2754,17 @@
                     "type": "string", 
                     "description": "Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING, LB_ALGORITHM_CONSISTENT_HASH_CALLID."
                 }, 
-                "health_monitor_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
+                "analytics_profile_ref": {
                     "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                    "description": "Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4,18.2.1."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the pool."
                 }, 
                 "server_name": {
                     "type": "string", 
                     "description": "Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead."
-                }, 
-                "lb_algorithm_consistent_hash_hdr": {
-                    "type": "string", 
-                    "description": "HTTP header name to be used for the hash key."
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
-                }, 
-                "lb_algorithm_core_nonaffinity": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3.", 
-                    "format": "int32"
                 }, 
                 "autoscale_policy_ref": {
                     "type": "string", 
@@ -2785,13 +2774,164 @@
                     "type": "string", 
                     "description": "When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. It is a reference to an object of type SSLProfile."
                 }, 
-                "east_west": {
-                    "type": "boolean", 
-                    "description": "Inherited config from VirtualService."
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name."
                 }, 
                 "apic_epg_name": {
                     "type": "string", 
                     "description": "Synchronize Cisco APIC EPG members with pool servers."
+                }, 
+                "application_persistence_profile_ref": {
+                    "type": "string", 
+                    "description": "Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile."
+                }, 
+                "inline_health_monitor": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin."
+                }, 
+                "request_queue_depth": {
+                    "default": 128, 
+                    "type": "integer", 
+                    "description": "Minimum number of requests to be queued when pool is full.", 
+                    "format": "int32"
+                }, 
+                "server_reselect": {
+                    "description": "Server reselect configuration for HTTP requests.", 
+                    "$ref": "#/definitions/HTTPServerReselect"
+                }, 
+                "ab_priority": {
+                    "type": "integer", 
+                    "description": "Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "server_count": {
+                    "type": "integer", 
+                    "description": " Field deprecated in 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "The name of the pool."
+                }, 
+                "autoscale_launch_config_ref": {
+                    "type": "string", 
+                    "description": "If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "autoscale_networks": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Network Ids for the launch configuration."
+                }, 
+                "health_monitor_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Verify server health by applying one or more health monitors.  Active monitors generate synthetic traffic from each Service Engine and mark a server up or down based on the response. The Passive monitor listens only to client to server communication. It raises or lowers the ratio of traffic destined to a server based on successful responses. It is a reference to an object of type HealthMonitor."
+                }, 
+                "min_health_monitors_up": {
+                    "type": "integer", 
+                    "description": "Minimum number of health monitors in UP state to mark server UP. Field introduced in 18.2.1, 17.2.12.", 
+                    "format": "int32"
+                }, 
+                "external_autoscale_groups": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2."
+                }, 
+                "vrf_ref": {
+                    "type": "string", 
+                    "description": "Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext."
+                }, 
+                "gslb_sp_enabled": {
+                    "readOnly": true, 
+                    "type": "boolean", 
+                    "description": "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
+                }, 
+                "lb_algorithm": {
+                    "default": "LB_ALGORITHM_LEAST_CONNECTIONS", 
+                    "type": "string", 
+                    "description": "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY."
+                }, 
+                "use_service_port": {
+                    "type": "boolean", 
+                    "description": "Do not translate the client's destination port when sending the connection to the server.  The pool or servers specified service port will still be used for health monitoring."
+                }, 
+                "rewrite_host_header_to_server_name": {
+                    "type": "boolean", 
+                    "description": "Rewrite incoming Host Header to server name of the server to which the request is proxied.  Enabling this feature rewrites Host Header for requests to all servers in the pool."
+                }, 
+                "lb_algorithm_core_nonaffinity": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "conn_pool_properties": {
+                    "description": "Connnection pool properties. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/ConnPoolProperties"
+                }, 
+                "rewrite_host_header_to_sni": {
+                    "type": "boolean", 
+                    "description": "If SNI server name is specified, rewrite incoming host header to the SNI server name."
+                }, 
+                "max_conn_rate_per_server": {
+                    "description": "Rate Limit connections to each server.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "ab_pool": {
+                    "description": "A/B pool configuration. Field deprecated in 18.1.2.", 
+                    "$ref": "#/definitions/AbPool"
+                }, 
+                "min_servers_up": {
+                    "type": "integer", 
+                    "description": "Minimum number of servers in UP state for marking the pool UP. Field introduced in 18.2.1, 17.2.12.", 
+                    "format": "int32"
+                }, 
+                "fail_action": {
+                    "description": "Enable an action - Close Connection, HTTP Redirect or Local HTTP Response - when a pool failure happens. By default, a connection will be closed, in case the pool experiences a failure.", 
+                    "$ref": "#/definitions/FailAction"
+                }, 
+                "service_metadata": {
+                    "type": "string", 
+                    "description": "Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "cloud_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud."
+                }, 
+                "domain_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled."
+                }, 
+                "east_west": {
+                    "type": "boolean", 
+                    "description": "Inherited config from VirtualService."
+                }, 
+                "placement_networks": {
+                    "items": {
+                        "$ref": "#/definitions/PlacementNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine."
                 }, 
                 "graceful_disable_timeout": {
                     "default": 1, 
@@ -2814,18 +2954,9 @@
                     "type": "string", 
                     "description": "Avi will validate the SSL certificate present by a server against the selected PKI Profile. It is a reference to an object of type PKIProfile."
                 }, 
-                "vrf_ref": {
-                    "type": "string", 
-                    "description": "Virtual Routing Context that the pool is bound to. This is used to provide the isolation of the set of networks the pool is attached to. The pool inherits the Virtual Routing Conext of the Virtual Service, and this field is used only internally, and is set by pb-transform. It is a reference to an object of type VrfContext."
-                }, 
-                "application_persistence_profile_ref": {
-                    "type": "string", 
-                    "description": "Persistence will ensure the same user sticks to the same server for a desired duration of time. It is a reference to an object of type ApplicationPersistenceProfile."
-                }, 
-                "inline_health_monitor": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin."
+                "analytics_policy": {
+                    "description": "Determines analytics settings for the pool. Field introduced in 18.1.5, 18.2.1.", 
+                    "$ref": "#/definitions/PoolAnalyticsPolicy"
                 }, 
                 "default_server_port": {
                     "default": 80, 
@@ -2837,25 +2968,10 @@
                     "type": "string", 
                     "description": "A description of the pool."
                 }, 
-                "request_queue_depth": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "Minimum number of requests to be queued when pool is full.", 
-                    "format": "int32"
-                }, 
-                "server_reselect": {
-                    "description": "Server reselect configuration for HTTP requests.", 
-                    "$ref": "#/definitions/HTTPServerReselect"
-                }, 
-                "ab_priority": {
-                    "type": "integer", 
-                    "description": "Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "server_count": {
-                    "type": "integer", 
-                    "description": "Number of server_count.", 
-                    "format": "int32"
+                "enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the pool.  Disabling will terminate all open connections and pause health monitors."
                 }, 
                 "ssl_key_and_certificate_ref": {
                     "type": "string", 
@@ -2866,17 +2982,14 @@
                     "type": "boolean", 
                     "description": "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
                 }, 
-                "autoscale_launch_config_ref": {
-                    "type": "string", 
-                    "description": "If configured then Avi will trigger orchestration of pool server creation and deletion. It is only supported for container clouds like Mesos, Opensift, Kubernates, Docker etc. It is a reference to an object of type AutoScaleLaunchConfig."
+                "server_timeout": {
+                    "type": "integer", 
+                    "description": "Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1.", 
+                    "format": "int32"
                 }, 
                 "request_queue_enabled": {
                     "type": "boolean", 
                     "description": "Enable request queue when pool is full."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "The name of the pool."
                 }, 
                 "max_concurrent_connections_per_server": {
                     "type": "integer", 
@@ -2892,27 +3005,9 @@
                     "type": "string", 
                     "description": "Header name for custom header persistence. Field deprecated in 18.1.2."
                 }, 
-                "tenant_ref": {
+                "lb_algorithm_consistent_hash_hdr": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the pool."
-                }, 
-                "autoscale_networks": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Network Ids for the launch configuration."
-                }, 
-                "domain_name": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled."
+                    "description": "HTTP header name to be used for the hash key."
                 }, 
                 "connection_ramp_duration": {
                     "default": 10, 
@@ -2923,29 +3018,6 @@
                 "cloud_config_cksum": {
                     "type": "string", 
                     "description": "Checksum of cloud configuration for Pool. Internally set by cloud connector."
-                }, 
-                "external_autoscale_groups": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Names of external auto-scale groups for pool servers. Currently available only for AWS and Azure. Field introduced in 17.1.2."
-                }, 
-                "placement_networks": {
-                    "items": {
-                        "$ref": "#/definitions/PlacementNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Manually select the networks and subnets used to provide reachability to the pool's servers.  Specify the Subnet using the following syntax  10-1-1-0/24. Use static routes in VRF configuration when pool servers are not directly connected butroutable from the service engine."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator name."
-                }, 
-                "gslb_sp_enabled": {
-                    "readOnly": true, 
-                    "type": "boolean", 
-                    "description": "Indicates if the pool is a site-persistence pool. . Field introduced in 17.2.1."
                 }
             }
         }, 

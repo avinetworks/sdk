@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -110,7 +110,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -970,6 +970,9 @@ definitions:
             enable_vip_static_routes:
                 description: "Use static routes for VIP side network resolution during VirtualService placement."
                 type: boolean
+            gcp_configuration:
+                description: "Google Cloud Platform Configuration. Field introduced in 18.2.1."
+                $ref: '#/definitions/GCPConfiguration'
             ip6_autocfg_enabled:
                 description: "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 type: boolean
@@ -1038,7 +1041,7 @@ definitions:
                 description: "Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/vCenterConfiguration'
             vtype:
-                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
+                description: "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
                 type: string
                 default: "CLOUD_NONE"
     CloudApiResponse:
@@ -1237,6 +1240,61 @@ definitions:
             token:
                 description: "Token for tracking changes."
                 type: string
+    GCPConfiguration:
+        type: object
+        required:
+            -   network_config
+            -   region_name
+            -   se_project_id
+        properties:
+            cloud_credentials_ref:
+                description: "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
+                type: string
+            firewall_target_tags:
+                description: "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1."
+                type: array
+                items:
+                    type: string
+            gcs_bucket_name:
+                description: "Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1."
+                type: string
+            gcs_project_id:
+                description: "Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, se_project_id will be used. Field introduced in 18.2.1."
+                type: string
+            match_se_group_subnet:
+                description: "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1."
+                type: boolean
+            network_config:
+                description: "Google Cloud Platform VPC Network configuration for the Service Engines. Field introduced in 18.2.1."
+                $ref: '#/definitions/GCPNetworkConfig'
+            region_name:
+                description: "Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1."
+                type: string
+            se_project_id:
+                description: "Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1."
+                type: string
+            zones:
+                description: "Google Cloud Platform Zones where Service Engines will be distributed for HA. By default, all the zones in a region will be used. Field introduced in 18.2.1."
+                type: array
+                items:
+                    type: string
+    GCPNetworkConfig:
+        type: object
+        required:
+            -   config
+        properties:
+            config:
+                description: "Config Mode for Google Cloud network configuration. Enum options - INBAND_MANAGEMENT, ONE_ARM_MODE, TWO_ARM_MODE. Field introduced in 18.2.1."
+                type: string
+            inband:
+                description: "Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1."
+                $ref: '#/definitions/InBandManagement'
+            one_arm:
+                description: "Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1."
+                $ref: '#/definitions/OneArmMode'
+            two_arm:
+                description: "Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1."
+                $ref: '#/definitions/TwoArmMode'
     HostAttributes:
         type: object
         required:
@@ -1247,6 +1305,26 @@ definitions:
                 type: string
             attr_val:
                 description: "attr_val of HostAttributes."
+                type: string
+    InBandManagement:
+        type: object
+        required:
+            -   vpc_subnet_name
+        properties:
+            vpc_project_id:
+                description: "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
+                type: string
+            vpc_subnet_name:
+                description: "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+    IngAttribute:
+        type: object
+        properties:
+            attribute:
+                description: "Attribute to match. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                type: string
+            value:
+                description: "Attribute value. If not set, match any value. Field introduced in 17.2.15, 18.1.5, 18.2.1."
                 type: string
     IpAddr:
         type: object
@@ -1614,6 +1692,21 @@ definitions:
             se_zone:
                 description: "Zone to be used for SE creation."
                 type: string
+    OneArmMode:
+        type: object
+        required:
+            -   data_vpc_subnet_name
+            -   management_vpc_subnet_name
+        properties:
+            data_vpc_project_id:
+                description: "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
+                type: string
+            data_vpc_subnet_name:
+                description: "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            management_vpc_subnet_name:
+                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                type: string
     OpenStackConfiguration:
         type: object
         required:
@@ -1761,7 +1854,7 @@ definitions:
                 type: boolean
                 default: True
             usable_network_uuids:
-                description: "Deprecated; please use provider_vip_networks. Field introduced in 17.1.1."
+                description: "Deprecated, please use provider_vip_networks. Field deprecated in 18.2.2. Field introduced in 17.1.1."
                 type: array
                 items:
                     type: string
@@ -1841,7 +1934,7 @@ definitions:
             app_sync_frequency:
                 description: "Sync frequency in seconds with frameworks."
                 type: integer
-                default: 60
+                default: 300
                 format: int32
             auto_assign_fqdn:
                 description: "Auto assign FQDN to a virtual service if a valid FQDN is not configured. Field introduced in 17.2.8."
@@ -1886,6 +1979,10 @@ definitions:
             disable_auto_se_creation:
                 description: "Disable SE creation."
                 type: boolean
+            docker_endpoint:
+                description: "Host Docker server UNIX socket endpoint. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
+                default: "/var/run/docker.sock"
             docker_registry_se:
                 description: "Docker registry for ServiceEngine image."
                 $ref: '#/definitions/DockerRegistry'
@@ -1901,7 +1998,7 @@ definitions:
                 type: boolean
                 default: True
             fleet_endpoint:
-                description: "Optional fleet remote endpoint if fleet is used for SE deployment."
+                description: "Optional fleet remote endpoint if fleet is used for SE deployment. Field deprecated in 17.2.13,18.1.5,18.2.1."
                 type: string
             http_container_ports:
                 description: "List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443."
@@ -1909,9 +2006,20 @@ definitions:
                 items:
                     type: integer
                 format: int32
+            ing_exclude_attributes:
+                description: "Do not sync applications only for ingress that have these exclude attributes configured. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IngAttribute'
+            ing_include_attributes:
+                description: "Sync applications only for ingress objects that have these include attributes configured. Default values are populated for this field if not provided. The default value are  'attribute'  'kubernetes.io/ingress.class', 'value' 'avi'. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/IngAttribute'
             l4_health_monitoring:
                 description: "Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools."
                 type: boolean
+                default: True
             master_nodes:
                 description: "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed."
                 type: array
@@ -1931,11 +2039,12 @@ definitions:
                 items:
                     $ref: '#/definitions/MesosAttribute'
             nuage_controller:
-                description: "Nuage Overlay SDN Controller information."
+                description: "Nuage Overlay SDN Controller information. Field deprecated in 17.2.13,18.1.5,18.2.1."
                 $ref: '#/definitions/NuageSDNController'
             override_service_ports:
                 description: "Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3."
                 type: boolean
+                default: True
             routes_share_virtualservice:
                 description: "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1."
                 type: boolean
@@ -1946,29 +2055,42 @@ definitions:
             se_deployment_method:
                 description: "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
                 type: string
-                default: "SE_CREATE_SSH"
+                default: "SE_CREATE_POD"
             se_exclude_attributes:
                 description: "Exclude hosts with attributes for SE creation."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
             se_image_pull_secret:
-                description: "OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3."
+                description: "OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3,18.2.1."
                 type: string
             se_include_attributes:
                 description: "Create SEs just on hosts with include attributes."
                 type: array
                 items:
                     $ref: '#/definitions/MesosAttribute'
+            se_pod_tolerations:
+                description: "Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/PodToleration'
+            se_restart_batch_size:
+                description: "Restart ServiceEngines by batch on ServiceEngineGroup updates (cpu, memory..etc). Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                type: integer
+                default: 1
+                format: int32
+            se_restart_force:
+                description: "Restart ServiceEngines forcely if VirtualServices failed to migrate to another SE. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                type: boolean
             se_spawn_rate:
-                description: "New SE spawn rate per minute."
+                description: "New SE spawn rate per minute. Field deprecated in 17.2.13,18.1.5,18.2.1."
                 type: integer
                 default: 25
                 format: int32
             se_volume:
                 description: "Host volume to be used as a disk for Avi SE, This is a disruptive change."
                 type: string
-                default: "/opt/avi"
+                default: "/var/lib/avi"
             secure_egress_mode:
                 description: "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 type: boolean
@@ -1990,6 +2112,9 @@ definitions:
             use_controller_image:
                 description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
                 type: boolean
+            use_resource_definition_as_ssot:
+                description: "Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13, 18.1.4, 18.2.1."
+                type: boolean
             use_scheduling_disabled_nodes:
                 description: "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
                 type: boolean
@@ -2003,6 +2128,26 @@ definitions:
         properties:
             virtualservice_name:
                 description: "Name of shared virtualservice. VirtualService will be created automatically by Cloud Connector. Field introduced in 17.1.1."
+                type: string
+    PodToleration:
+        type: object
+        properties:
+            effect:
+                description: "Effect to match. Enum options - NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
+            key:
+                description: "Key to match. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
+            operator:
+                description: "Operator to match. Enum options - EQUAL, EXISTS. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: string
+                default: "EQUAL"
+            toleration_seconds:
+                description: "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                type: integer
+                format: int32
+            value:
+                description: "Value to match. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 type: string
     PortRange:
         type: object
@@ -2165,6 +2310,25 @@ definitions:
                 type: string
             sudo_user:
                 description: "Username for sudo. Field deprecated in 17.1.1."
+                type: string
+    TwoArmMode:
+        type: object
+        required:
+            -   backend_data_vpc_subnet_name
+            -   frontend_data_vpc_subnet_name
+            -   management_vpc_subnet_name
+        properties:
+            backend_data_vpc_subnet_name:
+                description: "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            frontend_data_vpc_project_id:
+                description: "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                type: string
+            frontend_data_vpc_subnet_name:
+                description: "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            management_vpc_subnet_name:
+                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
                 type: string
     vCenterConfiguration:
         type: object

@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '18.2.2'
-    title: Avi NetworkSecurityPolicy Object API
+    title: Avi SecurityPolicy Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,8 +11,8 @@ info:
     description: |
         CLI
         ```
-        - configure networksecuritypolicy <key>
-        - show networksecuritypolicy <key>
+        - configure securitypolicy <key>
+        - show securitypolicy <key>
         ```
 
 
@@ -22,7 +22,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /networksecuritypolicy:
+    /securitypolicy:
         get:
             consumes:
                 -   application/json
@@ -86,7 +86,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicyApiResponse"
+                        $ref: "#/definitions/SecurityPolicyApiResponse"
                 401:
                     description: log in failed
         post:
@@ -117,20 +117,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: NetworkSecurityPolicy object creation
+                    description: SecurityPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 401:
                     description: log in failed
-    /networksecuritypolicy/{uuid}:
+    /securitypolicy/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -191,7 +191,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 401:
                     description: log in failed
         put:
@@ -227,10 +227,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: NetworkSecurityPolicy object creation
+                    description: SecurityPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -242,7 +242,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 401:
                     description: log in failed
         patch:
@@ -278,10 +278,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: NetworkSecurityPolicy object creation
+                    description: SecurityPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -293,7 +293,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkSecurityPolicy"
+                        $ref: "#/definitions/SecurityPolicy"
                 401:
                     description: log in failed
         delete:
@@ -344,130 +344,93 @@ paths:
 
 
 definitions:
-    IpAddr:
+    AttackMitigationAction:
+        type: object
+        properties:
+            deny:
+                description: "Deny the attack packets further processing and drop them. Field introduced in 18.2.1."
+                type: boolean
+                default: True
+    DnsAttack:
         type: object
         required:
-            -   addr
-            -   type
+            -   attack_vector
         properties:
-            addr:
-                description: "IP address."
+            attack_vector:
+                description: "The DNS attack vector. Enum options - DNS_REFLECTION, DNS_NXDOMAIN, DNS_AMPLIFICATION_EGRESS. Field introduced in 18.2.1."
                 type: string
-            type:
-                description: " Enum options - V4, DNS, V6."
-                type: string
-    IpAddrMatch:
-        type: object
-        required:
-            -   match_criteria
-        properties:
-            addrs:
-                description: "IP address(es)."
-                type: array
-                items:
-                    $ref: '#/definitions/IpAddr'
-            group_refs:
-                description: "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
-                type: array
-                items:
-                    type: string
-            match_criteria:
-                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                type: string
-            prefixes:
-                description: "IP address prefix(es)."
-                type: array
-                items:
-                    $ref: '#/definitions/IpAddrPrefix'
-            ranges:
-                description: "IP address range(s)."
-                type: array
-                items:
-                    $ref: '#/definitions/IpAddrRange'
-    IpAddrPrefix:
-        type: object
-        required:
-            -   ip_addr
-            -   mask
-        properties:
-            ip_addr:
-                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
-                $ref: '#/definitions/IpAddr'
-            mask:
-                description: "Number of mask."
+            enabled:
+                description: "Enable or disable the mitigation of the attack vector. Field introduced in 18.2.1."
+                type: boolean
+                default: True
+            max_mitigation_age:
+                description: "Time in minutes after which mitigation will be deactivated. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'. Field introduced in 18.2.1."
                 type: integer
+                default: 60
                 format: int32
-    IpAddrRange:
+            mitigation_action:
+                description: "Mitigation action to perform for this DNS attack vector. Field introduced in 18.2.1."
+                $ref: '#/definitions/AttackMitigationAction'
+    DnsAttacks:
+        type: object
+        properties:
+            attacks:
+                description: "Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks. Field introduced in 18.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsAttack'
+            oper_mode:
+                description: "Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks. Enum options - DETECTION, MITIGATION. Field introduced in 18.2.1."
+                type: string
+    SecurityPolicy:
         type: object
         required:
-            -   begin
-            -   end
-        properties:
-            begin:
-                description: "Starting IP address of the range."
-                $ref: '#/definitions/IpAddr'
-            end:
-                description: "Ending IP address of the range."
-                $ref: '#/definitions/IpAddr'
-    MicroServiceMatch:
-        type: object
-        required:
-            -   group_ref
-            -   match_criteria
-        properties:
-            group_ref:
-                description: "UUID of Micro Service group(s). It is a reference to an object of type MicroServiceGroup."
-                type: string
-            match_criteria:
-                description: "Criterion to use for Micro Service matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                type: string
-    NetworkSecurityMatchTarget:
-        type: object
-        properties:
-            client_ip:
-                description: "Placeholder for description of property client_ip of obj type NetworkSecurityMatchTarget field type str  type object"
-                $ref: '#/definitions/IpAddrMatch'
-            microservice:
-                description: "Placeholder for description of property microservice of obj type NetworkSecurityMatchTarget field type str  type object"
-                $ref: '#/definitions/MicroServiceMatch'
-            vs_port:
-                description: "Placeholder for description of property vs_port of obj type NetworkSecurityMatchTarget field type str  type object"
-                $ref: '#/definitions/PortMatch'
-    NetworkSecurityPolicy:
-        type: object
+            -   dns_policy_index
+            -   name
+            -   network_security_policy_index
         properties:
             _last_modified:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
-            cloud_config_cksum:
-                description: "Checksum of cloud configuration for Network Sec Policy. Internally set by cloud connector."
-                type: string
-            created_by:
-                description: "Creator name."
-                type: string
             description:
-                description: "User defined description for the object."
+                description: "Security policy is used to specify various configuration information used to perform Distributed Denial of Service (DDoS) attacks detection and mitigation. Field introduced in 18.2.1."
                 type: string
+            dns_attacks:
+                description: "Attacks utilizing the DNS protocol operations. Field introduced in 18.2.1."
+                $ref: '#/definitions/DnsAttacks'
+            dns_policy_index:
+                description: "Index of the dns policy to use for the mitigation rules applied to the dns attacks. Field introduced in 18.2.1."
+                type: integer
+                format: int32
             name:
-                description: "Name of the object."
+                description: "The name of the security policy. Field introduced in 18.2.1."
                 type: string
-            rules:
-                description: "Placeholder for description of property rules of obj type NetworkSecurityPolicy field type str  type object"
-                type: array
-                items:
-                    $ref: '#/definitions/NetworkSecurityRule'
+            network_security_policy_index:
+                description: "Index of the network security policy to use for the mitigation rules applied to the attacks. Field introduced in 18.2.1."
+                type: integer
+                format: int32
+            oper_mode:
+                description: "Mode of dealing with the attacks - perform detection only, or detect and mitigate the attacks. Enum options - DETECTION, MITIGATION. Field introduced in 18.2.1."
+                type: string
+                default: "DETECTION"
+            tcp_attacks:
+                description: "Attacks utilizing the TCP protocol operations. Field introduced in 18.2.1."
+                $ref: '#/definitions/TcpAttacks'
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: "Tenancy of the security policy. It is a reference to an object of type Tenant. Field introduced in 18.2.1."
                 type: string
+            udp_attacks:
+                description: "Attacks utilizing the UDP protocol operations. Field introduced in 18.2.1."
+                $ref: '#/definitions/UdpAttacks'
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "Unique object identifier of the object."
+                description: "The UUID of the security policy. Field introduced in 18.2.1."
                 type: string
-    NetworkSecurityPolicyApiResponse:
+    SecurityPolicyApiResponse:
         type: object
         required:
             - count
@@ -479,70 +442,8 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/NetworkSecurityPolicy"
-    NetworkSecurityPolicyActionRLParam:
+                    $ref: "#/definitions/SecurityPolicy"
+    TcpAttacks:
         type: object
-        required:
-            -   burst_size
-            -   max_rate
-        properties:
-            burst_size:
-                description: "Maximum number of connections or requests or packets to be rate limited instantaneously."
-                type: integer
-                format: int32
-            max_rate:
-                description: "Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295."
-                type: integer
-                format: int32
-    NetworkSecurityRule:
+    UdpAttacks:
         type: object
-        required:
-            -   action
-            -   enable
-            -   index
-            -   match
-            -   name
-        properties:
-            action:
-                description: " Enum options - NETWORK_SECURITY_POLICY_ACTION_TYPE_ALLOW, NETWORK_SECURITY_POLICY_ACTION_TYPE_DENY, NETWORK_SECURITY_POLICY_ACTION_TYPE_RATE_LIMIT."
-                type: string
-            age:
-                description: "Time in minutes after which rule will be deleted. Allowed values are 1-4294967295. Special values are 0- 'blocked for ever'."
-                type: integer
-                format: int32
-            created_by:
-                description: "Creator name."
-                type: string
-            enable:
-                description: "Placeholder for description of property enable of obj type NetworkSecurityRule field type str  type boolean"
-                type: boolean
-            index:
-                description: "Number of index."
-                type: integer
-                format: int32
-            log:
-                description: "Placeholder for description of property log of obj type NetworkSecurityRule field type str  type boolean"
-                type: boolean
-            match:
-                description: "Placeholder for description of property match of obj type NetworkSecurityRule field type str  type object"
-                $ref: '#/definitions/NetworkSecurityMatchTarget'
-            name:
-                description: "Name of the object."
-                type: string
-            rl_param:
-                description: "Placeholder for description of property rl_param of obj type NetworkSecurityRule field type str  type object"
-                $ref: '#/definitions/NetworkSecurityPolicyActionRLParam'
-    PortMatch:
-        type: object
-        required:
-            -   match_criteria
-        properties:
-            match_criteria:
-                description: "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
-                type: string
-            ports:
-                description: "Listening TCP port(s). Allowed values are 1-65535."
-                type: array
-                items:
-                    type: integer
-                format: int32

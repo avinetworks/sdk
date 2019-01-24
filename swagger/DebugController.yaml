@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi DebugController Object API
     contact:
         name: Avi Networks Inc.
@@ -110,7 +110,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -404,7 +404,7 @@ definitions:
                 description: "Name of the object."
                 type: string
             sub_module:
-                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG."
                 type: string
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
@@ -458,11 +458,14 @@ definitions:
             se_mgr_debug_filter:
                 description: "Placeholder for description of property se_mgr_debug_filter of obj type DebugFilterUnion field type str  type object"
                 $ref: '#/definitions/SeMgrDebugFilter'
+            se_rpc_proxy_filter:
+                description: "Add SE RPC Proxy Filter. Field introduced in 18.1.5, 18.2.1."
+                $ref: '#/definitions/SeRpcProxyDebugFilter'
             state_cache_mgr_debug_filter:
                 description: "Placeholder for description of property state_cache_mgr_debug_filter of obj type DebugFilterUnion field type str  type object"
                 $ref: '#/definitions/StateCacheMgrDebugFilter'
             type:
-                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG."
                 type: string
             vs_debug_filter:
                 description: "Placeholder for description of property vs_debug_filter of obj type DebugFilterUnion field type str  type object"
@@ -474,7 +477,7 @@ definitions:
                 description: "entity of HSMgrDebugFilter."
                 type: string
             metric_entity:
-                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
             period:
                 description: "Number of period."
@@ -499,7 +502,7 @@ definitions:
                 description: "mesos_slave of MesosMetricsDebugFilter."
                 type: string
             metric_entity:
-                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
             metrics_collection_frq:
                 description: "Number of metrics_collection_frq."
@@ -541,6 +544,18 @@ definitions:
         properties:
             name:
                 description: "Name of the object."
+                type: string
+    SeRpcProxyDebugFilter:
+        type: object
+        properties:
+            method_name:
+                description: "Method name of RPC. Field introduced in 18.1.5, 18.2.1."
+                type: string
+            queue:
+                description: "Queue name of RPC. Field introduced in 18.1.5, 18.2.1."
+                type: string
+            se_uuid:
+                description: "UUID of Service Engine. Field introduced in 18.1.5, 18.2.1."
                 type: string
     StateCacheMgrDebugFilter:
         type: object
