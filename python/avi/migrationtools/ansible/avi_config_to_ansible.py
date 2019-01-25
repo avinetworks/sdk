@@ -6,6 +6,8 @@ Created on September 15, 2016
 '''
 
 import json
+import os
+
 import yaml
 import argparse
 import re
@@ -43,6 +45,11 @@ def my_represent_scalar(self, tag, value, style=None):
 
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 
+meta_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../common/avi_resource_types.yaml'))
+with open(meta_file) as f:
+    supported_obj = yaml.load(f)
+
+
 class AviAnsibleConverter(object):
     common_task_args = {
         'controller': "{{ controller }}",
@@ -58,84 +65,7 @@ class AviAnsibleConverter(object):
 
     skip_fields = ['uuid', 'url', 'ref_key', 'se_uuids']
     skip_types = set(DEFAULT_SKIP_TYPES)
-    default_meta_order = [
-            "ControllerLicense",
-            "SeProperties",
-            "SecureChannelToken",
-            "SecureChannelMapping",
-            "VIMgrIPSubnetRuntime",
-            "Tenant",
-            "ControllerProperties",
-            "CloudProperties",
-            "SecureChannelAvailableLocalIPs",
-            "JobEntry",
-            "Role",
-            "DebugController",
-            "AutoScaleLaunchConfig",
-            "MicroService",
-            "AuthProfile",
-            "AnalyticsProfile",
-            "APICLifsRuntime",
-            "LogControllerMapping",
-            "SnmpTrapProfile",
-            "AlertSyslogConfig",
-            "NetworkRuntime",
-            "AlertObjectList",
-            "VIPGNameInfo",
-            "CertificateManagementProfile",
-            "CloudRuntime",
-            "CloudConnectorUser",
-            "DebugServiceEngine",
-            "HardwareSecurityModuleGroup",
-            "HealthMonitor",
-            "VIDCInfo",
-            "VIMgrControllerRuntime",
-            "GlobalHealthMonitor",
-            "IpamDnsProviderProfile",
-            "StringGroup",
-            "Backup",
-            "DebugVirtualService",
-            "AlertScriptConfig",
-            "NetworkProfile",
-            "GlobalLB",
-            "IpAddrGroup",
-            "Cluster",
-            "SSLProfile",
-            "PKIProfile",
-            "ApplicationPersistenceProfile",
-            "MicroServiceGroup",
-            "SSLKeyAndCertificate",
-            "GlobalService",
-            "ApplicationProfile",
-            "NetworkSecurityPolicy",
-            "SystemConfiguration",
-            "Cloud",
-            "AlertEmailConfig",
-            "PriorityLabels",
-            "PoolGroupDeploymentPolicy",
-            "VIMgrVMRuntime",
-            "VsVip"
-            "VrfContext",
-            "ActionGroupConfig",
-            "VIMgrHostRuntime",
-            "AlertConfig",
-            "VIMgrNWRuntime",
-            "VIMgrClusterRuntime",
-            "VIMgrSEVMRuntime",
-            "ServerAutoScalePolicy",
-            "Network",
-            "VIMgrDCRuntime",
-            "ServiceEngineGroup",
-            "Pool",
-            "VIMgrVcenterRuntime",
-            "ServiceEngine",
-            "PoolGroup",
-            "HTTPPolicySet",
-            "VSDataScriptSet",
-            "VirtualService",
-            "Alert",
-            "Application"
-        ]
+    default_meta_order = supported_obj['avi_resource_types']
 
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
     # Modified REGEX
@@ -250,8 +180,11 @@ class AviAnsibleConverter(object):
         for key in rsrc:
             if isinstance(rsrc[key], str):
                 rsrc[key] = rsrc[key].encode('string-escape')
+            elif isinstance(rsrc[key], unicode) and key == 'key':
+                rsrc[key] = rsrc[key].encode()
             elif isinstance(rsrc[key], unicode):
                 rsrc[key] = rsrc[key].encode('unicode-escape')
+
         if rsrc_type == 'vsvip':
             # check for floating IP and normal IP
             for vip in rsrc.get('vip', []):
