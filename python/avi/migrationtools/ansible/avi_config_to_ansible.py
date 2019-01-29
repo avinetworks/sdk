@@ -15,6 +15,8 @@ import urlparse
 from copy import deepcopy
 from urllib import urlencode
 
+from avi.migrationtools.f5_converter.conversion_util import F5Util
+
 DEFAULT_SKIP_TYPES = [
     'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
     'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
@@ -44,8 +46,8 @@ def my_represent_scalar(self, tag, value, style=None):
     return node
 
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
-
-meta_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../common/avi_resource_types.yaml'))
+utils = F5Util()
+meta_file = utils.get_project_path()+'/../common/avi_resource_types.yaml'
 with open(meta_file) as f:
     supported_obj = yaml.load(f)
 
@@ -75,6 +77,7 @@ class AviAnsibleConverter(object):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         self.ansible_avi_config = {'avi_config': {}}
+        self.conversion_util = F5Util()
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         if skip_types:
