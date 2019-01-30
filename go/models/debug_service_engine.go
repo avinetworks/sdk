@@ -7,8 +7,17 @@ package models
 // swagger:model DebugServiceEngine
 type DebugServiceEngine struct {
 
+	// Params for SE pcap. Field introduced in 17.2.14.
+	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
+
 	// Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object
 	CPUShares []*DebugSeCPUShares `json:"cpu_shares,omitempty"`
+
+	// IP filter for SE pcap. Field introduced in 17.2.14.
+	DebugIP *DebugIPAddr `json:"debug_ip,omitempty"`
+
+	// Params for SE fault injection. Field introduced in 17.2.13.
+	Fault *DebugSeFault `json:"fault,omitempty"`
 
 	// Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object
 	Flags []*DebugSeDataplane `json:"flags,omitempty"`

@@ -76,6 +76,9 @@ type AnalyticsProfile struct {
 	// Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers.
 	DisableServerAnalytics bool `json:"disable_server_analytics,omitempty"`
 
+	// Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13.
+	EnableAdvancedAnalytics bool `json:"enable_advanced_analytics,omitempty"`
+
 	// Exclude client closed connection before an HTTP request could be completed from being classified as an error.
 	ExcludeClientCloseBeforeRequestAsError bool `json:"exclude_client_close_before_request_as_error,omitempty"`
 
@@ -109,6 +112,9 @@ type AnalyticsProfile struct {
 	// Exclude server TCP reset from errors.  It is common for applications like MS Exchange.
 	ExcludeServerTCPResetAsError bool `json:"exclude_server_tcp_reset_as_error,omitempty"`
 
+	// List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13.
+	ExcludeSipErrorCodes []int64 `json:"exclude_sip_error_codes,omitempty,omitempty"`
+
 	// Exclude 'server unanswered syns' from the list of errors.
 	ExcludeSynRetransmitAsError bool `json:"exclude_syn_retransmit_as_error,omitempty"`
 
@@ -117,6 +123,9 @@ type AnalyticsProfile struct {
 
 	// Exclude unsupported dns queries from the list of errors.
 	ExcludeUnsupportedDNSQueryAsError bool `json:"exclude_unsupported_dns_query_as_error,omitempty"`
+
+	// Skips healthscore computation of pool servers when number of servers in a pool is more than this setting. Allowed values are 0-5000. Special values are 0- 'server health score is disabled'. Field introduced in 17.2.13.
+	HealthscoreMaxServerLimit int32 `json:"healthscore_max_server_limit,omitempty"`
 
 	// Time window (in secs) within which only unique health change events should occur.
 	HsEventThrottleWindow int32 `json:"hs_event_throttle_window,omitempty"`
@@ -208,6 +217,9 @@ type AnalyticsProfile struct {
 
 	// Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10.
 	SensitiveLogProfile *SensitiveLogProfile `json:"sensitive_log_profile,omitempty"`
+
+	// Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13.
+	SipLogDepth int32 `json:"sip_log_depth,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef string `json:"tenant_ref,omitempty"`

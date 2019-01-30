@@ -49,6 +49,9 @@ type HTTPApplicationProfile struct {
 	// Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000.
 	HstsMaxAge int64 `json:"hsts_max_age,omitempty"`
 
+	// Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13.
+	HstsSubdomainsEnabled bool `json:"hsts_subdomains_enabled,omitempty"`
+
 	// Client requests received via HTTP will be redirected to HTTPS.
 	HTTPToHTTPS bool `json:"http_to_https,omitempty"`
 

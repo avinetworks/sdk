@@ -31,6 +31,9 @@ type ControllerProperties struct {
 	// Use Ansible for SE creation in baremetal. Field introduced in 17.2.2.
 	BmUseAnsible bool `json:"bm_use_ansible,omitempty"`
 
+	// Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14.
+	CloudReconcile bool `json:"cloud_reconcile,omitempty"`
+
 	// Number of cluster_ip_gratuitous_arp_period.
 	ClusterIPGratuitousArpPeriod int32 `json:"cluster_ip_gratuitous_arp_period,omitempty"`
 

@@ -13,6 +13,9 @@ type APICLifsRuntime struct {
 	// Placeholder for description of property cifs of obj type APICLifsRuntime field type str  type object
 	Cifs []*Cif `json:"cifs,omitempty"`
 
+	// Contract Graph associated with the VirtualService. Field introduced in 17.2.14.
+	ContractGraphs []string `json:"contract_graphs,omitempty"`
+
 	// lif_label of APICLifsRuntime.
 	// Required: true
 	LifLabel string `json:"lif_label"`

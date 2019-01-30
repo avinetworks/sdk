@@ -10,6 +10,9 @@ type SnmpConfiguration struct {
 	// Community string for SNMP v2c.
 	Community string `json:"community,omitempty"`
 
+	// Support for 4096 bytes trap payload. Field introduced in 17.2.13.
+	LargeTrapPayload bool `json:"large_trap_payload,omitempty"`
+
 	// SNMP version 3 configuration. Field introduced in 17.2.3.
 	SnmpV3Config *SnmpV3Configuration `json:"snmp_v3_config,omitempty"`
 

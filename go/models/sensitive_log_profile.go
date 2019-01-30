@@ -9,4 +9,7 @@ type SensitiveLogProfile struct {
 
 	// Match sensitive header fields in HTTP application log. Field introduced in 17.2.10.
 	HeaderFieldRules []*SensitiveFieldRule `json:"header_field_rules,omitempty"`
+
+	// Match sensitive WAF log fields in HTTP application log. Field introduced in 17.2.13.
+	WafFieldRules []*SensitiveFieldRule `json:"waf_field_rules,omitempty"`
 }

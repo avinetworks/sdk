@@ -7,6 +7,9 @@ package models
 // swagger:model ServiceEngineGroup
 type ServiceEngineGroup struct {
 
+	// Enable acclerated networking option for Azure SE. Accelerated networking enables single root I/O virtualization (SR-IOV) to a SE VM. This improves networking performance. Field introduced in 17.2.14.
+	AcceleratedNetworking bool `json:"accelerated_networking,omitempty"`
+
 	// Service Engines in active/standby mode for HA failover.
 	ActiveStandby bool `json:"active_standby,omitempty"`
 
@@ -46,11 +49,17 @@ type ServiceEngineGroup struct {
 	// Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.
 	AutoRedistributeActiveStandbyLoad bool `json:"auto_redistribute_active_standby_load,omitempty"`
 
+	// BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14.
+	BgpStateUpdateInterval int32 `json:"bgp_state_update_interval,omitempty"`
+
 	// Excess Service Engine capacity provisioned for HA failover.
 	BufferSe int32 `json:"buffer_se,omitempty"`
 
 	//  It is a reference to an object of type Cloud.
 	CloudRef string `json:"cloud_ref,omitempty"`
+
+	// Enable config debugs on all cores of SE. Field introduced in 17.2.13.
+	ConfigDebugsOnAllCores bool `json:"config_debugs_on_all_cores,omitempty"`
 
 	// Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.
 	ConnectionMemoryPercentage int32 `json:"connection_memory_percentage,omitempty"`
@@ -75,6 +84,9 @@ type ServiceEngineGroup struct {
 
 	// User defined description for the object.
 	Description string `json:"description,omitempty"`
+
+	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13.
+	DisableAviSecuritygroups bool `json:"disable_avi_securitygroups,omitempty"`
 
 	// Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5.
 	DisableCsumOffloads bool `json:"disable_csum_offloads,omitempty"`
@@ -108,6 +120,12 @@ type ServiceEngineGroup struct {
 
 	// Use Virtual MAC address for interfaces on which floating interface IPs are placed.
 	EnableVMAC bool `json:"enable_vmac,omitempty"`
+
+	// End local ephemeral port number for outbound connections. Field introduced in 17.2.13.
+	EphemeralPortrangeEnd int32 `json:"ephemeral_portrange_end,omitempty"`
+
+	// Start local ephemeral port number for outbound connections. Field introduced in 17.2.13.
+	EphemeralPortrangeStart int32 `json:"ephemeral_portrange_start,omitempty"`
 
 	// Multiplier for extra config to support large VS/Pool config.
 	ExtraConfigMultiplier float64 `json:"extra_config_multiplier,omitempty"`
@@ -211,6 +229,9 @@ type ServiceEngineGroup struct {
 	// Minimum number of active Service Engines for the Virtual Service. Allowed values are 1-64.
 	MinScaleoutPerVs int32 `json:"min_scaleout_per_vs,omitempty"`
 
+	// Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13.
+	MinSe int32 `json:"min_se,omitempty"`
+
 	// Name of the object.
 	// Required: true
 	Name string `json:"name"`
@@ -239,10 +260,10 @@ type ServiceEngineGroup struct {
 	// Amount of extra memory to be reserved for use by the Operating System on a Service Engine.
 	OsReservedMemory int32 `json:"os_reserved_memory,omitempty"`
 
-	// Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.10.
+	// Frequency in seconds at which periodically a PCAP reinit checkis triggered. [Valid range   15 mins - 12 hours, 0 - disables] . Allowed values are 900-43200. Special values are 0- 'disable'. Field deprecated in 17.2.13. Field introduced in 17.2.10.
 	PcapReinitFrequency int32 `json:"pcap_reinit_frequency,omitempty"`
 
-	// Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field introduced in 17.2.10.
+	// Threshold for ierrors in PCAP mode exceeding which a PCAP reinitis triggered. If not set an unconditional reinit is performed. Field deprecated in 17.2.13. Field introduced in 17.2.10.
 	PcapReinitThreshold int32 `json:"pcap_reinit_threshold,omitempty"`
 
 	// Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.
@@ -263,11 +284,20 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
 	SeDosProfile *DosThresholdProfile `json:"se_dos_profile,omitempty"`
 
+	// Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 17.2.13.
+	SeDpdkPmd int32 `json:"se_dpdk_pmd,omitempty"`
+
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
 	SeIpcUDPPort int32 `json:"se_ipc_udp_port,omitempty"`
 
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix string `json:"se_name_prefix,omitempty"`
+
+	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13.
+	SePcapReinitFrequency int32 `json:"se_pcap_reinit_frequency,omitempty"`
+
+	// Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13.
+	SePcapReinitThreshold int32 `json:"se_pcap_reinit_threshold,omitempty"`
 
 	// TCP port on SE where echo service will be run. Field introduced in 17.2.2.
 	SeProbePort int32 `json:"se_probe_port,omitempty"`
@@ -287,14 +317,17 @@ type ServiceEngineGroup struct {
 	// Traceroute port range. Field introduced in 17.2.8.
 	SeTracertPortRange *PortRange `json:"se_tracert_port_range,omitempty"`
 
-	// Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. ~[0,1]  Enable DSR unconditionally. . Field introduced in 17.1.1.
+	// Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1.
 	SeTunnelMode int32 `json:"se_tunnel_mode,omitempty"`
 
 	// UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.
 	SeTunnelUDPPort int32 `json:"se_tunnel_udp_port,omitempty"`
 
-	// Determines if SE-SE IPC messages are encapsulated in an UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. ~[0,1]  Don't use UDP encap. Field introduced in 17.1.2.
+	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. Allowed values are 0-1. Field introduced in 17.1.2.
 	SeUDPEncapIpc int32 `json:"se_udp_encap_ipc,omitempty"`
+
+	// Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 17.2.13.
+	SeUseDpdk int32 `json:"se_use_dpdk,omitempty"`
 
 	// Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.
 	SeVsHbMaxPktsInBatch int32 `json:"se_vs_hb_max_pkts_in_batch,omitempty"`
@@ -359,6 +392,9 @@ type ServiceEngineGroup struct {
 
 	// Time to wait for the scaled out SE to become ready before marking the scaleout done.
 	VsScaleoutTimeout int32 `json:"vs_scaleout_timeout,omitempty"`
+
+	// During SE upgrade in a legacy active/standby segroup, Time to wait for the new primary SE to accept flows before marking the switchover done. Field introduced in 17.2.13.
+	VsSwitchoverTimeout int32 `json:"vs_switchover_timeout,omitempty"`
 
 	// If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 17.2.5.
 	VssPlacement *VssPlacement `json:"vss_placement,omitempty"`

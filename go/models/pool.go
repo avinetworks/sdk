@@ -165,6 +165,9 @@ type Pool struct {
 	// The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group.
 	Servers []*Server `json:"servers,omitempty"`
 
+	// Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14.
+	ServiceMetadata string `json:"service_metadata,omitempty"`
+
 	// Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake.
 	SniEnabled bool `json:"sni_enabled,omitempty"`
 

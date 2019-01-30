@@ -46,6 +46,9 @@ type TCPProxyProfile struct {
 	// Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH.
 	NaglesAlgorithm bool `json:"nagles_algorithm,omitempty"`
 
+	// Maximum number of TCP segments that can be queued for reassembly.Configuring this to 0 disables the feature and provides unlimited queueing. Field introduced in 17.2.13.
+	ReassemblyQueueSize int32 `json:"reassembly_queue_size,omitempty"`
+
 	// Size of the receive window. Allowed values are 32-65536.
 	ReceiveWindow int32 `json:"receive_window,omitempty"`
 
