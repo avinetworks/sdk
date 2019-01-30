@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.12</div>
+    <div class="app-desc">Version: 17.2.15</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -271,6 +271,7 @@ font-style: italic;
     "apdex_server_response_threshold" : 123,
     "exclude_no_dns_record_as_error" : true,
     "exclude_client_close_before_request_as_error" : true,
+    "sip_log_depth" : 123,
     "apdex_response_threshold" : 123,
     "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
     "conn_server_lossy_zero_win_size_event_threshold" : 123,
@@ -287,11 +288,13 @@ font-style: italic;
     "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
     "conn_lossy_ooo_threshold" : 123,
     "conn_server_lossy_total_rexmt_threshold" : 123,
+    "exclude_sip_error_codes" : [ "" ],
     "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
     "conn_lossy_timeo_rexmt_threshold" : 123,
     "hs_event_throttle_window" : 123,
     "resp_code_block" : [ "aeiou" ],
     "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+    "healthscore_max_server_limit" : 123,
     "exclude_gs_down_as_error" : true,
     "disable_se_analytics" : true,
     "exclude_persistence_change_as_error" : true,
@@ -324,6 +327,7 @@ font-style: italic;
     "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
     "sensitive_log_profile" : {
+      "waf_field_rules" : [ "" ],
       "header_field_rules" : [ {
         "match" : {
           "match_criteria" : "aeiou",
@@ -342,6 +346,7 @@ font-style: italic;
     "exclude_server_dns_error_as_error" : true,
     "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
     "apdex_rtt_threshold" : 123,
+    "enable_advanced_analytics" : true,
     "exclude_no_valid_gs_member_as_error" : true,
     "url" : "aeiou",
     "disable_server_analytics" : true,
@@ -420,6 +425,7 @@ font-style: italic;
   "apdex_server_response_threshold" : 123,
   "exclude_no_dns_record_as_error" : true,
   "exclude_client_close_before_request_as_error" : true,
+  "sip_log_depth" : 123,
   "apdex_response_threshold" : 123,
   "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_server_lossy_zero_win_size_event_threshold" : 123,
@@ -436,11 +442,13 @@ font-style: italic;
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
   "conn_server_lossy_total_rexmt_threshold" : 123,
+  "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_timeo_rexmt_threshold" : 123,
   "hs_event_throttle_window" : 123,
   "resp_code_block" : [ "aeiou" ],
   "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "healthscore_max_server_limit" : 123,
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
@@ -473,6 +481,7 @@ font-style: italic;
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
+    "waf_field_rules" : [ "" ],
     "header_field_rules" : [ {
       "match" : {
         "match_criteria" : "aeiou",
@@ -491,6 +500,7 @@ font-style: italic;
   "exclude_server_dns_error_as_error" : true,
   "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rtt_threshold" : 123,
+  "enable_advanced_analytics" : true,
   "exclude_no_valid_gs_member_as_error" : true,
   "url" : "aeiou",
   "disable_server_analytics" : true,
@@ -640,6 +650,7 @@ font-style: italic;
   "apdex_server_response_threshold" : 123,
   "exclude_no_dns_record_as_error" : true,
   "exclude_client_close_before_request_as_error" : true,
+  "sip_log_depth" : 123,
   "apdex_response_threshold" : 123,
   "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_server_lossy_zero_win_size_event_threshold" : 123,
@@ -656,11 +667,13 @@ font-style: italic;
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
   "conn_server_lossy_total_rexmt_threshold" : 123,
+  "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_timeo_rexmt_threshold" : 123,
   "hs_event_throttle_window" : 123,
   "resp_code_block" : [ "aeiou" ],
   "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "healthscore_max_server_limit" : 123,
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
@@ -693,6 +706,7 @@ font-style: italic;
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
+    "waf_field_rules" : [ "" ],
     "header_field_rules" : [ {
       "match" : {
         "match_criteria" : "aeiou",
@@ -711,6 +725,7 @@ font-style: italic;
   "exclude_server_dns_error_as_error" : true,
   "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rtt_threshold" : 123,
+  "enable_advanced_analytics" : true,
   "exclude_no_valid_gs_member_as_error" : true,
   "url" : "aeiou",
   "disable_server_analytics" : true,
@@ -800,6 +815,7 @@ font-style: italic;
   "apdex_server_response_threshold" : 123,
   "exclude_no_dns_record_as_error" : true,
   "exclude_client_close_before_request_as_error" : true,
+  "sip_log_depth" : 123,
   "apdex_response_threshold" : 123,
   "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_server_lossy_zero_win_size_event_threshold" : 123,
@@ -816,11 +832,13 @@ font-style: italic;
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
   "conn_server_lossy_total_rexmt_threshold" : 123,
+  "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_timeo_rexmt_threshold" : 123,
   "hs_event_throttle_window" : 123,
   "resp_code_block" : [ "aeiou" ],
   "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "healthscore_max_server_limit" : 123,
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
@@ -853,6 +871,7 @@ font-style: italic;
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
+    "waf_field_rules" : [ "" ],
     "header_field_rules" : [ {
       "match" : {
         "match_criteria" : "aeiou",
@@ -871,6 +890,7 @@ font-style: italic;
   "exclude_server_dns_error_as_error" : true,
   "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rtt_threshold" : 123,
+  "enable_advanced_analytics" : true,
   "exclude_no_valid_gs_member_as_error" : true,
   "url" : "aeiou",
   "disable_server_analytics" : true,
@@ -960,6 +980,7 @@ font-style: italic;
   "apdex_server_response_threshold" : 123,
   "exclude_no_dns_record_as_error" : true,
   "exclude_client_close_before_request_as_error" : true,
+  "sip_log_depth" : 123,
   "apdex_response_threshold" : 123,
   "apdex_response_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_server_lossy_zero_win_size_event_threshold" : 123,
@@ -976,11 +997,13 @@ font-style: italic;
   "apdex_rtt_tolerated_factor" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_ooo_threshold" : 123,
   "conn_server_lossy_total_rexmt_threshold" : 123,
+  "exclude_sip_error_codes" : [ "" ],
   "hs_security_cipherscore_ge128b" : 1.3579000000000001069366817318950779736042022705078125,
   "conn_lossy_timeo_rexmt_threshold" : 123,
   "hs_event_throttle_window" : 123,
   "resp_code_block" : [ "aeiou" ],
   "hs_security_hsts_penalty" : 1.3579000000000001069366817318950779736042022705078125,
+  "healthscore_max_server_limit" : 123,
   "exclude_gs_down_as_error" : true,
   "disable_se_analytics" : true,
   "exclude_persistence_change_as_error" : true,
@@ -1013,6 +1036,7 @@ font-style: italic;
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
+    "waf_field_rules" : [ "" ],
     "header_field_rules" : [ {
       "match" : {
         "match_criteria" : "aeiou",
@@ -1031,6 +1055,7 @@ font-style: italic;
   "exclude_server_dns_error_as_error" : true,
   "hs_security_tls12_score" : 1.3579000000000001069366817318950779736042022705078125,
   "apdex_rtt_threshold" : 123,
+  "enable_advanced_analytics" : true,
   "exclude_no_valid_gs_member_as_error" : true,
   "url" : "aeiou",
   "disable_server_analytics" : true,
@@ -1153,6 +1178,7 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">disable_se_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable node (service engine) level analytics forvs metrics. </div>
 <div class="param">disable_server_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable analytics on backend servers. This may be desired in container environment when there are large number of  ephemeral servers. </div>
+<div class="param">enable_advanced_analytics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13. </div>
 <div class="param">exclude_client_close_before_request_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude client closed connection before an HTTP request could be completed from being classified as an error. </div>
 <div class="param">exclude_dns_policy_drop_as_significant (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude dns policy drops from the list of errors. Field introduced in 17.2.2. </div>
 <div class="param">exclude_gs_down_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude queries to GSLB services that are operationally down from the list of errors. </div>
@@ -1164,9 +1190,11 @@ font-style: italic;
 <div class="param">exclude_persistence_change_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude persistence server changed while load balancing&#39; from the list of errors. </div>
 <div class="param">exclude_server_dns_error_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server dns error response from the list of errors. </div>
 <div class="param">exclude_server_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude server TCP reset from errors.  It is common for applications like MS Exchange. </div>
+<div class="param">exclude_sip_error_codes (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13. </div>
 <div class="param">exclude_syn_retransmit_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude &#39;server unanswered syns&#39; from the list of errors. </div>
 <div class="param">exclude_tcp_reset_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude TCP resets by client from the list of potential errors. </div>
 <div class="param">exclude_unsupported_dns_query_as_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Exclude unsupported dns queries from the list of errors. </div>
+<div class="param">healthscore_max_server_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Skips healthscore computation of pool servers when number of servers in a pool is more than this setting. Allowed values are 0-5000. Special values are 0- &#39;server health score is disabled&#39;. Field introduced in 17.2.13. format: int32</div>
 <div class="param">hs_event_throttle_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time window (in secs) within which only unique health change events should occur. format: int32</div>
 <div class="param">hs_max_anomaly_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum penalty that may be deducted from health score for anomalies. Allowed values are 0-100. format: int32</div>
 <div class="param">hs_max_resources_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum penalty that may be deducted from health score for high resource utilization. Allowed values are 0-100. format: int32</div>
@@ -1197,6 +1225,7 @@ font-style: italic;
 <div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPStatusRange">array[HTTPStatusRange]</a></span> List of HTTP status code ranges to be excluded from being classified as an error. </div>
 <div class="param">resp_code_block (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX. </div>
 <div class="param">sensitive_log_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#SensitiveLogProfile">SensitiveLogProfile</a></span> Rules applied to the HTTP application log for filtering sensitive information. Field introduced in 17.2.10. </div>
+<div class="param">sip_log_depth (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13. format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the analytics profile. </div>
@@ -1248,6 +1277,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SensitiveLogProfile">SensitiveLogProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">header_field_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#SensitiveFieldRule">array[SensitiveFieldRule]</a></span> Match sensitive header fields in HTTP application log. Field introduced in 17.2.10. </div>
+<div class="param">waf_field_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#SensitiveFieldRule">array[SensitiveFieldRule]</a></span> Match sensitive WAF log fields in HTTP application log. Field introduced in 17.2.13. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

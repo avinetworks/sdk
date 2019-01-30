@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.12</div>
+    <div class="app-desc">Version: 17.2.15</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -268,6 +268,7 @@ font-style: italic;
         "aggressive_congestion_avoidance" : true,
         "idle_connection_type" : "aeiou",
         "reorder_threshold" : 123,
+        "reassembly_queue_size" : 123,
         "cc_algo" : "aeiou",
         "receive_window" : 123,
         "max_syn_retransmissions" : 123,
@@ -362,6 +363,7 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -527,6 +529,7 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -632,6 +635,7 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -737,6 +741,7 @@ font-style: italic;
       "aggressive_congestion_avoidance" : true,
       "idle_connection_type" : "aeiou",
       "reorder_threshold" : 123,
+      "reassembly_queue_size" : 123,
       "cc_algo" : "aeiou",
       "receive_window" : 123,
       "max_syn_retransmissions" : 123,
@@ -902,6 +907,7 @@ font-style: italic;
 <div class="param">max_syn_retransmissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8. format: int32</div>
 <div class="param">min_rexmt_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum wait time (in millisec) to retransmit packet. Allowed values are 50-5000. Field introduced in 17.2.8. format: int32</div>
 <div class="param">nagles_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH. </div>
+<div class="param">reassembly_queue_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of TCP segments that can be queued for reassembly.Configuring this to 0 disables the feature and provides unlimited queueing. Field introduced in 17.2.13. format: int32</div>
 <div class="param">receive_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of the receive window. Allowed values are 32-65536. format: int32</div>
 <div class="param">reorder_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7. format: int32</div>
 <div class="param">slow_start_scaling_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12. format: int32</div>

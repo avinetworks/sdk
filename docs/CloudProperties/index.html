@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure cloudproperties - show cloudproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.12</div>
+    <div class="app-desc">Version: 17.2.15</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -339,6 +339,7 @@ font-style: italic;
         "allow_unauthenticated_apis" : true,
         "allow_ip_forwarding" : true,
         "attach_ip_retry_interval" : 123,
+        "cloud_reconcile" : true,
         "warmstart_se_reconnect_wait_time" : 123,
         "vnic_op_fail_time" : 123,
         "portal_token" : "aeiou",
@@ -486,6 +487,7 @@ font-style: italic;
       "allow_unauthenticated_apis" : true,
       "allow_ip_forwarding" : true,
       "attach_ip_retry_interval" : 123,
+      "cloud_reconcile" : true,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
       "portal_token" : "aeiou",
@@ -704,6 +706,7 @@ font-style: italic;
       "allow_unauthenticated_apis" : true,
       "allow_ip_forwarding" : true,
       "attach_ip_retry_interval" : 123,
+      "cloud_reconcile" : true,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
       "portal_token" : "aeiou",
@@ -862,6 +865,7 @@ font-style: italic;
       "allow_unauthenticated_apis" : true,
       "allow_ip_forwarding" : true,
       "attach_ip_retry_interval" : 123,
+      "cloud_reconcile" : true,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
       "portal_token" : "aeiou",
@@ -1020,6 +1024,7 @@ font-style: italic;
       "allow_unauthenticated_apis" : true,
       "allow_ip_forwarding" : true,
       "attach_ip_retry_interval" : 123,
+      "cloud_reconcile" : true,
       "warmstart_se_reconnect_wait_time" : 123,
       "vnic_op_fail_time" : 123,
       "portal_token" : "aeiou",
@@ -1138,6 +1143,7 @@ font-style: italic;
     "allow_unauthenticated_apis" : true,
     "allow_ip_forwarding" : true,
     "attach_ip_retry_interval" : 123,
+    "cloud_reconcile" : true,
     "warmstart_se_reconnect_wait_time" : 123,
     "vnic_op_fail_time" : 123,
     "portal_token" : "aeiou",
@@ -1241,6 +1247,7 @@ font-style: italic;
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
+  "cloud_reconcile" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "portal_token" : "aeiou",
@@ -1415,6 +1422,7 @@ font-style: italic;
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
+  "cloud_reconcile" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "portal_token" : "aeiou",
@@ -1529,6 +1537,7 @@ font-style: italic;
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
+  "cloud_reconcile" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "portal_token" : "aeiou",
@@ -1643,6 +1652,7 @@ font-style: italic;
   "allow_unauthenticated_apis" : true,
   "allow_ip_forwarding" : true,
   "attach_ip_retry_interval" : 123,
+  "cloud_reconcile" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "portal_token" : "aeiou",
@@ -1775,6 +1785,7 @@ font-style: italic;
 <div class="param">attach_ip_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_interval. format: int32</div>
 <div class="param">attach_ip_retry_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of attach_ip_retry_limit. format: int32</div>
 <div class="param">bm_use_ansible (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Ansible for SE creation in baremetal. Field introduced in 17.2.2. </div>
+<div class="param">cloud_reconcile (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14. </div>
 <div class="param">cluster_ip_gratuitous_arp_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of cluster_ip_gratuitous_arp_period. format: int32</div>
 <div class="param">crashed_se_reboot (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of crashed_se_reboot. format: int32</div>
 <div class="param">dead_se_detection_timer (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of dead_se_detection_timer. format: int32</div>

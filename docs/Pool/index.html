@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  ##Examples## - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.12</div>
+    <div class="app-desc">Version: 17.2.15</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -435,6 +435,7 @@ font-style: italic;
       "http_header" : "aeiou"
     },
     "max_concurrent_connections_per_server" : 123,
+    "service_metadata" : "aeiou",
     "capacity_estimation_ttfb_thresh" : 123,
     "lb_algorithm_hash" : "aeiou",
     "request_queue_enabled" : true,
@@ -656,6 +657,7 @@ font-style: italic;
     "http_header" : "aeiou"
   },
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
@@ -1168,6 +1170,7 @@ font-style: italic;
     "http_header" : "aeiou"
   },
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
@@ -1608,6 +1611,7 @@ font-style: italic;
     "http_header" : "aeiou"
   },
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
@@ -1892,6 +1896,7 @@ font-style: italic;
     "http_header" : "aeiou"
   },
   "max_concurrent_connections_per_server" : 123,
+  "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
   "request_queue_enabled" : true,
@@ -2873,6 +2878,7 @@ font-style: italic;
 <div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections if SNI is enabled. If no value is specified, Avi will use the incoming host header instead. </div>
 <div class="param">server_reselect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPServerReselect">HTTPServerReselect</a></span> Server reselect configuration for HTTP requests. </div>
 <div class="param">servers (optional)</div><div class="param-desc"><span class="param-type"><a href="#Server">array[Server]</a></span> The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group. </div>
+<div class="param">service_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14. </div>
 <div class="param">sni_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake. </div>
 <div class="param">ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engines will present a client SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When enabled, Avi re-encrypts traffic to the backend servers. The specific SSL profile defines which ciphers and SSL versions will be supported. It is a reference to an object of type SSLProfile. </div>

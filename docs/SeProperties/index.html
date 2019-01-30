@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">##CLI## ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 17.2.12</div>
+    <div class="app-desc">Version: 17.2.15</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -443,6 +443,8 @@ font-style: italic;
     "se_agent_properties" : {
       "debug_mode" : true,
       "controller_echo_rpc_aggressive_timeout" : 123,
+      "states_flush_interval" : 123,
+      "ns_helper_deq_interval_msec" : 123,
       "dp_deq_interval_msec" : 123,
       "dp_max_wait_rsp_time_sec" : 123,
       "controller_heartbeat_miss_limit" : 123,
@@ -459,6 +461,7 @@ font-style: italic;
       "dp_reg_pending_max_wait_time" : 123,
       "ignore_docker_mac_change" : true,
       "sdb_flush_interval" : 123,
+      "send_se_ready_timeout" : 123,
       "dp_aggressive_deq_interval_msec" : 123,
       "vnic_dhcp_ip_max_retries" : 123,
       "dp_aggressive_enq_interval_msec" : 123,
@@ -713,6 +716,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -729,6 +734,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1054,6 +1060,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1070,6 +1078,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1335,6 +1344,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1351,6 +1362,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1616,6 +1628,8 @@ font-style: italic;
   "se_agent_properties" : {
     "debug_mode" : true,
     "controller_echo_rpc_aggressive_timeout" : 123,
+    "states_flush_interval" : 123,
+    "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
@@ -1632,6 +1646,7 @@ font-style: italic;
     "dp_reg_pending_max_wait_time" : 123,
     "ignore_docker_mac_change" : true,
     "sdb_flush_interval" : 123,
+    "send_se_ready_timeout" : 123,
     "dp_aggressive_deq_interval_msec" : 123,
     "vnic_dhcp_ip_max_retries" : 123,
     "dp_aggressive_enq_interval_msec" : 123,
@@ -1696,7 +1711,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP. </div>
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP. </div>
 <div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
 <div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
     </div>  <!-- field-items -->
@@ -1752,9 +1767,12 @@ font-style: italic;
 <div class="param">dp_reg_pending_max_wait_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max time to wait for dp registration before assert. format: int32</div>
 <div class="param">headless_timeout_sec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of headless_timeout_sec. format: int32</div>
 <div class="param">ignore_docker_mac_change (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean </div>
+<div class="param">ns_helper_deq_interval_msec (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 1-1000. Field introduced in 17.2.13. format: int32</div>
 <div class="param">sdb_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline flush interval. Allowed values are 1-10000. format: int32</div>
 <div class="param">sdb_pipeline_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline size. Allowed values are 1-10000. format: int32</div>
 <div class="param">sdb_scan_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB scan count. Allowed values are 1-1000. format: int32</div>
+<div class="param">send_se_ready_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Allowed values are 10-600. Field introduced in 17.2.13. format: int32</div>
+<div class="param">states_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 17.2.14. format: int32</div>
 <div class="param">vnic_dhcp_ip_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip check interval. Allowed values are 1-1000. format: int32</div>
 <div class="param">vnic_dhcp_ip_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip max retries. format: int32</div>
 <div class="param">vnic_ip_delete_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> wait interval before deleting IP. format: int32</div>
