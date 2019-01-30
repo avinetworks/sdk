@@ -7,17 +7,22 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"math"
 	"mime/multipart"
 	"net/http"
+	"net/http/cookiejar"
 	"net/http/httputil"
+	"net/url"
 	"os"
 	"reflect"
 	"strings"
 	"time"
+
+	"github.com/PuerkitoBio/goquery"
+
+	"github.com/golang/glog"
 )
 
 type aviResult struct {
@@ -110,6 +115,10 @@ type AviSession struct {
 
 	// internal: reusable client
 	client *http.Client
+
+	// internal: is azure saml
+
+	isAZURESAML bool
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -127,7 +136,7 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	avisess.csrfToken = ""
 	avisess.prefix = "https://" + avisess.host + "/"
 	avisess.tenant = ""
-	avisess.insecure = false
+	avisess.insecure = true
 
 	for _, option := range options {
 		err := option(avisess)
@@ -139,19 +148,117 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	if avisess.version == "" {
 		avisess.version = DEFAULT_AVI_VERSION
 	}
+	cookieJar, err := cookiejar.New(nil)
+
+	if err != nil {
+		return nil, err
+	}
 
 	// create transport object
 	avisess.tr = &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: avisess.insecure},
 	}
-	avisess.client = &http.Client{Transport: avisess.tr}
-	err := avisess.initiateSession()
+	avisess.client = &http.Client{Transport: avisess.tr, Jar: cookieJar}
+	err = avisess.initiateSession()
 	return avisess, err
 }
 
 func (avisess *AviSession) initiateSession() error {
+
 	if avisess.insecure == true {
 		glog.Warning("Strict certificate verification is *DISABLED*")
+	}
+
+	if avisess.isAZURESAML {
+		res, err := avisess.client.Get(avisess.prefix + "/sso/login")
+		if err != nil {
+			return err
+		}
+		doc, err := goquery.NewDocumentFromReader(res.Body)
+		if err != nil {
+			return err
+		}
+		samlRequest := ""
+		relayState := ""
+		var docFinderErr error
+		doc.Find("input").Each(func(_ int, item *goquery.Selection) {
+			value, _ := item.Attr("name")
+			if value == "SAMLRequest" {
+				samlRequest = item.AttrOr("value", "")
+			}
+			if value == "RelayState" {
+				relayState = item.AttrOr("value", "")
+			}
+		})
+		if docFinderErr != nil {
+			return docFinderErr
+		}
+		postURL := doc.Find("form").AttrOr("action", "")
+		if postURL == "" {
+			return errors.New("Unbale to get the SAML POST URL")
+		}
+		formData := url.Values{}
+		formData.Add("SAMLRequest", samlRequest)
+		formData.Add("RelayState", relayState)
+		res, err = avisess.client.PostForm(postURL, formData)
+		if err != nil {
+			errors.New("Unable to reach azure SAML")
+		}
+		doc, err = goquery.NewDocumentFromReader(res.Body)
+		if err != nil {
+			return err
+		}
+		scripts := doc.Find("script").First().Text()
+		jsonStartIndex := strings.Index(scripts, "{")
+		jsonEndIndex := strings.LastIndex(scripts, "}") + 1
+		jsonData := scripts[jsonStartIndex:jsonEndIndex]
+		var data map[string]interface{}
+		err = json.Unmarshal([]byte(jsonData), &data)
+		azureFormData := url.Values{}
+		azureFormData.Add("checkPhones", "false")
+		azureFormData.Add("flowToken", data["sFT"].(string))
+		azureFormData.Add("originalRequest", data["sCtx"].(string))
+		azureFormData.Add("username", avisess.username)
+		azureFormData.Add("login", avisess.username)
+		azureFormData.Add("passwd", avisess.password)
+		azureFormData.Add("ctx", data["sCtx"].(string))
+		azureFormData.Add("hpgrequestid", data["sessionId"].(string))
+		azureFormData.Add("canary", data["canary"].(string))
+		azureFormData.Add("LoginOptions", "1")
+		loginURL := postURL[:strings.LastIndex(postURL, "/")] + "/login"
+		res, err = avisess.client.PostForm(loginURL, azureFormData)
+		if err != nil {
+			return err
+		}
+		doc, err = goquery.NewDocumentFromReader(res.Body)
+		if err != nil {
+			return err
+		}
+		var samlResponse, RelayResponse string
+		doc.Find("input").Each(func(_ int, item *goquery.Selection) {
+			value, exist := item.Attr("name")
+			if !exist {
+				return
+			}
+			if value == "SAMLResponse" {
+				samlResponse = item.AttrOr("value", "")
+			}
+			if value == "RelayState" {
+				RelayResponse = item.AttrOr("value", "")
+			}
+		})
+		if samlResponse == "" || RelayResponse == "" {
+			return errors.New("Unable to get the SAML response")
+		}
+		aviFormPostURL := doc.Find("form").AttrOr("action", "")
+		if aviFormPostURL == "" {
+			return errors.New("Unbale to get the SAML POST URL")
+		}
+		aviFormData := url.Values{}
+		aviFormData.Add("SAMLResponse", samlResponse)
+		aviFormData.Add("RelayState", RelayResponse)
+		_, err = avisess.client.PostForm(aviFormPostURL, aviFormData)
+		return err
 	}
 
 	// If refresh auth token is provided, use callback function provided
@@ -187,6 +294,18 @@ func (avisess *AviSession) initiateSession() error {
 	}
 
 	return nil
+}
+
+func (avisess *AviSession) enableAZURESAML() {
+	avisess.isAZURESAML = true
+}
+
+// EnableAZURESAML - Use this to enable azure's saml based authentication
+func EnableAZURESAML() func(*AviSession) error {
+	return func(sess *AviSession) error {
+		sess.enableAZURESAML()
+		return nil
+	}
 }
 
 // SetPassword - Use this for NewAviSession option argument for setting password
@@ -259,7 +378,6 @@ func (avisess *AviSession) isTokenAuth() bool {
 	return avisess.authToken != "" || avisess.refreshAuthToken != nil
 }
 
-
 func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string) error {
 	if retry == 0 {
 		return nil
@@ -277,7 +395,6 @@ func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string
 	}
 	return nil
 }
-
 
 func (avisess *AviSession) newAviRequest(verb string, url string, payload io.Reader) (*http.Request, AviError) {
 	req, err := http.NewRequest(verb, url, payload)
@@ -311,7 +428,6 @@ func (avisess *AviSession) newAviRequest(verb string, url string, payload io.Rea
 // Helper routines for REST calls.
 //
 
-
 func (avisess *AviSession) collectCookiesFromResp(resp *http.Response) {
 	// collect cookies from the resp
 	for _, cookie := range resp.Cookies() {
@@ -328,9 +444,6 @@ func (avisess *AviSession) collectCookiesFromResp(resp *http.Response) {
 		}
 	}
 }
-
-
-
 
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
@@ -413,7 +526,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 			errorResult.Message = &emsg
 		} else {
 			return result, nil
-	    }
+		}
 	} else {
 		errmsg := fmt.Sprintf("Response body read failed: %v", err)
 		errorResult.Message = &errmsg
@@ -655,7 +768,7 @@ func debug(data []byte, err error) {
 func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 	url := avisess.prefix + "/api/initial-data"
 	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
-	for round :=0; round < 10; round++ {
+	for round := 0; round < 10; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error %v while generating http request.", err)
@@ -675,7 +788,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 			glog.Errorf("CheckControllerStatus Error while generating http request %v %v", url, err)
 		}
 		//wait before retry
-		time.Sleep(time.Duration(math.Exp(float64(round)) * 3) * time.Second)
+		time.Sleep(time.Duration(math.Exp(float64(round))*3) * time.Second)
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
 	return true, nil

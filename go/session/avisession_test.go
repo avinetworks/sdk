@@ -2,14 +2,15 @@ package session
 
 import (
 	"encoding/json"
-	"github.com/avinetworks/sdk/go/models"
-	"github.com/golang/glog"
 	"os"
 	"os/exec"
 	"reflect"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/avinetworks/sdk/go/models"
+	"github.com/golang/glog"
 )
 
 var AVI_CONTROLLER = os.Getenv("AVI_CONTROLLER")
@@ -362,5 +363,20 @@ func TestAviReads(t *testing.T) {
 			checkTime(t, start, "GetVirtualServiceInventory")
 
 		}
+	}
+}
+
+func TestAzureSaml(t *testing.T) {
+	sess, err := NewAviSession("10.145.18.193", "balaji@avinetworks.com", SetPassword("b0y@street"), EnableAZURESAML())
+	SetInsecure(sess)
+	if err != nil {
+		t.Fatalf("unable to get avi session %v", err)
+	}
+	var res interface{}
+	if err = sess.Get("api/virtualservice", &res); err == nil {
+		resp := res.(map[string]interface{})
+		glog.Infof("count: %d", resp["count"])
+	} else {
+		glog.Errorf("api/virtualservice err: %s", err)
 	}
 }
