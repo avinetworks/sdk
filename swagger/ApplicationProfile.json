@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -679,7 +679,7 @@
                 "negative_caching_ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4.", 
+                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4.", 
                     "format": "int32"
                 }, 
                 "aaaa_empty_response": {
@@ -701,7 +701,7 @@
                 "ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400.", 
+                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400.", 
                     "format": "int32"
                 }, 
                 "edns": {
@@ -978,7 +978,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -1122,6 +1122,10 @@
                 }, 
                 "client_ip_scanners_requests_rate_limit": {
                     "description": "Automatically track clients and classify them into 3 groups - Good, Bad, Unknown. Clients are tracked based on their IP Address. Clients are added to the Good group when the Avi Scan Detection system builds history of requests from them that complete successfully. Clients are added to Unknown group when there is insufficient history about them. Requests from such clients are rate limited to the rate specified in the RateProfile. Finally, Clients with history of failed requests are added to Bad group and their requests are rate limited with stricter thresholds than the Unknown Clients group. The Avi Scan Detection system automatically tunes itself so that the Good, Bad, and Unknown client IPs group membership changes dynamically with the changes in traffic patterns through the ADC.", 
+                    "$ref": "#/definitions/RateProfile"
+                }, 
+                "custom_requests_rate_limit": {
+                    "description": "Rate Limit all HTTP requests that map to any custom string. Field introduced in 17.2.13.", 
                     "$ref": "#/definitions/RateProfile"
                 }, 
                 "client_ip_to_uri_failed_requests_rate_limit": {
@@ -1346,11 +1350,9 @@
                     "description": "Set of match/action rules that govern what happens when the client certificate request is enabled.", 
                     "$ref": "#/definitions/SSLClientCertificateAction"
                 }, 
-                "client_max_request_size": {
-                    "default": 48, 
-                    "type": "integer", 
-                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
-                    "format": "int32"
+                "ssl_everywhere_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
                 }, 
                 "compression_profile": {
                     "description": "HTTP Compression settings to use with this HTTP Profile.", 
@@ -1361,9 +1363,11 @@
                     "description": "Maximum unknown URIs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
-                "ssl_everywhere_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
+                "client_max_request_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
+                    "format": "int32"
                 }, 
                 "spdy_fwd_proxy_mode": {
                     "type": "boolean", 
@@ -1424,6 +1428,11 @@
                     "type": "integer", 
                     "description": "Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
+                }, 
+                "hsts_subdomains_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13."
                 }, 
                 "client_body_timeout": {
                     "default": 30000, 

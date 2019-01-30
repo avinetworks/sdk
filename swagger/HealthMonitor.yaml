@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -548,11 +548,15 @@ definitions:
         required:
             -   sip_request_code
         properties:
+            sip_monitor_transport:
+                description: "Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14."
+                type: string
+                default: "SIP_UDP_PROTO"
             sip_request_code:
                 description: "Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8."
                 type: string
             sip_response:
-                description: "String to match in server response, max length is 512 characters. By default it checks for SIP/2.0 in payload. Field introduced in 17.2.8."
+                description: "Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8."
                 type: string
                 default: "SIP/2.0"
     HealthMonitorSSLAttributes:

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1111,6 +1111,96 @@
                 }
             }
         }, 
+        "AwsConfiguration": {
+            "required": [
+                "vpc_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "wildcard_access": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                }, 
+                "sqs_encryption": {
+                    "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                }, 
+                "ebs_encryption": {
+                    "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "free_elasticips": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Free unused elastic IP addresses."
+                }, 
+                "zones": {
+                    "items": {
+                        "$ref": "#/definitions/AwsZoneConfig"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
+                }, 
+                "asg_poll_interval": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "vpc": {
+                    "type": "string", 
+                    "description": "VPC name."
+                }, 
+                "ttl": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "use_iam_roles": {
+                    "type": "boolean", 
+                    "description": "Use IAM roles instead of access and secret key."
+                }, 
+                "s3_encryption": {
+                    "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "region": {
+                    "default": "us-west-1", 
+                    "type": "string", 
+                    "description": "AWS region."
+                }, 
+                "route53_integration": {
+                    "type": "boolean", 
+                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
+                }, 
+                "secret_access_key": {
+                    "type": "string", 
+                    "description": "AWS secret access key."
+                }, 
+                "use_sns_sqs": {
+                    "type": "boolean", 
+                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
+                }, 
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "AWS access key ID."
+                }, 
+                "iam_assume_role": {
+                    "type": "string", 
+                    "description": "IAM assume role for cross-account access."
+                }, 
+                "vpc_id": {
+                    "type": "string", 
+                    "description": "VPC ID."
+                }
+            }
+        }, 
         "CloudStackConfiguration": {
             "required": [
                 "access_key_id", 
@@ -1952,13 +2042,17 @@
                     "description": "Enable Kubernetes event subscription."
                 }, 
                 "nuage_controller": {
-                    "description": "Nuage Overlay SDN Controller information.", 
+                    "description": "Nuage Overlay SDN Controller information. Field deprecated in 17.2.13.", 
                     "$ref": "#/definitions/NuageSDNController"
                 }, 
                 "feproxy_vips_enable_proxy_arp": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "use_resource_definition_as_ssot": {
+                    "type": "boolean", 
+                    "description": "Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13."
                 }, 
                 "disable_auto_backend_service_sync": {
                     "type": "boolean", 
@@ -1971,7 +2065,12 @@
                 }, 
                 "fleet_endpoint": {
                     "type": "string", 
-                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment. Field deprecated in 17.2.13."
+                }, 
+                "docker_endpoint": {
+                    "default": "/var/run/docker.sock", 
+                    "type": "string", 
+                    "description": "Host Docker server UNIX socket endpoint. Field introduced in 17.2.14, 18.1.5."
                 }, 
                 "default_shared_virtualservice": {
                     "description": "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.", 
@@ -2001,16 +2100,24 @@
                     "type": "array", 
                     "description": "Exclude hosts with attributes for SE creation."
                 }, 
+                "se_pod_tolerations": {
+                    "items": {
+                        "$ref": "#/definitions/PodToleration"
+                    }, 
+                    "type": "array", 
+                    "description": "Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5."
+                }, 
                 "service_port_match_http_service": {
                     "type": "boolean", 
                     "description": "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11."
                 }, 
                 "l4_health_monitoring": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools."
                 }, 
                 "se_deployment_method": {
-                    "default": "SE_CREATE_SSH", 
+                    "default": "SE_CREATE_POD", 
                     "type": "string", 
                     "description": "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
                 }, 
@@ -2091,7 +2198,7 @@
                     "description": "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed."
                 }, 
                 "app_sync_frequency": {
-                    "default": 60, 
+                    "default": 300, 
                     "type": "integer", 
                     "description": "Sync frequency in seconds with frameworks.", 
                     "format": "int32"
@@ -2101,7 +2208,7 @@
                     "description": "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 }, 
                 "se_volume": {
-                    "default": "/opt/avi", 
+                    "default": "/var/lib/avi", 
                     "type": "string", 
                     "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
                 }, 
@@ -2110,6 +2217,7 @@
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "override_service_ports": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12."
                 }, 
@@ -2132,7 +2240,7 @@
                 "se_spawn_rate": {
                     "default": 25, 
                     "type": "integer", 
-                    "description": "New SE spawn rate per minute.", 
+                    "description": "New SE spawn rate per minute. Field deprecated in 17.2.13.", 
                     "format": "int32"
                 }, 
                 "ns_exclude_attributes": {
@@ -2141,6 +2249,10 @@
                     }, 
                     "type": "array", 
                     "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                }, 
+                "se_image_pull_secret": {
+                    "type": "string", 
+                    "description": "OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13."
                 }, 
                 "disable_auto_se_creation": {
                     "type": "boolean", 
@@ -2583,93 +2695,30 @@
                 }
             }
         }, 
-        "AwsConfiguration": {
-            "required": [
-                "vpc_id"
-            ], 
+        "PodToleration": {
             "type": "object", 
             "properties": {
-                "wildcard_access": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                "operator": {
+                    "default": "EQUAL", 
+                    "type": "string", 
+                    "description": "Operator to match. Enum options - EQUAL, EXISTS. Field introduced in 17.2.14, 18.1.5."
                 }, 
-                "sqs_encryption": {
-                    "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
-                    "$ref": "#/definitions/AwsEncryption"
+                "key": {
+                    "type": "string", 
+                    "description": "Key to match. Field introduced in 17.2.14, 18.1.5."
                 }, 
-                "publish_vip_to_public_zone": {
-                    "type": "boolean", 
-                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                "effect": {
+                    "type": "string", 
+                    "description": "Effect to match. Enum options - NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE. Field introduced in 17.2.14, 18.1.5."
                 }, 
-                "ebs_encryption": {
-                    "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/AwsEncryption"
+                "value": {
+                    "type": "string", 
+                    "description": "Value to match. Field introduced in 17.2.14, 18.1.5."
                 }, 
-                "free_elasticips": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Free unused elastic IP addresses."
-                }, 
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/AwsZoneConfig"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
-                }, 
-                "asg_poll_interval": {
-                    "default": 600, 
+                "toleration_seconds": {
                     "type": "integer", 
-                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
+                    "description": "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5.", 
                     "format": "int32"
-                }, 
-                "vpc": {
-                    "type": "string", 
-                    "description": "VPC name."
-                }, 
-                "ttl": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
-                    "format": "int32"
-                }, 
-                "use_iam_roles": {
-                    "type": "boolean", 
-                    "description": "Use IAM roles instead of access and secret key."
-                }, 
-                "s3_encryption": {
-                    "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/AwsEncryption"
-                }, 
-                "region": {
-                    "default": "us-west-1", 
-                    "type": "string", 
-                    "description": "AWS region."
-                }, 
-                "route53_integration": {
-                    "type": "boolean", 
-                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
-                }, 
-                "secret_access_key": {
-                    "type": "string", 
-                    "description": "AWS secret access key."
-                }, 
-                "use_sns_sqs": {
-                    "type": "boolean", 
-                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
-                }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
-                }, 
-                "iam_assume_role": {
-                    "type": "string", 
-                    "description": "IAM assume role for cross-account access."
-                }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID."
                 }
             }
         }, 

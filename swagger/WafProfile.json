@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -510,7 +510,7 @@
                     "format": "int32"
                 }, 
                 "regex_match_limit": {
-                    "default": 1500, 
+                    "default": 30000, 
                     "type": "integer", 
                     "description": "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.", 
                     "format": "int32"

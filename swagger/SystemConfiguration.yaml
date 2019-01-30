@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -720,6 +720,9 @@ definitions:
             community:
                 description: "Community string for SNMP v2c."
                 type: string
+            large_trap_payload:
+                description: "Support for 4096 bytes trap payload. Field introduced in 17.2.13."
+                type: boolean
             snmp_v3_config:
                 description: "SNMP version 3 configuration. Field introduced in 17.2.3."
                 $ref: '#/definitions/SnmpV3Configuration'

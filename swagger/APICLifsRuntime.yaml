@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi APICLifsRuntime Object API
     contact:
         name: Avi Networks Inc.
@@ -358,6 +358,11 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/Cif'
+            contract_graphs:
+                description: "Contract Graph associated with the VirtualService. Field introduced in 17.2.14."
+                type: array
+                items:
+                    type: string
             lif_label:
                 description: "lif_label of APICLifsRuntime."
                 type: string

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi APICLifsRuntime Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- show apic lifs\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -557,9 +557,9 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property auto_allocated of obj type APICLifsRuntime field type str  type boolean"
                 }, 
-                "network": {
+                "name": {
                     "type": "string", 
-                    "description": "network of APICLifsRuntime."
+                    "description": "Name of the object."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -573,10 +573,6 @@
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
                 }, 
                 "lif_label": {
                     "type": "string", 
@@ -607,6 +603,13 @@
                     "type": "array", 
                     "description": "Unique object identifier of transaction."
                 }, 
+                "contract_graphs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Contract Graph associated with the VirtualService. Field introduced in 17.2.14."
+                }, 
                 "cifs": {
                     "items": {
                         "$ref": "#/definitions/Cif"
@@ -614,9 +617,13 @@
                     "type": "array", 
                     "description": "Placeholder for description of property cifs of obj type APICLifsRuntime field type str  type object"
                 }, 
-                "name": {
+                "network": {
                     "type": "string", 
-                    "description": "Name of the object."
+                    "description": "network of APICLifsRuntime."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
                 }
             }
         }

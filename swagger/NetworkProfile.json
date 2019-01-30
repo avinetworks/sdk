@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -673,6 +673,11 @@
                     "default": 2, 
                     "type": "integer", 
                     "description": "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12.", 
+                    "format": "int32"
+                }, 
+                "reassembly_queue_size": {
+                    "type": "integer", 
+                    "description": "Maximum number of TCP segments that can be queued for reassembly.Configuring this to 0 disables the feature and provides unlimited queueing. Field introduced in 17.2.13.", 
                     "format": "int32"
                 }, 
                 "max_retransmissions": {

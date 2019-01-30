@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -396,7 +396,7 @@ definitions:
             regex_match_limit:
                 description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
                 type: integer
-                default: 1500
+                default: 30000
                 format: int32
             request_body_default_action:
                 description: "WAF default action for Request Body Phase. Field introduced in 17.2.1."

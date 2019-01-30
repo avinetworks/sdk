@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\n##Examples##\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -602,6 +602,11 @@
             ], 
             "type": "object", 
             "properties": {
+                "sip_monitor_transport": {
+                    "default": "SIP_UDP_PROTO", 
+                    "type": "string", 
+                    "description": "Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14."
+                }, 
                 "sip_request_code": {
                     "type": "string", 
                     "description": "Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8."
@@ -609,7 +614,7 @@
                 "sip_response": {
                     "default": "SIP/2.0", 
                     "type": "string", 
-                    "description": "String to match in server response, max length is 512 characters. By default it checks for SIP/2.0 in payload. Field introduced in 17.2.8."
+                    "description": "Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8."
                 }
             }
         }, 

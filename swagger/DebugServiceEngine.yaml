@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi DebugServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,24 @@ paths:
 
 
 definitions:
+    DebugIpAddr:
+        type: object
+        properties:
+            addrs:
+                description: "Placeholder for description of property addrs of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddr'
+            prefixes:
+                description: "Placeholder for description of property prefixes of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+            ranges:
+                description: "Placeholder for description of property ranges of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrRange'
     DebugSeAgent:
         type: object
         required:
@@ -386,14 +404,29 @@ definitions:
             flag:
                 description: " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT."
                 type: string
+    DebugSeFault:
+        type: object
+        properties:
+            se_mbuf_cl_sanity:
+                description: "Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13."
+                type: boolean
     DebugServiceEngine:
         type: object
         properties:
+            capture_params:
+                description: "Params for SE pcap. Field introduced in 17.2.14."
+                $ref: '#/definitions/DebugVirtualServiceCapture'
             cpu_shares:
                 description: "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/DebugSeCpuShares'
+            debug_ip:
+                description: "IP filter for SE pcap. Field introduced in 17.2.14."
+                $ref: '#/definitions/DebugIpAddr'
+            fault:
+                description: "Params for SE fault injection. Field introduced in 17.2.13."
+                $ref: '#/definitions/DebugSeFault'
             flags:
                 description: "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
                 type: array
@@ -431,3 +464,56 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/DebugServiceEngine"
+    DebugVirtualServiceCapture:
+        type: object
+        properties:
+            duration:
+                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'."
+                type: integer
+                format: int32
+            num_pkts:
+                description: "Total number of packets to capture."
+                type: integer
+                format: int32
+            pkt_size:
+                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
+                type: integer
+                default: 128
+                format: int32
+    IpAddr:
+        type: object
+        required:
+            -   addr
+            -   type
+        properties:
+            addr:
+                description: "IP address."
+                type: string
+            type:
+                description: " Enum options - V4, DNS, V6."
+                type: string
+    IpAddrPrefix:
+        type: object
+        required:
+            -   ip_addr
+            -   mask
+        properties:
+            ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            mask:
+                description: "Number of mask."
+                type: integer
+                format: int32
+    IpAddrRange:
+        type: object
+        required:
+            -   begin
+            -   end
+        properties:
+            begin:
+                description: "Starting IP address of the range."
+                $ref: '#/definitions/IpAddr'
+            end:
+                description: "Ending IP address of the range."
+                $ref: '#/definitions/IpAddr'

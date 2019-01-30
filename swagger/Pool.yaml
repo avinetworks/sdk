@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1808,6 +1808,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/Server'
+            service_metadata:
+                description: "Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14."
+                type: string
             sni_enabled:
                 description: "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
                 type: boolean

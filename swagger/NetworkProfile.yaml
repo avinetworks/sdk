@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -511,6 +511,10 @@ definitions:
             nagles_algorithm:
                 description: "Consolidates small data packets to send clients fewer but larger packets.  Adversely affects real time protocols such as telnet or SSH."
                 type: boolean
+            reassembly_queue_size:
+                description: "Maximum number of TCP segments that can be queued for reassembly.Configuring this to 0 disables the feature and provides unlimited queueing. Field introduced in 17.2.13."
+                type: integer
+                format: int32
             receive_window:
                 description: "Size of the receive window. Allowed values are 32-65536."
                 type: integer

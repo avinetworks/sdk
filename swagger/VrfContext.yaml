@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -469,11 +469,21 @@ definitions:
             -   flag
         properties:
             flag:
-                description: " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1."
+                description: " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_QUAGGA, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1."
                 type: string
     DebugVrfContext:
         type: object
         properties:
+            command_buffer_interval:
+                description: "Vrf config command buffer process interval. Allowed values are 1-10. Field introduced in 17.2.13."
+                type: integer
+                default: 2
+                format: int32
+            command_buffer_size:
+                description: "Vrf config command buffer size. Allowed values are 0-65535. Field introduced in 17.2.13."
+                type: integer
+                default: 32768
+                format: int32
             flags:
                 description: " Field introduced in 17.1.1."
                 type: array

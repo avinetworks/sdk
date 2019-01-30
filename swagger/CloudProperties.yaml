@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -877,6 +877,10 @@ definitions:
                 description: "Use Ansible for SE creation in baremetal. Field introduced in 17.2.2."
                 type: boolean
                 default: True
+            cloud_reconcile:
+                description: "Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14."
+                type: boolean
+                default: True
             cluster_ip_gratuitous_arp_period:
                 description: "Number of cluster_ip_gratuitous_arp_period."
                 type: integer
@@ -933,7 +937,6 @@ definitions:
             persistence_key_rotate_period:
                 description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
-                default: 60
                 format: int32
             portal_token:
                 description: "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
@@ -1037,7 +1040,7 @@ definitions:
             vs_key_rotate_period:
                 description: " Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer
-                default: 60
+                default: 360
                 format: int32
             vs_se_attach_ip_fail:
                 description: "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2."

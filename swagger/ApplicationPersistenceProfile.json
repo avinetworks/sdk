@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationPersistenceProfile Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure applicationpersistenceprofile <key>\n- show applicationpersistenceprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

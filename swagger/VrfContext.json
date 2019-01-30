@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -884,12 +884,24 @@
         "DebugVrfContext": {
             "type": "object", 
             "properties": {
+                "command_buffer_size": {
+                    "default": 32768, 
+                    "type": "integer", 
+                    "description": "Vrf config command buffer size. Allowed values are 0-65535. Field introduced in 17.2.13.", 
+                    "format": "int32"
+                }, 
                 "flags": {
                     "items": {
                         "$ref": "#/definitions/DebugVrf"
                     }, 
                     "type": "array", 
                     "description": " Field introduced in 17.1.1."
+                }, 
+                "command_buffer_interval": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "Vrf config command buffer process interval. Allowed values are 1-10. Field introduced in 17.2.13.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -901,7 +913,7 @@
             "properties": {
                 "flag": {
                     "type": "string", 
-                    "description": " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1."
+                    "description": " Enum options - DEBUG_VRF_BGP, DEBUG_VRF_QUAGGA, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1."
                 }
             }
         }

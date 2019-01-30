@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CloudProperties Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure cloudproperties\n- show cloudproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -996,7 +996,6 @@
                     "format": "int32"
                 }, 
                 "persistence_key_rotate_period": {
-                    "default": 60, 
                     "type": "integer", 
                     "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
                     "format": "int32"
@@ -1066,7 +1065,7 @@
                     "format": "int32"
                 }, 
                 "vs_key_rotate_period": {
-                    "default": 60, 
+                    "default": 360, 
                     "type": "integer", 
                     "description": " Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
                     "format": "int32"
@@ -1147,6 +1146,12 @@
                     "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.", 
                     "format": "int32"
                 }, 
+                "api_idle_timeout": {
+                    "default": 15, 
+                    "type": "integer", 
+                    "description": " Allowed values are 0-1440.", 
+                    "format": "int32"
+                }, 
                 "max_seq_vnic_failures": {
                     "default": 3, 
                     "type": "integer", 
@@ -1223,11 +1228,10 @@
                     "description": "Number of vs_se_create_fail.", 
                     "format": "int32"
                 }, 
-                "api_idle_timeout": {
-                    "default": 15, 
-                    "type": "integer", 
-                    "description": " Allowed values are 0-1440.", 
-                    "format": "int32"
+                "cloud_reconcile": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14."
                 }, 
                 "crashed_se_reboot": {
                     "default": 900, 

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '17.2.12'
+    version: '17.2.15'
     title: Avi HardwareSecurityModuleGroup Object API
     contact:
         name: Avi Networks Inc.

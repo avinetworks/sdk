@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AnalyticsProfile Object API", 
-        "version": "17.2.12", 
+        "version": "17.2.15", 
         "description": "##CLI##\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -640,6 +640,13 @@
                     }, 
                     "type": "array", 
                     "description": "Match sensitive header fields in HTTP application log. Field introduced in 17.2.10."
+                }, 
+                "waf_field_rules": {
+                    "items": {
+                        "$ref": "#/definitions/SensitiveFieldRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Match sensitive WAF log fields in HTTP application log. Field introduced in 17.2.13."
                 }
             }
         }, 
@@ -725,11 +732,11 @@
                     "description": "A connection between client and Avi is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.", 
                     "format": "int32"
                 }, 
-                "hs_security_certscore_le07d": {
-                    "default": 2.0, 
-                    "type": "number", 
-                    "description": "Score assigned when the certificate expires in less than or equal to 7 days. Allowed values are 0-5.", 
-                    "format": "double"
+                "healthscore_max_server_limit": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": "Skips healthscore computation of pool servers when number of servers in a pool is more than this setting. Allowed values are 0-5000. Special values are 0- 'server health score is disabled'. Field introduced in 17.2.13.", 
+                    "format": "int32"
                 }, 
                 "hs_pscore_traffic_threshold_l4_client": {
                     "default": 10.0, 
@@ -740,6 +747,11 @@
                 "exclude_no_valid_gs_member_as_error": {
                     "type": "boolean", 
                     "description": "Exclude queries to GSLB services that have no available members from the list of errors."
+                }, 
+                "enable_advanced_analytics": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enables Advanced Analytics features like Anomaly detection. If set to false, anomaly computation (and associated rules/events) for VS, Pool and Server metrics will be disabled. However, setting it to false reduces cpu and memory requirements for Analytics subsystem. Field introduced in 17.2.13."
                 }, 
                 "hs_security_cipherscore_ge128b": {
                     "default": 5.0, 
@@ -769,15 +781,21 @@
                     "description": "Maximum penalty that may be deducted from health score for anomalies. Allowed values are 0-100.", 
                     "format": "int32"
                 }, 
-                "conn_server_lossy_ooo_threshold": {
-                    "default": 50, 
+                "sip_log_depth": {
+                    "default": 20, 
                     "type": "integer", 
-                    "description": "A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.", 
+                    "description": "Maximum number of SIP messages added in logs for a SIP transaction. By default, this value is 20. Allowed values are 1-1000. Field introduced in 17.2.13.", 
                     "format": "int32"
                 }, 
                 "exclude_persistence_change_as_error": {
                     "type": "boolean", 
                     "description": "Exclude persistence server changed while load balancing' from the list of errors."
+                }, 
+                "conn_server_lossy_ooo_threshold": {
+                    "default": 50, 
+                    "type": "integer", 
+                    "description": "A connection between Avi and server is considered lossy when more than this percentage of out of order packets are received. Allowed values are 1-100.", 
+                    "format": "int32"
                 }, 
                 "hs_security_selfsignedcert_penalty": {
                     "default": 1.0, 
@@ -791,11 +809,9 @@
                     "description": "A connection between Avi and server is considered lossy when more than this percentage of packets are retransmitted. Allowed values are 1-100.", 
                     "format": "int32"
                 }, 
-                "hs_security_certscore_le30d": {
-                    "default": 4.0, 
-                    "type": "number", 
-                    "description": "Score assigned when the certificate expires in less than or equal to 30 days. Allowed values are 0-5.", 
-                    "format": "double"
+                "exclude_unsupported_dns_query_as_error": {
+                    "type": "boolean", 
+                    "description": "Exclude unsupported dns queries from the list of errors."
                 }, 
                 "exclude_syn_retransmit_as_error": {
                     "type": "boolean", 
@@ -914,6 +930,14 @@
                     "description": "Configure to stream logs to an external server. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/ClientLogStreamingConfig"
                 }, 
+                "exclude_sip_error_codes": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "List of SIP status codes to be excluded from being classified as an error. Field introduced in 17.2.13.", 
+                    "format": "int32"
+                }, 
                 "apdex_server_response_threshold": {
                     "default": 400, 
                     "type": "integer", 
@@ -971,6 +995,12 @@
                     "description": "Tolerated client to Avi Round Trip Time(RTT) factor.  It is a multiple of apdex_rtt_tolerated_factor. Allowed values are 1-1000.", 
                     "format": "double"
                 }, 
+                "hs_security_certscore_le30d": {
+                    "default": 4.0, 
+                    "type": "number", 
+                    "description": "Score assigned when the certificate expires in less than or equal to 30 days. Allowed values are 0-5.", 
+                    "format": "double"
+                }, 
                 "description": {
                     "type": "string", 
                     "description": "User defined description for the object."
@@ -1022,6 +1052,12 @@
                     "type": "array", 
                     "description": "Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX."
                 }, 
+                "hs_security_certscore_le07d": {
+                    "default": 2.0, 
+                    "type": "number", 
+                    "description": "Score assigned when the certificate expires in less than or equal to 7 days. Allowed values are 0-5.", 
+                    "format": "double"
+                }, 
                 "hs_pscore_traffic_threshold_l4_server": {
                     "default": 10.0, 
                     "type": "number", 
@@ -1063,10 +1099,6 @@
                     "type": "integer", 
                     "description": "If a client receives an HTTP response in less than the Satisfactory Latency Threshold, the request is considered Satisfied. It is considered Tolerated if it is not Satisfied and less than Tolerated Latency Factor multiplied by the Satisfactory Latency Threshold. Greater than this number and the client's request is considered Frustrated. Allowed values are 1-30000.", 
                     "format": "int32"
-                }, 
-                "exclude_unsupported_dns_query_as_error": {
-                    "type": "boolean", 
-                    "description": "Exclude unsupported dns queries from the list of errors."
                 }
             }
         }, 
