@@ -73,6 +73,8 @@ class MonitorConfigConv(object):
             send = None
         if is_http and send and 'HTTP' not in send:
             send = send.replace('\\r\\n', ' HTTP/1.1\\r\\n', 1)
+        if is_http and send and 'BigIP' in send:
+            send = send.replace("BigIP","avi1.0")
         return send
 
     def create_sslprofile(self, monitor_dict, f5_monitor, avi_config,

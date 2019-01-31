@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure httppolicyset <key> - show httppolicyset <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -461,7 +461,7 @@ font-style: italic;
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -722,7 +722,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1054,7 +1054,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1326,7 +1326,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1598,7 +1598,7 @@ font-style: italic;
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1716,7 +1716,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HTTPPolicySet">HTTPPolicySet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for Pool. Internally set by cloud connector. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
@@ -1998,7 +1998,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>

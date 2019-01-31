@@ -16,6 +16,9 @@ type DNSResponse struct {
 	// Flag to indicate the responding DNS is an authority for the requested FQDN.
 	AuthoritativeAnswer *bool `json:"authoritative_answer,omitempty"`
 
+	// Resource records in the response are generated based on wildcard match. Field introduced in 18.2.1.
+	IsWildcard *bool `json:"is_wildcard,omitempty"`
+
 	// Number of nameserver records.
 	NameserverRecordsCount *int32 `json:"nameserver_records_count,omitempty"`
 

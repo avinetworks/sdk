@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -49,7 +49,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 

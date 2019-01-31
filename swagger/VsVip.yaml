@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi VsVip Object API
     contact:
         name: Avi Networks Inc.
@@ -117,7 +117,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -500,7 +500,7 @@ definitions:
                 description: "IPv6 Address of the Vip. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddr'
             ip_address:
-                description: "IPv4 Address of the Vip. Field introduced in 17.1.1."
+                description: "IPv4 Address of the VIP. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
             ipam_network_subnet:
                 description: "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1."

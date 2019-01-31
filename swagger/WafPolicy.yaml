@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -376,8 +376,11 @@ definitions:
                 description: "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1."
                 $ref: '#/definitions/IpAddrPrefix'
             match_element:
-                description: "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                description: "The match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx', 'ARGS_NAMES xxx', 'FILES xxx', 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 type: string
+            match_element_criteria:
+                description: "Criteria for match_element matching. Field introduced in 19.1.1, 18.2.2."
+                $ref: '#/definitions/WafExclusionType'
             uri_match_criteria:
                 description: "Criteria for URI matching. Field introduced in 17.2.8."
                 $ref: '#/definitions/WafExclusionType'
@@ -435,6 +438,10 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            allow_mode_delegation:
+                description: "Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1."
+                type: boolean
+                default: True
             created_by:
                 description: "Creator name. Field introduced in 17.2.4."
                 type: string
@@ -454,7 +461,7 @@ definitions:
                 description: "Configure parameters for WAF learning. Field introduced in 18.1.2."
                 $ref: '#/definitions/WafLearning'
             mode:
-                description: "WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
+                description: "WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
                 type: string
                 default: "WAF_MODE_DETECTION_ONLY"
             name:
@@ -519,10 +526,16 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafExcludeListEntry'
+            force_detection:
+                description: "When set to 'true', this rule will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
+                type: boolean
             index:
                 description: " Field introduced in 17.2.1."
                 type: integer
                 format: int32
+            mode:
+                description: "WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1."
+                type: string
             name:
                 description: "User-friendly optional name for a rule. Field introduced in 17.2.1."
                 type: string
@@ -553,6 +566,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafExcludeListEntry'
+            force_detection:
+                description: "When set to 'true', any rule in this group will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
+                type: boolean
             index:
                 description: " Field introduced in 17.2.1."
                 type: integer
