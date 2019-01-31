@@ -7,7 +7,7 @@ package models
 // swagger:model HealthMonitorSIP
 type HealthMonitorSIP struct {
 
-	// Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 18.1.5, 18.2.1.
+	// Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1.
 	SipMonitorTransport *string `json:"sip_monitor_transport,omitempty"`
 
 	// Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1.

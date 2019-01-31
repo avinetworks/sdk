@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -208,7 +208,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: metric_id
                     in: query
@@ -336,6 +336,174 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: aggregate_entity
+                    in: query
+                    description: Required if the metrics need to be aggregated across multiple entities like virtualservice.
+                    type: boolean
+                -   name: aggregate_obj_id
+                    in: query
+                    description: Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.
+                    type: boolean
+                -   name: asn
+                    in: query
+                    description: Autonomous System number. Eg. asn=3794.
+                    type: string
+                -   name: attack
+                    in: query
+                    description: Dos Attack ID filter.
+                    type: string
+                -   name: browser
+                    in: query
+                    description: Browser filter. Eg. browser=Chrome.
+                    type: string
+                -   name: client_insights
+                    in: query
+                    description: Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.
+                    type: string
+                -   name: country
+                    in: query
+                    description: Two letter country filter. Eg. country=US.
+                    type: string
+                -   name: detailed_header
+                    in: query
+                    description: Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.
+                    type: boolean
+                -   name: devtype
+                    in: query
+                    description: Device type filter. Eg. devtype=desktop.
+                    type: string
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: dimension_filter_op
+                    in: query
+                    description: Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.
+                    type: string
+                -   name: dimension_limit
+                    in: query
+                    description: Limit the number of dimensions in the result. specially useful in case of URLs.
+                    type: integer
+                -   name: dimension_sampling
+                    in: query
+                    description: Deprecated. perform sampling for dimensional metrics. zero means auto.
+                    type: integer
+                -   name: dimensions
+                    in: query
+                    description: Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity. Eg. entity_uuid=virtualservice-0-1.
+                    type: string
+                -   name: id
+                    in: query
+                    description: ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve UUID to names.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include metrics statistics with the request.
+                    type: boolean
+                -   name: ipgroup
+                    in: query
+                    description: IPGROUP filter Eg. UUID of the IP group.
+                    type: string
+                -   name: lang
+                    in: query
+                    description: Language filter. Eg. lang=english.
+                    type: string
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: metric_id
+                    in: query
+                    description: Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.
+                    type: string
+                -   name: microservice_levels
+                    in: query
+                    description: number of levels of microservices map.
+                    type: integer
+                -   name: obj_id
+                    in: query
+                    description: serverip port of the pool server.
+                    type: string
+                -   name: order_by
+                    in: query
+                    description: Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.
+                    type: string
+                -   name: os
+                    in: query
+                    description: Operating system filter. Eg. os=mac.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing data when not available.
+                    type: boolean
+                -   name: page
+                    in: query
+                    description: page id for the query. Allowed only for aggregation queries.
+                    type: integer
+                -   name: page_size
+                    in: query
+                    description: page size of the query. Allowed only for the aggregation queries.
+                    type: integer
+                -   name: pool_uuid
+                    in: query
+                    description: metrics for a member pool in a virtual service.
+                    type: string
+                -   name: prediction
+                    in: query
+                    description: Request prediction values instead of actual observed metrics in future if supported.
+                    type: boolean
+                -   name: result_format
+                    in: query
+                    description: Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: sampling_level
+                    in: query
+                    description: Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Pool Server ID in format server IP port. Eg. 10.10.1.42 80.
+                    type: string
+                -   name: serviceengine_uuid
+                    in: query
+                    description: UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.
+                    type: string
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
+                -   name: url
+                    in: query
+                    description: URL filter. Eg. url=http //www.avinetworks.com.
+                    type: string
+                -   name: validate_data
+                    in: query
+                    description: Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.
+                    type: boolean
             security:
                 - basicAuth: []
             responses:
@@ -468,7 +636,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: metric_id
                     in: query
@@ -596,6 +764,174 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: aggregate_entity
+                    in: query
+                    description: Required if the metrics need to be aggregated across multiple entities like virtualservice.
+                    type: boolean
+                -   name: aggregate_obj_id
+                    in: query
+                    description: Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.
+                    type: boolean
+                -   name: asn
+                    in: query
+                    description: Autonomous System number. Eg. asn=3794.
+                    type: string
+                -   name: attack
+                    in: query
+                    description: Dos Attack ID filter.
+                    type: string
+                -   name: browser
+                    in: query
+                    description: Browser filter. Eg. browser=Chrome.
+                    type: string
+                -   name: client_insights
+                    in: query
+                    description: Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.
+                    type: string
+                -   name: country
+                    in: query
+                    description: Two letter country filter. Eg. country=US.
+                    type: string
+                -   name: detailed_header
+                    in: query
+                    description: Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.
+                    type: boolean
+                -   name: devtype
+                    in: query
+                    description: Device type filter. Eg. devtype=desktop.
+                    type: string
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: dimension_filter_op
+                    in: query
+                    description: Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.
+                    type: string
+                -   name: dimension_limit
+                    in: query
+                    description: Limit the number of dimensions in the result. specially useful in case of URLs.
+                    type: integer
+                -   name: dimension_sampling
+                    in: query
+                    description: Deprecated. perform sampling for dimensional metrics. zero means auto.
+                    type: integer
+                -   name: dimensions
+                    in: query
+                    description: Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity. Eg. entity_uuid=virtualservice-0-1.
+                    type: string
+                -   name: id
+                    in: query
+                    description: ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve UUID to names.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include metrics statistics with the request.
+                    type: boolean
+                -   name: ipgroup
+                    in: query
+                    description: IPGROUP filter Eg. UUID of the IP group.
+                    type: string
+                -   name: lang
+                    in: query
+                    description: Language filter. Eg. lang=english.
+                    type: string
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: metric_id
+                    in: query
+                    description: Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.
+                    type: string
+                -   name: microservice_levels
+                    in: query
+                    description: number of levels of microservices map.
+                    type: integer
+                -   name: obj_id
+                    in: query
+                    description: serverip port of the pool server.
+                    type: string
+                -   name: order_by
+                    in: query
+                    description: Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.
+                    type: string
+                -   name: os
+                    in: query
+                    description: Operating system filter. Eg. os=mac.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing data when not available.
+                    type: boolean
+                -   name: page
+                    in: query
+                    description: page id for the query. Allowed only for aggregation queries.
+                    type: integer
+                -   name: page_size
+                    in: query
+                    description: page size of the query. Allowed only for the aggregation queries.
+                    type: integer
+                -   name: pool_uuid
+                    in: query
+                    description: metrics for a member pool in a virtual service.
+                    type: string
+                -   name: prediction
+                    in: query
+                    description: Request prediction values instead of actual observed metrics in future if supported.
+                    type: boolean
+                -   name: result_format
+                    in: query
+                    description: Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: sampling_level
+                    in: query
+                    description: Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Pool Server ID in format server IP port. Eg. 10.10.1.42 80.
+                    type: string
+                -   name: serviceengine_uuid
+                    in: query
+                    description: UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.
+                    type: string
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
+                -   name: url
+                    in: query
+                    description: URL filter. Eg. url=http //www.avinetworks.com.
+                    type: string
+                -   name: validate_data
+                    in: query
+                    description: Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.
+                    type: boolean
             security:
                 - basicAuth: []
             responses:
@@ -728,7 +1064,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: metric_id
                     in: query
@@ -856,6 +1192,174 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: aggregate_entity
+                    in: query
+                    description: Required if the metrics need to be aggregated across multiple entities like virtualservice.
+                    type: boolean
+                -   name: aggregate_obj_id
+                    in: query
+                    description: Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.
+                    type: boolean
+                -   name: asn
+                    in: query
+                    description: Autonomous System number. Eg. asn=3794.
+                    type: string
+                -   name: attack
+                    in: query
+                    description: Dos Attack ID filter.
+                    type: string
+                -   name: browser
+                    in: query
+                    description: Browser filter. Eg. browser=Chrome.
+                    type: string
+                -   name: client_insights
+                    in: query
+                    description: Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.
+                    type: string
+                -   name: country
+                    in: query
+                    description: Two letter country filter. Eg. country=US.
+                    type: string
+                -   name: detailed_header
+                    in: query
+                    description: Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.
+                    type: boolean
+                -   name: devtype
+                    in: query
+                    description: Device type filter. Eg. devtype=desktop.
+                    type: string
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: dimension_filter_op
+                    in: query
+                    description: Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.
+                    type: string
+                -   name: dimension_limit
+                    in: query
+                    description: Limit the number of dimensions in the result. specially useful in case of URLs.
+                    type: integer
+                -   name: dimension_sampling
+                    in: query
+                    description: Deprecated. perform sampling for dimensional metrics. zero means auto.
+                    type: integer
+                -   name: dimensions
+                    in: query
+                    description: Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity. Eg. entity_uuid=virtualservice-0-1.
+                    type: string
+                -   name: id
+                    in: query
+                    description: ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve UUID to names.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include metrics statistics with the request.
+                    type: boolean
+                -   name: ipgroup
+                    in: query
+                    description: IPGROUP filter Eg. UUID of the IP group.
+                    type: string
+                -   name: lang
+                    in: query
+                    description: Language filter. Eg. lang=english.
+                    type: string
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: metric_id
+                    in: query
+                    description: Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.
+                    type: string
+                -   name: microservice_levels
+                    in: query
+                    description: number of levels of microservices map.
+                    type: integer
+                -   name: obj_id
+                    in: query
+                    description: serverip port of the pool server.
+                    type: string
+                -   name: order_by
+                    in: query
+                    description: Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.
+                    type: string
+                -   name: os
+                    in: query
+                    description: Operating system filter. Eg. os=mac.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing data when not available.
+                    type: boolean
+                -   name: page
+                    in: query
+                    description: page id for the query. Allowed only for aggregation queries.
+                    type: integer
+                -   name: page_size
+                    in: query
+                    description: page size of the query. Allowed only for the aggregation queries.
+                    type: integer
+                -   name: pool_uuid
+                    in: query
+                    description: metrics for a member pool in a virtual service.
+                    type: string
+                -   name: prediction
+                    in: query
+                    description: Request prediction values instead of actual observed metrics in future if supported.
+                    type: boolean
+                -   name: result_format
+                    in: query
+                    description: Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: sampling_level
+                    in: query
+                    description: Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Pool Server ID in format server IP port. Eg. 10.10.1.42 80.
+                    type: string
+                -   name: serviceengine_uuid
+                    in: query
+                    description: UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.
+                    type: string
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
+                -   name: url
+                    in: query
+                    description: URL filter. Eg. url=http //www.avinetworks.com.
+                    type: string
+                -   name: validate_data
+                    in: query
+                    description: Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.
+                    type: boolean
             security:
                 - basicAuth: []
             responses:
@@ -988,7 +1492,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: metric_id
                     in: query
@@ -1116,6 +1620,174 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: aggregate_entity
+                    in: query
+                    description: Required if the metrics need to be aggregated across multiple entities like virtualservice.
+                    type: boolean
+                -   name: aggregate_obj_id
+                    in: query
+                    description: Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.
+                    type: boolean
+                -   name: asn
+                    in: query
+                    description: Autonomous System number. Eg. asn=3794.
+                    type: string
+                -   name: attack
+                    in: query
+                    description: Dos Attack ID filter.
+                    type: string
+                -   name: browser
+                    in: query
+                    description: Browser filter. Eg. browser=Chrome.
+                    type: string
+                -   name: client_insights
+                    in: query
+                    description: Client Insights Source Type - Active or Passive. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE.
+                    type: string
+                -   name: country
+                    in: query
+                    description: Two letter country filter. Eg. country=US.
+                    type: string
+                -   name: detailed_header
+                    in: query
+                    description: Detailed header returns metric information, statistics etc. It is has overhead which can be bypassed if caller just wants raw data.
+                    type: boolean
+                -   name: devtype
+                    in: query
+                    description: Device type filter. Eg. devtype=desktop.
+                    type: string
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: dimension_filter_op
+                    in: query
+                    description: Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.
+                    type: string
+                -   name: dimension_limit
+                    in: query
+                    description: Limit the number of dimensions in the result. specially useful in case of URLs.
+                    type: integer
+                -   name: dimension_sampling
+                    in: query
+                    description: Deprecated. perform sampling for dimensional metrics. zero means auto.
+                    type: integer
+                -   name: dimensions
+                    in: query
+                    description: Group by dimensions for the metrics. Eg. For results by single dimension use dimensions=browser. For results by browser and operating system use dimensions=browser,os. Enum options - METRICS_DIMENSION_METRIC_TIMESTAMP, METRICS_DIMENSION_COUNTRY, METRICS_DIMENSION_OS, METRICS_DIMENSION_URL, METRICS_DIMENSION_DEVTYPE, METRICS_DIMENSION_LANG, METRICS_DIMENSION_BROWSER, METRICS_DIMENSION_IPGROUP, METRICS_DIMENSION_ATTACK, METRICS_DIMENSION_ASN.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity. Eg. entity_uuid=virtualservice-0-1.
+                    type: string
+                -   name: id
+                    in: query
+                    description: ID of the request. In case of GET API it is returned in the metrics query response. In case of collections API responses are grouped byresponses corresponding to each optimized query.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve UUID to names.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include metrics statistics with the request.
+                    type: boolean
+                -   name: ipgroup
+                    in: query
+                    description: IPGROUP filter Eg. UUID of the IP group.
+                    type: string
+                -   name: lang
+                    in: query
+                    description: Language filter. Eg. lang=english.
+                    type: string
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples per metric requestedEg. limit=100 implies return only 100 samples.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: metric_id
+                    in: query
+                    description: Comma separated list of metrics requested.Eg. metric_id=l4_client.avg_bandwidth,l7_client.avg_total_responses.
+                    type: string
+                -   name: microservice_levels
+                    in: query
+                    description: number of levels of microservices map.
+                    type: integer
+                -   name: obj_id
+                    in: query
+                    description: serverip port of the pool server.
+                    type: string
+                -   name: order_by
+                    in: query
+                    description: Order metrics series by metric timestamp. -metric_timestamp will result in most recent value first in the time series.
+                    type: string
+                -   name: os
+                    in: query
+                    description: Operating system filter. Eg. os=mac.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing data when not available.
+                    type: boolean
+                -   name: page
+                    in: query
+                    description: page id for the query. Allowed only for aggregation queries.
+                    type: integer
+                -   name: page_size
+                    in: query
+                    description: page size of the query. Allowed only for the aggregation queries.
+                    type: integer
+                -   name: pool_uuid
+                    in: query
+                    description: metrics for a member pool in a virtual service.
+                    type: string
+                -   name: prediction
+                    in: query
+                    description: Request prediction values instead of actual observed metrics in future if supported.
+                    type: boolean
+                -   name: result_format
+                    in: query
+                    description: Deprecated. Please do not use this option. APIs only support JSON format. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: sampling_level
+                    in: query
+                    description: Deprecated. Enum options - METRICS_SAMPLING_DEFAULT, METRICS_SAMPLING_FAST, METRICS_SAMPLING_FORCE.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Pool Server ID in format server IP port. Eg. 10.10.1.42 80.
+                    type: string
+                -   name: serviceengine_uuid
+                    in: query
+                    description: UUID of the service engine.Eg. serviceengine_uuid=se-422ce810-50a4-2ecd-d45d-870656e99b7b.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. Eg. start=1970-01-01T00 00 00.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Metrics time series returned with time points every time duration specified as step. Eg. if bandwidth is desired every 5 Secs then use step=5&metric_id=l4_client.avg_bandwidth.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Eg. stop=2014-01-01T12 42 42.
+                    type: string
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
+                -   name: url
+                    in: query
+                    description: URL filter. Eg. url=http //www.avinetworks.com.
+                    type: string
+                -   name: validate_data
+                    in: query
+                    description: Validate every data before returning. This will result in increased latency and should only be used for troubleshooting.
+                    type: boolean
             security:
                 - basicAuth: []
             responses:
@@ -1451,7 +2123,7 @@ definitions:
                 default: 60
                 format: int32
             metric_entity:
-                description: "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: "Describes the entity type for which metrics is requested. Eg. &metric_entity=VSERVER_METRICS_ENTITY. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
                 default: "VSERVER_METRICS_ENTITY"
             metric_id:
@@ -1551,7 +2223,7 @@ definitions:
                 type: integer
                 format: int32
             metric_entity:
-                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
             metric_id:
                 description: "metric_id of MetricsQueryResponse."

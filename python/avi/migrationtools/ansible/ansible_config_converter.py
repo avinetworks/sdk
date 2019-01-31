@@ -72,10 +72,15 @@ class AviAnsibleConverter(object):
 
         # Read file to get meta order.
         self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
-                                                   'ansible_order_constant.yaml')
+                                                   '../common/avi_resource_types.yaml')
 
         with open(self.ansible_rest_file_path, 'r') as f:
             self.default_meta_order = yaml.load(f)
+
+        # Convert list of resource to lower case.
+        self.default_meta_order['avi_resource_types'] = \
+            map(lambda x: x.lower(),
+                self.default_meta_order['avi_resource_types'])
 
     def transform_ref(self, x, obj):
         """

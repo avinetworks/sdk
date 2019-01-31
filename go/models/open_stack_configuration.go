@@ -127,7 +127,7 @@ type OpenStackConfiguration struct {
 	// If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant.
 	TenantSe *bool `json:"tenant_se,omitempty"`
 
-	// Deprecated; please use provider_vip_networks. Field introduced in 17.1.1.
+	// Deprecated, please use provider_vip_networks. Field deprecated in 18.2.2. Field introduced in 17.1.1.
 	UsableNetworkUuids []string `json:"usable_network_uuids,omitempty"`
 
 	// If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False.

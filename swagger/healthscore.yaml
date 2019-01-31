@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -83,7 +83,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: order_series_by
                     in: query
@@ -175,6 +175,82 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: detailed_header
+                    in: query
+                    description: Return detailed header with information like contributors etc.?.
+                    type: boolean
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity type.
+                    type: string
+                -   name: hs_type
+                    in: query
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve uuid to references?.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include statistics when no filters specified?.
+                    type: boolean
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples to be returned in the response.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: order_series_by
+                    in: query
+                    description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    type: boolean
+                -   name: patch_oper_status
+                    in: query
+                    description: Patch health score with operational data?.
+                    type: boolean
+                -   name: pool_uuid
+                    in: query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
+                    type: string
+                -   name: result_format
+                    in: query
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Object id like vip or server ip port.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Step interval in seconds.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
+                    type: string
+                -   name: summary
+                    in: query
+                    description: Return only summary for health score.
+                    type: boolean
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -251,7 +327,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: order_series_by
                     in: query
@@ -343,6 +419,82 @@ paths:
                     description: UUID of the object to fetch
                     required: true
                     type: string
+                -   name: detailed_header
+                    in: query
+                    description: Return detailed header with information like contributors etc.?.
+                    type: boolean
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity type.
+                    type: string
+                -   name: hs_type
+                    in: query
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve uuid to references?.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include statistics when no filters specified?.
+                    type: boolean
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples to be returned in the response.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: order_series_by
+                    in: query
+                    description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    type: boolean
+                -   name: patch_oper_status
+                    in: query
+                    description: Patch health score with operational data?.
+                    type: boolean
+                -   name: pool_uuid
+                    in: query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
+                    type: string
+                -   name: result_format
+                    in: query
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Object id like vip or server ip port.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Step interval in seconds.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
+                    type: string
+                -   name: summary
+                    in: query
+                    description: Return only summary for health score.
+                    type: boolean
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
+                    type: string
             security:
                 - basicAuth: []
             responses:
@@ -419,7 +571,7 @@ paths:
                     type: integer
                 -   name: metric_entity
                     in: query
-                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
                     type: string
                 -   name: order_series_by
                     in: query
@@ -510,6 +662,82 @@ paths:
                     in: path
                     description: UUID of the object to fetch
                     required: true
+                    type: string
+                -   name: detailed_header
+                    in: query
+                    description: Return detailed header with information like contributors etc.?.
+                    type: boolean
+                -   name: dimension_aggregation
+                    in: query
+                    description: Aggregations for dimensions. Eg. use dimenstion_aggregation=avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL.
+                    type: string
+                -   name: entity_uuid
+                    in: query
+                    description: UUID of the entity type.
+                    type: string
+                -   name: hs_type
+                    in: query
+                    description: Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL.
+                    type: string
+                -   name: include_refs
+                    in: query
+                    description: Resolve uuid to references?.
+                    type: boolean
+                -   name: include_statistics
+                    in: query
+                    description: Include statistics when no filters specified?.
+                    type: boolean
+                -   name: limit
+                    in: query
+                    description: Max number of metric samples to be returned in the response.
+                    type: integer
+                -   name: metric_entity
+                    in: query
+                    description: Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.
+                    type: string
+                -   name: order_series_by
+                    in: query
+                    description: Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc.
+                    type: string
+                -   name: pad_missing_data
+                    in: query
+                    description: Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values.
+                    type: boolean
+                -   name: patch_oper_status
+                    in: query
+                    description: Patch health score with operational data?.
+                    type: boolean
+                -   name: pool_uuid
+                    in: query
+                    description: Pool name. This will apply to any backend stats that are specified in the query.
+                    type: string
+                -   name: result_format
+                    in: query
+                    description: Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.
+                    type: string
+                -   name: server
+                    in: query
+                    description: Object id like vip or server ip port.
+                    type: string
+                -   name: start
+                    in: query
+                    description: Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.
+                    type: string
+                -   name: step
+                    in: query
+                    description: Step interval in seconds.
+                    type: integer
+                -   name: stop
+                    in: query
+                    description: End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.
+                    type: string
+                -   name: summary
+                    in: query
+                    description: Return only summary for health score.
+                    type: boolean
+                -   name: tenant_uuid
+                    in: query
+                    description: UUID of the Tenant. .
                     type: string
             security:
                 - basicAuth: []
@@ -800,7 +1028,7 @@ definitions:
                 description: "Unique object identifier of entity."
                 type: string
             metrics_entity:
-                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
             pool_ref:
                 description: " It is a reference to an object of type Pool."
@@ -929,7 +1157,7 @@ definitions:
                 default: 1
                 format: int32
             metric_entity:
-                description: "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
                 default: "VSERVER_METRICS_ENTITY"
             order_series_by:
@@ -984,7 +1212,7 @@ definitions:
                 description: "uuid of the entity type."
                 type: string
             metric_entity:
-                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                description: " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 type: string
             pool_ref:
                 description: "Pool name. This will apply to any back end statistics that are specified in the query. It is a reference to an object of type Pool."

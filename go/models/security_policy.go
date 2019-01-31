@@ -11,6 +11,9 @@ type SecurityPolicy struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Security policy is used to specify various configuration information used to perform Distributed Denial of Service (DDoS) attacks detection and mitigation. Field introduced in 18.2.1.
+	Description *string `json:"description,omitempty"`
+
 	// Attacks utilizing the DNS protocol operations. Field introduced in 18.2.1.
 	DNSAttacks *DNSAttacks `json:"dns_attacks,omitempty"`
 
@@ -31,6 +34,9 @@ type SecurityPolicy struct {
 
 	// Attacks utilizing the TCP protocol operations. Field introduced in 18.2.1.
 	TCPAttacks TCPAttacks `json:"tcp_attacks,omitempty"`
+
+	// Tenancy of the security policy. It is a reference to an object of type Tenant. Field introduced in 18.2.1.
+	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// Attacks utilizing the UDP protocol operations. Field introduced in 18.2.1.
 	UDPAttacks UDPAttacks `json:"udp_attacks,omitempty"`

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi  Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -73,6 +73,156 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT.", 
+                        "name": "aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6.", 
+                        "name": "aggregation_window"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "ability to reduce the information returned in header.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "uuid of the entity type.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve uuid to references.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "include anomalies from related objects.", 
+                        "name": "include_related"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "This is of the form l4_server. comma seperated values.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS.", 
+                        "name": "model"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "object id like vip or server ip.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the anomaly query.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "size of each page of anomalies.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool name. This will apply to any backend stats that are specified in the query.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW.", 
+                        "name": "priority"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "server ip port.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the Node. Eg. if query is SE specific then it would have SE UUID.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "step interval in seconds.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant.", 
+                        "name": "tenant_uuid"
                     }
                 ], 
                 "consumes": [
@@ -143,6 +293,156 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT.", 
+                        "name": "aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6.", 
+                        "name": "aggregation_window"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "ability to reduce the information returned in header.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "uuid of the entity type.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve uuid to references.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "include anomalies from related objects.", 
+                        "name": "include_related"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "This is of the form l4_server. comma seperated values.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS.", 
+                        "name": "model"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "object id like vip or server ip.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the anomaly query.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "size of each page of anomalies.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool name. This will apply to any backend stats that are specified in the query.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW.", 
+                        "name": "priority"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "server ip port.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the Node. Eg. if query is SE specific then it would have SE UUID.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "step interval in seconds.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant.", 
+                        "name": "tenant_uuid"
                     }
                 ], 
                 "consumes": [
@@ -271,7 +571,7 @@
                     {
                         "in": "query", 
                         "type": "string", 
-                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
                         "name": "metric_entity"
                     }, 
                     {
@@ -433,6 +733,156 @@
                         "description": "UUID of the object to fetch", 
                         "in": "path", 
                         "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1.", 
+                        "name": "aggregate_obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT.", 
+                        "name": "aggregation"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6.", 
+                        "name": "aggregation_window"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "ability to reduce the information returned in header.", 
+                        "name": "detailed_header"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS.", 
+                        "name": "dimension_filter_op"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "uuid of the entity type.", 
+                        "name": "entity_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "Resolve uuid to references.", 
+                        "name": "include_refs"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "boolean", 
+                        "description": "include anomalies from related objects.", 
+                        "name": "include_related"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "Max number of metric samples.", 
+                        "name": "limit"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
+                        "name": "metric_entity"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "This is of the form l4_server. comma seperated values.", 
+                        "name": "metric_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS.", 
+                        "name": "model"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "object id like vip or server ip.", 
+                        "name": "obj_id"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now.", 
+                        "name": "order_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "page id for the anomaly query.", 
+                        "name": "page"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "size of each page of anomalies.", 
+                        "name": "page_size"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Pool name. This will apply to any backend stats that are specified in the query.", 
+                        "name": "pool_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW.", 
+                        "name": "priority"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF.", 
+                        "name": "result_format"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "server ip port.", 
+                        "name": "server"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "ID of the Node. Eg. if query is SE specific then it would have SE UUID.", 
+                        "name": "serviceengine_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Start time for the metrics in ISO 8601 format. Default is UNIX Epoch.", 
+                        "name": "start"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "integer", 
+                        "description": "step interval in seconds.", 
+                        "name": "step"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now.", 
+                        "name": "stop"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "UUID of the Tenant.", 
+                        "name": "tenant_uuid"
                     }
                 ], 
                 "consumes": [
@@ -561,7 +1011,7 @@
                     {
                         "in": "query", 
                         "type": "string", 
-                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
                         "name": "metric_entity"
                     }, 
                     {
@@ -781,7 +1231,7 @@
                     {
                         "in": "query", 
                         "type": "string", 
-                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY.", 
+                        "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY.", 
                         "name": "metric_entity"
                     }, 
                     {
@@ -1039,7 +1489,7 @@
                 "metric_entity": {
                     "default": "VSERVER_METRICS_ENTITY", 
                     "type": "string", 
-                    "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                    "description": "Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 }, 
                 "order_by": {
                     "default": "metric_timestamp", 

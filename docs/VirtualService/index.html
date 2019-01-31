@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -359,6 +359,7 @@ font-style: italic;
     "use_vip_as_snat" : true,
     "analytics_policy" : {
       "significant_log_throttle" : 123,
+      "all_headers" : true,
       "client_insights" : "aeiou",
       "client_log_filters" : [ {
         "duration" : 123,
@@ -442,6 +443,7 @@ font-style: italic;
       "network_ref" : "aeiou",
       "discovered_networks" : [ "" ]
     } ],
+    "min_pools_up" : 123,
     "performance_limits" : {
       "max_concurrent_connections" : 123,
       "max_throughput" : 123
@@ -490,6 +492,7 @@ font-style: italic;
       "service_pool_group_ref" : "aeiou",
       "service_port" : 123
     } ],
+    "security_policy_ref" : "aeiou",
     "application_profile_ref" : "aeiou",
     "ssl_sess_cache_avg_size" : 123,
     "cloud_type" : "aeiou",
@@ -545,7 +548,7 @@ font-style: italic;
     "ssl_key_and_certificate_refs" : [ "aeiou" ],
     "ssl_profile_ref" : "aeiou",
     "enabled" : true,
-    "_last_modified" : 123456789,
+    "_last_modified" : "aeiou",
     "limit_doser" : true,
     "se_group_ref" : "aeiou",
     "discovered_subnet" : [ "" ],
@@ -555,6 +558,21 @@ font-style: italic;
     "max_cps_per_client" : 123,
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
+    "sso_policy" : {
+      "authentication_policy" : {
+        "sp_metadata" : "aeiou",
+        "cookie_timeout" : 123,
+        "auth_profile_ref" : "aeiou",
+        "entity_id" : "aeiou",
+        "key" : [ {
+          "hmac_key" : "aeiou",
+          "aes_key" : "aeiou",
+          "name" : "aeiou"
+        } ],
+        "cookie_name" : "aeiou",
+        "single_signon_url" : "aeiou"
+      }
+    },
     "network_ref" : "aeiou",
     "http_policies" : [ {
       "http_policy_set_ref" : "aeiou",
@@ -701,6 +719,7 @@ font-style: italic;
   "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
+    "all_headers" : true,
     "client_insights" : "aeiou",
     "client_log_filters" : [ {
       "duration" : 123,
@@ -784,6 +803,7 @@ font-style: italic;
     "network_ref" : "aeiou",
     "discovered_networks" : [ "" ]
   } ],
+  "min_pools_up" : 123,
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
@@ -832,6 +852,7 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
+  "security_policy_ref" : "aeiou",
   "application_profile_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -887,7 +908,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -897,6 +918,21 @@ font-style: italic;
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
+  "sso_policy" : {
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    }
+  },
   "network_ref" : "aeiou",
   "http_policies" : [ {
     "http_policy_set_ref" : "aeiou",
@@ -1854,6 +1890,7 @@ font-style: italic;
   "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
+    "all_headers" : true,
     "client_insights" : "aeiou",
     "client_log_filters" : [ {
       "duration" : 123,
@@ -1937,6 +1974,7 @@ font-style: italic;
     "network_ref" : "aeiou",
     "discovered_networks" : [ "" ]
   } ],
+  "min_pools_up" : 123,
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
@@ -1985,6 +2023,7 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
+  "security_policy_ref" : "aeiou",
   "application_profile_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -2040,7 +2079,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -2050,6 +2089,21 @@ font-style: italic;
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
+  "sso_policy" : {
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    }
+  },
   "network_ref" : "aeiou",
   "http_policies" : [ {
     "http_policy_set_ref" : "aeiou",
@@ -2889,6 +2943,7 @@ font-style: italic;
   "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
+    "all_headers" : true,
     "client_insights" : "aeiou",
     "client_log_filters" : [ {
       "duration" : 123,
@@ -2972,6 +3027,7 @@ font-style: italic;
     "network_ref" : "aeiou",
     "discovered_networks" : [ "" ]
   } ],
+  "min_pools_up" : 123,
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
@@ -3020,6 +3076,7 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
+  "security_policy_ref" : "aeiou",
   "application_profile_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -3075,7 +3132,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -3085,6 +3142,21 @@ font-style: italic;
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
+  "sso_policy" : {
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    }
+  },
   "network_ref" : "aeiou",
   "http_policies" : [ {
     "http_policy_set_ref" : "aeiou",
@@ -3294,6 +3366,7 @@ font-style: italic;
   "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
+    "all_headers" : true,
     "client_insights" : "aeiou",
     "client_log_filters" : [ {
       "duration" : 123,
@@ -3377,6 +3450,7 @@ font-style: italic;
     "network_ref" : "aeiou",
     "discovered_networks" : [ "" ]
   } ],
+  "min_pools_up" : 123,
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
@@ -3425,6 +3499,7 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
+  "security_policy_ref" : "aeiou",
   "application_profile_ref" : "aeiou",
   "ssl_sess_cache_avg_size" : 123,
   "cloud_type" : "aeiou",
@@ -3480,7 +3555,7 @@ font-style: italic;
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
   "ssl_profile_ref" : "aeiou",
   "enabled" : true,
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "limit_doser" : true,
   "se_group_ref" : "aeiou",
   "discovered_subnet" : [ "" ],
@@ -3490,6 +3565,21 @@ font-style: italic;
   "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
+  "sso_policy" : {
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    }
+  },
   "network_ref" : "aeiou",
   "http_policies" : [ {
     "http_policy_set_ref" : "aeiou",
@@ -4263,6 +4353,7 @@ font-style: italic;
     <li><a href="#APICNetworkRel"><code>APICNetworkRel</code></a></li>
     <li><a href="#AnalyticsPolicy"><code>AnalyticsPolicy</code></a></li>
     <li><a href="#ApicVSPlacementReq"><code>ApicVSPlacementReq</code></a></li>
+    <li><a href="#AuthenticationPolicy"><code>AuthenticationPolicy</code></a></li>
     <li><a href="#Cif"><code>Cif</code></a></li>
     <li><a href="#ClientInsightsSampling"><code>ClientInsightsSampling</code></a></li>
     <li><a href="#ClientLogFilter"><code>ClientLogFilter</code></a></li>
@@ -4282,6 +4373,7 @@ font-style: italic;
     <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
     <li><a href="#HTTPPolicies"><code>HTTPPolicies</code></a></li>
     <li><a href="#HTTPRedirectAction"><code>HTTPRedirectAction</code></a></li>
+    <li><a href="#HttpCookiePersistenceKey"><code>HttpCookiePersistenceKey</code></a></li>
     <li><a href="#IPNetworkSubnet"><code>IPNetworkSubnet</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
@@ -4296,6 +4388,7 @@ font-style: italic;
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ReplaceStringVar"><code>ReplaceStringVar</code></a></li>
     <li><a href="#RetryPlacementParams"><code>RetryPlacementParams</code></a></li>
+    <li><a href="#SSOPolicy"><code>SSOPolicy</code></a></li>
     <li><a href="#Service"><code>Service</code></a></li>
     <li><a href="#ServicePoolSelector"><code>ServicePoolSelector</code></a></li>
     <li><a href="#SidebandProfile"><code>SidebandProfile</code></a></li>
@@ -4324,10 +4417,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AnalyticsPolicy">AnalyticsPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">client_insights (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE. </div>
+      <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log all headers. Field introduced in 18.1.4, 18.2.1. </div>
+<div class="param">client_insights (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE. </div>
 <div class="param">client_insights_sampling (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientInsightsSampling">ClientInsightsSampling</a></span> Placeholder for description of property client_insights_sampling of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">client_log_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#ClientLogFilter">array[ClientLogFilter]</a></span> Placeholder for description of property client_log_filters of obj type AnalyticsPolicy field type str  type object </div>
-<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4. </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> [DEPRECATED] Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Please use following fields in AnalytcsProfile to control this behavior instead. disable_vs_analytics (for VirtualServices metrics), disable_server_analytics (for Pool metrics) and client_log_config (for logs). Field deprecated in 18.2.1. Field introduced in 17.2.4. </div>
 <div class="param">full_client_logs (optional)</div><div class="param-desc"><span class="param-type"><a href="#FullClientLogs">FullClientLogs</a></span> Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object </div>
 <div class="param">metrics_realtime_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Settings to turn on realtime metrics and set duration for realtime updates. </div>
 <div class="param">significant_log_throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
@@ -4343,6 +4437,18 @@ font-style: italic;
 <div class="param">tenant_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tenant_name of ApicVSPlacementReq. </div>
 <div class="param">vdev (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vdev of ApicVSPlacementReq. </div>
 <div class="param">vgrp (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vgrp of ApicVSPlacementReq. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthenticationPolicy">AuthenticationPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">auth_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.1. </div>
+<div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field introduced in 18.2.1. </div>
+<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.1. format: int32</div>
+<div class="param">entity_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 18.2.1. </div>
+<div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field introduced in 18.2.1. </div>
+<div class="param">single_signon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Single Signon URL to be programmed on the IDP. Field introduced in 18.2.1. </div>
+<div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4409,7 +4515,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsARdata">DnsARdata</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for fqdn. </div>
+      <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for FQDN. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4475,7 +4581,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="FullClientLogs">FullClientLogs</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Log all headers. </div>
+      <div class="param">all_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> [DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4, 18.2.1. </div>
 <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Capture all client logs including connections and requests.  When disabled, only errors will be logged. </div>
 <div class="param">throttle (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This setting limits the number of non-significant logs generated per second for this VS on each SE. Default is 10 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3. format: int32</div>
@@ -4513,6 +4619,14 @@ font-style: italic;
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
 <div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol type. Enum options - HTTP, HTTPS. </div>
 <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HttpCookiePersistenceKey">HttpCookiePersistenceKey</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">aes_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> aes_key of HttpCookiePersistenceKey. </div>
+<div class="param">hmac_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> hmac_key of HttpCookiePersistenceKey. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> name to use for cookie encryption. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4607,7 +4721,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 10-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
@@ -4628,6 +4742,12 @@ font-style: italic;
       <div class="param">all_east_west (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Retry placement operations for all East-West services. Field introduced in 17.1.6,17.2.2. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Indicates the vip_id that needs placement retrial. Field introduced in 17.1.2. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSOPolicy">SSOPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">authentication_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4704,7 +4824,7 @@ font-style: italic;
 <div class="param">floating_subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IPv6 address allocation. Field introduced in 18.1.1. </div>
 <div class="param">floating_subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_floating_ip is True and more than one floating-ip subnets exist, then the subnet for the floating IP address allocation. Field introduced in 17.1.1. </div>
 <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the Vip. Field introduced in 18.1.1. </div>
-<div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the Vip. For IPv6 address support please use ip6_address field. Field introduced in 17.1.1. </div>
+<div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the VIP. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
@@ -4718,7 +4838,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VirtualService">VirtualService</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">active_standby_se_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine&#39;s in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2. </div>
 <div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AnalyticsPolicy">AnalyticsPolicy</a></span> Determines analytics settings for the application. </div>
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. </div>
@@ -4730,12 +4850,12 @@ font-style: italic;
 <div class="param">avi_allocated_fip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">avi_allocated_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (internal-use) VIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1. </div>
 <div class="param">azure_availability_set (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use)Applicable for Azure only. Azure Availability set to which this VS is associated. Internally set by the cloud connector. Field introduced in 17.2.12, 18.1.2. </div>
-<div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 18.1.1. </div>
+<div class="param">bulk_sync_kvcache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS&#39;s Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1. </div>
 <div class="param">client_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPClientAuthenticationParams">HTTPClientAuthenticationParams</a></span> HTTP authentication configuration for protected resources. </div>
 <div class="param">close_client_conn_on_config_update (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> close client connection on vs config update. Field introduced in 17.2.4. </div>
 <div class="param">cloud_config_cksum (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Checksum of cloud configuration for VS. Internally set by cloud connector. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
-<div class="param">cloud_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE. </div>
+<div class="param">cloud_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP. </div>
 <div class="param">connections_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate limit the incoming connections to this virtual service. </div>
 <div class="param">content_rewrite (optional)</div><div class="param-desc"><span class="param-type"><a href="#ContentRewriteProfile">ContentRewriteProfile</a></span> Profile used to match and rewrite strings in request and/or response body. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
@@ -4766,6 +4886,7 @@ font-style: italic;
 <div class="param">limit_doser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Limit potential DoS attackers who exceed max_cps_per_client significantly to a fraction of max_cps_per_client for a while. </div>
 <div class="param">max_cps_per_client (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum connections per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">microservice_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Microservice representing the virtual service. It is a reference to an object of type MicroService. </div>
+<div class="param">min_pools_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of UP pools to mark VS up. Field introduced in 18.2.1, 17.2.12. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the Virtual Service. </div>
 <div class="param">network_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines network settings such as protocol, TCP or UDP, and related options for the protocol. It is a reference to an object of type NetworkProfile. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1. </div>
@@ -4779,6 +4900,7 @@ font-style: italic;
 <div class="param">requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate limit the incoming requests to this virtual service. </div>
 <div class="param">scaleout_ecmp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable re-distribution of flows across service engines for a virtual service. Enable if the network itself performs flow hashing with ECMP in environments such as GCP. </div>
 <div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. It is a reference to an object of type ServiceEngineGroup. </div>
+<div class="param">security_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1. </div>
 <div class="param">server_network_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile. </div>
 <div class="param">service_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metadata pertaining to the Service provided by this virtual service. In Openshift/Kubernetes environments, egress pod info is stored. Any user input to this field will be overwritten by Avi Vantage. </div>
 <div class="param">service_pool_select (optional)</div><div class="param-desc"><span class="param-type"><a href="#ServicePoolSelector">array[ServicePoolSelector]</a></span> Select pool based on destination port. </div>
@@ -4789,6 +4911,7 @@ font-style: italic;
 <div class="param">ssl_key_and_certificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the set of SSL versions and ciphers to accept for SSL/TLS terminated connections. It is a reference to an object of type SSLProfile. </div>
 <div class="param">ssl_sess_cache_avg_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383. format: int32</div>
+<div class="param">sso_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSOPolicy">SSOPolicy</a></span> Client Authentication and Authorization Policy for the virtualservice. Field introduced in 18.2.1. </div>
 <div class="param">static_dns_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRecord">array[DnsRecord]</a></span> List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Virtual Service IP. Field deprecated in 17.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> It represents subnet for the Virtual Service IP address allocation when auto_allocate_ip is True.It is only applicable in OpenStack or AWS cloud. This field is required if auto_allocate_ip is True. Field deprecated in 17.1.1. </div>
