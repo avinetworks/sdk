@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -945,9 +945,8 @@
             "type": "object", 
             "properties": {
                 "upstream_connpool_conn_life_tmo": {
-                    "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_conn_life_tmo.", 
+                    "description": "Deprecated. Field deprecated in 18.2.1.", 
                     "format": "int32"
                 }, 
                 "mcache_store_out_enabled": {
@@ -1059,15 +1058,13 @@
                     "format": "int32"
                 }, 
                 "upstream_connpool_conn_max_reuse": {
-                    "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_conn_max_reuse.", 
+                    "description": "Deprecated. Field deprecated in 18.2.1.", 
                     "format": "int32"
                 }, 
                 "upstream_connpool_server_max_cache": {
-                    "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_server_max_cache.", 
+                    "description": "Deprecated. Field deprecated in 18.2.1.", 
                     "format": "int32"
                 }, 
                 "dos_profile": {
@@ -1229,9 +1226,8 @@
                     "format": "int32"
                 }, 
                 "upstream_connpool_conn_idle_tmo": {
-                    "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_conn_idle_tmo.", 
+                    "description": "Deprecated. Field deprecated in 18.2.1.", 
                     "format": "int32"
                 }, 
                 "flow_table_max_entries_deprecated": {
@@ -1419,7 +1415,7 @@
                 }, 
                 "se_dump_core_on_assert": {
                     "type": "boolean", 
-                    "description": "Enable core dump on assert. Field introduced in 18.1.3."
+                    "description": "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1."
                 }, 
                 "lb_fail_max_time": {
                     "default": 5, 
@@ -1616,6 +1612,12 @@
                     "description": "DHCP ip max retries.", 
                     "format": "int32"
                 }, 
+                "states_flush_interval": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.", 
+                    "format": "int32"
+                }, 
                 "dp_aggressive_enq_interval_msec": {
                     "default": 1, 
                     "type": "integer", 
@@ -1625,7 +1627,7 @@
                 "ns_helper_deq_interval_msec": {
                     "default": 20, 
                     "type": "integer", 
-                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3.", 
+                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "dp_deq_interval_msec": {
@@ -1673,7 +1675,7 @@
                 "send_se_ready_timeout": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3.", 
+                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "controller_rpc_timeout": {

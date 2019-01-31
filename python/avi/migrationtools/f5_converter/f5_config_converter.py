@@ -16,6 +16,7 @@ from avi.migrationtools.f5_converter.conversion_util import F5Util
 from avi.migrationtools.f5_converter.policy_converter import PolicyConfigConv
 from avi.migrationtools.avi_migration_utils import update_count
 from avi.migrationtools.f5_converter.datagroup_converter import DataGroupConfigConv
+from avi.migrationtools.f5_converter.clone_cross_tenant_obj import CloneObjects
 
 LOG = logging.getLogger(__name__)
 csv_writer = None
@@ -143,7 +144,9 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         conv_utils.cleanup_config(avi_config_dict)
         # Validating the aviconfig after generation
         conv_utils.validation(avi_config_dict)
-        LOG.debug('$$$$$$%s$$$$$$' % merge_object_mapping)
+        # Clone cross tenant references
+        test_clone_obj = CloneObjects(avi_config_dict)
+        test_clone_obj.find_clone_all()
 
     except:
         update_count('warning')

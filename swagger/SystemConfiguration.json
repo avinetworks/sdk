@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -10,7 +10,72 @@
         }
     }, 
     "paths": {
-        "/systemconfiguration/{uuid}": {
+        "/systemconfiguration/systestemail": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SysTestEmailParams", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SysTestEmailParams"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/systemconfiguration": {
             "put": {
                 "security": [
                     {
@@ -75,13 +140,6 @@
                         "schema": {
                             "$ref": "#/definitions/SystemConfiguration"
                         }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
                     }
                 ], 
                 "consumes": [
@@ -102,310 +160,6 @@
                         "description": "OK", 
                         "schema": {
                             "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SystemConfiguration object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "delete": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "204": {
-                        "description": "object deleted", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "404": {
-                        "description": "not found"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/systemconfiguration": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SystemConfiguration object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfiguration"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SystemConfigurationApiResponse"
                         }
                     }, 
                     "401": {
@@ -490,10 +244,8 @@
                 "consumes": [
                     "application/json"
                 ]
-            }
-        }, 
-        "/systemconfiguration/systestemail": {
-            "post": {
+            }, 
+            "patch": {
                 "security": [
                     {
                         "basicAuth": []
@@ -506,7 +258,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/SystemConfiguration"
                         }
                     }, 
                     "401": {
@@ -514,6 +266,13 @@
                     }
                 }, 
                 "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
                     {
                         "required": false, 
                         "type": "string", 
@@ -545,10 +304,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "SysTestEmailParams", 
+                        "description": "SystemConfiguration object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/SysTestEmailParams"
+                            "$ref": "#/definitions/SystemConfiguration"
                         }
                     }
                 ], 
@@ -680,6 +439,10 @@
         "SystemConfiguration": {
             "type": "object", 
             "properties": {
+                "secure_channel_configuration": {
+                    "description": "Configure Secure Channel properties. Field introduced in 18.1.4, 18.2.1.", 
+                    "$ref": "#/definitions/SecureChannelConfiguration"
+                }, 
                 "docker_mode": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
@@ -697,7 +460,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed. ssh -Q mac provides the list of default HMACs supported."
+                    "description": "Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed."
                 }, 
                 "linux_configuration": {
                     "description": "Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object", 
@@ -758,7 +521,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed. ssh -Q cipher provides the list of default ciphers supported."
+                    "description": "Allowed Ciphers list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default ciphers are allowed."
                 }, 
                 "portal_configuration": {
                     "description": "Placeholder for description of property portal_configuration of obj type SystemConfiguration field type str  type object", 
@@ -799,6 +562,18 @@
                 "addr": {
                     "type": "string", 
                     "description": "IP address."
+                }
+            }
+        }, 
+        "SecureChannelConfiguration": {
+            "type": "object", 
+            "properties": {
+                "sslkeyandcertificate_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Certificate for secure channel. Leave list empty to use system default certs. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.1.4, 18.2.1."
                 }
             }
         }, 
@@ -992,7 +767,7 @@
                 }, 
                 "disable_tls": {
                     "type": "boolean", 
-                    "description": "When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3."
+                    "description": "When set, disables TLS on the connection to the mail server. Field introduced in 17.2.12, 18.1.3, 18.2.1."
                 }, 
                 "auth_password": {
                     "type": "string", 
@@ -1190,7 +965,7 @@
             "type": "object", 
             "properties": {
                 "sysint_access": {
-                    "description": "Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3.", 
+                    "description": "Configure IP addresses to access controller using sysint access. Field introduced in 18.1.3, 18.2.1.", 
                     "$ref": "#/definitions/IpAddrMatch"
                 }, 
                 "api_access": {
@@ -1219,23 +994,26 @@
                     "type": "string", 
                     "description": "SNMP version support. V2 or V3. Enum options - SNMP_VER2, SNMP_VER3. Field introduced in 17.2.3."
                 }, 
-                "sys_contact": {
-                    "default": "support@avinetworks.com", 
-                    "type": "string", 
-                    "description": "Sets the sysContact in system MIB."
+                "large_trap_payload": {
+                    "type": "boolean", 
+                    "description": "Support for 4096 bytes trap payload. Field introduced in 17.2.13,18.1.4,18.2.1."
                 }, 
                 "snmp_v3_config": {
                     "description": "SNMP version 3 configuration. Field introduced in 17.2.3.", 
                     "$ref": "#/definitions/SnmpV3Configuration"
                 }, 
-                "community": {
-                    "default": "public", 
-                    "type": "string", 
-                    "description": "Community string for SNMP v2c."
-                }, 
                 "sys_location": {
                     "type": "string", 
                     "description": "Sets the sysLocation in system MIB."
+                }, 
+                "community": {
+                    "type": "string", 
+                    "description": "Community string for SNMP v2c."
+                }, 
+                "sys_contact": {
+                    "default": "support@avinetworks.com", 
+                    "type": "string", 
+                    "description": "Sets the sysContact in system MIB."
                 }
             }
         }

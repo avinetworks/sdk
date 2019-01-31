@@ -26,6 +26,9 @@ type DebugVirtualService struct {
 	// Placeholder for description of property debug_ip of obj type DebugVirtualService field type str  type object
 	DebugIP *DebugIPAddr `json:"debug_ip,omitempty"`
 
+	// Dns debug options. Field introduced in 18.2.1.
+	DNSOptions *DebugDNSOptions `json:"dns_options,omitempty"`
+
 	// Placeholder for description of property flags of obj type DebugVirtualService field type str  type object
 	Flags []*DebugVsDataplane `json:"flags,omitempty"`
 

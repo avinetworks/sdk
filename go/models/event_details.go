@@ -40,6 +40,9 @@ type EventDetails struct {
 	// Placeholder for description of property azure_info of obj type EventDetails field type str  type object
 	AzureInfo *AzureSetup `json:"azure_info,omitempty"`
 
+	// Azure marketplace license term acceptance event. Field introduced in 18.2.2.
+	AzureMpInfo *AzureMarketplace `json:"azure_mp_info,omitempty"`
+
 	// Placeholder for description of property bind_vs_se_details of obj type EventDetails field type str  type object
 	BindVsSeDetails *RmBindVsSeEventDetails `json:"bind_vs_se_details,omitempty"`
 

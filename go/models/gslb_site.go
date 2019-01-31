@@ -26,6 +26,9 @@ type GslbSite struct {
 	// User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1.
 	HmProxies []*GslbHealthMonitorProxy `json:"hm_proxies,omitempty"`
 
+	// This field enables the health monitor shard functionality on a site-basis. Field introduced in 18.2.2.
+	HmShardEnabled *bool `json:"hm_shard_enabled,omitempty"`
+
 	// IP Address(es) of the Site's Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided.
 	IPAddresses []*IPAddr `json:"ip_addresses,omitempty"`
 
