@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroup Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.2", 
         "description": "CLI\n```\n- configure poolgroup <key>\n- show poolgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -526,6 +526,33 @@
             ], 
             "type": "object", 
             "properties": {
+                "description": {
+                    "type": "string", 
+                    "description": "Description of Pool Group."
+                }, 
+                "implicit_priority_labels": {
+                    "type": "boolean", 
+                    "description": "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3."
+                }, 
+                "members": {
+                    "items": {
+                        "$ref": "#/definitions/PoolGroupMember"
+                    }, 
+                    "type": "array", 
+                    "description": "List of pool group members object of type PoolGroupMember."
+                }, 
+                "fail_action": {
+                    "description": "Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.", 
+                    "$ref": "#/definitions/FailAction"
+                }, 
+                "service_metadata": {
+                    "type": "string", 
+                    "description": "Metadata pertaining to the service provided by this PoolGroup. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "The name of the pool group."
+                }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
@@ -535,13 +562,9 @@
                     "type": "string", 
                     "description": "UUID of the priority labels. If not provided, pool group member priority label will be interpreted as a number with a larger number considered higher priority. It is a reference to an object of type PriorityLabels."
                 }, 
-                "description": {
+                "uuid": {
                     "type": "string", 
-                    "description": "Description of Pool Group."
-                }, 
-                "implicit_priority_labels": {
-                    "type": "boolean", 
-                    "description": "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3."
+                    "description": "UUID of the pool group."
                 }, 
                 "cloud_ref": {
                     "type": "string", 
@@ -554,17 +577,6 @@
                 "created_by": {
                     "type": "string", 
                     "description": "Name of the user who created the object."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "The name of the pool group."
-                }, 
-                "members": {
-                    "items": {
-                        "$ref": "#/definitions/PoolGroupMember"
-                    }, 
-                    "type": "array", 
-                    "description": "List of pool group members object of type PoolGroupMember."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -580,17 +592,9 @@
                     "description": "The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'.", 
                     "format": "int32"
                 }, 
-                "fail_action": {
-                    "description": "Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.", 
-                    "$ref": "#/definitions/FailAction"
-                }, 
                 "deployment_policy_ref": {
                     "type": "string", 
                     "description": "When setup autoscale manager will automatically promote new pools into production when deployment goals are met. It is a reference to an object of type PoolGroupDeploymentPolicy."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the pool group."
                 }
             }
         }, 

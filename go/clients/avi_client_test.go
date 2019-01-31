@@ -13,7 +13,6 @@ var AVI_PASSWORD = os.Getenv("AVI_PASSWORD")
 var AVI_USERNAME = os.Getenv("AVI_USERNAME")
 var AVI_TENANT = os.Getenv("AVI_TENANT")
 
-
 func TestMain(m *testing.M) {
 	// call flag.Parse() here if TestMain uses flags
 	if AVI_CONTROLLER == "" {
@@ -116,7 +115,6 @@ func TestAviPoolClient(t *testing.T) {
 		testAviPoolClient(t, session)
 	}
 }
-
 
 func TestAviPoolPatch(t *testing.T) {
 	for _, aviSession := range getSessions(t) {

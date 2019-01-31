@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.2'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -532,7 +532,7 @@ definitions:
                 type: boolean
                 default: True
             ns_helper_deq_interval_msec:
-                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3."
+                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1."
                 type: integer
                 default: 20
                 format: int32
@@ -552,9 +552,14 @@ definitions:
                 default: 1000
                 format: int32
             send_se_ready_timeout:
-                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3."
+                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1."
                 type: integer
                 default: 300
+                format: int32
+            states_flush_interval:
+                description: "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5."
+                type: integer
+                default: 100
                 format: int32
             vnic_dhcp_ip_check_interval:
                 description: "DHCP ip check interval. Allowed values are 1-1000."
@@ -1203,7 +1208,7 @@ definitions:
                 default: 3600
                 format: int32
             se_dump_core_on_assert:
-                description: "Enable core dump on assert. Field introduced in 18.1.3."
+                description: "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1."
                 type: boolean
             se_handle_interface_routes:
                 description: "Accept/ignore interface routes (i.e, no next hop IP address)."
@@ -1293,19 +1298,16 @@ definitions:
                 default: -1
                 format: int32
             upstream_connpool_conn_idle_tmo:
-                description: "Number of upstream_connpool_conn_idle_tmo."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_conn_life_tmo:
-                description: "Number of upstream_connpool_conn_life_tmo."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_conn_max_reuse:
-                description: "Number of upstream_connpool_conn_max_reuse."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_core_max_cache:
                 description: "Number of upstream_connpool_core_max_cache."
@@ -1317,9 +1319,8 @@ definitions:
                 type: boolean
                 default: True
             upstream_connpool_server_max_cache:
-                description: "Number of upstream_connpool_server_max_cache."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_strategy:
                 description: "Number of upstream_connpool_strategy."

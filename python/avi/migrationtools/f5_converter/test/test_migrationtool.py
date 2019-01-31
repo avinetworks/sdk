@@ -32,7 +32,6 @@ input_file_v10 = os.path.abspath(os.path.join(os.path.dirname(__file__),
 input_file_v11 = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'bigip_v11.conf'))
 
-
 input_role_config_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                'custom_config.yaml'))
 
@@ -514,6 +513,42 @@ class TestF5Converter:
         """
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                option=setup.get('option'),
+                controller_ip=setup.get('controller_ip_17_1_1'),
+                user=setup.get('controller_user_17_1_1'),
+                password=setup.get('controller_password_17_1_1'))
+
+    @pytest.mark.skip_travis
+    def test_reboot_clean_v10_17_1_1(self, cleanup):
+        """""
+        Verify Controller v17.1.1 is running and clean reboot avi api.
+        After controller setup completed, upload the AviInternal certificate file.
+        """
+        is_up = verify_controller_is_up(file_attribute['controller_ip_17_1_1'],
+                                        file_attribute[
+                                            'controller_user_17_1_1'],
+                                        file_attribute[
+                                            'controller_password_17_1_1'])
+        if is_up:
+            clean_reboot(file_attribute['controller_ip_17_1_1'],
+                         file_attribute['controller_user_17_1_1'],
+                         file_attribute['controller_password_17_1_1'],
+                         file_attribute['controller_version_v17'],
+                         file_attribute['license_file_path'])
+            print "Controller is running properly."
+        else:
+            print "Controller is not running properly."
+
+    @pytest.mark.skip_travis
+    def test_cross_tenant_auto_upload(self, cleanup):
+        """
+        Input File on Local Filesystem, Test for cloning of cross tenant references
+        on the Controller,
+        AutoUpload Flow
+        """
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
                 controller_version=setup.get('controller_version_v17'),
                 option=setup.get('option'),
                 controller_ip=setup.get('controller_ip_17_1_1'),

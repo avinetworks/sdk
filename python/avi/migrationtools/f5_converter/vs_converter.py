@@ -163,7 +163,7 @@ class VSConfigConv(object):
         profiles = f5_vs.get("profiles", {})
         ssl_vs, ssl_pool = conv_utils.get_vs_ssl_profiles(
             profiles, avi_config, self.prefix, merge_object_mapping, sys_dict,
-            f5_config, tenant)
+            f5_config)
 
         if (ssl_vs and len(ssl_vs) > 1) or (ssl_pool and len(ssl_pool)> 1):
             needs_review = True
@@ -207,6 +207,14 @@ class VSConfigConv(object):
         app_prof_type = None
         if app_prof_obj:
             app_prof_type = app_prof_obj[0].get('type')
+        else:
+            if app_name == 'System-L4-Application':
+                app_prof_type = 'APPLICATION_PROFILE_TYPE_L4'
+            elif app_name in ['System-HTTP', 'System-Secure-HTTP']:
+                app_prof_type = 'APPLICATION_PROFILE_TYPE_HTTP'
+            elif app_name == 'System-SSL-Application':
+                app_prof_type = 'APPLICATION_PROFILE_TYPE_SSL'
+
         if app_prof_type == 'APPLICATION_PROFILE_TYPE_HTTP':
             cme = app_prof_obj[0]['http_profile'].get(
                 'connection_multiplexing_enabled', False)
@@ -324,10 +332,22 @@ class VSConfigConv(object):
                     LOG.warning(
                         "persist profile %s not found for vs:%s" %
                         (persist_ref, vs_name))
-            if oc_prof and not ssl_vs and persist_type == 'PERSISTENCE_TYPE_TLS' or \
-                    persist_type == 'PERSISTENCE_TYPE_TLS' and not enable_ssl:
+            if (oc_prof and not ssl_vs and
+                    persist_type == 'PERSISTENCE_TYPE_TLS' or
+                    persist_type == 'PERSISTENCE_TYPE_TLS'
+                    and not enable_ssl):
                 msg = ("Skipped VS : '%s' Secure persistence is applicable only"
                        " if SSL is enabled for Virtual Service" % vs_name)
+                LOG.warning(msg)
+                conv_utils.add_status_row('virtual', None, vs_name,
+                                          final.STATUS_SKIPPED, msg)
+                return
+            # TODO: Followiong condition to be removed after controller adds
+            # TODO: support for PERSISTENCE_TYPE_TLS for SSL VS
+            elif (persist_type == 'PERSISTENCE_TYPE_TLS' and
+                  app_prof_type == 'APPLICATION_PROFILE_TYPE_SSL'):
+                msg = ("Skipped VS : '%s' Only client-ip persistence is "
+                       "applicable for SSL VS" % vs_name)
                 LOG.warning(msg)
                 conv_utils.add_status_row('virtual', None, vs_name,
                                           final.STATUS_SKIPPED, msg)

@@ -3,20 +3,15 @@ import argparse
 import json
 import os
 import urlparse
+import yaml
 
-path_key_map = {'poolgroup': 'PoolGroup', 'healthmonitor': 'HealthMonitor',
-                'sslprofile': 'SSLProfile', 'httppolicyset': 'HTTPPolicySet',
-                'sslkeyandcertificate': 'SSLKeyAndCertificate', 'pool': 'Pool',
-                'networkprofile': 'NetworkProfile', 'pkiprofile': 'PKIProfile',
-                'stringgroup': 'StringGroup', 'vrfcontext': 'VrfContext',
-                'applicationprofile': 'ApplicationProfile', 'vsdatascriptset':
-                    'VSDataScriptSet', 'networksecuritypolicy':
-                    'NetworkSecurityPolicy', 'applicationpersistenceprofile':
-                    'ApplicationPersistenceProfile', 'prioritylabels':
-                    'PriorityLabels', 'vsvip': 'VsVip',
-                    'ipaddrgroup': 'IpAddrGroup'
-                }
-
+# Read avi object to API path map from yaml file.
+yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__), './common/avi_resource_types.yaml'))
+yml_data = yaml.load(open(yml_file, 'r'))
+# Converts avi object types to avi resource types
+data_lower_case = map(lambda x: x.lower(), yml_data['avi_resource_types'])
+# Generates AVI resource types to avi object type mapping in form of dictionary.
+path_key_map = dict(zip(data_lower_case, yml_data['avi_resource_types']))
 
 def get_name_and_entity(url):
     """
