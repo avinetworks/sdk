@@ -19,4 +19,6 @@ type DNSAttack struct {
 
 	// Mitigation action to perform for this DNS attack vector. Field introduced in 18.2.1.
 	MitigationAction *AttackMitigationAction `json:"mitigation_action,omitempty"`
+
+	Threshold *uint64 `json:"threshold,omitempty"`
 }
