@@ -69,6 +69,14 @@ rm -rf avisdk.egg-info
 assets="$assets -a avisdk-$AVI_VERSION.tar.gz#pip-package-avisdk-$AVI_VERSION -a avimigrationtools-$AVI_VERSION.tar.gz#pip-package-avimigrationtools-$AVI_VERSION -a avisdk-$AVI_VERSION.deb#debian-package-avisdk-$AVI_VERSION -a avisdk-$AVI_VERSION.rpm#rpm--package-avisdk-$AVI_VERSION"
 cd ../
 
+# avinetworks/avitools release handling
+git clone https://github.com/avinetworks/avitools
+cd avitools
+git tag $REL
+git push -f origin $REL
+cd ..
+rm -rf avitools
+
 /usr/local/bin/hub release $hub_op $assets -F ReleaseNote $REL_TAG
 rm -rf avisdk-$AVI_VERSION.tar.gz
 rm -rf avimigrationtools-$AVI_VERSION.tar.gz
