@@ -175,7 +175,7 @@ class MigrationUtil(object):
                           exc_info=True)
         except IOError:
             update_count('warning')
-            LOG.warn("Error to read file %s" % file_path, exc_info=True)
+            LOG.warn("Cannot read file %s" % file_path)
         except:
             update_count('error')
             LOG.error("Error accessing file %s" % file_path, exc_info=True)
