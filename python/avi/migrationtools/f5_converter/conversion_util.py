@@ -810,7 +810,7 @@ class F5Util(MigrationUtil):
         if not pool_obj:
             LOG.error("Pool %s not found to add profile %s" %
                       (pool_ref, persist_profile))
-            return False
+            return False, None
         pool_obj = pool_obj[0]
         persist_profile_obj = \
             [ob for ob in syspersist if ob['name'] ==
@@ -920,6 +920,7 @@ class F5Util(MigrationUtil):
         self.remove_dup_key(avi_config["PKIProfile"])
         self.remove_dup_key(avi_config["ApplicationPersistenceProfile"])
         self.remove_dup_key(avi_config["HealthMonitor"])
+        self.remove_dup_key(avi_config["IpAddrGroup"])
         avi_config.pop('hash_algorithm', [])
         avi_config.pop('OneConnect', [])
         avi_config.pop('UnsupportedProfiles', [])
@@ -1990,28 +1991,32 @@ class F5Util(MigrationUtil):
 
         policy_name = policy['name']
         clone_policy = copy.deepcopy(policy)
-        for rule in clone_policy['http_request_policy']['rules']:
-            if 'switching_action' in rule:
-                if rule['switching_action'].get('pool_group_ref'):
-                    pool_group_ref = self.get_name(rule['switching_action'][
-                                                       'pool_group_ref'])
-                    pool_group_ref = self.clone_pool_group(
-                        pool_group_ref, policy_name, avi_config, False,
-                        tenant_name, cloud_name)
-                    if pool_group_ref:
-                        updated_pool_group_ref = self.get_object_ref(
-                            pool_group_ref, conv_const.OBJECT_TYPE_POOL_GROUP,
+        LOG.debug("cloning policy %s" % clone_policy)
+        if 'http_request_policy' in clone_policy:
+            for rule in clone_policy['http_request_policy']['rules']:
+                if 'switching_action' in rule:
+                    if rule['switching_action'].get('pool_group_ref'):
+                        pool_group_ref = self.get_name(
+                            rule['switching_action']['pool_group_ref'])
+                        pool_group_ref = self.clone_pool_group(
+                            pool_group_ref, policy_name, avi_config, False,
                             tenant_name, cloud_name)
-                        rule['switching_action']['pool_group_ref'] = \
-                            updated_pool_group_ref
-                elif rule['switching_action'].get('pool_ref'):
-                    pool_ref = self.get_name(rule['switching_action'][
-                                                 'pool_ref'])
-                    if pool_ref:
-                        updated_pool_ref = self.get_object_ref(
-                            pool_ref, conv_const.OBJECT_TYPE_POOL, tenant_name,
-                            cloud_name)
-                        rule['switching_action']['pool_ref'] = updated_pool_ref
+                        if pool_group_ref:
+                            updated_pool_group_ref = self.get_object_ref(
+                                pool_group_ref,
+                                conv_const.OBJECT_TYPE_POOL_GROUP,
+                                tenant_name, cloud_name)
+                            rule['switching_action']['pool_group_ref'] = \
+                                updated_pool_group_ref
+                    elif rule['switching_action'].get('pool_ref'):
+                        pool_ref = self.get_name(
+                            rule['switching_action']['pool_ref'])
+                        if pool_ref:
+                            updated_pool_ref = self.get_object_ref(
+                                pool_ref, conv_const.OBJECT_TYPE_POOL,
+                                tenant_name, cloud_name)
+                            rule['switching_action']['pool_ref'] = \
+                                updated_pool_ref
         clone_policy['name'] += '-%s-clone' % vs_name
         return clone_policy
 
@@ -2278,6 +2283,8 @@ class F5Util(MigrationUtil):
         mapped_rules = []
         converted_rules = []
 
+        LOG.debug("Converting for irules %s for vs %s" % (vs_ds_rules, vs_name))
+
         for rule_mapping in rule_config:
             mapped_rules.append(rule_mapping['rule_name'])
 
@@ -2302,6 +2309,9 @@ class F5Util(MigrationUtil):
                     avi_config['VSDataScriptSet'].append(ds_config)
                 vs_ds.append(ds_config['name'])
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s VSDataScriptSet" %
+                    (rule, ds_config['name']))
             elif rule_mapping and rule_mapping['type'] == 'HTTPPolicySet':
                 if 'avi_config' in rule_mapping:
                     policy = copy.deepcopy(rule_mapping['avi_config'])
@@ -2316,6 +2326,9 @@ class F5Util(MigrationUtil):
                 avi_config['HTTPPolicySet'].append(policy)
                 req_policies.append(policy['name'])
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s HTTPPolicySet" %
+                    (rule, policy['name']))
             elif rule_mapping and rule_mapping['type'] == \
                     'NetworkSecurityPolicy':
                 if 'avi_config' in rule_mapping:
@@ -2331,6 +2344,9 @@ class F5Util(MigrationUtil):
                 avi_config['NetworkSecurityPolicy'].append(policy)
                 nw_policy = policy['name']
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s NetworkSecurityPolicy" %
+                    (rule, policy['name']))
             elif (rule_mapping and rule_mapping['type'] ==
                   'HTTPToHTTPSRedirect') or rule == '_sys_https_redirect':
                 # Added prefix for objects
@@ -2344,6 +2360,9 @@ class F5Util(MigrationUtil):
                 req_policies.append(policy_name)
                 avi_config['HTTPPolicySet'].append(policy)
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s HTTPPolicySet" %
+                    (rule, policy['name']))
         return vs_ds, req_policies, nw_policy, converted_rules
 
     def update_with_default_profile(self, profile_type, profile,
