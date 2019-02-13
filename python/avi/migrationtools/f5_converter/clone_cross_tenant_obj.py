@@ -181,6 +181,8 @@ class CloneObjects:
             conv_utils.print_progress_bar(progress_count, total_size,
                                           msg, prefix='Progress',
                                           suffix='')
+            if object_type in ['Tenant', 'META']:
+                continue
             for obj in self.old_avi_config.get(object_type, []):
                 if obj:
                     self.find_refs_and_clone(obj)
