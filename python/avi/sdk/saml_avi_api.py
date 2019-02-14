@@ -7,8 +7,89 @@ import urlparse
 logger = logging.getLogger(__name__)
 
 
+def idp_class_factory(**kwargs):
+    idp_class = None
+    idp_name = kwargs.get('idp', None)
+    if idp_name == "onelogin":
+        idp_class = OneloginSAMLApiSession(**kwargs)
+    else:
+        logger.error("Please provide IDP name.")
+    return idp_class
+
+
 class SAMLApiSession(ApiSession):
-    """
+    def __init__(self, controller=None, username=None, password=None,
+                 token=None, tenant=None, tenant_uuid=None, verify=False,
+                 port=None, timeout=60, api_version=None,
+                 retry_conxn_errors=True, data_log=False,
+                 avi_credentials=None, session_id=None, csrftoken=None,
+                 lazy_authentication=False, max_api_retries=None,
+                 idp_cookies=None, idp=None):
+        ApiSession.__init__(self, controller, username, password,
+                            token, tenant, tenant_uuid, verify,
+                            port, timeout, api_version,
+                            retry_conxn_errors, data_log,
+                            avi_credentials, session_id, csrftoken,
+                            lazy_authentication, max_api_retries)
+        self.idp_class = idp_class_factory(
+            controller=controller,
+            username=username,
+            password=password,
+            token=token, tenant=tenant,
+            tenant_uuid=tenant_uuid,
+            verify=verify,
+            port=port, timeout=timeout,
+            api_version=api_version,
+            retry_conxn_errors=retry_conxn_errors,
+            data_log=data_log,
+            avi_credentials=avi_credentials,
+            session_id=session_id,
+            csrftoken=csrftoken,
+            lazy_authentication=lazy_authentication,
+            max_api_retries=max_api_retries,
+            idp_cookies=idp_cookies,
+            idp=idp)
+        SAMLApiSession._clean_inactive_sessions()
+
+    @staticmethod
+    def get_session(controller_ip=None, username=None, password=None,
+                    token=None, tenant=None, tenant_uuid=None,
+                    verify=False, port=None, timeout=60,
+                    api_version=None, retry_conxn_errors=True,
+                    data_log=False, avi_credentials=None,
+                    session_id=None, csrftoken=None,
+                    lazy_authentication=False,
+                    max_api_retries=None, idp_cookies=None,
+                    idp=None):
+        saml_session = None
+        saml_session = idp_class_factory(
+            controller=controller_ip,
+            username=username,
+            password=password,
+            token=token,
+            tenant=tenant,
+            tenant_uuid=tenant_uuid,
+            verify=verify,
+            port=port,
+            timeout=timeout,
+            api_version=api_version,
+            retry_conxn_errors=retry_conxn_errors,
+            data_log=data_log,
+            avi_credentials=avi_credentials,
+            session_id=session_id,
+            csrftoken=csrftoken,
+            lazy_authentication=lazy_authentication,
+            max_api_retries=max_api_retries,
+            idp_cookies=idp_cookies,
+            idp=idp)
+        return saml_session
+
+    def authenticate_session(self):
+        return self.idp_class.authenticate_session()
+
+
+class OneloginSAMLApiSession(ApiSession):
+    """"
         Extends the Request library's session object to provide helper
         utilities to work with Avi Controller like SAML authentication,
         api massaging
@@ -35,12 +116,12 @@ class SAMLApiSession(ApiSession):
 
         # Added api token and session id to sessionDict for handle single
         # session
-        SAMLApiSession._clean_inactive_sessions()
+        OneloginSAMLApiSession._clean_inactive_sessions()
         return
 
     @staticmethod
     def get_session(
-            controller_ip=None, username=None, password=None,
+            controller_ip=None, username=None, password=None, token=None,
             tenant=None, tenant_uuid=None, verify=False, port=None,
             timeout=60, api_version=None, retry_conxn_errors=True,
             data_log=False, avi_credentials=None, session_id=None,
@@ -86,7 +167,7 @@ class SAMLApiSession(ApiSession):
                     lazy_authentication):
                 user_session.authenticate_session()
         else:
-            user_session = SAMLApiSession(
+            user_session = OneloginSAMLApiSession(
                 controller=controller_ip, username=username, password=password,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 verify=verify, port=port, timeout=timeout,
@@ -97,10 +178,10 @@ class SAMLApiSession(ApiSession):
                 max_api_retries=max_api_retries,
                 idp_cookies=idp_cookies,
             )
-            SAMLApiSession._clean_inactive_sessions()
+            OneloginSAMLApiSession._clean_inactive_sessions()
         return user_session
 
-    def saml_assertion(self):
+    def saml_assertion(self, username, password):
         """
         Perform SAML request from controller to IDPs.
         Establish session with controller and IDP.
@@ -109,6 +190,7 @@ class SAMLApiSession(ApiSession):
         """
 
         err = None
+        resp = None
         saml_request_regex = r'<input type=\"hidden\" ' \
                              r'name=\"SAMLRequest\" value=\"(.*?)\"'
         relay_state_regex = r'<input type=\"hidden\" ' \
@@ -161,8 +243,9 @@ class SAMLApiSession(ApiSession):
                 raise StandardError(err)
         else:
             try:
-                resp = idp_session.post(assertion_url, headers=headers,
-                                        data=saml_data, allow_redirects=False)
+                idp_resp = idp_session.post(assertion_url, headers=headers,
+                                            data=saml_data,
+                                            allow_redirects=False)
             except Exception as e:
                 logger.error("Error No SAML response from IDP %s",
                              str(e.message))
@@ -170,7 +253,81 @@ class SAMLApiSession(ApiSession):
                                "Status Code %s msg %s" % (resp.status_code,
                                                           resp.text), resp)
                 raise StandardError(err)
-        return controller_session, idp_session, resp, assertion_url
+        if "SAMLResponse" not in idp_resp.text:
+            try:
+                redirect_url = idp_resp.headers['Location']
+                try:
+                    idp_resp = idp_session.get(redirect_url,
+                                               allow_redirects=False)
+                except Exception as e:
+                    logger.error("Error for response from url %s %s",
+                                 (str(e.message), redirect_url))
+                    err = APIError("Error for response from url %s "
+                                   "Status Code %s msg %s"
+                                   % (redirect_url,
+                                      idp_resp.status_code,
+                                      idp_resp.text), idp_resp)
+                    raise StandardError(err)
+                query_string = idp_resp.headers['Location'].split('=')[1]
+                data = {"return": query_string}
+                json_data = json.dumps(data)
+                headers = {'content-type': 'application/json'}
+                parsed_uri = urlparse.urlparse(assertion_url)
+                # This needs to be modified for other IDPs.
+                auth_url = "{}://{}/access/auth".format(parsed_uri.scheme,
+                                                        parsed_uri.netloc)
+                try:
+                    resp = idp_session.post(auth_url, headers=headers,
+                                            data=json_data)
+                except Exception as e:
+                    logger.error("Error for response from url %s %s",
+                                 (str(e.message), auth_url))
+                    err = APIError("Error for response from url %s "
+                                   "Status Code %s msg %s"
+                                   % (auth_url,
+                                      resp.status_code,
+                                      resp.text), resp)
+                    raise StandardError(err)
+                # credentials payload for given IDP
+                credentials_tuple = [('username', 'login',
+                                      username),
+                                     ('password', 'password',
+                                      password)]
+                for state in credentials_tuple:
+                    bearer = "Bearer " + resp.text.split('jwt":"')[1][:-3]
+                    headers = {'content-type': 'application/json',
+                               'authorization': bearer}
+                    user_data = {'state': state[0],
+                                 'payload': {state[1]: state[2]}}
+                    json_data = json.dumps(user_data)
+                    resp = idp_session.put(auth_url, headers=headers,
+                                           data=json_data)
+                data = json.loads(resp.text)
+                try:
+                    token = data["request"]["params"]
+                    ["saml_request_params_token"]
+                except KeyError:
+                    raise StandardError("Couldn't complete "
+                                        "authentication with IDP")
+                url = data["request"]["uri"]
+                params = {'saml_request_params_token': token}
+                try:
+                    resp = idp_session.get(url, params=params)
+                except Exception as e:
+                    logger.error("Error for response from url %s %s",
+                                 (str(e.message), url))
+                    err = APIError("Error for response from url %s "
+                                   "Status Code %s msg %s"
+                                   % (url, resp.status_code,
+                                      resp.text), resp)
+                    raise StandardError(err)
+            except Exception as e:
+                logger.error("SAML authentication failed with msg: ",
+                             (str(e.message)))
+                msg = "saml authentication failed with msg: " \
+                      + str(e.message)
+                raise StandardError(msg)
+        return controller_session, resp
 
     def authenticate_session(self):
         """
@@ -192,87 +349,9 @@ class SAMLApiSession(ApiSession):
         logger.debug('authenticating user %s prefix %s',
                      self.avi_credentials.username, self.prefix)
         self.cookies.clear()
-        # Assert SAML response
-        controller_session, idp_session, idp_resp, assertion_url \
-            = self.saml_assertion()
         try:
-            if "SAMLResponse" not in idp_resp.text:
-                try:
-                    redirect_url = idp_resp.headers['Location']
-                    try:
-                        idp_resp = idp_session.get(redirect_url,
-                                                   allow_redirects=False)
-                    except Exception as e:
-                        logger.error("Error for response from url %s %s",
-                                     (str(e.message), redirect_url))
-                        err = APIError("Error for response from url %s "
-                                       "Status Code %s msg %s"
-                                       % (redirect_url,
-                                          idp_resp.status_code,
-                                          idp_resp.text), idp_resp)
-                        raise StandardError(err)
-                    query_string = idp_resp.headers['Location'].split('=')[1]
-                    data = {"return": query_string}
-                    json_data = json.dumps(data)
-                    headers = {'content-type': 'application/json'}
-                    parsed_uri = urlparse.urlparse(assertion_url)
-                    # This needs to be modified for other IDPs.
-                    auth_url = "{}://{}/access/auth".format(parsed_uri.scheme,
-                                                            parsed_uri.netloc)
-                    try:
-                        resp = idp_session.post(auth_url, headers=headers,
-                                                data=json_data)
-                    except Exception as e:
-                        logger.error("Error for response from url %s %s",
-                                     (str(e.message), auth_url))
-                        err = APIError("Error for response from url %s "
-                                       "Status Code %s msg %s"
-                                       % (auth_url,
-                                          resp.status_code,
-                                          resp.text), resp)
-                        raise StandardError(err)
-                    # credentials payload for given IDP
-                    if self.idp in ("onelogin", None):
-                        logger.info("Creating credential payload for "
-                                    "onelogin IDP!")
-                        credentials_tuple = [('username', 'login',
-                                              username),
-                                             ('password', 'password',
-                                              password)]
-                    for state in credentials_tuple:
-                        bearer = "Bearer " + resp.text.split('jwt":"')[1][:-3]
-                        headers = {'content-type': 'application/json',
-                                   'authorization': bearer}
-                        user_data = {'state': state[0],
-                                     'payload': {state[1]: state[2]}}
-                        json_data = json.dumps(user_data)
-                        resp = idp_session.put(auth_url, headers=headers,
-                                               data=json_data)
-                    data = json.loads(resp.text)
-                    try:
-                        token = data["request"]["params"]
-                        ["saml_request_params_token"]
-                    except KeyError:
-                        raise StandardError("Couldn't complete "
-                                            "authentication with IDP")
-                    url = data["request"]["uri"]
-                    params = {'saml_request_params_token': token}
-                    try:
-                        resp = idp_session.get(url, params=params)
-                    except Exception as e:
-                        logger.error("Error for response from url %s %s",
-                                     (str(e.message), url))
-                        err = APIError("Error for response from url %s "
-                                       "Status Code %s msg %s"
-                                       % (url, resp.status_code,
-                                          resp.text), resp)
-                        raise StandardError(err)
-                except Exception as e:
-                    logger.error("SAML authentication failed with msg: ",
-                                 (str(e.message)))
-                    msg = "saml authentication failed with msg: " \
-                          + str(e.message)
-                    raise StandardError(msg)
+            # Assert SAML response
+            controller_session, resp = self.saml_assertion(username, password)
             try:
                 content = resp.text
                 saml_response_match = re.search(saml_response_regex, content,
