@@ -8,6 +8,11 @@ logger = logging.getLogger(__name__)
 
 
 def idp_class_factory(**kwargs):
+    """
+    This will return specific IDP Class instance as per the idp type.
+    :param kwargs:
+    :return: Class instance of a specific IDP.
+    """
     idp_class = None
     idp_name = kwargs.get('idp', None)
     if idp_name == "onelogin":
@@ -20,6 +25,11 @@ def idp_class_factory(**kwargs):
 
 
 class SAMLApiSession(ApiSession):
+    """
+    This extends the ApiSession class and specific IDP's class
+    to implement SAML authentication and create controller session.
+    """
+
     def __init__(self, controller=None, username=None, password=None,
                  token=None, tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
@@ -27,6 +37,7 @@ class SAMLApiSession(ApiSession):
                  avi_credentials=None, session_id=None, csrftoken=None,
                  lazy_authentication=False, max_api_retries=None,
                  idp_cookies=None, idp=None):
+        # Dynamically gets the specific IDP's class instance.
         self.idp_class = idp_class_factory(
             controller=controller,
             username=username,
@@ -45,6 +56,9 @@ class SAMLApiSession(ApiSession):
             max_api_retries=max_api_retries,
             idp_cookies=idp_cookies,
             idp=idp)
+        # Initialise ApiSession class instance. All methods and attributes
+        # under ApiSession class are available in this class with
+        # overridden authentication methods.
         ApiSession.__init__(self, controller, username, password,
                             token, tenant, tenant_uuid, verify,
                             port, timeout, api_version,
@@ -63,9 +77,53 @@ class SAMLApiSession(ApiSession):
                     lazy_authentication=False,
                     max_api_retries=None, idp_cookies=None,
                     idp=None):
-        saml_session = None
-        saml_session = idp_class_factory(
+        """
+        returns the SAML session object for user.
+        This overrides the get session method of ApiSession class.
+
+        :param controller_ip: controller IP address
+        :param username: SAML IDP username
+        :param password: IDP password
+        :param token: Token to use; example, a valid keystone token
+        :param tenant: Name of the tenant on Avi Controller
+        :param tenant_uuid: Don't specify tenant when using tenant_id
+        :param verify: SSL verification for https requests
+        :param port: Rest-API may use a different port other than 443
+        :param timeout: timeout for API calls; Default value is 60 seconds
+        :param api_version: Controller API version
+        :param retry_conxn_errors:
+        :param data_log: datalog
+        :param avi_credentials: Avi Credential objects
+        :param session_id: Session ID
+        :param csrftoken: CSRF Token
+        :param lazy_authentication: Lazy_authentication
+        :param max_api_retries: Maximum number of retries to REST API
+        :param idp_cookies: IDP Cookies
+        :param idp: Type of IDP. eg. okta, onelogin, pingfed, etc
+        :return: Controller Session after SAML authentication with IDP.
+        """
+        saml_idp_class = idp_class_factory(
             controller=controller_ip,
+            username=username,
+            password=password,
+            token=token,
+            tenant=tenant,
+            tenant_uuid=tenant_uuid,
+            verify=verify,
+            port=port,
+            timeout=timeout,
+            api_version=api_version,
+            retry_conxn_errors=retry_conxn_errors,
+            data_log=data_log,
+            avi_credentials=avi_credentials,
+            session_id=session_id,
+            csrftoken=csrftoken,
+            lazy_authentication=lazy_authentication,
+            max_api_retries=max_api_retries,
+            idp_cookies=idp_cookies,
+            idp=idp)
+        saml_session = saml_idp_class.get_session(
+            controller_ip=controller_ip,
             username=username,
             password=password,
             token=token,
@@ -87,6 +145,11 @@ class SAMLApiSession(ApiSession):
         return saml_session
 
     def authenticate_session(self):
+        """
+        Performs session authentication with IDP and Avi controller and stores
+        session cookies and sets header options like tenant.
+        :return:
+        """
         return self.idp_class.authenticate_session()
 
 
@@ -94,7 +157,8 @@ class OneloginSAMLApiSession(ApiSession):
     """"
         Extends the Request library's session object and ApiSession
         class to provide helper utilities to work with Avi Controller
-        like SAML authentication for one login, api massaging, etc.
+        and IDPs like SAML authentication for onelogin, okta and
+        api massaging, etc.
     """
 
     SAML_URL_SUFFIX = "/sso/login"
@@ -187,7 +251,7 @@ class OneloginSAMLApiSession(ApiSession):
         Perform SAML request from controller to IDPs.
         Establish session with controller and IDP.
         Assert SAML request url into the response header.
-        :return:
+        :return: controller session and IDP response
         """
 
         err = None
@@ -481,7 +545,7 @@ class OktaSAMLApiSession(ApiSession):
         :param retry_conxn_errors: retry on connection errors
         :param api_version: Controller API version
         :param idp_cookies: Identity Provider cookies.
-        :param idp: IDP name such as  onelogin, okta, etc
+        :param idp: IDP name such as onelogin, okta, etc
         """
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
@@ -528,8 +592,8 @@ class OktaSAMLApiSession(ApiSession):
         Assert SAML request url into the response header.
         :return:
         """
-        # err = None
-        # resp = None
+        err = None
+        resp = None
         saml_request_regex = r'<input type=\"hidden\" ' \
                              r'name=\"SAMLRequest\" value=\"(.*?)\"'
         relay_state_regex = r'<input type=\"hidden\" ' \
@@ -540,7 +604,8 @@ class OktaSAMLApiSession(ApiSession):
         controller_session.verify = False
         try:
             saml_controller_url = self.prefix + self.SAML_URL_SUFFIX
-            resp = controller_session.get(saml_controller_url, allow_redirects=True)
+            resp = controller_session.get(saml_controller_url,
+                                          allow_redirects=True)
         except Exception as e:
             logger.error("Error for controller SSO login URL. %s",
                          str(e.message))
@@ -561,21 +626,17 @@ class OktaSAMLApiSession(ApiSession):
 
         idp_session = requests.Session()
         idp_session.verify = False
-        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
         saml_data = urllib.urlencode({
             'SAMLRequest': saml_request,
             'RelayState': relay_state})
-        # redirect_url = resp.headers['Location']
-        # okta_regex = r'(.*oktapreview\.com).*'
-        # okta_regex_match = re.search(okta_regex, redirect_url, re.M | re.S)
-        # base_url = okta_regex_match.group(1)
         parsed_uri = urlparse.urlparse(assertion_url)
         base_url = "{}://{}".format(parsed_uri.scheme, parsed_uri.netloc)
         if self.idp_cookies:
             logger.info("Controller generated SAML request is being "
                         "sent to IDP with existing IDP cookies.")
             try:
-                resp = idp_session.get(assertion_url, allow_redirects=False, cookies=self.idp_cookies)
+                resp = idp_session.get(assertion_url, allow_redirects=False,
+                                       cookies=self.idp_cookies)
             except Exception as e:
                 logger.error("Error No SAML response from IDP %s",
                              str(e.message))
@@ -592,33 +653,36 @@ class OktaSAMLApiSession(ApiSession):
                 err = APIError("Error No SAML response from IDP. "
                                "Status Code %s msg %s" % (resp.status_code,
                                                           resp.text), resp)
+                raise StandardError(err)
         if "SAMLResponse" not in resp.text:
             try:
-                url = resp.headers['Location']
-                resp = idp_session.get(url, allow_redirects=False)
-                new_url = base_url + "/login/getimage"
-                params = {"username": username}
-                resp = idp_session.get(new_url, params=params)
                 user_data = {"username": username,
-                             "options": {"warnBeforePasswordExpired": True, "multiOptionalFactorEnroll": True},
+                             "options": {"warnBeforePasswordExpired": True,
+                                         "multiOptionalFactorEnroll": True},
                              "password": password}
                 json_data = json.dumps(user_data)
                 headers = {'content-type': 'application/json'}
-                resp = idp_session.post(base_url + "/api/v1/authn", headers=headers,
+                resp = idp_session.post(base_url + "/api/v1/authn",
+                                        headers=headers,
                                         data=json_data)
                 data = json.loads(resp.text)
                 try:
                     token = data["sessionToken"]
                 except KeyError:
-                    raise StandardError("Couldn't complete authentication with IDP")
+                    raise StandardError("Couldn't complete authentication "
+                                        "with IDP")
                 new_url = base_url + "/login/sessionCookieRedirect"
                 redirect_url = "{}?{}".format(assertion_url, saml_data)
-                params = {'checkAccountSetupComplete': 'true', 'token': token, 'redirectUrl': redirect_url}
-                resp = idp_session.get(new_url, params=params, allow_redirects=False)
+                params = {'checkAccountSetupComplete': 'true',
+                          'token': token,
+                          'redirectUrl': redirect_url}
+                resp = idp_session.get(new_url, params=params,
+                                       allow_redirects=False)
                 url = resp.headers['Location']
                 resp = idp_session.get(url)
             except Exception as e:
-                msg = "SAML authentication failed with msg: " + str(e.message)
+                msg = "SAML authentication failed with msg: " + \
+                      str(e.message)
                 raise StandardError(msg)
         return controller_session, resp
 
@@ -664,9 +728,9 @@ class OktaSAMLApiSession(ApiSession):
                     ('RelayState', relay_state)])
                 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
                 rsp = controller_session.post(assertion_url,
-                                        headers=headers,
-                                        data=saml_data,
-                                        allow_redirects=True)
+                                              headers=headers,
+                                              data=saml_data,
+                                              allow_redirects=True)
             except Exception as e:
                 msg = "SAML authentication failed with msg: " + str(e.message)
                 raise StandardError(msg)
