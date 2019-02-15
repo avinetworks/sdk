@@ -1,20 +1,18 @@
 #!/usr/bin/env python
-'''
+"""
 Created on September 15, 2016
 
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
-'''
+"""
 
-import json
-import os
-
-import yaml
 import argparse
+import json
 import re
 import urlparse
 from copy import deepcopy
 from urllib import urlencode
 
+import yaml
 from avi.migrationtools.f5_converter.conversion_util import F5Util
 
 DEFAULT_SKIP_TYPES = [
@@ -27,11 +25,13 @@ DEFAULT_SKIP_PARAMS = {
     'sslprofile': ['dhparam']
     }
 
+
 def should_use_block(value):
     for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029":
         if c in value:
             return True
     return False
+
 
 def my_represent_scalar(self, tag, value, style=None):
     if style is None:
@@ -70,8 +70,6 @@ class AviAnsibleConverter(object):
     default_meta_order = supported_obj['avi_resource_types']
 
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
-    # Modified REGEX
-    REL_REF_MATCH = re.compile('/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
 
     def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None):
         self.outdir = outdir
@@ -108,16 +106,11 @@ class AviAnsibleConverter(object):
             obj_type = x.split('/api/')[1].split('/')[0]
             # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
-        elif self.REL_REF_MATCH.match(x):
-            ref_parts = x.split('?')
-            for p in ref_parts[1].split('&'):
-                k, v = p.split('=')
-                # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
-                if k.strip() == 'cloud' or 'cloud'in ref_parts[0]:
-                    obj['cloud_ref'] = '/api/cloud?name=%s' % v
-                # Added value of keyname
-                if k.strip() == 'name':
-                    x = '%s?name=%s' % (ref_parts[0], v)
+        elif x.startswith('/api/') and '?' in x:
+            parsed = urlparse.urlparse(x)
+            params = urlparse.parse_qs(parsed.query)
+            if 'cloud' in params:
+                obj['cloud_ref'] = '/api/cloud?name=%s' % params['cloud'][0]
         else:
             print "[WARNING] Ignoring invalid reference:  %s" % x
             return None
@@ -192,7 +185,8 @@ class AviAnsibleConverter(object):
             # check for floating IP and normal IP
             for vip in rsrc.get('vip', []):
                 if vip.get('avi_allocated_fip', False):
-                    print ('purged floating ip from %s', vip['floating_ip']['addr'])
+                    print ('purged floating ip from %s',
+                           vip['floating_ip']['addr'])
                     vip.pop('floating_ip', None)
                 if vip.get('avi_allocated_vip', False):
                     print ('purged avi vip %s', vip['ip_address']['addr'])
@@ -202,7 +196,7 @@ class AviAnsibleConverter(object):
         """
         adds per object type ansible task
         :param obj_type type of object
-        :param iterable list of objects
+        :param objs list of objects
         :param ansible_dict: output dict
         Returns
             Ansible dict
@@ -226,16 +220,19 @@ class AviAnsibleConverter(object):
             if obj_type.lower() == 'virtualservice':
                 # add entry for traffic_enabled.
                 traffic_enabled = obj.get('traffic_enabled', True)
-                task['traffic_enabled'] = "{{ avi_traffic_enabled | default(%s)}}" % traffic_enabled
-            #task.update({'tags': tags})
-            ansible_dict['tasks'].append({'name': task_name, 'tags': tags, task_id: task})
+                task['traffic_enabled'] = (
+                        "{{ avi_traffic_enabled | default(%s)}}" %
+                        traffic_enabled)
+            # task.update({'tags': tags})
+            ansible_dict['tasks'].append(
+                {'name': task_name, 'tags': tags, task_id: task})
         return ansible_dict
 
     def build_yaml_objects(self, obj_type, objs, ansible_dict):
         """
         adds per object type ansible task
         :param obj_type type of object
-        :param iterable list of objects
+        :param objs list of objects
         :param ansible_dict: output dict
         Returns
             Ansible dict
@@ -321,7 +318,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
-        description=(HELP_STR))
+        description=HELP_STR)
     parser.add_argument(
         '-c', '--config_file', help='location of configuration file',
         default='avi_config.json')
