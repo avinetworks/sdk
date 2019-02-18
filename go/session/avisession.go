@@ -680,7 +680,7 @@ func debug(data []byte, err error) {
 	if err == nil {
 		glog.Infof("%s\n\n", data)
 	} else {
-		glog.Fatalf("%s\n\n", err)
+		glog.Errorf("%s\n\n", err)
 	}
 }
 
