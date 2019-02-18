@@ -7,66 +7,24 @@ import urlparse
 logger = logging.getLogger(__name__)
 
 
-def idp_class_factory(**kwargs):
-    """
-    This will return specific IDP Class instance as per the idp type.
-    :param kwargs:
-    :return: Class instance of a specific IDP.
-    """
-    idp_class = None
-    idp_name = kwargs.get('idp', None)
-    if idp_name == "onelogin":
-        idp_class = OneloginSAMLApiSession(**kwargs)
-    if idp_name == "okta":
-        idp_class = OktaSAMLApiSession(**kwargs)
-    else:
+def get_idp_class(idp, *args, **kwargs):
+    if not idp:
         logger.error("Please provide IDP name.")
         raise StandardError("Please provide IDP name")
-    return idp_class
+    if idp == "okta":
+        return OktaSAMLApiSession(*args, **kwargs)
+    if idp == "onelogin":
+        return OneloginSAMLApiSession(*args, **kwargs)
 
 
-class SAMLApiSession(ApiSession):
+class SAMLApiSession(object):
     """
     This extends the ApiSession class and specific IDP's class
     to implement SAML authentication and create controller session.
     """
-
-    def __init__(self, controller=None, username=None, password=None,
-                 tenant=None, tenant_uuid=None, verify=False,
-                 port=None, timeout=60, api_version=None,
-                 retry_conxn_errors=True, data_log=False,
-                 avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None,
-                 idp_cookies=None, idp=None):
-        # Dynamically gets the specific IDP's class instance.
-        self.idp_class = idp_class_factory(
-            controller=controller,
-            username=username,
-            password=password,
-            tenant=tenant,
-            tenant_uuid=tenant_uuid,
-            verify=verify,
-            port=port, timeout=timeout,
-            api_version=api_version,
-            retry_conxn_errors=retry_conxn_errors,
-            data_log=data_log,
-            avi_credentials=avi_credentials,
-            session_id=session_id,
-            csrftoken=csrftoken,
-            lazy_authentication=lazy_authentication,
-            max_api_retries=max_api_retries,
-            idp_cookies=idp_cookies,
-            idp=idp)
-        # Initialise ApiSession class instance. All methods and attributes
-        # under ApiSession class are available in this class with
-        # overridden authentication methods.
-        ApiSession.__init__(self, controller, username, password, None,
-                            tenant, tenant_uuid, verify,
-                            port, timeout, api_version,
-                            retry_conxn_errors, data_log,
-                            avi_credentials, session_id, csrftoken,
-                            lazy_authentication, max_api_retries)
-        SAMLApiSession._clean_inactive_sessions()
+    def __new__(cls, *args, **kwargs):
+        idp = kwargs.get("idp", None)
+        return get_idp_class(idp, *args, **kwargs)
 
     @staticmethod
     def get_session(controller_ip=None, username=None, password=None,
@@ -102,7 +60,7 @@ class SAMLApiSession(ApiSession):
         :param idp: Type of IDP. eg. okta, onelogin, pingfed, etc
         :return: Controller Session after SAML authentication with IDP.
         """
-        saml_idp_class = idp_class_factory(
+        saml_idp_class = get_idp_class(
             controller=controller_ip,
             username=username,
             password=password,
@@ -141,14 +99,6 @@ class SAMLApiSession(ApiSession):
             idp_cookies=idp_cookies,
             idp=idp)
         return saml_session
-
-    def authenticate_session(self):
-        """
-        Performs session authentication with IDP and Avi controller and stores
-        session cookies and sets header options like tenant.
-        :return:
-        """
-        return self.idp_class.authenticate_session()
 
 
 class OneloginSAMLApiSession(ApiSession):
