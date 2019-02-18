@@ -21,6 +21,7 @@ def idp_class_factory(**kwargs):
         idp_class = OktaSAMLApiSession(**kwargs)
     else:
         logger.error("Please provide IDP name.")
+        raise StandardError("Please provide IDP name")
     return idp_class
 
 
@@ -31,7 +32,7 @@ class SAMLApiSession(ApiSession):
     """
 
     def __init__(self, controller=None, username=None, password=None,
-                 token=None, tenant=None, tenant_uuid=None, verify=False,
+                 tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
@@ -42,7 +43,7 @@ class SAMLApiSession(ApiSession):
             controller=controller,
             username=username,
             password=password,
-            token=token, tenant=tenant,
+            tenant=tenant,
             tenant_uuid=tenant_uuid,
             verify=verify,
             port=port, timeout=timeout,
@@ -59,8 +60,8 @@ class SAMLApiSession(ApiSession):
         # Initialise ApiSession class instance. All methods and attributes
         # under ApiSession class are available in this class with
         # overridden authentication methods.
-        ApiSession.__init__(self, controller, username, password,
-                            token, tenant, tenant_uuid, verify,
+        ApiSession.__init__(self, controller, username, password, None,
+                            tenant, tenant_uuid, verify,
                             port, timeout, api_version,
                             retry_conxn_errors, data_log,
                             avi_credentials, session_id, csrftoken,
@@ -69,7 +70,7 @@ class SAMLApiSession(ApiSession):
 
     @staticmethod
     def get_session(controller_ip=None, username=None, password=None,
-                    token=None, tenant=None, tenant_uuid=None,
+                    tenant=None, tenant_uuid=None,
                     verify=False, port=None, timeout=60,
                     api_version=None, retry_conxn_errors=True,
                     data_log=False, avi_credentials=None,
@@ -84,7 +85,6 @@ class SAMLApiSession(ApiSession):
         :param controller_ip: controller IP address
         :param username: SAML IDP username
         :param password: IDP password
-        :param token: Token to use; example, a valid keystone token
         :param tenant: Name of the tenant on Avi Controller
         :param tenant_uuid: Don't specify tenant when using tenant_id
         :param verify: SSL verification for https requests
@@ -106,7 +106,6 @@ class SAMLApiSession(ApiSession):
             controller=controller_ip,
             username=username,
             password=password,
-            token=token,
             tenant=tenant,
             tenant_uuid=tenant_uuid,
             verify=verify,
@@ -126,7 +125,6 @@ class SAMLApiSession(ApiSession):
             controller_ip=controller_ip,
             username=username,
             password=password,
-            token=token,
             tenant=tenant,
             tenant_uuid=tenant_uuid,
             verify=verify,
@@ -164,7 +162,7 @@ class OneloginSAMLApiSession(ApiSession):
     SAML_URL_SUFFIX = "/sso/login"
 
     def __init__(self, controller=None, username=None, password=None,
-                 token=None, tenant=None, tenant_uuid=None, verify=False,
+                 tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
@@ -172,21 +170,21 @@ class OneloginSAMLApiSession(ApiSession):
                  idp_cookies=None, idp=None):
         self.idp_cookies = idp_cookies
         self.idp = idp
-        ApiSession.__init__(self, controller, username, password,
-                            token, tenant, tenant_uuid, verify,
+        ApiSession.__init__(self, controller, username, password, None,
+                            tenant, tenant_uuid, verify,
                             port, timeout, api_version,
                             retry_conxn_errors, data_log,
                             avi_credentials, session_id, csrftoken,
                             lazy_authentication, max_api_retries)
 
-        # Added api token and session id to sessionDict for handle single
+        # Added session id to sessionDict for handle single
         # session
         OneloginSAMLApiSession._clean_inactive_sessions()
         return
 
     @staticmethod
     def get_session(
-            controller_ip=None, username=None, password=None, token=None,
+            controller_ip=None, username=None, password=None,
             tenant=None, tenant_uuid=None, verify=False, port=None,
             timeout=60, api_version=None, retry_conxn_errors=True,
             data_log=False, avi_credentials=None, session_id=None,
@@ -233,7 +231,8 @@ class OneloginSAMLApiSession(ApiSession):
                 user_session.authenticate_session()
         else:
             user_session = OneloginSAMLApiSession(
-                controller=controller_ip, username=username, password=password,
+                controller=controller_ip, username=username,
+                password=password,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 verify=verify, port=port, timeout=timeout,
                 retry_conxn_errors=retry_conxn_errors,
@@ -503,7 +502,7 @@ class OktaSAMLApiSession(ApiSession):
     SAML_URL_SUFFIX = "/sso/login"
 
     def __init__(self, controller=None, username=None, password=None,
-                 token=None, tenant=None, tenant_uuid=None, verify=False,
+                 tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
@@ -511,8 +510,8 @@ class OktaSAMLApiSession(ApiSession):
                  idp_cookies=None, idp=None):
         self.idp_cookies = idp_cookies
         self.idp = idp
-        ApiSession.__init__(self, controller, username, password,
-                            token, tenant, tenant_uuid, verify,
+        ApiSession.__init__(self, controller, username, password, None,
+                            tenant, tenant_uuid, verify,
                             port, timeout, api_version,
                             retry_conxn_errors, data_log,
                             avi_credentials, session_id, csrftoken,
@@ -525,7 +524,7 @@ class OktaSAMLApiSession(ApiSession):
 
     @staticmethod
     def get_session(
-            controller_ip=None, username=None, password=None, token=None,
+            controller_ip=None, username=None, password=None,
             tenant=None, tenant_uuid=None, verify=False, port=None,
             timeout=60, api_version=None, retry_conxn_errors=True,
             data_log=False, avi_credentials=None, session_id=None,
