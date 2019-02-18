@@ -373,12 +373,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	var result []byte
 	url := avisess.prefix + uri
 
-	check, err := avisess.CheckControllerStatus()
-	if check == false {
-		glog.Errorf("restRequest Error during checking controller state %v", err)
-		return nil, err
-	}
-
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -422,13 +416,18 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 			return nil, err
 		}
 		retryReq = true
-	} else if resp.StatusCode == 419 {
+	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
 		resp.Body.Close()
 		retryReq = true
 		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
 	}
 
 	if retryReq {
+		check, err := avisess.CheckControllerStatus()
+		if check == false {
+			glog.Errorf("restRequest Error during checking controller state %v", err)
+			return nil, err
+		}
 		// Doing this so that a new request is made to the
 		return avisess.restRequest(verb, uri, payload, retry+1)
 	}
@@ -460,12 +459,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 // restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
 // Return status of multipart upload.
 func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path_ptr *os.File, retryNum ...int) error {
-	check, err := avisess.CheckControllerStatus()
-	if check == false {
-		glog.Errorf("restMultipartUploadRequest Error during checking controller state")
-		return err
-	}
-
 	url := avisess.prefix + "/api/fileservice/" + uri
 
 	// If optional retryNum arg is provided, then count which retry number this is
@@ -513,7 +506,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	// If you don't close it, your request will be missing the terminating boundary.
 	w.Close()
 	uri_temp := "controller://" + strings.Split(uri, "?")[0]
-	err = w.WriteField("uri", uri_temp)
+	err := w.WriteField("uri", uri_temp)
 	if err != nil {
 		errorResult.err = fmt.Errorf("restMultipartUploadRequest Adding URI field failed: %v", err)
 		return errorResult
@@ -545,13 +538,18 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 			return err
 		}
 		retryReq = true
-	} else if resp.StatusCode == 419 {
+	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
 		resp.Body.Close()
 		retryReq = true
 		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
 	}
 
 	if retryReq {
+		check, err := avisess.CheckControllerStatus()
+		if check == false {
+			glog.Errorf("restMultipartUploadRequest Error during checking controller state")
+			return err
+		}
 		// Doing this so that a new request is made to the
 		return avisess.restMultipartUploadRequest(verb, uri, file_path_ptr, retry+1)
 	}
@@ -582,14 +580,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 // restMultipartDownloadRequest makes a REST request to the Avi Controller's REST API.
 // Returns multipart download and write data to file
 func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path_ptr *os.File, retryNum ...int) error {
-
 	url := avisess.prefix + "/api/fileservice/" + uri
-
-	check, err := avisess.CheckControllerStatus()
-	if check == false {
-		glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
-		return err
-	}
 
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
@@ -626,13 +617,18 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 			return err
 		}
 		retryReq = true
-	} else if resp.StatusCode == 419 {
+	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
 		resp.Body.Close()
 		retryReq = true
 		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
 	}
 
 	if retryReq {
+		check, err := avisess.CheckControllerStatus()
+		if check == false {
+			glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
+			return err
+		}
 		return avisess.restMultipartDownloadRequest(verb, uri, file_path_ptr)
 	}
 
@@ -688,7 +684,7 @@ func debug(data []byte, err error) {
 //This is an infinite loop till the controller is in up state.
 //Return true when controller is in up state.
 func (avisess *AviSession) CheckControllerStatus() (bool, error) {
-	url := avisess.prefix + "/api/initial-data"
+	url := avisess.prefix + "/api/cluster/status"
 	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
 	for round := 0; round < 10; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
