@@ -7,40 +7,22 @@ import urlparse
 logger = logging.getLogger(__name__)
 
 
-def get_idp_class(idp, *args, **kwargs):
+def get_idp_class(idp):
     """
-    Create a specific IDP class object as
+    Returns specific IDP class as
     per the idp input.
     :param idp: IDP type such as okta, onelogin, etc
     :param args:
     :param kwargs:
-    :return:
+    :return: idp class
     """
     if not idp:
         logger.error("Please provide IDP name.")
         raise StandardError("Please provide IDP name")
     if str(idp).lower() == "okta":
-        return OktaSAMLApiSession(*args, **kwargs)
+        return OktaSAMLApiSession
     if str(idp).lower() == "onelogin":
-        return OneloginSAMLApiSession(*args, **kwargs)
-
-
-def get_idp_static_method(idp, *args, **kwargs):
-    """
-    Call get_session static method for a specific IDP as
-    per the idp input.
-    :param idp: IDP type such as okta, onelogin, etc
-    :param args:
-    :param kwargs:
-    :return:
-    """
-    if not idp:
-        logger.error("Please provide IDP name.")
-        raise StandardError("Please provide IDP name")
-    if str(idp).lower() == "okta":
-        return OktaSAMLApiSession.get_session(*args, **kwargs)
-    if str(idp).lower() == "onelogin":
-        return OneloginSAMLApiSession.get_session(*args, **kwargs)
+        return OneloginSAMLApiSession
 
 
 class SAMLApiSession(object):
@@ -52,7 +34,8 @@ class SAMLApiSession(object):
     # before initialization
     def __new__(cls, *args, **kwargs):
         idp = kwargs.get("idp", None)
-        return get_idp_class(idp, *args, **kwargs)
+        idp_class = get_idp_class(idp)
+        return idp_class(*args, **kwargs)
 
     @staticmethod
     def get_session(controller_ip=None, username=None, password=None,
@@ -88,8 +71,8 @@ class SAMLApiSession(object):
         :param idp: Type of IDP. eg. okta, onelogin, pingfed, etc
         :return: Controller Session after successful SAML authentication with IDP.
         """
-
-        saml_session = get_idp_static_method(
+        idp_cls = get_idp_class(idp)
+        saml_session = idp_cls.get_session(
             controller_ip=controller_ip,
             username=username,
             password=password,
