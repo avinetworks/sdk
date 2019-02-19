@@ -8,20 +8,48 @@ logger = logging.getLogger(__name__)
 
 
 def get_idp_class(idp, *args, **kwargs):
+    """
+    Create a specific IDP class object as
+    per the idp input.
+    :param idp: IDP type such as okta, onelogin, etc
+    :param args:
+    :param kwargs:
+    :return:
+    """
     if not idp:
         logger.error("Please provide IDP name.")
         raise StandardError("Please provide IDP name")
-    if idp == "okta":
+    if str(idp).lower() == "okta":
         return OktaSAMLApiSession(*args, **kwargs)
-    if idp == "onelogin":
+    if str(idp).lower() == "onelogin":
         return OneloginSAMLApiSession(*args, **kwargs)
+
+
+def get_idp_static_method(idp, *args, **kwargs):
+    """
+    Call get_session static method for a specific IDP as
+    per the idp input.
+    :param idp: IDP type such as okta, onelogin, etc
+    :param args:
+    :param kwargs:
+    :return:
+    """
+    if not idp:
+        logger.error("Please provide IDP name.")
+        raise StandardError("Please provide IDP name")
+    if str(idp).lower() == "okta":
+        return OktaSAMLApiSession.get_session(*args, **kwargs)
+    if str(idp).lower() == "onelogin":
+        return OneloginSAMLApiSession.get_session(*args, **kwargs)
 
 
 class SAMLApiSession(object):
     """
-    This extends the ApiSession class and specific IDP's class
-    to implement SAML authentication and create controller session.
+    This creates corresponding IDP class as per the idp input
+    and implement SAML authentication and create controller session.
     """
+    # At runtime creates a specific IDP class object
+    # before initialization
     def __new__(cls, *args, **kwargs):
         idp = kwargs.get("idp", None)
         return get_idp_class(idp, *args, **kwargs)
@@ -58,28 +86,10 @@ class SAMLApiSession(object):
         :param max_api_retries: Maximum number of retries to REST API
         :param idp_cookies: IDP Cookies
         :param idp: Type of IDP. eg. okta, onelogin, pingfed, etc
-        :return: Controller Session after SAML authentication with IDP.
+        :return: Controller Session after successful SAML authentication with IDP.
         """
-        saml_idp_class = get_idp_class(
-            controller=controller_ip,
-            username=username,
-            password=password,
-            tenant=tenant,
-            tenant_uuid=tenant_uuid,
-            verify=verify,
-            port=port,
-            timeout=timeout,
-            api_version=api_version,
-            retry_conxn_errors=retry_conxn_errors,
-            data_log=data_log,
-            avi_credentials=avi_credentials,
-            session_id=session_id,
-            csrftoken=csrftoken,
-            lazy_authentication=lazy_authentication,
-            max_api_retries=max_api_retries,
-            idp_cookies=idp_cookies,
-            idp=idp)
-        saml_session = saml_idp_class.get_session(
+
+        saml_session = get_idp_static_method(
             controller_ip=controller_ip,
             username=username,
             password=password,
@@ -103,10 +113,9 @@ class SAMLApiSession(object):
 
 class OneloginSAMLApiSession(ApiSession):
     """"
-        Extends the Request library's session object and ApiSession
-        class to provide helper utilities to work with Avi Controller
-        and IDPs like SAML authentication for onelogin, okta and
-        api massaging, etc.
+        Extends the ApiSession class to override authentication
+        method and provide helper utilities to work with Avi
+        Controller and IDPs like onelogin, okta, etc.
     """
 
     SAML_URL_SUFFIX = "/sso/login"
@@ -127,9 +136,6 @@ class OneloginSAMLApiSession(ApiSession):
                             avi_credentials, session_id, csrftoken,
                             lazy_authentication, max_api_retries)
 
-        # Added session id to sessionDict for handle single
-        # session
-        OneloginSAMLApiSession._clean_inactive_sessions()
         return
 
     @staticmethod
@@ -192,7 +198,6 @@ class OneloginSAMLApiSession(ApiSession):
                 max_api_retries=max_api_retries,
                 idp_cookies=idp_cookies,
             )
-            OneloginSAMLApiSession._clean_inactive_sessions()
         return user_session
 
     def saml_assertion(self, username, password):
@@ -275,7 +280,7 @@ class OneloginSAMLApiSession(ApiSession):
                                                allow_redirects=False)
                 except Exception as e:
                     logger.error("Error for response from url %s %s",
-                                 (str(e.message), redirect_url))
+                                 (redirect_url, str(e.message)))
                     err = APIError("Error for response from url %s "
                                    "Status Code %s msg %s"
                                    % (redirect_url,
@@ -295,7 +300,7 @@ class OneloginSAMLApiSession(ApiSession):
                                             data=json_data)
                 except Exception as e:
                     logger.error("Error for response from url %s %s",
-                                 (str(e.message), auth_url))
+                                 (auth_url, str(e.message)))
                     err = APIError("Error for response from url %s "
                                    "Status Code %s msg %s"
                                    % (auth_url,
@@ -314,8 +319,19 @@ class OneloginSAMLApiSession(ApiSession):
                     user_data = {'state': state[0],
                                  'payload': {state[1]: state[2]}}
                     json_data = json.dumps(user_data)
-                    resp = idp_session.put(auth_url, headers=headers,
-                                           data=json_data)
+                    try:
+                        resp = idp_session.put(auth_url, headers=headers,
+                                               data=json_data)
+                    except Exception as e:
+                        logger.error("Error for response from url %s %s",
+                                     (auth_url, str(e.message)))
+                        err = APIError("Error for response from url %s "
+                                       "Status Code %s msg %s"
+                                       % (auth_url,
+                                          resp.status_code,
+                                          resp.text), resp)
+                        raise StandardError(err)
+
                 data = json.loads(resp.text)
                 try:
                     token = data["request"]["params"]
@@ -329,7 +345,7 @@ class OneloginSAMLApiSession(ApiSession):
                     resp = idp_session.get(url, params=params)
                 except Exception as e:
                     logger.error("Error for response from url %s %s",
-                                 (str(e.message), url))
+                                 (url, str(e.message)))
                     err = APIError("Error for response from url %s "
                                    "Status Code %s msg %s"
                                    % (url, resp.status_code,
@@ -383,7 +399,7 @@ class OneloginSAMLApiSession(ApiSession):
                     rsp = controller_session.post(assertion_url,
                                                   headers=headers,
                                                   data=saml_data,
-                                                  allow_redirects=True)
+                                                  )
                 except Exception as e:
                     logger.error("SAML authentication on controller url "
                                  "%S failed with msg: %s",
@@ -466,10 +482,6 @@ class OktaSAMLApiSession(ApiSession):
                             retry_conxn_errors, data_log,
                             avi_credentials, session_id, csrftoken,
                             lazy_authentication, max_api_retries)
-
-        # Added api token and session id to sessionDict for handle single
-        # session
-        OktaSAMLApiSession._clean_inactive_sessions()
         return
 
     @staticmethod
@@ -531,7 +543,6 @@ class OktaSAMLApiSession(ApiSession):
                 max_api_retries=max_api_retries,
                 idp_cookies=idp_cookies,
             )
-            OktaSAMLApiSession._clean_inactive_sessions()
         return user_session
 
     def saml_assertion(self, username, password):
@@ -626,9 +637,7 @@ class OktaSAMLApiSession(ApiSession):
                           'token': token,
                           'redirectUrl': redirect_url}
                 resp = idp_session.get(new_url, params=params,
-                                       allow_redirects=False)
-                url = resp.headers['Location']
-                resp = idp_session.get(url)
+                                       allow_redirects=True)
             except Exception as e:
                 msg = "SAML authentication failed with msg: " + \
                       str(e.message)
