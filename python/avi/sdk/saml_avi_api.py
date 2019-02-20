@@ -1,8 +1,16 @@
-from avi.sdk.avi_api import *
+from avi.sdk.avi_api import ApiSession, AviCredentials, \
+    sessionDict, APIError
 import requests
 import re
 import urllib
 import urlparse
+import json
+from datetime import datetime
+from requests import ConnectionError
+from requests.exceptions import ChunkedEncodingError
+from ssl import SSLError
+import time
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +28,10 @@ def get_idp_class(idp):
         logger.error("Please provide IDP name.")
         raise StandardError("Please provide IDP name")
     if str(idp).lower() == "okta":
+        logger.info("Using OktaSAMLApiSession to create session")
         return OktaSAMLApiSession
     if str(idp).lower() == "onelogin":
+        logger.info("Using OneloginSAMLApiSession to create session")
         return OneloginSAMLApiSession
 
 
@@ -36,90 +46,6 @@ class SAMLApiSession(object):
         idp = kwargs.get("idp", None)
         idp_class = get_idp_class(idp)
         return idp_class(*args, **kwargs)
-
-    @staticmethod
-    def get_session(controller_ip=None, username=None, password=None,
-                    tenant=None, tenant_uuid=None,
-                    verify=False, port=None, timeout=60,
-                    api_version=None, retry_conxn_errors=True,
-                    data_log=False, avi_credentials=None,
-                    session_id=None, csrftoken=None,
-                    lazy_authentication=False,
-                    max_api_retries=None, idp_cookies=None,
-                    idp=None):
-        """
-        returns the SAML session object for user.
-        This overrides the get session method of ApiSession class.
-
-        :param controller_ip: controller IP address
-        :param username: SAML IDP username
-        :param password: IDP password
-        :param tenant: Name of the tenant on Avi Controller
-        :param tenant_uuid: Don't specify tenant when using tenant_id
-        :param verify: SSL verification for https requests
-        :param port: Rest-API may use a different port other than 443
-        :param timeout: timeout for API calls; Default value is 60 seconds
-        :param api_version: Controller API version
-        :param retry_conxn_errors:
-        :param data_log: datalog
-        :param avi_credentials: Avi Credential objects
-        :param session_id: Session ID
-        :param csrftoken: CSRF Token
-        :param lazy_authentication: Lazy_authentication
-        :param max_api_retries: Maximum number of retries to REST API
-        :param idp_cookies: IDP Cookies
-        :param idp: Type of IDP. eg. okta, onelogin, pingfed, etc
-        :return: Controller Session after successful SAML authentication with IDP.
-        """
-        idp_cls = get_idp_class(idp)
-        saml_session = idp_cls.get_session(
-            controller_ip=controller_ip,
-            username=username,
-            password=password,
-            tenant=tenant,
-            tenant_uuid=tenant_uuid,
-            verify=verify,
-            port=port,
-            timeout=timeout,
-            api_version=api_version,
-            retry_conxn_errors=retry_conxn_errors,
-            data_log=data_log,
-            avi_credentials=avi_credentials,
-            session_id=session_id,
-            csrftoken=csrftoken,
-            lazy_authentication=lazy_authentication,
-            max_api_retries=max_api_retries,
-            idp_cookies=idp_cookies,
-            idp=idp)
-        return saml_session
-
-
-class OneloginSAMLApiSession(ApiSession):
-    """"
-        Extends the ApiSession class to override authentication
-        method and provide helper utilities to work with Avi
-        Controller and IDPs like onelogin, okta, etc.
-    """
-
-    SAML_URL_SUFFIX = "/sso/login"
-
-    def __init__(self, controller=None, username=None, password=None,
-                 tenant=None, tenant_uuid=None, verify=False,
-                 port=None, timeout=60, api_version=None,
-                 retry_conxn_errors=True, data_log=False,
-                 avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None,
-                 idp_cookies=None, idp=None):
-        self.idp_cookies = idp_cookies
-        self.idp = idp
-        ApiSession.__init__(self, controller, username, password, None,
-                            tenant, tenant_uuid, verify,
-                            port, timeout, api_version,
-                            retry_conxn_errors, data_log,
-                            avi_credentials, session_id, csrftoken,
-                            lazy_authentication, max_api_retries)
-
-        return
 
     @staticmethod
     def get_session(
@@ -169,7 +95,8 @@ class OneloginSAMLApiSession(ApiSession):
                     lazy_authentication):
                 user_session.authenticate_session()
         else:
-            user_session = OneloginSAMLApiSession(
+            idp_class = get_idp_class(idp)
+            user_session = idp_class(
                 controller=controller_ip, username=username,
                 password=password,
                 tenant=tenant, tenant_uuid=tenant_uuid,
@@ -179,9 +106,37 @@ class OneloginSAMLApiSession(ApiSession):
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
                 max_api_retries=max_api_retries,
-                idp_cookies=idp_cookies,
+                idp_cookies=idp_cookies, idp=idp,
             )
         return user_session
+
+
+class OneloginSAMLApiSession(ApiSession):
+    """"
+        Extends the ApiSession class to override authentication
+        method and provide helper utilities to work with Avi
+        Controller and IDPs like onelogin, okta, etc.
+    """
+
+    SAML_URL_SUFFIX = "/sso/login"
+
+    def __init__(self, controller=None, username=None, password=None,
+                 tenant=None, tenant_uuid=None, verify=False,
+                 port=None, timeout=60, api_version=None,
+                 retry_conxn_errors=True, data_log=False,
+                 avi_credentials=None, session_id=None, csrftoken=None,
+                 lazy_authentication=False, max_api_retries=None,
+                 idp_cookies=None, idp=None):
+        self.idp_cookies = idp_cookies
+        self.idp = idp
+        ApiSession.__init__(self, controller, username, password, None,
+                            tenant, tenant_uuid, verify,
+                            port, timeout, api_version,
+                            retry_conxn_errors, data_log,
+                            avi_credentials, session_id, csrftoken,
+                            lazy_authentication, max_api_retries)
+
+        return
 
     def saml_assertion(self, username, password):
         """
@@ -466,67 +421,6 @@ class OktaSAMLApiSession(ApiSession):
                             avi_credentials, session_id, csrftoken,
                             lazy_authentication, max_api_retries)
         return
-
-    @staticmethod
-    def get_session(
-            controller_ip=None, username=None, password=None,
-            tenant=None, tenant_uuid=None, verify=False, port=None,
-            timeout=60, api_version=None, retry_conxn_errors=True,
-            data_log=False, avi_credentials=None, session_id=None,
-            csrftoken=None, lazy_authentication=False,
-            max_api_retries=None, idp_cookies=None, idp=None):
-        """
-        returns the session object for same user and tenant
-        calls init if session dose not exist and adds it to session cache
-        :param controller_ip: Controller Ip
-        :param username: IDP username
-        :param password: IDP password
-        :param verify: Verify SSL boolean flag
-        :param tenant: Name of the tenant on Avi Controller
-        :param tenant_uuid: Don't specify tenant when using tenant_id
-        :param port: Rest-API may use a different port other than 443
-        :param timeout: timeout for API calls; Default value is 60 seconds
-        :param retry_conxn_errors: retry on connection errors
-        :param api_version: Controller API version
-        :param idp_cookies: Identity Provider cookies.
-        :param idp: IDP name such as onelogin, okta, etc
-        """
-        if not avi_credentials:
-            tenant = tenant if tenant else "admin"
-            avi_credentials = AviCredentials(controller=controller_ip,
-                                             username=username,
-                                             password=password,
-                                             api_version=api_version,
-                                             tenant=tenant,
-                                             tenant_uuid=tenant_uuid,
-                                             port=port,
-                                             timeout=timeout,
-                                             session_id=session_id,
-                                             csrftoken=csrftoken)
-        k_port = avi_credentials.port if avi_credentials.port else 443
-        if avi_credentials.controller.startswith('http'):
-            k_port = 80 if not avi_credentials.port else k_port
-        key = '%s:%s:%s' % (avi_credentials.controller,
-                            avi_credentials.username, k_port)
-        cached_session = sessionDict.get(key)
-        if cached_session:
-            user_session = cached_session['api']
-            if not (user_session.avi_credentials.csrftoken or
-                    lazy_authentication):
-                user_session.authenticate_session()
-        else:
-            user_session = OktaSAMLApiSession(
-                controller=controller_ip, username=username, password=password,
-                tenant=tenant, tenant_uuid=tenant_uuid,
-                verify=verify, port=port, timeout=timeout,
-                retry_conxn_errors=retry_conxn_errors,
-                api_version=api_version, data_log=data_log,
-                avi_credentials=avi_credentials,
-                lazy_authentication=lazy_authentication,
-                max_api_retries=max_api_retries,
-                idp_cookies=idp_cookies,
-            )
-        return user_session
 
     def saml_assertion(self, username, password):
         """
