@@ -49,7 +49,7 @@ class SAMLApiSession(object):
 
     @staticmethod
     def get_session(
-            controller_ip=None, username=None, password=None,
+            controller_ip=None, username=None, password=None, token=None,
             tenant=None, tenant_uuid=None, verify=False, port=None,
             timeout=60, api_version=None, retry_conxn_errors=True,
             data_log=False, avi_credentials=None, session_id=None,
@@ -76,6 +76,7 @@ class SAMLApiSession(object):
             avi_credentials = AviCredentials(controller=controller_ip,
                                              username=username,
                                              password=password,
+                                             token=token,
                                              api_version=api_version,
                                              tenant=tenant,
                                              tenant_uuid=tenant_uuid,
@@ -98,7 +99,7 @@ class SAMLApiSession(object):
             idp_class = get_idp_class(idp)
             user_session = idp_class(
                 controller=controller_ip, username=username,
-                password=password,
+                password=password, token=token,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 verify=verify, port=port, timeout=timeout,
                 retry_conxn_errors=retry_conxn_errors,
@@ -121,7 +122,7 @@ class OneloginSAMLApiSession(ApiSession):
     SAML_URL_SUFFIX = "/sso/login"
 
     def __init__(self, controller=None, username=None, password=None,
-                 tenant=None, tenant_uuid=None, verify=False,
+                 token=None, tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
@@ -129,7 +130,7 @@ class OneloginSAMLApiSession(ApiSession):
                  idp_cookies=None, idp=None):
         self.idp_cookies = idp_cookies
         self.idp = idp
-        ApiSession.__init__(self, controller, username, password, None,
+        ApiSession.__init__(self, controller, username, password, token,
                             tenant, tenant_uuid, verify,
                             port, timeout, api_version,
                             retry_conxn_errors, data_log,
@@ -406,7 +407,7 @@ class OktaSAMLApiSession(ApiSession):
     SAML_URL_SUFFIX = "/sso/login"
 
     def __init__(self, controller=None, username=None, password=None,
-                 tenant=None, tenant_uuid=None, verify=False,
+                 token=None, tenant=None, tenant_uuid=None, verify=False,
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
@@ -414,7 +415,7 @@ class OktaSAMLApiSession(ApiSession):
                  idp_cookies=None, idp=None):
         self.idp_cookies = idp_cookies
         self.idp = idp
-        ApiSession.__init__(self, controller, username, password, None,
+        ApiSession.__init__(self, controller, username, password, token,
                             tenant, tenant_uuid, verify,
                             port, timeout, api_version,
                             retry_conxn_errors, data_log,

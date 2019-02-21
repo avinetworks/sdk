@@ -42,13 +42,14 @@ def avi_sdk_syslog_logger(logger_name='avi.sdk'):
     #   Default is /dev/log
     from logging.handlers import SysLogHandler
     lf = '[%(asctime)s] %(levelname)s [' \
-                        '%(module)s.%(funcName)s:%(lineno)d] %(message)s'
+         '%(module)s.%(funcName)s:%(lineno)d] %(message)s'
     log = logging.getLogger(logger_name)
     log_level = os.environ.get('AVI_LOG_LEVEL', 'DEBUG')
     if log_level:
         log.setLevel(getattr(logging, log_level))
     formatter = logging.Formatter(lf)
-    sh = SysLogHandler(address=os.environ.get('AVI_SYSLOG_ADDRESS', '/dev/log'))
+    sh = SysLogHandler(address=os.environ.get('AVI_SYSLOG_ADDRESS',
+                                              '/dev/log'))
     sh.setFormatter(formatter)
     log.addHandler(sh)
     return log
@@ -101,13 +102,13 @@ class ApiResponse(Response):
             return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
-                                    self.status_code, self.text), self)
+                self.status_code, self.text), self)
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
-                                    self.status_code, self.text), self)
+                self.status_code, self.text), self)
         else:
             raise APIError('HTTP Error: %d Error Msg %s' % (
-                    self.status_code, self.text), self)
+                self.status_code, self.text), self)
 
     def count(self):
         """
@@ -221,15 +222,18 @@ class ApiSession(Session):
                      "tenant_uuid: %s, verify: %s, port: %s, timeout: %s, "
                      "api_version: %s, retry_conxn_errors: %s, data_log: %s,"
                      "avi_credentials: %s, session_id: %s, csrftoken: %s,"
-                     "lazy_authentication: %s, max_api_retries: %s" % (
-            controller_ip, username, tenant, tenant_uuid, verify, port,
-            timeout, api_version, retry_conxn_errors, data_log, avi_credentials,
-            session_id, csrftoken, lazy_authentication, max_api_retries))
+                     "lazy_authentication: %s, max_api_retries: %s"
+                     % (controller_ip, username, tenant,
+                        tenant_uuid, verify, port,
+                        timeout, api_version, retry_conxn_errors,
+                        data_log, avi_credentials, session_id,
+                        csrftoken, lazy_authentication, max_api_retries))
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             self.avi_credentials = AviCredentials(
-                controller=controller_ip, username=username, password=password,
-                api_version=api_version, tenant=tenant, tenant_uuid=tenant_uuid,
+                controller=controller_ip, username=username,
+                password=password, api_version=api_version,
+                tenant=tenant, tenant_uuid=tenant_uuid,
                 token=token, port=port, timeout=timeout,
                 session_id=session_id, csrftoken=csrftoken)
         else:
@@ -251,7 +255,7 @@ class ApiSession(Session):
         k_port = port if port else 443
         if self.avi_credentials.controller.startswith('http'):
             k_port = 80 if not self.avi_credentials.port else k_port
-            if self.avi_credentials.port is None or self.avi_credentials.port\
+            if self.avi_credentials.port is None or self.avi_credentials.port \
                     == 80:
                 self.prefix = self.avi_credentials.controller
             else:
@@ -366,16 +370,16 @@ class ApiSession(Session):
 
     def get_context(self):
         return {
-            'session_id':sessionDict[self.key]['session_id'],
-            'csrftoken': sessionDict[self.key]['csrftoken']
+            'session_id':
+                sessionDict[self.key]['session_id'],
+            'csrftoken':
+                sessionDict[self.key]['csrftoken']
         }
 
     @staticmethod
     def clear_cached_sessions():
         global sessionDict
         sessionDict = {}
-
-
 
     @staticmethod
     def get_session(
@@ -401,8 +405,9 @@ class ApiSession(Session):
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             avi_credentials = AviCredentials(
-                controller=controller_ip, username=username, password=password,
-                api_version=api_version, tenant=tenant, tenant_uuid=tenant_uuid,
+                controller=controller_ip, username=username,
+                password=password, api_version=api_version,
+                tenant=tenant, tenant_uuid=tenant_uuid,
                 token=token, port=port, timeout=timeout,
                 session_id=session_id, csrftoken=csrftoken)
 
@@ -419,9 +424,10 @@ class ApiSession(Session):
                 user_session.authenticate_session()
         else:
             user_session = ApiSession(
-                controller_ip, username, password, token=token, tenant=tenant,
-                tenant_uuid=tenant_uuid, verify=verify, port=port,
-                timeout=timeout, retry_conxn_errors=retry_conxn_errors,
+                controller_ip, username, password, token=token,
+                tenant=tenant, tenant_uuid=tenant_uuid,
+                verify=verify, port=port, timeout=timeout,
+                retry_conxn_errors=retry_conxn_errors,
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
@@ -522,15 +528,19 @@ class ApiSession(Session):
             "Content-Type": "application/json"
         })
         api_hdrs['timeout'] = str(timeout)
-        if self.key in sessionDict and 'csrftoken' in sessionDict.get(self.key):
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
+        if self.key in sessionDict and 'csrftoken' in \
+                sessionDict.get(self.key):
+            api_hdrs['X-CSRFToken'] = \
+                sessionDict.get(self.key)['csrftoken']
         else:
             self.authenticate_session()
-            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
+            api_hdrs['X-CSRFToken'] = \
+                sessionDict.get(self.key)['csrftoken']
         if api_version:
             api_hdrs['X-Avi-Version'] = api_version
         elif self.avi_credentials.api_version:
-            api_hdrs['X-Avi-Version'] = self.avi_credentials.api_version
+            api_hdrs['X-Avi-Version'] = \
+                self.avi_credentials.api_version
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -614,7 +624,7 @@ class ApiSession(Session):
             if connection_error:
                 try:
                     self.close()
-                except:
+                except Exception as e:
                     # ignoring exception in cleanup path
                     pass
                 logger.warning('Connection failed, retrying.')
@@ -708,8 +718,8 @@ class ApiSession(Session):
         if resp.status_code in (401, 419):
             ApiSession.reset_session(self)
             resp = self.get_object_by_name(
-                    path, name, tenant, tenant_uuid, timeout=timeout,
-                    params=params, **kwargs)
+                path, name, tenant, tenant_uuid, timeout=timeout,
+                params=params, **kwargs)
         if resp.status_code > 499 or 'Invalid version' in resp.text:
             logger.error('Error in get object by name for %s named %s. '
                          'Error: %s' % (path, name, resp.text))
@@ -832,8 +842,9 @@ class ApiSession(Session):
         return self.put(path, data, tenant, tenant_uuid, timeout=timeout,
                         params=params, api_version=api_version, **kwargs)
 
-    def delete(self, path, tenant='', tenant_uuid='', timeout=None, params=None,
-               data=None, api_version=None, **kwargs):
+    def delete(self, path, tenant='', tenant_uuid='',
+               timeout=None, params=None, data=None,
+               api_version=None, **kwargs):
         """
         It extends the Session Library interface to add AVI API prefixes,
         handle session exceptions related to authentication and update
@@ -942,27 +953,19 @@ class ApiSession(Session):
         session_cache = sessionDict
         logger.debug("cleaning inactive sessions in pid %d num elem %d",
                      os.getpid(), len(session_cache))
-        keys_to_delete = []
         for key, session in list(session_cache.items()):
             tdiff = avi_timedelta(datetime.utcnow() - session["last_used"])
             if tdiff < ApiSession.SESSION_CACHE_EXPIRY:
                 continue
-            keys_to_delete.append(key)
-        for key in keys_to_delete:
-            # Logout inactive sessions
             try:
-                key_split = key.split(':')
-                inactive_session = ApiSession.get_session(
-                    controller_ip=key_split[0],
-                    username=key_split[1],
-                    port=key_split[2],
-                    csrftoken=session_cache[key]['csrftoken'],
-                    session_id=session_cache[key]['session_id'])
-                inactive_session.post('logout')
-            except Exception as e:
-                logger.error('Error during logout of inactive session: %s %s', key, e)
+                session["api"].post("logout")
+            except (ConnectionError, KeyError) as e:
+                logger.warning("Session not found on controller "
+                               "for session ID: %s %s",
+                               session, e)
+                pass
             del session_cache[key]
-            logger.debug("Removed session for : %s", key)
+            logger.debug("Cleaned inactive session : %s", key)
 
     def delete_session(self):
         """ Removes the session for cleanup"""
