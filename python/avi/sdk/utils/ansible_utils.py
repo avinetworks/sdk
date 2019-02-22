@@ -352,7 +352,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             token=api_context['csrftoken'],
             port=api_creds.port,
             session_id=api_context['session_id'],
-            csrftoken=api_context['csrftoken'])
+            csrftoken=api_context['csrftoken'],
+            idp=api_creds.idp,)
     else:
         api = ApiSession.get_session(
             api_creds.controller,
@@ -362,7 +363,8 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             tenant=api_creds.tenant,
             tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token,
-            port=api_creds.port)
+            port=api_creds.port,
+            idp=api_creds.idp,)
     state = module.params['state']
     # Get the api version.
     avi_update_method = module.params.get('avi_api_update_method', 'put')
@@ -534,4 +536,5 @@ def avi_common_argument_spec():
         api_version=dict(default='16.4.4', type='str'),
         avi_credentials=dict(default=None, no_log=True, type='dict'),
         api_context=dict(type='dict'),
-        avi_disable_session_cache_as_fact=dict(default=False, type='bool'))
+        avi_disable_session_cache_as_fact=dict(default=False, type='bool'),
+        idp=dict(default=None, type='str'),)
