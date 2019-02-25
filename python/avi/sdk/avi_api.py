@@ -103,13 +103,13 @@ class ApiResponse(Response):
             return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
-                self.status_code, self.text), self)
+                                 self.status_code, self.text), self)
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
-                self.status_code, self.text), self)
+                                 self.status_code, self.text), self)
         else:
             raise APIError('HTTP Error: %d Error Msg %s' % (
-                self.status_code, self.text), self)
+                           self.status_code, self.text), self)
 
     def count(self):
         """
@@ -256,8 +256,8 @@ class ApiSession(Session):
         k_port = port if port else 443
         if self.avi_credentials.controller.startswith('http'):
             k_port = 80 if not self.avi_credentials.port else k_port
-            if self.avi_credentials.port is None or self.avi_credentials.port \
-                    == 80:
+            if self.avi_credentials.port is None or \
+                    self.avi_credentials.port == 80:
                 self.prefix = self.avi_credentials.controller
             else:
                 self.prefix = '{x}:{y}'.format(
@@ -287,7 +287,8 @@ class ApiSession(Session):
             sessionDict.get(self.key, {}).update(
                 {'api': self, "last_used": datetime.utcnow()})
         else:
-            # SAML authentication for a specific IDP
+            # SAML authentication for a specific IDP otherwise
+            # use default ApiSession.
             if idp:
                 idp_class = ApiSession.get_idp_class(idp)
                 idp_class(controller_ip, username, password, token=token,
@@ -300,9 +301,9 @@ class ApiSession(Session):
                           max_api_retries=max_api_retries, idp=idp)
             else:
                 self.authenticate_session()
+                ApiSession._clean_inactive_sessions()
         self.num_session_retries = 0
         self.pid = os.getpid()
-        ApiSession._clean_inactive_sessions()
         return
 
     @property
@@ -382,10 +383,8 @@ class ApiSession(Session):
 
     def get_context(self):
         return {
-            'session_id':
-                sessionDict[self.key]['session_id'],
-            'csrftoken':
-                sessionDict[self.key]['csrftoken']
+            'session_id': sessionDict[self.key]['session_id'],
+            'csrftoken': sessionDict[self.key]['csrftoken']
         }
 
     @staticmethod
@@ -429,10 +428,8 @@ class ApiSession(Session):
         key = '%s:%s:%s' % (avi_credentials.controller,
                             avi_credentials.username, k_port)
         cached_session = sessionDict.get(key)
-        idp_class = ApiSession
-        # SAML authentication for a specific IDP
-        if idp:
-            idp_class = ApiSession.get_idp_class(idp)
+        # Getting specific class
+        idp_class = ApiSession.get_idp_class(idp)
         if cached_session:
             user_session = cached_session['api']
             if not (user_session.avi_credentials.csrftoken or
@@ -477,8 +474,9 @@ class ApiSession(Session):
             logger.info("Using OneloginSAMLApiSession to create "
                         "controller session")
         else:
-            logger.error("Provided IDP implementation not found.")
-            raise StandardError("Provided IDP implementation not found")
+            idp_class = ApiSession
+            logger.warning("Provided IDP implementation not found. "
+                           "Using ApiSession default")
         return idp_class
 
     def authenticate_session(self):
@@ -532,6 +530,7 @@ class ApiSession(Session):
                              rsp.text)
                 err = APIError('Status Code %s msg %s' % (
                     rsp.status_code, rsp.text), rsp)
+                raise err
         except (ConnectionError, SSLError, ChunkedEncodingError) as e:
             if not self.retry_conxn_errors:
                 raise
@@ -563,17 +562,14 @@ class ApiSession(Session):
         api_hdrs['timeout'] = str(timeout)
         if self.key in sessionDict and 'csrftoken' in \
                 sessionDict.get(self.key):
-            api_hdrs['X-CSRFToken'] = \
-                sessionDict.get(self.key)['csrftoken']
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         else:
             self.authenticate_session()
-            api_hdrs['X-CSRFToken'] = \
-                sessionDict.get(self.key)['csrftoken']
+            api_hdrs['X-CSRFToken'] = sessionDict.get(self.key)['csrftoken']
         if api_version:
             api_hdrs['X-Avi-Version'] = api_version
         elif self.avi_credentials.api_version:
-            api_hdrs['X-Avi-Version'] = \
-                self.avi_credentials.api_version
+            api_hdrs['X-Avi-Version'] = self.avi_credentials.api_version
         if tenant:
             tenant_uuid = None
         elif tenant_uuid:
@@ -628,8 +624,8 @@ class ApiSession(Session):
         }
         try:
             if self.session_cookie_name:
-                cookies[self.session_cookie_name] = sessionDict[self.key][
-                    'session_id']
+                cookies[self.session_cookie_name] = \
+                    sessionDict[self.key]['session_id']
         except KeyError:
             pass
         try:
