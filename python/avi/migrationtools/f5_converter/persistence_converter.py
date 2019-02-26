@@ -236,7 +236,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         persist_profile = {
             "name": name,
             "app_cookie_persistence_profile": {
-                "prst_hdr_name": cookie_name,
+                "cookie_name": cookie_name,
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -387,7 +387,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         persist_profile = {
             "name": name,
             "app_cookie_persistence_profile": {
-                "prst_hdr_name": cookie_name,
+                "cookie_name": cookie_name,
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
