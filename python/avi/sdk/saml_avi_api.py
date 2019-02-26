@@ -1,4 +1,4 @@
-from avi.sdk.avi_api import ApiSession, AviCredentials, \
+from avi.sdk.avi_api import ApiSession, \
     sessionDict, APIError
 import requests
 import re

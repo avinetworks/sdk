@@ -141,6 +141,7 @@ class AviCredentials(object):
     timeout = 300
     session_id = None
     csrftoken = None
+    idp = None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -172,6 +173,8 @@ class AviCredentials(object):
             self.session_id = m.params['session_id']
         if m.params.get('csrftoken'):
             self.csrftoken = m.params['csrftoken']
+        if m.params.get('idp'):
+            self.idp = m.params['idp']
 
     def __str__(self):
         return 'controller %s user %s api %s tenant %s' % (
