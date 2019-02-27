@@ -499,7 +499,15 @@ class VSConfigConv(object):
         rate_limit = int(f5_vs.get('rate-limit', '0'))
         if rate_limit > 0:
             vs_obj["connections_rate_limit"] = {
-                "count": rate_limit
+                "count": rate_limit,
+                'explicit_tracking': False,
+                'period': 1,
+                'action': {
+                    'status_code': 'HTTP_LOCAL_RESPONSE_STATUS_CODE_429',
+                    'type': "RL_ACTION_NONE"
+                },
+                'burst_sz': 0,
+                'fine_grain': False
             }
 
         if realm:
