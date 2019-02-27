@@ -9,7 +9,7 @@ urllib3.disable_warnings()
 
 HELP_STR = '''
 Example of fetching vs metrics for a given se
-    python vs_metrics.py -c 10.10.25.42 -p xxxx --limit 1 --se_uuid 'se-005056b01755'
+    python se_metrics.py -c 10.10.25.42 -p xxxx --limit 1 --se_uuid 'se-005056b01755'
 '''
 
 if __name__ == '__main__':

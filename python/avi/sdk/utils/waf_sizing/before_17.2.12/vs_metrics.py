@@ -10,6 +10,7 @@ urllib3.disable_warnings()
 HELP_STR =  '''
 Example of fetching vs metrics
     python vs_metrics.py -c 10.10.25.42 -p xxxx --limit 1 
+    python vs_metrics.py -c 10.10.25.42 -p xxxx --limit 1 -m 'l7_client.avg_complete_responses,l4_client.avg_bandwidth'
 '''
 
 if __name__ == '__main__':
