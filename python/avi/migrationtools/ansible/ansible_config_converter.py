@@ -97,24 +97,23 @@ class AviAnsibleConverter(object):
         if self.REF_MATCH.match(x):
             name = x.rsplit('#', 1)[1]
             obj_type = x.split('/api/')[1].split('/')[0]
+            # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
-        elif self.REL_REF_MATCH.match(x):
-            ref_parts = x.split('?')
-            for p in ref_parts[1].split('&'):
-                k, v = p.split('=')
-                # if url is /api/cloud/?tenant=admin&name='Default-Cloud'
-                if k.strip() == 'cloud' or 'cloud'in ref_parts[0]:
-                    obj['cloud_ref'] = '/api/cloud?name=%s' % v
-                # Added value of keyname
-                if k.strip() == 'name':
-                    x = '%s?name=%s' % (ref_parts[0], v)
+        elif x.startswith('/api/') and '?' in x:
+            parsed = urlparse.urlparse(x)
+            params = urlparse.parse_qs(parsed.query)
+            if 'cloud' in params:
+                obj['cloud_ref'] = '/api/cloud?name=%s' % params['cloud'][0]
+        else:
+            print "[WARNING] Ignoring invalid reference:  %s" % x
+            return None
+
         u = urlparse.urlparse(x)
-        # Checking name field in a referenced uri
-        if urlparse.parse_qs(u.query).get('name', ''):
-            query = {'name': urlparse.parse_qs(u.query)['name']}
-            # query.pop('tenant', None)
-            # query.pop('cloud', None)
-            u = u._replace(query=urlencode(query, True))
+        query = {'name': urlparse.parse_qs(u.query)['name']}
+        # query.pop('tenant', None)
+        # query.pop('cloud', None)
+        u = u._replace(query=urlencode(query, True))
+        x = urlparse.urlunparse(u)
         return x
 
     def transform_obj_refs(self, obj):

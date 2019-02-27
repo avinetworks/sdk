@@ -235,7 +235,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
             "name": name,
-            "app_cookie_persistence_profile": {
+            "http_cookie_persistence_profile": {
                 "cookie_name": cookie_name,
                 "timeout": timeout
             },
@@ -386,7 +386,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
             "name": name,
-            "app_cookie_persistence_profile": {
+            "http_cookie_persistence_profile": {
                 "cookie_name": cookie_name,
                 "timeout": timeout
             },
