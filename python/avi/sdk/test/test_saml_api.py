@@ -57,6 +57,7 @@ def setUpModule():
 
 class TestSaml(unittest.TestCase):
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_basic_vs_using_okta(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
@@ -79,6 +80,7 @@ class TestSaml(unittest.TestCase):
                                   api_version=api_version)
         assert resp.status_code in (200, 204)
 
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_basic_vs_using_onelogin(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
@@ -101,7 +103,7 @@ class TestSaml(unittest.TestCase):
                                   api_version=api_version)
         assert resp.status_code in (200, 204)
 
-
+    @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_basic_vs_using_ApiSession(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]

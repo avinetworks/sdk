@@ -201,7 +201,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None):
+                 lazy_authentication=False, max_api_retries=None, idp=None):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -239,7 +239,7 @@ class ApiSession(Session):
                 password=password, api_version=api_version,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 token=token, port=port, timeout=timeout,
-                session_id=session_id, csrftoken=csrftoken)
+                session_id=session_id, csrftoken=csrftoken, idp=idp)
         else:
             self.avi_credentials = avi_credentials
         self.headers = {}
