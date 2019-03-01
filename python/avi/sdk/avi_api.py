@@ -201,7 +201,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None, idp=None):
+                 lazy_authentication=False, max_api_retries=None):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -226,12 +226,12 @@ class ApiSession(Session):
                      "tenant_uuid: %s, verify: %s, port: %s, timeout: %s, "
                      "api_version: %s, retry_conxn_errors: %s, data_log: %s,"
                      "avi_credentials: %s, session_id: %s, csrftoken: %s,"
-                     "lazy_authentication: %s, max_api_retries: %s, idp: %s"
+                     "lazy_authentication: %s, max_api_retries: %s"
                      % (controller_ip, username, tenant,
                         tenant_uuid, verify, port,
                         timeout, api_version, retry_conxn_errors,
                         data_log, avi_credentials, session_id,
-                        csrftoken, lazy_authentication, max_api_retries, idp))
+                        csrftoken, lazy_authentication, max_api_retries))
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             self.avi_credentials = AviCredentials(
@@ -290,23 +290,10 @@ class ApiSession(Session):
             sessionDict.get(self.key, {}).update(
                 {'api': self, "last_used": datetime.utcnow()})
         else:
-            # SAML authentication for a specific IDP otherwise
-            # use default ApiSession.
-            if idp:
-                idp_class = ApiSession.get_idp_class(idp)
-                idp_class(controller_ip, username, password, token=token,
-                          tenant=tenant, tenant_uuid=tenant_uuid,
-                          verify=verify, port=port, timeout=timeout,
-                          retry_conxn_errors=retry_conxn_errors,
-                          api_version=api_version, data_log=data_log,
-                          avi_credentials=avi_credentials,
-                          lazy_authentication=lazy_authentication,
-                          max_api_retries=max_api_retries, idp=idp)
-            else:
-                self.authenticate_session()
-                ApiSession._clean_inactive_sessions()
+            self.authenticate_session()
         self.num_session_retries = 0
         self.pid = os.getpid()
+        ApiSession._clean_inactive_sessions()
         return
 
     @property
@@ -448,7 +435,8 @@ class ApiSession(Session):
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
                 max_api_retries=max_api_retries, idp=idp)
-        ApiSession._clean_inactive_sessions()
+        if not idp_class:
+            ApiSession._clean_inactive_sessions()
         return user_session
 
     def reset_session(self):

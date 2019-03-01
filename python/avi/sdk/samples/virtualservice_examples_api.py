@@ -6,6 +6,7 @@ import sys
 import random
 
 from avi.sdk.avi_api import ApiSession
+from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
@@ -451,11 +452,20 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--metric_id',
                         help='Comma separated metric ids',
                         default='l4_client.avg_bandwidth')
+    parser.add_argument('--idp', help="IDP type such as okta, onelogin, etc")
 
     args = parser.parse_args()
     print('parsed args', args)
     api = ApiSession.get_session(args.controller_ip, args.user, args.password,
-                 tenant=args.tenant, tenant_uuid=args.tenant_uuid)
+                                 tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp=args.idp)
+
+    # Get controller session after successful SAML authentication from 'okta' IDP.
+    # api = OktaSAMLApiSession(args.controller_ip, args.user, args.password,
+    #                          tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp=args.idp)
+
+    # Get controller session after successful SAML authentication from 'onelogin' IDP.
+    # api = OneloginSAMLApiSession(args.controller_ip, args.user, args.password,
+    #                              tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp=args.idp)
     servers = [server.strip() for server in args.server_ips.split(',')]
     vse = VirtualServiceExample(api)
 
