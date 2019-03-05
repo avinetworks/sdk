@@ -462,7 +462,7 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        if f5server and f5user and f5password and instance_type:
+        if f5server and f5user and f5password and instance_type == 'f5':
             self.generate_traffic(generate_traffic_dict, f5server, f5user,
                                   f5password, instance_type)
             # Generate traffic file separately
