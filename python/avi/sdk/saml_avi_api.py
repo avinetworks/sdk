@@ -30,9 +30,8 @@ class OneloginSAMLApiSession(ApiSession):
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
                  lazy_authentication=False, max_api_retries=None,
-                 idp_cookies=None, idp=None):
+                 idp_cookies=None):
         self.idp_cookies = idp_cookies
-        self.idp = idp
         super(OneloginSAMLApiSession, self).__init__(
             controller, username, password, token,
             tenant, tenant_uuid, verify,
@@ -272,9 +271,8 @@ class OktaSAMLApiSession(ApiSession):
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
                  lazy_authentication=False, max_api_retries=None,
-                 idp_cookies=None, idp=None):
+                 idp_cookies=None):
         self.idp_cookies = idp_cookies
-        self.idp = idp
         super(OktaSAMLApiSession, self).__init__(
             controller, username, password, token,
             tenant, tenant_uuid, verify,

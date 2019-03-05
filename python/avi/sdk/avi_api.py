@@ -141,7 +141,6 @@ class AviCredentials(object):
     timeout = 300
     session_id = None
     csrftoken = None
-    idp = None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -201,7 +200,7 @@ class ApiSession(Session):
                  port=None, timeout=60, api_version=None,
                  retry_conxn_errors=True, data_log=False,
                  avi_credentials=None, session_id=None, csrftoken=None,
-                 lazy_authentication=False, max_api_retries=None, idp=None):
+                 lazy_authentication=False, max_api_retries=None):
         """
          ApiSession takes ownership of avi_credentials and may update the
          information inside it.
@@ -239,7 +238,7 @@ class ApiSession(Session):
                 password=password, api_version=api_version,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 token=token, port=port, timeout=timeout,
-                session_id=session_id, csrftoken=csrftoken, idp=idp)
+                session_id=session_id, csrftoken=csrftoken)
         else:
             self.avi_credentials = avi_credentials
         self.headers = {}
@@ -403,6 +402,8 @@ class ApiSession(Session):
         :param retry_conxn_errors: retry on connection errors
         :param api_version: Controller API version
         """
+        if not idp:
+            idp = ApiSession
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             avi_credentials = AviCredentials(
@@ -418,15 +419,13 @@ class ApiSession(Session):
         key = '%s:%s:%s' % (avi_credentials.controller,
                             avi_credentials.username, k_port)
         cached_session = sessionDict.get(key)
-        # Getting specific class
-        idp_class = ApiSession.get_idp_class(idp)
         if cached_session:
             user_session = cached_session['api']
             if not (user_session.avi_credentials.csrftoken or
                     lazy_authentication):
                 user_session.authenticate_session()
         else:
-            user_session = idp_class(
+            user_session = idp(
                 controller_ip, username, password, token=token,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 verify=verify, port=port, timeout=timeout,
@@ -434,9 +433,7 @@ class ApiSession(Session):
                 api_version=api_version, data_log=data_log,
                 avi_credentials=avi_credentials,
                 lazy_authentication=lazy_authentication,
-                max_api_retries=max_api_retries, idp=idp)
-        if not idp_class:
-            ApiSession._clean_inactive_sessions()
+                max_api_retries=max_api_retries)
         return user_session
 
     def reset_session(self):
@@ -451,24 +448,6 @@ class ApiSession(Session):
                 self.user_hdrs[k] = v
         self.headers = self.user_hdrs
         self.authenticate_session()
-
-    @staticmethod
-    def get_idp_class(idp):
-        if str(idp).lower() == "okta":
-            from avi.sdk.saml_avi_api import OktaSAMLApiSession
-            idp_class = OktaSAMLApiSession
-            logger.info("Using OktaSAMLApiSession to create "
-                        "controller session")
-        elif str(idp).lower() == "onelogin":
-            from avi.sdk.saml_avi_api import OneloginSAMLApiSession
-            idp_class = OneloginSAMLApiSession
-            logger.info("Using OneloginSAMLApiSession to create "
-                        "controller session")
-        else:
-            idp_class = ApiSession
-            logger.warning("Provided IDP implementation not found. "
-                           "Using ApiSession default")
-        return idp_class
 
     def authenticate_session(self):
         """

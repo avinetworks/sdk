@@ -86,7 +86,7 @@ api = ApiSession.get_session("localhost", user, token=token, tenant=tenant)
 ```
 # SAML Authentication Usage
 ### prerequisite:
-1. SAML enabled controller.
+1. SAML configured/enabled controller.
 
 To set up SAML SSO controller, please refer the below link. 
 (https://avinetworks.com/docs/17.2/single-sign-on-with-saml/)
@@ -100,7 +100,7 @@ Currently, SDK support two IDPs for SAML based authentication:
 ```python
 from avi.sdk.saml_avi_api import OktaSAMLApiSession
 # create Avi API Session
-api = OktaSAMLApiSession.get_session("10.10.10.42", "okta_username", "okta_password")
+api = OktaSAMLApiSession("10.10.10.42", "okta_username", "okta_password")
 
 # create virtualservice using pool sample_pool
 pool_obj = api.get_object_by_name('pool', 'sample_pool')
@@ -124,7 +124,7 @@ resp = api.delete_by_name('virtualservice', 'sample_vs')
 ```python
 from avi.sdk.saml_avi_api import OneloginSAMLApiSession
 # create Avi API Session
-api = OneloginSAMLApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password")
+api = OneloginSAMLApiSession("10.10.10.42", "onelogin_username", "onelogin_password")
 
 # create virtualservice using pool sample_pool
 pool_obj = api.get_object_by_name('pool', 'sample_pool')
@@ -143,6 +143,13 @@ for vs in resp.json()['results']:
 resp = api.delete_by_name('virtualservice', 'sample_vs')
 ```
 
+SAML session can also be invoked by following:
+```
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp="OneloginSAMLApiSession")
+```
+```
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp="OktaSAMLApiSession")
+```
 #### F5 Converter Usage
 See all the F5 converter options
 ```sh

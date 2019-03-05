@@ -35,7 +35,7 @@ def setUpModule():
         tenant=oktalogin_info.get("tenant", "admin"),
         tenant_uuid=oktalogin_info.get("tenant_uuid", None),
         api_version=oktalogin_info.get("api_version", api_version),
-        verify=False,idp='okta')
+        verify=False)
 
     onelogin_info = gSAMPLE_CONFIG["OneloginLoginInfo"]
     onelogin = OneloginSAMLApiSession(
@@ -44,7 +44,7 @@ def setUpModule():
         tenant=onelogin_info.get("tenant", "admin"),
         tenant_uuid=onelogin_info.get("tenant_uuid", None),
         api_version=onelogin_info.get("api_version", api_version),
-        verify=False, idp='onelogin')
+        verify=False)
 
     login_info = gSAMPLE_CONFIG["LoginInfo"]
     api = ApiSession(
@@ -55,6 +55,7 @@ def setUpModule():
         api_version=login_info.get("api_version", api_version),
         verify=False)
 
+
 class TestSaml(unittest.TestCase):
 
     @pytest.mark.travis
@@ -63,21 +64,21 @@ class TestSaml(unittest.TestCase):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
         resp = oktaapi.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
-                        api_version=api_version)
+                            api_version=api_version)
         assert resp.status_code in (200, 201)
         vs_obj["pool_ref"] = oktaapi.get_obj_ref(resp.json())
         resp = oktaapi.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version=api_version)
+                            api_version=api_version)
         assert resp.status_code in (200, 201)
         pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
         resp = oktaapi.get('virtualservice', tenant='admin',
-                       api_version=api_version)
+                           api_version=api_version)
         assert resp.json()['count'] >= 1
         resp = oktaapi.delete_by_name('virtualservice', vs_obj['name'],
-                                  api_version=api_version)
+                                      api_version=api_version)
         assert resp.status_code in (200, 204)
         resp = oktaapi.delete_by_name("pool", pool_name,
-                                  api_version=api_version)
+                                      api_version=api_version)
         assert resp.status_code in (200, 204)
 
     @pytest.mark.travis
@@ -86,21 +87,21 @@ class TestSaml(unittest.TestCase):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
         resp = onelogin.post('pool', data=json.dumps(basic_vs_cfg["pool_obj"]),
-                        api_version=api_version)
+                             api_version=api_version)
         assert resp.status_code in (200, 201)
         vs_obj["pool_ref"] = onelogin.get_obj_ref(resp.json())
         resp = onelogin.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version=api_version)
+                             api_version=api_version)
         assert resp.status_code in (200, 201)
         pool_name = gSAMPLE_CONFIG["BasicVS"]["pool_obj"]["name"]
         resp = onelogin.get('virtualservice', tenant='admin',
-                       api_version=api_version)
+                            api_version=api_version)
         assert resp.json()['count'] >= 1
         resp = onelogin.delete_by_name('virtualservice', vs_obj['name'],
-                                  api_version=api_version)
+                                       api_version=api_version)
         assert resp.status_code in (200, 204)
         resp = onelogin.delete_by_name("pool", pool_name,
-                                  api_version=api_version)
+                                       api_version=api_version)
         assert resp.status_code in (200, 204)
 
     @pytest.mark.travis
