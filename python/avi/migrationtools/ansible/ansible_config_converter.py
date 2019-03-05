@@ -349,8 +349,8 @@ class AviAnsibleConverter(object):
         total_size = len(self.avi_cfg['VirtualService'])
         progressbar_count = 0
         print "Conversion Started For Ansible Generate Traffic..."
-        trafic_obj = TrafficGen.get_instance(instace_type, self.prefix,
-                                             ns_vs_name_dict=self.ns_vs_name_dict)
+        trafic_obj = TrafficGen.get_instance(
+            instace_type, self.prefix, ns_vs_name_dict=self.ns_vs_name_dict)
         for vs in self.avi_cfg['VirtualService']:
 
             # Added tenant in playbook for avi api calls.
@@ -365,10 +365,11 @@ class AviAnsibleConverter(object):
                 partition = self.partitions
             ip = vs[VIP][0]['ip_address']['addr']
             port = vs[SERVICES][0]['port']
-            vip = '%s:%s' %(ip,port)
-            if trafic_obj.get_status_vs(vs[NAME],vip, f5server, f5username,
-                                        f5password, tenant,
-                                        partitions=partition):
+            vip = '%s:%s' % (ip, port)
+            if trafic_obj.get_status_vs(
+                    vs[NAME], vip, f5server, f5username, f5password, tenant,
+                    partitions=partition):
+
                 vs_dict = dict()
                 vs_dict[NAME] = vs[NAME]
                 vs_dict[VIP] = vs[VIP]
@@ -387,7 +388,9 @@ class AviAnsibleConverter(object):
                     self.get_f5_virtual_address_attrs(vs_dict)
                 # Call to distinguish between f5 and netscaler
                 trafic_obj.create_ansible_disable(f5_dict, ansible_dict)
-                trafic_obj.create_virtual_address_disable(f5_virtual_address_dict, ansible_dict)
+                if instace_type == 'f5':
+                    trafic_obj.create_virtual_address_disable(
+                        f5_virtual_address_dict, ansible_dict)
                 trafic_obj.create_avi_ansible_enable(
                     vs_dict, ansible_dict, test_vip=self.test_vip)
                 # Getting the request type
@@ -409,7 +412,9 @@ class AviAnsibleConverter(object):
                         vs_dict, ansible_dict)
                 trafic_obj.create_avi_ansible_disable(vs_dict, ansible_dict)
                 trafic_obj.create_ansible_enable(f5_dict, ansible_dict)
-                trafic_obj.create_virtual_address_enable(f5_virtual_address_dict, ansible_dict)
+                if instace_type == 'f5':
+                    trafic_obj.create_virtual_address_enable(
+                        f5_virtual_address_dict, ansible_dict)
             # Added call to check progress.
             progressbar_count += 1
             msg = "Ansible Generate Traffic..."
@@ -457,7 +462,7 @@ class AviAnsibleConverter(object):
                                        inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
-        if f5server and f5user and f5password and instance_type:
+        if f5server and f5user and f5password and instance_type == 'f5':
             self.generate_traffic(generate_traffic_dict, f5server, f5user,
                                   f5password, instance_type)
             # Generate traffic file separately

@@ -164,6 +164,8 @@ class CsvsConverter(object):
                         skipped_status)
                     continue
 
+                vs_name_dict['csvs'][updated_vs_name] = vs_name
+
                 # VIP object for virtual service
                 vip = {
                     'ip_address': {
