@@ -1275,7 +1275,7 @@ class PolicyConverter(object):
         elif policy_action and policy_action['attrs'][1] == 'respondwith':
             policy_rule = copy.deepcopy(policy_rules)
             attrs = policy_action['attrs'][2].split(' ')
-            if attrs[0].startswith('q{'):
+            if len(attrs) < 2 or attrs[0].startswith('q{'):
                 return
             if attrs[1] == '301':
                 redirect_url = str(attrs[4]).replace('"', '')
