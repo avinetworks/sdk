@@ -1310,7 +1310,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE."
+                    "description": "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO."
                 }
             }
         }, 
