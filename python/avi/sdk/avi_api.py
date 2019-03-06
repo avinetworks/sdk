@@ -103,13 +103,13 @@ class ApiResponse(Response):
             return None
         elif self.status_code == 404:
             raise ObjectNotFound('HTTP Error: %d Error Msg %s' % (
-                                 self.status_code, self.text), self)
+                self.status_code, self.text), self)
         elif self.status_code >= 500:
             raise AviServerError('HTTP Error: %d Error Msg %s' % (
-                                 self.status_code, self.text), self)
+                self.status_code, self.text), self)
         else:
             raise APIError('HTTP Error: %d Error Msg %s' % (
-                           self.status_code, self.text), self)
+                self.status_code, self.text), self)
 
     def count(self):
         """
@@ -408,11 +408,11 @@ class ApiSession(Session):
 
         if not idp_class:
             idp_class = ApiSession
+        else:
+            if not "ApiSession" in str(idp_class.__base__):
+                raise APIError("idp_class {} not valid class. Please provide "
+                               "correct idp class.".format(idp_class))
         # Validate input idp_class
-        if "ApiSession" not in str(idp_class.__base__) or \
-                "Session" not in str(idp_class.__base__):
-            raise APIError("idp_class {} not valid class. Please provide "
-                           "correct idp class.".format(idp_class))
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             avi_credentials = AviCredentials(
