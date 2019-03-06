@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -307,6 +307,7 @@ font-style: italic;
     "memory_for_config_update" : 123,
     "host_attribute_key" : "aeiou",
     "accelerated_networking" : true,
+    "app_cache_percent" : 123,
     "license_tier" : "aeiou",
     "bgp_state_update_interval" : 123,
     "host_attribute_value" : "aeiou",
@@ -572,6 +573,7 @@ font-style: italic;
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
+  "app_cache_percent" : 123,
   "license_tier" : "aeiou",
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
@@ -966,6 +968,7 @@ font-style: italic;
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
+  "app_cache_percent" : 123,
   "license_tier" : "aeiou",
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
@@ -1242,6 +1245,7 @@ font-style: italic;
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
+  "app_cache_percent" : 123,
   "license_tier" : "aeiou",
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
@@ -1518,6 +1522,7 @@ font-style: italic;
   "memory_for_config_update" : 123,
   "host_attribute_key" : "aeiou",
   "accelerated_networking" : true,
+  "app_cache_percent" : 123,
   "license_tier" : "aeiou",
   "bgp_state_update_interval" : 123,
   "host_attribute_value" : "aeiou",
@@ -1924,6 +1929,7 @@ font-style: italic;
 <div class="param">aggressive_failure_detection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable aggressive failover configuration for ha. </div>
 <div class="param">algo (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> In compact placement, Virtual Services are placed on existing SEs until max_vs_per_se limit is reached. Enum options - PLACEMENT_ALGO_PACKED, PLACEMENT_ALGO_DISTRIBUTED. </div>
 <div class="param">allow_burst (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow SEs to be created using burst license. Field introduced in 17.2.5. </div>
+<div class="param">app_cache_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- &#39;disable&#39;. Field introduced in 18.2.2. format: int32</div>
 <div class="param">archive_shm_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3. format: int32</div>
 <div class="param">async_ssl (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> SSL handshakes will be handled by dedicated SSL Threads. </div>
 <div class="param">async_ssl_threads (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Async SSL threads per se_dp. Allowed values are 1-16. format: int32</div>

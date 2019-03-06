@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslbservice <key> - show gslbservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -310,6 +310,7 @@ font-style: italic;
       },
       "type" : "aeiou"
     },
+    "hm_off" : true,
     "wildcard_match" : true,
     "use_edns_client_subnet" : true,
     "tenant_ref" : "aeiou",
@@ -426,6 +427,7 @@ font-style: italic;
     },
     "type" : "aeiou"
   },
+  "hm_off" : true,
   "wildcard_match" : true,
   "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
@@ -613,6 +615,7 @@ font-style: italic;
     },
     "type" : "aeiou"
   },
+  "hm_off" : true,
   "wildcard_match" : true,
   "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
@@ -740,6 +743,7 @@ font-style: italic;
     },
     "type" : "aeiou"
   },
+  "hm_off" : true,
   "wildcard_match" : true,
   "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
@@ -867,6 +871,7 @@ font-style: italic;
     },
     "type" : "aeiou"
   },
+  "hm_off" : true,
   "wildcard_match" : true,
   "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
@@ -1013,7 +1018,7 @@ font-style: italic;
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or Disable member to decide if this address should be provided in DNS responses. </div>
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. . </div>
-<div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> Internal generated system-field. Field introduced in 17.1.1. </div>
+<div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> Internal generated system-field. Field deprecated in 18.2.2. Field introduced in 17.1.1. </div>
 <div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of the pool member. If this IP address is hosted via an AVI virtual service, then the user should configure the cluster uuid and virtual service uuid. If this IP address is hosted on a third-party device and the device is tagged/tethered to a third-party site, then user can configure the third-party site uuid.  User may configure the IP address without the cluster uuid or the virtual service uuid.  In this option, some advanced site related features cannot be enabled. If the user has configured a fqdn for the pool member, then it takes precedence and will overwrite the configured IP address. . </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the pool member. Field introduced in 17.1.1. </div>
 <div class="param">public_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbIpAddr">GslbIpAddr</a></span> Alternate IP addresses of the pool member. In usual deployments, the VIP in the virtual service is a private IP address. This gets configured in the &#39;ip&#39; field of the GSLB service. This field is used to host the public IP address for the VIP, which gets NATed to the private IP by a firewall. Client DNS requests coming in from within the intranet should have the private IP served in the A record, and requests from outside this should be served the public IP address. Field introduced in 17.1.2. </div>
@@ -1035,6 +1040,7 @@ font-style: italic;
 <div class="param">groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbPool">array[GslbPool]</a></span> Select list of pools belonging to this GSLB service. </div>
 <div class="param">health_monitor_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Verify VS health by applying one or more health monitors.  Active monitors generate synthetic traffic from DNS Service Engine and to mark a VS up or down based on the response. . It is a reference to an object of type HealthMonitor. </div>
 <div class="param">health_monitor_scope (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Health monitor probe can be executed for all the members or it can be executed only for third-party members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario. In such a case, Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane. Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS. </div>
+<div class="param">hm_off (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is an internal field and is used in SE. Field introduced in 18.2.2. </div>
 <div class="param">is_federated (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3. </div>
 <div class="param">min_members (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The minimum number of members to distribute traffic to. Allowed values are 1-65535. Special values are 0 - &#39;Disable&#39;. Field introduced in 17.2.4. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the GSLB service. </div>
