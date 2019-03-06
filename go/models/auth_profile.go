@@ -33,7 +33,7 @@ type AuthProfile struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML.
+	// Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML.
 	// Required: true
 	Type *string `json:"type"`
 
