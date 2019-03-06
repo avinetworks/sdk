@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -313,6 +313,7 @@ font-style: italic;
     "vs_se_ping_fail" : 123,
     "enable_memory_balancer" : true,
     "vs_awaiting_se_timeout" : 123,
+    "vs_scaleout_ready_check_interval" : 123,
     "allow_unauthenticated_nodes" : true,
     "dns_refresh_period" : 123
   } ]
@@ -427,6 +428,7 @@ font-style: italic;
   "vs_se_ping_fail" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
+  "vs_scaleout_ready_check_interval" : 123,
   "allow_unauthenticated_nodes" : true,
   "dns_refresh_period" : 123
 }</code></pre>
@@ -612,6 +614,7 @@ font-style: italic;
   "vs_se_ping_fail" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
+  "vs_scaleout_ready_check_interval" : 123,
   "allow_unauthenticated_nodes" : true,
   "dns_refresh_period" : 123
 }</code></pre>
@@ -737,6 +740,7 @@ font-style: italic;
   "vs_se_ping_fail" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
+  "vs_scaleout_ready_check_interval" : 123,
   "allow_unauthenticated_nodes" : true,
   "dns_refresh_period" : 123
 }</code></pre>
@@ -862,6 +866,7 @@ font-style: italic;
   "vs_se_ping_fail" : 123,
   "enable_memory_balancer" : true,
   "vs_awaiting_se_timeout" : 123,
+  "vs_scaleout_ready_check_interval" : 123,
   "allow_unauthenticated_nodes" : true,
   "dns_refresh_period" : 123
 }</code></pre>
@@ -948,6 +953,7 @@ font-style: italic;
 <div class="param">vs_apic_scaleout_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait for the scaled out SE to become ready before marking the scaleout done, applies to APIC configuration only. format: int32</div>
 <div class="param">vs_awaiting_se_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_awaiting_se_timeout. format: int32</div>
 <div class="param">vs_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
+<div class="param">vs_scaleout_ready_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2. format: int32</div>
 <div class="param">vs_se_attach_ip_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2. format: int32</div>
 <div class="param">vs_se_bootup_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_bootup_fail. format: int32</div>
 <div class="param">vs_se_create_fail (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of vs_se_create_fail. format: int32</div>
