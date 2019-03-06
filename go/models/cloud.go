@@ -17,6 +17,9 @@ type Cloud struct {
 	// Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean
 	ApicMode *bool `json:"apic_mode,omitempty"`
 
+	// CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2.
+	AutoscalePollingInterval *int32 `json:"autoscale_polling_interval,omitempty"`
+
 	// Placeholder for description of property aws_configuration of obj type Cloud field type str  type object
 	AwsConfiguration *AwsConfiguration `json:"aws_configuration,omitempty"`
 
@@ -65,7 +68,7 @@ type Cloud struct {
 	// Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object
 	LinuxserverConfiguration *LinuxServerConfiguration `json:"linuxserver_configuration,omitempty"`
 
-	// Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object
+	//  Field deprecated in 18.2.2.
 	MesosConfiguration *MesosConfiguration `json:"mesos_configuration,omitempty"`
 
 	// MTU setting for the cloud.

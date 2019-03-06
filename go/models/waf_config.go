@@ -7,7 +7,7 @@ package models
 // swagger:model WafConfig
 type WafConfig struct {
 
-	// WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1.
+	// WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. Field introduced in 17.2.1.
 	AllowedHTTPVersions []string `json:"allowed_http_versions,omitempty"`
 
 	// WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1.
@@ -19,7 +19,7 @@ type WafConfig struct {
 	// Argument seperator. Field introduced in 17.2.1.
 	ArgumentSeparator *string `json:"argument_separator,omitempty"`
 
-	// Enable to buffer response body for inspection. Field introduced in 17.2.3.
+	// Enable to buffer response body for inspection. Field deprecated in 18.2.2. Field introduced in 17.2.3.
 	BufferResponseBodyForInspection *bool `json:"buffer_response_body_for_inspection,omitempty"`
 
 	// Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1.
