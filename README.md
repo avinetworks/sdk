@@ -145,10 +145,10 @@ resp = api.delete_by_name('virtualservice', 'sample_vs')
 
 SAML session can also be invoked by following:
 ```
-api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp="OneloginSAMLApiSession")
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp_class=OneloginSAMLApiSession)
 ```
 ```
-api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp="OktaSAMLApiSession")
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp_class=OktaSAMLApiSession)
 ```
 #### F5 Converter Usage
 See all the F5 converter options

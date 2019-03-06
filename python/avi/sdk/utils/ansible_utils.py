@@ -9,6 +9,7 @@ import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
     AviCredentials
+from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
 
 if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
     log = logging.getLogger(__name__)
@@ -28,6 +29,22 @@ class AviCheckModeResponse(object):
 
     def json(self):
         return self.obj
+
+
+def get_idp_class(idp):
+    """
+    This return corresponding idp class.
+    :param idp: idp type such as okta, onelogin, pingfed
+    :return:
+    """
+
+    if str(idp).lower() == "okta":
+        idp_class = OktaSAMLApiSession
+    elif str(idp).lower() == 'onelogin':
+        idp_class = OneloginSAMLApiSession
+    else:
+        idp_class = ApiSession
+    return idp_class
 
 
 def ansible_return(module, rsp, changed, req=None, existing_obj=None,
@@ -353,7 +370,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             port=api_creds.port,
             session_id=api_context['session_id'],
             csrftoken=api_context['csrftoken'],
-            idp=api_creds.idp,)
+            idp_class=get_idp_class(api_creds.idp),)
     else:
         api = ApiSession.get_session(
             api_creds.controller,
@@ -364,7 +381,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token,
             port=api_creds.port,
-            idp=api_creds.idp,)
+            idp_class=get_idp_class(api_creds.idp),)
     state = module.params['state']
     # Get the api version.
     avi_update_method = module.params.get('avi_api_update_method', 'put')

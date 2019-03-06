@@ -19,11 +19,11 @@ sessionDict = {}
 
 
 def avi_timedelta(td):
-    '''
+    """
     This is a wrapper class to workaround python 2.6 builtin datetime.timedelta
     does not have total_seconds method
-    :param timedelta object
-    '''
+    :param td timedelta object
+    """
     if type(td) != timedelta:
         raise TypeError()
     if sys.version_info >= (2, 7):
@@ -141,6 +141,7 @@ class AviCredentials(object):
     timeout = 300
     session_id = None
     csrftoken = None
+    idp=None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -387,7 +388,7 @@ class ApiSession(Session):
             tenant=None, tenant_uuid=None, verify=False, port=None, timeout=60,
             retry_conxn_errors=True, api_version=None, data_log=False,
             avi_credentials=None, session_id=None, csrftoken=None,
-            lazy_authentication=False, max_api_retries=None, idp=None):
+            lazy_authentication=False, max_api_retries=None, idp_class=None):
         """
         returns the session object for same user and tenant
         calls init if session dose not exist and adds it to session cache
@@ -401,9 +402,17 @@ class ApiSession(Session):
         :param timeout: timeout for API calls; Default value is 60 seconds
         :param retry_conxn_errors: retry on connection errors
         :param api_version: Controller API version
+        :param idp_class: IDP class. Currently supports OKtaSAMLApiSession,
+        OneloginApiSession
         """
-        if not idp:
-            idp = ApiSession
+
+        if not idp_class:
+            idp_class = ApiSession
+        # Validate input idp_class
+        if "ApiSession" not in str(idp_class.__base__) or \
+                "Session" not in str(idp_class.__base__):
+            raise APIError("idp_class {} not valid class. Please provide "
+                           "correct idp class.".format(idp_class))
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
             avi_credentials = AviCredentials(
@@ -425,7 +434,7 @@ class ApiSession(Session):
                     lazy_authentication):
                 user_session.authenticate_session()
         else:
-            user_session = idp(
+            user_session = idp_class(
                 controller_ip, username, password, token=token,
                 tenant=tenant, tenant_uuid=tenant_uuid,
                 verify=verify, port=port, timeout=timeout,
