@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -285,6 +285,7 @@ font-style: italic;
       "flag" : "aeiou"
     } ],
     "name" : "aeiou",
+    "capture" : true,
     "fault" : {
       "se_waf_learning_alloc_fail_frequency" : 123,
       "se_malloc_fail_type" : 123,
@@ -385,6 +386,7 @@ font-style: italic;
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
@@ -556,6 +558,7 @@ font-style: italic;
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
@@ -667,6 +670,7 @@ font-style: italic;
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
@@ -778,6 +782,7 @@ font-style: italic;
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
@@ -878,6 +883,7 @@ font-style: italic;
     <h3 class="field-label"><a name="DebugServiceEngine">DebugServiceEngine</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable packet capture. Field introduced in 18.2.2. </div>
 <div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>

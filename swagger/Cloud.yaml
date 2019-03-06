@@ -938,6 +938,11 @@ definitions:
             apic_mode:
                 description: "Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean"
                 type: boolean
+            autoscale_polling_interval:
+                description: "CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2."
+                type: integer
+                default: 60
+                format: int32
             aws_configuration:
                 description: "Placeholder for description of property aws_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/AwsConfiguration'
@@ -989,7 +994,7 @@ definitions:
                 description: "Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/LinuxServerConfiguration'
             mesos_configuration:
-                description: "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object"
+                description: " Field deprecated in 18.2.2."
                 $ref: '#/definitions/MesosConfiguration'
             mtu:
                 description: "MTU setting for the cloud."
@@ -1278,6 +1283,21 @@ definitions:
                 type: array
                 items:
                     type: string
+    GCPInBandManagement:
+        type: object
+        required:
+            -   vpc_network_name
+            -   vpc_subnet_name
+        properties:
+            vpc_network_name:
+                description: "Service Engine Inband Network Name. Field introduced in 18.2.2."
+                type: string
+            vpc_project_id:
+                description: "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
+                type: string
+            vpc_subnet_name:
+                description: "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
+                type: string
     GCPNetworkConfig:
         type: object
         required:
@@ -1288,13 +1308,67 @@ definitions:
                 type: string
             inband:
                 description: "Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1."
-                $ref: '#/definitions/InBandManagement'
+                $ref: '#/definitions/GCPInBandManagement'
             one_arm:
                 description: "Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1."
-                $ref: '#/definitions/OneArmMode'
+                $ref: '#/definitions/GCPOneArmMode'
             two_arm:
                 description: "Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1."
-                $ref: '#/definitions/TwoArmMode'
+                $ref: '#/definitions/GCPTwoArmMode'
+    GCPOneArmMode:
+        type: object
+        required:
+            -   data_vpc_network_name
+            -   data_vpc_subnet_name
+            -   management_vpc_network_name
+            -   management_vpc_subnet_name
+        properties:
+            data_vpc_network_name:
+                description: "Service Engine Data Network Name. Field introduced in 18.2.2."
+                type: string
+            data_vpc_project_id:
+                description: "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
+                type: string
+            data_vpc_subnet_name:
+                description: "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            management_vpc_network_name:
+                description: "Service Engine Management Network Name. Field introduced in 18.2.2."
+                type: string
+            management_vpc_subnet_name:
+                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+    GCPTwoArmMode:
+        type: object
+        required:
+            -   backend_data_vpc_network_name
+            -   backend_data_vpc_subnet_name
+            -   frontend_data_vpc_network_name
+            -   frontend_data_vpc_subnet_name
+            -   management_vpc_network_name
+            -   management_vpc_subnet_name
+        properties:
+            backend_data_vpc_network_name:
+                description: "Service Engine Backend Data Network Name. Field introduced in 18.2.2."
+                type: string
+            backend_data_vpc_subnet_name:
+                description: "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            frontend_data_vpc_network_name:
+                description: "Service Engine Frontend Data Network Name. Field introduced in 18.2.2."
+                type: string
+            frontend_data_vpc_project_id:
+                description: "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                type: string
+            frontend_data_vpc_subnet_name:
+                description: "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
+                type: string
+            management_vpc_network_name:
+                description: "Service Engine Management Network Name. Field introduced in 18.2.2."
+                type: string
+            management_vpc_subnet_name:
+                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                type: string
     HostAttributes:
         type: object
         required:
@@ -1305,17 +1379,6 @@ definitions:
                 type: string
             attr_val:
                 description: "attr_val of HostAttributes."
-                type: string
-    InBandManagement:
-        type: object
-        required:
-            -   vpc_subnet_name
-        properties:
-            vpc_project_id:
-                description: "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
-                type: string
-            vpc_subnet_name:
-                description: "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
                 type: string
     IngAttribute:
         type: object
@@ -1692,21 +1755,6 @@ definitions:
             se_zone:
                 description: "Zone to be used for SE creation."
                 type: string
-    OneArmMode:
-        type: object
-        required:
-            -   data_vpc_subnet_name
-            -   management_vpc_subnet_name
-        properties:
-            data_vpc_project_id:
-                description: "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
-                type: string
-            data_vpc_subnet_name:
-                description: "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
-                type: string
-            management_vpc_subnet_name:
-                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
-                type: string
     OpenStackConfiguration:
         type: object
         required:
@@ -1950,7 +1998,7 @@ definitions:
                 description: "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
                 type: string
             cluster_tag:
-                description: "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5."
+                description: "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5."
                 type: string
             container_port_match_http_service:
                 description: "Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP."
@@ -2121,6 +2169,9 @@ definitions:
             use_service_cluster_ip_as_ew_vip:
                 description: "Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes."
                 type: boolean
+            vip_default_gateway:
+                description: "VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2."
+                $ref: '#/definitions/IpAddr'
     OshiftSharedVirtualService:
         type: object
         required:
@@ -2310,25 +2361,6 @@ definitions:
                 type: string
             sudo_user:
                 description: "Username for sudo. Field deprecated in 17.1.1."
-                type: string
-    TwoArmMode:
-        type: object
-        required:
-            -   backend_data_vpc_subnet_name
-            -   frontend_data_vpc_subnet_name
-            -   management_vpc_subnet_name
-        properties:
-            backend_data_vpc_subnet_name:
-                description: "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
-                type: string
-            frontend_data_vpc_project_id:
-                description: "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
-                type: string
-            frontend_data_vpc_subnet_name:
-                description: "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
-                type: string
-            management_vpc_subnet_name:
-                description: "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
                 type: string
     vCenterConfiguration:
         type: object

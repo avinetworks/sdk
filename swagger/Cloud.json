@@ -1373,22 +1373,6 @@
                 }
             }
         }, 
-        "InBandManagement": {
-            "required": [
-                "vpc_subnet_name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "vpc_subnet_name": {
-                    "type": "string", 
-                    "description": "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
-                }, 
-                "vpc_project_id": {
-                    "type": "string", 
-                    "description": "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
-                }
-            }
-        }, 
         "vCenterConfiguration": {
             "required": [
                 "privilege"
@@ -1443,6 +1427,47 @@
                     }, 
                     "type": "array", 
                     "description": "UUIDs of OpenStack tenants that should be allowed to use the specified Neutron network for VIPs. Use '*' to make this network available to all tenants. Field introduced in 18.1.2."
+                }
+            }
+        }, 
+        "GCPTwoArmMode": {
+            "required": [
+                "backend_data_vpc_network_name", 
+                "backend_data_vpc_subnet_name", 
+                "frontend_data_vpc_network_name", 
+                "frontend_data_vpc_subnet_name", 
+                "management_vpc_network_name", 
+                "management_vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "frontend_data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Frontend Data Network Name. Field introduced in 18.2.2."
+                }, 
+                "management_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "management_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Name. Field introduced in 18.2.2."
+                }, 
+                "backend_data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "frontend_data_vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                }, 
+                "frontend_data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "backend_data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Backend Data Network Name. Field introduced in 18.2.2."
                 }
             }
         }, 
@@ -1666,27 +1691,6 @@
                 }
             }
         }, 
-        "OneArmMode": {
-            "required": [
-                "data_vpc_subnet_name", 
-                "management_vpc_subnet_name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "data_vpc_project_id": {
-                    "type": "string", 
-                    "description": "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
-                }, 
-                "data_vpc_subnet_name": {
-                    "type": "string", 
-                    "description": "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
-                }, 
-                "management_vpc_subnet_name": {
-                    "type": "string", 
-                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
-                }
-            }
-        }, 
         "ProxyConfiguration": {
             "required": [
                 "host", 
@@ -1904,15 +1908,15 @@
                 }, 
                 "two_arm": {
                     "description": "Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1.", 
-                    "$ref": "#/definitions/TwoArmMode"
+                    "$ref": "#/definitions/GCPTwoArmMode"
                 }, 
                 "one_arm": {
                     "description": "Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1.", 
-                    "$ref": "#/definitions/OneArmMode"
+                    "$ref": "#/definitions/GCPOneArmMode"
                 }, 
                 "inband": {
                     "description": "Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1.", 
-                    "$ref": "#/definitions/InBandManagement"
+                    "$ref": "#/definitions/GCPInBandManagement"
                 }
             }
         }, 
@@ -2233,7 +2237,7 @@
                 }, 
                 "cluster_tag": {
                     "type": "string", 
-                    "description": "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5."
+                    "description": "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5."
                 }, 
                 "docker_registry_se": {
                     "description": "Docker registry for ServiceEngine image.", 
@@ -2324,6 +2328,13 @@
                     "type": "boolean", 
                     "description": "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
                 }, 
+                "ns_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                }, 
                 "avi_bridge_subnet": {
                     "description": "Avi Linux bridge subnet on OpenShift/K8s nodes.", 
                     "$ref": "#/definitions/IpAddrPrefix"
@@ -2355,12 +2366,9 @@
                     "description": "New SE spawn rate per minute. Field deprecated in 17.2.13,18.1.5,18.2.1.", 
                     "format": "int32"
                 }, 
-                "ns_exclude_attributes": {
-                    "items": {
-                        "$ref": "#/definitions/MesosAttribute"
-                    }, 
-                    "type": "array", 
-                    "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                "vip_default_gateway": {
+                    "description": "VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
                 "se_image_pull_secret": {
                     "type": "string", 
@@ -2797,6 +2805,37 @@
                 }
             }
         }, 
+        "GCPOneArmMode": {
+            "required": [
+                "data_vpc_network_name", 
+                "data_vpc_subnet_name", 
+                "management_vpc_network_name", 
+                "management_vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "data_vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
+                }, 
+                "data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Data Network Name. Field introduced in 18.2.2."
+                }, 
+                "management_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Name. Field introduced in 18.2.2."
+                }, 
+                "data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "management_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                }
+            }
+        }, 
         "OpenStackHypervisorProperties": {
             "required": [
                 "hypervisor"
@@ -2813,36 +2852,6 @@
                     }, 
                     "type": "array", 
                     "description": "Custom properties to be associated with the SE image in Glance for this hypervisor type. Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "DockerRegistry": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for docker registry. Authorized 'regular user' if registry is Openshift integrated registry."
-                }, 
-                "oshift_registry": {
-                    "description": "Openshift integrated registry config.", 
-                    "$ref": "#/definitions/OshiftDockerRegistryMetaData"
-                }, 
-                "registry": {
-                    "default": "avinetworks/se", 
-                    "type": "string", 
-                    "description": "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for docker registry. Authorized 'regular user' password if registry is Openshift integrated registry."
-                }, 
-                "se_repository_push": {
-                    "type": "boolean", 
-                    "description": "Avi Controller will push ServiceEngine image to docker repository."
-                }, 
-                "private": {
-                    "type": "boolean", 
-                    "description": "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set."
                 }
             }
         }, 
@@ -2943,6 +2952,27 @@
                 }
             }
         }, 
+        "GCPInBandManagement": {
+            "required": [
+                "vpc_network_name", 
+                "vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Inband Network Name. Field introduced in 18.2.2."
+                }, 
+                "vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
+                }
+            }
+        }, 
         "FeProxyRoutePublishConfig": {
             "type": "object", 
             "properties": {
@@ -2992,6 +3022,12 @@
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/OShiftK8SConfiguration"
                 }, 
+                "autoscale_polling_interval": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2.", 
+                    "format": "int32"
+                }, 
                 "dhcp_enabled": {
                     "type": "boolean", 
                     "description": "Select the IP address management scheme."
@@ -3038,7 +3074,7 @@
                     "description": "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 }, 
                 "mesos_configuration": {
-                    "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
+                    "description": " Field deprecated in 18.2.2.", 
                     "$ref": "#/definitions/MesosConfiguration"
                 }, 
                 "ip6_autocfg_enabled": {
@@ -3297,29 +3333,33 @@
                 }
             }
         }, 
-        "TwoArmMode": {
-            "required": [
-                "backend_data_vpc_subnet_name", 
-                "frontend_data_vpc_subnet_name", 
-                "management_vpc_subnet_name"
-            ], 
+        "DockerRegistry": {
             "type": "object", 
             "properties": {
-                "backend_data_vpc_subnet_name": {
+                "username": {
                     "type": "string", 
-                    "description": "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
+                    "description": "Username for docker registry. Authorized 'regular user' if registry is Openshift integrated registry."
                 }, 
-                "frontend_data_vpc_project_id": {
-                    "type": "string", 
-                    "description": "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                "oshift_registry": {
+                    "description": "Openshift integrated registry config.", 
+                    "$ref": "#/definitions/OshiftDockerRegistryMetaData"
                 }, 
-                "frontend_data_vpc_subnet_name": {
+                "registry": {
+                    "default": "avinetworks/se", 
                     "type": "string", 
-                    "description": "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
+                    "description": "Avi ServiceEngine repository name. For private registry, it's registry port/repository, for public registry, it's registry/repository, for openshift registry, it's registry port/namespace/repo."
                 }, 
-                "management_vpc_subnet_name": {
+                "password": {
                     "type": "string", 
-                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                    "description": "Password for docker registry. Authorized 'regular user' password if registry is Openshift integrated registry."
+                }, 
+                "se_repository_push": {
+                    "type": "boolean", 
+                    "description": "Avi Controller will push ServiceEngine image to docker repository."
+                }, 
+                "private": {
+                    "type": "boolean", 
+                    "description": "Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set."
                 }
             }
         }

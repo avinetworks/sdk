@@ -1095,10 +1095,15 @@ definitions:
                 type: integer
                 default: 360
                 format: int32
+            vs_scaleout_ready_check_interval:
+                description: "Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2."
+                type: integer
+                default: 60
+                format: int32
             vs_se_attach_ip_fail:
                 description: "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2."
                 type: integer
-                default: 3600
+                default: 600
                 format: int32
             vs_se_bootup_fail:
                 description: "Number of vs_se_bootup_fail."

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -264,6 +264,7 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "autoscale_polling_interval" : 123,
     "vtype" : "aeiou",
     "apic_configuration" : {
       "apic_admin_tenant" : "aeiou",
@@ -318,18 +319,24 @@ font-style: italic;
       "firewall_target_tags" : [ "aeiou" ],
       "network_config" : {
         "inband" : {
+          "vpc_network_name" : "aeiou",
           "vpc_project_id" : "aeiou",
           "vpc_subnet_name" : "aeiou"
         },
         "two_arm" : {
+          "backend_data_vpc_network_name" : "aeiou",
           "backend_data_vpc_subnet_name" : "aeiou",
           "frontend_data_vpc_project_id" : "aeiou",
           "frontend_data_vpc_subnet_name" : "aeiou",
-          "management_vpc_subnet_name" : "aeiou"
+          "management_vpc_network_name" : "aeiou",
+          "management_vpc_subnet_name" : "aeiou",
+          "frontend_data_vpc_network_name" : "aeiou"
         },
         "one_arm" : {
           "data_vpc_subnet_name" : "aeiou",
+          "management_vpc_network_name" : "aeiou",
           "management_vpc_subnet_name" : "aeiou",
+          "data_vpc_network_name" : "aeiou",
           "data_vpc_project_id" : "aeiou"
         },
         "config" : "aeiou"
@@ -553,7 +560,8 @@ font-style: italic;
       "shared_virtualservice_namespace" : true,
       "east_west_placement_subnet" : "",
       "avi_bridge_subnet" : "",
-      "default_service_as_east_west_service" : true
+      "default_service_as_east_west_service" : true,
+      "vip_default_gateway" : ""
     },
     "proxy_configuration" : {
       "password" : "aeiou",
@@ -826,6 +834,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "autoscale_polling_interval" : 123,
   "vtype" : "aeiou",
   "apic_configuration" : {
     "apic_admin_tenant" : "aeiou",
@@ -880,18 +889,24 @@ font-style: italic;
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
       "inband" : {
+        "vpc_network_name" : "aeiou",
         "vpc_project_id" : "aeiou",
         "vpc_subnet_name" : "aeiou"
       },
       "two_arm" : {
+        "backend_data_vpc_network_name" : "aeiou",
         "backend_data_vpc_subnet_name" : "aeiou",
         "frontend_data_vpc_project_id" : "aeiou",
         "frontend_data_vpc_subnet_name" : "aeiou",
-        "management_vpc_subnet_name" : "aeiou"
+        "management_vpc_network_name" : "aeiou",
+        "management_vpc_subnet_name" : "aeiou",
+        "frontend_data_vpc_network_name" : "aeiou"
       },
       "one_arm" : {
         "data_vpc_subnet_name" : "aeiou",
+        "management_vpc_network_name" : "aeiou",
         "management_vpc_subnet_name" : "aeiou",
+        "data_vpc_network_name" : "aeiou",
         "data_vpc_project_id" : "aeiou"
       },
       "config" : "aeiou"
@@ -1115,7 +1130,8 @@ font-style: italic;
     "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
-    "default_service_as_east_west_service" : true
+    "default_service_as_east_west_service" : true,
+    "vip_default_gateway" : ""
   },
   "proxy_configuration" : {
     "password" : "aeiou",
@@ -1621,6 +1637,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "autoscale_polling_interval" : 123,
   "vtype" : "aeiou",
   "apic_configuration" : {
     "apic_admin_tenant" : "aeiou",
@@ -1675,18 +1692,24 @@ font-style: italic;
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
       "inband" : {
+        "vpc_network_name" : "aeiou",
         "vpc_project_id" : "aeiou",
         "vpc_subnet_name" : "aeiou"
       },
       "two_arm" : {
+        "backend_data_vpc_network_name" : "aeiou",
         "backend_data_vpc_subnet_name" : "aeiou",
         "frontend_data_vpc_project_id" : "aeiou",
         "frontend_data_vpc_subnet_name" : "aeiou",
-        "management_vpc_subnet_name" : "aeiou"
+        "management_vpc_network_name" : "aeiou",
+        "management_vpc_subnet_name" : "aeiou",
+        "frontend_data_vpc_network_name" : "aeiou"
       },
       "one_arm" : {
         "data_vpc_subnet_name" : "aeiou",
+        "management_vpc_network_name" : "aeiou",
         "management_vpc_subnet_name" : "aeiou",
+        "data_vpc_network_name" : "aeiou",
         "data_vpc_project_id" : "aeiou"
       },
       "config" : "aeiou"
@@ -1910,7 +1933,8 @@ font-style: italic;
     "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
-    "default_service_as_east_west_service" : true
+    "default_service_as_east_west_service" : true,
+    "vip_default_gateway" : ""
   },
   "proxy_configuration" : {
     "password" : "aeiou",
@@ -2298,6 +2322,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "autoscale_polling_interval" : 123,
   "vtype" : "aeiou",
   "apic_configuration" : {
     "apic_admin_tenant" : "aeiou",
@@ -2352,18 +2377,24 @@ font-style: italic;
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
       "inband" : {
+        "vpc_network_name" : "aeiou",
         "vpc_project_id" : "aeiou",
         "vpc_subnet_name" : "aeiou"
       },
       "two_arm" : {
+        "backend_data_vpc_network_name" : "aeiou",
         "backend_data_vpc_subnet_name" : "aeiou",
         "frontend_data_vpc_project_id" : "aeiou",
         "frontend_data_vpc_subnet_name" : "aeiou",
-        "management_vpc_subnet_name" : "aeiou"
+        "management_vpc_network_name" : "aeiou",
+        "management_vpc_subnet_name" : "aeiou",
+        "frontend_data_vpc_network_name" : "aeiou"
       },
       "one_arm" : {
         "data_vpc_subnet_name" : "aeiou",
+        "management_vpc_network_name" : "aeiou",
         "management_vpc_subnet_name" : "aeiou",
+        "data_vpc_network_name" : "aeiou",
         "data_vpc_project_id" : "aeiou"
       },
       "config" : "aeiou"
@@ -2587,7 +2618,8 @@ font-style: italic;
     "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
-    "default_service_as_east_west_service" : true
+    "default_service_as_east_west_service" : true,
+    "vip_default_gateway" : ""
   },
   "proxy_configuration" : {
     "password" : "aeiou",
@@ -2819,6 +2851,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "autoscale_polling_interval" : 123,
   "vtype" : "aeiou",
   "apic_configuration" : {
     "apic_admin_tenant" : "aeiou",
@@ -2873,18 +2906,24 @@ font-style: italic;
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
       "inband" : {
+        "vpc_network_name" : "aeiou",
         "vpc_project_id" : "aeiou",
         "vpc_subnet_name" : "aeiou"
       },
       "two_arm" : {
+        "backend_data_vpc_network_name" : "aeiou",
         "backend_data_vpc_subnet_name" : "aeiou",
         "frontend_data_vpc_project_id" : "aeiou",
         "frontend_data_vpc_subnet_name" : "aeiou",
-        "management_vpc_subnet_name" : "aeiou"
+        "management_vpc_network_name" : "aeiou",
+        "management_vpc_subnet_name" : "aeiou",
+        "frontend_data_vpc_network_name" : "aeiou"
       },
       "one_arm" : {
         "data_vpc_subnet_name" : "aeiou",
+        "management_vpc_network_name" : "aeiou",
         "management_vpc_subnet_name" : "aeiou",
+        "data_vpc_network_name" : "aeiou",
         "data_vpc_project_id" : "aeiou"
       },
       "config" : "aeiou"
@@ -3108,7 +3147,8 @@ font-style: italic;
     "shared_virtualservice_namespace" : true,
     "east_west_placement_subnet" : "",
     "avi_bridge_subnet" : "",
-    "default_service_as_east_west_service" : true
+    "default_service_as_east_west_service" : true,
+    "vip_default_gateway" : ""
   },
   "proxy_configuration" : {
     "password" : "aeiou",
@@ -3366,9 +3406,11 @@ font-style: italic;
     <li><a href="#DockerRegistry"><code>DockerRegistry</code></a></li>
     <li><a href="#FeProxyRoutePublishConfig"><code>FeProxyRoutePublishConfig</code></a></li>
     <li><a href="#GCPConfiguration"><code>GCPConfiguration</code></a></li>
+    <li><a href="#GCPInBandManagement"><code>GCPInBandManagement</code></a></li>
     <li><a href="#GCPNetworkConfig"><code>GCPNetworkConfig</code></a></li>
+    <li><a href="#GCPOneArmMode"><code>GCPOneArmMode</code></a></li>
+    <li><a href="#GCPTwoArmMode"><code>GCPTwoArmMode</code></a></li>
     <li><a href="#HostAttributes"><code>HostAttributes</code></a></li>
-    <li><a href="#InBandManagement"><code>InBandManagement</code></a></li>
     <li><a href="#IngAttribute"><code>IngAttribute</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
@@ -3382,7 +3424,6 @@ font-style: italic;
     <li><a href="#NsxConfiguration"><code>NsxConfiguration</code></a></li>
     <li><a href="#NuageSDNController"><code>NuageSDNController</code></a></li>
     <li><a href="#OShiftK8SConfiguration"><code>OShiftK8SConfiguration</code></a></li>
-    <li><a href="#OneArmMode"><code>OneArmMode</code></a></li>
     <li><a href="#OpenStackConfiguration"><code>OpenStackConfiguration</code></a></li>
     <li><a href="#OpenStackHypervisorProperties"><code>OpenStackHypervisorProperties</code></a></li>
     <li><a href="#OpenStackRoleMapping"><code>OpenStackRoleMapping</code></a></li>
@@ -3395,7 +3436,6 @@ font-style: italic;
     <li><a href="#ProxyConfiguration"><code>ProxyConfiguration</code></a></li>
     <li><a href="#RancherConfiguration"><code>RancherConfiguration</code></a></li>
     <li><a href="#SSHSeDeployment"><code>SSHSeDeployment</code></a></li>
-    <li><a href="#TwoArmMode"><code>TwoArmMode</code></a></li>
     <li><a href="#vCenterConfiguration"><code>vCenterConfiguration</code></a></li>
     <li><a href="#vCloudAirConfiguration"><code>vCloudAirConfiguration</code></a></li>
   </ol>
@@ -3486,6 +3526,7 @@ font-style: italic;
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">apic_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#APICConfiguration">APICConfiguration</a></span> Placeholder for description of property apic_configuration of obj type Cloud field type str  type object </div>
 <div class="param">apic_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property apic_mode of obj type Cloud field type str  type boolean </div>
+<div class="param">autoscale_polling_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2. format: int32</div>
 <div class="param">aws_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AwsConfiguration">AwsConfiguration</a></span> Placeholder for description of property aws_configuration of obj type Cloud field type str  type object </div>
 <div class="param">azure_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AzureConfiguration">AzureConfiguration</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">cloudstack_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#CloudStackConfiguration">CloudStackConfiguration</a></span> Placeholder for description of property cloudstack_configuration of obj type Cloud field type str  type object </div>
@@ -3502,7 +3543,7 @@ font-style: italic;
 <div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new SE Groups. This field by default inherits the value from system configuration. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. The default mappings are Container Cloud is Max Ses, OpenStack and VMware is cores and linux it is Sockets. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. </div>
 <div class="param">linuxserver_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxServerConfiguration">LinuxServerConfiguration</a></span> Placeholder for description of property linuxserver_configuration of obj type Cloud field type str  type object </div>
-<div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span> Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object </div>
+<div class="param">mesos_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosConfiguration">MesosConfiguration</a></span>  Field deprecated in 18.2.2. </div>
 <div class="param">mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU setting for the cloud. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">nsx_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#NsxConfiguration">NsxConfiguration</a></span> Configuration parameters for NSX Manager. Field introduced in 17.1.1. </div>
@@ -3613,12 +3654,42 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="GCPInBandManagement">GCPInBandManagement</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Inband Network Name. Field introduced in 18.2.2. </div>
+<div class="param">vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Inband Network. Field introduced in 18.2.1. </div>
+<div class="param">vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Inband Network Subnet Name. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="GCPNetworkConfig">GCPNetworkConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">config </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Config Mode for Google Cloud network configuration. Enum options - INBAND_MANAGEMENT, ONE_ARM_MODE, TWO_ARM_MODE. Field introduced in 18.2.1. </div>
-<div class="param">inband (optional)</div><div class="param-desc"><span class="param-type"><a href="#InBandManagement">InBandManagement</a></span> Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1. </div>
-<div class="param">one_arm (optional)</div><div class="param-desc"><span class="param-type"><a href="#OneArmMode">OneArmMode</a></span> Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1. </div>
-<div class="param">two_arm (optional)</div><div class="param-desc"><span class="param-type"><a href="#TwoArmMode">TwoArmMode</a></span> Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1. </div>
+<div class="param">inband (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPInBandManagement">GCPInBandManagement</a></span> Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1. </div>
+<div class="param">one_arm (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPOneArmMode">GCPOneArmMode</a></span> Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1. </div>
+<div class="param">two_arm (optional)</div><div class="param-desc"><span class="param-type"><a href="#GCPTwoArmMode">GCPTwoArmMode</a></span> Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPOneArmMode">GCPOneArmMode</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">data_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Data Network Name. Field introduced in 18.2.2. </div>
+<div class="param">data_vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Data Network. Field introduced in 18.2.1. </div>
+<div class="param">data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Data Network Subnet Name. Field introduced in 18.2.1. </div>
+<div class="param">management_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Name. Field introduced in 18.2.2. </div>
+<div class="param">management_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Subnet Name. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="GCPTwoArmMode">GCPTwoArmMode</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">backend_data_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Backend Data Network Name. Field introduced in 18.2.2. </div>
+<div class="param">backend_data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1. </div>
+<div class="param">frontend_data_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Frontend Data Network Name. Field introduced in 18.2.2. </div>
+<div class="param">frontend_data_vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1. </div>
+<div class="param">frontend_data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1. </div>
+<div class="param">management_vpc_network_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Name. Field introduced in 18.2.2. </div>
+<div class="param">management_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Subnet Name. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3626,13 +3697,6 @@ font-style: italic;
     <div class="field-items">
       <div class="param">attr_key </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> attr_key of HostAttributes. </div>
 <div class="param">attr_val (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> attr_val of HostAttributes. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="InBandManagement">InBandManagement</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Inband Network. Field introduced in 18.2.1. </div>
-<div class="param">vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Inband Network Subnet Name. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3793,7 +3857,7 @@ font-style: italic;
 <div class="param">avi_bridge_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Avi Linux bridge subnet on OpenShift/K8s nodes. </div>
 <div class="param">ca_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">client_tls_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate. </div>
-<div class="param">cluster_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5. </div>
+<div class="param">cluster_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5. </div>
 <div class="param">container_port_match_http_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP. </div>
 <div class="param">coredump_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory to mount to check for core dumps on Service Engines. This will be mapped read only to /var/crash on any new Service Engines. This is a disruptive change. </div>
 <div class="param">default_service_as_east_west_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration. </div>
@@ -3839,14 +3903,7 @@ font-style: italic;
 <div class="param">use_resource_definition_as_ssot (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13, 18.1.4, 18.2.1. </div>
 <div class="param">use_scheduling_disabled_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled. </div>
 <div class="param">use_service_cluster_ip_as_ew_vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="OneArmMode">OneArmMode</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">data_vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Data Network. Field introduced in 18.2.1. </div>
-<div class="param">data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Data Network Subnet Name. Field introduced in 18.2.1. </div>
-<div class="param">management_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Subnet Name. Field introduced in 18.2.1. </div>
+<div class="param">vip_default_gateway (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -3891,7 +3948,7 @@ font-style: italic;
 <div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. </div>
 <div class="param">security_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If false, security-groups extension will not be used. . </div>
 <div class="param">tenant_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, then SEs will be created in the appropriate tenants, else SEs will be created in the admin_tenant. </div>
-<div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Deprecated; please use provider_vip_networks. Field introduced in 17.1.1. </div>
+<div class="param">usable_network_uuids (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Deprecated, please use provider_vip_networks. Field deprecated in 18.2.2. Field introduced in 17.1.1. </div>
 <div class="param">use_admin_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If admin URLs are either inaccessible or not to be accessed from Avi Controller, then set this to False. </div>
 <div class="param">use_internal_endpoints (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use internalURL for OpenStack endpoints instead of the default publicURL endpoints. </div>
 <div class="param">use_keystone_auth (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use keystone for user authentication. </div>
@@ -4007,15 +4064,6 @@ font-style: italic;
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for ssh and/or sudo. Field deprecated in 17.1.1. </div>
 <div class="param">ssh_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for SSH access to hosts. Field deprecated in 17.1.1. </div>
 <div class="param">sudo_user (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for sudo. Field deprecated in 17.1.1. </div>
-    </div>  <!-- field-items -->
-  </div>
-  <div class="model">
-    <h3 class="field-label"><a name="TwoArmMode">TwoArmMode</a> <a class="up" href="#__Models">Up</a></h3>
-    <div class="field-items">
-      <div class="param">backend_data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1. </div>
-<div class="param">frontend_data_vpc_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1. </div>
-<div class="param">frontend_data_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1. </div>
-<div class="param">management_vpc_subnet_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Management Network Subnet Name. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

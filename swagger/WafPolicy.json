@@ -739,7 +739,7 @@
             "type": "object", 
             "properties": {
                 "match_element_criteria": {
-                    "description": "Criteria for match_element matching. Field introduced in 19.1.1, 18.2.2.", 
+                    "description": "Criteria for match_element matching. Field introduced in 18.2.2.", 
                     "$ref": "#/definitions/WafExclusionType"
                 }, 
                 "uri_path": {

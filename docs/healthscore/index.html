@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc"></div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -692,7 +692,45 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return detailed header with information like contributors etc.?. </div><div class="param">dimension_aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregations for dimensions. Eg. use dimenstion_aggregation&#x3D;avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the entity type. </div><div class="param">hs_type (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references?. </div><div class="param">include_statistics (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include statistics when no filters specified?. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples to be returned in the response. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">order_series_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc. </div><div class="param">pad_missing_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values. </div><div class="param">patch_oper_status (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Patch health score with operational data?. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Object id like vip or server ip port. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">summary (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return only summary for health score. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. . </div>
     </div>  <!-- field-items -->
 
 
@@ -1571,7 +1609,45 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return detailed header with information like contributors etc.?. </div><div class="param">dimension_aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregations for dimensions. Eg. use dimenstion_aggregation&#x3D;avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the entity type. </div><div class="param">hs_type (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references?. </div><div class="param">include_statistics (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include statistics when no filters specified?. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples to be returned in the response. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">order_series_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc. </div><div class="param">pad_missing_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values. </div><div class="param">patch_oper_status (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Patch health score with operational data?. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Object id like vip or server ip port. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">summary (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return only summary for health score. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. . </div>
     </div>  <!-- field-items -->
 
 
@@ -2450,7 +2526,45 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return detailed header with information like contributors etc.?. </div><div class="param">dimension_aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregations for dimensions. Eg. use dimenstion_aggregation&#x3D;avg for averaged metric values. Enum options - METRICS_DIMENSION_AGG_NONE, METRICS_DIMENSION_AGG_AVG, METRICS_DIMENSION_AGG_SUM, METRICS_DIMENSION_AGG_MAX, METRICS_DIMENSION_AGG_MIN, METRICS_DIMENSION_AGG_PERCENT, METRICS_DIMENSION_AGG_ALL. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the entity type. </div><div class="param">hs_type (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Health Score Type. Enum options - HEALTH_SCORE, HEALTH_PERFORMANCE_SCORE, HEALTH_ANOMALY_SCORE, HEALTH_RESOURCES_SCORE, HEALTH_SECURITY_THREAT_LEVEL. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references?. </div><div class="param">include_statistics (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Include statistics when no filters specified?. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples to be returned in the response. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">order_series_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Order by field in the statistics. It is required tohave include_statistics set to true. A negative sign means decreasing order. Egs. mean, min, max, etc. </div><div class="param">pad_missing_data (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pad missing health scores? That is, if data for certain intervals not present, fill up the time series with null values. </div><div class="param">patch_oper_status (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Patch health score with operational data?. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Object id like vip or server ip port. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">summary (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Return only summary for health score. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. . </div>
     </div>  <!-- field-items -->
 
 

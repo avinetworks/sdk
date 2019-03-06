@@ -544,7 +544,7 @@
                 }, 
                 "buffer_response_body_for_inspection": {
                     "type": "boolean", 
-                    "description": "Enable to buffer response body for inspection. Field introduced in 17.2.3."
+                    "description": "Enable to buffer response body for inspection. Field deprecated in 18.2.2. Field introduced in 17.2.3."
                 }, 
                 "client_request_max_body_size": {
                     "default": 32, 
@@ -597,7 +597,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE. Field introduced in 17.2.1."
+                    "description": "WAF allowed HTTP Versions. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. Field introduced in 17.2.1."
                 }, 
                 "request_body_default_action": {
                     "default": "phase:2,deny,status:403,log,auditlog", 

@@ -896,7 +896,7 @@
                 }, 
                 "enabled": {
                     "type": "boolean", 
-                    "description": "Enable/disable HTTP object caching."
+                    "description": "Enable/disable HTTP object caching.SE Group app_cache_percent must be set to allocate shared memory required for caching. A service engine restart is needed after setting this value. ."
                 }, 
                 "heuristic_expire": {
                     "type": "boolean", 
