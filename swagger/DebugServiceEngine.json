@@ -646,6 +646,10 @@
         "DebugServiceEngine": {
             "type": "object", 
             "properties": {
+                "capture": {
+                    "type": "boolean", 
+                    "description": "Enable/disable packet capture. Field introduced in 18.2.2."
+                }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
@@ -663,9 +667,9 @@
                     "type": "string", 
                     "description": "url"
                 }, 
-                "capture_params": {
-                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
-                    "$ref": "#/definitions/DebugVirtualServiceCapture"
+                "fault": {
+                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/DebugSeFault"
                 }, 
                 "debug_ip": {
                     "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
@@ -687,9 +691,9 @@
                     "type": "array", 
                     "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
                 }, 
-                "fault": {
-                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
-                    "$ref": "#/definitions/DebugSeFault"
+                "capture_params": {
+                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "$ref": "#/definitions/DebugVirtualServiceCapture"
                 }, 
                 "cpu_shares": {
                     "items": {
