@@ -6,8 +6,7 @@ import urlparse
 import yaml
 
 # Read avi object to API path map from yaml file.
-yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                        './common/sdk_autogen_assets/avi_resource_types.yaml'))
+yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__), './common/avi_resource_types.yaml'))
 yml_data = yaml.load(open(yml_file, 'r'))
 # Converts avi object types to avi resource types
 data_lower_case = map(lambda x: x.lower(), yml_data['avi_resource_types'])
