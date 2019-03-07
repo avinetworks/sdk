@@ -47,7 +47,7 @@ def my_represent_scalar(self, tag, value, style=None):
 
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 utils = F5Util()
-meta_file = utils.get_project_path()+'/../common/sdk_autogen_assets/avi_resource_types.yaml'
+meta_file = utils.get_project_path()+'/../common/avi_resource_types.yaml'
 with open(meta_file) as f:
     supported_obj = yaml.load(f)
 

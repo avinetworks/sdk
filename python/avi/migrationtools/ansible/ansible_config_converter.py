@@ -72,7 +72,7 @@ class AviAnsibleConverter(object):
 
         # Read file to get meta order.
         self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
-                                                   '../common/sdk_autogen_assets/avi_resource_types.yaml')
+                                                   '../common/avi_resource_types.yaml')
 
         with open(self.ansible_rest_file_path, 'r') as f:
             self.default_meta_order = yaml.load(f)
