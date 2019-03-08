@@ -22,7 +22,7 @@ type OShiftK8SConfiguration struct {
 	// UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate.
 	ClientTLSKeyAndCertificateRef *string `json:"client_tls_key_and_certificate_ref,omitempty"`
 
-	// Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5.
+	// Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5.
 	ClusterTag *string `json:"cluster_tag,omitempty"`
 
 	// Perform container port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. By default, ports 80, 8080, 443, 8443 are considered HTTP.
@@ -159,4 +159,7 @@ type OShiftK8SConfiguration struct {
 
 	// Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes.
 	UseServiceClusterIPAsEwVip *bool `json:"use_service_cluster_ip_as_ew_vip,omitempty"`
+
+	// VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.
+	VipDefaultGateway *IPAddr `json:"vip_default_gateway,omitempty"`
 }
