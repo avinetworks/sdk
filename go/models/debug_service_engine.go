@@ -11,6 +11,9 @@ type DebugServiceEngine struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Enable/disable packet capture. Field introduced in 18.2.2.
+	Capture *bool `json:"capture,omitempty"`
+
 	// Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.
 	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
 

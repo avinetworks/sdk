@@ -96,4 +96,7 @@ type SeAgentProperties struct {
 
 	// Probe vnic interval.
 	VnicProbeInterval *int32 `json:"vnic_probe_interval,omitempty"`
+
+	// Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.
+	VnicdbCmdHistorySize *int32 `json:"vnicdb_cmd_history_size,omitempty"`
 }

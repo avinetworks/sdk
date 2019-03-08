@@ -31,8 +31,14 @@ type VirtualServiceRuntime struct {
 	// Placeholder for description of property is_dns_vs of obj type VirtualServiceRuntime field type str  type boolean
 	IsDNSVs *bool `json:"is_dns_vs,omitempty"`
 
+	// Number of times keys have been rotated. Field introduced in 18.2.2.
+	KeyRotationCount *int64 `json:"key_rotation_count,omitempty"`
+
 	// Placeholder for description of property last_changed_time of obj type VirtualServiceRuntime field type str  type object
 	LastChangedTime *TimeStamp `json:"last_changed_time,omitempty"`
+
+	// Timestamp of the last key rotation. Field introduced in 18.2.2.
+	LastKeyRotationTime *TimeStamp `json:"last_key_rotation_time,omitempty"`
 
 	// lif of VirtualServiceRuntime.
 	Lif []string `json:"lif,omitempty"`
