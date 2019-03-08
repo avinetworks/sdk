@@ -35,14 +35,17 @@ def get_idp_class(idp):
     """
     This return corresponding idp class.
     :param idp: idp type such as okta, onelogin, pingfed
-    :return:
+    :return: IDP class or ApiSession class
     """
 
-    if str(idp).lower() == "okta":
+    if str(idp).lower() == "oktasamlapisession":
+        log.info("Using OktaSAMLApiSession class")
         idp_class = OktaSAMLApiSession
-    elif str(idp).lower() == 'onelogin':
+    elif str(idp).lower() == 'oneloginsamlapisession':
+        log.info("Using OktaSAMLApiSession class")
         idp_class = OneloginSAMLApiSession
     else:
+        log.info("Class not found. Using ApiSession class")
         idp_class = ApiSession
     return idp_class
 
@@ -370,7 +373,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             port=api_creds.port,
             session_id=api_context['session_id'],
             csrftoken=api_context['csrftoken'],
-            idp_class=get_idp_class(api_creds.idp),)
+            idp_class=get_idp_class(api_creds.idp_class),)
     else:
         api = ApiSession.get_session(
             api_creds.controller,
@@ -381,7 +384,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
             tenant_uuid=api_creds.tenant_uuid,
             token=api_creds.token,
             port=api_creds.port,
-            idp_class=get_idp_class(api_creds.idp),)
+            idp_class=get_idp_class(api_creds.idp_class),)
     state = module.params['state']
     # Get the api version.
     avi_update_method = module.params.get('avi_api_update_method', 'put')
@@ -554,4 +557,4 @@ def avi_common_argument_spec():
         avi_credentials=dict(default=None, no_log=True, type='dict'),
         api_context=dict(type='dict'),
         avi_disable_session_cache_as_fact=dict(default=False, type='bool'),
-        idp=dict(default=None, type='str'),)
+        idp_class=dict(default=None, type='str'),)

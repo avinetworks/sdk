@@ -141,7 +141,7 @@ class AviCredentials(object):
     timeout = 300
     session_id = None
     csrftoken = None
-    idp=None
+    idp_class = None
 
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
@@ -173,8 +173,8 @@ class AviCredentials(object):
             self.session_id = m.params['session_id']
         if m.params.get('csrftoken'):
             self.csrftoken = m.params['csrftoken']
-        if m.params.get('idp'):
-            self.idp = m.params['idp']
+        if m.params.get('idp_class'):
+            self.idp_class = m.params['idp_class']
 
     def __str__(self):
         return 'controller %s user %s api %s tenant %s' % (
@@ -409,9 +409,11 @@ class ApiSession(Session):
         if not idp_class:
             idp_class = ApiSession
         else:
-            if not "ApiSession" in str(idp_class.__base__):
+            if not ("ApiSession" in str(idp_class.__base__) or
+                    "Session" in str(idp_class.__base__)):
                 raise APIError("idp_class {} not valid class. Please provide "
-                               "correct idp class.".format(idp_class))
+                               "correct idp class. Base class of idp class is "
+                               "{}".format(idp_class, str(idp_class.__base__)))
         # Validate input idp_class
         if not avi_credentials:
             tenant = tenant if tenant else "admin"
