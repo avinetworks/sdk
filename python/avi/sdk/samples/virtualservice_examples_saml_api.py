@@ -457,7 +457,7 @@ if __name__ == '__main__':
     print('parsed args', args)
     # SAML authentication with Okta IDP and get the controller session
     api = ApiSession.get_session(args.controller_ip, args.user, args.password,
-                                 tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp=OktaSAMLApiSession)
+                                 tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp_class=OktaSAMLApiSession)
     servers = [server.strip() for server in args.server_ips.split(',')]
     vse = VirtualServiceExample(api)
 

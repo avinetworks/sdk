@@ -158,9 +158,9 @@ class OneloginSAMLApiSession(ApiSession):
             resp = idp_session.post(auth_url, headers=headers,
                                     data=json_data)
             if resp.status_code in [401, 403]:
-                logger.error('Status Code %s msg Invalid credentials %s'
+                logger.error('Status Code %s msg Invalid SAML credentials %s'
                              % (resp.status_code, resp.text))
-                raise APIError('Status Code %s msg Invalid credentials %s'
+                raise APIError('Status Code %s msg Invalid SAML credentials %s'
                                % (resp.status_code, resp.text), resp)
             elif resp.status_code != 200:
                 logger.error('Status Code %s msg %s' % (
@@ -182,9 +182,9 @@ class OneloginSAMLApiSession(ApiSession):
                 resp = idp_session.put(auth_url, headers=headers,
                                        data=json_data)
                 if resp.status_code in [401, 403]:
-                    logger.error('Status Code %s msg Invalid credentials %s'
+                    logger.error('Status Code %s msg Invalid SAML credentials %s'
                                  % (resp.status_code, resp.text))
-                    raise APIError('Status Code %s msg Invalid credentials %s'
+                    raise APIError('Status Code %s msg Invalid SAML credentials %s'
                                    % (resp.status_code, resp.text), resp)
                 elif resp.status_code != 200:
                     logger.error('Status Code %s msg %s' % (
@@ -418,9 +418,9 @@ class OktaSAMLApiSession(ApiSession):
                                     headers=headers,
                                     data=json_data)
             if resp.status_code in [401, 403]:
-                logger.error('Status Code %s msg Invalid credentials %s'
+                logger.error('Status Code %s msg Invalid SAML credentials %s'
                              % (resp.status_code, resp.text))
-                raise APIError('Status Code %s msg Invalid credentials %s'
+                raise APIError('Status Code %s msg Invalid SAML credentials %s'
                                % (resp.status_code, resp.text), resp)
             elif resp.status_code != 200:
                 logger.error('Status Code %s msg %s' % (
