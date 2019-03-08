@@ -154,6 +154,9 @@ type EventDetails struct {
 	// Placeholder for description of property config_user_not_authrz_rule_details of obj type EventDetails field type str  type object
 	ConfigUserNotAuthrzRuleDetails *ConfigUserNotAuthrzByRule `json:"config_user_not_authrz_rule_details,omitempty"`
 
+	// Placeholder for description of property container_cloud_batch_setup of obj type EventDetails field type str  type object
+	ContainerCloudBatchSetup *ContainerCloudBatchSetup `json:"container_cloud_batch_setup,omitempty"`
+
 	// Placeholder for description of property container_cloud_setup of obj type EventDetails field type str  type object
 	ContainerCloudSetup *ContainerCloudSetup `json:"container_cloud_setup,omitempty"`
 
@@ -334,6 +337,9 @@ type EventDetails struct {
 	// Placeholder for description of property se_licensed_bandwdith_exceeded_event_details of obj type EventDetails field type str  type object
 	SeLicensedBandwdithExceededEventDetails *SeLicensedBandwdithExceededEventDetails `json:"se_licensed_bandwdith_exceeded_event_details,omitempty"`
 
+	//  Field introduced in 18.2.2.
+	SeMemoryLimitEventDetails *SeMemoryLimitEventDetails `json:"se_memory_limit_event_details,omitempty"`
+
 	// Placeholder for description of property se_persistence_details of obj type EventDetails field type str  type object
 	SePersistenceDetails *SePersistenceEventDetails `json:"se_persistence_details,omitempty"`
 
@@ -411,6 +417,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property switchover_fail_details of obj type EventDetails field type str  type object
 	SwitchoverFailDetails *SwitchoverFailEventDetails `json:"switchover_fail_details,omitempty"`
+
+	// Azure cloud sync services event details. Field introduced in 18.2.3.
+	SyncServicesInfo *CloudSyncServices `json:"sync_services_info,omitempty"`
 
 	// Placeholder for description of property system_upgrade_details of obj type EventDetails field type str  type object
 	SystemUpgradeDetails *SystemUpgradeDetails `json:"system_upgrade_details,omitempty"`
