@@ -532,6 +532,9 @@ definitions:
             controller_ip_addr:
                 description: "controller_ip_addr of VIMgrSEVMRuntime."
                 type: string
+            cookie:
+                description: "Service Engine Cookie set by the resource manager. Field introduced in 18.2.2."
+                type: string
             creation_in_progress:
                 description: "Placeholder for description of property creation_in_progress of obj type VIMgrSEVMRuntime field type str  type boolean"
                 type: boolean
@@ -543,6 +546,10 @@ definitions:
                 type: string
             discovery_status:
                 description: "Number of discovery_status."
+                type: integer
+                format: int32
+            disk_gb:
+                description: "Disk space in GB for each service engine VM. Field introduced in 18.2.2."
                 type: integer
                 format: int32
             flavor:
@@ -576,6 +583,10 @@ definitions:
             managed_object_id:
                 description: "managed_object_id of VIMgrSEVMRuntime."
                 type: string
+            memory_mb:
+                description: "Memory in MB for each service engine VM. Field introduced in 18.2.2."
+                type: integer
+                format: int32
             name:
                 description: "Name of the object."
                 type: string
@@ -625,6 +636,10 @@ definitions:
             vcenter_vm_type:
                 description: " Enum options - VMTYPE_SE_VM, VMTYPE_POOL_SRVR."
                 type: string
+            vcpus:
+                description: "Count of vcpus for each service engine VM. Field introduced in 18.2.2."
+                type: integer
+                format: int32
     VIMgrSEVMRuntimeApiResponse:
         type: object
         required:

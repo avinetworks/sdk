@@ -441,6 +441,9 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            capture:
+                description: "Enable/disable packet capture. Field introduced in 18.2.2."
+                type: boolean
             capture_params:
                 description: "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
                 $ref: '#/definitions/DebugVirtualServiceCapture'

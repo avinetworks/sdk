@@ -19,7 +19,7 @@ type WafConfig struct {
 	// Argument seperator. Field introduced in 17.2.1.
 	ArgumentSeparator *string `json:"argument_separator,omitempty"`
 
-	// Enable to buffer response body for inspection. Field introduced in 17.2.3.
+	// Enable to buffer response body for inspection. Field deprecated in 18.2.2. Field introduced in 17.2.3.
 	BufferResponseBodyForInspection *bool `json:"buffer_response_body_for_inspection,omitempty"`
 
 	// Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1.

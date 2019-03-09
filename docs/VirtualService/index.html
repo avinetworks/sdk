@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -240,6 +240,7 @@ font-style: italic;
   <li><a href="#virtualserviceUuidRuntimeInternalGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/runtime/internal/</code></a></li>
   <li><a href="#virtualserviceUuidScaleinPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scalein</code></a></li>
   <li><a href="#virtualserviceUuidScaleoutPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scaleout</code></a></li>
+  <li><a href="#virtualserviceUuidSescaleoutstatusGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/sescaleoutstatus/</code></a></li>
   <li><a href="#virtualserviceUuidSwitchoverPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/switchover</code></a></li>
   <li><a href="#virtualserviceUuidTcpstatGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/tcpstat/</code></a></li>
   <li><a href="#virtualserviceUuidTrafficCloneStatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/traffic_clone_stats/</code></a></li>
@@ -4045,6 +4046,58 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; VsScaleoutParams </div>
     </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="virtualserviceUuidSescaleoutstatusGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/sescaleoutstatus/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidSescaleoutstatusGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
 
 
 

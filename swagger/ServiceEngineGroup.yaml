@@ -1227,7 +1227,7 @@ definitions:
             vs_scaleout_timeout:
                 description: "Time to wait for the scaled out SE to become ready before marking the scaleout done."
                 type: integer
-                default: 30
+                default: 600
                 format: int32
             vs_se_scaleout_additional_wait_time:
                 description: "Wait time for sending scaleout ready notification after Virtual Service is marked UP. In certain deployments, there may be an additional delay to accept traffic. For example, for BGP, some time is needed for route advertisement. Allowed values are 0-20. Field introduced in 18.1.5,18.2.1."

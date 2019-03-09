@@ -1459,7 +1459,7 @@
                     "description": "Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1."
                 }, 
                 "vs_scaleout_timeout": {
-                    "default": 30, 
+                    "default": 600, 
                     "type": "integer", 
                     "description": "Time to wait for the scaled out SE to become ready before marking the scaleout done.", 
                     "format": "int32"
