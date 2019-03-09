@@ -10,6 +10,9 @@ type DebugVirtualServiceCapture struct {
 	// Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.
 	Duration *int32 `json:"duration,omitempty"`
 
+	// Enable SSL session key capture. Field introduced in 18.2.3.
+	EnableSslSessionKeyCapture *bool `json:"enable_ssl_session_key_capture,omitempty"`
+
 	// Total number of packets to capture.
 	NumPkts *int32 `json:"num_pkts,omitempty"`
 
