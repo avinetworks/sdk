@@ -32,7 +32,7 @@ type ServiceEngineGroup struct {
 	// Allow SEs to be created using burst license. Field introduced in 17.2.5.
 	AllowBurst *bool `json:"allow_burst,omitempty"`
 
-	// A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.2.
+	// A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.
 	AppCachePercent *int32 `json:"app_cache_percent,omitempty"`
 
 	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
@@ -336,6 +336,9 @@ type ServiceEngineGroup struct {
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort *int32 `json:"se_remote_punt_udp_port,omitempty"`
 
+	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field introduced in 18.2.3.
+	SeRouting *bool `json:"se_routing,omitempty"`
+
 	// Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3.
 	SeSbDedicatedCore *bool `json:"se_sb_dedicated_core,omitempty"`
 
@@ -393,6 +396,9 @@ type ServiceEngineGroup struct {
 	// url
 	// Read Only: true
 	URL *string `json:"url,omitempty"`
+
+	// Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3.
+	UseStandardAlb *bool `json:"use_standard_alb,omitempty"`
 
 	// Unique object identifier of the object.
 	UUID *string `json:"uuid,omitempty"`
