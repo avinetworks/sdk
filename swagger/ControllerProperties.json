@@ -688,7 +688,7 @@
                     "format": "int32"
                 }, 
                 "vs_se_attach_ip_fail": {
-                    "default": 3600, 
+                    "default": 600, 
                     "type": "integer", 
                     "description": "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2.", 
                     "format": "int32"
@@ -712,6 +712,12 @@
                 "allow_unauthenticated_apis": {
                     "type": "boolean", 
                     "description": "Allow unauthenticated access for special APIs."
+                }, 
+                "vs_scaleout_ready_check_interval": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2.", 
+                    "format": "int32"
                 }, 
                 "safenet_hsm_version": {
                     "type": "string", 

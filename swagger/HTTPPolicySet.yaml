@@ -783,7 +783,7 @@ definitions:
                 description: "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
                 type: string
             versions:
-                description: "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE."
+                description: "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO."
                 type: array
                 items:
                     type: string

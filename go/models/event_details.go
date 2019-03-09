@@ -418,7 +418,7 @@ type EventDetails struct {
 	// Placeholder for description of property switchover_fail_details of obj type EventDetails field type str  type object
 	SwitchoverFailDetails *SwitchoverFailEventDetails `json:"switchover_fail_details,omitempty"`
 
-	// Azure cloud sync services event details. Field introduced in 18.2.3.
+	// Azure cloud sync services event details. Field introduced in 18.2.2.
 	SyncServicesInfo *CloudSyncServices `json:"sync_services_info,omitempty"`
 
 	// Placeholder for description of property system_upgrade_details of obj type EventDetails field type str  type object

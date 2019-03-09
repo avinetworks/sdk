@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure authprofile <key> - show authprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -989,7 +989,7 @@ font-style: italic;
 <div class="param">saml (optional)</div><div class="param-desc"><span class="param-type"><a href="#SamlSettings">SamlSettings</a></span> SAML settings. Field introduced in 17.2.3. </div>
 <div class="param">tacacs_plus (optional)</div><div class="param-desc"><span class="param-type"><a href="#TacacsPlusAuthSettings">TacacsPlusAuthSettings</a></span> TACACS+ settings. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Auth Profile. </div>
     </div>  <!-- field-items -->
@@ -1082,7 +1082,7 @@ font-style: italic;
 <div class="param">org_display_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Display Name. Field introduced in 17.2.3. </div>
 <div class="param">org_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Name. Field introduced in 17.2.3. </div>
 <div class="param">org_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization URL. Field introduced in 17.2.3. </div>
-<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3. </div>
+<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Defines the entity ID type. It cannot be changed after an auth profile has been saved. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3. </div>
 <div class="param">sp_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#SamlServiceProviderNode">array[SamlServiceProviderNode]</a></span> Service Provider node information. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact email. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact name. Field introduced in 17.2.3. </div>

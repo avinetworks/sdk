@@ -714,6 +714,10 @@
                     "type": "string", 
                     "description": "flavor of VIMgrSEVMRuntime."
                 }, 
+                "controller_ip_addr": {
+                    "type": "string", 
+                    "description": "controller_ip_addr of VIMgrSEVMRuntime."
+                }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
@@ -752,6 +756,11 @@
                     "type": "string", 
                     "description": " Enum options - VMTYPE_SE_VM, VMTYPE_POOL_SRVR."
                 }, 
+                "disk_gb": {
+                    "type": "integer", 
+                    "description": "Disk space in GB for each service engine VM. Field introduced in 18.2.2.", 
+                    "format": "int32"
+                }, 
                 "deletion_in_progress": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property deletion_in_progress of obj type VIMgrSEVMRuntime field type str  type boolean"
@@ -773,9 +782,9 @@
                     "type": "string", 
                     "description": "host of VIMgrSEVMRuntime."
                 }, 
-                "vcenter_se_type": {
+                "cookie": {
                     "type": "string", 
-                    "description": " Enum options - VIMGR_SE_NETWORK_ADMIN, VIMGR_SE_UNIFIED_ADMIN."
+                    "description": "Service Engine Cookie set by the resource manager. Field introduced in 18.2.2."
                 }, 
                 "guest_nic": {
                     "items": {
@@ -825,13 +834,23 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property vcenter_template_vm of obj type VIMgrSEVMRuntime field type str  type boolean"
                 }, 
-                "controller_ip_addr": {
-                    "type": "string", 
-                    "description": "controller_ip_addr of VIMgrSEVMRuntime."
+                "memory_mb": {
+                    "type": "integer", 
+                    "description": "Memory in MB for each service engine VM. Field introduced in 18.2.2.", 
+                    "format": "int32"
+                }, 
+                "vcpus": {
+                    "type": "integer", 
+                    "description": "Count of vcpus for each service engine VM. Field introduced in 18.2.2.", 
+                    "format": "int32"
                 }, 
                 "controller_cluster_uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of controller_cluster."
+                }, 
+                "vcenter_se_type": {
+                    "type": "string", 
+                    "description": " Enum options - VIMGR_SE_NETWORK_ADMIN, VIMGR_SE_UNIFIED_ADMIN."
                 }, 
                 "discovery_response": {
                     "type": "string", 
