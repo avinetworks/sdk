@@ -90,6 +90,8 @@ class MonitorConverter(object):
                      ns_monitor, input_dir, netscalar_command,
                     ns_monitor_complete_command)
                 if not avi_monitor:
+                    ns_util.print_progress_bar(count, total_size, msg,
+                                               prefix='Progress', suffix='')
                     continue
 
                 avi_monitor['name'] = '%s-%s' % (avi_monitor['name'], 'dummy')
@@ -106,12 +108,16 @@ class MonitorConverter(object):
                 ns_util.add_status_row(ns_monitor['line_no'], netscalar_command,
                     name, ns_monitor_complete_command, STATUS_EXTERNAL_MONITOR,
                     msg)
+                ns_util.print_progress_bar(count, total_size, msg,
+                                           prefix='Progress', suffix='')
                 continue
 
             avi_monitor = self.convert_monitor(
                  ns_monitor, input_dir, netscalar_command,
                  ns_monitor_complete_command)
             if not avi_monitor:
+                ns_util.print_progress_bar(count, total_size, msg,
+                                           prefix='Progress', suffix='')
                 continue
 
             # Add summery of this lb vs in CSV/report

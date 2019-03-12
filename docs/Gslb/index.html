@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslb <key> - show gslb <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -305,6 +305,7 @@ font-style: italic;
         },
         "source" : "aeiou"
       },
+      "hm_shard_enabled" : true,
       "ratio" : 123,
       "username" : "aeiou"
     } ],
@@ -429,6 +430,7 @@ font-style: italic;
       },
       "source" : "aeiou"
     },
+    "hm_shard_enabled" : true,
     "ratio" : 123,
     "username" : "aeiou"
   } ],
@@ -624,6 +626,7 @@ font-style: italic;
       },
       "source" : "aeiou"
     },
+    "hm_shard_enabled" : true,
     "ratio" : 123,
     "username" : "aeiou"
   } ],
@@ -759,6 +762,7 @@ font-style: italic;
       },
       "source" : "aeiou"
     },
+    "hm_shard_enabled" : true,
     "ratio" : 123,
     "username" : "aeiou"
   } ],
@@ -894,6 +898,7 @@ font-style: italic;
       },
       "source" : "aeiou"
     },
+    "hm_shard_enabled" : true,
     "ratio" : 123,
     "username" : "aeiou"
   } ],
@@ -1188,6 +1193,7 @@ font-style: italic;
 <div class="param">dns_vses (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbSiteDnsVs">array[GslbSiteDnsVs]</a></span> This field identifies the DNS VS and the subdomains it hosts for Gslb services. . Field introduced in 17.2.3. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the Site.  This is useful in maintenance scenarios such as upgrade and routine maintenance.  A disabled site&#39;s configuration shall be retained but it will not get any new configuration updates.  It shall not participate in Health-Status monitoring.  VIPs of the Virtual Services on the disabled site shall not be sent in DNS response.  When a site transitions from disabled to enabled, it is treated similar to the addition of a new site. </div>
 <div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> User can designate certain Avi sites to run health monitor probes for VIPs/VS(es) for this site. This is useful in network deployments where the VIPs/VS(es) are reachable only from certain sites. A typical scenario is a firewall between two GSLB sites. User may want to run health monitor probes from sites on either side of the firewall so that each designated site can derive a datapath view of the reachable members. If the health monitor proxies are not configured, then the default behavior is to run health monitor probes from all the active sites. Field introduced in 17.1.1. </div>
+<div class="param">hm_shard_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field enables the health monitor shard functionality on a site-basis. Field introduced in 18.2.2. </div>
 <div class="param">ip_addresses (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP Address(es) of the Site&#39;s Cluster. For a 3-node cluster, either the cluster vIP is provided, or the list of controller IPs in the cluster are provided. </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the site. Field introduced in 17.1.1. </div>
 <div class="param">member_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The site&#39;s member type  A leader is set to ACTIVE while allmembers are set to passive. . Enum options - GSLB_ACTIVE_MEMBER, GSLB_PASSIVE_MEMBER. </div>

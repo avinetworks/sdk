@@ -781,7 +781,7 @@
                 }, 
                 "saml_entity_type": {
                     "type": "string", 
-                    "description": "Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
+                    "description": "Defines the entity ID type. It cannot be changed after an auth profile has been saved. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
                 }, 
                 "sp_nodes": {
                     "items": {
@@ -843,7 +843,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
+                    "description": "Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
                 }, 
                 "description": {
                     "type": "string", 

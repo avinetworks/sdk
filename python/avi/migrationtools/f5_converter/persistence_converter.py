@@ -235,8 +235,8 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
             "name": name,
-            "app_cookie_persistence_profile": {
-                "prst_hdr_name": cookie_name,
+            "http_cookie_persistence_profile": {
+                "cookie_name": cookie_name,
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -386,8 +386,8 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         timeout = parent_obj.convert_timeout(timeout)
         persist_profile = {
             "name": name,
-            "app_cookie_persistence_profile": {
-                "prst_hdr_name": cookie_name,
+            "http_cookie_persistence_profile": {
+                "cookie_name": cookie_name,
                 "timeout": timeout
             },
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",

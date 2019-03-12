@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.1</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -200,12 +200,14 @@ font-style: italic;
   <ol>
   <li><a href="#serviceengineGet"><code><span class="http-method">get</span> /serviceengine</code></a></li>
   <li><a href="#serviceenginePost"><code><span class="http-method">post</span> /serviceengine</code></a></li>
+  <li><a href="#serviceengineUuidAppmapGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/appmap/</code></a></li>
   <li><a href="#serviceengineUuidArpstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/arpstat/</code></a></li>
   <li><a href="#serviceengineUuidArptableGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/arptable/</code></a></li>
   <li><a href="#serviceengineUuidBgpDebugGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/bgp/debug/</code></a></li>
   <li><a href="#serviceengineUuidBgpGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/bgp/</code></a></li>
   <li><a href="#serviceengineUuidClearPost"><code><span class="http-method">post</span> /serviceengine/{uuid}/clear</code></a></li>
   <li><a href="#serviceengineUuidConnectedGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/connected/</code></a></li>
+  <li><a href="#serviceengineUuidConsistenthashGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/consistenthash/</code></a></li>
   <li><a href="#serviceengineUuidCpuDetailGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/cpu/detail/</code></a></li>
   <li><a href="#serviceengineUuidCpuGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/cpu/</code></a></li>
   <li><a href="#serviceengineUuidDelete"><code><span class="http-method">delete</span> /serviceengine/{uuid}</code></a></li>
@@ -245,6 +247,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidPut"><code><span class="http-method">put</span> /serviceengine/{uuid}</code></a></li>
   <li><a href="#serviceengineUuidRebootPost"><code><span class="http-method">post</span> /serviceengine/{uuid}/reboot</code></a></li>
   <li><a href="#serviceengineUuidReservedvsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/reservedvs/</code></a></li>
+  <li><a href="#serviceengineUuidResourcemapGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/resourcemap/</code></a></li>
   <li><a href="#serviceengineUuidRouteGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/route/</code></a></li>
   <li><a href="#serviceengineUuidRteringstatGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/rteringstat/</code></a></li>
   <li><a href="#serviceengineUuidRuntimeDetailGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/runtime/detail/</code></a></li>
@@ -258,6 +261,7 @@ font-style: italic;
   <li><a href="#serviceengineUuidSeruminsertionstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/seruminsertionstats/</code></a></li>
   <li><a href="#serviceengineUuidSevshbstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/sevshbstats/</code></a></li>
   <li><a href="#serviceengineUuidSevssplacementGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/sevssplacement/</code></a></li>
+  <li><a href="#serviceengineUuidShardclienteventsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/shardclientevents/</code></a></li>
   <li><a href="#serviceengineUuidShmallocstatsGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/shmallocstats/</code></a></li>
   <li><a href="#serviceengineUuidSwitchoverPost"><code><span class="http-method">post</span> /serviceengine/{uuid}/switchover</code></a></li>
   <li><a href="#serviceengineUuidTcpFlowsDetailGet"><code><span class="http-method">get</span> /serviceengine/{uuid}/tcp-flows/detail/</code></a></li>
@@ -543,6 +547,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="serviceengineUuidAppmapGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/appmap/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidAppmapGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="serviceengineUuidArpstatGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -814,6 +870,58 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/connected/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidConnectedGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidConsistenthashGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/consistenthash/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidConsistenthashGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -3206,6 +3314,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="serviceengineUuidResourcemapGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/resourcemap/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidResourcemapGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="serviceengineUuidRouteGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -3835,6 +3995,58 @@ font-style: italic;
     <a class="up" href="#__Methods">Up</a>
     <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/sevssplacement/</code></pre></div>
     <div class="method-summary"> (<span class="nickname">serviceengineUuidSevssplacementGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="serviceengineUuidShardclienteventsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /serviceengine/{uuid}/shardclientevents/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">serviceengineUuidShardclienteventsGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
