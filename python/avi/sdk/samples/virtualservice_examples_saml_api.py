@@ -135,10 +135,10 @@ if __name__ == '__main__':
         '-s', '--server_ips',
         help='Pool Server IPs comma separated Eg. 1.1.1.1,2.2.2.2',
         default='1.1.1.1,1.1.1.2')
-    parser.add_argument('-u', '--user', help='controller user',
-                        default='admin')
-    parser.add_argument('-p', '--password', help='controller user password',
-                        default='avi123')
+    parser.add_argument('-u', '--idp_user', help='IDP username',
+                        default='foo@avinetworks.com')
+    parser.add_argument('-p', '--idp_password', help='IDP user password',
+                        default='foo123')
     parser.add_argument('-t', '--tenant', help='tenant name',
                         default=None)
     parser.add_argument('--tenant-uuid', help='tenant uuid',
@@ -151,7 +151,7 @@ if __name__ == '__main__':
     idp_cls = SAMLExample.get_idp_class(args.idp_class)
 
     # SAML authentication with given IDP and get the controller session
-    api = ApiSession.get_session(args.controller_ip, args.user, args.password,
+    api = ApiSession.get_session(args.controller_ip, args.idp_user, args.idp_password,
                                  tenant=args.tenant, tenant_uuid=args.tenant_uuid, idp_class=idp_cls)
 
     servers = [server.strip() for server in args.server_ips.split(',')]

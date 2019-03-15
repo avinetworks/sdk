@@ -9,7 +9,6 @@ import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
     AviCredentials
-from avi.sdk.saml_avi_api import OktaSAMLApiSession, OneloginSAMLApiSession
 
 if os.environ.get('AVI_LOG_HANDLER', '') != 'syslog':
     log = logging.getLogger(__name__)
@@ -29,25 +28,6 @@ class AviCheckModeResponse(object):
 
     def json(self):
         return self.obj
-
-
-def get_idp_class(idp):
-    """
-    This return corresponding idp class.
-    :param idp: idp type such as okta, onelogin, pingfed
-    :return: IDP class or ApiSession class
-    """
-
-    if str(idp).lower() == "oktasamlapisession":
-        log.info("Using OktaSAMLApiSession class")
-        idp_class = OktaSAMLApiSession
-    elif str(idp).lower() == 'oneloginsamlapisession':
-        log.info("Using OktaSAMLApiSession class")
-        idp_class = OneloginSAMLApiSession
-    else:
-        log.info("Class not found. Using ApiSession class")
-        idp_class = ApiSession
-    return idp_class
 
 
 def ansible_return(module, rsp, changed, req=None, existing_obj=None,
