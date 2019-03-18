@@ -84,7 +84,72 @@ user=os.environ.get('USER')
 tenant=os.environ.get('TENANT')
 api = ApiSession.get_session("localhost", user, token=token, tenant=tenant)
 ```
+# SAML Authentication Usage
+### prerequisite:
+1. SAML configured/enabled controller.
 
+To set up SAML SSO controller, please refer the below link. 
+(https://avinetworks.com/docs/17.2/single-sign-on-with-saml/)
+
+Currently, SDK support two IDPs for SAML based authentication:
+1) Okta
+2) Onelogin
+
+## SAML based session usage for the OKta IDP
+
+```python
+from avi.sdk.saml_avi_api import OktaSAMLApiSession
+# create Avi API Session
+api = OktaSAMLApiSession("10.10.10.42", "okta_username", "okta_password")
+
+# create virtualservice using pool sample_pool
+pool_obj = api.get_object_by_name('pool', 'sample_pool')
+pool_ref = api.get_obj_ref(pool_obj)
+services_obj = [{'port': 80, 'enable_ssl': False}]
+vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4'},
+         'services': services_obj, 'pool_ref': pool_ref}
+resp = api.post('virtualservice', data=vs_obj)
+
+# print list of all virtualservices
+resp = api.get('virtualservice')
+for vs in resp.json()['results']:
+    print vs['name']
+
+# delete virtualservice
+resp = api.delete_by_name('virtualservice', 'sample_vs')
+```
+
+## SAML based session usage for the Onelogin IDP
+
+```python
+from avi.sdk.saml_avi_api import OneloginSAMLApiSession
+# create Avi API Session
+api = OneloginSAMLApiSession("10.10.10.42", "onelogin_username", "onelogin_password")
+
+# create virtualservice using pool sample_pool
+pool_obj = api.get_object_by_name('pool', 'sample_pool')
+pool_ref = api.get_obj_ref(pool_obj)
+services_obj = [{'port': 80, 'enable_ssl': False}]
+vs_obj = {'name': 'sample_vs', 'ip_address': {'addr': '11.11.11.42', 'type': 'V4'},
+         'services': services_obj, 'pool_ref': pool_ref}
+resp = api.post('virtualservice', data=vs_obj)
+
+# print list of all virtualservices
+resp = api.get('virtualservice')
+for vs in resp.json()['results']:
+    print vs['name']
+
+# delete virtualservice
+resp = api.delete_by_name('virtualservice', 'sample_vs')
+```
+
+SAML session can also be invoked by following:
+```
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp_class=OneloginSAMLApiSession)
+```
+```
+api = ApiSession.get_session("10.10.10.42", "onelogin_username", "onelogin_password", idp_class=OktaSAMLApiSession)
+```
 #### F5 Converter Usage
 See all the F5 converter options
 ```sh

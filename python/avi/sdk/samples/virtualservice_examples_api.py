@@ -108,8 +108,8 @@ class VirtualServiceExample(object):
         servers_obj = self.get_server_obj(servers)
         pool_name = vs_name + '-pool'
         pool_obj = self.create_pool(
-                        pool_name, servers_obj,
-                        ['System-TCP', 'System-HTTP', 'System-Ping'])
+            pool_name, servers_obj,
+            ['System-TCP', 'System-HTTP', 'System-Ping'])
         pool_ref = self.api.get_obj_ref(pool_obj)
 
         # create virtual service dict for ssl VS
@@ -147,8 +147,8 @@ class VirtualServiceExample(object):
         servers_obj = self.get_server_obj(servers)
         pool_name = vs_name + '-pool'
         pool_obj = self.create_pool(
-                    pool_name, servers_obj,
-                    ['System-TCP', 'System-HTTP', 'System-Ping'])
+            pool_name, servers_obj,
+            ['System-TCP', 'System-HTTP', 'System-Ping'])
         pool_ref = self.api.get_obj_ref(pool_obj)
 
         # create virtual service dict for ssl VS
@@ -189,7 +189,7 @@ class VirtualServiceExample(object):
             return json.loads(resp.text)
         else:
             return 'Error in getting inventory for %s, Error :%s' % (
-                                                    inventory_type, resp.text)
+                inventory_type, resp.text)
 
     def delete(self, name, entity_type):
         resp = self.api.delete_by_name(entity_type, name)
@@ -202,7 +202,7 @@ class VirtualServiceExample(object):
         resp = self.api.get_object_by_name(entity_type, name)
         uuid = self.api.get_obj_uuid(resp)
         path = 'analytics/metrics/%s/%s/?metric_id=%s&step=300&limit=12' % (
-                                                entity_type, uuid, metric_id)
+            entity_type, uuid, metric_id)
         resp = self.api.get(path)
         if resp.status_code in range(200, 299):
             metrics_dict = json.loads(resp.text)
@@ -210,7 +210,7 @@ class VirtualServiceExample(object):
             return metrics_dict
         else:
             logger.debug('Error in getting %s metric for name : %s' % (
-                        entity_type, name))
+                entity_type, name))
 
     def upload_ssl_certs(self, ssl_cert_name, ssl_cert_file_path=''):
         '''
@@ -292,8 +292,8 @@ class VirtualServiceExample(object):
         addrs = []
         for ip in ip_list:
             addrs.append({
-                 "type": "V4",
-                 "addr": ip
+                "type": "V4",
+                "addr": ip
             })
         rand_int = random.randint(0, 100)
         ipaddrgroup = {
@@ -354,8 +354,8 @@ class VirtualServiceExample(object):
         addrs = []
         for ip in ip_list:
             addrs.append({
-                 "type": "V4",
-                 "addr": ip
+                "type": "V4",
+                "addr": ip
             })
         obj['addrs'] = addrs
         resp = self.api.put('ipaddrgroup/%s' % obj['uuid'], data=obj)
@@ -455,7 +455,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print('parsed args', args)
     api = ApiSession.get_session(args.controller_ip, args.user, args.password,
-                 tenant=args.tenant, tenant_uuid=args.tenant_uuid)
+                                 tenant=args.tenant, tenant_uuid=args.tenant_uuid)
     servers = [server.strip() for server in args.server_ips.split(',')]
     vse = VirtualServiceExample(api)
 
