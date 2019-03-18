@@ -409,8 +409,7 @@ class Test(unittest.TestCase):
         assert api1.username == api2.username
         api1.username = login_info.get("username", "admin")
 
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
+    @pytest.mark.skip_travis
     def test_get_password(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
