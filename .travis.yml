@@ -39,7 +39,8 @@ matrix:
       - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
       - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
       - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
-      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
+      - pytest ./python/avi/sdk/test/test_saml_api.py -m travis --config ./python/avi/sdk/test/test_saml_api.cfg
+      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=70
 
     - language: go
       go: "1.9"

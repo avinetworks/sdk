@@ -1,0 +1,424 @@
+interactions:
+- request:
+    body: !!python/unicode '{"lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS", "default_server_port":
+      80, "name": "basic_vs-pool", "servers": [{"ip": {"type": "V4", "addr": "10.90.64.10"},
+      "port": 80}]}'
+    headers:
+      Content-Length: ['174']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: POST
+    uri: https://10.10.28.211/api/pool
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf#basic_vs-pool",
+        "uuid": "pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf", "name": "basic_vs-pool",
+        "enabled": true, "tenant_ref": "https://10.10.28.211/api/tenant/admin#admin",
+        "cloud_ref": "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236#Default-Cloud",
+        "_last_modified": "1551881679350011", "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+        "use_service_port": false, "rewrite_host_header_to_server_name": false, "host_check_enabled":
+        false, "rewrite_host_header_to_sni": false, "capacity_estimation": false,
+        "servers": [{"ratio": 1, "ip": {"type": "V4", "addr": "10.90.64.10"}, "hostname":
+        "10.90.64.10", "enabled": true, "verify_network": false, "static": false,
+        "resolve_server_by_dns": false, "rewrite_host_header": false, "port": 80}],
+        "fewest_tasks_feedback_delay": 10, "capacity_estimation_ttfb_thresh": 0, "lookup_server_by_name":
+        false, "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471#System-Analytics-Profile",
+        "lb_algorithm_core_nonaffinity": 2, "vrf_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132#global",
+        "inline_health_monitor": true, "default_server_port": 80, "request_queue_depth":
+        128, "graceful_disable_timeout": 1, "sni_enabled": true, "server_timeout":
+        0, "request_queue_enabled": false, "max_concurrent_connections_per_server":
+        0, "connection_ramp_duration": 10}'}
+    headers:
+      access-control-allow-credentials: ['true', 'true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken',
+        'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS', 'GET, POST,
+          PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline',
+        default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:39 GMT']
+      location: ['https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf#basic_vs-pool']
+      server-timing: ['create;dur=126.868963242,total;dur=237.835884094,']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:39 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:39 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains, max-age=31536000;
+          includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff, nosniff]
+      x-frame-options: [SAMEORIGIN, SAMEORIGIN]
+      x-xss-protection: [1; mode=block, 1; mode=block]
+    status: {code: 201, message: CREATED}
+- request:
+    body: !!python/unicode '{"name": "basic_vs", "pool_ref": "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf#basic_vs-pool",
+      "enabled": true, "application_profile_name": "System-HTTP", "vip": [{"ip_address":
+      {"type": "V4", "addr": "10.90.64.123"}}], "services": [{"enable_ssl": false,
+      "port": 80}], "type": "VS_TYPE_NORMAL"}'
+    headers:
+      Content-Length: ['321']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: POST
+    uri: https://10.10.28.211/api/virtualservice
+  response:
+    body: {string: !!python/unicode '{"url": "https://10.10.28.211/api/virtualservice/virtualservice-ea94d30e-9657-42de-a9af-2132ee541601#basic_vs",
+        "uuid": "virtualservice-ea94d30e-9657-42de-a9af-2132ee541601", "name": "basic_vs",
+        "enabled": true, "application_profile_ref": "https://10.10.28.211/api/applicationprofile/applicationprofile-a354a05a-a3a3-4c46-9e25-e59a579f698a#System-HTTP",
+        "se_group_ref": "https://10.10.28.211/api/serviceenginegroup/serviceenginegroup-7b2901ed-bfb1-4da1-a6fb-e2d6ae549f84#Default-Group",
+        "vrf_context_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132#global",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471#System-Analytics-Profile",
+        "tenant_ref": "https://10.10.28.211/api/tenant/admin#admin", "cloud_ref":
+        "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236#Default-Cloud",
+        "vsvip_ref": "https://10.10.28.211/api/vsvip/vsvip-3c49f746-6747-4688-b283-17f8ecf9d6af#vsvip-7xmpGZ",
+        "_last_modified": "1551881680547631", "network_profile_ref": "https://10.10.28.211/api/networkprofile/networkprofile-b50e1fa8-cd3b-4291-9ea5-30566d87ce03#System-TCP-Proxy",
+        "flow_dist": "LOAD_AWARE", "delay_fairness": false, "vip": [{"vip_id": "0",
+        "avi_allocated_fip": false, "auto_allocate_ip": false, "enabled": true, "auto_allocate_floating_ip":
+        false, "avi_allocated_vip": false, "auto_allocate_ip_type": "V4_ONLY", "ip_address":
+        {"type": "V4", "addr": "10.90.64.123"}}], "scaleout_ecmp": false, "bulk_sync_kvcache":
+        false, "cloud_type": "CLOUD_NONE", "max_cps_per_client": 0, "traffic_enabled":
+        true, "type": "VS_TYPE_NORMAL", "use_bridge_ip_as_vip": false, "weight": 1,
+        "active_standby_se_tag": "ACTIVE_STANDBY_SE_1", "use_vip_as_snat": false,
+        "services": [{"enable_ssl": false, "port_range_end": 80, "port": 80}], "pool_ref":
+        "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf#basic_vs-pool",
+        "ign_pool_net_reach": false, "east_west_placement": false, "limit_doser":
+        false, "close_client_conn_on_config_update": false, "ssl_sess_cache_avg_size":
+        1024, "enable_autogw": true, "remove_listening_port_on_vs_down": false, "flow_label_type":
+        "NO_LABEL"}'}
+    headers:
+      access-control-allow-credentials: ['true', 'true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken',
+        'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS', 'GET, POST,
+          PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline',
+        default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:41 GMT']
+      location: ['https://10.10.28.211/api/virtualservice/virtualservice-ea94d30e-9657-42de-a9af-2132ee541601#basic_vs']
+      server-timing: ['pre_save_transform;dur=238.079071045,create;dur=786.114931107,create_debugvirtualservice;dur=326.495885849,serializer_is_valid;dur=190.316200256,callback_custom_post;dur=487.532138824,semantic_check;dur=103.185176849,total;dur=1431.14209175,']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:41 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:41 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains, max-age=31536000;
+          includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff, nosniff]
+      x-frame-options: [SAMEORIGIN, SAMEORIGIN]
+      x-xss-protection: [1; mode=block, 1; mode=block]
+    status: {code: 201, message: CREATED}
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: GET
+    uri: https://10.10.28.211/api/virtualservice
+  response:
+    body: {string: !!python/unicode '{"count": 2, "results": [{"network_profile_ref":
+        "https://10.10.28.211/api/networkprofile/networkprofile-b50e1fa8-cd3b-4291-9ea5-30566d87ce03",
+        "vip_runtime": [{"num_additional_se": 0, "requested_resource": {"num_se":
+        1, "num_standby_se": 0}, "vip_id": "0"}], "weight": 1, "tenant_ref": "https://10.10.28.211/api/tenant/admin",
+        "flow_dist": "LOAD_AWARE", "delay_fairness": false, "vip": [{"vip_id": "0",
+        "avi_allocated_fip": false, "auto_allocate_ip": false, "enabled": true, "auto_allocate_floating_ip":
+        false, "avi_allocated_vip": false, "auto_allocate_ip_type": "V4_ONLY", "ip_address":
+        {"type": "V4", "addr": "10.10.42.2"}}], "url": "https://10.10.28.211/api/virtualservice/virtualservice-8f949ece-6842-4482-b67e-81a1e62b7c26",
+        "marked_for_delete": false, "vrf_context_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132",
+        "bulk_sync_kvcache": false, "cloud_type": "CLOUD_NONE", "_last_modified":
+        "1551437581048751", "cloud_ref": "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236",
+        "se_group_ref": "https://10.10.28.211/api/serviceenginegroup/serviceenginegroup-7b2901ed-bfb1-4da1-a6fb-e2d6ae549f84",
+        "scaleout_ecmp": false, "max_cps_per_client": 0, "redis_db": 13, "version":
+        "23", "traffic_enabled": true, "ssl_sess_cache_avg_size": 1024, "vsvip_ref":
+        "https://10.10.28.211/api/vsvip/vsvip-d567fbd4-7f97-4be8-b102-42038d38ab66",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471",
+        "use_bridge_ip_as_vip": false, "application_profile_ref": "https://10.10.28.211/api/applicationprofile/applicationprofile-a354a05a-a3a3-4c46-9e25-e59a579f698a",
+        "active_standby_se_tag": "ACTIVE_STANDBY_SE_1", "use_vip_as_snat": false,
+        "services": [{"enable_ssl": false, "port_range_end": 80, "port": 80}], "self_se_election":
+        true, "pool_ref": "https://10.10.28.211/api/pool/pool-f2797c14-273b-4a04-bab5-892fca61debe",
+        "ign_pool_net_reach": false, "uuid": "virtualservice-8f949ece-6842-4482-b67e-81a1e62b7c26",
+        "east_west_placement": false, "limit_doser": false, "name": "basic-vs", "close_client_conn_on_config_update":
+        false, "type": "VS_TYPE_NORMAL", "enable_autogw": true, "enabled": true, "remove_listening_port_on_vs_down":
+        false, "tls_ticket_key": [{"hmac_key": "WjefrrDub3F6b2dDPZ4kIw==", "name":
+        "881e3976-9015-469f-834b-e6b55112d3b8", "aes_key": "c/bEurQPVajUwE6Jk+zoqw=="},
+        {"hmac_key": "lkCFezkbjAW1VhiVpQ8Ezg==", "name": "f8eb37a1-dbf2-4aa9-a062-5aa280f1a80a",
+        "aes_key": "LjTTA02mfx+5nVESseUeDA=="}, {"hmac_key": "r3KWg1TNKkMhUwI8A/WzgA==",
+        "name": "0c396c9a-88cb-44b4-bcd9-58ac09095a3e", "aes_key": "sD/6OGosR6saR+SF3FYX/Q=="}],
+        "redis_port": 5026, "flow_label_type": "NO_LABEL"}, {"network_profile_ref":
+        "https://10.10.28.211/api/networkprofile/networkprofile-b50e1fa8-cd3b-4291-9ea5-30566d87ce03",
+        "vip_runtime": [{"num_additional_se": 0, "requested_resource": {"num_se":
+        1, "num_standby_se": 0}, "vip_id": "0"}], "weight": 1, "tenant_ref": "https://10.10.28.211/api/tenant/admin",
+        "flow_dist": "LOAD_AWARE", "delay_fairness": false, "vip": [{"vip_id": "0",
+        "avi_allocated_fip": false, "auto_allocate_ip": false, "enabled": true, "auto_allocate_floating_ip":
+        false, "avi_allocated_vip": false, "auto_allocate_ip_type": "V4_ONLY", "ip_address":
+        {"type": "V4", "addr": "10.90.64.123"}}], "url": "https://10.10.28.211/api/virtualservice/virtualservice-ea94d30e-9657-42de-a9af-2132ee541601",
+        "marked_for_delete": false, "vrf_context_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132",
+        "bulk_sync_kvcache": false, "cloud_type": "CLOUD_NONE", "_last_modified":
+        "1551881680547631", "cloud_ref": "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236",
+        "se_group_ref": "https://10.10.28.211/api/serviceenginegroup/serviceenginegroup-7b2901ed-bfb1-4da1-a6fb-e2d6ae549f84",
+        "scaleout_ecmp": false, "max_cps_per_client": 0, "redis_db": 1, "version":
+        "2", "traffic_enabled": true, "ssl_sess_cache_avg_size": 1024, "vsvip_ref":
+        "https://10.10.28.211/api/vsvip/vsvip-3c49f746-6747-4688-b283-17f8ecf9d6af",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471",
+        "use_bridge_ip_as_vip": false, "application_profile_ref": "https://10.10.28.211/api/applicationprofile/applicationprofile-a354a05a-a3a3-4c46-9e25-e59a579f698a",
+        "active_standby_se_tag": "ACTIVE_STANDBY_SE_1", "use_vip_as_snat": false,
+        "services": [{"enable_ssl": false, "port_range_end": 80, "port": 80}], "self_se_election":
+        true, "pool_ref": "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf",
+        "ign_pool_net_reach": false, "uuid": "virtualservice-ea94d30e-9657-42de-a9af-2132ee541601",
+        "east_west_placement": false, "limit_doser": false, "name": "basic_vs", "close_client_conn_on_config_update":
+        false, "type": "VS_TYPE_NORMAL", "enable_autogw": true, "enabled": true, "remove_listening_port_on_vs_down":
+        false, "tls_ticket_key": [{"hmac_key": "0aGj/RqMLwF5Rbf8tJMEdw==", "name":
+        "241f2569-1e11-4019-8532-a24962d63738", "aes_key": "l73hQDV3VbkkxjYZfXzPsw=="},
+        {"hmac_key": "/FojACFqjGS3tgaqbGvT8A==", "name": "763f53ce-781d-4787-9acd-1a2e126410fc",
+        "aes_key": "lyUQy3GnlszVmNLEFYfkjg=="}, {"hmac_key": "zoUQEEb6safJfdKs3BRNOQ==",
+        "name": "5c4388fa-23a2-436f-9024-679d8fcc61f3", "aes_key": "hIS1cNO26uAWGoOif+5eLQ=="}],
+        "redis_port": 5024, "flow_label_type": "NO_LABEL"}]}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:41 GMT']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:41 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:41 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: GET
+    uri: https://10.10.28.211/api/virtualservice?name=basic_vs
+  response:
+    body: {string: !!python/unicode '{"count": 1, "results": [{"network_profile_ref":
+        "https://10.10.28.211/api/networkprofile/networkprofile-b50e1fa8-cd3b-4291-9ea5-30566d87ce03",
+        "vip_runtime": [{"num_additional_se": 0, "requested_resource": {"num_se":
+        1, "num_standby_se": 0}, "vip_id": "0"}], "weight": 1, "tenant_ref": "https://10.10.28.211/api/tenant/admin",
+        "flow_dist": "LOAD_AWARE", "delay_fairness": false, "vip": [{"vip_id": "0",
+        "avi_allocated_fip": false, "auto_allocate_ip": false, "enabled": true, "auto_allocate_floating_ip":
+        false, "avi_allocated_vip": false, "auto_allocate_ip_type": "V4_ONLY", "ip_address":
+        {"type": "V4", "addr": "10.90.64.123"}}], "url": "https://10.10.28.211/api/virtualservice/virtualservice-ea94d30e-9657-42de-a9af-2132ee541601",
+        "marked_for_delete": false, "vrf_context_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132",
+        "bulk_sync_kvcache": false, "cloud_type": "CLOUD_NONE", "_last_modified":
+        "1551881680547631", "cloud_ref": "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236",
+        "se_group_ref": "https://10.10.28.211/api/serviceenginegroup/serviceenginegroup-7b2901ed-bfb1-4da1-a6fb-e2d6ae549f84",
+        "scaleout_ecmp": false, "max_cps_per_client": 0, "redis_db": 1, "version":
+        "2", "traffic_enabled": true, "ssl_sess_cache_avg_size": 1024, "vsvip_ref":
+        "https://10.10.28.211/api/vsvip/vsvip-3c49f746-6747-4688-b283-17f8ecf9d6af",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471",
+        "use_bridge_ip_as_vip": false, "application_profile_ref": "https://10.10.28.211/api/applicationprofile/applicationprofile-a354a05a-a3a3-4c46-9e25-e59a579f698a",
+        "active_standby_se_tag": "ACTIVE_STANDBY_SE_1", "use_vip_as_snat": false,
+        "services": [{"enable_ssl": false, "port_range_end": 80, "port": 80}], "self_se_election":
+        true, "pool_ref": "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf",
+        "ign_pool_net_reach": false, "uuid": "virtualservice-ea94d30e-9657-42de-a9af-2132ee541601",
+        "east_west_placement": false, "limit_doser": false, "name": "basic_vs", "close_client_conn_on_config_update":
+        false, "type": "VS_TYPE_NORMAL", "enable_autogw": true, "enabled": true, "remove_listening_port_on_vs_down":
+        false, "tls_ticket_key": [{"hmac_key": "0aGj/RqMLwF5Rbf8tJMEdw==", "name":
+        "241f2569-1e11-4019-8532-a24962d63738", "aes_key": "l73hQDV3VbkkxjYZfXzPsw=="},
+        {"hmac_key": "/FojACFqjGS3tgaqbGvT8A==", "name": "763f53ce-781d-4787-9acd-1a2e126410fc",
+        "aes_key": "lyUQy3GnlszVmNLEFYfkjg=="}, {"hmac_key": "zoUQEEb6safJfdKs3BRNOQ==",
+        "name": "5c4388fa-23a2-436f-9024-679d8fcc61f3", "aes_key": "hIS1cNO26uAWGoOif+5eLQ=="}],
+        "redis_port": 5024, "flow_label_type": "NO_LABEL"}]}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:42 GMT']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:42 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:42 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: DELETE
+    uri: https://10.10.28.211/api/virtualservice/virtualservice-ea94d30e-9657-42de-a9af-2132ee541601
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      access-control-allow-credentials: ['true', 'true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken',
+        'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS', 'GET, POST,
+          PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS, DELETE']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-length: ['0']
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline',
+        default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:43 GMT']
+      server-timing: ['callback_custom_pre;dur=104.046821594,destroy;dur=239.942073822,total;dur=531.182050705,']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:43 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:43 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains, max-age=31536000;
+          includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff, nosniff]
+      x-frame-options: [SAMEORIGIN, SAMEORIGIN]
+      x-xss-protection: [1; mode=block, 1; mode=block]
+    status: {code: 204, message: NO CONTENT}
+- request:
+    body: null
+    headers:
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: GET
+    uri: https://10.10.28.211/api/pool?name=basic_vs-pool
+  response:
+    body: {string: !!python/unicode '{"count": 1, "results": [{"lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+        "use_service_port": false, "rewrite_host_header_to_server_name": false, "host_check_enabled":
+        false, "enabled": true, "rewrite_host_header_to_sni": false, "capacity_estimation":
+        false, "servers": [{"ratio": 1, "ip": {"type": "V4", "addr": "10.90.64.10"},
+        "hostname": "10.90.64.10", "enabled": true, "verify_network": false, "static":
+        false, "resolve_server_by_dns": false, "rewrite_host_header": false, "port":
+        80}], "fewest_tasks_feedback_delay": 10, "capacity_estimation_ttfb_thresh":
+        0, "lookup_server_by_name": false, "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS",
+        "analytics_profile_ref": "https://10.10.28.211/api/analyticsprofile/analyticsprofile-33d8709e-5dfd-49e1-844c-caa674148471",
+        "_last_modified": "1551881679350011", "cloud_ref": "https://10.10.28.211/api/cloud/cloud-77a32e8b-636a-46dd-9272-fbdd67617236",
+        "lb_algorithm_core_nonaffinity": 2, "vrf_ref": "https://10.10.28.211/api/vrfcontext/vrfcontext-c0f87510-24d3-4626-8e47-d1f818a6b132",
+        "inline_health_monitor": true, "default_server_port": 80, "request_queue_depth":
+        128, "graceful_disable_timeout": 1, "sni_enabled": true, "server_timeout":
+        0, "request_queue_enabled": false, "name": "basic_vs-pool", "max_concurrent_connections_per_server":
+        0, "url": "https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf",
+        "tenant_ref": "https://10.10.28.211/api/tenant/admin", "uuid": "pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf",
+        "connection_ramp_duration": 10}]}'}
+    headers:
+      access-control-allow-credentials: ['true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, POST, OPTIONS']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:43 GMT']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:43 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:43 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Content-Length: ['0']
+      Content-Type: [application/json]
+      Cookie: [csrftoken=uA1eou4s5puWB7APajRHzQJZk9xv87I2; sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc]
+      Referer: ['https://10.10.28.211']
+      X-Avi-Tenant: [!!python/unicode admin]
+      X-Avi-Version: [18.2.2]
+      X-CSRFToken: [uA1eou4s5puWB7APajRHzQJZk9xv87I2]
+      timeout: ['60']
+    method: DELETE
+    uri: https://10.10.28.211/api/pool/pool-229f83ce-82f4-40ad-9c0f-bf03727e1bcf
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      access-control-allow-credentials: ['true', 'true']
+      access-control-allow-headers: ['Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken',
+        'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken']
+      access-control-allow-methods: ['GET, POST, PUT, DELETE, OPTIONS', 'GET, POST,
+          PUT, DELETE, OPTIONS']
+      allow: ['HEAD, GET, PATCH, PUT, OPTIONS, DELETE']
+      avi_api_version: [18.2.2]
+      cache-control: ['private, no-cache, must-revalidate']
+      connection: [keep-alive]
+      content-length: ['0']
+      content-security-policy: [default-src 'self'; style-src 'self' 'unsafe-inline',
+        default-src 'self'; style-src 'self' 'unsafe-inline']
+      content-type: [application/json]
+      date: ['Wed, 06 Mar 2019 14:14:44 GMT']
+      set-cookie: ['sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc; expires=Thu, 07-Mar-2019
+          14:14:44 GMT; httponly; Max-Age=86400; Path=/; secure', 'avi-sessionid=x58wtahan0rf0442jizkhbnk2q0y3ftc;
+          expires=Thu, 07-Mar-2019 14:14:44 GMT; httponly; Max-Age=86400; Path=/;
+          secure']
+      strict-transport-security: [max-age=31536000; includeSubdomains, max-age=31536000;
+          includeSubdomains]
+      vary: ['Accept, Cookie']
+      x-content-type-options: [nosniff, nosniff]
+      x-frame-options: [SAMEORIGIN, SAMEORIGIN]
+      x-xss-protection: [1; mode=block, 1; mode=block]
+    status: {code: 204, message: NO CONTENT}
+version: 1
