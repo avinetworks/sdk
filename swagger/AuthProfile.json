@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AuthProfile Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -781,7 +781,7 @@
                 }, 
                 "saml_entity_type": {
                     "type": "string", 
-                    "description": "Defines the entity ID type. It cannot be changed after an auth profile has been saved. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
+                    "description": "Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
                 }, 
                 "sp_nodes": {
                     "items": {
@@ -803,6 +803,10 @@
             ], 
             "type": "object", 
             "properties": {
+                "pa_agent_ref": {
+                    "type": "string", 
+                    "description": "PingAccessAgent uuid. It is a reference to an object of type PingAccessAgent. Field introduced in 18.2.3."
+                }, 
                 "http": {
                     "description": "HTTP user authentication params.", 
                     "$ref": "#/definitions/AuthProfileHTTPClientParams"
@@ -843,7 +847,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
+                    "description": "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS."
                 }, 
                 "description": {
                     "type": "string", 
@@ -856,7 +860,7 @@
             "properties": {
                 "group_member_is_full_dn": {
                     "type": "boolean", 
-                    "description": "Group member entries contain full DNs instead of just user id attribute values. Field deprecated in 18.2.1."
+                    "description": "Group member entries contain full DNs instead of just user id attribute values. This should now be configured using the LdapDirectorySettings field instead. Field deprecated in 18.2.1."
                 }, 
                 "cache_expiration_time": {
                     "default": 5, 

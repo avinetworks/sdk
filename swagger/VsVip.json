@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VsVip Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure vsvip <key>\n- show vsvip <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -559,6 +559,10 @@
                 "vsvip_cloud_config_cksum": {
                     "type": "string", 
                     "description": "Checksum of cloud configuration for VsVip. Internally set by cloud connector. Field introduced in 17.2.9, 18.1.2."
+                }, 
+                "use_standard_alb": {
+                    "type": "boolean", 
+                    "description": "This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3."
                 }, 
                 "uuid": {
                     "type": "string", 
