@@ -154,7 +154,7 @@ type SeRuntimeProperties struct {
 	// enables mcache_fetch.
 	McacheFetchEnabled *bool `json:"mcache_fetch_enabled,omitempty"`
 
-	// max cache size.
+	// Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.
 	McacheMaxCacheSize *int64 `json:"mcache_max_cache_size,omitempty"`
 
 	// enables mcache_store.
@@ -169,7 +169,7 @@ type SeRuntimeProperties struct {
 	// enables mcache_store_out.
 	McacheStoreOutEnabled *bool `json:"mcache_store_out_enabled,omitempty"`
 
-	// Number of mcache_store_se_max_size.
+	// Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.
 	McacheStoreSeMaxSize *int64 `json:"mcache_store_se_max_size,omitempty"`
 
 	// Placeholder for description of property ngx_free_connection_stack of obj type SeRuntimeProperties field type str  type boolean
