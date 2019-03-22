@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -503,6 +503,10 @@
             ], 
             "type": "object", 
             "properties": {
+                "learning_params": {
+                    "description": "Parameters for tuning Application learning. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/AppLearningParams"
+                }, 
                 "client_nonfile_upload_max_body_size": {
                     "type": "integer", 
                     "description": "Maximum size for the client request body for non-file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1.", 
@@ -525,6 +529,11 @@
                     "type": "string", 
                     "description": "WAF default action for Response Header Phase. Field introduced in 17.2.1."
                 }, 
+                "min_confidence": {
+                    "default": "CONFIDENCE_VERY_HIGH", 
+                    "type": "string", 
+                    "description": "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW. Field introduced in 18.2.3."
+                }, 
                 "restricted_headers": {
                     "items": {
                         "type": "string"
@@ -546,21 +555,27 @@
                     "type": "boolean", 
                     "description": "Enable to buffer response body for inspection. Field deprecated in 18.2.2. Field introduced in 17.2.3."
                 }, 
+                "cookie_format_version": {
+                    "type": "integer", 
+                    "description": "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1.", 
+                    "format": "int32"
+                }, 
                 "client_request_max_body_size": {
                     "default": 32, 
                     "type": "integer", 
                     "description": "Maximum size for the client request body scanned by WAF. Allowed values are 1-32768. Field introduced in 18.1.5, 18.2.1.", 
                     "format": "int32"
                 }, 
-                "client_file_upload_max_body_size": {
-                    "type": "integer", 
-                    "description": "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1.", 
-                    "format": "int32"
+                "allowed_methods": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. Field introduced in 17.2.1."
                 }, 
-                "cookie_format_version": {
-                    "type": "integer", 
-                    "description": "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1.", 
-                    "format": "int32"
+                "confidence_override": {
+                    "description": "Configure thresholds for confidence labels. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/AppLearningConfidenceOverride"
                 }, 
                 "server_response_max_body_size": {
                     "default": 128, 
@@ -573,10 +588,9 @@
                     "type": "string", 
                     "description": "Argument seperator. Field introduced in 17.2.1."
                 }, 
-                "ignore_incomplete_request_body_error": {
-                    "default": true, 
+                "enable_auto_rule_updates": {
                     "type": "boolean", 
-                    "description": "Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1."
+                    "description": "Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 18.2.3."
                 }, 
                 "allowed_request_content_types": {
                     "items": {
@@ -585,12 +599,10 @@
                     "type": "array", 
                     "description": "WAF allowed Content Types. Field introduced in 17.2.1."
                 }, 
-                "allowed_methods": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1."
+                "client_file_upload_max_body_size": {
+                    "type": "integer", 
+                    "description": "Maximum size for the client request body for file uploads. Allowed values are 1-32768. Field deprecated in 18.1.5. Field introduced in 17.2.1.", 
+                    "format": "int32"
                 }, 
                 "allowed_http_versions": {
                     "items": {
@@ -603,6 +615,11 @@
                     "default": "phase:2,deny,status:403,log,auditlog", 
                     "type": "string", 
                     "description": "WAF default action for Request Body Phase. Field introduced in 17.2.1."
+                }, 
+                "status_code_for_rejected_requests": {
+                    "default": "HTTP_RESPONSE_CODE_403", 
+                    "type": "string", 
+                    "description": "HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402, HTTP_RESPONSE_CODE_403, HTTP_RESPONSE_CODE_404, HTTP_RESPONSE_CODE_405, HTTP_RESPONSE_CODE_406, HTTP_RESPONSE_CODE_407, HTTP_RESPONSE_CODE_408, HTTP_RESPONSE_CODE_409, HTTP_RESPONSE_CODE_410, HTTP_RESPONSE_CODE_411, HTTP_RESPONSE_CODE_412, HTTP_RESPONSE_CODE_413, HTTP_RESPONSE_CODE_414, HTTP_RESPONSE_CODE_415, HTTP_RESPONSE_CODE_416, HTTP_RESPONSE_CODE_417, HTTP_RESPONSE_CODE_426, HTTP_RESPONSE_CODE_470, HTTP_RESPONSE_CODE_475, HTTP_RESPONSE_CODE_500, HTTP_RESPONSE_CODE_501, HTTP_RESPONSE_CODE_502, HTTP_RESPONSE_CODE_503, HTTP_RESPONSE_CODE_504, HTTP_RESPONSE_CODE_505. Field introduced in 18.2.3."
                 }, 
                 "static_extensions": {
                     "items": {
@@ -617,6 +634,40 @@
                     }, 
                     "type": "array", 
                     "description": "WAF Restricted File Extensions. Field introduced in 17.2.1."
+                }, 
+                "ignore_incomplete_request_body_error": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1."
+                }
+            }
+        }, 
+        "AppLearningConfidenceOverride": {
+            "type": "object", 
+            "properties": {
+                "confid_low_value": {
+                    "default": 7500, 
+                    "type": "integer", 
+                    "description": "Confidence threshold for label CONFIDENCE_LOW. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "confid_probable_value": {
+                    "default": 9000, 
+                    "type": "integer", 
+                    "description": "Confidence threshold for label CONFIDENCE_PROBABLE. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "confid_very_high_value": {
+                    "default": 9999, 
+                    "type": "integer", 
+                    "description": "Confidence threshold for label CONFIDENCE_VERY_HIGH. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "confid_high_value": {
+                    "default": 9500, 
+                    "type": "integer", 
+                    "description": "Confidence threshold for label CONFIDENCE_HIGH. Field introduced in 18.2.3.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -634,6 +685,59 @@
                 "name": {
                     "type": "string", 
                     "description": "WAF Data File Name. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "WafProfileApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/WafProfile"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "AppLearningParams": {
+            "type": "object", 
+            "properties": {
+                "enable_per_uri_learning": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Learn the params per URI path. Field introduced in 18.2.3."
+                }, 
+                "max_params": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Maximum number of params to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "update_interval": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "max_uris": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "sampling_percent": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -680,25 +784,6 @@
                 "description": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "WafProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/WafProfile"
-                    }, 
-                    "type": "array"
                 }
             }
         }

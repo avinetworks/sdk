@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi AuthProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -366,6 +366,9 @@ definitions:
             name:
                 description: "Name of the Auth Profile."
                 type: string
+            pa_agent_ref:
+                description: "PingAccessAgent uuid. It is a reference to an object of type PingAccessAgent. Field introduced in 18.2.3."
+                type: string
             saml:
                 description: "SAML settings. Field introduced in 17.2.3."
                 $ref: '#/definitions/SamlSettings'
@@ -376,7 +379,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: "Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML."
+                description: "Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS."
                 type: string
             url:
                 description: "url"
@@ -407,7 +410,7 @@ definitions:
                 default: 5
                 format: int32
             group_member_is_full_dn:
-                description: "Group member entries contain full DNs instead of just user id attribute values. Field deprecated in 18.2.1."
+                description: "Group member entries contain full DNs instead of just user id attribute values. This should now be configured using the LdapDirectorySettings field instead. Field deprecated in 18.2.1."
                 type: boolean
             request_header:
                 description: "Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client's HTTP Auth user ID."
@@ -575,7 +578,7 @@ definitions:
                 description: "Service Provider Organization URL. Field introduced in 17.2.3."
                 type: string
             saml_entity_type:
-                description: "Defines the entity ID type. It cannot be changed after an auth profile has been saved. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
+                description: "Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3."
                 type: string
             sp_nodes:
                 description: "Service Provider node information. Field introduced in 17.2.3."
