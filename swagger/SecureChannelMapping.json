@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SecureChannelMapping Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- show securechannelmapping <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

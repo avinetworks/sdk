@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi GslbService Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -788,6 +788,10 @@
                 "uuid": {
                     "type": "string", 
                     "description": "UUID of the GSLB service."
+                }, 
+                "skip_vs_site_selection_policy": {
+                    "type": "boolean", 
+                    "description": "A DNS VS hosting a GSLB service can have DNS policies. These DNS policies apply to all the GSLB services. If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing algorithm. Field introduced in 18.2.3."
                 }, 
                 "controller_health_status_enabled": {
                     "default": true, 

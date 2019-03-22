@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi Gslb Object API
     contact:
         name: Avi Networks Inc.
@@ -535,6 +535,10 @@ definitions:
                 description: "Frequency with which group members communicate. Allowed values are 1-3600."
                 type: integer
                 default: 15
+                format: int32
+            send_interval_prior_to_maintenance_mode:
+                description: "The user can specify a send-interval while entering maintenance mode. The validity of this 'maintenance send-interval' is only during maintenance mode. When the user leaves maintenance mode, the original send-interval is reinstated. This internal variable is used to store the original send-interval. . Field introduced in 18.2.3."
+                type: integer
                 format: int32
             sites:
                 description: "Select Avi site member belonging to this Gslb."

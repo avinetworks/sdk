@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi Cloud Object API
     contact:
         name: Avi Networks Inc.
@@ -916,6 +916,9 @@ definitions:
     AzureNetworkInfo:
         type: object
         properties:
+            management_network_id:
+                description: "Id of the Azure subnet used as management network for the Service Engines. If set, Service Engines will have a dedicated management NIC, otherwise, they operate in inband mode. Field introduced in 18.2.3."
+                type: string
             se_network_id:
                 description: "Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1."
                 type: string
@@ -1251,6 +1254,7 @@ definitions:
             -   network_config
             -   region_name
             -   se_project_id
+            -   zones
         properties:
             cloud_credentials_ref:
                 description: "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
@@ -1279,7 +1283,7 @@ definitions:
                 description: "Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1."
                 type: string
             zones:
-                description: "Google Cloud Platform Zones where Service Engines will be distributed for HA. By default, all the zones in a region will be used. Field introduced in 18.2.1."
+                description: "Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1."
                 type: array
                 items:
                     type: string
