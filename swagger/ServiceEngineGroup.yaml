@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -523,7 +523,7 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
                 type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
@@ -685,7 +685,11 @@ definitions:
                 description: "Allow SEs to be created using burst license. Field introduced in 17.2.5."
                 type: boolean
             app_cache_percent:
-                description: "A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.2."
+                description: "A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3."
+                type: integer
+                format: int32
+            app_learning_memory_percent:
+                description: "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3."
                 type: integer
                 format: int32
             archive_shm_limit:
@@ -1095,6 +1099,10 @@ definitions:
                 type: integer
                 default: 1501
                 format: int32
+            se_routing:
+                description: "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field introduced in 18.2.3."
+                type: boolean
+                default: True
             se_sb_dedicated_core:
                 description: "Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3."
                 type: boolean
@@ -1177,6 +1185,9 @@ definitions:
                 description: "url"
                 readOnly: True
                 type: string
+            use_standard_alb:
+                description: "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
+                type: boolean
             uuid:
                 description: "Unique object identifier of the object."
                 type: string
@@ -1250,12 +1261,12 @@ definitions:
                 description: "If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1."
                 type: boolean
             waf_learning_interval:
-                description: "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2."
+                description: "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 default: 10
                 format: int32
             waf_learning_memory:
-                description: "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field introduced in 18.1.2."
+                description: "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 format: int32
             waf_mempool:

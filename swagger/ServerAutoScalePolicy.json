@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServerAutoScalePolicy Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure serverautoscalepolicy <key>\n- show serverautoscalepolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

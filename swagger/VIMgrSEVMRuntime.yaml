@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi VIMgrSEVMRuntime Object API
     contact:
         name: Avi Networks Inc.

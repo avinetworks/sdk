@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi Cluster Object API
     contact:
         name: Avi Networks Inc.
@@ -408,6 +408,9 @@ definitions:
                 description: "Name of the object."
                 type: string
                 default: "node"
+            password:
+                description: "The password we will use when authenticating with this node (Not persisted). Field introduced in 18.2.3."
+                type: string
             public_ip_or_name:
                 description: "Public IP address or hostname of the controller VM. Field introduced in 17.2.3."
                 $ref: '#/definitions/IpAddr'

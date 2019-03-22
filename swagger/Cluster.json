@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cluster Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure cluster\n- show cluster\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -606,6 +606,10 @@
                 "public_ip_or_name": {
                     "description": "Public IP address or hostname of the controller VM. Field introduced in 17.2.3.", 
                     "$ref": "#/definitions/IpAddr"
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "The password we will use when authenticating with this node (Not persisted). Field introduced in 18.2.3."
                 }, 
                 "vm_hostname": {
                     "type": "string", 
