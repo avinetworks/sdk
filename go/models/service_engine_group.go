@@ -35,6 +35,9 @@ type ServiceEngineGroup struct {
 	// A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.
 	AppCachePercent *int32 `json:"app_cache_percent,omitempty"`
 
+	// A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3.
+	AppLearningMemoryPercent *int32 `json:"app_learning_memory_percent,omitempty"`
+
 	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
 	ArchiveShmLimit *int32 `json:"archive_shm_limit,omitempty"`
 
@@ -454,10 +457,10 @@ type ServiceEngineGroup struct {
 	// If set, Virtual Services will be placed on only a subset of the cores of an SE. Field introduced in 18.1.1.
 	VssPlacementEnabled *bool `json:"vss_placement_enabled,omitempty"`
 
-	// Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2.
+	// Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2.
 	WafLearningInterval *int32 `json:"waf_learning_interval,omitempty"`
 
-	// Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field introduced in 18.1.2.
+	// Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2.
 	WafLearningMemory *int32 `json:"waf_learning_memory,omitempty"`
 
 	// Enable memory pool for WAF. Field introduced in 17.2.3.
