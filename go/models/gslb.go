@@ -40,6 +40,9 @@ type Gslb struct {
 	// Frequency with which group members communicate. Allowed values are 1-3600.
 	SendInterval *int32 `json:"send_interval,omitempty"`
 
+	// The user can specify a send-interval while entering maintenance mode. The validity of this 'maintenance send-interval' is only during maintenance mode. When the user leaves maintenance mode, the original send-interval is reinstated. This internal variable is used to store the original send-interval. . Field introduced in 18.2.3.
+	SendIntervalPriorToMaintenanceMode *int32 `json:"send_interval_prior_to_maintenance_mode,omitempty"`
+
 	// Select Avi site member belonging to this Gslb.
 	Sites []*GslbSite `json:"sites,omitempty"`
 
