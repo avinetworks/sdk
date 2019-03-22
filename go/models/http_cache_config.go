@@ -19,7 +19,7 @@ type HTTPCacheConfig struct {
 	// Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting.
 	DefaultExpire *int32 `json:"default_expire,omitempty"`
 
-	// Enable/disable HTTP object caching.SE Group app_cache_percent must be set to allocate shared memory required for caching. A service engine restart is needed after setting this value. .
+	// Enable/disable HTTP object caching.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value.

@@ -25,6 +25,9 @@ type VNIC struct {
 	// Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean
 	DhcpEnabled *bool `json:"dhcp_enabled,omitempty"`
 
+	// The VNIC has been cleaned up in the datapath. Field introduced in 18.2.3.
+	DpDeletionDone *bool `json:"dp_deletion_done,omitempty"`
+
 	// Placeholder for description of property enabled of obj type vNIC field type str  type boolean
 	Enabled *bool `json:"enabled,omitempty"`
 

@@ -23,10 +23,13 @@ type WafPolicy struct {
 	//  Field introduced in 17.2.1.
 	Description *string `json:"description,omitempty"`
 
+	// Enable Application Learning for this WAF policy. Field introduced in 18.2.3.
+	EnableAppLearning *bool `json:"enable_app_learning,omitempty"`
+
 	// WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.
 	FailureMode *string `json:"failure_mode,omitempty"`
 
-	// Configure parameters for WAF learning. Field introduced in 18.1.2.
+	// Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2.
 	Learning *WafLearning `json:"learning,omitempty"`
 
 	// WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.

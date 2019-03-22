@@ -63,6 +63,9 @@ type GslbService struct {
 	// Enable site-persistence for the GslbService. . Field introduced in 17.2.1.
 	SitePersistenceEnabled *bool `json:"site_persistence_enabled,omitempty"`
 
+	// A DNS VS hosting a GSLB service can have DNS policies. These DNS policies apply to all the GSLB services. If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing algorithm. Field introduced in 18.2.3.
+	SkipVsSiteSelectionPolicy *bool `json:"skip_vs_site_selection_policy,omitempty"`
+
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
