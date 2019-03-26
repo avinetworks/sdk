@@ -253,24 +253,7 @@ class ApiSession(Session):
             self.MAX_API_RETRIES if max_api_retries is None
             else int(max_api_retries))
         # Refer Notes 01 and 02
-        k_port = port if port else 443
-        if self.avi_credentials.controller.startswith('http'):
-            k_port = 80 if not self.avi_credentials.port else k_port
-            if self.avi_credentials.port is None or \
-                    self.avi_credentials.port == 80:
-                self.prefix = self.avi_credentials.controller
-            else:
-                self.prefix = '{x}:{y}'.format(
-                    x=self.avi_credentials.controller,
-                    y=self.avi_credentials.port)
-        else:
-            if port is None or port == 443:
-                self.prefix = 'https://{x}'.format(
-                    x=self.avi_credentials.controller)
-            else:
-                self.prefix = 'https://{x}:{y}'.format(
-                    x=self.avi_credentials.controller,
-                    y=self.avi_credentials.port)
+        k_port = self.get_controller_prefix()
         self.timeout = timeout
         self.key = '%s:%s:%s' % (self.avi_credentials.controller,
                                  self.avi_credentials.username, k_port)
@@ -443,6 +426,27 @@ class ApiSession(Session):
                 max_api_retries=max_api_retries)
         return user_session
 
+    def get_controller_prefix(self):
+        k_port = self.port if self.port else 443
+        if self.avi_credentials.controller.startswith('http'):
+            k_port = 80 if not self.avi_credentials.port else k_port
+            if self.avi_credentials.port is None or \
+                    self.avi_credentials.port == 80:
+                self.prefix = self.avi_credentials.controller
+            else:
+                self.prefix = '{x}:{y}'.format(
+                    x=self.avi_credentials.controller,
+                    y=self.avi_credentials.port)
+        else:
+            if self.port is None or self.port == 443:
+                self.prefix = 'https://{x}'.format(
+                    x=self.avi_credentials.controller)
+            else:
+                self.prefix = 'https://{x}:{y}'.format(
+                    x=self.avi_credentials.controller,
+                    y=self.avi_credentials.port)
+        return k_port
+
     def reset_session(self):
         """
         resets and re-authenticates the current session.
@@ -473,6 +477,7 @@ class ApiSession(Session):
         self.cookies.clear()
         err = None
         try:
+            _ = self.get_controller_prefix()
             rsp = super(ApiSession, self).post(
                 self.prefix+"/login", body, timeout=self.timeout,
                 verify=self.verify)
