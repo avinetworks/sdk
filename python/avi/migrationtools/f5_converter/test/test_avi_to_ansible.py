@@ -1,9 +1,12 @@
 import json
 import os
+import yaml
 import pytest
 import subprocess
 
 from avi.migrationtools.ansible.avi_config_to_ansible import AviAnsibleConverter
+
+config_file = pytest.config.getoption("--config")
 
 input_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                           'avi_config.json'))
@@ -17,6 +20,14 @@ with open(input_file, "r+") as f:
     avi_cfg = json.loads(f.read())
     ansible_avi_config = {'avi_config': {}}
     outdir = output_file
+
+with open(config_file) as f:
+    file_attribute = yaml.load(f)
+
+setup = dict(
+    controller_ip=file_attribute['controller_ip_17_1_1'],
+    controller_user=file_attribute['controller_user_17_1_1'],
+    controller_password=file_attribute['controller_password_17_1_1'])
 
 class TestAviToAnsible:
 
@@ -49,8 +60,9 @@ class TestAviToAnsible:
         assert outdir + '/avi_config.yml'
         file = outdir + '/avi_config.yml'
         output = subprocess.check_output('/usr/local/bin/ansible-playbook '
-                                         '-s %s --extra-vars "controller=%s username=%s password=%s"'
-                                         % (file, '10.10.29.206', 'admin', 'avi123$%'), shell=True)
+                                         '%s --extra-vars "controller=%s username=%s password=%s"'
+                                         % (file, setup.get('controller_ip'), setup.get('controller_user'),
+                                            setup.get('controller_password')), shell=True)
 
     def test_avi_to_ansible_delete(self, cleanup):
         obj = AviAnsibleConverter(avi_cfg, outdir)
@@ -58,8 +70,9 @@ class TestAviToAnsible:
         assert outdir + '/avi_config_delete.yml'
         file = outdir + '/avi_config_delete.yml'
         output = subprocess.check_output('/usr/local/bin/ansible-playbook '
-                                         '-s %s --extra-vars "controller=%s username=%s password=%s"'
-                                         % (file, '10.10.29.206', 'admin', 'avi123$%'), shell=True)
+                                         '%s --extra-vars "controller=%s username=%s password=%s"'
+                                         % (file, setup.get('controller_ip'), setup.get('controller_user'),
+                                            setup.get('controller_password')), shell=True)
 
     def TearDown(self):
         pass
