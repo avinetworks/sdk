@@ -634,6 +634,27 @@ class Test(unittest.TestCase):
         api2.get('pool')
         assert api2.get_context() == context_api1
 
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_api_session(self):
+        api_session1 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          tenant=login_info.get("tenant", "admin"),
+                          tenant_uuid=login_info.get("tenant_uuid", None),
+                          api_version=login_info.get("api_version", gapi_version),
+                          verify=False)
+
+        api_session2 = ApiSession.get_session(
+            login_info["controller_ip"], login_info.get("username", "admin"),
+            login_info.get("password", "fr3sca$%^"),
+            tenant=login_info.get("tenant", "admin"),
+            tenant_uuid=login_info.get("tenant_uuid", None),
+            api_version=login_info.get("api_version", gapi_version),
+            verify=False)
+
+        assert api_session1.avi_credentials.session_id == api_session2.avi_credentials.session_id
+
 
 if __name__ == "__main__":
     unittest.main()

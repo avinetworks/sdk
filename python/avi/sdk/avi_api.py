@@ -478,6 +478,9 @@ class ApiSession(Session):
                         'api': self,
                         'connected': True
                     }
+                    self.avi_credentials.csrftoken = csrftoken
+                    self.avi_credentials.session_id = rsp.cookies[
+                        self.session_cookie_name]
                 logger.debug("authentication success for user %s",
                              self.avi_credentials.username)
                 return
