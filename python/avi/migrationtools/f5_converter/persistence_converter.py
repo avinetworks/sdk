@@ -91,7 +91,8 @@ class PersistenceConfigConv(object):
                 profile = f5_persistence_dict[key]
                 prof_conv = ProfileConfigConv()
                 profile = prof_conv.update_with_default_profile(
-                    persist_mode, profile, f5_persistence_dict, name)
+                    persist_mode, profile, f5_persistence_dict, name,
+                    tenant=tenant)
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref != 'admin':
                     tenant = tenant_ref

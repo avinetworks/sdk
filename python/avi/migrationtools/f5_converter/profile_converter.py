@@ -107,7 +107,7 @@ class ProfileConfigConv(object):
                     continue
                 # print key, profile
                 profile = self.update_with_default_profile(
-                    profile_type, profile, profile_config, name)
+                    profile_type, profile, profile_config, name, tenant=tenant)
                 u_ignore = user_ignore.get('profile', {})
                 self.convert_profile(
                     profile, key, f5_config, profile_config, avi_config,
@@ -136,8 +136,9 @@ class ProfileConfigConv(object):
         del key_and_cert_mapping_list
 
 
-    def update_with_default_profile(self, profile_type, profile,
-                                    profile_config, profile_name):
+    def update_with_default_profile(
+            self, profile_type, profile, profile_config, profile_name,
+            tenant='admin'):
         """
         Profiles can have inheritance used by attribute defaults-from in F5
         configuration this method recursively gets all the attributes from the
@@ -146,17 +147,25 @@ class ProfileConfigConv(object):
         :param profile: currant profile object
         :param profile_config: F5 profile config dict
         :param profile_name: Name of profile
+        :param tenant: tenant of profile
         :return: Complete profile with updated attributes from defaults
         """
+        partition = tenant if tenant != 'admin' else 'Common'
+        partition_str = '/%s/' % partition
         parent_name = profile.get(self.default_key, None)
         if parent_name and '/' in parent_name:
             parent_name = parent_name.split('/')[-1]
         if parent_name and profile_name != parent_name:
-            parent_profile = profile_config.get(profile_type + " " +
-                                                parent_name, None)
+            parent_profile = profile_config.get( '%s %s' % (
+                profile_type, parent_name), None)
+            if not parent_profile:
+                parent_profile = profile_config.get( '%s %s%s' % (
+                    profile_type, partition_str, parent_name), None)
+
             if parent_profile:
                 parent_profile = self.update_with_default_profile(
-                    profile_type, parent_profile, profile_config, parent_name)
+                    profile_type, parent_profile, profile_config, parent_name,
+                    tenant=tenant)
                 parent_profile = copy.deepcopy(parent_profile)
                 parent_profile.update(profile)
                 profile = parent_profile
