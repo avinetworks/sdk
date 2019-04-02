@@ -860,7 +860,6 @@ class NsUtil(MigrationUtil):
         policy_obj = {
             'name': vs_obj['name'] + '-redirect-policy',
             'tenant_ref': tenant_ref,
-            'enable': 'false',
             'http_request_policy': {
                 'rules': [
                     {
