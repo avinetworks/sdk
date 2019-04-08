@@ -33,6 +33,8 @@ matrix:
       - sudo pip install flask
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
+      ignore:
+      - ./python/conftest.py
       script:
       - pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
       - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
