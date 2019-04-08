@@ -2,10 +2,14 @@ import pytest
 import os
 import json
 import sys
-from _pytest.mark.structures import Mark,MarkDecorator,MarkGenerator
-dashboard_metadata_file_location = "/mnt/files/rahulchugh/"
-sys.path.append(dashboard_metadata_file_location + '/dashboardv2/lib')
-from dashboard_metadata import DashboardMetadata
+dashboard_metadata_imported = False
+try:
+    dashboard_metadata_file_location = "/mnt/files/rahulchugh/"
+    sys.path.append(dashboard_metadata_file_location + '/dashboardv2/lib')
+    from dashboard_metadata import DashboardMetadata
+    dashboard_metadata_imported = True
+except ImportError:
+    pass#This is done for handling cases when /mnt/files is not mounted
 
 input_args = {}
 
@@ -41,9 +45,10 @@ def pytest_runtest_makereport(item, call):
                     file_location = os.path.join(workspace, "_"+input_args['platform']+"_dashboardv2_tc.log")
             else:
                 file_location = os.path.join(workspace, "dashboardv2_tc.log")
-            dashboard_metadata = DashboardMetadata()
-            dashboard_metadata.initialise_from_report_object(report)
-            DashboardMetadata.serializer(file_location, dashboard_metadata)
+            if dashboard_metadata_imported:
+                dashboard_metadata = DashboardMetadata()
+                dashboard_metadata.initialise_from_report_object(report)
+                DashboardMetadata.serializer(file_location, dashboard_metadata)
         except:
             pass
 
