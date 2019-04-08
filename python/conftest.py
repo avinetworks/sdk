@@ -1,11 +1,15 @@
 import pytest
 import os
-from _pytest.mark import MarkInfo, MarkDecorator
 import json
 import sys
-dashboard_metadata_file_location = "/mnt/files/rahulchugh/"
-sys.path.append(dashboard_metadata_file_location + '/dashboardv2/lib')
-from dashboard_metadata import DashboardMetadata
+dashboard_metadata_imported = False
+try:
+    dashboard_metadata_file_location = "/mnt/files/rahulchugh/"
+    sys.path.append(dashboard_metadata_file_location + '/dashboardv2/lib')
+    from dashboard_metadata import DashboardMetadata
+    dashboard_metadata_imported = True
+except ImportError:
+    pass #This is done for handling cases when /mnt/files is not mounted
 
 input_args = {}
 
@@ -17,7 +21,7 @@ def pytest_addoption(parser):
     parser.addoption("--api_version")
 
 def pytest_configure(config):
-    input_args['platform'] = config.getoption("--platform") 
+    input_args['platform'] = config.getoption("--platform")
     input_args['access_mode'] = config.getoption("--access_mode")
     input_args['collect_only_with_markers'] = config.getoption('--collect-only-with-markers')
 
@@ -41,9 +45,10 @@ def pytest_runtest_makereport(item, call):
                     file_location = os.path.join(workspace, "_"+input_args['platform']+"_dashboardv2_tc.log")
             else:
                 file_location = os.path.join(workspace, "dashboardv2_tc.log")
-            dashboard_metadata = DashboardMetadata()
-            dashboard_metadata.initialise_from_report_object(report)
-            DashboardMetadata.serializer(file_location, dashboard_metadata)
+            if dashboard_metadata_imported:
+                dashboard_metadata = DashboardMetadata()
+                dashboard_metadata.initialise_from_report_object(report)
+                DashboardMetadata.serializer(file_location, dashboard_metadata)
         except:
             pass
 
@@ -62,11 +67,11 @@ def pytest_collection_modifyitems(session, config, items):
 
             # Get the marker information
             for key, value in item.keywords.items():
-                if isinstance(value, (MarkDecorator, MarkInfo)):
+                if key == 'pytestmark' and len(value) > 0:
                     if 'marks' not in data:
                         data['marks'] = []
-
-                    data['marks'].append(key)
+                    for markers in value:
+                        data['marks'].append(markers.name)
             print(json.dumps(data))
 
         # Remove all items (we don't want to execute the tests)
