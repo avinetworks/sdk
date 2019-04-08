@@ -33,7 +33,7 @@ matrix:
       - sudo pip install flask
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
-      ignore:
+      ignore_changes:
       - ./python/conftest.py
       script:
       - pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
