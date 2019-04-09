@@ -7,9 +7,8 @@ package models
 // swagger:model WafPolicyWhitelistRule
 type WafPolicyWhitelistRule struct {
 
-	// Action to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3.
-	// Required: true
-	Action *string `json:"action"`
+	// Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3.
+	Actions []string `json:"actions,omitempty"`
 
 	// Description of this rule. Field introduced in 18.2.3.
 	Description *string `json:"description,omitempty"`

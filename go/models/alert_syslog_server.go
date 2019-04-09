@@ -17,6 +17,9 @@ type AlertSyslogServer struct {
 	// The destination Syslog server's service port.
 	SyslogServerPort *int32 `json:"syslog_server_port,omitempty"`
 
+	// Enable TLS to the syslog server. Field introduced in 17.2.16, 18.2.3.
+	TLSEnable *bool `json:"tls_enable,omitempty"`
+
 	// Network protocol to establish syslog session.
 	// Required: true
 	UDP *bool `json:"udp"`

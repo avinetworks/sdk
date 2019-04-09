@@ -92,6 +92,12 @@ type ServiceEngineGroup struct {
 	// Custom tag will be used to create the tags for SE instance in AWS. Note this is not the same as the prefix for SE name.
 	CustomTag []*CustomTag `json:"custom_tag,omitempty"`
 
+	// Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3.
+	DataNetworkID *string `json:"data_network_id,omitempty"`
+
+	// Number of instructions before datascript times out. Allowed values are 0-100000000. Field introduced in 18.2.3.
+	DatascriptTimeout *int64 `json:"datascript_timeout,omitempty"`
+
 	// Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions.
 	DedicatedDispatcherCore *bool `json:"dedicated_dispatcher_core,omitempty"`
 
@@ -194,7 +200,7 @@ type ServiceEngineGroup struct {
 	// Program SE security group ingress rules to allow SSH/ICMP management access from remote CIDR type. Enum options - SG_INGRESS_ACCESS_NONE, SG_INGRESS_ACCESS_ALL, SG_INGRESS_ACCESS_VPC. Field introduced in 17.1.5.
 	IngressAccessMgmt *string `json:"ingress_access_mgmt,omitempty"`
 
-	// Instance/Flavor type for SE instance.
+	// Instance/Flavor name for SE instance.
 	InstanceFlavor *string `json:"instance_flavor,omitempty"`
 
 	// Iptable Rules.
@@ -303,6 +309,9 @@ type ServiceEngineGroup struct {
 	// Enable or disable real time SE metrics.
 	RealtimeSeMetrics *MetricsRealTimeUpdate `json:"realtime_se_metrics,omitempty"`
 
+	// Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3.
+	RebootOnStop *bool `json:"reboot_on_stop,omitempty"`
+
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
 	SeBandwidthType *string `json:"se_bandwidth_type,omitempty"`
 
@@ -327,7 +336,7 @@ type ServiceEngineGroup struct {
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix *string `json:"se_name_prefix,omitempty"`
 
-	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
+	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitFrequency *int32 `json:"se_pcap_reinit_frequency,omitempty"`
 
 	// Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1.

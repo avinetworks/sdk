@@ -424,6 +424,9 @@ type EventDetails struct {
 	// Placeholder for description of property system_upgrade_details of obj type EventDetails field type str  type object
 	SystemUpgradeDetails *SystemUpgradeDetails `json:"system_upgrade_details,omitempty"`
 
+	// Placeholder for description of property tencent_info of obj type EventDetails field type str  type object
+	TencentInfo *TencentSetup `json:"tencent_info,omitempty"`
+
 	// Placeholder for description of property unbind_vs_se_details of obj type EventDetails field type str  type object
 	UnbindVsSeDetails *RmUnbindVsSeEventDetails `json:"unbind_vs_se_details,omitempty"`
 
