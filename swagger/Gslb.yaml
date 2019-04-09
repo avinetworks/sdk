@@ -502,6 +502,10 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            async_interval:
+                description: "Frequency with which messages are propagated to Vs Mgr. Value of 0 disables async behavior and RPC are sent inline. Allowed values are 0-5. Field introduced in 18.2.3."
+                type: integer
+                format: int32
             clear_on_max_retries:
                 description: "Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024."
                 type: integer

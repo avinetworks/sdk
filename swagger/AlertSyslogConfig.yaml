@@ -453,6 +453,9 @@ definitions:
                 type: integer
                 default: 514
                 format: int32
+            tls_enable:
+                description: "Enable TLS to the syslog server. Field introduced in 17.2.16, 18.2.3."
+                type: boolean
             udp:
                 description: "Network protocol to establish syslog session."
                 type: boolean

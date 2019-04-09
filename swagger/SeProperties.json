@@ -508,9 +508,8 @@
                     "format": "int32"
                 }, 
                 "se_pcap_pkt_count": {
-                    "default": 256, 
                     "type": "integer", 
-                    "description": "Max number of packets the pcap interface can hold.", 
+                    "description": "Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.", 
                     "format": "int32"
                 }, 
                 "docker_backend_portstart": {
@@ -572,7 +571,7 @@
                 "l7_resvd_listen_conns_per_core": {
                     "default": 256, 
                     "type": "integer", 
-                    "description": "Number of l7_resvd_listen_conns_per_core.", 
+                    "description": "Number of reserved L7 listener connections per core.", 
                     "format": "int32"
                 }, 
                 "se_log_buffer_connlog_size": {
@@ -684,7 +683,7 @@
                 "l7_conns_per_core": {
                     "default": 16384, 
                     "type": "integer", 
-                    "description": "Number of l7_conns_per_core.", 
+                    "description": "Number of L7 connections that can be cached per core.", 
                     "format": "int32"
                 }
             }
@@ -964,13 +963,13 @@
                 "upstream_connpool_core_max_cache": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_core_max_cache.", 
+                    "description": "L7 Upstream Connection pool max cache size per core.", 
                     "format": "int32"
                 }, 
                 "downstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of downstream_send_timeout.", 
+                    "description": "Timeout for downstream to become writable.", 
                     "format": "int32"
                 }, 
                 "dp_hb_frequency": {
@@ -1196,7 +1195,7 @@
                 "upstream_connpool_cache_thresh": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_cache_thresh.", 
+                    "description": "L7 Upstream Connection pool cache threshold in percentage.", 
                     "format": "int32"
                 }, 
                 "se_auth_ldap_request_timeout": {
@@ -1216,7 +1215,7 @@
                 "upstream_connect_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_connect_timeout.", 
+                    "description": "Timeout for backend connection.", 
                     "format": "int32"
                 }, 
                 "connections_lossy_log_rate_limiter_threshold": {
@@ -1254,7 +1253,7 @@
                 "upstream_connpool_conn_idle_thresh_tmo": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_conn_idle_thresh_tmo.", 
+                    "description": "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold.", 
                     "format": "int32"
                 }, 
                 "log_agent_min_storage_per_vs": {
@@ -1350,7 +1349,7 @@
                 "upstream_connpool_enable": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean"
+                    "description": "Enable upstream connection pool."
                 }, 
                 "log_agent_export_wait_time": {
                     "default": 100, 
@@ -1431,7 +1430,7 @@
                 "upstream_read_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_read_timeout.", 
+                    "description": "Timeout for data to be received from backend.", 
                     "format": "int32"
                 }, 
                 "lb_batch_push_frequency": {
@@ -1453,7 +1452,7 @@
                 "upstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_send_timeout.", 
+                    "description": "Timeout for upstream to become writable.", 
                     "format": "int32"
                 }, 
                 "log_agent_max_storage_ignore_percent": {

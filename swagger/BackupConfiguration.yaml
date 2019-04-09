@@ -353,6 +353,15 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            aws_access_key:
+                description: "AWS Access Key ID. Field introduced in 18.2.3."
+                type: string
+            aws_bucket_id:
+                description: "AWS bucket. Field introduced in 18.2.3."
+                type: string
+            aws_secret_access:
+                description: "AWS Secret Access Key. Field introduced in 18.2.3."
+                type: string
             backup_file_prefix:
                 description: "Prefix of the exported configuration file. Field introduced in 17.1.1."
                 type: string
@@ -384,6 +393,9 @@ definitions:
                 type: string
             upload_to_remote_host:
                 description: "Remote Backup."
+                type: boolean
+            upload_to_s3:
+                description: "Cloud Backup. Field introduced in 18.2.3."
                 type: boolean
             url:
                 description: "url"

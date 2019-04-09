@@ -587,6 +587,58 @@
                 }
             }
         }, 
+        "AzureUserPassCredentials": {
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1."
+                }, 
+                "tenant_name": {
+                    "type": "string", 
+                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "TencentCredentials": {
+            "required": [
+                "secret_id", 
+                "secret_key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "secret_key": {
+                    "type": "string", 
+                    "description": "Tencent secret key. Field introduced in 18.2.3."
+                }, 
+                "secret_id": {
+                    "type": "string", 
+                    "description": "Tencent secret ID. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "GCPCredentials": {
+            "type": "object", 
+            "properties": {
+                "service_account_keyfile_data": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Service Account keyfile data in JSON format. Field introduced in 18.2.1."
+                }
+            }
+        }, 
+        "CloudConnectorUserTestParams": {
+            "type": "object", 
+            "properties": {
+                "host": {
+                    "type": "string", 
+                    "description": "host of CloudConnectorUserTestParams."
+                }
+            }
+        }, 
         "AzureServicePrincipalCredentials": {
             "type": "object", 
             "properties": {
@@ -655,6 +707,10 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "gcp_credentials": {
                     "description": "Credentials for Google Cloud Platform. Field introduced in 18.2.1.", 
                     "$ref": "#/definitions/GCPCredentials"
@@ -675,44 +731,9 @@
                     "type": "string", 
                     "description": "password of CloudConnectorUser."
                 }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }, 
-        "AzureUserPassCredentials": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1."
-                }, 
-                "tenant_name": {
-                    "type": "string", 
-                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "GCPCredentials": {
-            "type": "object", 
-            "properties": {
-                "service_account_keyfile_data": {
-                    "type": "string", 
-                    "description": "Google Cloud Platform Service Account keyfile data in JSON format. Field introduced in 18.2.1."
-                }
-            }
-        }, 
-        "CloudConnectorUserTestParams": {
-            "type": "object", 
-            "properties": {
-                "host": {
-                    "type": "string", 
-                    "description": "host of CloudConnectorUserTestParams."
+                "tencent_credentials": {
+                    "description": "Credentials for Tencent Cloud. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/TencentCredentials"
                 }
             }
         }

@@ -452,6 +452,11 @@ definitions:
             access_key_id:
                 description: "AWS access key ID."
                 type: string
+            egress_service_subnets:
+                description: "A list of subnets used for source IP allocation for egress services in Openshift/k8s on Aws. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
             iam_assume_role:
                 description: "IAM assume role for cross-account access. Field introduced in 17.1.1."
                 type: string
@@ -725,8 +730,11 @@ definitions:
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
+            tencent_profile:
+                description: "Provider details for Tencent Cloud. Field introduced in 18.2.3."
+                $ref: '#/definitions/IpamDnsTencentProfile'
             type:
-                description: "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
+                description: "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
                 type: string
             url:
                 description: "url"
@@ -748,6 +756,31 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/IpamDnsProviderProfile"
+    IpamDnsTencentProfile:
+        type: object
+        required:
+            -   region
+            -   vpc_id
+        properties:
+            cloud_credentials_ref:
+                description: "Credentials to access Tencent cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.3."
+                type: string
+            region:
+                description: "VPC region. Field introduced in 18.2.3."
+                type: string
+            usable_subnet_ids:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
+            vpc_id:
+                description: "VPC ID. Field introduced in 18.2.3."
+                type: string
+            zones:
+                description: "Network configuration for Virtual IP per AZ. Field introduced in 18.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/TencentZoneNetwork'
     ProxyConfiguration:
         type: object
         required:
@@ -766,4 +799,16 @@ definitions:
                 format: int32
             username:
                 description: "Username for proxy."
+                type: string
+    TencentZoneNetwork:
+        type: object
+        required:
+            -   availability_zone
+            -   usable_subnet_id
+        properties:
+            availability_zone:
+                description: "Availability zone. Field introduced in 18.2.3."
+                type: string
+            usable_subnet_id:
+                description: "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
                 type: string
