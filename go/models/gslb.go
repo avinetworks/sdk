@@ -11,6 +11,9 @@ type Gslb struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Frequency with which messages are propagated to Vs Mgr. Value of 0 disables async behavior and RPC are sent inline. Allowed values are 0-5. Field introduced in 18.2.3.
+	AsyncInterval *int32 `json:"async_interval,omitempty"`
+
 	// Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024.
 	ClearOnMaxRetries *int32 `json:"clear_on_max_retries,omitempty"`
 

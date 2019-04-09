@@ -25,10 +25,10 @@ type SeBootupProperties struct {
 	// Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1.
 	GeoDbGranularity *int32 `json:"geo_db_granularity,omitempty"`
 
-	// Number of l7_conns_per_core.
+	// Number of L7 connections that can be cached per core.
 	L7ConnsPerCore *int32 `json:"l7_conns_per_core,omitempty"`
 
-	// Number of l7_resvd_listen_conns_per_core.
+	// Number of reserved L7 listener connections per core.
 	L7ResvdListenConnsPerCore *int32 `json:"l7_resvd_listen_conns_per_core,omitempty"`
 
 	// Enable debug logs by default on Service Engine. This includes all other debugging logs. Debug logs can also be explcitly enabled from the CLI shell.
@@ -76,7 +76,7 @@ type SeBootupProperties struct {
 	// Enable or disable Large Receive Optimization for vnics.
 	SeLro *int32 `json:"se_lro,omitempty"`
 
-	// Max number of packets the pcap interface can hold.
+	// Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.
 	SePcapPktCount *int32 `json:"se_pcap_pkt_count,omitempty"`
 
 	// Max size of each packet in the pcap interface.
