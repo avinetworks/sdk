@@ -1381,5 +1381,61 @@ class TestF5Converter:
                 request = eachUrl.split('\\r')[0]
                 assert request.endswith('HTTP/1.1') or request.endswith(
                     'HTTP/1.0') == True
+
+    @pytest.mark.travis
+    def test_single_http_req_policy_with_multiple_vs(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                custom_config=setup.get('custom_config_file'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+
+        vsDataOfVa1 = [data for data in vsObject if data['name'] == "F5-VIP-443-004"]
+        vsDataOfVa2 = [data for data in vsObject if data['name'] == "F5-VIP-Forwarding"]
+        httppolicydata1 = vsDataOfVa1[0]['http_policies']
+        httppolicydata2 = vsDataOfVa2[0]['http_policies']
+        for i in httppolicydata1:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+            if policyName == "req_pol_rule-F5-VIP-443-004":
+              httppolicy = [data['name'] for data in httpPolicySet if
+                            data['name'] == policyName][0]
+              print policyName, " ", httppolicy
+              assert policyName == httppolicy
+
+        for i in httppolicydata2:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+            if policyName == "req_pol_rule-F5-VIP-Forwarding":
+              httppolicy = [data['name'] for data in httpPolicySet if
+                            data['name'] == policyName][0]
+              print policyName, " ", httppolicy
+              assert policyName == httppolicy
+
+    @pytest.mark.travis
+    def test_check_dup_of_key_should_not_be_in_json(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+
+        for key in data.keys():
+            if isinstance(data[key], list):
+                for i in data[key]:
+                    assert 'dup_of' not in i.keys()
+
+
 def teardown():
     pass
