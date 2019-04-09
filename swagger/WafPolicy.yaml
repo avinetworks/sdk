@@ -759,14 +759,15 @@ definitions:
     WafPolicyWhitelistRule:
         type: object
         required:
-            -   action
             -   index
             -   match
             -   name
         properties:
-            action:
-                description: "Action to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
-                type: string
+            actions:
+                description: "Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
             description:
                 description: "Description of this rule. Field introduced in 18.2.3."
                 type: string

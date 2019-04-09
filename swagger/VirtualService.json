@@ -3359,7 +3359,7 @@
                 "status_code": {
                     "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
                     "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 }, 
                 "type": {
                     "default": "RL_ACTION_NONE", 
@@ -3933,13 +3933,6 @@
                     "type": "boolean", 
                     "description": "Enable Route Health Injection for Source NAT'ted floating IP Address using the BGP Config in the vrf context."
                 }, 
-                "dns_policies": {
-                    "items": {
-                        "$ref": "#/definitions/DnsPolicies"
-                    }, 
-                    "type": "array", 
-                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
-                }, 
                 "sideband_profile": {
                     "description": "Sideband configuration to be used for this virtualservice.It can be used for sending traffic to sideband VIPs for external inspection etc.", 
                     "$ref": "#/definitions/SidebandProfile"
@@ -3963,6 +3956,10 @@
                 "server_network_profile_ref": {
                     "type": "string", 
                     "description": "Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
                 }, 
                 "ssl_profile_ref": {
                     "type": "string", 
@@ -4135,6 +4132,13 @@
                     "type": "array", 
                     "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Note that only one of fqdn and dns_info setting is allowed."
                 }, 
+                "vh_domain_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS."
+                }, 
                 "security_policy_ref": {
                     "type": "string", 
                     "description": "Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1."
@@ -4159,9 +4163,9 @@
                     "type": "string", 
                     "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext."
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                "allow_invalid_client_cert": {
+                    "type": "boolean", 
+                    "description": "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3."
                 }, 
                 "subnet": {
                     "description": "Subnet providing reachability for client facing Virtual Service IP. Field deprecated in 17.1.1.", 
@@ -4181,12 +4185,9 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "vh_domain_name": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS."
+                "network_ref": {
+                    "type": "string", 
+                    "description": "Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1."
                 }, 
                 "cloud_ref": {
                     "type": "string", 
@@ -4204,9 +4205,12 @@
                     "type": "string", 
                     "description": "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."
                 }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1."
+                "dns_policies": {
+                    "items": {
+                        "$ref": "#/definitions/DnsPolicies"
+                    }, 
+                    "type": "array", 
+                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
                 }, 
                 "scaleout_ecmp": {
                     "type": "boolean", 

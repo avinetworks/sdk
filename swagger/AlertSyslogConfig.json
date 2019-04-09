@@ -573,6 +573,10 @@
             ], 
             "type": "object", 
             "properties": {
+                "tls_enable": {
+                    "type": "boolean", 
+                    "description": "Enable TLS to the syslog server. Field introduced in 17.2.16, 18.2.3."
+                }, 
                 "udp": {
                     "default": true, 
                     "type": "boolean", 
