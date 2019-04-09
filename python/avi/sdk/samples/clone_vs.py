@@ -19,7 +19,7 @@ urllib3.disable_warnings()
 
 DEFAULT_API_VERSION = '16.4.4'
 
-AVICLONE_VERSION = [1, 1, 0]
+AVICLONE_VERSION = [1, 1, 1]
 
 # Try to obtain the terminal width to allow spprint() to wrap output neatly.
 # If unable to determine, assume terminal width is 70 characters
@@ -272,7 +272,7 @@ class AviClone:
             old_name = old_obj['name']
         else:
             old_obj = self.api.get_object_by_name(object_type, old_name,
-                              params=('export_key=true'
+                              params=({'export_key': True}
                                       if object_type == 'sslkeyandcertificate'
                                       else None),
                               tenant_uuid=tenant_uuid)
@@ -345,6 +345,10 @@ class AviClone:
             elif object_type == 'wafpolicy':
                 created_objs = self._process_wafpolicy(
                     wp_obj=old_obj, t_obj=t_obj, ot_obj=ot_obj, oc_obj=oc_obj,
+                    force_clone=force_clone)
+            elif object_type == 'sslkeyandcertificate':
+                created_objs = self._process_sslkeyandcertificate(
+                    ss_obj=old_obj, t_obj=t_obj, ot_obj=ot_obj, oc_obj=oc_obj,
                     force_clone=force_clone)
 
             # Try to create cloned object (possibly in a different tenant to the
@@ -884,6 +888,33 @@ class AviClone:
 
         return created_objs
 
+    def _process_sslkeyandcertificate(self, ss_obj, t_obj, ot_obj, oc_obj,
+                               force_clone):
+        """
+        Performs sslkeyandcertificate-specific manipulations
+        """
+        
+        logger.debug('Running _process_sslkeyandcertificate')
+
+        created_objs = []
+
+        try:
+            if ot_obj:
+                logger.debug('Removing ca_certs references')
+                ss_obj.pop('ca_certs', None)
+                ss_obj.pop('key_base64', None)
+                ss_obj.pop('certificate_base64', None)
+                    
+        except Exception as ex:
+            # If an exception occurred, delete any intermediate objects we
+            # have created
+
+            self._delete_created_objs(created_objs, ot_obj['uuid'])
+
+            raise
+
+        return created_objs
+
     def _process_refs(self, parent_obj, refs, t_obj, ot_obj,
                       oc_obj, force_clone, name=None):
 
@@ -1042,11 +1073,17 @@ class AviClone:
                         r_obj = self.dest_api.get(r_obj_path,
                                                   tenant_uuid=otenant_uuid)
 
-                        if r_obj.status_code == 404:
+                        if (r_obj_type == 'sslkeyandcertificate' or
+                            r_obj.status_code == 404):
                             logger.debug('Referenced object not available in '
                                          'target (%s)', r_obj_path)
                             # If not global, check for an object of the same
-                            # name in the target tenant context
+                            # name in the target tenant context.
+                            #
+                            # sslkeyandcertificate requires special treatment
+                            # as sslkeyandcertificate objects in the admin
+                            # tenant are readable in other tenants but cannot
+                            # be used due to cross-tenant restrictions.
 
                             if r_obj_path in self.clone_track:
                                 # Re-use previously cloned object if
