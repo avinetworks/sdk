@@ -509,9 +509,14 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "uuid": {
+                "name": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.4."
+                }, 
+                "format": {
+                    "default": "ERROR_PAGE_FORMAT_HTML", 
+                    "type": "string", 
+                    "description": "Format of an error page body {HTML, JSON}. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -522,7 +527,7 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant. Field introduced in 17.2.4."
                 }, 
-                "name": {
+                "uuid": {
                     "type": "string", 
                     "description": " Field introduced in 17.2.4."
                 }

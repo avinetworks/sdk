@@ -769,6 +769,14 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/CustomTag'
+            data_network_id:
+                description: "Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3."
+                type: string
+            datascript_timeout:
+                description: "Number of instructions before datascript times out. Allowed values are 0-100000000. Field introduced in 18.2.3."
+                type: integer
+                default: 1000000
+                format: int64
             dedicated_dispatcher_core:
                 description: "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
                 type: boolean
@@ -896,7 +904,7 @@ definitions:
                 type: string
                 default: "SG_INGRESS_ACCESS_ALL"
             instance_flavor:
-                description: "Instance/Flavor type for SE instance."
+                description: "Instance/Flavor name for SE instance."
                 type: string
             iptables:
                 description: "Iptable Rules."
@@ -1047,6 +1055,9 @@ definitions:
             realtime_se_metrics:
                 description: "Enable or disable real time SE metrics."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
+            reboot_on_stop:
+                description: "Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3."
+                type: boolean
             se_bandwidth_type:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 type: string
@@ -1082,7 +1093,7 @@ definitions:
                 type: string
                 default: "Avi"
             se_pcap_reinit_frequency:
-                description: "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1."
+                description: "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1."
                 type: integer
                 format: int32
             se_pcap_reinit_threshold:

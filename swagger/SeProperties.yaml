@@ -652,12 +652,12 @@ definitions:
                 default: 1
                 format: int32
             l7_conns_per_core:
-                description: "Number of l7_conns_per_core."
+                description: "Number of L7 connections that can be cached per core."
                 type: integer
                 default: 16384
                 format: int32
             l7_resvd_listen_conns_per_core:
-                description: "Number of l7_resvd_listen_conns_per_core."
+                description: "Number of reserved L7 listener connections per core."
                 type: integer
                 default: 256
                 format: int32
@@ -723,9 +723,8 @@ definitions:
                 default: 1
                 format: int32
             se_pcap_pkt_count:
-                description: "Max number of packets the pcap interface can hold."
+                description: "Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces."
                 type: integer
-                default: 256
                 format: int32
             se_pcap_pkt_sz:
                 description: "Max size of each packet in the pcap interface."
@@ -907,7 +906,7 @@ definitions:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
             downstream_send_timeout:
-                description: "Number of downstream_send_timeout."
+                description: "Timeout for downstream to become writable."
                 type: integer
                 default: 3600000
                 format: int32
@@ -1291,17 +1290,17 @@ definitions:
                 default: 4
                 format: int32
             upstream_connect_timeout:
-                description: "Number of upstream_connect_timeout."
+                description: "Timeout for backend connection."
                 type: integer
                 default: 3600000
                 format: int32
             upstream_connpool_cache_thresh:
-                description: "Number of upstream_connpool_cache_thresh."
+                description: "L7 Upstream Connection pool cache threshold in percentage."
                 type: integer
                 default: -1
                 format: int32
             upstream_connpool_conn_idle_thresh_tmo:
-                description: "Number of upstream_connpool_conn_idle_thresh_tmo."
+                description: "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold."
                 type: integer
                 default: -1
                 format: int32
@@ -1318,12 +1317,12 @@ definitions:
                 type: integer
                 format: int32
             upstream_connpool_core_max_cache:
-                description: "Number of upstream_connpool_core_max_cache."
+                description: "L7 Upstream Connection pool max cache size per core."
                 type: integer
                 default: -1
                 format: int32
             upstream_connpool_enable:
-                description: "Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean"
+                description: "Enable upstream connection pool."
                 type: boolean
                 default: True
             upstream_connpool_server_max_cache:
@@ -1339,12 +1338,12 @@ definitions:
                 description: "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
             upstream_read_timeout:
-                description: "Number of upstream_read_timeout."
+                description: "Timeout for data to be received from backend."
                 type: integer
                 default: 3600000
                 format: int32
             upstream_send_timeout:
-                description: "Number of upstream_send_timeout."
+                description: "Timeout for upstream to become writable."
                 type: integer
                 default: 3600000
                 format: int32
