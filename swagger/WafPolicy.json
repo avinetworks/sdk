@@ -919,7 +919,6 @@
         }, 
         "WafPolicyWhitelistRule": {
             "required": [
-                "action", 
                 "index", 
                 "match", 
                 "name"
@@ -936,21 +935,24 @@
                     "type": "boolean", 
                     "description": "Enable or disable the rule. Field introduced in 18.2.3."
                 }, 
-                "description": {
+                "name": {
                     "type": "string", 
-                    "description": "Description of this rule. Field introduced in 18.2.3."
-                }, 
-                "action": {
-                    "type": "string", 
-                    "description": "Action to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
+                    "description": "A name describing the rule in a short form. Field introduced in 18.2.3."
                 }, 
                 "match": {
                     "description": "Match criteria describing requests to which this rule should be applied. Field introduced in 18.2.3.", 
                     "$ref": "#/definitions/MatchTarget"
                 }, 
-                "name": {
+                "actions": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
+                }, 
+                "description": {
                     "type": "string", 
-                    "description": "A name describing the rule in a short form. Field introduced in 18.2.3."
+                    "description": "Description of this rule. Field introduced in 18.2.3."
                 }
             }
         }, 

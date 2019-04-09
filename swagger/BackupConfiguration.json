@@ -500,13 +500,42 @@
             ], 
             "type": "object", 
             "properties": {
-                "uuid": {
+                "aws_bucket_id": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "AWS bucket. Field introduced in 18.2.3."
                 }, 
                 "remote_directory": {
                     "type": "string", 
                     "description": "Directory at remote destination with write permission for ssh user."
+                }, 
+                "backup_passphrase": {
+                    "type": "string", 
+                    "description": "Passphrase of backup configuration."
+                }, 
+                "aws_secret_access": {
+                    "type": "string", 
+                    "description": "AWS Secret Access Key. Field introduced in 18.2.3."
+                }, 
+                "upload_to_s3": {
+                    "type": "boolean", 
+                    "description": "Cloud Backup. Field introduced in 18.2.3."
+                }, 
+                "ssh_user_ref": {
+                    "type": "string", 
+                    "description": "Access Credentials for remote destination. It is a reference to an object of type CloudConnectorUser."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of backup configuration."
+                }, 
+                "aws_access_key": {
+                    "type": "string", 
+                    "description": "AWS Access Key ID. Field introduced in 18.2.3."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -520,14 +549,6 @@
                 "remote_hostname": {
                     "type": "string", 
                     "description": "Remote Destination."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of backup configuration."
-                }, 
-                "backup_passphrase": {
-                    "type": "string", 
-                    "description": "Passphrase of backup configuration."
                 }, 
                 "upload_to_remote_host": {
                     "type": "boolean", 
@@ -543,18 +564,13 @@
                     "description": "Rotate the backup files based on this count. Allowed values are 1-20.", 
                     "format": "int32"
                 }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
                 "backup_file_prefix": {
                     "type": "string", 
                     "description": "Prefix of the exported configuration file. Field introduced in 17.1.1."
-                }, 
-                "ssh_user_ref": {
-                    "type": "string", 
-                    "description": "Access Credentials for remote destination. It is a reference to an object of type CloudConnectorUser."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }
             }
         }, 
