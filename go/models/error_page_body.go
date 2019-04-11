@@ -31,27 +31,3 @@ type ErrorPageBody struct {
 	//  Field introduced in 17.2.4.
 	UUID *string `json:"uuid,omitempty"`
 }
-
-// Validate validates this error page body
-func (m *ErrorPageBody) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateName(formats); err != nil {
-		// prop
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *ErrorPageBody) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", m.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
