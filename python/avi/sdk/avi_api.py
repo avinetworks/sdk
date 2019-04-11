@@ -965,7 +965,7 @@ class ApiSession(Session):
                 continue
             try:
                 session["api"].post("logout")
-            except (ConnectionError, KeyError) as e:
+            except Exception as e:
                 logger.warning("Session not found on controller "
                                "for session ID: %s %s",
                                session, e)
