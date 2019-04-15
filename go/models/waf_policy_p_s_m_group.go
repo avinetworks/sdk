@@ -20,6 +20,9 @@ type WafPolicyPSMGroup struct {
 	// If a rule in this group matches the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3.
 	HitAction *string `json:"hit_action,omitempty"`
 
+	// This field indicates that this group is used for learning. Field introduced in 18.2.3.
+	IsLearningGroup *bool `json:"is_learning_group,omitempty"`
+
 	// Positive Security Model locations. These are used to partition the application name space. Field introduced in 18.2.3.
 	Locations []*WafPSMLocation `json:"locations,omitempty"`
 

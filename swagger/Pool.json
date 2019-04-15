@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\nExamples\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2051,7 +2051,7 @@
                 "status_code": {
                     "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
                     "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 }, 
                 "type": {
                     "default": "RL_ACTION_NONE", 
@@ -2576,7 +2576,7 @@
             "properties": {
                 "count": {
                     "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'.", 
+                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
                 "http_header": {
@@ -2707,6 +2707,11 @@
                 "host_check_enabled": {
                     "type": "boolean", 
                     "description": "Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match."
+                }, 
+                "delete_server_on_dns_refresh": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Indicates whether existing IPs are disabled(false) or deleted(true) on dns hostname refreshDetail -- On a dns refresh, some IPs set on pool may no longer be returned by the resolver. These IPs are deleted from the pool when this knob is set to true. They are disabled, if the knob is set to false. Field introduced in 18.2.3."
                 }, 
                 "capacity_estimation": {
                     "type": "boolean", 

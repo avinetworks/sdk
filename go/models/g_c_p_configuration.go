@@ -34,6 +34,7 @@ type GCPConfiguration struct {
 	// Required: true
 	SeProjectID *string `json:"se_project_id"`
 
-	// Google Cloud Platform Zones where Service Engines will be distributed for HA. By default, all the zones in a region will be used. Field introduced in 18.2.1.
+	// Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1.
+	// Required: true
 	Zones []string `json:"zones,omitempty"`
 }

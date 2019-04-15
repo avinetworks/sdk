@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -573,6 +573,10 @@
             ], 
             "type": "object", 
             "properties": {
+                "tls_enable": {
+                    "type": "boolean", 
+                    "description": "Enable TLS to the syslog server. Field introduced in 17.2.16, 18.2.3."
+                }, 
                 "udp": {
                     "default": true, 
                     "type": "boolean", 

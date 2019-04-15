@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2609,7 +2609,8 @@
             "required": [
                 "network_config", 
                 "region_name", 
-                "se_project_id"
+                "se_project_id", 
+                "zones"
             ], 
             "type": "object", 
             "properties": {
@@ -2634,7 +2635,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Google Cloud Platform Zones where Service Engines will be distributed for HA. By default, all the zones in a region will be used. Field introduced in 18.2.1."
+                    "description": "Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1."
                 }, 
                 "match_se_group_subnet": {
                     "type": "boolean", 
@@ -3173,6 +3174,10 @@
                 "se_network_id": {
                     "type": "string", 
                     "description": "Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1."
+                }, 
+                "management_network_id": {
+                    "type": "string", 
+                    "description": "Id of the Azure subnet used as management network for the Service Engines. If set, Service Engines will have a dedicated management NIC, otherwise, they operate in inband mode. Field introduced in 18.2.3."
                 }, 
                 "virtual_network_id": {
                     "type": "string", 

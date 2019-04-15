@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -508,9 +508,8 @@
                     "format": "int32"
                 }, 
                 "se_pcap_pkt_count": {
-                    "default": 256, 
                     "type": "integer", 
-                    "description": "Max number of packets the pcap interface can hold.", 
+                    "description": "Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.", 
                     "format": "int32"
                 }, 
                 "docker_backend_portstart": {
@@ -572,7 +571,7 @@
                 "l7_resvd_listen_conns_per_core": {
                     "default": 256, 
                     "type": "integer", 
-                    "description": "Number of l7_resvd_listen_conns_per_core.", 
+                    "description": "Number of reserved L7 listener connections per core.", 
                     "format": "int32"
                 }, 
                 "se_log_buffer_connlog_size": {
@@ -684,7 +683,7 @@
                 "l7_conns_per_core": {
                     "default": 16384, 
                     "type": "integer", 
-                    "description": "Number of l7_conns_per_core.", 
+                    "description": "Number of L7 connections that can be cached per core.", 
                     "format": "int32"
                 }
             }
@@ -726,7 +725,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -964,13 +963,13 @@
                 "upstream_connpool_core_max_cache": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_core_max_cache.", 
+                    "description": "L7 Upstream Connection pool max cache size per core.", 
                     "format": "int32"
                 }, 
                 "downstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of downstream_send_timeout.", 
+                    "description": "Timeout for downstream to become writable.", 
                     "format": "int32"
                 }, 
                 "dp_hb_frequency": {
@@ -1005,7 +1004,7 @@
                 }, 
                 "mcache_store_se_max_size": {
                     "type": "integer", 
-                    "description": "Number of mcache_store_se_max_size.", 
+                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.", 
                     "format": "int64"
                 }, 
                 "se_dp_compression": {
@@ -1196,7 +1195,7 @@
                 "upstream_connpool_cache_thresh": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_cache_thresh.", 
+                    "description": "L7 Upstream Connection pool cache threshold in percentage.", 
                     "format": "int32"
                 }, 
                 "se_auth_ldap_request_timeout": {
@@ -1216,7 +1215,7 @@
                 "upstream_connect_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_connect_timeout.", 
+                    "description": "Timeout for backend connection.", 
                     "format": "int32"
                 }, 
                 "connections_lossy_log_rate_limiter_threshold": {
@@ -1254,7 +1253,7 @@
                 "upstream_connpool_conn_idle_thresh_tmo": {
                     "default": -1, 
                     "type": "integer", 
-                    "description": "Number of upstream_connpool_conn_idle_thresh_tmo.", 
+                    "description": "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold.", 
                     "format": "int32"
                 }, 
                 "log_agent_min_storage_per_vs": {
@@ -1306,7 +1305,7 @@
                 }, 
                 "mcache_max_cache_size": {
                     "type": "integer", 
-                    "description": "max cache size.", 
+                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.", 
                     "format": "int64"
                 }, 
                 "scaleout_udp_per_pkt": {
@@ -1350,7 +1349,7 @@
                 "upstream_connpool_enable": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean"
+                    "description": "Enable upstream connection pool."
                 }, 
                 "log_agent_export_wait_time": {
                     "default": 100, 
@@ -1431,7 +1430,7 @@
                 "upstream_read_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_read_timeout.", 
+                    "description": "Timeout for data to be received from backend.", 
                     "format": "int32"
                 }, 
                 "lb_batch_push_frequency": {
@@ -1453,7 +1452,7 @@
                 "upstream_send_timeout": {
                     "default": 3600000, 
                     "type": "integer", 
-                    "description": "Number of upstream_send_timeout.", 
+                    "description": "Timeout for upstream to become writable.", 
                     "format": "int32"
                 }, 
                 "log_agent_max_storage_ignore_percent": {
@@ -1537,6 +1536,81 @@
         "SeAgentProperties": {
             "type": "object", 
             "properties": {
+                "dp_enq_interval_msec": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": " Allowed values are 1-1000.", 
+                    "format": "int32"
+                }, 
+                "sdb_scan_count": {
+                    "default": 1000, 
+                    "type": "integer", 
+                    "description": "SDB scan count. Allowed values are 1-1000.", 
+                    "format": "int32"
+                }, 
+                "dp_reg_pending_max_wait_time": {
+                    "default": 75, 
+                    "type": "integer", 
+                    "description": "Max time to wait for dp registration before assert.", 
+                    "format": "int32"
+                }, 
+                "controller_echo_rpc_aggressive_timeout": {
+                    "default": 2000, 
+                    "type": "integer", 
+                    "description": "Aggressive Timeout used for se health check.", 
+                    "format": "int32"
+                }, 
+                "states_flush_interval": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.", 
+                    "format": "int32"
+                }, 
+                "dp_aggressive_enq_interval_msec": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": " Allowed values are 1-1000.", 
+                    "format": "int32"
+                }, 
+                "ns_helper_deq_interval_msec": {
+                    "default": 20, 
+                    "type": "integer", 
+                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "vnic_ip_delete_interval": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "wait interval before deleting IP.", 
+                    "format": "int32"
+                }, 
+                "dp_max_wait_rsp_time_sec": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Number of dp_max_wait_rsp_time_sec.", 
+                    "format": "int32"
+                }, 
+                "send_se_ready_timeout": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "se_grp_change_disruptive": {
+                    "type": "boolean", 
+                    "description": "Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3."
+                }, 
+                "controller_rpc_timeout": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Number of controller_rpc_timeout.", 
+                    "format": "int32"
+                }, 
+                "headless_timeout_sec": {
+                    "type": "integer", 
+                    "description": "Number of headless_timeout_sec.", 
+                    "format": "int32"
+                }, 
                 "dp_aggressive_deq_interval_msec": {
                     "default": 1, 
                     "type": "integer", 
@@ -1560,22 +1634,10 @@
                     "description": "SDB pipeline size. Allowed values are 1-10000.", 
                     "format": "int32"
                 }, 
-                "dp_enq_interval_msec": {
-                    "default": 20, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
                 "cpustats_interval": {
                     "default": 5, 
                     "type": "integer", 
                     "description": "Number of cpustats_interval.", 
-                    "format": "int32"
-                }, 
-                "sdb_scan_count": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "SDB scan count. Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
                 "dp_batch_size": {
@@ -1584,16 +1646,10 @@
                     "description": "Number of dp_batch_size.", 
                     "format": "int32"
                 }, 
-                "dp_reg_pending_max_wait_time": {
-                    "default": 75, 
+                "vnicdb_cmd_history_size": {
+                    "default": 256, 
                     "type": "integer", 
-                    "description": "Max time to wait for dp registration before assert.", 
-                    "format": "int32"
-                }, 
-                "controller_echo_rpc_aggressive_timeout": {
-                    "default": 2000, 
-                    "type": "integer", 
-                    "description": "Aggressive Timeout used for se health check.", 
+                    "description": "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.", 
                     "format": "int32"
                 }, 
                 "vnic_probe_interval": {
@@ -1610,24 +1666,6 @@
                     "default": 10, 
                     "type": "integer", 
                     "description": "DHCP ip max retries.", 
-                    "format": "int32"
-                }, 
-                "states_flush_interval": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.", 
-                    "format": "int32"
-                }, 
-                "dp_aggressive_enq_interval_msec": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "ns_helper_deq_interval_msec": {
-                    "default": 20, 
-                    "type": "integer", 
-                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "dp_deq_interval_msec": {
@@ -1654,40 +1692,10 @@
                     "description": "SDB pipeline flush interval. Allowed values are 1-10000.", 
                     "format": "int32"
                 }, 
-                "vnic_ip_delete_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "wait interval before deleting IP.", 
-                    "format": "int32"
-                }, 
                 "controller_echo_miss_aggressive_limit": {
                     "default": 2, 
                     "type": "integer", 
                     "description": "Aggressive Count of HB misses for se health check failure. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "dp_max_wait_rsp_time_sec": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Number of dp_max_wait_rsp_time_sec.", 
-                    "format": "int32"
-                }, 
-                "send_se_ready_timeout": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "controller_rpc_timeout": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Number of controller_rpc_timeout.", 
-                    "format": "int32"
-                }, 
-                "controller_registration_timeout_sec": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Number of controller_registration_timeout_sec.", 
                     "format": "int32"
                 }, 
                 "controller_heartbeat_timeout_sec": {
@@ -1696,9 +1704,10 @@
                     "description": " Allowed values are 1-60.", 
                     "format": "int32"
                 }, 
-                "headless_timeout_sec": {
+                "controller_registration_timeout_sec": {
+                    "default": 30, 
                     "type": "integer", 
-                    "description": "Number of headless_timeout_sec.", 
+                    "description": "Number of controller_registration_timeout_sec.", 
                     "format": "int32"
                 }, 
                 "controller_echo_miss_limit": {
