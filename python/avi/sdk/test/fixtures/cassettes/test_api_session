@@ -1,0 +1,84 @@
+{
+    "version": 1, 
+    "interactions": [
+        {
+            "request": {
+                "body": "username=admin&password=avi123%24%25", 
+                "headers": {
+                    "Content-Length": [
+                        "36"
+                    ], 
+                    "Content-Type": [
+                        "application/x-www-form-urlencoded"
+                    ]
+                }, 
+                "method": "POST", 
+                "uri": "https://10.10.25.218/login"
+            }, 
+            "response": {
+                "status": {
+                    "message": "OK", 
+                    "code": 200
+                }, 
+                "headers": {
+                    "x-xss-protection": [
+                        "1; mode=block"
+                    ], 
+                    "content-security-policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    ], 
+                    "x-content-type-options": [
+                        "nosniff"
+                    ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
+                    "set-cookie": [
+                        "csrftoken=GW1cdruwnodhNJEkPxXvILTk4WnvQD7X; expires=Mon, 13-Apr-2020 09:52:35 GMT; Max-Age=31449600; Path=/; secure", 
+                        "sessionid=oftjfoma539zr2mhthhv6p1d3ls3hqpy; expires=Tue, 16-Apr-2019 09:52:35 GMT; httponly; Max-Age=86400; Path=/; secure", 
+                        "avi-sessionid=oftjfoma539zr2mhthhv6p1d3ls3hqpy; expires=Tue, 16-Apr-2019 09:52:35 GMT; httponly; Max-Age=86400; Path=/; secure"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
+                    "avi_api_version": [
+                        "16_4_2"
+                    ], 
+                    "connection": [
+                        "keep-alive"
+                    ], 
+                    "allow": [
+                        "POST, OPTIONS"
+                    ], 
+                    "access-control-allow-credentials": [
+                        "true"
+                    ], 
+                    "date": [
+                        "Mon, 15 Apr 2019 09:52:35 GMT"
+                    ], 
+                    "x-frame-options": [
+                        "SAMEORIGIN"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
+                    "content-type": [
+                        "application/json"
+                    ], 
+                    "access-control-allow-headers": [
+                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
+                    ]
+                }, 
+                "body": {
+                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1554359319863456\", \"email_configuration\": {\"disable_tls\": false, \"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-92d12e60-0674-432b-a63b-29fcbfea2cb1\"]}, \"dns_configuration\": {\"search_domain\": \"\"}, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-09372df2-1d4d-4c0b-bd8f-0228cc98b157\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-9e0b42a4-2dcd-4fee-a774-d9f23ffe08e5\", \"/api/sslkeyandcertificate/sslkeyandcertificate-29ba197a-bddb-441f-80c5-98c70aa05ab4\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"disable_swagger\": false, \"enable_http\": true, \"allow_basic_authentication\": false}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"18.2.3\", \"build\": 6574, \"Tag\": \"18.2.3-6574-20190325.044444\", \"Date\": \"2019-03-25T04:44:44+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.218/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.218/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}], \"session_cookie_name\": \"avi-sessionid\"}"
+                }
+            }
+        }
+    ]
+}

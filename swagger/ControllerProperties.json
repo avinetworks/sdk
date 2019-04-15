@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerProperties Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure controller properties\n- show controller properties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

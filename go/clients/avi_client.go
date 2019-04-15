@@ -3,7 +3,7 @@
  * AVI CONFIDENTIAL
  * __________________
  *
- * [2013] - [2019] Avi Networks Incorporated
+ * [2013] - [2018] Avi Networks Incorporated
  * All Rights Reserved.
  *
  * NOTICE: All information contained herein is, and remains the property
@@ -94,6 +94,7 @@ type AviClient struct {
 	ServerAutoScalePolicy          *ServerAutoScalePolicyClient
 	ServiceEngine                  *ServiceEngineClient
 	ServiceEngineGroup             *ServiceEngineGroupClient
+	ServiceEnginePolicy            *ServiceEnginePolicyClient
 	SnmpTrapProfile                *SnmpTrapProfileClient
 	StringGroup                    *StringGroupClient
 	SystemConfiguration            *SystemConfigurationClient
@@ -199,6 +200,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ServerAutoScalePolicy = NewServerAutoScalePolicyClient(aviSession)
 	aviClient.ServiceEngine = NewServiceEngineClient(aviSession)
 	aviClient.ServiceEngineGroup = NewServiceEngineGroupClient(aviSession)
+	aviClient.ServiceEnginePolicy = NewServiceEnginePolicyClient(aviSession)
 	aviClient.SnmpTrapProfile = NewSnmpTrapProfileClient(aviSession)
 	aviClient.StringGroup = NewStringGroupClient(aviSession)
 	aviClient.SystemConfiguration = NewSystemConfigurationClient(aviSession)

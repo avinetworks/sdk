@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -499,6 +499,9 @@ definitions:
                 type: boolean
             disable_remote_cli_shell:
                 description: "Disable Remote CLI Shell Client access."
+                type: boolean
+            disable_swagger:
+                description: "Disable Swagger access. Field introduced in 18.2.3."
                 type: boolean
             enable_clickjacking_protection:
                 description: "Enable/Disable Clickjacking protection."

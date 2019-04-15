@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,56 @@ paths:
 
 
 definitions:
+    AppLearningConfidenceOverride:
+        type: object
+        properties:
+            confid_high_value:
+                description: "Confidence threshold for label CONFIDENCE_HIGH. Field introduced in 18.2.3."
+                type: integer
+                default: 9500
+                format: int32
+            confid_low_value:
+                description: "Confidence threshold for label CONFIDENCE_LOW. Field introduced in 18.2.3."
+                type: integer
+                default: 7500
+                format: int32
+            confid_probable_value:
+                description: "Confidence threshold for label CONFIDENCE_PROBABLE. Field introduced in 18.2.3."
+                type: integer
+                default: 9000
+                format: int32
+            confid_very_high_value:
+                description: "Confidence threshold for label CONFIDENCE_VERY_HIGH. Field introduced in 18.2.3."
+                type: integer
+                default: 9999
+                format: int32
+    AppLearningParams:
+        type: object
+        properties:
+            enable_per_uri_learning:
+                description: "Learn the params per URI path. Field introduced in 18.2.3."
+                type: boolean
+                default: True
+            max_params:
+                description: "Maximum number of params to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3."
+                type: integer
+                default: 100
+                format: int32
+            max_uris:
+                description: "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3."
+                type: integer
+                default: 100
+                format: int32
+            sampling_percent:
+                description: "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3."
+                type: integer
+                default: 1
+                format: int32
+            update_interval:
+                description: "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3."
+                type: integer
+                default: 30
+                format: int32
     WafConfig:
         type: object
         required:
@@ -358,7 +408,7 @@ definitions:
                 items:
                     type: string
             allowed_methods:
-                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT. Field introduced in 17.2.1."
+                description: "WAF allowed HTTP methods. Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. Field introduced in 17.2.1."
                 type: array
                 items:
                     type: string
@@ -387,19 +437,32 @@ definitions:
                 type: integer
                 default: 32
                 format: int32
+            confidence_override:
+                description: "Configure thresholds for confidence labels. Field introduced in 18.2.3."
+                $ref: '#/definitions/AppLearningConfidenceOverride'
             cookie_format_version:
                 description: "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1."
                 type: integer
                 format: int32
+            enable_auto_rule_updates:
+                description: "Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 18.2.3."
+                type: boolean
             ignore_incomplete_request_body_error:
                 description: "Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1."
                 type: boolean
                 default: True
+            learning_params:
+                description: "Parameters for tuning Application learning. Field introduced in 18.2.3."
+                $ref: '#/definitions/AppLearningParams'
             max_execution_time:
                 description: "The maximum period of time WAF processing is allowed to take for a single request. A value of 0 (zero) means no limit and should not be chosen in production deployments. It is only used for exceptional situations where crashes of se_dp processes are acceptable. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In WAF policy mode 'Detection', the request is allowed and flagged for both failure mode 'Closed' and 'Open'. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed and flagged. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 0-5000. Field introduced in 17.2.12, 18.1.2."
                 type: integer
                 default: 50
                 format: int32
+            min_confidence:
+                description: "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW. Field introduced in 18.2.3."
+                type: string
+                default: "CONFIDENCE_VERY_HIGH"
             regex_match_limit:
                 description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
                 type: integer
@@ -441,6 +504,10 @@ definitions:
                 type: array
                 items:
                     type: string
+            status_code_for_rejected_requests:
+                description: "HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402, HTTP_RESPONSE_CODE_403, HTTP_RESPONSE_CODE_404, HTTP_RESPONSE_CODE_405, HTTP_RESPONSE_CODE_406, HTTP_RESPONSE_CODE_407, HTTP_RESPONSE_CODE_408, HTTP_RESPONSE_CODE_409, HTTP_RESPONSE_CODE_410, HTTP_RESPONSE_CODE_411, HTTP_RESPONSE_CODE_412, HTTP_RESPONSE_CODE_413, HTTP_RESPONSE_CODE_414, HTTP_RESPONSE_CODE_415, HTTP_RESPONSE_CODE_416, HTTP_RESPONSE_CODE_417, HTTP_RESPONSE_CODE_426, HTTP_RESPONSE_CODE_470, HTTP_RESPONSE_CODE_475, HTTP_RESPONSE_CODE_500, HTTP_RESPONSE_CODE_501, HTTP_RESPONSE_CODE_502, HTTP_RESPONSE_CODE_503, HTTP_RESPONSE_CODE_504, HTTP_RESPONSE_CODE_505. Field introduced in 18.2.3."
+                type: string
+                default: "HTTP_RESPONSE_CODE_403"
     WafDataFile:
         type: object
         required:

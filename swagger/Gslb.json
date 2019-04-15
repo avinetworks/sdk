@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Gslb Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure gslb <key>\n- show gslb <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1010,6 +1010,16 @@
                 "leader_cluster_uuid": {
                     "type": "string", 
                     "description": "Mark this Site as leader of GSLB configuration. This site is the one among the Avi sites."
+                }, 
+                "async_interval": {
+                    "type": "integer", 
+                    "description": "Frequency with which messages are propagated to Vs Mgr. Value of 0 disables async behavior and RPC are sent inline. Allowed values are 0-5. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "send_interval_prior_to_maintenance_mode": {
+                    "type": "integer", 
+                    "description": "The user can specify a send-interval while entering maintenance mode. The validity of this 'maintenance send-interval' is only during maintenance mode. When the user leaves maintenance mode, the original send-interval is reinstated. This internal variable is used to store the original send-interval. . Field introduced in 18.2.3.", 
+                    "format": "int32"
                 }, 
                 "name": {
                     "type": "string", 

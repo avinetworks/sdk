@@ -177,6 +177,8 @@ class TestF5Converter:
                     print(e)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_1_0
     def test_download_v11(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -193,6 +195,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_2_0
     def test_download_v10(self, cleanup):
         """
         Download Input File Flow, Test for Controller v17.1.1
@@ -205,6 +209,8 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_3_0
     def test_output_sanitization_v10(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -222,6 +228,8 @@ class TestF5Converter:
                                    self.log_path)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_4_0
     def test_output_sanitization_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -239,6 +247,8 @@ class TestF5Converter:
                                    self.log_path)
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_5_0
     def test_excel_report_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -249,6 +259,8 @@ class TestF5Converter:
                                         'bigip_v11-ConversionStatus.xlsx'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_6_0
     def test_without_options_v10(self, cleanup):
         """
         Check the Configuration file for V10
@@ -259,6 +271,8 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v10'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_7_0
     def test_without_options_v11(self, cleanup):
         """
         Check the configuration file for v11
@@ -269,6 +283,8 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_8_0
     def test_no_profile_merge_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -281,6 +297,8 @@ class TestF5Converter:
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_9_0
     def test_no_profile_merge_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -293,6 +311,8 @@ class TestF5Converter:
                 no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_10_0
     def test_prefix_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -305,6 +325,8 @@ class TestF5Converter:
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_11_0
     def test_prefix_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -317,6 +339,8 @@ class TestF5Converter:
                 prefix=setup.get('prefix'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_12_0
     def test_cloud_name_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -329,6 +353,8 @@ class TestF5Converter:
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_13_0
     def test_cloud_name_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -341,6 +367,8 @@ class TestF5Converter:
                 cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_14_0
     def test_tenant_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -353,6 +381,8 @@ class TestF5Converter:
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_15_0
     def test_tenant_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -365,6 +395,8 @@ class TestF5Converter:
                 tenant=setup.get('tenant'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_16_0
     def test_input_folder_path_not_provided_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -377,6 +409,8 @@ class TestF5Converter:
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_17_0
     def test_input_folder_path_not_provided_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -389,6 +423,8 @@ class TestF5Converter:
                 input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_18_0
     def test_ignore_config_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -401,6 +437,8 @@ class TestF5Converter:
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_19_0
     def test_ignore_config_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -413,6 +451,8 @@ class TestF5Converter:
                 ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_20_0
     def test_patch_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -425,6 +465,8 @@ class TestF5Converter:
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_21_0
     def test_patch_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -437,6 +479,8 @@ class TestF5Converter:
                 patch=setup.get('patch'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_22_0
     def test_not_in_use_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -449,6 +493,8 @@ class TestF5Converter:
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_23_0
     def test_not_in_use_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -461,6 +507,8 @@ class TestF5Converter:
                 not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_24_0
     def test_passphrase_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -473,6 +521,8 @@ class TestF5Converter:
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_25_0
     def test_passphrase_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -485,6 +535,8 @@ class TestF5Converter:
                 f5_passphrase_file=setup.get('f5_passphrase_file'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_27_0
     def test_reboot_clean_v10_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -506,6 +558,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_26_0
     def test_auto_upload_v10_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -520,6 +574,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_27_0
     def test_reboot_clean_v10_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -541,6 +597,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_28_0
     def test_cross_tenant_auto_upload(self, cleanup):
         """
         Input File on Local Filesystem, Test for cloning of cross tenant references
@@ -556,6 +614,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_29_0
     def test_reboot_clean_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -577,6 +637,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_30_0
     def test_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -592,6 +654,8 @@ class TestF5Converter:
                 password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_31_0
     def test_create_ansible_object_creation_v11(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -605,6 +669,8 @@ class TestF5Converter:
                 ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_32_0
     def test_reboot_clean_ansible_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -626,6 +692,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_33_0
     def test_ansible_object_auto_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -647,6 +715,8 @@ class TestF5Converter:
             output = e.output
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_34_0
     def test_create_ansible_object_v10(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -660,6 +730,8 @@ class TestF5Converter:
                 ansible=setup.get('ansible'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_35_0
     def test_vs_level_status_true_v10(self, cleanup):
         """
         Input File on Local Filesystem, VS level option true usage
@@ -671,6 +743,8 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_36_0
     def test_vs_level_status_false_v10(self, cleanup):
         """
         Input File on Local Filesystem, VS level option false usage
@@ -681,6 +755,8 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_37_0
     def test_http_cookie_type_on_file_v10(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
@@ -697,6 +773,8 @@ class TestF5Converter:
                 assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_38_0
     def test_http_cookie_type_on_file_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -712,6 +790,8 @@ class TestF5Converter:
                 assert type['persistence_type'] == 'PERSISTENCE_TYPE_HTTP_COOKIE'
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_39_0
     def test_vrf_flag_on_file_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -722,6 +802,8 @@ class TestF5Converter:
                 )
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_39_0
     def test_vrf_flag_on_file_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -732,6 +814,8 @@ class TestF5Converter:
                 )
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_40_0
     def test_vrf_flag_on_file_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -742,6 +826,8 @@ class TestF5Converter:
                 )
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_40_0
     def test_vrf_flag_on_file_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -752,6 +838,8 @@ class TestF5Converter:
                 )
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_41_0
     def test_error_and_warning_count_on_file_v11(self):
         set_update_count()
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -763,6 +851,8 @@ class TestF5Converter:
         assert get_count('error') == 0
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_42_0
     def test_error_and_warning_count_on_file_v10(self):
         set_update_count()
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
@@ -774,6 +864,8 @@ class TestF5Converter:
         assert get_count('error') == 0
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_43_0
     def test_pool_sharing_on_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -797,6 +889,8 @@ class TestF5Converter:
             assert firstPool == secondPool
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_44_0
     def test_pool_without_sharing_on_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -820,6 +914,8 @@ class TestF5Converter:
             assert firstPool != secondPool
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_45_0
     def test_pool_sharing_on_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -843,6 +939,8 @@ class TestF5Converter:
             assert firstPool == secondPool
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_46_0
     def test_pool_without_sharing_on_v10(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
                 f5_config_version=setup.get('file_version_v10'),
@@ -867,6 +965,8 @@ class TestF5Converter:
 
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_47_0
     def test_rule_config_v11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -926,6 +1026,8 @@ class TestF5Converter:
             assert networkProfileName == policyName
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_48_0
     def test_singke_vs_rules_with_multiple_objects(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -961,6 +1063,8 @@ class TestF5Converter:
         assert networkProfileName == policyName
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_49_0
     def test_custom_config_for_hm(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -991,6 +1095,8 @@ class TestF5Converter:
                    'external_monitor']['command_code']
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_50_0
     def test_reboot_clean_v11_17_1_1_for_custom_config(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1012,6 +1118,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_51_0
     def test_custom_config_object_upload(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -1026,6 +1134,8 @@ class TestF5Converter:
                 f5_ssh_port=setup.get('f5_ssh_port'),)
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_52_0
     def test_vs_level_status_with_v11(self):
 
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
@@ -1043,6 +1153,8 @@ class TestF5Converter:
         assert output_vs_level_status(self.excel_path)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_53_0
     def test_reboot_clean_for_segroup_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1064,6 +1176,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_54_0
     def test_segroup_and_upload_v11_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -1090,6 +1204,8 @@ class TestF5Converter:
            raise Exception("Controller segroup creation faild %s" % res.content)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_55_0
     def test_reboot_clean_v11_17_1_1_for_vrf_ref(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -1111,6 +1227,8 @@ class TestF5Converter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_56_0
     def test_vrf_ref_upload_v11_17_1_1(self):
         res = create_vrf_context(file_attribute['controller_ip_17_1_1'],
                      file_attribute['controller_user_17_1_1'],
@@ -1131,6 +1249,8 @@ class TestF5Converter:
             raise Exception("Controller vrf creation faild %s" % res.content)
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_57_0
     def test_application_profile_on_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1156,6 +1276,8 @@ class TestF5Converter:
                 assert profileName == "System-L4-Application"
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_58_0
     def test_vs_filter_on_v11(self, cleanup):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1169,6 +1291,8 @@ class TestF5Converter:
         assert True == os.path.exists(file)
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_59_0
     def test_pool_sharing_policy(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1206,6 +1330,8 @@ class TestF5Converter:
                 assert pool == poolName
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_60_0
     def test_check_header_insert_policy_onV11(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1230,6 +1356,8 @@ class TestF5Converter:
             assert policyName == httppolicy
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_61_0
     def test_check_health_monitor_request_url(self):
         f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
                 f5_config_version=setup.get('file_version_v11'),
@@ -1253,5 +1381,61 @@ class TestF5Converter:
                 request = eachUrl.split('\\r')[0]
                 assert request.endswith('HTTP/1.1') or request.endswith(
                     'HTTP/1.0') == True
+
+    @pytest.mark.travis
+    def test_single_http_req_policy_with_multiple_vs(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'),
+                custom_config=setup.get('custom_config_file'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+            vsObject = data['VirtualService']
+            httpPolicySet = data['HTTPPolicySet']
+
+        vsDataOfVa1 = [data for data in vsObject if data['name'] == "F5-VIP-443-004"]
+        vsDataOfVa2 = [data for data in vsObject if data['name'] == "F5-VIP-Forwarding"]
+        httppolicydata1 = vsDataOfVa1[0]['http_policies']
+        httppolicydata2 = vsDataOfVa2[0]['http_policies']
+        for i in httppolicydata1:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+            if policyName == "req_pol_rule-F5-VIP-443-004":
+              httppolicy = [data['name'] for data in httpPolicySet if
+                            data['name'] == policyName][0]
+              print policyName, " ", httppolicy
+              assert policyName == httppolicy
+
+        for i in httppolicydata2:
+            policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
+            if policyName == "req_pol_rule-F5-VIP-Forwarding":
+              httppolicy = [data['name'] for data in httpPolicySet if
+                            data['name'] == policyName][0]
+              print policyName, " ", httppolicy
+              assert policyName == httppolicy
+
+    @pytest.mark.travis
+    def test_check_dup_of_key_should_not_be_in_json(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                output_file_path=setup.get('output_file_path'))
+
+        file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(file) as json_file:
+            data = json.load(json_file)
+
+        for key in data.keys():
+            if isinstance(data[key], list):
+                for i in data[key]:
+                    assert 'dup_of' not in i.keys()
+
+
 def teardown():
     pass

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -2789,7 +2789,7 @@ definitions:
                 description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 type: string
                 default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
@@ -2809,7 +2809,7 @@ definitions:
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'."
+                description: "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
             explicit_tracking:
@@ -3053,6 +3053,9 @@ definitions:
                 description: "This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine's in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2."
                 type: string
                 default: "ACTIVE_STANDBY_SE_1"
+            allow_invalid_client_cert:
+                description: "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3."
+                type: boolean
             analytics_policy:
                 description: "Determines analytics settings for the application."
                 $ref: '#/definitions/AnalyticsPolicy'

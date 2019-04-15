@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
@@ -576,6 +576,9 @@ definitions:
                 default: "GSLB_SERVICE_ALGORITHM_PRIORITY"
             site_persistence_enabled:
                 description: "Enable site-persistence for the GslbService. . Field introduced in 17.2.1."
+                type: boolean
+            skip_vs_site_selection_policy:
+                description: "A DNS VS hosting a GSLB service can have DNS policies. These DNS policies apply to all the GSLB services. If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing algorithm. Field introduced in 18.2.3."
                 type: boolean
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."

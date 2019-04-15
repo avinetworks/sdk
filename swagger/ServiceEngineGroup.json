@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -917,7 +917,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -1016,7 +1016,7 @@
                 }, 
                 "instance_flavor": {
                     "type": "string", 
-                    "description": "Instance/Flavor type for SE instance."
+                    "description": "Instance/Flavor name for SE instance."
                 }, 
                 "auto_redistribute_active_standby_load": {
                     "type": "boolean", 
@@ -1145,7 +1145,7 @@
                 }, 
                 "waf_learning_memory": {
                     "type": "integer", 
-                    "description": "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field introduced in 18.1.2.", 
+                    "description": "Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "name": {
@@ -1179,6 +1179,12 @@
                 "disable_se_memory_check": {
                     "type": "boolean", 
                     "description": "If set, disable the config memory check done in service engine. Field introduced in 18.1.2."
+                }, 
+                "datascript_timeout": {
+                    "default": 1000000, 
+                    "type": "integer", 
+                    "description": "Number of instructions before datascript times out. Allowed values are 0-100000000. Field introduced in 18.2.3.", 
+                    "format": "int64"
                 }, 
                 "udf_log_throttle": {
                     "default": 100, 
@@ -1268,7 +1274,7 @@
                 "waf_learning_interval": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field introduced in 18.1.2.", 
+                    "description": "Frequency with which SE publishes WAF learning. Allowed values are 1-43200. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "auto_rebalance_capacity_per_se": {
@@ -1285,6 +1291,10 @@
                     }, 
                     "type": "array", 
                     "description": "IPv6 Subnets assigned to the SE group. Required for VS group placement. Field introduced in 18.1.1."
+                }, 
+                "reboot_on_stop": {
+                    "type": "boolean", 
+                    "description": "Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3."
                 }, 
                 "se_probe_port": {
                     "default": 7, 
@@ -1426,9 +1436,18 @@
                     "type": "boolean", 
                     "description": "Enable VIP on all interfaces of SE. Field introduced in 17.1.1."
                 }, 
+                "se_routing": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field introduced in 18.2.3."
+                }, 
                 "auto_rebalance": {
                     "type": "boolean", 
                     "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
+                }, 
+                "data_network_id": {
+                    "type": "string", 
+                    "description": "Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3."
                 }, 
                 "max_memory_per_mempool": {
                     "default": 64, 
@@ -1515,6 +1534,11 @@
                     "description": "Maximum number of Virtual Services that can be placed on a single Service Engine. East West Virtual Services are excluded from this limit. Allowed values are 1-1000.", 
                     "format": "int32"
                 }, 
+                "app_learning_memory_percent": {
+                    "type": "integer", 
+                    "description": "A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
                 "enable_multi_lb": {
                     "type": "boolean", 
                     "description": "Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2."
@@ -1529,6 +1553,10 @@
                     "description": "Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2.", 
                     "format": "int32"
                 }, 
+                "use_standard_alb": {
+                    "type": "boolean", 
+                    "description": "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
+                }, 
                 "se_vs_hb_max_pkts_in_batch": {
                     "default": 64, 
                     "type": "integer", 
@@ -1537,7 +1565,7 @@
                 }, 
                 "app_cache_percent": {
                     "type": "integer", 
-                    "description": "A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.2.", 
+                    "description": "A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.", 
                     "format": "int32"
                 }, 
                 "se_sb_dedicated_core": {
@@ -1676,7 +1704,7 @@
                 }, 
                 "se_pcap_reinit_frequency": {
                     "type": "integer", 
-                    "description": "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. [Valid range   15 mins - 12 hours, 0 - disables]. Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
+                    "description": "Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "description": {
