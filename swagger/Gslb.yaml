@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi Gslb Object API
     contact:
         name: Avi Networks Inc.
@@ -502,6 +502,10 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            async_interval:
+                description: "Frequency with which messages are propagated to Vs Mgr. Value of 0 disables async behavior and RPC are sent inline. Allowed values are 0-5. Field introduced in 18.2.3."
+                type: integer
+                format: int32
             clear_on_max_retries:
                 description: "Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024."
                 type: integer
@@ -535,6 +539,10 @@ definitions:
                 description: "Frequency with which group members communicate. Allowed values are 1-3600."
                 type: integer
                 default: 15
+                format: int32
+            send_interval_prior_to_maintenance_mode:
+                description: "The user can specify a send-interval while entering maintenance mode. The validity of this 'maintenance send-interval' is only during maintenance mode. When the user leaves maintenance mode, the original send-interval is reinstated. This internal variable is used to store the original send-interval. . Field introduced in 18.2.3."
+                type: integer
                 format: int32
             sites:
                 description: "Select Avi site member belonging to this Gslb."

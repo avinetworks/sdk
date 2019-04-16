@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SecurityPolicy Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure securitypolicy <key>\n- show securitypolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -588,6 +588,11 @@
             ], 
             "type": "object", 
             "properties": {
+                "threshold": {
+                    "type": "integer", 
+                    "description": "Threshold, in terms of DNS packet per second, for the DNS attack vector. Field introduced in 18.2.3.", 
+                    "format": "int64"
+                }, 
                 "max_mitigation_age": {
                     "default": 60, 
                     "type": "integer", 

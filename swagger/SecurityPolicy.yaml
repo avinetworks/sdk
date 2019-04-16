@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.2'
+    version: '18.2.3'
     title: Avi SecurityPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -371,6 +371,10 @@ definitions:
             mitigation_action:
                 description: "Mitigation action to perform for this DNS attack vector. Field introduced in 18.2.1."
                 $ref: '#/definitions/AttackMitigationAction'
+            threshold:
+                description: "Threshold, in terms of DNS packet per second, for the DNS attack vector. Field introduced in 18.2.3."
+                type: integer
+                format: int64
     DnsAttacks:
         type: object
         properties:

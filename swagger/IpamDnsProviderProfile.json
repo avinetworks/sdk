@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -632,6 +632,23 @@
                 }
             }
         }, 
+        "TencentZoneNetwork": {
+            "required": [
+                "availability_zone", 
+                "usable_subnet_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "usable_subnet_id": {
+                    "type": "string", 
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
+                }, 
+                "availability_zone": {
+                    "type": "string", 
+                    "description": "Availability zone. Field introduced in 18.2.3."
+                }
+            }
+        }, 
         "IpamDnsAwsProfile": {
             "required": [
                 "vpc_id"
@@ -653,15 +670,20 @@
                     "type": "array", 
                     "description": "Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1."
                 }, 
+                "egress_service_subnets": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "A list of subnets used for source IP allocation for egress services in Openshift/k8s on Aws. Field introduced in 18.2.3."
+                }, 
                 "region": {
                     "type": "string", 
                     "description": "AWS region."
                 }, 
-                "ttl": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
-                    "format": "int32"
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "AWS access key ID."
                 }, 
                 "secret_access_key": {
                     "type": "string", 
@@ -678,9 +700,11 @@
                     "type": "string", 
                     "description": "VPC name."
                 }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
+                "ttl": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
+                    "format": "int32"
                 }, 
                 "iam_assume_role": {
                     "type": "string", 
@@ -713,6 +737,41 @@
                 "authentication_token": {
                     "type": "string", 
                     "description": "Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1."
+                }
+            }
+        }, 
+        "IpamDnsTencentProfile": {
+            "required": [
+                "region", 
+                "vpc_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "zones": {
+                    "items": {
+                        "$ref": "#/definitions/TencentZoneNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 18.2.3."
+                }, 
+                "vpc_id": {
+                    "type": "string", 
+                    "description": "VPC ID. Field introduced in 18.2.3."
+                }, 
+                "region": {
+                    "type": "string", 
+                    "description": "VPC region. Field introduced in 18.2.3."
+                }, 
+                "usable_subnet_ids": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
+                }, 
+                "cloud_credentials_ref": {
+                    "type": "string", 
+                    "description": "Credentials to access Tencent cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.3."
                 }
             }
         }, 
@@ -775,6 +834,10 @@
                     "description": "Provider details if type is AWS.", 
                     "$ref": "#/definitions/IpamDnsAwsProfile"
                 }, 
+                "tencent_profile": {
+                    "description": "Provider details for Tencent Cloud. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpamDnsTencentProfile"
+                }, 
                 "uuid": {
                     "type": "string", 
                     "description": "UUID of the IPAM/DNS Provider profile."
@@ -815,7 +878,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
+                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
                 }
             }
         }, 

@@ -1,0 +1,797 @@
+{
+    "info": {
+        "title": "Avi WafPolicyPSMGroup Object API", 
+        "version": "18.2.3", 
+        "description": "CLI\n```\n- configure wafpolicypsmgroup <key>\n- show wafpolicypsmgroup <key>\n```\n", 
+        "contact": {
+            "url": "https://avinetworks.com/contact-us", 
+            "name": "Avi Networks Inc.", 
+            "email": "support@avinetworks.com"
+        }
+    }, 
+    "paths": {
+        "/wafpolicypsmgroup/{uuid}": {
+            "put": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "WafPolicyPSMGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "patch": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "WafPolicyPSMGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "delete": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "204": {
+                        "description": "object deleted", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "404": {
+                        "description": "not found"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/wafpolicypsmgroup": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "WafPolicyPSMGroup object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroup"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/WafPolicyPSMGroupApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    }, 
+    "definitions": {
+        "MethodMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "WafPolicyPSMGroupApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/WafPolicyPSMGroup"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "WafPSMLocationMatch": {
+            "type": "object", 
+            "properties": {
+                "path": {
+                    "description": "Apply the rules only to requests that match the specified URI. If this is not set, the path will not be checked. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/PathMatch"
+                }, 
+                "host": {
+                    "description": "Apply the rules only to requests that match the specified Host header. If this is not set, the host header will not be checked. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "methods": {
+                    "description": "Apply the rules only to requests that have the specified methods. If this is not set, the method will not be checked. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/MethodMatch"
+                }
+            }
+        }, 
+        "HostHdrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "value": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s) in the host header."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                }
+            }
+        }, 
+        "WafPolicyPSMGroup": {
+            "required": [
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable this WAF rule group. Field introduced in 18.2.3."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of this object. Field introduced in 18.2.3."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Freetext comment about this group. Field introduced in 18.2.3."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
+                }, 
+                "locations": {
+                    "items": {
+                        "$ref": "#/definitions/WafPSMLocation"
+                    }, 
+                    "type": "array", 
+                    "description": "Positive Security Model locations. These are used to partition the application name space. Field introduced in 18.2.3."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "User defined name of the group. Field introduced in 18.2.3."
+                }, 
+                "is_learning_group": {
+                    "type": "boolean", 
+                    "description": "This field indicates that this group is used for learning. Field introduced in 18.2.3."
+                }, 
+                "hit_action": {
+                    "default": "WAF_ACTION_NO_OP", 
+                    "type": "string", 
+                    "description": "If a rule in this group matches the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
+                }, 
+                "miss_action": {
+                    "default": "WAF_ACTION_NO_OP", 
+                    "type": "string", 
+                    "description": "If a rule in this group does not match the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }
+            }
+        }, 
+        "WafPSMMatchElement": {
+            "required": [
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "sub_element": {
+                    "type": "string", 
+                    "description": "The name of the request collection element. This can be empty, if we address the whole collection or a scalar element. Field introduced in 18.2.3."
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": "Match_element index. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "The variable specification. For example ARGS or REQUEST_COOKIES. This can be a scalar like PATH_INFO. Enum options - WAF_VARIABLE_ARGS, WAF_VARIABLE_ARGS_GET, WAF_VARIABLE_ARGS_POST, WAF_VARIABLE_ARGS_NAMES, WAF_VARIABLE_REQUEST_COOKIES, WAF_VARIABLE_QUERY_STRING, WAF_VARIABLE_REQUEST_BASENAME, WAF_VARIABLE_REQUEST_URI, WAF_VARIABLE_PATH_INFO. Field introduced in 18.2.3."
+                }, 
+                "excluded": {
+                    "type": "boolean", 
+                    "description": "Mark this element excluded, like in '!ARGS password'. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "WafPSMRule": {
+            "required": [
+                "index", 
+                "match_value_pattern", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Rule index, this is used to determine the order of the rules. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable this rule. Field introduced in 18.2.3."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Freetext comment about this rule. Field introduced in 18.2.3."
+                }, 
+                "match_value_pattern": {
+                    "type": "string", 
+                    "description": "A regular expression which describes the expected value. Field introduced in 18.2.3."
+                }, 
+                "match_elements": {
+                    "items": {
+                        "$ref": "#/definitions/WafPSMMatchElement"
+                    }, 
+                    "type": "array", 
+                    "description": "The match elements, for example ARGS id or ARGS|!ARGS password. Field introduced in 18.2.3."
+                }, 
+                "mode": {
+                    "type": "string", 
+                    "description": "WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.2.3."
+                }, 
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "The field match_value_pattern regular expression is case sensitive. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 18.2.3."
+                }, 
+                "match_value_max_length": {
+                    "type": "integer", 
+                    "description": "The maximum allowed length of the match_value. If this is not set, the length will not be checked. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "paranoia_level": {
+                    "default": "WAF_PARANOIA_LEVEL_LOW", 
+                    "type": "string", 
+                    "description": "WAF Ruleset paranoia mode. This is used to select Rules based on the paranoia-level. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 18.2.3."
+                }, 
+                "rule_id": {
+                    "type": "string", 
+                    "description": "Id field which is used for log and metric generation. This id must be unique for all rules in this group. Field introduced in 18.2.3."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "PathMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values."
+                }, 
+                "match_criteria": {
+                    "default": "CONTAINS", 
+                    "type": "string", 
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                }
+            }
+        }, 
+        "WafPSMLocation": {
+            "required": [
+                "index"
+            ], 
+            "type": "object", 
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/WafPSMRule"
+                    }, 
+                    "type": "array", 
+                    "description": "A list of rules which should be applied on this location. Field introduced in 18.2.3."
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": "Location index, this is used to determine the order of the locations. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Freetext comment about this location. Field introduced in 18.2.3."
+                }, 
+                "match": {
+                    "description": "Apply these rules only if the request is matching this description. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/WafPSMLocationMatch"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "User defined name for this location, if not set by the user, it is filled with data from the match. Field introduced in 18.2.3."
+                }
+            }
+        }
+    }, 
+    "basePath": "/api", 
+    "swagger": "2.0", 
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic", 
+            "description": "basic authentication"
+        }
+    }
+}

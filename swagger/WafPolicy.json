@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "18.2.2", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -494,22 +494,132 @@
         }
     }, 
     "definitions": {
-        "WafPolicyApiResponse": {
+        "WafPositiveSecurityModel": {
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "These groups should be used to separate different levels of concern. The order of the groups matters, one group may mark parts of the request as valid, so that subsequent groups will not check these parts. It is a reference to an object of type WafPolicyPSMGroup. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "WafPolicyWhitelist": {
+            "type": "object", 
+            "properties": {
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/WafPolicyWhitelistRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Rules to bypass WAF. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "IpAddrRange": {
             "required": [
-                "count", 
-                "results"
+                "begin", 
+                "end"
             ], 
             "type": "object", 
             "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
-                "results": {
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "MethodMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "methods": {
                     "items": {
-                        "$ref": "#/definitions/WafPolicy"
+                        "type": "string"
                     }, 
-                    "type": "array"
+                    "type": "array", 
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "IpAddrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                }, 
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "HdrMatch": {
+            "required": [
+                "hdr", 
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "hdr": {
+                    "type": "string", 
+                    "description": "Name of the HTTP header whose value is to be matched."
+                }, 
+                "value": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values to match in the HTTP header."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
                 }
             }
         }, 
@@ -531,20 +641,29 @@
                 }
             }
         }, 
-        "IpAddr": {
+        "CookieMatch": {
             "required": [
-                "addr", 
-                "type"
+                "match_criteria", 
+                "name"
             ], 
             "type": "object", 
             "properties": {
-                "type": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
                     "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
                 }, 
-                "addr": {
+                "name": {
                     "type": "string", 
-                    "description": "IP address."
+                    "description": "Name of the cookie."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "String value in the cookie."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
                 }
             }
         }, 
@@ -554,72 +673,30 @@
                 "confidence": {
                     "default": 90, 
                     "type": "integer", 
-                    "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2.", 
+                    "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "enable": {
                     "type": "boolean", 
-                    "description": "Enable Learning for WAF policy. Field introduced in 18.1.2."
+                    "description": "Enable Learning for WAF policy. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 }, 
                 "sampling_percent": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2.", 
+                    "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "arg_summarization_threshold": {
                     "default": 3, 
                     "type": "integer", 
-                    "description": "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2.", 
+                    "description": "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "path_summarization_threshold": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2.", 
+                    "description": "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
-                }
-            }
-        }, 
-        "WafRuleGroup": {
-            "required": [
-                "enable", 
-                "index", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "exclude_list": {
-                    "items": {
-                        "$ref": "#/definitions/WafExcludeListEntry"
-                    }, 
-                    "type": "array", 
-                    "description": "Exclude list for the WAF rule group. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.1."
-                }, 
-                "enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable or disable WAF Rule Group. Field introduced in 17.2.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.2.1."
-                }, 
-                "index": {
-                    "type": "integer", 
-                    "description": " Field introduced in 17.2.1.", 
-                    "format": "int32"
-                }, 
-                "rules": {
-                    "items": {
-                        "$ref": "#/definitions/WafRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Rules as per Modsec language. Field introduced in 17.2.1."
-                }, 
-                "force_detection": {
-                    "type": "boolean", 
-                    "description": "When set to 'true', any rule in this group will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
                 }
             }
         }, 
@@ -642,6 +719,10 @@
                     "type": "array", 
                     "description": "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be  enforced before the CRS groups. Field introduced in 17.2.1."
                 }, 
+                "whitelist": {
+                    "description": "A set of rules which describe conditions under which the request will bypass the WAF. This will be executed in the request header phase before any other WAF related code. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/WafPolicyWhitelist"
+                }, 
                 "crs_groups": {
                     "items": {
                         "$ref": "#/definitions/WafRuleGroup"
@@ -650,8 +731,12 @@
                     "description": "WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1."
                 }, 
                 "learning": {
-                    "description": "Configure parameters for WAF learning. Field introduced in 18.1.2.", 
+                    "description": "Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "$ref": "#/definitions/WafLearning"
+                }, 
+                "enable_app_learning": {
+                    "type": "boolean", 
+                    "description": "Enable Application Learning for this WAF policy. Field introduced in 18.2.3."
                 }, 
                 "paranoia_level": {
                     "default": "WAF_PARANOIA_LEVEL_LOW", 
@@ -713,6 +798,42 @@
                     "default": "WAF_MODE_DETECTION_ONLY", 
                     "type": "string", 
                     "description": "WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
+                }, 
+                "positive_security_model": {
+                    "description": "The Positive Security Model. This is used to describe how the request or parts of the request should look like. It is executed in the Request Body Phase of Avi WAF. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/WafPositiveSecurityModel"
+                }
+            }
+        }, 
+        "PathMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values."
+                }, 
+                "match_criteria": {
+                    "default": "CONTAINS", 
+                    "type": "string", 
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
                 }
             }
         }, 
@@ -757,6 +878,240 @@
                 "uri_match_criteria": {
                     "description": "Criteria for URI matching. Field introduced in 17.2.8.", 
                     "$ref": "#/definitions/WafExclusionType"
+                }
+            }
+        }, 
+        "WafPolicyApiResponse": {
+            "required": [
+                "count", 
+                "results"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
+                }, 
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/WafPolicy"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "ProtocolMatch": {
+            "required": [
+                "match_criteria", 
+                "protocols"
+            ], 
+            "type": "object", 
+            "properties": {
+                "protocols": {
+                    "type": "string", 
+                    "description": "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "WafPolicyWhitelistRule": {
+            "required": [
+                "index", 
+                "match", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Rules are executed in order of this index field. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the rule. Field introduced in 18.2.3."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "A name describing the rule in a short form. Field introduced in 18.2.3."
+                }, 
+                "match": {
+                    "description": "Match criteria describing requests to which this rule should be applied. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/MatchTarget"
+                }, 
+                "actions": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Description of this rule. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "MatchTarget": {
+            "type": "object", 
+            "properties": {
+                "client_ip": {
+                    "description": "Configure client ip addresses.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "protocol": {
+                    "description": "Configure the type of HTTP protocol.", 
+                    "$ref": "#/definitions/ProtocolMatch"
+                }, 
+                "hdrs": {
+                    "items": {
+                        "$ref": "#/definitions/HdrMatch"
+                    }, 
+                    "type": "array", 
+                    "description": "Configure HTTP header(s)."
+                }, 
+                "host_hdr": {
+                    "description": "Configure the host header.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "vs_port": {
+                    "description": "Configure virtual service ports.", 
+                    "$ref": "#/definitions/PortMatch"
+                }, 
+                "version": {
+                    "description": "Configure versions of the HTTP protocol.", 
+                    "$ref": "#/definitions/HTTPVersionMatch"
+                }, 
+                "cookie": {
+                    "description": "Configure HTTP cookie(s).", 
+                    "$ref": "#/definitions/CookieMatch"
+                }, 
+                "path": {
+                    "description": "Configure request paths.", 
+                    "$ref": "#/definitions/PathMatch"
+                }, 
+                "query": {
+                    "description": "Configure request query.", 
+                    "$ref": "#/definitions/QueryMatch"
+                }, 
+                "method": {
+                    "description": "Configure HTTP methods.", 
+                    "$ref": "#/definitions/MethodMatch"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "PortMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ports": {
+                    "items": {
+                        "type": "integer"
+                    }, 
+                    "type": "array", 
+                    "description": "Listening TCP port(s). Allowed values are 1-65535.", 
+                    "format": "int32"
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "HostHdrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "value": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s) in the host header."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                }
+            }
+        }, 
+        "QueryMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS."
+                }
+            }
+        }, 
+        "HTTPVersionMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }, 
+                "versions": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO."
                 }
             }
         }, 
@@ -811,6 +1166,48 @@
                 "rule_id": {
                     "type": "string", 
                     "description": "Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2."
+                }
+            }
+        }, 
+        "WafRuleGroup": {
+            "required": [
+                "enable", 
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "exclude_list": {
+                    "items": {
+                        "$ref": "#/definitions/WafExcludeListEntry"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude list for the WAF rule group. The fields in the exclude list entry are logically and'ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be 'logical or' of them. Field introduced in 17.2.1."
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable WAF Rule Group. Field introduced in 17.2.1."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.2.1."
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": " Field introduced in 17.2.1.", 
+                    "format": "int32"
+                }, 
+                "rules": {
+                    "items": {
+                        "$ref": "#/definitions/WafRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Rules as per Modsec language. Field introduced in 17.2.1."
+                }, 
+                "force_detection": {
+                    "type": "boolean", 
+                    "description": "When set to 'true', any rule in this group will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
                 }
             }
         }
