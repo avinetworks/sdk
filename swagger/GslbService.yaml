@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
@@ -436,7 +436,7 @@ definitions:
             -   name
         properties:
             algorithm:
-                description: "The load balancing algorithm will pick a local member within the GSLB service list of available Members. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO."
+                description: "The load balancing algorithm will pick a local member within the GSLB service list of available Members. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY."
                 type: string
                 default: "GSLB_ALGORITHM_ROUND_ROBIN"
             consistent_hash_mask:
@@ -450,6 +450,9 @@ definitions:
                 description: "Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 type: boolean
                 default: True
+            fallback_algorithm:
+                description: "The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3, 18.2.4."
+                type: string
             members:
                 description: "Select list of VIPs belonging to this GSLB service."
                 type: array
@@ -576,9 +579,6 @@ definitions:
                 default: "GSLB_SERVICE_ALGORITHM_PRIORITY"
             site_persistence_enabled:
                 description: "Enable site-persistence for the GslbService. . Field introduced in 17.2.1."
-                type: boolean
-            skip_vs_site_selection_policy:
-                description: "A DNS VS hosting a GSLB service can have DNS policies. These DNS policies apply to all the GSLB services. If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing algorithm. Field introduced in 18.2.3."
                 type: boolean
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."

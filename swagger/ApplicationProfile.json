@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -705,6 +705,7 @@
                     "format": "int32"
                 }, 
                 "edns": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1."
                 }
@@ -896,7 +897,7 @@
                 }, 
                 "enabled": {
                     "type": "boolean", 
-                    "description": "Enable/disable HTTP object caching."
+                    "description": "Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must beset to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value)."
                 }, 
                 "heuristic_expire": {
                     "type": "boolean", 
@@ -1311,6 +1312,11 @@
                     "description": "Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
+                "fwd_close_hdr_for_bound_connections": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Forward the Connection  Close header coming from backend server to the client if connection-switching is enabled, i.e. front-end and backend connections are bound together. Field introduced in 18.2.3."
+                }, 
                 "keepalive_header": {
                     "type": "boolean", 
                     "description": "Send HTTP 'Keep-Alive' header to the client. By default, the timeout specified in the 'Keep-Alive Timeout' field will be used unless the 'Use App Keepalive Timeout' flag is set, in which case the timeout sent by the application will be honored."
@@ -1406,10 +1412,9 @@
                     "description": "Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000.", 
                     "format": "int64"
                 }, 
-                "client_max_header_size": {
-                    "default": 12, 
+                "max_bad_rps_cip": {
                     "type": "integer", 
-                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.", 
+                    "description": "Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
                 "server_side_redirect_to_https": {
@@ -1443,11 +1448,6 @@
                     "type": "boolean", 
                     "description": "Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI."
                 }, 
-                "max_bad_rps_cip": {
-                    "type": "integer", 
-                    "description": "Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
-                    "format": "int32"
-                }, 
                 "respond_with_100_continue": {
                     "default": true, 
                     "type": "boolean", 
@@ -1469,10 +1469,10 @@
                     "type": "boolean", 
                     "description": "Mark server cookies with the 'Secure' attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set."
                 }, 
-                "max_response_headers_size": {
-                    "default": 48, 
+                "client_max_header_size": {
+                    "default": 12, 
                     "type": "integer", 
-                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.", 
+                    "description": "Maximum size in Kbytes of a single HTTP header in the client request. Allowed values are 1-64.", 
                     "format": "int32"
                 }, 
                 "xff_alternate_name": {
@@ -1483,6 +1483,12 @@
                 "max_rps_cip": {
                     "type": "integer", 
                     "description": "Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
+                    "format": "int32"
+                }, 
+                "max_response_headers_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.", 
                     "format": "int32"
                 }, 
                 "client_max_body_size": {

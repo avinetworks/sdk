@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -385,6 +385,20 @@ paths:
                 401:
                     description: log in failed
 definitions:
+    DsrProfile:
+        type: object
+        required:
+            -   dsr_encap_type
+            -   dsr_type
+        properties:
+            dsr_encap_type:
+                description: "Encapsulation type to use when DSR is L3. Enum options - ENCAP_IPINIP. Field introduced in 18.2.3."
+                type: string
+                default: "ENCAP_IPINIP"
+            dsr_type:
+                description: "DSR type L2/L3. Enum options - DSR_TYPE_L2, DSR_TYPE_L3. Field introduced in 18.2.3."
+                type: string
+                default: "DSR_TYPE_L3"
     NetworkProfile:
         type: object
         required:
@@ -454,6 +468,9 @@ definitions:
     TCPFastPathProfile:
         type: object
         properties:
+            dsr_profile:
+                description: "DSR profile information. Field introduced in 18.2.3."
+                $ref: '#/definitions/DsrProfile'
             enable_syn_protection:
                 description: "When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections."
                 type: boolean
@@ -548,6 +565,9 @@ definitions:
     UDPFastPathProfile:
         type: object
         properties:
+            dsr_profile:
+                description: "DSR profile information. Field introduced in 18.2.3."
+                $ref: '#/definitions/DsrProfile'
             per_pkt_loadbalance:
                 description: "When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server."
                 type: boolean
