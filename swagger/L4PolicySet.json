@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi L4PolicySet Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure l4policyset <key>\n- show l4policyset <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

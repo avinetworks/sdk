@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CloudRuntime Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- show cloudruntime\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

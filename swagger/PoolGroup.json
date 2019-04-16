@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroup Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure poolgroup <key>\n- show poolgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
