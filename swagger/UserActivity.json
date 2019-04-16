@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi UserActivity Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- show useractivity <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

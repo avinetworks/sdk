@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -497,6 +497,11 @@ definitions:
             allow_basic_authentication:
                 description: "Enable/Disable HTTP basic authentication."
                 type: boolean
+            api_force_timeout:
+                description: "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3."
+                type: integer
+                default: 1
+                format: int32
             disable_remote_cli_shell:
                 description: "Disable Remote CLI Shell Client access."
                 type: boolean
@@ -691,6 +696,9 @@ definitions:
             uuid:
                 description: "Unique object identifier of the object."
                 type: string
+            welcome_workflow_complete:
+                description: "This flag is set once the Initial Controller Setup workflow is complete. Field introduced in 18.2.3."
+                type: boolean
     SystemConfigurationApiResponse:
         type: object
         required:

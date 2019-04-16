@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi ErrorPageBody Object API
     contact:
         name: Avi Networks Inc.
@@ -357,7 +357,7 @@ definitions:
                 description: "Error page body sent to client when match. Field introduced in 17.2.4."
                 type: string
             format:
-                description: "Format of an error page body {HTML, JSON}. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
+                description: "Format of an error page body HTML or JSON. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
                 type: string
                 default: "ERROR_PAGE_FORMAT_HTML"
             name:
