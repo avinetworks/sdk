@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

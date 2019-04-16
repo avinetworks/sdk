@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -3323,6 +3323,11 @@ definitions:
             tenant_ref:
                 description: " It is a reference to an object of type Tenant."
                 type: string
+            topology_policies:
+                description: "Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsPolicies'
             traffic_clone_profile_ref:
                 description: "Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1."
                 type: string
