@@ -248,6 +248,9 @@ type VirtualService struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
+	// Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3.
+	TopologyPolicies []*DNSPolicies `json:"topology_policies,omitempty"`
+
 	// Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1.
 	TrafficCloneProfileRef *string `json:"traffic_clone_profile_ref,omitempty"`
 
