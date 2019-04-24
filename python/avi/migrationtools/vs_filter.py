@@ -39,8 +39,8 @@ def filter_for_vs(avi_config, vs_names):
         vs = [vs for vs in avi_config['VirtualService']
               if vs['name'] == vs_name]
         if not vs:
-            print 'ERROR: VS object not found with name %s' % vs_name
-            exit()
+            print 'WARNING: VS object not found with name %s' % vs_name
+            continue
         vs = vs[0]
         new_config['VirtualService'].append(vs)
         print '%s(VirtualService)' % vs_name
