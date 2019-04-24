@@ -60,6 +60,8 @@ class TestSaml(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1548_2_0
     def test_basic_vs_using_okta(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -83,6 +85,8 @@ class TestSaml(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1548_3_0
     def test_basic_vs_using_onelogin(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -106,6 +110,8 @@ class TestSaml(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1548_1_0
     def test_basic_vs_using_ApiSession(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
