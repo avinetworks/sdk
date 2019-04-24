@@ -120,6 +120,8 @@ class TestNetscalerConverter:
         conv.csv_writer_dict_list = list()
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_1_0
     def test_download(self, cleanup):
         """
         Download Input File Flow.
@@ -134,6 +136,8 @@ class TestNetscalerConverter:
 		                   password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_2_0
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
@@ -141,6 +145,8 @@ class TestNetscalerConverter:
         percentage_success('./output/ns-ConversionStatus.xlsx')
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_2_0
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
@@ -149,6 +155,8 @@ class TestNetscalerConverter:
                             './output/ns-Output.json')
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_3_0
     def test_without_options_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Controller v17.1.1
@@ -157,6 +165,8 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_4_0
     def test_no_profile_merge_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -167,6 +177,8 @@ class TestNetscalerConverter:
                        no_profile_merge=setup.get('no_profile_merge'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_5_0
     def test_prefix_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -177,6 +189,8 @@ class TestNetscalerConverter:
                        prefix=setup.get('prefix'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_6_0
     def test_cloud_name_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -187,6 +201,8 @@ class TestNetscalerConverter:
                        cloud_name=setup.get('cloud_name'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_7_0
     def test_tenant_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -197,6 +213,8 @@ class TestNetscalerConverter:
                        tenant=setup.get('tenant'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_8_0
     def test_input_folder_path_not_provided_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -207,6 +225,8 @@ class TestNetscalerConverter:
                        input_folder_location=setup.get('input_folder_location'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_9_0
     def test_ignore_config_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -217,6 +237,8 @@ class TestNetscalerConverter:
                        ignore_config=setup.get('ignore_config'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_10_0
     def test_not_in_use_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -227,6 +249,8 @@ class TestNetscalerConverter:
                        not_in_use=setup.get('not_in_use'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_11_0
     def test_no_redirect_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -237,6 +261,8 @@ class TestNetscalerConverter:
                        redirect=setup.get('redirect'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_12_0
     def test_redirect_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -246,6 +272,8 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'),)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_13_0
     def test_reboot_clean_v11_17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -263,6 +291,8 @@ class TestNetscalerConverter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_14_0
     def test_auto_upload_17_1_1(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1,
@@ -278,6 +308,8 @@ class TestNetscalerConverter:
                        password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_15_0
     def test_create_ansible_object(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.1.1
@@ -289,6 +321,8 @@ class TestNetscalerConverter:
                        ansible=setup.get('ansible'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_16_0
     def test_reboot_clean__ansible_v17_1_1(self, cleanup):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
@@ -307,6 +341,8 @@ class TestNetscalerConverter:
             print "Controller is not running properly."
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_17_0
     def test_ansible_object_auto_upload(self, cleanup):
         """
         Input File on Local Filesystem, Test for Controller v17.x.x
@@ -326,6 +362,8 @@ class TestNetscalerConverter:
             output = e.output
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_18_0
     def test_vs_level_status_true(self, cleanup):
         """
         Input File on Local Filesystem, VS level option true usage
@@ -335,6 +373,8 @@ class TestNetscalerConverter:
                        vs_level_status=setup.get('vs_level_status'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_19_0
     def test_vs_level_status_false(self, cleanup):
         """
         Input File on Local Filesystem, VS level option false usage
@@ -343,6 +383,8 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1497_20_0
     def test_create_tenant_cloud_and_upload_controller_17_1_1(self, cleanup):
         """
         Create Tenant and Cloud name on the Controller v17.1.1,
@@ -366,6 +408,8 @@ class TestNetscalerConverter:
                        password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_21_0
     def test_error_and_warning_count(self):
         set_update_count()
         netscaler_conv(config_file_name=setup.get('config_file_name'),
@@ -378,6 +422,8 @@ class TestNetscalerConverter:
         assert get_count('warning') == 5
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_22_0
     def test_lb_algorithm_match(self):
         set_update_count()
         ns_config = get_ns_conf_dict(setup.get('config_file_name'))[0]
@@ -407,6 +453,8 @@ class TestNetscalerConverter:
                     assert pool['lb_algorithm'] == algo
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_23_0
     def test_multiple_backup_pool(self):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
@@ -424,6 +472,8 @@ class TestNetscalerConverter:
                     assert each_member['priority_label'] == '2'
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1497_24_0
     def test_sslcert_dummy_status(self):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
