@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VIMgrVcenterRuntime Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- show vinfra vcenter <key>\n- vinfra spawn\n- vinfra remove\n- vinfra mgmtip\n- vinfra modifymgmtip\n- vinfra setvnic\n- vinfra modifyvnic\n- show vcenter portgroups\n- rediscover vcenter\n- getnetworks vcenter <key>\n- verifylogin vcenter\n- verifylogin openstack\n- verifylogin aws\n- faultinject vcenter\n- deletenetwork vcenter\n- vcenterstatus cloud\n- vcenterdiag cloud\n- controller ip subnets\n- genevent vcenter\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
