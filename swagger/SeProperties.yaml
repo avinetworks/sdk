@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -368,7 +368,7 @@ definitions:
             -   min_value
         properties:
             attack:
-                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
+                description: "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
                 type: string
             max_value:
                 description: "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack."
@@ -532,7 +532,7 @@ definitions:
                 type: boolean
                 default: True
             ns_helper_deq_interval_msec:
-                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3."
+                description: "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1."
                 type: integer
                 default: 20
                 format: int32
@@ -551,10 +551,18 @@ definitions:
                 type: integer
                 default: 1000
                 format: int32
+            se_grp_change_disruptive:
+                description: "Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3."
+                type: boolean
             send_se_ready_timeout:
-                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3."
+                description: "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1."
                 type: integer
                 default: 300
+                format: int32
+            states_flush_interval:
+                description: "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5."
+                type: integer
+                default: 100
                 format: int32
             vnic_dhcp_ip_check_interval:
                 description: "DHCP ip check interval. Allowed values are 1-1000."
@@ -575,6 +583,11 @@ definitions:
                 description: "Probe vnic interval."
                 type: integer
                 default: 5
+                format: int32
+            vnicdb_cmd_history_size:
+                description: "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3."
+                type: integer
+                default: 256
                 format: int32
     SeBootupCompressionProperties:
         type: object
@@ -639,12 +652,12 @@ definitions:
                 default: 1
                 format: int32
             l7_conns_per_core:
-                description: "Number of l7_conns_per_core."
+                description: "Number of L7 connections that can be cached per core."
                 type: integer
                 default: 16384
                 format: int32
             l7_resvd_listen_conns_per_core:
-                description: "Number of l7_resvd_listen_conns_per_core."
+                description: "Number of reserved L7 listener connections per core."
                 type: integer
                 default: 256
                 format: int32
@@ -710,9 +723,8 @@ definitions:
                 default: 1
                 format: int32
             se_pcap_pkt_count:
-                description: "Max number of packets the pcap interface can hold."
+                description: "Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces."
                 type: integer
-                default: 256
                 format: int32
             se_pcap_pkt_sz:
                 description: "Max size of each packet in the pcap interface."
@@ -894,7 +906,7 @@ definitions:
                 description: "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
             downstream_send_timeout:
-                description: "Number of downstream_send_timeout."
+                description: "Timeout for downstream to become writable."
                 type: integer
                 default: 3600000
                 format: int32
@@ -1086,7 +1098,7 @@ definitions:
                 description: "enables mcache_fetch."
                 type: boolean
             mcache_max_cache_size:
-                description: "max cache size."
+                description: "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3."
                 type: integer
                 format: int64
             mcache_store_in_enabled:
@@ -1104,7 +1116,7 @@ definitions:
                 description: "enables mcache_store_out."
                 type: boolean
             mcache_store_se_max_size:
-                description: "Number of mcache_store_se_max_size."
+                description: "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3."
                 type: integer
                 format: int64
             ngx_free_connection_stack:
@@ -1203,7 +1215,7 @@ definitions:
                 default: 3600
                 format: int32
             se_dump_core_on_assert:
-                description: "Enable core dump on assert. Field introduced in 18.1.3."
+                description: "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1."
                 type: boolean
             se_handle_interface_routes:
                 description: "Accept/ignore interface routes (i.e, no next hop IP address)."
@@ -1278,48 +1290,44 @@ definitions:
                 default: 4
                 format: int32
             upstream_connect_timeout:
-                description: "Number of upstream_connect_timeout."
+                description: "Timeout for backend connection."
                 type: integer
                 default: 3600000
                 format: int32
             upstream_connpool_cache_thresh:
-                description: "Number of upstream_connpool_cache_thresh."
+                description: "L7 Upstream Connection pool cache threshold in percentage."
                 type: integer
                 default: -1
                 format: int32
             upstream_connpool_conn_idle_thresh_tmo:
-                description: "Number of upstream_connpool_conn_idle_thresh_tmo."
+                description: "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold."
                 type: integer
                 default: -1
                 format: int32
             upstream_connpool_conn_idle_tmo:
-                description: "Number of upstream_connpool_conn_idle_tmo."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_conn_life_tmo:
-                description: "Number of upstream_connpool_conn_life_tmo."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_conn_max_reuse:
-                description: "Number of upstream_connpool_conn_max_reuse."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_core_max_cache:
-                description: "Number of upstream_connpool_core_max_cache."
+                description: "L7 Upstream Connection pool max cache size per core."
                 type: integer
                 default: -1
                 format: int32
             upstream_connpool_enable:
-                description: "Placeholder for description of property upstream_connpool_enable of obj type SeRuntimeProperties field type str  type boolean"
+                description: "Enable upstream connection pool."
                 type: boolean
                 default: True
             upstream_connpool_server_max_cache:
-                description: "Number of upstream_connpool_server_max_cache."
+                description: "Deprecated. Field deprecated in 18.2.1."
                 type: integer
-                default: -1
                 format: int32
             upstream_connpool_strategy:
                 description: "Number of upstream_connpool_strategy."
@@ -1330,12 +1338,12 @@ definitions:
                 description: "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
                 type: boolean
             upstream_read_timeout:
-                description: "Number of upstream_read_timeout."
+                description: "Timeout for data to be received from backend."
                 type: integer
                 default: 3600000
                 format: int32
             upstream_send_timeout:
-                description: "Number of upstream_send_timeout."
+                description: "Timeout for upstream to become writable."
                 type: integer
                 default: 3600000
                 format: int32

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -430,7 +430,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -581,7 +581,7 @@
                     "$ref": "#/definitions/UDPFastPathProfile"
                 }, 
                 "udp_proxy_profile": {
-                    "description": "Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3.", 
+                    "description": "Configure UDP Proxy network profile. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
                     "$ref": "#/definitions/UDPProxyProfile"
                 }
             }
@@ -641,7 +641,7 @@
                 }, 
                 "connection_mirror": {
                     "type": "boolean", 
-                    "description": "When enabled, Avi mirrors all TCP fastpath connections to standby.Applicable only in Legacy HA Mode. Field introduced in 18.1.3."
+                    "description": "When enabled, Avi mirrors all TCP fastpath connections to standby. Applicable only in Legacy HA Mode. Field introduced in 18.1.3,18.2.1."
                 }, 
                 "uuid": {
                     "type": "string", 
@@ -681,7 +681,12 @@
                 "congestion_recovery_scaling_factor": {
                     "default": 2, 
                     "type": "integer", 
-                    "description": "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3.", 
+                    "description": "Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1.", 
+                    "format": "int32"
+                }, 
+                "reassembly_queue_size": {
+                    "type": "integer", 
+                    "description": "Maximum number of TCP segments that can be queued for reassembly. Configuring this to 0 disables the feature and provides unlimited queuing. Field introduced in 17.2.13, 18.1.4, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "max_retransmissions": {
@@ -726,9 +731,9 @@
                     "description": "Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE."
                 }, 
                 "slow_start_scaling_factor": {
-                    "default": 4, 
+                    "default": 1, 
                     "type": "integer", 
-                    "description": "Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3.", 
+                    "description": "Congestion window scaling factor during slow start. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "min_rexmt_timeout": {
@@ -773,7 +778,7 @@
                 "session_idle_timeout": {
                     "default": 10, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8, 18.1.3.", 
+                    "description": "The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }
             }

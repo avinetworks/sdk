@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugController Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- debug controller <key>\n- debug controller <key>\n- show debug controller <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -49,7 +49,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -542,6 +542,23 @@
                 }
             }
         }, 
+        "SeRpcProxyDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "method_name": {
+                    "type": "string", 
+                    "description": "Method name of RPC. Field introduced in 18.1.5, 18.2.1."
+                }, 
+                "queue": {
+                    "type": "string", 
+                    "description": "Queue name of RPC. Field introduced in 18.1.5, 18.2.1."
+                }, 
+                "se_uuid": {
+                    "type": "string", 
+                    "description": "UUID of Service Engine. Field introduced in 18.1.5, 18.2.1."
+                }
+            }
+        }, 
         "DebugFilterUnion": {
             "required": [
                 "type"
@@ -555,6 +572,10 @@
                 "cloud_connector_debug_filter": {
                     "description": "Placeholder for description of property cloud_connector_debug_filter of obj type DebugFilterUnion field type str  type object", 
                     "$ref": "#/definitions/CloudConnectorDebugFilter"
+                }, 
+                "se_rpc_proxy_filter": {
+                    "description": "Add SE RPC Proxy Filter. Field introduced in 18.1.5, 18.2.1.", 
+                    "$ref": "#/definitions/SeRpcProxyDebugFilter"
                 }, 
                 "metrics_debug_filter": {
                     "description": "Placeholder for description of property metrics_debug_filter of obj type DebugFilterUnion field type str  type object", 
@@ -572,13 +593,17 @@
                     "description": "Placeholder for description of property state_cache_mgr_debug_filter of obj type DebugFilterUnion field type str  type object", 
                     "$ref": "#/definitions/StateCacheMgrDebugFilter"
                 }, 
+                "metricsapi_srv_debug_filter": {
+                    "description": "Add Metricsapi Server filter. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/MetricsApiSrvDebugFilter"
+                }, 
                 "autoscale_mgr_debug_filter": {
                     "description": "Placeholder for description of property autoscale_mgr_debug_filter of obj type DebugFilterUnion field type str  type object", 
                     "$ref": "#/definitions/AutoScaleMgrDebugFilter"
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG."
                 }, 
                 "vs_debug_filter": {
                     "description": "Placeholder for description of property vs_debug_filter of obj type DebugFilterUnion field type str  type object", 
@@ -599,7 +624,7 @@
                 }, 
                 "metric_entity": {
                     "type": "string", 
-                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 }, 
                 "entity": {
                     "type": "string", 
@@ -665,7 +690,7 @@
                 }, 
                 "metric_entity": {
                     "type": "string", 
-                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY."
+                    "description": " Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY."
                 }
             }
         }, 
@@ -721,7 +746,7 @@
             "properties": {
                 "sub_module": {
                     "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG."
                 }, 
                 "log_level": {
                     "type": "string", 
@@ -756,6 +781,15 @@
                 "uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "MetricsApiSrvDebugFilter": {
+            "type": "object", 
+            "properties": {
+                "entity_ref": {
+                    "type": "string", 
+                    "description": "uuid of the entity. It is a reference to an object of type Virtualservice. Field introduced in 18.2.3."
                 }
             }
         }, 

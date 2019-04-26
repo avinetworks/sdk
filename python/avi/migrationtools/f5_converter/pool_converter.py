@@ -135,19 +135,8 @@ class PoolConfigConv(object):
             if monitor_obj:
                 tenant = conv_utils.get_name(
                     monitor_obj[0]['tenant_ref'])
-                # Added to handle cross tenant references of health monitor object.
-                if 'admin' not in str(tenant).lower() and tenant != tenant_ref:
-                    # Clone health monitor to tenant_ref
-                    clone_hm = copy.deepcopy(monitor_obj[0])
-                    clone_hm['name'] += '-clone'
-                    updated_tenant_ref = conv_utils.get_object_ref(tenant_ref, 'tenant'),
-                    clone_hm['tenant_ref'] = updated_tenant_ref[0]
-                    monitor_config_list.append(clone_hm)
-                    monitor_refs.append(conv_utils.get_object_ref(clone_hm['name'], 'healthmonitor', tenant=tenant_ref))
-                else:
-                    monitor_refs.append(conv_utils.get_object_ref(
-                        monitor_obj[0]['name'], 'healthmonitor',
-                        tenant=tenant))
+                monitor_refs.append(conv_utils.get_object_ref(monitor_obj[0]['name'],
+                                                              'healthmonitor', tenant=tenant))
             else:
                 LOG.warning("Monitor not found: %s for pool %s" %
                             (monitor, pool_name))
@@ -189,7 +178,15 @@ class PoolConfigConv(object):
                 limits['connection_limit']
         if limits.get('rate_limit', 0) > 0:
             pool_obj['max_conn_rate_per_server'] = {
-                'count': limits['rate_limit']
+                'count': limits['rate_limit'],
+                'explicit_tracking': False,
+                'period': 1,
+                'action': {
+                    'status_code': 'HTTP_LOCAL_RESPONSE_STATUS_CODE_429',
+                    'type': "RL_ACTION_NONE"
+                },
+                'burst_sz': 0,
+                'fine_grain': False
             }
         return pool_obj
 

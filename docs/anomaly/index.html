@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc"></div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -250,7 +250,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
 
@@ -430,7 +430,57 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT. </div><div class="param">aggregation_window (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ability to reduce the information returned in header. </div><div class="param">dimension_filter_op (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; uuid of the entity type. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references. </div><div class="param">include_related (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; include anomalies from related objects. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS. </div><div class="param">obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object id like vip or server ip. </div><div class="param">order_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; page id for the anomaly query. </div><div class="param">page_size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; size of each page of anomalies. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">priority (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; server ip port. </div><div class="param">serviceengine_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ID of the Node. Eg. if query is SE specific then it would have SE UUID. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. </div>
     </div>  <!-- field-items -->
 
 
@@ -593,7 +643,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
 
@@ -773,7 +823,57 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT. </div><div class="param">aggregation_window (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ability to reduce the information returned in header. </div><div class="param">dimension_filter_op (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; uuid of the entity type. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references. </div><div class="param">include_related (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; include anomalies from related objects. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS. </div><div class="param">obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object id like vip or server ip. </div><div class="param">order_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; page id for the anomaly query. </div><div class="param">page_size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; size of each page of anomalies. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">priority (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; server ip port. </div><div class="param">serviceengine_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ID of the Node. Eg. if query is SE specific then it would have SE UUID. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. </div>
     </div>  <!-- field-items -->
 
 
@@ -936,7 +1036,7 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
 
@@ -1116,7 +1216,57 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">aggregate_obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Aggregate metrics for all the records for obj_id. When this is set obj_id is treated as a filter rather than a dimension. Field introduced in 17.2.1. </div><div class="param">aggregation (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - METRICS_ANOMALY_AGG_NONE, METRICS_ANOMALY_AGG_COUNT. </div><div class="param">aggregation_window (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; factor of aggregation window to the step. Eg. if requirement to is aggregate count ever 30 mins using 5 minute samples then value is 6. </div><div class="param">detailed_header (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ability to reduce the information returned in header. </div><div class="param">dimension_filter_op (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filters the obj_id based on the filter specified. Enum options - METRICS_FILTER_EQUALS, METRICS_FILTER_LIKE, METRICS_FILTER_CONTAINS, METRICS_FILTER_NOT_EQUALS. </div><div class="param">entity_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; uuid of the entity type. </div><div class="param">include_refs (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Resolve uuid to references. </div><div class="param">include_related (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; include anomalies from related objects. </div><div class="param">limit (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Max number of metric samples. </div><div class="param">metric_entity (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div><div class="param">metric_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; This is of the form l4_server. comma seperated values. </div><div class="param">model (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS. </div><div class="param">obj_id (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object id like vip or server ip. </div><div class="param">order_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Positive means sort from start and Negative sign means sort from end. Only metric_timestamp is supported for now. </div><div class="param">page (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; page id for the anomaly query. </div><div class="param">page_size (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; size of each page of anomalies. </div><div class="param">pool_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Pool name. This will apply to any backend stats that are specified in the query. </div><div class="param">priority (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; High priority Anomaly. Enum options - ANZ_PRIORITY_HIGH, ANZ_PRIORITY_MEDIUM, ANZ_PRIORITY_LOW. </div><div class="param">result_format (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; format of the data returned. Enum options - METRICS_FORMAT_JSON, METRICS_FORMAT_CSV, METRICS_FORMAT_TXT, METRICS_FORMAT_PROTOBUF. </div><div class="param">server (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; server ip port. </div><div class="param">serviceengine_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; ID of the Node. Eg. if query is SE specific then it would have SE UUID. </div><div class="param">start (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Start time for the metrics in ISO 8601 format. Default is UNIX Epoch. </div><div class="param">step (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; step interval in seconds. </div><div class="param">stop (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; End time for the metrics in ISO 8601 format. Default is now. Negative numbers mean relative time from now. </div><div class="param">tenant_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; UUID of the Tenant. </div>
     </div>  <!-- field-items -->
 
 
@@ -1301,7 +1451,7 @@ font-style: italic;
 <div class="param">include_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Resolve uuid to references. </div>
 <div class="param">include_related (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> include anomalies from related objects. </div>
 <div class="param">limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max number of metric samples. format: int32</div>
-<div class="param">metric_entity </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY. </div>
+<div class="param">metric_entity </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Metrics Types supported. Enum options - VSERVER_METRICS_ENTITY, VM_METRICS_ENTITY, SE_METRICS_ENTITY, CONTROLLER_METRICS_ENTITY, APPLICATION_METRICS_ENTITY, TENANT_METRICS_ENTITY, POOL_METRICS_ENTITY. </div>
 <div class="param">metric_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This is of the form l4_server. comma seperated values. </div>
 <div class="param">model (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - EXPONENTIAL_MOVING_AVG, EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS, HOLTWINTERS_AT_MS. </div>
 <div class="param">obj_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> object id like vip or server ip. </div>

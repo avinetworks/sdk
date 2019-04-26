@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -49,7 +49,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -613,7 +613,7 @@
                 "status_code": {
                     "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
                     "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 }, 
                 "type": {
                     "default": "RL_ACTION_NONE", 
@@ -679,7 +679,7 @@
                 "negative_caching_ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 1-86400. Field introduced in 17.2.4.", 
+                    "description": "Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record's minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4.", 
                     "format": "int32"
                 }, 
                 "aaaa_empty_response": {
@@ -701,7 +701,7 @@
                 "ttl": {
                     "default": 30, 
                     "type": "integer", 
-                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 1-86400.", 
+                    "description": "Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400.", 
                     "format": "int32"
                 }, 
                 "edns": {
@@ -1018,7 +1018,7 @@
                 }, 
                 "attack": {
                     "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP."
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
                 }, 
                 "min_value": {
                     "type": "integer", 
@@ -1087,7 +1087,7 @@
                 "transaction_timeout": {
                     "default": 32, 
                     "type": "integer", 
-                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3.", 
+                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
                     "format": "int32"
                 }
             }
@@ -1117,7 +1117,7 @@
             "properties": {
                 "count": {
                     "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'.", 
+                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
                 "http_header": {
@@ -1165,7 +1165,7 @@
                     "$ref": "#/definitions/RateProfile"
                 }, 
                 "custom_requests_rate_limit": {
-                    "description": "Rate Limit all HTTP requests that map to any custom string to all URLs of the Virtual Service. Field introduced in 17.2.13,18.1.3.", 
+                    "description": "Rate Limit all HTTP requests that map to any custom string. Field introduced in 17.2.13,18.1.3,18.2.1.", 
                     "$ref": "#/definitions/RateProfile"
                 }, 
                 "client_ip_to_uri_failed_requests_rate_limit": {
@@ -1212,6 +1212,26 @@
             ], 
             "type": "object", 
             "properties": {
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
+                }, 
+                "http_profile": {
+                    "description": "Specifies the HTTP application proxy profile parameters.", 
+                    "$ref": "#/definitions/HTTPApplicationProfile"
+                }, 
+                "preserve_client_port": {
+                    "type": "boolean", 
+                    "description": "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
+                }, 
+                "dos_rl_profile": {
+                    "description": "Specifies various security related controls for virtual service.", 
+                    "$ref": "#/definitions/DosRateLimitProfile"
+                }, 
+                "preserve_client_ip": {
+                    "type": "boolean", 
+                    "description": "Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing."
+                }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
@@ -1229,46 +1249,34 @@
                     "description": "Specifies various DNS service related controls for virtual service.", 
                     "$ref": "#/definitions/DnsServiceApplicationProfile"
                 }, 
-                "preserve_client_ip": {
-                    "type": "boolean", 
-                    "description": "Specifies if client IP needs to be preserved for backend connection. Not compatible with Connection Multiplexing."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
                 }, 
                 "sip_service_profile": {
-                    "description": "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3.", 
+                    "description": "Specifies various SIP service related controls for virtual service. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
                     "$ref": "#/definitions/SipServiceApplicationProfile"
                 }, 
-                "http_profile": {
-                    "description": "Specifies the HTTP application proxy profile parameters.", 
-                    "$ref": "#/definitions/HTTPApplicationProfile"
+                "created_by": {
+                    "type": "string", 
+                    "description": "Name of the application profile creator. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
-                "preserve_client_port": {
-                    "type": "boolean", 
-                    "description": "Specifies if we need to preserve client port while preserving client IP for backend connections. Field introduced in 17.2.7."
+                "name": {
+                    "type": "string", 
+                    "description": "The name of the application profile."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "dos_rl_profile": {
-                    "description": "Specifies various security related controls for virtual service.", 
-                    "$ref": "#/definitions/DosRateLimitProfile"
+                "cloud_config_cksum": {
+                    "type": "string", 
+                    "description": "Checksum of application profiles. Internally set by cloud connector. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
                 "type": {
                     "type": "string", 
                     "description": "Specifies which application layer proxy is enabled for the virtual service. Enum options - APPLICATION_PROFILE_TYPE_L4, APPLICATION_PROFILE_TYPE_HTTP, APPLICATION_PROFILE_TYPE_SYSLOG, APPLICATION_PROFILE_TYPE_DNS, APPLICATION_PROFILE_TYPE_SSL, APPLICATION_PROFILE_TYPE_SIP."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "The name of the application profile."
                 }
             }
         }, 
@@ -1279,6 +1287,15 @@
                     "default": "PROXY_PROTOCOL_VERSION_1", 
                     "type": "string", 
                     "description": "Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2."
+                }, 
+                "ssl_client_certificate_mode": {
+                    "default": "SSL_CLIENT_CERTIFICATE_NONE", 
+                    "type": "string", 
+                    "description": "Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3."
+                }, 
+                "pki_profile_ref": {
+                    "type": "string", 
+                    "description": "Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3."
                 }, 
                 "proxy_protocol_enabled": {
                     "type": "boolean", 
@@ -1316,6 +1333,10 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. ."
+                }, 
+                "enable_request_body_metrics": {
+                    "type": "boolean", 
+                    "description": "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1."
                 }, 
                 "http2_enabled": {
                     "type": "boolean", 
@@ -1399,11 +1420,9 @@
                     "description": "Set of match/action rules that govern what happens when the client certificate request is enabled.", 
                     "$ref": "#/definitions/SSLClientCertificateAction"
                 }, 
-                "client_max_request_size": {
-                    "default": 48, 
-                    "type": "integer", 
-                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
-                    "format": "int32"
+                "ssl_everywhere_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
                 }, 
                 "compression_profile": {
                     "description": "HTTP Compression settings to use with this HTTP Profile.", 
@@ -1414,9 +1433,11 @@
                     "description": "Maximum unknown URIs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
-                "ssl_everywhere_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
+                "client_max_request_size": {
+                    "default": 48, 
+                    "type": "integer", 
+                    "description": "Maximum size in Kbytes of all the client HTTP request headers. Allowed values are 1-256.", 
+                    "format": "int32"
                 }, 
                 "spdy_fwd_proxy_mode": {
                     "type": "boolean", 
@@ -1477,6 +1498,11 @@
                     "type": "integer", 
                     "description": "Maximum unknown client IPs per second. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
+                }, 
+                "hsts_subdomains_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1."
                 }, 
                 "client_body_timeout": {
                     "default": 30000, 

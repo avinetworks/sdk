@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure dnspolicy <key> - show dnspolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -305,6 +305,10 @@ font-style: italic;
           "allow" : true,
           "reset_conn" : true
         },
+        "pool_switching" : {
+          "pool_ref" : "aeiou",
+          "pool_group_ref" : "aeiou"
+        },
         "gslb_site_selection" : {
           "site_name" : "aeiou",
           "fallback_site_names" : [ "aeiou" ],
@@ -346,7 +350,7 @@ font-style: italic;
     "created_by" : "aeiou",
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -451,6 +455,10 @@ font-style: italic;
         "allow" : true,
         "reset_conn" : true
       },
+      "pool_switching" : {
+        "pool_ref" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -492,7 +500,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -668,6 +676,10 @@ font-style: italic;
         "allow" : true,
         "reset_conn" : true
       },
+      "pool_switching" : {
+        "pool_ref" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -709,7 +721,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -825,6 +837,10 @@ font-style: italic;
         "allow" : true,
         "reset_conn" : true
       },
+      "pool_switching" : {
+        "pool_ref" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -866,7 +882,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -982,6 +998,10 @@ font-style: italic;
         "allow" : true,
         "reset_conn" : true
       },
+      "pool_switching" : {
+        "pool_ref" : "aeiou",
+        "pool_group_ref" : "aeiou"
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -1023,7 +1043,7 @@ font-style: italic;
   "created_by" : "aeiou",
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1064,6 +1084,7 @@ font-style: italic;
     <li><a href="#DnsRuleAction"><code>DnsRuleAction</code></a></li>
     <li><a href="#DnsRuleActionAllowDrop"><code>DnsRuleActionAllowDrop</code></a></li>
     <li><a href="#DnsRuleActionGslbSiteSelection"><code>DnsRuleActionGslbSiteSelection</code></a></li>
+    <li><a href="#DnsRuleActionPoolSwitching"><code>DnsRuleActionPoolSwitching</code></a></li>
     <li><a href="#DnsRuleActionResponse"><code>DnsRuleActionResponse</code></a></li>
     <li><a href="#DnsRuleDnsRrSet"><code>DnsRuleDnsRrSet</code></a></li>
     <li><a href="#DnsRuleMatchTarget"><code>DnsRuleMatchTarget</code></a></li>
@@ -1083,7 +1104,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsARdata">DnsARdata</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for fqdn. </div>
+      <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address for FQDN. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1119,7 +1140,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsPolicy">DnsPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.1.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the DNS Policy. Field introduced in 17.1.1. </div>
@@ -1154,13 +1175,13 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DnsRrSet">DnsRrSet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">cname (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsCnameRdata">DnsCnameRdata</a></span> Canonical name in CNAME record. Field introduced in 18.1.2. </div>
-<div class="param">fqdn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully Qualified Domain Name. Field introduced in 18.1.2. </div>
+      <div class="param">cname (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsCnameRdata">DnsCnameRdata</a></span> Canonical name in CNAME record. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">fqdn </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully Qualified Domain Name. Field introduced in 17.2.12, 18.1.2. </div>
 <div class="param">ip6_addresses (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAAAARdata">array[DnsAAAARdata]</a></span> IPv6 address in AAAA record. Field introduced in 18.1.2. </div>
-<div class="param">ip_addresses (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. Field introduced in 18.1.2. </div>
-<div class="param">nses (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 18.1.2. </div>
-<div class="param">ttl </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time To Live for this DNS record. Allowed values are 0-2147483647. Field introduced in 18.1.2. format: int32</div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.1.2. </div>
+<div class="param">ip_addresses (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">nses (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">ttl </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time To Live for this DNS record. Allowed values are 0-2147483647. Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1179,6 +1200,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">allow (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionAllowDrop">DnsRuleActionAllowDrop</a></span> Allow or drop the DNS query. Field introduced in 17.1.1. </div>
 <div class="param">gslb_site_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionGslbSiteSelection">DnsRuleActionGslbSiteSelection</a></span> Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5. </div>
+<div class="param">pool_switching (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionPoolSwitching">DnsRuleActionPoolSwitching</a></span> Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 18.1.3, 17.2.12. </div>
 <div class="param">response (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionResponse">DnsRuleActionResponse</a></span> Generate a response for the DNS query. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1198,19 +1220,26 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DnsRuleActionPoolSwitching">DnsRuleActionPoolSwitching</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">pool_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reference of the pool group to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type PoolGroup. Field introduced in 18.1.3, 17.2.12. </div>
+<div class="param">pool_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Reference of the pool to serve the passthrough DNS query which cannot be served locally. It is a reference to an object of type Pool. Field introduced in 18.1.3, 17.2.12. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DnsRuleActionResponse">DnsRuleActionResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">authoritative (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> DNS response is authoritative. Field introduced in 17.1.1. </div>
 <div class="param">rcode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS response code. Enum options - DNS_RCODE_NOERROR, DNS_RCODE_FORMERR, DNS_RCODE_SERVFAIL, DNS_RCODE_NXDOMAIN, DNS_RCODE_NOTIMP, DNS_RCODE_REFUSED, DNS_RCODE_YXDOMAIN, DNS_RCODE_YXRRSET, DNS_RCODE_NXRRSET, DNS_RCODE_NOTAUTH, DNS_RCODE_NOTZONE. Field introduced in 17.1.1. </div>
-<div class="param">resource_record_sets (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleDnsRrSet">array[DnsRuleDnsRrSet]</a></span> DNS resource record sets - (resource record set share the DNS domain name, type, and class). Field introduced in 18.1.2. </div>
+<div class="param">resource_record_sets (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleDnsRrSet">array[DnsRuleDnsRrSet]</a></span> DNS resource record sets - (resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2. </div>
 <div class="param">truncation (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> DNS response is truncated. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="DnsRuleDnsRrSet">DnsRuleDnsRrSet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">resource_record_set </div><div class="param-desc"><span class="param-type"><a href="#DnsRrSet">DnsRrSet</a></span> DNS resource record set - (records in the resource record set share the DNS domain name, type, and class). Field introduced in 18.1.2. </div>
-<div class="param">section (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS message section for the resource record set. Enum options - DNS_MESSAGE_SECTION_QUESTION, DNS_MESSAGE_SECTION_ANSWER, DNS_MESSAGE_SECTION_AUTHORITY, DNS_MESSAGE_SECTION_ADDITIONAL. Field introduced in 18.1.2. </div>
+      <div class="param">resource_record_set </div><div class="param-desc"><span class="param-type"><a href="#DnsRrSet">DnsRrSet</a></span> DNS resource record set - (records in the resource record set share the DNS domain name, type, and class). Field introduced in 17.2.12, 18.1.2. </div>
+<div class="param">section (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS message section for the resource record set. Enum options - DNS_MESSAGE_SECTION_QUESTION, DNS_MESSAGE_SECTION_ANSWER, DNS_MESSAGE_SECTION_AUTHORITY, DNS_MESSAGE_SECTION_ADDITIONAL. Field introduced in 17.2.12, 18.1.2. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

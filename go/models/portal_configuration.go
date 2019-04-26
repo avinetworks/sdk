@@ -13,6 +13,9 @@ type PortalConfiguration struct {
 	// Disable Remote CLI Shell Client access.
 	DisableRemoteCliShell *bool `json:"disable_remote_cli_shell,omitempty"`
 
+	// Disable Swagger access. Field introduced in 18.2.3.
+	DisableSwagger *bool `json:"disable_swagger,omitempty"`
+
 	// Enable/Disable Clickjacking protection.
 	EnableClickjackingProtection *bool `json:"enable_clickjacking_protection,omitempty"`
 

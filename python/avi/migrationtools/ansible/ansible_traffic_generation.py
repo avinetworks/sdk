@@ -108,7 +108,8 @@ class TrafficGen(object):
     def create_ansible_enable(self, vs_dict, ansible_dict):
         pass
 
-    def get_status_vs(self, vs_name, f5server, username, password, ns_vs_name_dict=None):
+    def get_status_vs(self, vs_name, vip, f5server, username, password,
+                      ns_vs_name_dict=None, verify=False, partitions=[]):
         pass
 
 
@@ -191,7 +192,7 @@ class F5TrafficGen(TrafficGen):
                 WHEN: RESULT
             })
 
-    def get_status_vs(self, vs_name,vip, f5server, username, password,
+    def get_status_vs(self, vs_name, vip, f5server, username, password,
                       tenant= None, ns_vs_name_dict=None, verify=False,
                       partitions=[]):
         """
@@ -215,8 +216,8 @@ class F5TrafficGen(TrafficGen):
             if tenant == 'admin':
                 url = 'https://%s/mgmt/tm/ltm/virtual/%s/' % (f5server, vs_name)
             else:
-                url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (f5server, tenant,
-                                                          vs_name)
+                url = 'https://%s/mgmt/tm/ltm/virtual/~%s~%s/' % (
+                    f5server, tenant, vs_name)
         status = requests.get(url, verify=verify, auth=(username, password))
         status = json.loads(status.content)
         if status.pop(ENABLE, None):
@@ -286,7 +287,8 @@ class NetscalerTrafficGen(TrafficGen):
             }
         )
 
-    def get_status_vs(self, vs_name, f5server, username, password, verify=False):
+    def get_status_vs(self, vs_name, vip, f5server, username, password,
+                      ns_vs_name_dict=None, verify=False, partitions=[]):
         """
                 This function is used for getting status for F5 virtualservice.
                 :param vs_name: virtualservice name

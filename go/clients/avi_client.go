@@ -75,6 +75,7 @@ type AviClient struct {
 	NetworkRuntime                 *NetworkRuntimeClient
 	NetworkSecurityPolicy          *NetworkSecurityPolicyClient
 	PKIprofile                     *PKIprofileClient
+	PingAccessAgent                *PingAccessAgentClient
 	Pool                           *PoolClient
 	PoolGroup                      *PoolGroupClient
 	PoolGroupDeploymentPolicy      *PoolGroupDeploymentPolicyClient
@@ -93,6 +94,7 @@ type AviClient struct {
 	ServerAutoScalePolicy          *ServerAutoScalePolicyClient
 	ServiceEngine                  *ServiceEngineClient
 	ServiceEngineGroup             *ServiceEngineGroupClient
+	ServiceEnginePolicy            *ServiceEnginePolicyClient
 	SnmpTrapProfile                *SnmpTrapProfileClient
 	StringGroup                    *StringGroupClient
 	SystemConfiguration            *SystemConfigurationClient
@@ -114,7 +116,9 @@ type AviClient struct {
 	VirtualService                 *VirtualServiceClient
 	VrfContext                     *VrfContextClient
 	VsVip                          *VsVipClient
+	WafCRS                         *WafCRSClient
 	WafPolicy                      *WafPolicyClient
+	WafPolicyPSMGroup              *WafPolicyPSMGroupClient
 	WafProfile                     *WafProfileClient
 	Webhook                        *WebhookClient
 }
@@ -177,6 +181,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.NetworkRuntime = NewNetworkRuntimeClient(aviSession)
 	aviClient.NetworkSecurityPolicy = NewNetworkSecurityPolicyClient(aviSession)
 	aviClient.PKIprofile = NewPKIprofileClient(aviSession)
+	aviClient.PingAccessAgent = NewPingAccessAgentClient(aviSession)
 	aviClient.Pool = NewPoolClient(aviSession)
 	aviClient.PoolGroup = NewPoolGroupClient(aviSession)
 	aviClient.PoolGroupDeploymentPolicy = NewPoolGroupDeploymentPolicyClient(aviSession)
@@ -195,6 +200,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ServerAutoScalePolicy = NewServerAutoScalePolicyClient(aviSession)
 	aviClient.ServiceEngine = NewServiceEngineClient(aviSession)
 	aviClient.ServiceEngineGroup = NewServiceEngineGroupClient(aviSession)
+	aviClient.ServiceEnginePolicy = NewServiceEnginePolicyClient(aviSession)
 	aviClient.SnmpTrapProfile = NewSnmpTrapProfileClient(aviSession)
 	aviClient.StringGroup = NewStringGroupClient(aviSession)
 	aviClient.SystemConfiguration = NewSystemConfigurationClient(aviSession)
@@ -216,7 +222,9 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.VirtualService = NewVirtualServiceClient(aviSession)
 	aviClient.VrfContext = NewVrfContextClient(aviSession)
 	aviClient.VsVip = NewVsVipClient(aviSession)
+	aviClient.WafCRS = NewWafCRSClient(aviSession)
 	aviClient.WafPolicy = NewWafPolicyClient(aviSession)
+	aviClient.WafPolicyPSMGroup = NewWafPolicyPSMGroupClient(aviSession)
 	aviClient.WafProfile = NewWafProfileClient(aviSession)
 	aviClient.Webhook = NewWebhookClient(aviSession)
 	return &aviClient, nil

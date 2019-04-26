@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi ControllerProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -365,6 +365,11 @@ definitions:
                 type: integer
                 default: 15
                 format: int32
+            api_perf_logging_threshold:
+                description: "Threshold to log request timing in portal_performance.log and Server-Timing response header. Any stage taking longer than 1% of the threshold will be included in the Server-Timing header. Field introduced in 18.1.4, 18.2.1."
+                type: integer
+                default: 10000
+                format: int32
             appviewx_compat_mode:
                 description: "Export configuration in appviewx compatibility mode. Field introduced in 17.1.1."
                 type: boolean
@@ -392,6 +397,10 @@ definitions:
                 type: integer
                 default: 60
                 format: int32
+            cloud_reconcile:
+                description: "Enable/Disable periodic reconcile for all the clouds. Field introduced in 17.2.14,18.1.5,18.2.1."
+                type: boolean
+                default: True
             cluster_ip_gratuitous_arp_period:
                 description: "Period for cluster ip gratuitous arp job."
                 type: integer
@@ -421,6 +430,10 @@ definitions:
                 description: "Number of dummy."
                 type: integer
                 format: int32
+            enable_api_sharding:
+                description: "This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1."
+                type: boolean
+                default: True
             enable_memory_balancer:
                 description: "Enable/Disable Memory Balancer. Field introduced in 17.2.8."
                 type: boolean
@@ -485,6 +498,10 @@ definitions:
                 type: integer
                 default: 300
                 format: int32
+            se_from_marketplace:
+                description: "This setting decides whether SE is to be deployed from the cloud marketplace or to be created by the controller. The setting is applicable only when BYOL license is selected. Enum options - MARKETPLACE, IMAGE. Field introduced in 18.1.4, 18.2.1."
+                type: string
+                default: "IMAGE"
             se_offline_del:
                 description: "Number of se_offline_del."
                 type: integer
@@ -568,10 +585,15 @@ definitions:
                 type: integer
                 default: 360
                 format: int32
+            vs_scaleout_ready_check_interval:
+                description: "Interval for checking scaleout_ready status while controller is waiting for ScaleOutReady RPC from the Service Engine. Field introduced in 18.2.2."
+                type: integer
+                default: 60
+                format: int32
             vs_se_attach_ip_fail:
                 description: "Time to wait before marking attach IP operation on an SE as failed. Field introduced in 17.2.2."
                 type: integer
-                default: 3600
+                default: 600
                 format: int32
             vs_se_bootup_fail:
                 description: "Number of vs_se_bootup_fail."
@@ -600,6 +622,11 @@ definitions:
                 format: int32
             warmstart_se_reconnect_wait_time:
                 description: "Number of warmstart_se_reconnect_wait_time."
+                type: integer
+                default: 480
+                format: int32
+            warmstart_vs_resync_wait_time:
+                description: "Timeout for warmstart VS resync. Field introduced in 18.1.4, 18.2.1."
                 type: integer
                 default: 300
                 format: int32

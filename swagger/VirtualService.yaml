@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -142,7 +142,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -1705,6 +1705,47 @@ paths:
                         type: string
                 401:
                     description: log in failed
+    /virtualservice/{uuid}/sescaleoutstatus/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
     /virtualservice/{uuid}/traffic_clone_stats/:
         get:
             consumes:
@@ -2119,6 +2160,9 @@ definitions:
     AnalyticsPolicy:
         type: object
         properties:
+            all_headers:
+                description: "Log all headers. Field introduced in 18.1.4, 18.2.1."
+                type: boolean
             client_insights:
                 description: "Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE."
                 type: string
@@ -2132,9 +2176,8 @@ definitions:
                 items:
                     $ref: '#/definitions/ClientLogFilter'
             enabled:
-                description: "Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4."
+                description: "[DEPRECATED] Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Please use following fields in AnalytcsProfile to control this behavior instead. disable_vs_analytics (for VirtualServices metrics), disable_server_analytics (for Pool metrics) and client_log_config (for logs). Field deprecated in 18.2.1. Field introduced in 17.2.4."
                 type: boolean
-                default: True
             full_client_logs:
                 description: "Placeholder for description of property full_client_logs of obj type AnalyticsPolicy field type str  type object"
                 $ref: '#/definitions/FullClientLogs'
@@ -2187,6 +2230,35 @@ definitions:
                 type: string
             vgrp:
                 description: "vgrp of ApicVSPlacementReq."
+                type: string
+    AuthenticationPolicy:
+        type: object
+        properties:
+            auth_profile_ref:
+                description: "Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.1."
+                type: string
+            cookie_name:
+                description: "HTTP cookie name for authenticated session. Field introduced in 18.2.1."
+                type: string
+            cookie_timeout:
+                description: "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.1."
+                type: integer
+                default: 60
+                format: int32
+            entity_id:
+                description: "Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 18.2.1."
+                type: string
+            key:
+                description: "Key to generate the cookie. Field introduced in 18.2.1."
+                type: array
+                items:
+                    $ref: '#/definitions/HttpCookiePersistenceKey'
+            single_signon_url:
+                description: "Single Signon URL to be programmed on the IDP. Field introduced in 18.2.1."
+                type: string
+            sp_metadata:
+                description: "SAML SP metadata. Field introduced in 18.2.1."
+                readOnly: True
                 type: string
     Cif:
         type: object
@@ -2466,7 +2538,7 @@ definitions:
             -   enabled
         properties:
             all_headers:
-                description: "Log all headers."
+                description: "[DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4, 18.2.1."
                 type: boolean
             duration:
                 description: "How long should the system capture all logs, measured in minutes. Set to 0 for infinite. Special values are 0 - 'infinite'."
@@ -2495,6 +2567,18 @@ definitions:
                 $ref: '#/definitions/StringMatch'
             type:
                 description: "type of client authentication. Enum options - HTTP_BASIC_AUTH."
+                type: string
+    HttpCookiePersistenceKey:
+        type: object
+        properties:
+            aes_key:
+                description: "aes_key of HttpCookiePersistenceKey."
+                type: string
+            hmac_key:
+                description: "hmac_key of HttpCookiePersistenceKey."
+                type: string
+            name:
+                description: "name to use for cookie encryption."
                 type: string
     HTTPLocalFile:
         type: object
@@ -2705,7 +2789,7 @@ definitions:
                 description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 type: string
                 default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
@@ -2725,7 +2809,7 @@ definitions:
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'."
+                description: "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
             explicit_tracking:
@@ -2825,6 +2909,12 @@ definitions:
                 type: integer
                 default: 1024
                 format: int32
+    SSOPolicy:
+        type: object
+        properties:
+            authentication_policy:
+                description: "Authentication Policy Settings. Field introduced in 18.2.1."
+                $ref: '#/definitions/AuthenticationPolicy'
     StringMatch:
         type: object
         required:
@@ -2924,7 +3014,7 @@ definitions:
                 description: "IPv6 Address of the Vip. Field introduced in 18.1.1."
                 $ref: '#/definitions/IpAddr'
             ip_address:
-                description: "IPv4 Address of the Vip. Field introduced in 17.1.1."
+                description: "IPv4 Address of the VIP. Field introduced in 17.1.1."
                 $ref: '#/definitions/IpAddr'
             ipam_network_subnet:
                 description: "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1."
@@ -2963,6 +3053,9 @@ definitions:
                 description: "This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine's in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2."
                 type: string
                 default: "ACTIVE_STANDBY_SE_1"
+            allow_invalid_client_cert:
+                description: "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3."
+                type: boolean
             analytics_policy:
                 description: "Determines analytics settings for the application."
                 $ref: '#/definitions/AnalyticsPolicy'
@@ -3010,7 +3103,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             cloud_type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
                 type: string
                 default: "CLOUD_NONE"
             connections_rate_limit:
@@ -3122,6 +3215,10 @@ definitions:
             microservice_ref:
                 description: "Microservice representing the virtual service. It is a reference to an object of type MicroService."
                 type: string
+            min_pools_up:
+                description: "Minimum number of UP pools to mark VS up. Field introduced in 18.2.1, 17.2.12."
+                type: integer
+                format: int32
             name:
                 description: "Name for the Virtual Service."
                 type: string
@@ -3162,6 +3259,9 @@ definitions:
                 type: boolean
             se_group_ref:
                 description: "The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. It is a reference to an object of type ServiceEngineGroup."
+                type: string
+            security_policy_ref:
+                description: "Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1."
                 type: string
             server_network_profile_ref:
                 description: "Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile."
@@ -3206,6 +3306,9 @@ definitions:
                 type: integer
                 default: 1024
                 format: int32
+            sso_policy:
+                description: "Client Authentication and Authorization Policy for the virtualservice. Field introduced in 18.2.1."
+                $ref: '#/definitions/SSOPolicy'
             static_dns_records:
                 description: "List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses."
                 type: array

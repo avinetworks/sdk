@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi DebugServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -344,6 +344,24 @@ paths:
 
 
 definitions:
+    DebugIpAddr:
+        type: object
+        properties:
+            addrs:
+                description: "Placeholder for description of property addrs of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddr'
+            prefixes:
+                description: "Placeholder for description of property prefixes of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+            ranges:
+                description: "Placeholder for description of property ranges of obj type DebugIpAddr field type str  type object"
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrRange'
     DebugSeAgent:
         type: object
         required:
@@ -359,7 +377,7 @@ definitions:
                 description: " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
                 type: string
             sub_module:
-                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG."
                 type: string
             trace_level:
                 description: " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
@@ -398,7 +416,7 @@ definitions:
                 type: integer
                 format: int32
             se_mbuf_cl_sanity:
-                description: "Toggle assert on mbuf cluster sanity check fail. Field introduced in 18.1.3."
+                description: "Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1."
                 type: boolean
             se_shm_malloc_fail_frequency:
                 description: "Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2."
@@ -423,11 +441,20 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            capture:
+                description: "Enable/disable packet capture. Field introduced in 18.2.2."
+                type: boolean
+            capture_params:
+                description: "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
+                $ref: '#/definitions/DebugVirtualServiceCapture'
             cpu_shares:
                 description: "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
                 type: array
                 items:
                     $ref: '#/definitions/DebugSeCpuShares'
+            debug_ip:
+                description: "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
+                $ref: '#/definitions/DebugIpAddr'
             fault:
                 description: "Params for SE fault injection. Field introduced in 18.1.2."
                 $ref: '#/definitions/DebugSeFault'
@@ -468,3 +495,59 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/DebugServiceEngine"
+    DebugVirtualServiceCapture:
+        type: object
+        properties:
+            duration:
+                description: "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'."
+                type: integer
+                format: int32
+            enable_ssl_session_key_capture:
+                description: "Enable SSL session key capture. Field introduced in 18.2.3."
+                type: boolean
+            num_pkts:
+                description: "Total number of packets to capture."
+                type: integer
+                format: int32
+            pkt_size:
+                description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
+                type: integer
+                default: 128
+                format: int32
+    IpAddr:
+        type: object
+        required:
+            -   addr
+            -   type
+        properties:
+            addr:
+                description: "IP address."
+                type: string
+            type:
+                description: " Enum options - V4, DNS, V6."
+                type: string
+    IpAddrPrefix:
+        type: object
+        required:
+            -   ip_addr
+            -   mask
+        properties:
+            ip_addr:
+                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
+                $ref: '#/definitions/IpAddr'
+            mask:
+                description: "Number of mask."
+                type: integer
+                format: int32
+    IpAddrRange:
+        type: object
+        required:
+            -   begin
+            -   end
+        properties:
+            begin:
+                description: "Starting IP address of the range."
+                $ref: '#/definitions/IpAddr'
+            end:
+                description: "Ending IP address of the range."
+                $ref: '#/definitions/IpAddr'

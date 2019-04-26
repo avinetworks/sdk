@@ -21,22 +21,26 @@ branches:
   - 18.1.4
   - 18.1.5
   - 18.2.1
+  - 18.2.2
+  - 18.2.3
 
 matrix:
   include:
     - language: python
       python: "2.7"
       install:
-      - pip install pytest==3.6.3 pyyaml requests pyparsing paramiko avisdk pycrypto ecdsa pyOpenssl nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx vcrpy pytest-cov pytest-xdist
+      - pip install pytest==4.4.0 pyyaml requests==2.8.1 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0
       - sudo pip install flask
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
+      - pip freeze
       script:
       - pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
       - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
       - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
       - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
-      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=80
+      - pytest ./python/avi/sdk/test/test_saml_api.py -m travis --config ./python/avi/sdk/test/test_saml_api.cfg
+      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=70
 
     - language: go
       go: "1.9"

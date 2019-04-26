@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi SSLProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -115,7 +115,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -397,7 +397,7 @@ definitions:
                 description: "Placeholder for description of property ssl_rating of obj type SSLProfile field type str  type object"
                 $ref: '#/definitions/SSLRating'
             ssl_session_timeout:
-                description: "The amount of time before an SSL session expires."
+                description: "The amount of time in seconds before an SSL session expires."
                 type: integer
                 default: 86400
                 format: int32

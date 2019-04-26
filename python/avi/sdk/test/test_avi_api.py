@@ -409,8 +409,7 @@ class Test(unittest.TestCase):
         assert api1.username == api2.username
         api1.username = login_info.get("username", "admin")
 
-    @pytest.mark.travis
-    @my_vcr.use_cassette()
+    @pytest.mark.skip_travis
     def test_get_password(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -612,6 +611,49 @@ class Test(unittest.TestCase):
                           lazy_authentication=False)
         res = api3.get('pool')
         assert res.status_code in [200, 204]
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_context_sharing(self):
+        api1 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          lazy_authentication=False)
+
+        context_api1 = api1.get_context()
+
+        api1.clear_cached_sessions()
+
+        api2 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          session_id= context_api1['session_id'],
+                          csrftoken=context_api1['csrftoken'],
+                          lazy_authentication=True)
+        api2.get('pool')
+        assert api2.get_context() == context_api1
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+    def test_api_session(self):
+        api_session1 = ApiSession(controller_ip=login_info.get('controller_ip'),
+                          username=login_info.get('username'),
+                          password=login_info.get('password'),
+                          tenant=login_info.get("tenant", "admin"),
+                          tenant_uuid=login_info.get("tenant_uuid", None),
+                          api_version=login_info.get("api_version", gapi_version),
+                          verify=False)
+
+        api_session2 = ApiSession.get_session(
+            login_info["controller_ip"], login_info.get("username", "admin"),
+            login_info.get("password", "fr3sca$%^"),
+            tenant=login_info.get("tenant", "admin"),
+            tenant_uuid=login_info.get("tenant_uuid", None),
+            api_version=login_info.get("api_version", gapi_version),
+            verify=False)
+
+        assert api_session1.avi_credentials.session_id == api_session2.avi_credentials.session_id
+
 
 if __name__ == "__main__":
     unittest.main()

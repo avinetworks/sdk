@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''
+"""
 Created on Mar 25, 2015
 
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
@@ -15,7 +15,7 @@ Pool:
       name: grastogi
       cloud: AWS
 
-'''
+"""
 import argparse
 import json
 import logging
@@ -52,23 +52,28 @@ class ConfigPatch(object):
         :param param_name:
         :return:
         """
-        qp = avi_ref.split('?')[1]
-        params = qp.split('&')
-        for param in params:
-            k, v = param.split('=')
-            if k == param_name:
-                return v
+        try:
+            qp = avi_ref.split('?')[1]
+            params = qp.split('&')
+            for param in params:
+                k, v = param.split('=')
+                if k == param_name:
+                    return v
+        except:
+            return ""
         log.error('returning param %s %s', avi_ref, param_name)
         raise Exception('Could not find param %s in ref %s' %
                         (param_name, avi_ref))
 
-    def update_obj_refs(self, old_obj_type, old_ref, new_ref, obj):
+    def update_obj_refs(self, old_obj_type, old_ref, new_ref, obj, avi_cfg):
         """
         Traverses the full object maps and updates the references
+        :param old_obj_type: object type for the original object.
         :param old_ref: old reference
         :param new_ref: new reference
         :param obj: Object dictionary or list. It could be nested part of the
         object as well.
+        :param avi_cfg: Full Avi configuration dictionary.
         :return: None
         """
         if isinstance(obj, dict):
@@ -87,14 +92,14 @@ class ConfigPatch(object):
                         obj[k] = new_ref
                 elif isinstance(v, dict):
                     self.update_obj_refs(
-                        old_obj_type, old_ref, new_ref, v)
+                        old_obj_type, old_ref, new_ref, v, avi_cfg)
                 elif isinstance(v, list):
                     for elem in v:
                         self.update_obj_refs(
-                            old_obj_type, old_ref, new_ref, elem)
+                            old_obj_type, old_ref, new_ref, elem, avi_cfg)
         elif isinstance(obj, list):
             for elem in obj:
-                self.update_references(old_ref, new_ref, elem)
+                self.update_references(old_ref, new_ref, elem, avi_cfg)
         else:
             # ignores the object.
             pass
@@ -112,7 +117,7 @@ class ConfigPatch(object):
         for _, obj_list in avi_cfg.iteritems():
             for obj in obj_list:
                 self.update_obj_refs(
-                    obj_type, old_ref, new_ref, obj)
+                    obj_type, old_ref, new_ref, obj, avi_cfg)
 
     def update_tenant_references(self, avi_config, old_tenant, new_tenant):
         for obj_type in avi_config.keys():
@@ -148,9 +153,6 @@ class ConfigPatch(object):
         old_obj_refs = []
         mg_util = MigrationUtil()
 
-        # TODO(grastogi): The refs computation needs to change
-        # as the currently the ref does not have tenant or
-        # cloud information.
         tenant_ref = obj.get('tenant_ref', '/api/tenant/?name=admin')
         tenant = self.param_value_in_ref(tenant_ref, 'name')
         if 'name' in obj:
@@ -235,7 +237,6 @@ class ConfigPatch(object):
             obj_name = obj['name']
             rexp = None
             list_match = False
-            regex_pattern = '.*'
             if 'match_name' in patch_data:
                 regex_pattern = '^%s$' % patch_data['match_name']
                 rexp = re.compile(regex_pattern)
@@ -275,7 +276,7 @@ class ConfigPatch(object):
                 self.apply_patch(obj_type, patch_data, new_cfg)
             msg = "Patching conversion started..."
             mg_util.print_progress_bar(progressbar_count, total_size, msg,
-                               prefix='Progress', suffix='')
+                                       prefix='Progress', suffix='')
         return new_cfg
 
 
@@ -290,7 +291,8 @@ if __name__ == '__main__':
     root_logger.addHandler(ch)
 
     parser = argparse.ArgumentParser(
-        description='Patches an exported Avi Configuration with a configuration patch input as yaml file.',
+        description='Patches an exported Avi Configuration with a '
+                    'configuration patch input as yaml file.',
         usage="""
     python config_patch -c avi_config.json -p test/patch.yml
     output: avi_config.json.patched
@@ -303,11 +305,16 @@ if __name__ == '__main__':
       - match_name: cool
         patch:
           name: awesome
-        """)
+
+    Please ensure configuration is exported with options include_name=true&uuid_refs=false as:
+    Example:
+        api/configuration/export?include_name=true&uuid_refs=true&uuid_refs=false
+    """)
     parser.add_argument('-c', '--aviconfig',
                         help='Avi configuration in JSON format')
     parser.add_argument('-p', '--patchconfig',
-                        help='Avi configuration objects to be patched. It is list of patterns and object overrides')
+                        help='Avi configuration objects to be patched. '
+                             'It is list of patterns and object overrides')
     args = parser.parse_args()
 
     with open(args.aviconfig) as f:
