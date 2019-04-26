@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -277,11 +277,13 @@ font-style: italic;
     "debugvrfcontext" : {
       "flags" : [ {
         "flag" : "aeiou"
-      } ]
+      } ],
+      "command_buffer_interval" : 123,
+      "command_buffer_size" : 123
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
-    "_last_modified" : 123456789,
+    "_last_modified" : "aeiou",
     "system_default" : true,
     "bgp_profile" : {
       "ip_communities" : [ {
@@ -403,11 +405,13 @@ font-style: italic;
   "debugvrfcontext" : {
     "flags" : [ {
       "flag" : "aeiou"
-    } ]
+    } ],
+    "command_buffer_interval" : 123,
+    "command_buffer_size" : 123
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "system_default" : true,
   "bgp_profile" : {
     "ip_communities" : [ {
@@ -600,11 +604,13 @@ font-style: italic;
   "debugvrfcontext" : {
     "flags" : [ {
       "flag" : "aeiou"
-    } ]
+    } ],
+    "command_buffer_interval" : 123,
+    "command_buffer_size" : 123
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "system_default" : true,
   "bgp_profile" : {
     "ip_communities" : [ {
@@ -737,11 +743,13 @@ font-style: italic;
   "debugvrfcontext" : {
     "flags" : [ {
       "flag" : "aeiou"
-    } ]
+    } ],
+    "command_buffer_interval" : 123,
+    "command_buffer_size" : 123
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "system_default" : true,
   "bgp_profile" : {
     "ip_communities" : [ {
@@ -874,11 +882,13 @@ font-style: italic;
   "debugvrfcontext" : {
     "flags" : [ {
       "flag" : "aeiou"
-    } ]
+    } ],
+    "command_buffer_interval" : 123,
+    "command_buffer_size" : 123
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
-  "_last_modified" : 123456789,
+  "_last_modified" : "aeiou",
   "system_default" : true,
   "bgp_profile" : {
     "ip_communities" : [ {
@@ -984,9 +994,9 @@ font-style: italic;
 <div class="param">peer_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP Address of the BGP Peer. </div>
 <div class="param">peer_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 Address of the BGP Peer. Field introduced in 18.1.1. </div>
 <div class="param">remote_as (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Peer Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
-<div class="param">shutdown (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Shutdown the bgp peer. Field introduced in 17.2.4. </div>
+<div class="param">shutdown (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Shutdown the BGP peer. Field introduced in 17.2.4. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for Peer. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet v6 providing reachability for Peer. Field introduced in 18.1.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet providing reachability for Peer. Field introduced in 18.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1006,13 +1016,15 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugVrf">DebugVrf</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VRF_BGP, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VRF_BGP, DEBUG_VRF_QUAGGA, DEBUG_VRF_ALL, DEBUG_VRF_NONE. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="DebugVrfContext">DebugVrfContext</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrf">array[DebugVrf]</a></span>  Field introduced in 17.1.1. </div>
+      <div class="param">command_buffer_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Vrf config command buffer process interval. Allowed values are 1-4. Field introduced in 17.2.13,18.1.5,18.2.1. format: int32</div>
+<div class="param">command_buffer_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Vrf config command buffer size. Allowed values are 1-32768. Field introduced in 17.2.13,18.1.5,18.2.1. format: int32</div>
+<div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrf">array[DebugVrf]</a></span>  Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1069,7 +1081,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="VrfContext">VrfContext</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">bgp_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpProfile">BgpProfile</a></span> Bgp Local and Peer Info. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">debugvrfcontext (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrfContext">DebugVrfContext</a></span> Configure debug flags for VRF. Field introduced in 17.1.1. </div>

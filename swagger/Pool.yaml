@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -126,7 +126,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -1335,6 +1335,27 @@ definitions:
             type:
                 description: "cache type. Enum options - CP_ALL, CP_FREE, CP_BIND, CP_CACHED."
                 type: string
+    ConnPoolProperties:
+        type: object
+        properties:
+            upstream_connpool_conn_idle_tmo:
+                description: "Connection idle timeout. Field introduced in 18.2.1."
+                type: integer
+                default: 60000
+                format: int32
+            upstream_connpool_conn_life_tmo:
+                description: "Connection life timeout. Field introduced in 18.2.1."
+                type: integer
+                default: 600000
+                format: int32
+            upstream_connpool_conn_max_reuse:
+                description: "Connection max used times. Field introduced in 18.2.1."
+                type: integer
+                format: int32
+            upstream_connpool_server_max_cache:
+                description: "Max cache connections per server. Field introduced in 18.2.1."
+                type: integer
+                format: int32
     DiscoveredNetwork:
         type: object
         required:
@@ -1519,6 +1540,10 @@ definitions:
             retry_nonidempotent:
                 description: "Allow retry of non-idempotent HTTP requests."
                 type: boolean
+            retry_timeout:
+                description: "Timeout per retry attempt, for a given request. Value of 0 indicates default timeout. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1."
+                type: integer
+                format: int32
             svr_resp_code:
                 description: "Server response codes which will trigger an HTTP request retry."
                 $ref: '#/definitions/HTTPReselectRespCode'
@@ -1633,6 +1658,12 @@ definitions:
                 description: "Priority of this pool in a A-B pool pair. Internally used. Field deprecated in 18.1.2."
                 type: integer
                 format: int32
+            analytics_policy:
+                description: "Determines analytics settings for the pool. Field introduced in 18.1.5, 18.2.1."
+                $ref: '#/definitions/PoolAnalyticsPolicy'
+            analytics_profile_ref:
+                description: "Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. Field introduced in 18.1.4,18.2.1."
+                type: string
             apic_epg_name:
                 description: "Synchronize Cisco APIC EPG members with pool servers."
                 type: string
@@ -1663,6 +1694,9 @@ definitions:
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
                 type: string
+            conn_pool_properties:
+                description: "Connnection pool properties. Field introduced in 18.2.1."
+                $ref: '#/definitions/ConnPoolProperties'
             connection_ramp_duration:
                 description: "Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'."
                 type: integer
@@ -1676,6 +1710,10 @@ definitions:
                 type: integer
                 default: 80
                 format: int32
+            delete_server_on_dns_refresh:
+                description: "Indicates whether existing IPs are disabled(false) or deleted(true) on dns hostname refreshDetail -- On a dns refresh, some IPs set on pool may no longer be returned by the resolver. These IPs are deleted from the pool when this knob is set to true. They are disabled, if the knob is set to false. Field introduced in 18.2.3."
+                type: boolean
+                default: True
             description:
                 description: "A description of the pool."
                 type: string
@@ -1754,6 +1792,14 @@ definitions:
             max_conn_rate_per_server:
                 description: "Rate Limit connections to each server."
                 $ref: '#/definitions/RateProfile'
+            min_health_monitors_up:
+                description: "Minimum number of health monitors in UP state to mark server UP. Field introduced in 18.2.1, 17.2.12."
+                type: integer
+                format: int32
+            min_servers_up:
+                description: "Minimum number of servers in UP state for marking the pool UP. Field introduced in 18.2.1, 17.2.12."
+                type: integer
+                format: int32
             name:
                 description: "The name of the pool."
                 type: string
@@ -1796,7 +1842,7 @@ definitions:
                 description: "Server AutoScale. Not used anymore. Field deprecated in 18.1.2."
                 type: boolean
             server_count:
-                description: "Number of server_count."
+                description: " Field deprecated in 18.2.1."
                 type: integer
                 format: int32
             server_name:
@@ -1805,11 +1851,18 @@ definitions:
             server_reselect:
                 description: "Server reselect configuration for HTTP requests."
                 $ref: '#/definitions/HTTPServerReselect'
+            server_timeout:
+                description: "Server timeout value specifies the time within which a server connection needs to be established and a request-response exchange completes between AVI and the server. Value of 0 results in using default timeout of 60 minutes. Allowed values are 0-3600000. Field introduced in 18.1.5,18.2.1."
+                type: integer
+                format: int32
             servers:
                 description: "The pool directs load balanced traffic to this list of destination servers. The servers can be configured by IP address, name, network or via IP Address Group."
                 type: array
                 items:
                     $ref: '#/definitions/Server'
+            service_metadata:
+                description: "Metadata pertaining to the service provided by this Pool. In Openshift/Kubernetes environments, app metadata info is stored. Any user input to this field will be overwritten by Avi Vantage. Field introduced in 17.2.14,18.1.5,18.2.1."
+                type: string
             sni_enabled:
                 description: "Enable TLS SNI for server connections. If disabled, Avi will not send the SNI extension as part of the handshake."
                 type: boolean
@@ -1849,6 +1902,12 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/Pool"
+    PoolAnalyticsPolicy:
+        type: object
+        properties:
+            enable_realtime_metrics:
+                description: "Enable real time metrics for server and pool metrics eg. l4_server.xxx, l7_server.xxx. Field introduced in 18.1.5, 18.2.1."
+                type: boolean
     RateLimiterAction:
         type: object
         properties:
@@ -1859,7 +1918,7 @@ definitions:
                 description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 type: string
                 default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
@@ -1879,7 +1938,7 @@ definitions:
                 type: integer
                 format: int32
             count:
-                description: "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'."
+                description: "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
             explicit_tracking:

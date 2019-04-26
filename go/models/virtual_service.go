@@ -14,6 +14,9 @@ type VirtualService struct {
 	// This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine's in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2.
 	ActiveStandbySeTag *string `json:"active_standby_se_tag,omitempty"`
 
+	// Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3.
+	AllowInvalidClientCert *bool `json:"allow_invalid_client_cert,omitempty"`
+
 	// Determines analytics settings for the application.
 	AnalyticsPolicy *AnalyticsPolicy `json:"analytics_policy,omitempty"`
 

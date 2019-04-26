@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.1.3'
+    version: '18.2.3'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -109,7 +109,7 @@ paths:
                     in: header
                     type: string
                     required: true
-                    description: The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
                 -   name: X-CSRFToken
                     in: header
                     type: string
@@ -344,6 +344,76 @@ paths:
 
 
 definitions:
+    CookieMatch:
+        type: object
+        required:
+            -   match_criteria
+            -   name
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
+            name:
+                description: "Name of the cookie."
+                type: string
+            value:
+                description: "String value in the cookie."
+                type: string
+    HdrMatch:
+        type: object
+        required:
+            -   hdr
+            -   match_criteria
+        properties:
+            hdr:
+                description: "Name of the HTTP header whose value is to be matched."
+                type: string
+            match_case:
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
+            value:
+                description: "String values to match in the HTTP header."
+                type: array
+                items:
+                    type: string
+    HostHdrMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
+            value:
+                description: "String value(s) in the host header."
+                type: array
+                items:
+                    type: string
+    HTTPVersionMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            versions:
+                description: "HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO."
+                type: array
+                items:
+                    type: string
     IpAddr:
         type: object
         required:
@@ -356,6 +426,34 @@ definitions:
             type:
                 description: " Enum options - V4, DNS, V6."
                 type: string
+    IpAddrMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            addrs:
+                description: "IP address(es)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddr'
+            group_refs:
+                description: "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                type: array
+                items:
+                    type: string
+            match_criteria:
+                description: "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            prefixes:
+                description: "IP address prefix(es)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrPrefix'
+            ranges:
+                description: "IP address range(s)."
+                type: array
+                items:
+                    $ref: '#/definitions/IpAddrRange'
     IpAddrPrefix:
         type: object
         required:
@@ -369,6 +467,137 @@ definitions:
                 description: "Number of mask."
                 type: integer
                 format: int32
+    IpAddrRange:
+        type: object
+        required:
+            -   begin
+            -   end
+        properties:
+            begin:
+                description: "Starting IP address of the range."
+                $ref: '#/definitions/IpAddr'
+            end:
+                description: "Ending IP address of the range."
+                $ref: '#/definitions/IpAddr'
+    MatchTarget:
+        type: object
+        properties:
+            client_ip:
+                description: "Configure client ip addresses."
+                $ref: '#/definitions/IpAddrMatch'
+            cookie:
+                description: "Configure HTTP cookie(s)."
+                $ref: '#/definitions/CookieMatch'
+            hdrs:
+                description: "Configure HTTP header(s)."
+                type: array
+                items:
+                    $ref: '#/definitions/HdrMatch'
+            host_hdr:
+                description: "Configure the host header."
+                $ref: '#/definitions/HostHdrMatch'
+            method:
+                description: "Configure HTTP methods."
+                $ref: '#/definitions/MethodMatch'
+            path:
+                description: "Configure request paths."
+                $ref: '#/definitions/PathMatch'
+            protocol:
+                description: "Configure the type of HTTP protocol."
+                $ref: '#/definitions/ProtocolMatch'
+            query:
+                description: "Configure request query."
+                $ref: '#/definitions/QueryMatch'
+            version:
+                description: "Configure versions of the HTTP protocol."
+                $ref: '#/definitions/HTTPVersionMatch'
+            vs_port:
+                description: "Configure virtual service ports."
+                $ref: '#/definitions/PortMatch'
+    MethodMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            methods:
+                description: "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                type: array
+                items:
+                    type: string
+    PathMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
+                default: "CONTAINS"
+            match_str:
+                description: "String values."
+                type: array
+                items:
+                    type: string
+            string_group_refs:
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                type: array
+                items:
+                    type: string
+    PortMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            ports:
+                description: "Listening TCP port(s). Allowed values are 1-65535."
+                type: array
+                items:
+                    type: integer
+                format: int32
+    ProtocolMatch:
+        type: object
+        required:
+            -   match_criteria
+            -   protocols
+        properties:
+            match_criteria:
+                description: "Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            protocols:
+                description: "HTTP or HTTPS protocol. Enum options - HTTP, HTTPS."
+                type: string
+    QueryMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS."
+                type: string
+            match_str:
+                description: "String value(s)."
+                type: array
+                items:
+                    type: string
+            string_group_refs:
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                type: array
+                items:
+                    type: string
     WafExcludeListEntry:
         type: object
         properties:
@@ -376,8 +605,11 @@ definitions:
                 description: "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1."
                 $ref: '#/definitions/IpAddrPrefix'
             match_element:
-                description: "match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx''ARGS_NAMES xxx, 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' and 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transcation (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
+                description: "The match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx', 'ARGS_NAMES xxx', 'FILES xxx', 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
                 type: string
+            match_element_criteria:
+                description: "Criteria for match_element matching. Field introduced in 18.2.2."
+                $ref: '#/definitions/WafExclusionType'
             uri_match_criteria:
                 description: "Criteria for URI matching. Field introduced in 17.2.8."
                 $ref: '#/definitions/WafExclusionType'
@@ -402,25 +634,25 @@ definitions:
         type: object
         properties:
             arg_summarization_threshold:
-                description: "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2."
+                description: "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 default: 3
                 format: int32
             confidence:
-                description: "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2."
+                description: "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 default: 90
                 format: int32
             enable:
-                description: "Enable Learning for WAF policy. Field introduced in 18.1.2."
+                description: "Enable Learning for WAF policy. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: boolean
             path_summarization_threshold:
-                description: "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2."
+                description: "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 default: 5
                 format: int32
             sampling_percent:
-                description: "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2."
+                description: "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
                 default: 10
                 format: int32
@@ -435,6 +667,10 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            allow_mode_delegation:
+                description: "Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1."
+                type: boolean
+                default: True
             created_by:
                 description: "Creator name. Field introduced in 17.2.4."
                 type: string
@@ -446,15 +682,18 @@ definitions:
             description:
                 description: " Field introduced in 17.2.1."
                 type: string
+            enable_app_learning:
+                description: "Enable Application Learning for this WAF policy. Field introduced in 18.2.3."
+                type: boolean
             failure_mode:
                 description: "WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2."
                 type: string
                 default: "WAF_FAILURE_MODE_OPEN"
             learning:
-                description: "Configure parameters for WAF learning. Field introduced in 18.1.2."
+                description: "Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 $ref: '#/definitions/WafLearning'
             mode:
-                description: "WAF Policy mode. This can be detection or enforcement. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
+                description: "WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1."
                 type: string
                 default: "WAF_MODE_DETECTION_ONLY"
             name:
@@ -464,6 +703,9 @@ definitions:
                 description: "WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1."
                 type: string
                 default: "WAF_PARANOIA_LEVEL_LOW"
+            positive_security_model:
+                description: "The Positive Security Model. This is used to describe how the request or parts of the request should look like. It is executed in the Request Body Phase of Avi WAF. Field introduced in 18.2.3."
+                $ref: '#/definitions/WafPositiveSecurityModel'
             post_crs_groups:
                 description: "WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be enforced after the CRS groups. Field introduced in 17.2.1."
                 type: array
@@ -490,6 +732,9 @@ definitions:
             waf_profile_ref:
                 description: "WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1."
                 type: string
+            whitelist:
+                description: "A set of rules which describe conditions under which the request will bypass the WAF. This will be executed in the request header phase before any other WAF related code. Field introduced in 18.2.3."
+                $ref: '#/definitions/WafPolicyWhitelist'
     WafPolicyApiResponse:
         type: object
         required:
@@ -503,6 +748,51 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/WafPolicy"
+    WafPolicyWhitelist:
+        type: object
+        properties:
+            rules:
+                description: "Rules to bypass WAF. Field introduced in 18.2.3."
+                type: array
+                items:
+                    $ref: '#/definitions/WafPolicyWhitelistRule'
+    WafPolicyWhitelistRule:
+        type: object
+        required:
+            -   index
+            -   match
+            -   name
+        properties:
+            actions:
+                description: "Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
+            description:
+                description: "Description of this rule. Field introduced in 18.2.3."
+                type: string
+            enable:
+                description: "Enable or disable the rule. Field introduced in 18.2.3."
+                type: boolean
+                default: True
+            index:
+                description: "Rules are executed in order of this index field. Field introduced in 18.2.3."
+                type: integer
+                format: int32
+            match:
+                description: "Match criteria describing requests to which this rule should be applied. Field introduced in 18.2.3."
+                $ref: '#/definitions/MatchTarget'
+            name:
+                description: "A name describing the rule in a short form. Field introduced in 18.2.3."
+                type: string
+    WafPositiveSecurityModel:
+        type: object
+        properties:
+            group_refs:
+                description: "These groups should be used to separate different levels of concern. The order of the groups matters, one group may mark parts of the request as valid, so that subsequent groups will not check these parts. It is a reference to an object of type WafPolicyPSMGroup. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
     WafRule:
         type: object
         required:
@@ -519,10 +809,16 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafExcludeListEntry'
+            force_detection:
+                description: "When set to 'true', this rule will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
+                type: boolean
             index:
                 description: " Field introduced in 17.2.1."
                 type: integer
                 format: int32
+            mode:
+                description: "WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1."
+                type: string
             name:
                 description: "User-friendly optional name for a rule. Field introduced in 17.2.1."
                 type: string
@@ -553,6 +849,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/WafExcludeListEntry'
+            force_detection:
+                description: "When set to 'true', any rule in this group will not cause 'deny' or 'redirect' actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4."
+                type: boolean
             index:
                 description: " Field introduced in 17.2.1."
                 type: integer

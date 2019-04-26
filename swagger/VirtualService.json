@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VirtualService Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\nExamples\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1225,6 +1225,69 @@
                 ]
             }
         }, 
+        "/virtualservice/{uuid}/sescaleoutstatus/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
         "/virtualservice/{uuid}/rotatekeys": {
             "post": {
                 "security": [
@@ -2332,7 +2395,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -3296,7 +3359,7 @@
                 "status_code": {
                     "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
                     "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
                 }, 
                 "type": {
                     "default": "RL_ACTION_NONE", 
@@ -3412,6 +3475,45 @@
                 "enabled": {
                     "type": "boolean", 
                     "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                }
+            }
+        }, 
+        "AuthenticationPolicy": {
+            "type": "object", 
+            "properties": {
+                "single_signon_url": {
+                    "type": "string", 
+                    "description": "Single Signon URL to be programmed on the IDP. Field introduced in 18.2.1."
+                }, 
+                "entity_id": {
+                    "type": "string", 
+                    "description": "Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 18.2.1."
+                }, 
+                "key": {
+                    "items": {
+                        "$ref": "#/definitions/HttpCookiePersistenceKey"
+                    }, 
+                    "type": "array", 
+                    "description": "Key to generate the cookie. Field introduced in 18.2.1."
+                }, 
+                "sp_metadata": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "SAML SP metadata. Field introduced in 18.2.1."
+                }, 
+                "auth_profile_ref": {
+                    "type": "string", 
+                    "description": "Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.1."
+                }, 
+                "cookie_name": {
+                    "type": "string", 
+                    "description": "HTTP cookie name for authenticated session. Field introduced in 18.2.1."
+                }, 
+                "cookie_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.1.", 
+                    "format": "int32"
                 }
             }
         }, 
@@ -3550,7 +3652,7 @@
             "properties": {
                 "count": {
                     "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- 'unlimited'.", 
+                    "description": "Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
                 "http_header": {
@@ -3629,6 +3731,15 @@
                 }
             }
         }, 
+        "SSOPolicy": {
+            "type": "object", 
+            "properties": {
+                "authentication_policy": {
+                    "description": "Authentication Policy Settings. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/AuthenticationPolicy"
+                }
+            }
+        }, 
         "FullClientLogs": {
             "required": [
                 "enabled"
@@ -3643,7 +3754,7 @@
                 }, 
                 "all_headers": {
                     "type": "boolean", 
-                    "description": "Log all headers."
+                    "description": "[DEPRECATED] Log all headers. Please use the all_headers flag in AnalyticsPolicy. Field deprecated in 18.1.4, 18.2.1."
                 }, 
                 "throttle": {
                     "default": 10, 
@@ -3731,31 +3842,29 @@
                 }
             }
         }, 
-        "DnsSrvRdata": {
+        "DiscoveredNetwork": {
             "required": [
-                "port"
+                "network_ref"
             ], 
             "type": "object", 
             "properties": {
-                "priority": {
-                    "type": "integer", 
-                    "description": "Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535.", 
-                    "format": "int32"
+                "subnet": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered subnet for this IP."
                 }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Service port. Allowed values are 0-65535.", 
-                    "format": "int32"
+                "subnet6": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
                 }, 
-                "weight": {
-                    "type": "integer", 
-                    "description": "Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535.", 
-                    "format": "int32"
-                }, 
-                "target": {
-                    "default": "default.host", 
+                "network_ref": {
                     "type": "string", 
-                    "description": "Canonical hostname, of the machine hosting the service, with no trailing period. 'default.host' is valid but not 'default.host.'."
+                    "description": "Discovered network for this IP. It is a reference to an object of type Network."
                 }
             }
         }, 
@@ -3824,13 +3933,6 @@
                     "type": "boolean", 
                     "description": "Enable Route Health Injection for Source NAT'ted floating IP Address using the BGP Config in the vrf context."
                 }, 
-                "dns_policies": {
-                    "items": {
-                        "$ref": "#/definitions/DnsPolicies"
-                    }, 
-                    "type": "array", 
-                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
-                }, 
                 "sideband_profile": {
                     "description": "Sideband configuration to be used for this virtualservice.It can be used for sending traffic to sideband VIPs for external inspection etc.", 
                     "$ref": "#/definitions/SidebandProfile"
@@ -3851,9 +3953,13 @@
                     "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field deprecated in 17.1.1.", 
                     "$ref": "#/definitions/IPNetworkSubnet"
                 }, 
-                "avi_allocated_fip": {
-                    "type": "boolean", 
-                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1."
+                "server_network_profile_ref": {
+                    "type": "string", 
+                    "description": "Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "User defined description for the object."
                 }, 
                 "ssl_profile_ref": {
                     "type": "string", 
@@ -4026,6 +4132,17 @@
                     "type": "array", 
                     "description": "Service discovery specific data including fully qualified domain name, type and Time-To-Live of the DNS record. Note that only one of fqdn and dns_info setting is allowed."
                 }, 
+                "vh_domain_name": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS."
+                }, 
+                "security_policy_ref": {
+                    "type": "string", 
+                    "description": "Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1."
+                }, 
                 "content_rewrite": {
                     "description": "Profile used to match and rewrite strings in request and/or response body.", 
                     "$ref": "#/definitions/ContentRewriteProfile"
@@ -4046,9 +4163,9 @@
                     "type": "string", 
                     "description": "Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext."
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                "allow_invalid_client_cert": {
+                    "type": "boolean", 
+                    "description": "Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3."
                 }, 
                 "subnet": {
                     "description": "Subnet providing reachability for client facing Virtual Service IP. Field deprecated in 17.1.1.", 
@@ -4061,19 +4178,16 @@
                 "cloud_type": {
                     "default": "CLOUD_NONE", 
                     "type": "string", 
-                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
+                    "description": " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "vh_domain_name": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "The exact name requested from the client's SNI-enabled TLS hello domain name field. If this is a match, the parent VS will forward the connection to this child VS."
+                "network_ref": {
+                    "type": "string", 
+                    "description": "Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1."
                 }, 
                 "cloud_ref": {
                     "type": "string", 
@@ -4091,13 +4205,20 @@
                     "type": "string", 
                     "description": "WAF policy for the Virtual Service. It is a reference to an object of type WafPolicy. Field introduced in 17.2.1."
                 }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Manually override the network on which the Virtual Service is placed. It is a reference to an object of type Network. Field deprecated in 17.1.1."
+                "dns_policies": {
+                    "items": {
+                        "$ref": "#/definitions/DnsPolicies"
+                    }, 
+                    "type": "array", 
+                    "description": "DNS Policies applied on the dns traffic of the Virtual Service. Field introduced in 17.1.1."
                 }, 
                 "scaleout_ecmp": {
                     "type": "boolean", 
                     "description": "Disable re-distribution of flows across service engines for a virtual service. Enable if the network itself performs flow hashing with ECMP in environments such as GCP."
+                }, 
+                "sso_policy": {
+                    "description": "Client Authentication and Authorization Policy for the virtualservice. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/SSOPolicy"
                 }, 
                 "nsx_securitygroup": {
                     "items": {
@@ -4109,6 +4230,11 @@
                 "cloud_config_cksum": {
                     "type": "string", 
                     "description": "Checksum of cloud configuration for VS. Internally set by cloud connector."
+                }, 
+                "min_pools_up": {
+                    "type": "integer", 
+                    "description": "Minimum number of UP pools to mark VS up. Field introduced in 18.2.1, 17.2.12.", 
+                    "format": "int32"
                 }, 
                 "vsvip_ref": {
                     "type": "string", 
@@ -4142,13 +4268,6 @@
                 "vh_parent_vs_uuid": {
                     "type": "string", 
                     "description": "Specifies the Virtual Service acting as Virtual Hosting (SNI) parent."
-                }, 
-                "services": {
-                    "items": {
-                        "$ref": "#/definitions/Service"
-                    }, 
-                    "type": "array", 
-                    "description": "List of Services defined for this Virtual Service."
                 }, 
                 "connections_rate_limit": {
                     "description": "Rate limit the incoming connections to this virtual service.", 
@@ -4195,13 +4314,16 @@
                     "type": "array", 
                     "description": "Datascripts applied on the data traffic of the Virtual Service."
                 }, 
-                "server_network_profile_ref": {
-                    "type": "string", 
-                    "description": "Determines the network settings profile for the server side of TCP proxied connections.  Leave blank to use the same settings as the client to VS side of the connection. It is a reference to an object of type NetworkProfile."
+                "services": {
+                    "items": {
+                        "$ref": "#/definitions/Service"
+                    }, 
+                    "type": "array", 
+                    "description": "List of Services defined for this Virtual Service."
                 }, 
-                "bulk_sync_kvcache": {
+                "avi_allocated_fip": {
                     "type": "boolean", 
-                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1."
+                    "description": "(internal-use) FIP allocated by Avi in the Cloud infrastructure. Field deprecated in 17.1.1."
                 }, 
                 "vsvip_cloud_config_cksum": {
                     "type": "string", 
@@ -4213,6 +4335,10 @@
                     }, 
                     "type": "array", 
                     "description": "(internal-use) Discovered subnets providing reachability for client facing Virtual Service IP. This field is deprecated. Field deprecated in 17.1.1."
+                }, 
+                "bulk_sync_kvcache": {
+                    "type": "boolean", 
+                    "description": "(This is a beta feature). Sync Key-Value cache to the new SEs when VS is scaled out. For ex  SSL sessions are stored using VS's Key-Value cache. When the VS is scaled out, the SSL session information is synced to the new SE, allowing existing SSL sessions to be reused on the new SE. . Field introduced in 17.2.7, 18.1.1."
                 }
             }
         }, 
@@ -4409,9 +4535,8 @@
                     "format": "int32"
                 }, 
                 "enabled": {
-                    "default": true, 
                     "type": "boolean", 
-                    "description": "Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Field introduced in 17.2.4."
+                    "description": "[DEPRECATED] Disable Analytics on this VirtualService. This will disable the collection of both metrics and logs. Please use following fields in AnalytcsProfile to control this behavior instead. disable_vs_analytics (for VirtualServices metrics), disable_server_analytics (for Pool metrics) and client_log_config (for logs). Field deprecated in 18.2.1. Field introduced in 17.2.4."
                 }, 
                 "client_insights_sampling": {
                     "description": "Placeholder for description of property client_insights_sampling of obj type AnalyticsPolicy field type str  type object", 
@@ -4442,6 +4567,10 @@
                     "default": "NO_INSIGHTS", 
                     "type": "string", 
                     "description": "Gain insights from sampled client to server HTTP requests and responses. Enum options - NO_INSIGHTS, PASSIVE, ACTIVE."
+                }, 
+                "all_headers": {
+                    "type": "boolean", 
+                    "description": "Log all headers. Field introduced in 18.1.4, 18.2.1."
                 }
             }
         }, 
@@ -4731,7 +4860,7 @@
                     "description": "Specifies whether to auto-allocate only a V4 address, only a V6 address, or one of each type. Enum options - V4_ONLY, V6_ONLY, V4_V6. Field introduced in 18.1.1."
                 }, 
                 "ip_address": {
-                    "description": "IPv4 Address of the Vip. Field introduced in 17.1.1.", 
+                    "description": "IPv4 Address of the VIP. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IpAddr"
                 }, 
                 "subnet_uuid": {
@@ -4785,29 +4914,31 @@
                 }
             }
         }, 
-        "DiscoveredNetwork": {
+        "DnsSrvRdata": {
             "required": [
-                "network_ref"
+                "port"
             ], 
             "type": "object", 
             "properties": {
-                "subnet": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered subnet for this IP."
+                "priority": {
+                    "type": "integer", 
+                    "description": "Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535.", 
+                    "format": "int32"
                 }, 
-                "subnet6": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
+                "port": {
+                    "type": "integer", 
+                    "description": "Service port. Allowed values are 0-65535.", 
+                    "format": "int32"
                 }, 
-                "network_ref": {
+                "weight": {
+                    "type": "integer", 
+                    "description": "Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535.", 
+                    "format": "int32"
+                }, 
+                "target": {
+                    "default": "default.host", 
                     "type": "string", 
-                    "description": "Discovered network for this IP. It is a reference to an object of type Network."
+                    "description": "Canonical hostname, of the machine hosting the service, with no trailing period. 'default.host' is valid but not 'default.host.'."
                 }
             }
         }, 
@@ -4922,6 +5053,23 @@
                     }, 
                     "type": "array", 
                     "description": "Placeholder for description of property network_rel of obj type ApicVSPlacementReq field type str  type object"
+                }
+            }
+        }, 
+        "HttpCookiePersistenceKey": {
+            "type": "object", 
+            "properties": {
+                "hmac_key": {
+                    "type": "string", 
+                    "description": "hmac_key of HttpCookiePersistenceKey."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "name to use for cookie encryption."
+                }, 
+                "aes_key": {
+                    "type": "string", 
+                    "description": "aes_key of HttpCookiePersistenceKey."
                 }
             }
         }, 

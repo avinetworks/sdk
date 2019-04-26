@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -73,133 +73,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/route/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/vshash/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/lldp/": {
+        "/serviceengine/{uuid}/graphdb/": {
             "get": {
                 "security": [
                     {
@@ -326,132 +200,6 @@
             }
         }, 
         "/serviceengine/{uuid}/interface/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/cpu/detail/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/bgp/": {
             "get": {
                 "security": [
                     {
@@ -778,8 +526,8 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/faultinject/exhaust_conn/clear": {
-            "post": {
+        "/serviceengine/{uuid}/ip6route/": {
+            "get": {
                 "security": [
                     {
                         "basicAuth": []
@@ -827,15 +575,6 @@
                         "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SEFaultInjectExhaustParam", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SEFaultInjectExhaustParam"
-                        }
                     }, 
                     {
                         "required": true, 
@@ -985,7 +724,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/faultinject/exhaust_mcl/clear": {
+        "/serviceengine/{uuid}/faultinject/sefault/clear": {
             "post": {
                 "security": [
                     {
@@ -1038,10 +777,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "SEFaultInjectExhaustParam", 
+                        "description": "SEFaultInjectSeParam", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/SEFaultInjectExhaustParam"
+                            "$ref": "#/definitions/SEFaultInjectSeParam"
                         }
                     }, 
                     {
@@ -1120,70 +859,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/sevssplacement/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/reservedvs/": {
+        "/serviceengine/{uuid}/ndtable/": {
             "get": {
                 "security": [
                     {
@@ -1372,70 +1048,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/ndtable/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/ipstat/": {
+        "/serviceengine/{uuid}/vnicdbhistory/": {
             "get": {
                 "security": [
                     {
@@ -1625,195 +1238,6 @@
             }
         }, 
         "/serviceengine/{uuid}/arptable/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/graphdb/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/placement/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/mbufstats/": {
             "get": {
                 "security": [
                     {
@@ -2338,69 +1762,6 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/vnicdb/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/serviceengine/{uuid}/selogstats/": {
             "get": {
                 "security": [
@@ -2464,133 +1825,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/seagent/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/seruminsertionstats/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/icmp6stat/": {
+        "/serviceengine/{uuid}/icmpstat/": {
             "get": {
                 "security": [
                     {
@@ -2714,69 +1949,6 @@
                             }, 
                             "type": "object"
                         }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/arpstat/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
                     }, 
                     {
                         "required": true, 
@@ -2918,6 +2090,1599 @@
             }
         }, 
         "/serviceengine/{uuid}/microservice/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/mbufstats/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/appmap/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/memdist/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/cpu/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/bgp/debug/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/seassertstats/ag/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/route/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/vshash/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/cpu/detail/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/bgp/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/lldp/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/faultinject/exhaust_conn/clear": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SEFaultInjectExhaustParam", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SEFaultInjectExhaustParam"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/faultinject/exhaust_mcl/clear": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "SEFaultInjectExhaustParam", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/SEFaultInjectExhaustParam"
+                        }
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/sevssplacement/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/reservedvs/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/consistenthash/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/ipstat/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/seassertstats/dp/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/placement/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/tcp-flows/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/shardclientevents/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/seruminsertionstats/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/seagent/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/icmp6stat/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/arpstat/": {
             "get": {
                 "security": [
                     {
@@ -3337,7 +4102,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -3537,69 +4302,6 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/tcp-flows/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/serviceengine/{uuid}/flowtablestat/": {
             "get": {
                 "security": [
@@ -3726,7 +4428,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/seassertstats/": {
+        "/serviceengine/{uuid}/resourcemap/": {
             "get": {
                 "security": [
                     {
@@ -3789,7 +4491,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/icmpstat/": {
+        "/serviceengine/{uuid}/vnicdb/": {
             "get": {
                 "security": [
                     {
@@ -3928,195 +4630,6 @@
             }
         }, 
         "/serviceengine/{uuid}/flowtable_remote/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/memdist/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/cpu/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/serviceengine/{uuid}/bgp/debug/": {
             "get": {
                 "security": [
                     {
@@ -4319,10 +4832,9 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Network."
                 }, 
-                "enabled": {
-                    "default": true, 
+                "dp_deletion_done": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property enabled of obj type vNIC field type str  type boolean"
+                    "description": "The VNIC has been cleaned up in the datapath. Field introduced in 18.2.3."
                 }, 
                 "pci_id": {
                     "type": "string", 
@@ -4346,6 +4858,11 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
+                }, 
+                "enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property enabled of obj type vNIC field type str  type boolean"
                 }, 
                 "vrf_ref": {
                     "type": "string", 
@@ -4414,6 +4931,31 @@
                 "se_uuid": {
                     "type": "string", 
                     "description": "Unique object identifier of se."
+                }
+            }
+        }, 
+        "SEFaultInjectSeParam": {
+            "type": "object", 
+            "properties": {
+                "core": {
+                    "default": 1000, 
+                    "type": "integer", 
+                    "description": "Inject fault in specific core. Field introduced in 18.1.5,18.2.1.", 
+                    "format": "int32"
+                }, 
+                "se_agent_fault": {
+                    "default": "SE_AGENT_FAULT_DISABLED", 
+                    "type": "string", 
+                    "description": "Set se-agent fault type. Enum options - SE_AGENT_FAULT_DISABLED, SE_AGENT_PRE_PROCESS_FAULT, SE_AGENT_POST_PROCESS_FAULT, SE_AGENT_DP_RESPONSE_FAULT, SE_AGENT_RANDOM_PROCESS_FAULT. Field introduced in 18.1.5,18.2.1."
+                }, 
+                "random_core": {
+                    "type": "boolean", 
+                    "description": "Inject fault in random no of cores. Field introduced in 18.1.5,18.2.1."
+                }, 
+                "se_dp_fault": {
+                    "default": "SE_DP_FAULT_DISABLED", 
+                    "type": "string", 
+                    "description": "Set se-dp fault type. Enum options - SE_DP_FAULT_DISABLED. Field introduced in 18.1.5,18.2.1."
                 }
             }
         }, 
@@ -4527,7 +5069,7 @@
                 }, 
                 "vlan_id": {
                     "type": "integer", 
-                    "description": "Number of vlan_id.", 
+                    "description": "VLAN ID. Allowed values are 0-4096.", 
                     "format": "int32"
                 }, 
                 "vnic_networks": {

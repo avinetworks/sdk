@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugServiceEngine Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -367,7 +367,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -494,56 +494,20 @@
         }
     }, 
     "definitions": {
-        "DebugServiceEngine": {
+        "IpAddrRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
             "type": "object", 
             "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
-                "seagent_debug": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeAgent"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "fault": {
-                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
-                    "$ref": "#/definitions/DebugSeFault"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "name": {
-                    "default": "VM name unknown", 
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "flags": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeDataplane"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "cpu_shares": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeCpuShares"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
                 }
             }
         }, 
@@ -562,7 +526,7 @@
                 }, 
                 "se_mbuf_cl_sanity": {
                     "type": "boolean", 
-                    "description": "Toggle assert on mbuf cluster sanity check fail. Field introduced in 18.1.3."
+                    "description": "Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1."
                 }, 
                 "se_shm_malloc_fail_type": {
                     "type": "integer", 
@@ -601,7 +565,7 @@
                 }, 
                 "sub_module": {
                     "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG."
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG."
                 }, 
                 "log_level": {
                     "type": "string", 
@@ -610,6 +574,163 @@
                 "trace_level": {
                     "type": "string", 
                     "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
+                }
+            }
+        }, 
+        "DebugSeDataplane": {
+            "required": [
+                "flag"
+            ], 
+            "type": "object", 
+            "properties": {
+                "flag": {
+                    "type": "string", 
+                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR."
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "DebugSeCpuShares": {
+            "required": [
+                "cpu", 
+                "shares"
+            ], 
+            "type": "object", 
+            "properties": {
+                "cpu": {
+                    "type": "integer", 
+                    "description": "Number of cpu.", 
+                    "format": "int32"
+                }, 
+                "shares": {
+                    "type": "integer", 
+                    "description": "Number of shares.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "DebugServiceEngine": {
+            "type": "object", 
+            "properties": {
+                "capture": {
+                    "type": "boolean", 
+                    "description": "Enable/disable packet capture. Field introduced in 18.2.2."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "seagent_debug": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeAgent"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "fault": {
+                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/DebugSeFault"
+                }, 
+                "debug_ip": {
+                    "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "$ref": "#/definitions/DebugIpAddr"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "name": {
+                    "default": "VM name unknown", 
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "flags": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeDataplane"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "capture_params": {
+                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "$ref": "#/definitions/DebugVirtualServiceCapture"
+                }, 
+                "cpu_shares": {
+                    "items": {
+                        "$ref": "#/definitions/DebugSeCpuShares"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }
+            }
+        }, 
+        "DebugIpAddr": {
+            "type": "object", 
+            "properties": {
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property prefixes of obj type DebugIpAddr field type str  type object"
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property ranges of obj type DebugIpAddr field type str  type object"
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property addrs of obj type DebugIpAddr field type str  type object"
                 }
             }
         }, 
@@ -632,33 +753,27 @@
                 }
             }
         }, 
-        "DebugSeDataplane": {
-            "required": [
-                "flag"
-            ], 
+        "DebugVirtualServiceCapture": {
             "type": "object", 
             "properties": {
-                "flag": {
-                    "type": "string", 
-                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR."
-                }
-            }
-        }, 
-        "DebugSeCpuShares": {
-            "required": [
-                "cpu", 
-                "shares"
-            ], 
-            "type": "object", 
-            "properties": {
-                "cpu": {
+                "duration": {
                     "type": "integer", 
-                    "description": "Number of cpu.", 
+                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
-                "shares": {
+                "enable_ssl_session_key_capture": {
+                    "type": "boolean", 
+                    "description": "Enable SSL session key capture. Field introduced in 18.2.3."
+                }, 
+                "num_pkts": {
                     "type": "integer", 
-                    "description": "Number of shares.", 
+                    "description": "Total number of packets to capture.", 
+                    "format": "int32"
+                }, 
+                "pkt_size": {
+                    "default": 128, 
+                    "type": "integer", 
+                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.", 
                     "format": "int32"
                 }
             }

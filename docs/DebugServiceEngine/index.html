@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.1.2</div>
+    <div class="app-desc">Version: 18.2.2</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -255,21 +255,42 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "capture_params" : {
+      "duration" : 123,
+      "pkt_size" : 123,
+      "num_pkts" : 123
+    },
     "seagent_debug" : [ {
       "trace_level" : "aeiou",
       "log_level" : "aeiou",
       "sub_module" : "aeiou",
       "log_every_n" : 123
     } ],
+    "debug_ip" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
     "tenant_ref" : "aeiou",
     "flags" : [ {
       "flag" : "aeiou"
     } ],
     "name" : "aeiou",
+    "capture" : true,
     "fault" : {
       "se_waf_learning_alloc_fail_frequency" : 123,
       "se_malloc_fail_type" : 123,
       "se_malloc_fail_frequency" : 123,
+      "se_mbuf_cl_sanity" : true,
       "se_waf_alloc_fail_frequency" : 123,
       "se_shm_malloc_fail_type" : 123,
       "se_shm_malloc_fail_frequency" : 123
@@ -280,7 +301,7 @@ font-style: italic;
       "cpu" : 123
     } ],
     "url" : "aeiou",
-    "_last_modified" : 123456789
+    "_last_modified" : "aeiou"
   } ]
 }</code></pre>
 
@@ -335,21 +356,42 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "capture_params" : {
+    "duration" : 123,
+    "pkt_size" : 123,
+    "num_pkts" : 123
+  },
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "debug_ip" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
     "se_malloc_fail_frequency" : 123,
+    "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
@@ -360,7 +402,7 @@ font-style: italic;
     "cpu" : 123
   } ],
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -486,21 +528,42 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "capture_params" : {
+    "duration" : 123,
+    "pkt_size" : 123,
+    "num_pkts" : 123
+  },
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "debug_ip" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
     "se_malloc_fail_frequency" : 123,
+    "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
@@ -511,7 +574,7 @@ font-style: italic;
     "cpu" : 123
   } ],
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -577,21 +640,42 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "capture_params" : {
+    "duration" : 123,
+    "pkt_size" : 123,
+    "num_pkts" : 123
+  },
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "debug_ip" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
     "se_malloc_fail_frequency" : 123,
+    "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
@@ -602,7 +686,7 @@ font-style: italic;
     "cpu" : 123
   } ],
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -668,21 +752,42 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "capture_params" : {
+    "duration" : 123,
+    "pkt_size" : 123,
+    "num_pkts" : 123
+  },
   "seagent_debug" : [ {
     "trace_level" : "aeiou",
     "log_level" : "aeiou",
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "debug_ip" : {
+    "prefixes" : [ {
+      "ip_addr" : "",
+      "mask" : 123
+    } ],
+    "ranges" : [ {
+      "end" : "",
+      "begin" : ""
+    } ],
+    "addrs" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
   "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
   "name" : "aeiou",
+  "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
     "se_malloc_fail_type" : 123,
     "se_malloc_fail_frequency" : 123,
+    "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
@@ -693,7 +798,7 @@ font-style: italic;
     "cpu" : 123
   } ],
   "url" : "aeiou",
-  "_last_modified" : 123456789
+  "_last_modified" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -719,20 +824,33 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#DebugIpAddr"><code>DebugIpAddr</code></a></li>
     <li><a href="#DebugSeAgent"><code>DebugSeAgent</code></a></li>
     <li><a href="#DebugSeCpuShares"><code>DebugSeCpuShares</code></a></li>
     <li><a href="#DebugSeDataplane"><code>DebugSeDataplane</code></a></li>
     <li><a href="#DebugSeFault"><code>DebugSeFault</code></a></li>
     <li><a href="#DebugServiceEngine"><code>DebugServiceEngine</code></a></li>
     <li><a href="#DebugServiceEngineApiResponse"><code>DebugServiceEngineApiResponse</code></a></li>
+    <li><a href="#DebugVirtualServiceCapture"><code>DebugVirtualServiceCapture</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="DebugIpAddr">DebugIpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Placeholder for description of property addrs of obj type DebugIpAddr field type str  type object </div>
+<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Placeholder for description of property prefixes of obj type DebugIpAddr field type str  type object </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> Placeholder for description of property ranges of obj type DebugIpAddr field type str  type object </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="DebugSeAgent">DebugSeAgent</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">log_every_n (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Log every nth message. Field introduced in 17.2.7. format: int32</div>
 <div class="param">log_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR. </div>
-<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG. </div>
+<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG. </div>
 <div class="param">trace_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL. </div>
     </div>  <!-- field-items -->
   </div>
@@ -746,7 +864,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeDataplane">DebugSeDataplane</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -754,6 +872,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">se_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE malloc type. Field introduced in 18.1.2. format: int32</div>
+<div class="param">se_mbuf_cl_sanity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1. </div>
 <div class="param">se_shm_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_shm_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE SHM malloc type. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_waf_alloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE WAF allocation at this frequency. Field introduced in 18.1.2. format: int32</div>
@@ -763,8 +882,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugServiceEngine">DebugServiceEngine</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). format: int64</div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable packet capture. Field introduced in 18.2.2. </div>
+<div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
+<div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">fault (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeFault">DebugSeFault</a></span> Params for SE fault injection. Field introduced in 18.1.2. </div>
 <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeDataplane">array[DebugSeDataplane]</a></span> Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
@@ -779,6 +901,35 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#DebugServiceEngine">array[DebugServiceEngine]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DebugVirtualServiceCapture">DebugVirtualServiceCapture</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
+<div class="param">pkt_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - &#39;full capture&#39;. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
+<div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

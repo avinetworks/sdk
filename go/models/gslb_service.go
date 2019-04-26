@@ -41,6 +41,9 @@ type GslbService struct {
 	// Health monitor probe can be executed for all the members or it can be executed only for third-party members. This operational mode is useful to reduce the number of health monitor probes in case of a hybrid scenario. In such a case, Avi members can have controller derived status while Non-Avi members can be probed by via health monitor probes in dataplane. Enum options - GSLB_SERVICE_HEALTH_MONITOR_ALL_MEMBERS, GSLB_SERVICE_HEALTH_MONITOR_ONLY_NON_AVI_MEMBERS.
 	HealthMonitorScope *string `json:"health_monitor_scope,omitempty"`
 
+	// This field is an internal field and is used in SE. Field introduced in 18.2.2.
+	HmOff *bool `json:"hm_off,omitempty"`
+
 	// This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3.
 	IsFederated *bool `json:"is_federated,omitempty"`
 
@@ -59,6 +62,9 @@ type GslbService struct {
 
 	// Enable site-persistence for the GslbService. . Field introduced in 17.2.1.
 	SitePersistenceEnabled *bool `json:"site_persistence_enabled,omitempty"`
+
+	// A DNS VS hosting a GSLB service can have DNS policies. These DNS policies apply to all the GSLB services. If a policy is hit, and the action contains site selection, this knob skips/overrides that selection, and relies on the normal load balancing algorithm. Field introduced in 18.2.3.
+	SkipVsSiteSelectionPolicy *bool `json:"skip_vs_site_selection_policy,omitempty"`
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`

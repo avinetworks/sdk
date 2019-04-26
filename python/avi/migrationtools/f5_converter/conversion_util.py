@@ -22,7 +22,6 @@ global fully_migrated
 fully_migrated = 0
 used_pool_groups = {}
 used_pool = {}
-cloned_ssl_cert_name_list = []
 
 class F5Util(MigrationUtil):
 
@@ -270,7 +269,7 @@ class F5Util(MigrationUtil):
         return sg_obj
 
     def get_vs_ssl_profiles(self, profiles, avi_config, prefix,
-                            merge_object_mapping, sys_dict, f5_config, vs_tenant):
+                            merge_object_mapping, sys_dict, f5_config):
         """
         Searches for profile refs in converted profile config if not found
         creates default profiles
@@ -315,28 +314,9 @@ class F5Util(MigrationUtil):
                                    obj.get("dup_of", []))]
                 # key_cert = key_cert[0]['name'] if key_cert else None
                 if key_cert:
-                    ssl_keycert_tenant = self.get_name(key_cert[0]['tenant_ref'])
-                    ssl_keycert_name = key_cert[0]['name']
-                    # Clone sslkeyandcertificate if not in VS's tenant.
-                    if vs_tenant != ssl_keycert_tenant:
-                        cloned_key_cert_name = key_cert[0]['name'] + "-clone"
-                        if cloned_key_cert_name not in cloned_ssl_cert_name_list:
-                            cloned_ssl_kc_obj = {
-                                'name': cloned_key_cert_name,
-                                'tenant_ref': self.get_object_ref(vs_tenant, 'tenant'),
-                                'key': key_cert[0]['key'],
-                                'certificate': key_cert[0]['certificate'],
-                                'type': key_cert[0]['type']
-                            }
-                            if key_cert[0].get('key_passphrase'):
-                                cloned_ssl_kc_obj['key_passphrase'] = key_cert[0]['key_passphrase']
-                            avi_config['SSLKeyAndCertificate'].append(cloned_ssl_kc_obj)
-                            cloned_ssl_cert_name_list.append(cloned_key_cert_name)
-                        ssl_keycert_tenant = vs_tenant
-                        ssl_keycert_name = cloned_key_cert_name
                     key_cert = self.get_object_ref(
-                        ssl_keycert_name, 'sslkeyandcertificate',
-                        tenant=ssl_keycert_tenant)
+                        key_cert[0]['name'], 'sslkeyandcertificate',
+                        tenant=self.get_name(key_cert[0]['tenant_ref']))
                 profile = profiles[key]
                 context = profile.get("context") if profile else None
                 if (not context) and isinstance(profile, dict):
@@ -830,7 +810,7 @@ class F5Util(MigrationUtil):
         if not pool_obj:
             LOG.error("Pool %s not found to add profile %s" %
                       (pool_ref, persist_profile))
-            return False
+            return False, None
         pool_obj = pool_obj[0]
         persist_profile_obj = \
             [ob for ob in syspersist if ob['name'] ==
@@ -940,6 +920,7 @@ class F5Util(MigrationUtil):
         self.remove_dup_key(avi_config["PKIProfile"])
         self.remove_dup_key(avi_config["ApplicationPersistenceProfile"])
         self.remove_dup_key(avi_config["HealthMonitor"])
+        self.remove_dup_key(avi_config["IpAddrGroup"])
         avi_config.pop('hash_algorithm', [])
         avi_config.pop('OneConnect', [])
         avi_config.pop('UnsupportedProfiles', [])
@@ -1212,6 +1193,7 @@ class F5Util(MigrationUtil):
                                  app_prof_name]
                 app_prof_obj = app_prof_objs[0] if app_prof_objs else {}
                 app_prof_type = app_prof_obj['type'] if app_prof_obj else None
+
                 if self.is_pool_clone_criteria(
                         controller_version, app_prof_type, shared_apptype,
                         persist_type, pool_per_type, shared_appobj,
@@ -1236,7 +1218,10 @@ class F5Util(MigrationUtil):
                 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
                 shared_appobj.get('http_profile', {}).get(
                     'connection_multiplexing_enabled') != app_prof_obj.get(
-                    'http_profile', {}).get('connection_multiplexing_enabled')):
+                    'http_profile', {}).get('connection_multiplexing_enabled') or (
+                shared_appobj.get('http_profile', {}).get(
+                    'cache_config') != app_prof_obj.get(
+                    'http_profile', {}).get('cache_config'))):
             return True
         else:
             return False
@@ -2006,28 +1991,32 @@ class F5Util(MigrationUtil):
 
         policy_name = policy['name']
         clone_policy = copy.deepcopy(policy)
-        for rule in clone_policy['http_request_policy']['rules']:
-            if 'switching_action' in rule:
-                if rule['switching_action'].get('pool_group_ref'):
-                    pool_group_ref = self.get_name(rule['switching_action'][
-                                                       'pool_group_ref'])
-                    pool_group_ref = self.clone_pool_group(
-                        pool_group_ref, policy_name, avi_config, False,
-                        tenant_name, cloud_name)
-                    if pool_group_ref:
-                        updated_pool_group_ref = self.get_object_ref(
-                            pool_group_ref, conv_const.OBJECT_TYPE_POOL_GROUP,
+        LOG.debug("cloning policy %s" % clone_policy)
+        if 'http_request_policy' in clone_policy:
+            for rule in clone_policy['http_request_policy']['rules']:
+                if 'switching_action' in rule:
+                    if rule['switching_action'].get('pool_group_ref'):
+                        pool_group_ref = self.get_name(
+                            rule['switching_action']['pool_group_ref'])
+                        pool_group_ref = self.clone_pool_group(
+                            pool_group_ref, policy_name, avi_config, False,
                             tenant_name, cloud_name)
-                        rule['switching_action']['pool_group_ref'] = \
-                            updated_pool_group_ref
-                elif rule['switching_action'].get('pool_ref'):
-                    pool_ref = self.get_name(rule['switching_action'][
-                                                 'pool_ref'])
-                    if pool_ref:
-                        updated_pool_ref = self.get_object_ref(
-                            pool_ref, conv_const.OBJECT_TYPE_POOL, tenant_name,
-                            cloud_name)
-                        rule['switching_action']['pool_ref'] = updated_pool_ref
+                        if pool_group_ref:
+                            updated_pool_group_ref = self.get_object_ref(
+                                pool_group_ref,
+                                conv_const.OBJECT_TYPE_POOL_GROUP,
+                                tenant_name, cloud_name)
+                            rule['switching_action']['pool_group_ref'] = \
+                                updated_pool_group_ref
+                    elif rule['switching_action'].get('pool_ref'):
+                        pool_ref = self.get_name(
+                            rule['switching_action']['pool_ref'])
+                        if pool_ref:
+                            updated_pool_ref = self.get_object_ref(
+                                pool_ref, conv_const.OBJECT_TYPE_POOL,
+                                tenant_name, cloud_name)
+                            rule['switching_action']['pool_ref'] = \
+                                updated_pool_ref
         clone_policy['name'] += '-%s-clone' % vs_name
         return clone_policy
 
@@ -2294,6 +2283,8 @@ class F5Util(MigrationUtil):
         mapped_rules = []
         converted_rules = []
 
+        LOG.debug("Converting for irules %s for vs %s" % (vs_ds_rules, vs_name))
+
         for rule_mapping in rule_config:
             mapped_rules.append(rule_mapping['rule_name'])
 
@@ -2318,6 +2309,9 @@ class F5Util(MigrationUtil):
                     avi_config['VSDataScriptSet'].append(ds_config)
                 vs_ds.append(ds_config['name'])
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s VSDataScriptSet" %
+                    (rule, ds_config['name']))
             elif rule_mapping and rule_mapping['type'] == 'HTTPPolicySet':
                 if 'avi_config' in rule_mapping:
                     policy = copy.deepcopy(rule_mapping['avi_config'])
@@ -2332,6 +2326,9 @@ class F5Util(MigrationUtil):
                 avi_config['HTTPPolicySet'].append(policy)
                 req_policies.append(policy['name'])
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s HTTPPolicySet" %
+                    (rule, policy['name']))
             elif rule_mapping and rule_mapping['type'] == \
                     'NetworkSecurityPolicy':
                 if 'avi_config' in rule_mapping:
@@ -2347,6 +2344,9 @@ class F5Util(MigrationUtil):
                 avi_config['NetworkSecurityPolicy'].append(policy)
                 nw_policy = policy['name']
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s NetworkSecurityPolicy" %
+                    (rule, policy['name']))
             elif (rule_mapping and rule_mapping['type'] ==
                   'HTTPToHTTPSRedirect') or rule == '_sys_https_redirect':
                 # Added prefix for objects
@@ -2360,6 +2360,9 @@ class F5Util(MigrationUtil):
                 req_policies.append(policy_name)
                 avi_config['HTTPPolicySet'].append(policy)
                 converted_rules.append(rule)
+                LOG.debug(
+                    "iRule %s successfully mapped to %s HTTPPolicySet" %
+                    (rule, policy['name']))
         return vs_ds, req_policies, nw_policy, converted_rules
 
     def update_with_default_profile(self, profile_type, profile,

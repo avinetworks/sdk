@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.1.3", 
+        "version": "18.2.3", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -112,7 +112,7 @@
                     {
                         "required": true, 
                         "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration.The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
                         "in": "header", 
                         "name": "X-Avi-Version"
                     }, 
@@ -1111,6 +1111,95 @@
                 }
             }
         }, 
+        "AwsConfiguration": {
+            "required": [
+                "vpc_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "wildcard_access": {
+                    "type": "boolean", 
+                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                }, 
+                "sqs_encryption": {
+                    "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "publish_vip_to_public_zone": {
+                    "type": "boolean", 
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                }, 
+                "ebs_encryption": {
+                    "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "free_elasticips": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Free unused elastic IP addresses."
+                }, 
+                "zones": {
+                    "items": {
+                        "$ref": "#/definitions/AwsZoneConfig"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
+                }, 
+                "asg_poll_interval": {
+                    "default": 600, 
+                    "type": "integer", 
+                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "vpc": {
+                    "type": "string", 
+                    "description": "VPC name."
+                }, 
+                "ttl": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
+                    "format": "int32"
+                }, 
+                "use_iam_roles": {
+                    "type": "boolean", 
+                    "description": "Use IAM roles instead of access and secret key."
+                }, 
+                "s3_encryption": {
+                    "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
+                    "$ref": "#/definitions/AwsEncryption"
+                }, 
+                "region": {
+                    "default": "us-west-1", 
+                    "type": "string", 
+                    "description": "AWS region."
+                }, 
+                "route53_integration": {
+                    "type": "boolean", 
+                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
+                }, 
+                "secret_access_key": {
+                    "type": "string", 
+                    "description": "AWS secret access key."
+                }, 
+                "use_sns_sqs": {
+                    "type": "boolean", 
+                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
+                }, 
+                "access_key_id": {
+                    "type": "string", 
+                    "description": "AWS access key ID."
+                }, 
+                "iam_assume_role": {
+                    "type": "string", 
+                    "description": "IAM assume role for cross-account access."
+                }, 
+                "vpc_id": {
+                    "type": "string", 
+                    "description": "VPC ID."
+                }
+            }
+        }, 
         "CloudStackConfiguration": {
             "required": [
                 "access_key_id", 
@@ -1244,6 +1333,19 @@
                 }
             }
         }, 
+        "IngAttribute": {
+            "type": "object", 
+            "properties": {
+                "attribute": {
+                    "type": "string", 
+                    "description": "Attribute to match. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "Attribute value. If not set, match any value. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                }
+            }
+        }, 
         "LinuxServerHost": {
             "required": [
                 "host_ip"
@@ -1325,6 +1427,47 @@
                     }, 
                     "type": "array", 
                     "description": "UUIDs of OpenStack tenants that should be allowed to use the specified Neutron network for VIPs. Use '*' to make this network available to all tenants. Field introduced in 18.1.2."
+                }
+            }
+        }, 
+        "GCPTwoArmMode": {
+            "required": [
+                "backend_data_vpc_network_name", 
+                "backend_data_vpc_subnet_name", 
+                "frontend_data_vpc_network_name", 
+                "frontend_data_vpc_subnet_name", 
+                "management_vpc_network_name", 
+                "management_vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "frontend_data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Frontend Data Network Name. Field introduced in 18.2.2."
+                }, 
+                "management_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "management_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Name. Field introduced in 18.2.2."
+                }, 
+                "backend_data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Backend Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "frontend_data_vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                }, 
+                "frontend_data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "backend_data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Backend Data Network Name. Field introduced in 18.2.2."
                 }
             }
         }, 
@@ -1753,6 +1896,30 @@
                 }
             }
         }, 
+        "GCPNetworkConfig": {
+            "required": [
+                "config"
+            ], 
+            "type": "object", 
+            "properties": {
+                "config": {
+                    "type": "string", 
+                    "description": "Config Mode for Google Cloud network configuration. Enum options - INBAND_MANAGEMENT, ONE_ARM_MODE, TWO_ARM_MODE. Field introduced in 18.2.1."
+                }, 
+                "two_arm": {
+                    "description": "Configure Two Arm Mode as Google Cloud network configuration. In this configuration the frontend data network, backend data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/GCPTwoArmMode"
+                }, 
+                "one_arm": {
+                    "description": "Configure One Arm Mode as Google Cloud network configuration. In this configuration the data network and the management network for the Service Engines will be separated. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/GCPOneArmMode"
+                }, 
+                "inband": {
+                    "description": "Configure InBand Management as Google Cloud network configuration. In this configuration the data network and management network for Service Engines will be same. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/GCPInBandManagement"
+                }
+            }
+        }, 
         "MarathonSeDeployment": {
             "type": "object", 
             "properties": {
@@ -1967,13 +2134,26 @@
                     "description": "Enable Kubernetes event subscription."
                 }, 
                 "nuage_controller": {
-                    "description": "Nuage Overlay SDN Controller information.", 
+                    "description": "Nuage Overlay SDN Controller information. Field deprecated in 17.2.13,18.1.5,18.2.1.", 
                     "$ref": "#/definitions/NuageSDNController"
+                }, 
+                "se_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Exclude hosts with attributes for SE creation."
                 }, 
                 "feproxy_vips_enable_proxy_arp": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable proxy ARP from Host interface for Front End  proxies."
+                }, 
+                "se_restart_batch_size": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Restart ServiceEngines by batch on ServiceEngineGroup updates (cpu, memory..etc). Field introduced in 17.2.15, 18.1.5, 18.2.1.", 
+                    "format": "int32"
                 }, 
                 "disable_auto_backend_service_sync": {
                     "type": "boolean", 
@@ -1986,11 +2166,19 @@
                 }, 
                 "fleet_endpoint": {
                     "type": "string", 
-                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment."
+                    "description": "Optional fleet remote endpoint if fleet is used for SE deployment. Field deprecated in 17.2.13,18.1.5,18.2.1."
                 }, 
-                "default_shared_virtualservice": {
-                    "description": "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/OshiftSharedVirtualService"
+                "docker_endpoint": {
+                    "default": "/var/run/docker.sock", 
+                    "type": "string", 
+                    "description": "Host Docker server UNIX socket endpoint. Field introduced in 17.2.14, 18.1.5, 18.2.1."
+                }, 
+                "ing_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/IngAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Do not sync applications only for ingress that have these exclude attributes configured. Field introduced in 17.2.15, 18.1.5, 18.2.1."
                 }, 
                 "routes_share_virtualservice": {
                     "type": "boolean", 
@@ -2005,27 +2193,36 @@
                     "type": "boolean", 
                     "description": "If there is no explicit east_west_placement field in virtualservice configuration, treat service as a East-West service; default services such a OpenShift API server do not have virtualservice configuration."
                 }, 
+                "default_shared_virtualservice": {
+                    "description": "Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/OshiftSharedVirtualService"
+                }, 
                 "client_tls_key_and_certificate_ref": {
                     "type": "string", 
                     "description": "UUID of the client TLS cert and key instead of service account token. One of client certificate or token is required. It is a reference to an object of type SSLKeyAndCertificate."
                 }, 
-                "se_exclude_attributes": {
+                "se_restart_force": {
+                    "type": "boolean", 
+                    "description": "Restart ServiceEngines forcely if VirtualServices failed to migrate to another SE. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                }, 
+                "se_pod_tolerations": {
                     "items": {
-                        "$ref": "#/definitions/MesosAttribute"
+                        "$ref": "#/definitions/PodToleration"
                     }, 
                     "type": "array", 
-                    "description": "Exclude hosts with attributes for SE creation."
+                    "description": "Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
                 "service_port_match_http_service": {
                     "type": "boolean", 
                     "description": "Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11,18.1.2."
                 }, 
                 "l4_health_monitoring": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Perform Layer4 (TCP/UDP) health monitoring even for Layer7 (HTTP) Pools."
                 }, 
                 "se_deployment_method": {
-                    "default": "SE_CREATE_SSH", 
+                    "default": "SE_CREATE_POD", 
                     "type": "string", 
                     "description": "Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD."
                 }, 
@@ -2040,7 +2237,7 @@
                 }, 
                 "cluster_tag": {
                     "type": "string", 
-                    "description": "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. Warn  All virtual services will be disrupted if this field is modified. Field introduced in 17.2.5."
+                    "description": "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5."
                 }, 
                 "docker_registry_se": {
                     "description": "Docker registry for ServiceEngine image.", 
@@ -2050,6 +2247,13 @@
                     "type": "string", 
                     "description": "UUID of the UCP CA TLS cert and key. It is a reference to an object of type SSLKeyAndCertificate."
                 }, 
+                "ing_include_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/IngAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Sync applications only for ingress objects that have these include attributes configured. Default values are populated for this field if not provided. The default value are  'attribute'  'kubernetes.io/ingress.class', 'value' 'avi'. Field introduced in 17.2.15, 18.1.5, 18.2.1."
+                }, 
                 "ns_include_attributes": {
                     "items": {
                         "$ref": "#/definitions/MesosAttribute"
@@ -2057,9 +2261,9 @@
                     "type": "array", 
                     "description": "Sync applications only for namespaces/projects that have these include attributes configured. Field introduced in 17.1.9,17.2.3."
                 }, 
-                "use_scheduling_disabled_nodes": {
+                "use_resource_definition_as_ssot": {
                     "type": "boolean", 
-                    "description": "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
+                    "description": "Use OpenShift/Kubernetes resource definition and annotations as single-source-of-truth. Any changes made in Avi Controller via UI or CLI will be overridden by values provided in annotations. Field introduced in 17.2.13, 18.1.4, 18.2.1."
                 }, 
                 "disable_auto_frontend_service_sync": {
                     "type": "boolean", 
@@ -2106,7 +2310,7 @@
                     "description": "List of OpenShift/Kubernetes master nodes; In case of a load balanced OpenShift/K8S cluster, use Virtual IP of the cluster. Each node is of the form node 8443 or http //node 8080. If scheme is not provided, https is assumed."
                 }, 
                 "app_sync_frequency": {
-                    "default": 60, 
+                    "default": 300, 
                     "type": "integer", 
                     "description": "Sync frequency in seconds with frameworks.", 
                     "format": "int32"
@@ -2116,15 +2320,27 @@
                     "description": "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 }, 
                 "se_volume": {
-                    "default": "/opt/avi", 
+                    "default": "/var/lib/avi", 
                     "type": "string", 
                     "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
+                "use_scheduling_disabled_nodes": {
+                    "type": "boolean", 
+                    "description": "Enable VirtualService placement on Service Engines on nodes with scheduling disabled. When false, Service Engines are disabled on nodes where scheduling is disabled."
+                }, 
+                "ns_exclude_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/MesosAttribute"
+                    }, 
+                    "type": "array", 
+                    "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
                 }, 
                 "avi_bridge_subnet": {
                     "description": "Avi Linux bridge subnet on OpenShift/K8s nodes.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }, 
                 "override_service_ports": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3."
                 }, 
@@ -2147,19 +2363,16 @@
                 "se_spawn_rate": {
                     "default": 25, 
                     "type": "integer", 
-                    "description": "New SE spawn rate per minute.", 
+                    "description": "New SE spawn rate per minute. Field deprecated in 17.2.13,18.1.5,18.2.1.", 
                     "format": "int32"
                 }, 
-                "ns_exclude_attributes": {
-                    "items": {
-                        "$ref": "#/definitions/MesosAttribute"
-                    }, 
-                    "type": "array", 
-                    "description": "Syncing of applications is disabled only for namespaces/projects that have these exclude attributes configured. If there are apps synced already for these namespaces, they will be removed from Avi. Field introduced in 17.1.9,17.2.3."
+                "vip_default_gateway": {
+                    "description": "VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
                 "se_image_pull_secret": {
                     "type": "string", 
-                    "description": "OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3."
+                    "description": "OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3,18.2.1."
                 }, 
                 "disable_auto_se_creation": {
                     "type": "boolean", 
@@ -2388,7 +2601,60 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Deprecated; please use provider_vip_networks. Field introduced in 17.1.1."
+                    "description": "Deprecated, please use provider_vip_networks. Field deprecated in 18.2.2. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "GCPConfiguration": {
+            "required": [
+                "network_config", 
+                "region_name", 
+                "se_project_id", 
+                "zones"
+            ], 
+            "type": "object", 
+            "properties": {
+                "gcs_bucket_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1."
+                }, 
+                "region_name": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1."
+                }, 
+                "gcs_project_id": {
+                    "type": "string", 
+                    "description": "Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, se_project_id will be used. Field introduced in 18.2.1."
+                }, 
+                "cloud_credentials_ref": {
+                    "type": "string", 
+                    "description": "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
+                }, 
+                "zones": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Google Cloud Platform Zones where Service Engines will be distributed for HA. Field introduced in 18.2.1."
+                }, 
+                "match_se_group_subnet": {
+                    "type": "boolean", 
+                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1."
+                }, 
+                "se_project_id": {
+                    "type": "string", 
+                    "description": "Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1."
+                }, 
+                "firewall_target_tags": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1."
+                }, 
+                "network_config": {
+                    "description": "Google Cloud Platform VPC Network configuration for the Service Engines. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/GCPNetworkConfig"
                 }
             }
         }, 
@@ -2540,6 +2806,37 @@
                 }
             }
         }, 
+        "GCPOneArmMode": {
+            "required": [
+                "data_vpc_network_name", 
+                "data_vpc_subnet_name", 
+                "management_vpc_network_name", 
+                "management_vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "data_vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
+                }, 
+                "data_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Data Network Name. Field introduced in 18.2.2."
+                }, 
+                "management_vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Name. Field introduced in 18.2.2."
+                }, 
+                "data_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Data Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "management_vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Management Network Subnet Name. Field introduced in 18.2.1."
+                }
+            }
+        }, 
         "OpenStackHypervisorProperties": {
             "required": [
                 "hypervisor"
@@ -2612,92 +2909,30 @@
                 }
             }
         }, 
-        "AwsConfiguration": {
-            "required": [
-                "vpc_id"
-            ], 
+        "PodToleration": {
             "type": "object", 
             "properties": {
-                "wildcard_access": {
-                    "type": "boolean", 
-                    "description": "If enabled, program SE security group with ingress rule to allow SSH (port 22) access from 0.0.0.0/0. Field deprecated in 17.1.5. Field introduced in 17.1.3."
+                "operator": {
+                    "default": "EQUAL", 
+                    "type": "string", 
+                    "description": "Operator to match. Enum options - EQUAL, EXISTS. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
-                "sqs_encryption": {
-                    "description": "Server Side Encryption to be used for encrypting SQS Queues. Field introduced in 17.2.8.", 
-                    "$ref": "#/definitions/AwsEncryption"
+                "key": {
+                    "type": "string", 
+                    "description": "Key to match. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
-                "publish_vip_to_public_zone": {
-                    "type": "boolean", 
-                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. Field introduced in 17.2.10."
+                "effect": {
+                    "type": "string", 
+                    "description": "Effect to match. Enum options - NO_SCHEDULE, PREFER_NO_SCHEDULE, NO_EXECUTE. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
-                "ebs_encryption": {
-                    "description": "EBS encryption mode and the master key to be used for encrypting SE AMI, Volumes, and Snapshots. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/AwsEncryption"
+                "value": {
+                    "type": "string", 
+                    "description": "Value to match. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 }, 
-                "free_elasticips": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Free unused elastic IP addresses."
-                }, 
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/AwsZoneConfig"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property zones of obj type AwsConfiguration field type str  type object"
-                }, 
-                "asg_poll_interval": {
-                    "default": 600, 
+                "toleration_seconds": {
                     "type": "integer", 
-                    "description": "Time interval between periodic polling of all Auto Scaling Groups. Allowed values are 60-1800. Field introduced in 17.1.3.", 
+                    "description": "Pods that tolerate the taint with a specified toleration_seconds remain bound for the specified amount of time. Field introduced in 17.2.14, 18.1.5, 18.2.1.", 
                     "format": "int32"
-                }, 
-                "vpc": {
-                    "type": "string", 
-                    "description": "VPC name."
-                }, 
-                "ttl": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
-                    "format": "int32"
-                }, 
-                "use_iam_roles": {
-                    "type": "boolean", 
-                    "description": "Use IAM roles instead of access and secret key."
-                }, 
-                "s3_encryption": {
-                    "description": "S3 encryption mode and the master key to be used for encrypting S3 buckets during SE AMI upload. Only SSE-KMS mode is supported. Field introduced in 17.2.3.", 
-                    "$ref": "#/definitions/AwsEncryption"
-                }, 
-                "region": {
-                    "default": "us-west-1", 
-                    "type": "string", 
-                    "description": "AWS region."
-                }, 
-                "route53_integration": {
-                    "type": "boolean", 
-                    "description": "If enabled, create/update DNS entries in Amazon Route 53 zones."
-                }, 
-                "secret_access_key": {
-                    "type": "string", 
-                    "description": "AWS secret access key."
-                }, 
-                "use_sns_sqs": {
-                    "type": "boolean", 
-                    "description": "Use SNS/SQS based notifications for monitoring Auto Scaling Groups. Field introduced in 17.1.3."
-                }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
-                }, 
-                "iam_assume_role": {
-                    "type": "string", 
-                    "description": "IAM assume role for cross-account access."
-                }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID."
                 }
             }
         }, 
@@ -2715,6 +2950,27 @@
                 "addr": {
                     "type": "string", 
                     "description": "IP address."
+                }
+            }
+        }, 
+        "GCPInBandManagement": {
+            "required": [
+                "vpc_network_name", 
+                "vpc_subnet_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Inband Network Name. Field introduced in 18.2.2."
+                }, 
+                "vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
                 }
             }
         }, 
@@ -2767,6 +3023,12 @@
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/OShiftK8SConfiguration"
                 }, 
+                "autoscale_polling_interval": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2.", 
+                    "format": "int32"
+                }, 
                 "dhcp_enabled": {
                     "type": "boolean", 
                     "description": "Select the IP address management scheme."
@@ -2778,7 +3040,7 @@
                 "vtype": {
                     "default": "CLOUD_NONE", 
                     "type": "string", 
-                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE."
+                    "description": "Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
@@ -2796,6 +3058,10 @@
                     "type": "array", 
                     "description": "Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5."
                 }, 
+                "gcp_configuration": {
+                    "description": "Google Cloud Platform Configuration. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/GCPConfiguration"
+                }, 
                 "nsx_configuration": {
                     "description": "Configuration parameters for NSX Manager. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/NsxConfiguration"
@@ -2809,7 +3075,7 @@
                     "description": "DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile."
                 }, 
                 "mesos_configuration": {
-                    "description": "Placeholder for description of property mesos_configuration of obj type Cloud field type str  type object", 
+                    "description": " Field deprecated in 18.2.2.", 
                     "$ref": "#/definitions/MesosConfiguration"
                 }, 
                 "ip6_autocfg_enabled": {
@@ -2908,6 +3174,10 @@
                 "se_network_id": {
                     "type": "string", 
                     "description": "Id of the Azure subnet where Avi Controller will create the Service Engines. . Field introduced in 17.2.1."
+                }, 
+                "management_network_id": {
+                    "type": "string", 
+                    "description": "Id of the Azure subnet used as management network for the Service Engines. If set, Service Engines will have a dedicated management NIC, otherwise, they operate in inband mode. Field introduced in 18.2.3."
                 }, 
                 "virtual_network_id": {
                     "type": "string", 

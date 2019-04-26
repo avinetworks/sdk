@@ -53,6 +53,9 @@ type Pool struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
+	// Connnection pool properties. Field introduced in 18.2.1.
+	ConnPoolProperties *ConnPoolProperties `json:"conn_pool_properties,omitempty"`
+
 	// Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - 'Immediate'.
 	ConnectionRampDuration *int32 `json:"connection_ramp_duration,omitempty"`
 
@@ -61,6 +64,9 @@ type Pool struct {
 
 	// Traffic sent to servers will use this destination server port unless overridden by the server's specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535.
 	DefaultServerPort *int32 `json:"default_server_port,omitempty"`
+
+	// Indicates whether existing IPs are disabled(false) or deleted(true) on dns hostname refreshDetail -- On a dns refresh, some IPs set on pool may no longer be returned by the resolver. These IPs are deleted from the pool when this knob is set to true. They are disabled, if the knob is set to false. Field introduced in 18.2.3.
+	DeleteServerOnDNSRefresh *bool `json:"delete_server_on_dns_refresh,omitempty"`
 
 	// A description of the pool.
 	Description *string `json:"description,omitempty"`
