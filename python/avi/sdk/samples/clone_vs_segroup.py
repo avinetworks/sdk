@@ -170,6 +170,8 @@ def main(args):
             vsvip['vip'][0].pop('floating_ip')
         vsvip['name'] = vsvip['name'] + suffix
         vsvip.pop('uuid')
+        if 'use_standard_alb' in new_se_grp:
+            vsvip['use_standard_alb'] = new_se_grp['use_standard_alb']
         vsvip_post = None
         if not dry_run_mode:
             if shared_vip:
