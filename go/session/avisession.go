@@ -118,6 +118,7 @@ type AviSession struct {
 
 const DEFAULT_AVI_VERSION = "17.1.2"
 const DEFAULT_API_TIMEOUT = time.Duration(60 * time.Second)
+const DEFAULT_API_TENANT = "admin"
 
 //NewAviSession initiates a session to AviController and returns it
 func NewAviSession(host string, username string, options ...func(*AviSession) error) (*AviSession, error) {
@@ -141,6 +142,9 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		}
 	}
 
+    if avisess.tenant == "" {
+        avisess.tenant = DEFAULT_API_TENANT
+    }
 	if avisess.version == "" {
 		avisess.version = DEFAULT_AVI_VERSION
 	}
