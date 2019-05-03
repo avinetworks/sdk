@@ -556,6 +556,13 @@
                     "type": "string", 
                     "description": "User defined description for the object."
                 }, 
+                "protocol_parser_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "List of protocol parsers that could be referred by VSDataScriptSet objects. It is a reference to an object of type ProtocolParser. Field introduced in 18.2.3."
+                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."

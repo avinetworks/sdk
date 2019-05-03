@@ -394,6 +394,11 @@ definitions:
                 type: array
                 items:
                     type: string
+            protocol_parser_refs:
+                description: "List of protocol parsers that could be referred by VSDataScriptSet objects. It is a reference to an object of type ProtocolParser. Field introduced in 18.2.3."
+                type: array
+                items:
+                    type: string
             string_group_refs:
                 description: "UUID of String Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type StringGroup."
                 type: array

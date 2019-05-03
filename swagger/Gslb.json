@@ -1054,6 +1054,11 @@
                     "description": "Max retries after which the remote site is treated as a fresh start. In fresh start all the configs are downloaded. Allowed values are 1-1024.", 
                     "format": "int32"
                 }, 
+                "error_resync_interval": {
+                    "type": "integer", 
+                    "description": "Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 300-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
                 "send_interval": {
                     "default": 15, 
                     "type": "integer", 

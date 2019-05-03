@@ -516,7 +516,7 @@
                 "format": {
                     "default": "ERROR_PAGE_FORMAT_HTML", 
                     "type": "string", 
-                    "description": "Format of an error page body {HTML, JSON}. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
+                    "description": "Format of an error page body HTML or JSON. Enum options - ERROR_PAGE_FORMAT_HTML, ERROR_PAGE_FORMAT_JSON. Field introduced in 18.2.3."
                 }, 
                 "url": {
                     "readOnly": true, 
