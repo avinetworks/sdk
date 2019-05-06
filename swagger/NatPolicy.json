@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi DebugServiceEngine Object API", 
+        "title": "Avi NatPolicy Object API", 
         "version": "18.2.4", 
-        "description": "CLI\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
+        "description": "CLI\n```\n- configure natpolicy <key>\n- show natpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,171 @@
         }
     }, 
     "paths": {
-        "/debugserviceengine/{uuid}": {
+        "/natpolicy": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/NatPolicy"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "NatPolicy object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/NatPolicy"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/NatPolicyApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/natpolicy/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -24,7 +188,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
+                            "$ref": "#/definitions/NatPolicy"
                         }
                     }, 
                     "401": {
@@ -70,10 +234,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "DebugServiceEngine object creation", 
+                        "description": "NatPolicy object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
+                            "$ref": "#/definitions/NatPolicy"
                         }
                     }, 
                     {
@@ -101,7 +265,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
+                            "$ref": "#/definitions/NatPolicy"
                         }
                     }, 
                     "401": {
@@ -195,7 +359,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
+                            "$ref": "#/definitions/NatPolicy"
                         }
                     }, 
                     "401": {
@@ -241,10 +405,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "DebugServiceEngine object creation", 
+                        "description": "NatPolicy object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
+                            "$ref": "#/definitions/NatPolicy"
                         }
                     }, 
                     {
@@ -327,170 +491,6 @@
                     "application/json"
                 ]
             }
-        }, 
-        "/debugserviceengine": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "DebugServiceEngine object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/DebugServiceEngine"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/DebugServiceEngineApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
         }
     }, 
     "definitions": {
@@ -511,81 +511,72 @@
                 }
             }
         }, 
-        "DebugSeFault": {
+        "NatPolicyActionParam": {
             "type": "object", 
             "properties": {
-                "se_shm_malloc_fail_frequency": {
-                    "type": "integer", 
-                    "description": "Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_malloc_fail_type": {
-                    "type": "integer", 
-                    "description": "Fail this SE malloc type. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_mbuf_cl_sanity": {
-                    "type": "boolean", 
-                    "description": "Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1."
-                }, 
-                "se_shm_malloc_fail_type": {
-                    "type": "integer", 
-                    "description": "Fail this SE SHM malloc type. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_waf_alloc_fail_frequency": {
-                    "type": "integer", 
-                    "description": "Fail SE WAF allocation at this frequency. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_malloc_fail_frequency": {
-                    "type": "integer", 
-                    "description": "Fail SE malloc type at this frequency. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
-                "se_waf_learning_alloc_fail_frequency": {
-                    "type": "integer", 
-                    "description": "Fail SE WAF learning allocation at this frequency. Field introduced in 18.1.2.", 
-                    "format": "int32"
+                "nat_info": {
+                    "items": {
+                        "$ref": "#/definitions/NatAddrInfo"
+                    }, 
+                    "type": "array", 
+                    "description": "Pool of IP Addresses used for Nat. Field introduced in 18.2.3."
                 }
             }
         }, 
-        "DebugSeAgent": {
+        "IpAddrMatch": {
             "required": [
-                "log_level", 
-                "sub_module", 
-                "trace_level"
+                "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "log_every_n": {
-                    "type": "integer", 
-                    "description": "Log every nth message. Field introduced in 17.2.7.", 
-                    "format": "int32"
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
                 }, 
-                "sub_module": {
-                    "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG."
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
                 }, 
-                "log_level": {
-                    "type": "string", 
-                    "description": " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
                 }, 
-                "trace_level": {
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
                     "type": "string", 
-                    "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
                 }
             }
         }, 
-        "DebugSeDataplane": {
+        "IpAddr": {
             "required": [
-                "flag"
+                "addr", 
+                "type"
             ], 
             "type": "object", 
             "properties": {
-                "flag": {
+                "type": {
                     "type": "string", 
-                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT, DEBUG_NAT_ERROR, DEBUG_NAT_PKT, DEBUG_NAT_END2END, DEBUG_NAT_ALL."
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
                 }
             }
         }, 
@@ -607,134 +598,144 @@
                 }
             }
         }, 
-        "IpAddr": {
+        "NatRule": {
             "required": [
-                "addr", 
-                "type"
+                "action", 
+                "enable", 
+                "index", 
+                "match", 
+                "name"
             ], 
             "type": "object", 
             "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "DebugSeCpuShares": {
-            "required": [
-                "cpu", 
-                "shares"
-            ], 
-            "type": "object", 
-            "properties": {
-                "cpu": {
+                "index": {
                     "type": "integer", 
-                    "description": "Number of cpu.", 
+                    "description": "Nat rule Index. Field introduced in 18.2.3.", 
                     "format": "int32"
                 }, 
-                "shares": {
-                    "type": "integer", 
-                    "description": "Number of shares.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "DebugServiceEngine": {
-            "type": "object", 
-            "properties": {
-                "capture": {
+                "enable": {
                     "type": "boolean", 
-                    "description": "Enable/disable packet capture. Field introduced in 18.2.2."
+                    "description": "Nat rule enable flag. Field introduced in 18.2.3."
                 }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Nat rule Name. Field introduced in 18.2.3."
+                }, 
+                "action_param": {
+                    "description": "Nat rule Action Information. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/NatPolicyActionParam"
+                }, 
+                "match": {
+                    "description": "Nat rule Match Criteria. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/NatMatchTarget"
+                }, 
+                "action": {
+                    "type": "string", 
+                    "description": "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "NatPolicy": {
+            "type": "object", 
+            "properties": {
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "seagent_debug": {
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the Nat policy. Field introduced in 18.2.3."
+                }, 
+                "rules": {
                     "items": {
-                        "$ref": "#/definitions/DebugSeAgent"
+                        "$ref": "#/definitions/NatRule"
                     }, 
                     "type": "array", 
-                    "description": "Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object"
+                    "description": "Nat policy Rules. Field introduced in 18.2.3."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 18.2.3."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the Nat policy. Field introduced in 18.2.3."
+                }, 
+                "created_by": {
+                    "type": "string", 
+                    "description": "Creator name. Field introduced in 18.2.3."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "fault": {
-                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
-                    "$ref": "#/definitions/DebugSeFault"
-                }, 
-                "debug_ip": {
-                    "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
-                    "$ref": "#/definitions/DebugIpAddr"
-                }, 
-                "tenant_ref": {
+                "description": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "name": {
-                    "default": "VM name unknown", 
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "flags": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeDataplane"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "capture_params": {
-                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
-                    "$ref": "#/definitions/DebugVirtualServiceCapture"
-                }, 
-                "cpu_shares": {
-                    "items": {
-                        "$ref": "#/definitions/DebugSeCpuShares"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": " Field introduced in 18.2.3."
                 }
             }
         }, 
-        "DebugIpAddr": {
+        "PortMatch": {
+            "required": [
+                "match_criteria"
+            ], 
             "type": "object", 
             "properties": {
-                "prefixes": {
+                "ports": {
                     "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
+                        "type": "integer"
                     }, 
                     "type": "array", 
-                    "description": "Placeholder for description of property prefixes of obj type DebugIpAddr field type str  type object"
+                    "description": "Listening TCP port(s). Allowed values are 1-65535.", 
+                    "format": "int32"
                 }, 
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrRange"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property ranges of obj type DebugIpAddr field type str  type object"
-                }, 
-                "addrs": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property addrs of obj type DebugIpAddr field type str  type object"
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
                 }
             }
         }, 
-        "DebugServiceEngineApiResponse": {
+        "NatMatchTarget": {
+            "type": "object", 
+            "properties": {
+                "source_port": {
+                    "description": "Source Port of the packet. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/PortMatch"
+                }, 
+                "destination_ip": {
+                    "description": "Destination IP of the packet. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "source_ip": {
+                    "description": "Source IP of the packet. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "destination_port": {
+                    "description": "Destination Port of the packet. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/PortMatch"
+                }
+            }
+        }, 
+        "NatAddrInfo": {
+            "type": "object", 
+            "properties": {
+                "nat_ip_range": {
+                    "description": "Nat IP address range. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpAddrRange"
+                }, 
+                "nat_ip": {
+                    "description": "Nat IP address. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpAddr"
+                }
+            }
+        }, 
+        "NatPolicyApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -747,34 +748,9 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/DebugServiceEngine"
+                        "$ref": "#/definitions/NatPolicy"
                     }, 
                     "type": "array"
-                }
-            }
-        }, 
-        "DebugVirtualServiceCapture": {
-            "type": "object", 
-            "properties": {
-                "duration": {
-                    "type": "integer", 
-                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
-                    "format": "int32"
-                }, 
-                "enable_ssl_session_key_capture": {
-                    "type": "boolean", 
-                    "description": "Enable SSL session key capture. Field introduced in 18.2.3."
-                }, 
-                "num_pkts": {
-                    "type": "integer", 
-                    "description": "Total number of packets to capture.", 
-                    "format": "int32"
-                }, 
-                "pkt_size": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.", 
-                    "format": "int32"
                 }
             }
         }
