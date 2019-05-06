@@ -128,6 +128,9 @@ type ServiceEngineGroup struct {
 	// Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8.
 	DistributeQueues *bool `json:"distribute_queues,omitempty"`
 
+	// Enable GratArp for VIP_IP. Field introduced in 18.2.3.
+	EnableGratarpPermanent *bool `json:"enable_gratarp_permanent,omitempty"`
+
 	// (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1.
 	EnableHsmPriming *bool `json:"enable_hsm_priming,omitempty"`
 
@@ -166,6 +169,9 @@ type ServiceEngineGroup struct {
 
 	// Number of entries in the free list. Field introduced in 17.2.10, 18.1.2.
 	FreeListSize *int32 `json:"free_list_size,omitempty"`
+
+	// GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3.
+	GratarpPermanentPeriodicity *int32 `json:"gratarp_permanent_periodicity,omitempty"`
 
 	// High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY.
 	HaMode *string `json:"ha_mode,omitempty"`
@@ -309,7 +315,10 @@ type ServiceEngineGroup struct {
 	// Enable or disable real time SE metrics.
 	RealtimeSeMetrics *MetricsRealTimeUpdate `json:"realtime_se_metrics,omitempty"`
 
-	// Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3.
+	// Reboot the VM or host on kernel panic. Field introduced in 18.2.4.
+	RebootOnPanic *bool `json:"reboot_on_panic,omitempty"`
+
+	// Reboot the system if the SE is stopped. Field deprecated in 18.2.4.
 	RebootOnStop *bool `json:"reboot_on_stop,omitempty"`
 
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
@@ -327,7 +336,10 @@ type ServiceEngineGroup struct {
 	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeRetries *int32 `json:"se_flow_probe_retries,omitempty"`
 
-	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.
+	// Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.4.
+	SeFlowProbeRetryTimer *int32 `json:"se_flow_probe_retry_timer,omitempty"`
+
+	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.4. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeTimer *int32 `json:"se_flow_probe_timer,omitempty"`
 
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
@@ -335,6 +347,9 @@ type ServiceEngineGroup struct {
 
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix *string `json:"se_name_prefix,omitempty"`
+
+	// Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent. Field introduced in 18.2.3.
+	SePcapLookahead *bool `json:"se_pcap_lookahead,omitempty"`
 
 	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitFrequency *int32 `json:"se_pcap_reinit_frequency,omitempty"`
