@@ -15,6 +15,9 @@ type ServiceEnginePolicy struct {
 	// Required: true
 	Name *string `json:"name"`
 
+	// Nat policy. It is a reference to an object of type NatPolicy. Field introduced in 18.2.3.
+	NatPolicyRef *string `json:"nat_policy_ref,omitempty"`
+
 	// Service Engine Group to which the policy is applied. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.3.
 	// Required: true
 	SeGroupRef *string `json:"se_group_ref"`
