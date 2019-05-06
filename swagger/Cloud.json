@@ -2436,7 +2436,7 @@
                 }, 
                 "se_group_ref": {
                     "type": "string", 
-                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
+                    "description": "This field has been generalized for all clouds and has been renamed to se_group_template_uuid. It is a reference to an object of type ServiceEngineGroup. Field deprecated in 18.2.4."
                 }, 
                 "name_owner": {
                     "default": true, 
@@ -3018,6 +3018,10 @@
                 "docker_configuration": {
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/DockerConfiguration"
+                }, 
+                "se_group_template_ref": {
+                    "type": "string", 
+                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.4."
                 }, 
                 "oshiftk8s_configuration": {
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
