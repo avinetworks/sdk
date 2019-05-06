@@ -99,6 +99,9 @@ type Cloud struct {
 	// Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object
 	RancherConfiguration *RancherConfiguration `json:"rancher_configuration,omitempty"`
 
+	// The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.4.
+	SeGroupTemplateRef *string `json:"se_group_template_ref,omitempty"`
+
 	// DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12.
 	StateBasedDNSRegistration *bool `json:"state_based_dns_registration,omitempty"`
 
