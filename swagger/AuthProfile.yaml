@@ -459,7 +459,7 @@ definitions:
                 description: "LDAP connection security mode. Enum options - AUTH_LDAP_SECURE_NONE, AUTH_LDAP_SECURE_USE_LDAPS."
                 type: string
             server:
-                description: "LDAP server IP address."
+                description: "LDAP server IP address or Hostname. Use IP address if an auth profile is used to configure Virtual Service."
                 type: array
                 items:
                     type: string

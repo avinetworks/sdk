@@ -1028,6 +1028,9 @@ definitions:
             rancher_configuration:
                 description: "Placeholder for description of property rancher_configuration of obj type Cloud field type str  type object"
                 $ref: '#/definitions/RancherConfiguration'
+            se_group_template_ref:
+                description: "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.4."
+                type: string
             state_based_dns_registration:
                 description: "DNS records for VIPs are added/deleted based on the operational state of the VIPs. Field introduced in 17.1.12."
                 type: boolean
@@ -1895,7 +1898,7 @@ definitions:
                 items:
                     $ref: '#/definitions/OpenStackRoleMapping'
             se_group_ref:
-                description: "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
+                description: "This field has been generalized for all clouds and has been renamed to se_group_template_uuid. It is a reference to an object of type ServiceEngineGroup. Field deprecated in 18.2.4."
                 type: string
             security_groups:
                 description: "If false, security-groups extension will not be used. ."
