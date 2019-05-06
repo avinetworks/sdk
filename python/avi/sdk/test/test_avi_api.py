@@ -73,6 +73,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_4_0
     def test_basic_vs(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         vs_obj = basic_vs_cfg["vs_obj"]
@@ -96,6 +98,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_22_0
     def test_reuse_api_session(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -105,6 +109,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_17_0
     def test_lazy_authentication(self):
         ApiSession.clear_cached_sessions()
         session = ApiSession(
@@ -125,6 +131,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_34_0
     def test_ssl_vs(self):
         papi = ApiSession(api.avi_credentials.controller,
                           api.avi_credentials.username,
@@ -162,6 +170,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_6_0
     def test_cloned_session_headers(self):
         api2 = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username, \
@@ -177,6 +187,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_2_0
     def test_avi_json(self):
         rsp = Response()
         rsp.status_code = 404
@@ -215,6 +227,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_18_0
     def test_multiple_tenants(self):
         """
         Tests api with multiple tenants to make sure object is only returned
@@ -255,12 +269,16 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_36_0
     def test_timeout(self):
         resp = api.get_object_by_name('tenant', 'admin', timeout=2)
         assert resp
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_8_0
     def test_force_uuid(self):
         basic_vs_cfg = gSAMPLE_CONFIG["BasicVS"]
         pool_cfg = copy.deepcopy(basic_vs_cfg["pool_obj"])
@@ -275,6 +293,8 @@ class Test(unittest.TestCase):
         assert resp.status_code in (200, 204)
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1547_19_0
     def test_multiprocess_cache(self):
         p = Pool(4)
         num_sessions_list = [1, 4, 3, 2, 1]
@@ -287,6 +307,8 @@ class Test(unittest.TestCase):
             assert result == 1
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1547_20_0
     def test_multiprocess_sharing(self):
         api.get_object_by_name('tenant', name='admin')
         p = Process(target=shared_session_check, args=(1,))
@@ -302,6 +324,8 @@ class Test(unittest.TestCase):
              assert result == 200
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1547_5_0
     def test_cleanup_sessions(self):
         api._update_session_last_used()
         assert api.key in sessionDict
@@ -309,6 +333,8 @@ class Test(unittest.TestCase):
         assert 'last_used' in sessionDict[api.key]
 
     @pytest.mark.travis
+
+    @pytest.mark.TCID1_48_1547_3_0
     def test_avi_timedelta(self):
         try:
             avi_timedelta(10)
@@ -319,6 +345,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_25_0
     def test_session_reset(self):
         papi = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username,
@@ -339,6 +367,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_24_0
     def test_session_multi_reset(self):
         papi = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username,
@@ -351,6 +381,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_21_0
     def test_retry_unauth_api(self):
         papi = ApiSession(controller_ip=api.avi_credentials.controller,
                           username=api.avi_credentials.username,
@@ -366,6 +398,8 @@ class Test(unittest.TestCase):
     # Added test cases for getter and setter methods in avi_api
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_11_0
     def test_get_controller_ip(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -376,6 +410,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_27_0
     def test_set_controller_ip(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -388,6 +424,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_16_0
     def test_get_username(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -399,6 +437,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_33_0
     def test_set_username(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -410,6 +450,8 @@ class Test(unittest.TestCase):
         api1.username = login_info.get("username", "admin")
 
     @pytest.mark.skip_travis
+
+    @pytest.mark.TCID1_48_1547_13_0
     def test_get_password(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -421,6 +463,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_29_0
     def test_set_password(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -433,6 +477,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_12_0
     def test_get_key_token(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -443,6 +489,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_28_0
     def test_set_key_token(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -456,6 +504,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_15_0
     def test_get_tenant_uuid(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -466,6 +516,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_32_0
     def test_set_tenant_uuid(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -478,6 +530,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_35_0
     def test_tenant(self):
          api1 = ApiSession(avi_credentials=api.avi_credentials,
                            verify=False)
@@ -488,6 +542,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_31_0
     def test_set_tenant(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -500,6 +556,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_14_0
     def test_get_port(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -511,6 +569,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_30_0
     def test_set_port(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -523,6 +583,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_9_0
     def test_get_api_version(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -534,6 +596,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_26_0
     def test_set_api_version(self):
         api1 = ApiSession(avi_credentials=api.avi_credentials,
                           verify=False)
@@ -547,6 +611,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_10_0
     def test_get_controller_details(self):
         controller_details = api.get_controller_details()
         assert controller_details['controller_ip'] == api.controller_ip
@@ -555,6 +621,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_23_0
     def test_session_connected(self):
         ApiSession.clear_cached_sessions()
         session = ApiSession(
@@ -575,6 +643,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_37_0
     def test_user_login(self):
         api1 = ApiSession(controller_ip=login_info.get('controller_ip'),
             username=login_info.get('username'),
@@ -614,6 +684,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_7_0
     def test_context_sharing(self):
         api1 = ApiSession(controller_ip=login_info.get('controller_ip'),
                           username=login_info.get('username'),
@@ -635,6 +707,8 @@ class Test(unittest.TestCase):
 
     @pytest.mark.travis
     @my_vcr.use_cassette()
+
+    @pytest.mark.TCID1_48_1547_1_0
     def test_api_session(self):
         api_session1 = ApiSession(controller_ip=login_info.get('controller_ip'),
                           username=login_info.get('username'),
