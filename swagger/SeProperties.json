@@ -627,7 +627,6 @@
                     "format": "int32"
                 }, 
                 "fair_queueing_enabled": {
-                    "default": true, 
                     "type": "boolean", 
                     "description": "Enable or disable fair queueing for packet transmission among virtualservices on an SE."
                 }, 
@@ -1597,6 +1596,7 @@
                     "format": "int32"
                 }, 
                 "se_grp_change_disruptive": {
+                    "default": true, 
                     "type": "boolean", 
                     "description": "Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3."
                 }, 
