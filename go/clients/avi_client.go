@@ -50,6 +50,7 @@ type AviClient struct {
 	ClusterCloudDetails            *ClusterCloudDetailsClient
 	ControllerLicense              *ControllerLicenseClient
 	ControllerProperties           *ControllerPropertiesClient
+	ControllerSite                 *ControllerSiteClient
 	CustomIPAMDNSProfile           *CustomIPAMDNSProfileClient
 	DNSPolicy                      *DNSPolicyClient
 	DebugController                *DebugControllerClient
@@ -70,6 +71,7 @@ type AviClient struct {
 	LogControllerMapping           *LogControllerMappingClient
 	MicroService                   *MicroServiceClient
 	MicroServiceGroup              *MicroServiceGroupClient
+	NatPolicy                      *NatPolicyClient
 	Network                        *NetworkClient
 	NetworkProfile                 *NetworkProfileClient
 	NetworkRuntime                 *NetworkRuntimeClient
@@ -85,6 +87,7 @@ type AviClient struct {
 	SCVsStateInfo                  *SCVsStateInfoClient
 	SSLKeyAndCertificate           *SSLKeyAndCertificateClient
 	SSLProfile                     *SSLProfileClient
+	SSOPolicy                      *SSOPolicyClient
 	Scheduler                      *SchedulerClient
 	SeProperties                   *SePropertiesClient
 	SecureChannelAvailableLocalIps *SecureChannelAvailableLocalIpsClient
@@ -156,6 +159,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ClusterCloudDetails = NewClusterCloudDetailsClient(aviSession)
 	aviClient.ControllerLicense = NewControllerLicenseClient(aviSession)
 	aviClient.ControllerProperties = NewControllerPropertiesClient(aviSession)
+	aviClient.ControllerSite = NewControllerSiteClient(aviSession)
 	aviClient.CustomIPAMDNSProfile = NewCustomIPAMDNSProfileClient(aviSession)
 	aviClient.DNSPolicy = NewDNSPolicyClient(aviSession)
 	aviClient.DebugController = NewDebugControllerClient(aviSession)
@@ -176,6 +180,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.LogControllerMapping = NewLogControllerMappingClient(aviSession)
 	aviClient.MicroService = NewMicroServiceClient(aviSession)
 	aviClient.MicroServiceGroup = NewMicroServiceGroupClient(aviSession)
+	aviClient.NatPolicy = NewNatPolicyClient(aviSession)
 	aviClient.Network = NewNetworkClient(aviSession)
 	aviClient.NetworkProfile = NewNetworkProfileClient(aviSession)
 	aviClient.NetworkRuntime = NewNetworkRuntimeClient(aviSession)
@@ -191,6 +196,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.SCVsStateInfo = NewSCVsStateInfoClient(aviSession)
 	aviClient.SSLKeyAndCertificate = NewSSLKeyAndCertificateClient(aviSession)
 	aviClient.SSLProfile = NewSSLProfileClient(aviSession)
+	aviClient.SSOPolicy = NewSSOPolicyClient(aviSession)
 	aviClient.Scheduler = NewSchedulerClient(aviSession)
 	aviClient.SeProperties = NewSePropertiesClient(aviSession)
 	aviClient.SecureChannelAvailableLocalIps = NewSecureChannelAvailableLocalIpsClient(aviSession)
