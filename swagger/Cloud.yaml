@@ -2164,6 +2164,9 @@ definitions:
             ssh_user_ref:
                 description: "Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1."
                 type: string
+            sync_not_ready_addresses:
+                description: "Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.4."
+                type: boolean
             use_controller_image:
                 description: "If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se."
                 type: boolean
