@@ -55,7 +55,7 @@ matrix:
       script:
       - nohup python ./go/examples/web_service.py &
       - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go -v
-notifications:
+--org notifications:
   email:
     recipients:
       - chaitanya.deshpande@avinetworks.com
