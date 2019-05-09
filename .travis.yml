@@ -58,6 +58,6 @@ matrix:
       notifications:
         email:
           recipients:
-            - shrikant.patil@avinetworks.com
+            - chaitanya.deshpande@avinetworks.com
           on_success: always
           on_failure: always
