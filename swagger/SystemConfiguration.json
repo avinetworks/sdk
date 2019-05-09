@@ -572,6 +572,10 @@
         "SecureChannelConfiguration": {
             "type": "object", 
             "properties": {
+                "bypass_secure_channel_must_checks": {
+                    "type": "boolean", 
+                    "description": "Boolean that allows force update of secure channel certificate. Field introduced in 18.2.4."
+                }, 
                 "sslkeyandcertificate_refs": {
                     "items": {
                         "type": "string"

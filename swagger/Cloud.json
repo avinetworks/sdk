@@ -2124,6 +2124,10 @@
         "OShiftK8SConfiguration": {
             "type": "object", 
             "properties": {
+                "sync_not_ready_addresses": {
+                    "type": "boolean", 
+                    "description": "Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.4."
+                }, 
                 "east_west_placement_subnet": {
                     "description": "Match against this prefix when placing east-west VSs on SEs .", 
                     "$ref": "#/definitions/IpAddrPrefix"
