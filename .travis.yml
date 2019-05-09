@@ -25,7 +25,6 @@ branches:
   - 18.2.3
   - 18.2.4
   - travis-notify
-
 matrix:
   include:
     - language: python
@@ -37,11 +36,11 @@ matrix:
       - echo $PYTHONPATH
       - pip freeze
       script:
-      #- pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
-      #- pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
-      #- pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
-      #- pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
-      #- pytest ./python/avi/sdk/test/test_saml_api.py -m travis --config ./python/avi/sdk/test/test_saml_api.cfg
+      - pytest ./python/avi/sdk/utils/test/test_api_utils.py -vvvv --color=yes
+      - pytest ./python/avi/migrationtools/ace_converter/test/test_modules.py -vvvv --color=yes
+      - pytest ./python/avi/migrationtools/netscaler_converter/test/test_migrationtool.py -m travis --config ./python/avi/migrationtools/test/common/config.yaml -vvvv  --color=yes
+      - pytest ./python/avi/migrationtools/f5_converter/test/test_migrationtool.py -vvvv -m travis --config ./python/avi/migrationtools/test/common/config.yaml --color=yes
+      - pytest ./python/avi/sdk/test/test_saml_api.py -m travis --config ./python/avi/sdk/test/test_saml_api.cfg
       - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=70
 
     - language: go
@@ -60,6 +59,6 @@ matrix:
 notifications:
   email:
     recipients:
-      - chaitanya.deshpande@avinetworks.com
-      - shrikant.patil@avinetwokrs.com
+      - sdk-dev@avinetworks.com
     on_success: always
+    on_failure: always
