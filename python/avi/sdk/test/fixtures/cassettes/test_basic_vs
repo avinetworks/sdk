@@ -6,7 +6,7 @@
                 "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "Content-Length": [
                         "174"
@@ -15,13 +15,13 @@
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=5il827mjoed1f7bo63m9s5cm1uqvpra8; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -31,7 +31,7 @@
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.25.218/api/pool"
+                "uri": "https://10.10.25.42/api/pool"
             }, 
             "response": {
                 "status": {
@@ -39,9 +39,6 @@
                     "code": 201
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -51,12 +48,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
-                    "avi_api_version": [
-                        "17.1.1"
+                    "transfer-encoding": [
+                        "chunked"
                     ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:45 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:45 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:17 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -64,29 +60,35 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
-                    "server-timing": [
-                        "create;dur=141.595125198,total;dur=188.691139221,"
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "location": [
-                        "https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d#basic_vs-pool"
+                        "https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c#basic_vs-pool"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:45 GMT"
+                        "Mon, 13 May 2019 19:56:17 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -96,31 +98,31 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1551882705837482\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e#Default-Cloud\", \"vrf_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-fb36bf2b-d732-430b-bcce-474949bf984d\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d#basic_vs-pool\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1557777377783146\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec#Default-Cloud\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_count\": 1, \"uuid\": \"pool-f5217f25-ab7e-4200-b639-028a44a4843c\", \"request_queue_enabled\": false, \"name\": \"basic_vs-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c#basic_vs-pool\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         }, 
         {
             "request": {
-                "body": "{\"name\": \"basic_vs\", \"pool_ref\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d#basic_vs-pool\", \"enabled\": true, \"application_profile_name\": \"System-HTTP\", \"vip\": [{\"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"services\": [{\"enable_ssl\": false, \"port\": 80}], \"type\": \"VS_TYPE_NORMAL\"}", 
+                "body": "{\"name\": \"basic_vs\", \"pool_ref\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c#basic_vs-pool\", \"enabled\": true, \"application_profile_name\": \"System-HTTP\", \"vip\": [{\"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"services\": [{\"enable_ssl\": false, \"port\": 80}], \"type\": \"VS_TYPE_NORMAL\"}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "Content-Length": [
-                        "321"
+                        "320"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -130,7 +132,7 @@
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.25.218/api/virtualservice"
+                "uri": "https://10.10.25.42/api/virtualservice"
             }, 
             "response": {
                 "status": {
@@ -138,9 +140,6 @@
                     "code": 201
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -149,43 +148,51 @@
                     ], 
                     "x-content-type-options": [
                         "nosniff"
-                    ], 
-                    "avi_api_version": [
-                        "17.1.1"
-                    ], 
-                    "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:46 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:46 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
                     ], 
                     "server-timing": [
-                        "create;dur=260.507106781,create_debugvirtualservice;dur=292.29092598,callback_custom_post;dur=353.436946869,total;dur=673.055887222,"
+                        "create;dur=258.446216583,callback_custom_post;dur=106.307029724,total;dur=430.936098099,"
+                    ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
+                    "set-cookie": [
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:18 GMT; httponly; Max-Age=86400; Path=/; secure"
+                    ], 
+                    "strict-transport-security": [
+                        "max-age=31536000; includeSubdomains"
+                    ], 
+                    "vary": [
+                        "Accept, Cookie"
+                    ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
                     ], 
                     "location": [
-                        "https://10.10.25.218/api/virtualservice/virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7#basic_vs"
+                        "https://10.10.25.42/api/virtualservice/virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a#basic_vs"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:46 GMT"
+                        "Mon, 13 May 2019 19:56:18 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -195,7 +202,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"network_profile_ref\": \"https://10.10.25.218/api/networkprofile/networkprofile-5fb5c30d-c7f1-4f4b-839b-83f2e3fb0320#System-TCP-Proxy\", \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"vrf_context_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25#global\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08#System-Analytics-Profile\", \"cloud_type\": \"CLOUD_NONE\", \"uuid\": \"virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e#Default-Cloud\", \"se_group_ref\": \"https://10.10.25.218/api/serviceenginegroup/serviceenginegroup-3a16a13a-96ae-45c8-88b8-257d7dcb13b5#Default-Group\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"type\": \"VS_TYPE_NORMAL\", \"vsvip_ref\": \"https://10.10.25.218/api/vsvip/vsvip-082227d5-cf4e-4822-b473-13a0ca49f049#vsvip-4SrAW6\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.218/api/applicationprofile/applicationprofile-3dcb5288-7861-46ab-92b2-c1730a4b3326#System-HTTP\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"pool_ref\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d#basic_vs-pool\", \"ign_pool_net_reach\": false, \"_last_modified\": \"1551882706468000\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.218/api/virtualservice/virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7#basic_vs\", \"ssl_sess_cache_avg_size\": 1024, \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin#admin\", \"remove_listening_port_on_vs_down\": false, \"flow_label_type\": \"NO_LABEL\"}"
+                    "string": "{\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6#System-TCP-Proxy\", \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a#global\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59#System-Analytics-Profile\", \"cloud_type\": \"CLOUD_NONE\", \"uuid\": \"virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec#Default-Cloud\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74#Default-Group\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"type\": \"VS_TYPE_NORMAL\", \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-ba426776-eb1c-4b2a-9eb8-13d7a3898e9c#vsvip-cj8sAU\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-2ae9d6d1-794c-4979-995e-1b8916102c59#System-HTTP\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"pool_ref\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c#basic_vs-pool\", \"ign_pool_net_reach\": false, \"_last_modified\": \"1557777378346996\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a#basic_vs\", \"ssl_sess_cache_avg_size\": 1024, \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"remove_listening_port_on_vs_down\": false, \"flow_label_type\": \"NO_LABEL\"}"
                 }
             }
         }, 
@@ -204,19 +211,19 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -226,7 +233,7 @@
                     ]
                 }, 
                 "method": "GET", 
-                "uri": "https://10.10.25.218/api/virtualservice"
+                "uri": "https://10.10.25.42/api/virtualservice"
             }, 
             "response": {
                 "status": {
@@ -234,9 +241,6 @@
                     "code": 200
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -246,9 +250,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:47 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:47 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:18 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -256,26 +262,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
                         "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:47 GMT"
+                        "Mon, 13 May 2019 19:56:18 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -285,7 +297,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"network_profile_ref\": \"https://10.10.25.218/api/networkprofile/networkprofile-5fb5c30d-c7f1-4f4b-839b-83f2e3fb0320\", \"vip_runtime\": [{\"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}, \"vip_id\": \"0\"}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1551882706468000\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e\", \"se_group_ref\": \"https://10.10.25.218/api/serviceenginegroup/serviceenginegroup-3a16a13a-96ae-45c8-88b8-257d7dcb13b5\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 4, \"version\": \"2\", \"ssl_sess_cache_avg_size\": 1024, \"vsvip_ref\": \"https://10.10.25.218/api/vsvip/vsvip-082227d5-cf4e-4822-b473-13a0ca49f049\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.218/api/applicationprofile/applicationprofile-3dcb5288-7861-46ab-92b2-c1730a4b3326\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.218/api/virtualservice/virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7\", \"type\": \"VS_TYPE_NORMAL\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"f+xK1zzxNKgJIbO0LC9a3g==\", \"name\": \"8140362a-7fa5-48ff-b850-0fc913064f24\", \"aes_key\": \"Ka2VwtptvRzKyDSRj/3LDg==\"}, {\"hmac_key\": \"Zdqsbd2dYN821Jg3dUFb4A==\", \"name\": \"5a71b80a-3b0d-4f8f-9c8a-89d0945c8b0d\", \"aes_key\": \"Oi+n6i07nwMUYrONHp+cGA==\"}, {\"hmac_key\": \"duHdSX8LIEw/80CK7jpgdw==\", \"name\": \"00d52f71-67d7-4a0b-85a9-391a03140747\", \"aes_key\": \"IGW/Wz7/vgiDVzCMkRwWeA==\"}], \"redis_port\": 5027, \"flow_label_type\": \"NO_LABEL\"}]}"
+                    "string": "{\"count\": 10, \"results\": [{\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-50d0dd1d-944f-4a80-b779-4c0d0330feed\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0511 00:48:32.563902\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191033\", \"usecs\": \"389633\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.74\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191036215711\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 9, \"version\": \"40\", \"vh_child_vs_uuid\": [\"virtualservice-2e452acc-2b17-4519-9f09-cea0af1c2140\", \"virtualservice-6a64e8a4-1399-4ab5-a812-c03b08f2377b\"], \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-3f7906c8-a770-421e-9769-46e4c0ee53ac\"], \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-5f64b44e-db66-4cdb-8f98-6e12100fe53e\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-d0aafd4d-2de9-4205-9e68-13e58485e0a1\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}, {\"enable_ssl\": true, \"port_range_end\": 443, \"port\": 443}], \"self_se_election\": true, \"server_network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-50d0dd1d-944f-4a80-b779-4c0d0330feed\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-bd84f8e3-0eed-48c2-a49d-2deade9fc3eb\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"vs-demux\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-bd84f8e3-0eed-48c2-a49d-2deade9fc3eb\", \"type\": \"VS_TYPE_VH_PARENT\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"VeSWQS2YEgxvbAh2nm1dsQ==\", \"name\": \"0a0da2cf-6fa5-4191-abf2-7e27cbeba4b2\", \"aes_key\": \"31dQ3GelsOGw8qp6G29k3w==\"}, {\"hmac_key\": \"OUPpX2fnCNW7DXetgbRMfQ==\", \"name\": \"0640c1c4-fd4c-49cd-88b3-5f2edf51d3a8\", \"aes_key\": \"pXmbUh/mbiupSDv99C4V4A==\"}, {\"hmac_key\": \"SbfQ8F7f+nm3bDQHXMSXZA==\", \"name\": \"99fad026-e22f-4629-b7b4-d99fe1f26f53\", \"aes_key\": \"0+GjunKsTBWj0kZwl0iipQ==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5021, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0507 01:03:22.783820\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191002\", \"usecs\": \"779446\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.76\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191002616268\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 8, \"version\": \"30\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-0c0c58b5-ef48-404f-b96a-85e67997297d\"], \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-0a22cff6-607b-450f-b7c0-dfd77ae39970\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}, {\"enable_ssl\": true, \"port_range_end\": 443, \"port\": 443}], \"self_se_election\": true, \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-2444f4ca-990a-426d-8a26-0fac92e4c183\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"vs-endpoint1\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-2444f4ca-990a-426d-8a26-0fac92e4c183\", \"type\": \"VS_TYPE_VH_PARENT\", \"enable_autogw\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"sr6aRmk/qFLl4fP0QDrmZA==\", \"name\": \"4ff7c3a1-a9c2-4711-92ce-1da8cc2670b2\", \"aes_key\": \"kykyakqwC9jPdHq0FOxm8Q==\"}, {\"hmac_key\": \"wWr85qgb19YFP5+AC4u2qw==\", \"name\": \"55028d90-8dc7-46ea-ad53-8e7ab80228a3\", \"aes_key\": \"U8Fwz5CDpqqbERZRZXlBUw==\"}, {\"hmac_key\": \"gh02IpRjEOypGs2vBpgSTQ==\", \"name\": \"a0ef35c7-8c66-4d70-9242-4ecd66e5f15a\", \"aes_key\": \"P0jSvTCam/6/TRDr8dQB/w==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5024, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0511 00:48:32.590472\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191003\", \"usecs\": \"581122\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.75\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191003417025\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 14, \"version\": \"36\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-0c0c58b5-ef48-404f-b96a-85e67997297d\"], \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-96a27728-d85e-4de0-87d0-7b5e28d4a985\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}, {\"enable_ssl\": true, \"port_range_end\": 443, \"port\": 443}], \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-af7afd18-f758-4144-b90b-64586b6f227e\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-c4f2d88b-e8ce-47f1-b490-ccabe4c7227d\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"vs-reg\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-c4f2d88b-e8ce-47f1-b490-ccabe4c7227d\", \"type\": \"VS_TYPE_NORMAL\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"xb+XHmRqqnIdqKPfP/bQ/g==\", \"name\": \"77839d7a-679b-4133-ba83-a8eab21dda05\", \"aes_key\": \"gc8OJy+541G1zPKx4yDKDQ==\"}, {\"hmac_key\": \"EFoKA2FQawpdCnGUjDwJrA==\", \"name\": \"aa97f6f0-77c9-477e-ad81-143a2d0f9357\", \"aes_key\": \"ZIYgVdchijIjk35m9V/yyA==\"}, {\"hmac_key\": \"LnoyJOPA+Yf77lz5XZ0aLA==\", \"name\": \"6c21cf6b-3e11-4ec2-943a-e4ec154b8d56\", \"aes_key\": \"Dud0rKGACC9FtbFOX/v4Tw==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5025, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-50d0dd1d-944f-4a80-b779-4c0d0330feed\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0507 01:03:24.201104\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191004\", \"usecs\": \"200793\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.77\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191038331549\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 8, \"version\": \"32\", \"vh_child_vs_uuid\": [\"virtualservice-ace6c812-7ae6-4179-899b-965d95aaa750\", \"virtualservice-9c8e43f4-8a85-469e-85f4-9bc5a5181147\", \"virtualservice-bfcdae6a-9020-464c-9e7d-9098dc95eea5\"], \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-3f7906c8-a770-421e-9769-46e4c0ee53ac\"], \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-f3791e26-7cec-4676-8fe1-5bb015defd4a\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}, {\"enable_ssl\": true, \"port_range_end\": 443, \"port\": 443}], \"self_se_election\": true, \"server_network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-50d0dd1d-944f-4a80-b779-4c0d0330feed\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-b5a68755-1731-4244-84be-4e1aec1816a8\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"vs-wc\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-b5a68755-1731-4244-84be-4e1aec1816a8\", \"type\": \"VS_TYPE_VH_PARENT\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"zSr1q286NtglhYlzFxcubg==\", \"name\": \"2c37fce2-af51-4017-bd63-b85fdb54d1d7\", \"aes_key\": \"j32M/RfVocvQ6RS2NAzkmQ==\"}, {\"hmac_key\": \"tVApR7s1FA6/Lhp7hVQl0g==\", \"name\": \"989bda54-38b5-49f3-8436-22f5058dcbdc\", \"aes_key\": \"+wuakMaXHzK/UBYNfxvf5A==\"}, {\"hmac_key\": \"0x6rykGvU3bWtkvk7rsZFg==\", \"name\": \"be3c516e-0b16-4e30-a1d3-a921a77601c7\", \"aes_key\": \"dKWaNoT8d79ykkVRuvr+bQ==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5027, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"incarnation\": \"2019-0511 00:48:32.562679\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vnic\": [{\"mac\": \"\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"\", \"type\": \"VNIC_TYPE_BE\"}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191033\", \"usecs\": \"417814\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191034952954\", \"vh_domain_name\": [\".baz.com\"], \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 5, \"version\": \"40\", \"vh_parent_vs_ref\": \"https://10.10.25.42/api/virtualservice/virtualservice-bd84f8e3-0eed-48c2-a49d-2deade9fc3eb\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-b6062b22-4012-4274-a7a7-eaf536415a19\"], \"vsvip_ref\": \"\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-9f5a5378-2ede-44ab-a3a9-b9fee1fdd26a\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-2e452acc-2b17-4519-9f09-cea0af1c2140\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"z-baz\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-2e452acc-2b17-4519-9f09-cea0af1c2140\", \"type\": \"VS_TYPE_VH_CHILD\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"F5Md/xVYkGubs2iKGsaAyA==\", \"name\": \"ada8a4b7-925b-48ca-963e-955430b2a4cf\", \"aes_key\": \"u+IBMQGCtZaluKdKOVT0vg==\"}, {\"hmac_key\": \"c4Z4uCD9u30KZSm0miT0sw==\", \"name\": \"ddab14b5-c461-4390-bfb2-98fe7906da83\", \"aes_key\": \"RhTG+UYDjbh57WZVNFQoRw==\"}, {\"hmac_key\": \"PzpZZzvqZJwoIDRUiI2M3Q==\", \"name\": \"230cfa5c-2a8c-4996-af07-3da1302e8074\", \"aes_key\": \"5+ttjZe4ezHQXe5QbSh5Mw==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5022, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"incarnation\": \"2019-0511 00:48:32.564573\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vnic\": [{\"mac\": \"\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"\", \"type\": \"VNIC_TYPE_BE\"}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191033\", \"usecs\": \"462773\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191034486519\", \"vh_domain_name\": [\"www.foo.com\"], \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 3, \"version\": \"41\", \"vh_parent_vs_ref\": \"https://10.10.25.42/api/virtualservice/virtualservice-bd84f8e3-0eed-48c2-a49d-2deade9fc3eb\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-8268cb37-2d65-4306-85a4-7d17e6f61b9d\"], \"vsvip_ref\": \"\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-a29c47f3-83f4-493b-870c-6aa7a667cb62\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-6a64e8a4-1399-4ab5-a812-c03b08f2377b\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"z-foo\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-6a64e8a4-1399-4ab5-a812-c03b08f2377b\", \"type\": \"VS_TYPE_VH_CHILD\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"LNtGhvhFkjKIJvZdk9kmVQ==\", \"name\": \"a7f3027d-56ac-458a-af61-89d80ee7ebdf\", \"aes_key\": \"yrsr88otUAI1K00JGUo2Uw==\"}, {\"hmac_key\": \"NFMJrF+pdoLm6gPbi97FVw==\", \"name\": \"f8456465-c6c5-4c6e-b6e1-3ae273a6dd16\", \"aes_key\": \"gY8OCuQ9Fok4z6D799h10w==\"}, {\"hmac_key\": \"6KQYn98d9Kefj3sHRBHypQ==\", \"name\": \"02254a70-dbc4-4da1-a1a2-b48e235a2b9e\", \"aes_key\": \"G2z2FTSF2nGkFjOQ5S/1Sw==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5023, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"incarnation\": \"2019-0507 01:03:25.275145\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vnic\": [{\"mac\": \"\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"\", \"type\": \"VNIC_TYPE_BE\"}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191005\", \"usecs\": \"274430\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191036836430\", \"vh_domain_name\": [\"*.example.com\"], \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 9, \"version\": \"31\", \"vh_parent_vs_ref\": \"https://10.10.25.42/api/virtualservice/virtualservice-b5a68755-1731-4244-84be-4e1aec1816a8\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-8268cb37-2d65-4306-85a4-7d17e6f61b9d\"], \"vsvip_ref\": \"\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-c3c44d2a-6b8c-4bae-b511-ecae8624a5df\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-ace6c812-7ae6-4179-899b-965d95aaa750\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"z-head\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-ace6c812-7ae6-4179-899b-965d95aaa750\", \"type\": \"VS_TYPE_VH_CHILD\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"QGKlPTEelTyzHfa+YcIo4w==\", \"name\": \"d4dd7cd2-2786-4dfa-a37e-ef842506f813\", \"aes_key\": \"zwJvEysJrsXZ5QDpBBbNsQ==\"}, {\"hmac_key\": \"dZUwIOcu9Rxg261dVn99fA==\", \"name\": \"2dcfbedd-0d66-4b7e-b23e-41850efdde64\", \"aes_key\": \"CVQArix+65rKMD7QZxneTg==\"}, {\"hmac_key\": \"16EU1ksCTuIgOFfkibfLwg==\", \"name\": \"1ab69a74-d47d-4562-860d-1f62fe68297b\", \"aes_key\": \"iZkPKdP46hA9xvdNkXMX4A==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5025, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"incarnation\": \"2019-0507 01:03:25.762826\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vnic\": [{\"mac\": \"\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"\", \"type\": \"VNIC_TYPE_BE\"}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191005\", \"usecs\": \"762537\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191037711754\", \"vh_domain_name\": [\".abc.example.com\"], \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 9, \"version\": \"31\", \"vh_parent_vs_ref\": \"https://10.10.25.42/api/virtualservice/virtualservice-b5a68755-1731-4244-84be-4e1aec1816a8\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-8268cb37-2d65-4306-85a4-7d17e6f61b9d\"], \"vsvip_ref\": \"\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-05f00c53-c03f-4586-953a-2493b843be8f\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-9c8e43f4-8a85-469e-85f4-9bc5a5181147\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"z-special\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-9c8e43f4-8a85-469e-85f4-9bc5a5181147\", \"type\": \"VS_TYPE_VH_CHILD\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"Fy2JbUcD/twMfXtBJ2bA0g==\", \"name\": \"acda4f65-2d73-49bc-a28c-120d11713e3a\", \"aes_key\": \"D6ozkaU2PJshGCQmukA6Uw==\"}, {\"hmac_key\": \"BGRdRnPLPbofGUzxS2kK8w==\", \"name\": \"c04b372f-160a-499d-a913-a850a42c09c5\", \"aes_key\": \"nybWNdGdPn8p1pDvz21F+w==\"}, {\"hmac_key\": \"n75PopSje+HhMhq2QHKHDg==\", \"name\": \"faa5f741-d724-47cf-864c-7642d4d4eba7\", \"aes_key\": \"iibkIJ9WG0io29OPGhmIMA==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5025, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"incarnation\": \"2019-0507 01:03:26.150444\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vnic\": [{\"mac\": \"\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"\", \"type\": \"VNIC_TYPE_BE\"}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557191006\", \"usecs\": \"150129\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557191037313793\", \"vh_domain_name\": [\"www.example.*\"], \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"ssl_profile_ref\": \"https://10.10.25.42/api/sslprofile/sslprofile-27fbfafe-c71c-494b-9f7d-f8d289644a86\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 14, \"version\": \"31\", \"vh_parent_vs_ref\": \"https://10.10.25.42/api/virtualservice/virtualservice-b5a68755-1731-4244-84be-4e1aec1816a8\", \"ssl_sess_cache_avg_size\": 1024, \"ssl_key_and_certificate_refs\": [\"https://10.10.25.42/api/sslkeyandcertificate/sslkeyandcertificate-b6062b22-4012-4274-a7a7-eaf536415a19\"], \"vsvip_ref\": \"\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-8d888c11-6bc3-4294-b60c-09578407af21\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-806c15e8-5bc9-45de-8152-53d12ec01eb7\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-bfcdae6a-9020-464c-9e7d-9098dc95eea5\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"z-tail\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-bfcdae6a-9020-464c-9e7d-9098dc95eea5\", \"type\": \"VS_TYPE_VH_CHILD\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"J7bvXmdCpmtU1TCMtU6w6g==\", \"name\": \"bea871d9-8543-4d67-9656-ae5b79eed3ef\", \"aes_key\": \"i0dwPBgqbjatfHpmgG6Ccg==\"}, {\"hmac_key\": \"ZxpWCmMQa26vKe+ug2Rdyw==\", \"name\": \"850fbc98-95d5-4dd6-9758-4ca0b91b0bbf\", \"aes_key\": \"+2su0b630L3BcFwaw+DOlg==\"}, {\"hmac_key\": \"1aCSFFxvQyBHVpEPhXTKSA==\", \"name\": \"fee7743d-0daf-409a-8f29-402d240a16d3\", \"aes_key\": \"z311R00biSPaGKSygewPrA==\"}], \"analytics_policy\": {\"client_insights\": \"NO_INSIGHTS\", \"metrics_realtime_update\": {\"duration\": 0, \"enabled\": true}, \"full_client_logs\": {\"duration\": 0, \"all_headers\": true, \"enabled\": true}}, \"redis_port\": 5027, \"flow_label_type\": \"NO_LABEL\"}, {\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0513 19:56:18.519721\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557777378\", \"usecs\": \"519269\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557777378346996\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 14, \"version\": \"3\", \"ssl_sess_cache_avg_size\": 1024, \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-ba426776-eb1c-4b2a-9eb8-13d7a3898e9c\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-2ae9d6d1-794c-4979-995e-1b8916102c59\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a\", \"type\": \"VS_TYPE_NORMAL\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"gp9RiMIwoTGvTb0wTKV5/A==\", \"name\": \"82c17468-42a4-4786-ac1c-85803404031b\", \"aes_key\": \"7cCU9ZoCATNi+63L2SR4tg==\"}, {\"hmac_key\": \"yBwx726ajNl4CD4X9Wl7jQ==\", \"name\": \"e0ebf714-49aa-4242-9200-7021c4ddc7e3\", \"aes_key\": \"wbpFgBJpiUH84pVJsJUwUQ==\"}, {\"hmac_key\": \"9sUlVELvmZcfIAWgTTxPIg==\", \"name\": \"fedbb5c3-41fe-4065-93d0-ea85b8443d19\", \"aes_key\": \"4DfLywDYXxVuvgoprmDd6g==\"}], \"redis_port\": 5028, \"flow_label_type\": \"NO_LABEL\"}]}"
                 }
             }
         }, 
@@ -294,19 +306,19 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -316,7 +328,7 @@
                     ]
                 }, 
                 "method": "GET", 
-                "uri": "https://10.10.25.218/api/virtualservice?name=basic_vs"
+                "uri": "https://10.10.25.42/api/virtualservice?name=basic_vs"
             }, 
             "response": {
                 "status": {
@@ -324,9 +336,6 @@
                     "code": 200
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -336,9 +345,14 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "avi_api_version": [
+                        "17.1.1"
+                    ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:47 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:47 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:20 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -346,26 +360,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
-                    "avi_api_version": [
-                        "17.1.1"
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
+                    "server-timing": [
+                        "reverse_migrate_version;dur=683.747768402,total;dur=716.396093369,"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:47 GMT"
+                        "Mon, 13 May 2019 19:56:20 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -375,7 +395,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"network_profile_ref\": \"https://10.10.25.218/api/networkprofile/networkprofile-5fb5c30d-c7f1-4f4b-839b-83f2e3fb0320\", \"vip_runtime\": [{\"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}, \"vip_id\": \"0\"}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1551882706468000\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e\", \"se_group_ref\": \"https://10.10.25.218/api/serviceenginegroup/serviceenginegroup-3a16a13a-96ae-45c8-88b8-257d7dcb13b5\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 4, \"version\": \"2\", \"ssl_sess_cache_avg_size\": 1024, \"vsvip_ref\": \"https://10.10.25.218/api/vsvip/vsvip-082227d5-cf4e-4822-b473-13a0ca49f049\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.218/api/applicationprofile/applicationprofile-3dcb5288-7861-46ab-92b2-c1730a4b3326\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.218/api/virtualservice/virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7\", \"type\": \"VS_TYPE_NORMAL\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"f+xK1zzxNKgJIbO0LC9a3g==\", \"name\": \"8140362a-7fa5-48ff-b850-0fc913064f24\", \"aes_key\": \"Ka2VwtptvRzKyDSRj/3LDg==\"}, {\"hmac_key\": \"Zdqsbd2dYN821Jg3dUFb4A==\", \"name\": \"5a71b80a-3b0d-4f8f-9c8a-89d0945c8b0d\", \"aes_key\": \"Oi+n6i07nwMUYrONHp+cGA==\"}, {\"hmac_key\": \"duHdSX8LIEw/80CK7jpgdw==\", \"name\": \"00d52f71-67d7-4a0b-85a9-391a03140747\", \"aes_key\": \"IGW/Wz7/vgiDVzCMkRwWeA==\"}], \"redis_port\": 5027, \"flow_label_type\": \"NO_LABEL\"}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"network_profile_ref\": \"https://10.10.25.42/api/networkprofile/networkprofile-a31d856a-7e57-4275-a14a-e14c8a9d60c6\", \"vip_runtime\": [{\"se_list\": [{\"attach_ip_success\": true, \"memory\": 1995, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"attach_ip_status\": \"Programming Network reachability to the Virtual Service IP in the Cloud\", \"delete_in_progress\": false, \"admin_down_requested\": false, \"vnic\": [{\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_FE\"}, {\"mac\": \"00:50:56:b0:1c:b2\", \"type\": \"VNIC_TYPE_BE\"}], \"incarnation\": \"2019-0513 19:56:18.519721\", \"sec_idx\": 0, \"scaleout_in_progress\": false, \"vip_intf_list\": [{\"vip_intf_ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.15\"}, \"vip_intf_mac\": \"00:50:56:b0:1c:b2\", \"is_portchannel\": false, \"vlan_id\": 0}], \"is_standby\": false, \"vip_subnet_mask\": 32, \"vcpus\": 1, \"se_ref\": \"https://10.10.25.42/api/serviceengine/se-005056b03535\", \"is_primary\": true, \"vip6_subnet_mask\": 128, \"vlan_id\": 0}], \"first_se_assigned_time\": {\"secs\": \"1557777378\", \"usecs\": \"519269\"}, \"vip_id\": \"0\", \"num_additional_se\": 0, \"requested_resource\": {\"num_se\": 1, \"num_standby_se\": 0}}], \"weight\": 1, \"enabled\": true, \"flow_dist\": \"LOAD_AWARE\", \"delay_fairness\": false, \"vip\": [{\"vip_id\": \"0\", \"avi_allocated_fip\": false, \"auto_allocate_ip\": false, \"enabled\": true, \"auto_allocate_floating_ip\": false, \"avi_allocated_vip\": false, \"ip_address\": {\"type\": \"V4\", \"addr\": \"10.90.64.123\"}}], \"marked_for_delete\": false, \"vrf_context_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"cloud_type\": \"CLOUD_NONE\", \"_last_modified\": \"1557777378346996\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"se_group_ref\": \"https://10.10.25.42/api/serviceenginegroup/serviceenginegroup-f1521aef-a1a3-4257-9b16-9f8518ce4a74\", \"scaleout_ecmp\": false, \"max_cps_per_client\": 0, \"redis_db\": 14, \"version\": \"3\", \"ssl_sess_cache_avg_size\": 1024, \"vsvip_ref\": \"https://10.10.25.42/api/vsvip/vsvip-ba426776-eb1c-4b2a-9eb8-13d7a3898e9c\", \"use_bridge_ip_as_vip\": false, \"application_profile_ref\": \"https://10.10.25.42/api/applicationprofile/applicationprofile-2ae9d6d1-794c-4979-995e-1b8916102c59\", \"active_standby_se_tag\": \"ACTIVE_STANDBY_SE_1\", \"services\": [{\"enable_ssl\": false, \"port_range_end\": 80, \"port\": 80}], \"self_se_election\": true, \"pool_ref\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c\", \"ign_pool_net_reach\": false, \"uuid\": \"virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a\", \"east_west_placement\": false, \"limit_doser\": false, \"name\": \"basic_vs\", \"url\": \"https://10.10.25.42/api/virtualservice/virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a\", \"type\": \"VS_TYPE_NORMAL\", \"enable_autogw\": true, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"remove_listening_port_on_vs_down\": false, \"tls_ticket_key\": [{\"hmac_key\": \"gp9RiMIwoTGvTb0wTKV5/A==\", \"name\": \"82c17468-42a4-4786-ac1c-85803404031b\", \"aes_key\": \"7cCU9ZoCATNi+63L2SR4tg==\"}, {\"hmac_key\": \"yBwx726ajNl4CD4X9Wl7jQ==\", \"name\": \"e0ebf714-49aa-4242-9200-7021c4ddc7e3\", \"aes_key\": \"wbpFgBJpiUH84pVJsJUwUQ==\"}, {\"hmac_key\": \"9sUlVELvmZcfIAWgTTxPIg==\", \"name\": \"fedbb5c3-41fe-4065-93d0-ea85b8443d19\", \"aes_key\": \"4DfLywDYXxVuvgoprmDd6g==\"}], \"redis_port\": 5028, \"flow_label_type\": \"NO_LABEL\"}]}"
                 }
             }
         }, 
@@ -384,7 +404,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "Content-Length": [
                         "0"
@@ -393,13 +413,13 @@
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -409,7 +429,7 @@
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.218/api/virtualservice/virtualservice-8516c71c-b07d-4f1f-b25b-0d049c9d4fc7"
+                "uri": "https://10.10.25.42/api/virtualservice/virtualservice-9be1aac7-7dc5-4c8c-910d-ceca28d3964a"
             }, 
             "response": {
                 "status": {
@@ -417,9 +437,6 @@
                     "code": 204
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "content-length": [
                         "0"
                     ], 
@@ -433,8 +450,7 @@
                         "nosniff"
                     ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:48 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:48 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:21 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -442,26 +458,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
                         "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:48 GMT"
+                        "Mon, 13 May 2019 19:56:21 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -480,19 +502,19 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -502,7 +524,7 @@
                     ]
                 }, 
                 "method": "GET", 
-                "uri": "https://10.10.25.218/api/pool?name=basic_vs-pool"
+                "uri": "https://10.10.25.42/api/pool?name=basic_vs-pool"
             }, 
             "response": {
                 "status": {
@@ -510,9 +532,6 @@
                     "code": 200
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -522,9 +541,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:48 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:48 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:21 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -532,26 +553,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
                         "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:48 GMT"
+                        "Mon, 13 May 2019 19:56:21 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -561,7 +588,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1551882705837482\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e\", \"vrf_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d\", \"enabled\": true, \"uuid\": \"pool-fb36bf2b-d732-430b-bcce-474949bf984d\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1557777377783146\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c\", \"enabled\": true, \"uuid\": \"pool-f5217f25-ab7e-4200-b639-028a44a4843c\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -570,7 +597,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks"
+                        "71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6"
                     ], 
                     "Content-Length": [
                         "0"
@@ -579,13 +606,13 @@
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=71LhzzsOETO7jUWvUxoMh6fh545Z9Ro6; sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3"
                     ], 
                     "X-Avi-Version": [
                         "17.1.1"
@@ -595,7 +622,7 @@
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.218/api/pool/pool-fb36bf2b-d732-430b-bcce-474949bf984d"
+                "uri": "https://10.10.25.42/api/pool/pool-f5217f25-ab7e-4200-b639-028a44a4843c"
             }, 
             "response": {
                 "status": {
@@ -603,9 +630,6 @@
                     "code": 204
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "content-length": [
                         "0"
                     ], 
@@ -618,12 +642,8 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
-                    "avi_api_version": [
-                        "17.1.1"
-                    ], 
                     "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:49 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:49 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; expires=Tue, 14-May-2019 19:56:21 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -631,26 +651,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
-                    "server-timing": [
-                        "callback_custom_post;dur=270.447969437,total;dur=328.130960464,"
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
+                    "avi_api_version": [
+                        "17.1.1"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:31:49 GMT"
+                        "Mon, 13 May 2019 19:56:21 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
