@@ -247,7 +247,6 @@ class ApiSession(Session):
         self.verify = verify
         self.retry_conxn_errors = retry_conxn_errors
         self.remote_api_version = {}
-        self.session_cookie_name = 'sessionid'
         self.user_hdrs = {}
         self.data_log = data_log
         self.num_session_retries = 0
@@ -484,21 +483,21 @@ class ApiSession(Session):
             if rsp.status_code == 200:
                 self.num_session_retries = 0
                 self.remote_api_version = rsp.json().get('version', {})
-                self.session_cookie_name = rsp.json().get(
+                session_cookie_name = rsp.json().get(
                     'session_cookie_name', 'sessionid')
                 self.headers.update(self.user_hdrs)
                 if rsp.cookies and 'csrftoken' in rsp.cookies:
                     csrftoken = rsp.cookies['csrftoken']
                     sessionDict[self.key] = {
                         'csrftoken': csrftoken,
-                        'session_id': rsp.cookies[self.session_cookie_name],
+                        'session_id': rsp.cookies[session_cookie_name],
                         'last_used': datetime.utcnow(),
                         'api': self,
                         'connected': True
                     }
                     self.avi_credentials.csrftoken = csrftoken
                     self.avi_credentials.session_id = rsp.cookies[
-                        self.session_cookie_name]
+                        session_cookie_name]
                 logger.debug("authentication success for user %s",
                              self.avi_credentials.username)
                 return
@@ -607,9 +606,9 @@ class ApiSession(Session):
             'csrftoken': api_hdrs['X-CSRFToken'],
         }
         try:
-            if self.session_cookie_name:
-                cookies[self.session_cookie_name] = \
-                    sessionDict[self.key]['session_id']
+            sessionid = sessionDict[self.key]['session_id']
+            cookies['sessionid'] = sessionid
+            cookies['avi-sessionid'] = sessionid
         except KeyError:
             pass
         try:
