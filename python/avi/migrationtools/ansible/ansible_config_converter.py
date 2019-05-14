@@ -47,10 +47,10 @@ class AviAnsibleConverter(object):
 
     def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
                  filter_types=None, ns_vs_name_dict=None, test_vip=None,
-                 partitions=None):
+                 partitions=None, controller_version=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
-        self.api_version = avi_cfg['META']['version']['Version']
+        self.api_version = controller_version
         # Added prefix flag for object
         self.prefix = prefix
         self.not_in_use = not_in_use
@@ -527,6 +527,10 @@ if __name__ == '__main__':
     parser.add_argument(
         '-p', '--partition_file', help='location of partition file',
         default='avi_config.yml')
+    parser.add_argument(
+        '--controller_version',
+        help='Target Avi controller version',
+        default='17.2.1')
     args = parser.parse_args()
 
     with open(args.config_file, "r+") as f:
@@ -535,6 +539,7 @@ if __name__ == '__main__':
                                   None, None,
                                   skip_types=args.skip_types,
                                   filter_types=args.filter_types,
-                                  partitions=args.partition_file)
+                                  partitions=args.partition_file,
+                                  controller_version=args.controller_version)
         aac.write_ansible_playbook()
 # avi_cfg, outdir, prefix, not_in_use, skip_types=None, filter_types=None

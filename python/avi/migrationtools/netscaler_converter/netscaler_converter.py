@@ -113,15 +113,13 @@ class NetscalerConverter(AviConverter):
         if self.ignore_config:
             with open(self.ignore_config) as stream:
                 user_ignore = yaml.safe_load(stream)
-        # getting meta tag from superclass
-        meta = self.meta(self.tenant, self.controller_version)
         report_name = os.path.splitext(os.path.basename(source_file))[0]
         # Added dict for collecting vs for netscaler.
         vs_name_dict = dict()
         vs_name_dict['csvs'] = dict()
         vs_name_dict['lbvs'] = dict()
         avi_config = ns_conf_converter.convert(
-            meta, ns_config, self.tenant, self.cloud_name,
+            ns_config, self.tenant, self.cloud_name,
             self.controller_version, output_dir, input_dir, skipped_cmds,
             self.vs_state, self.object_merge_check, report_name, self.prefix,
             vs_name_dict, self.profile_path, self.redirect,
