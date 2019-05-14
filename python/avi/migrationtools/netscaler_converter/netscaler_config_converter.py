@@ -25,7 +25,7 @@ LOG = logging.getLogger(__name__)
 # Creating object for util library.
 ns_util = NsUtil()
 
-def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
+def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
             input_dir, skipped_cmds, vs_state, object_merge_check,report_name,
             prefix, vs_name_dict, profile_path, redirect, key_passphrase=None,
             user_ignore={}, vs_level_status=False, vrf=None, segroup=None):
@@ -60,7 +60,6 @@ def convert(meta, ns_config_dict, tenant_name, cloud_name, version, output_dir,
         # call meta from super class
         avi_config = dict()
         sys_dict = dict()
-        avi_config['META'] = meta  # avi_obj.meta(tenant_name, version)
 
         merge_object_type = ['ApplicationProfile', 'NetworkProfile',
                              'SSLProfile', 'PKIProfile',
