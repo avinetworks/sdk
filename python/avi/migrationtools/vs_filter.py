@@ -33,7 +33,6 @@ def filter_for_vs(avi_config, vs_names):
     :return: Filtered config dict
     """
     new_config = dict()
-    new_config['META'] = avi_config['META']
     new_config['VirtualService'] = []
     virtual_services = vs_names.split(',')
 
