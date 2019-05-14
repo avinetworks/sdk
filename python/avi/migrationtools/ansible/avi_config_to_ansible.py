@@ -71,9 +71,10 @@ class AviAnsibleConverter(object):
 
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
 
-    def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None):
+    def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None, controller_version=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
+        self.controller_version = controller_version
         self.ansible_avi_config = {'avi_config': {}}
         self.conversion_util = F5Util()
         if skip_types is None:
@@ -207,7 +208,7 @@ class AviAnsibleConverter(object):
             self.transform_obj_refs(task)
             task.update(self.common_task_args)
             task.update(
-                {'api_version': self.avi_cfg['META']['version']['Version']})
+                {'api_version': self.controller_version})
             task.update(
                 {'api_context': "{{avi_api_context | default(omit)}}"})
             # update tenant if there is a tenant_ref in the object
@@ -249,7 +250,7 @@ class AviAnsibleConverter(object):
             self.purge_fields(rsrc_type, rsrc)
             self.transform_obj_refs(rsrc)
             rsrc.update(
-                {'api_version': self.avi_cfg['META']['version']['Version']})
+                {'api_version': self.controller_version})
             self.update_tenant(rsrc)
             print 'processed', obj_type, rsrc.get('name', 'N/A')
             ansible_dict['avi_config'][rsrc_type].append(rsrc)
@@ -257,10 +258,7 @@ class AviAnsibleConverter(object):
 
     def write_ansible_playbook(self):
         ad = deepcopy(self.ansible_dict)
-        meta = self.avi_cfg['META']
-        if 'order' not in meta:
-            meta['order'] = self.default_meta_order
-        for obj_type in meta['order']:
+        for obj_type in self.default_meta_order:
             if self.filter_types and obj_type not in self.filter_types:
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:
@@ -286,10 +284,7 @@ class AviAnsibleConverter(object):
 
     def write_yaml(self):
         ad = deepcopy(self.ansible_avi_config)
-        meta = self.avi_cfg['META']
-        if 'order' not in meta:
-            meta['order'] = self.default_meta_order
-        for obj_type in meta['order']:
+        for obj_type in self.default_meta_order:
             if self.filter_types and obj_type not in self.filter_types:
                 continue
             if obj_type not in self.avi_cfg or obj_type in self.skip_types:
@@ -336,6 +331,10 @@ if __name__ == '__main__':
         '-y', '--yaml',
         help='Export it as yaml output that can be used with Avi ansible role aviconfig',
         action='store_true')
+    parser.add_argument(
+        '--controller_version',
+        help='Target Avi controller version',
+        default='17.2.1')
 
     args = parser.parse_args()
 
@@ -343,7 +342,7 @@ if __name__ == '__main__':
         avi_cfg = json.loads(f.read())
         aac = AviAnsibleConverter(
             avi_cfg, args.output_dir, skip_types=args.skip_types,
-            filter_types=args.filter_types)
+            filter_types=args.filter_types, controller_version=args.controller_version)
         if not args.yaml:
             aac.write_ansible_playbook()
         else:
