@@ -12,9 +12,9 @@ import (
 
 func TestCreateTenant(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("fr3sca$%^"),
+		session.SetPassword(os.Getenv("password")),
 		session.SetTenant("admin"),
-		session.SetVersion("17.2.8"),
+		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure)
 
 	if err != nil {
