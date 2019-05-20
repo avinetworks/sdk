@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1349,11 +1349,11 @@ definitions:
                 default: 600000
                 format: int32
             upstream_connpool_conn_max_reuse:
-                description: "Connection max used times. Field introduced in 18.2.1."
+                description: "Maximum number of times a connection can be reused. Special values are 0- 'unlimited'. Field introduced in 18.2.1."
                 type: integer
                 format: int32
             upstream_connpool_server_max_cache:
-                description: "Max cache connections per server. Field introduced in 18.2.1."
+                description: "Maximum number of connections a server can cache. Special values are 0- 'unlimited'. Field introduced in 18.2.1."
                 type: integer
                 format: int32
     DiscoveredNetwork:
@@ -1767,7 +1767,7 @@ definitions:
                 description: "Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup."
                 type: string
             lb_algorithm:
-                description: "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY."
+                description: "The load balancing algorithm will pick a server within the pool's list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY."
                 type: string
                 default: "LB_ALGORITHM_LEAST_CONNECTIONS"
             lb_algorithm_consistent_hash_hdr:

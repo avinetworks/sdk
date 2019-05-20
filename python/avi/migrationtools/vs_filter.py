@@ -13,6 +13,8 @@ data_lower_case = map(lambda x: x.lower(), yml_data['avi_resource_types'])
 # Generates AVI resource types to avi object type mapping in form of dictionary.
 path_key_map = dict(zip(data_lower_case, yml_data['avi_resource_types']))
 
+warning_list = []
+
 def get_name_and_entity(url):
     """
     Parses reference string to extract object type and
@@ -31,7 +33,6 @@ def filter_for_vs(avi_config, vs_names):
     :return: Filtered config dict
     """
     new_config = dict()
-    new_config['META'] = avi_config['META']
     new_config['VirtualService'] = []
     virtual_services = vs_names.split(',')
 
@@ -39,12 +40,17 @@ def filter_for_vs(avi_config, vs_names):
         vs = [vs for vs in avi_config['VirtualService']
               if vs['name'] == vs_name]
         if not vs:
-            print 'ERROR: VS object not found with name %s' % vs_name
-            exit()
+            vs_log = 'WARNING: VS object not found with name %s' % vs_name
+            warning_list.append(vs_log)
+            continue
         vs = vs[0]
         new_config['VirtualService'].append(vs)
         print '%s(VirtualService)' % vs_name
         find_and_add_objects(vs, avi_config, new_config, depth=0)
+
+    for warn in warning_list:
+        print("\033[1;33;50m  %s   \033[0m" %(warn))
+
     return new_config
 
 

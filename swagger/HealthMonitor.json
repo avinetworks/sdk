@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HealthMonitor Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\nExamples\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -827,6 +827,11 @@
                     "default": "DNS_QUERY_TYPE", 
                     "type": "string", 
                     "description": "  Query_Type  Response has atleast one answer of which      the resource record type matches the query type   Any_Type  Response should contain atleast one answer  AnyThing  An empty answer is enough. Enum options - DNS_QUERY_TYPE, DNS_ANY_TYPE, DNS_ANY_THING."
+                }, 
+                "record_type": {
+                    "default": "DNS_RECORD_A", 
+                    "type": "string", 
+                    "description": "Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.4."
                 }
             }
         }, 

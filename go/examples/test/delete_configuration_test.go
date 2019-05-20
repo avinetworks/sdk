@@ -11,9 +11,9 @@ import (
 
 func TestDeleteConfigurations(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("fr3sca$%^"),
+		session.SetPassword(os.Getenv("password")),
 		session.SetTenant("avinetworks"),
-		session.SetVersion("17.2.8"),
+		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure)
 
 	if err != nil {
@@ -32,9 +32,9 @@ func TestDeleteConfigurations(t *testing.T) {
 	fmt.Printf("Pool Deleted Successfully, : %+v", poolRes)
 	// Create session for webapp tenant
 	aviClient1, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("fr3sca$%^"),
+		session.SetPassword(os.Getenv("password")),
 		session.SetTenant("admin"),
-		session.SetVersion("17.2.8"),
+		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure)
 
 	// Delete persistence profile

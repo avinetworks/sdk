@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -715,6 +715,18 @@
                     "type": "boolean", 
                     "description": "Learn the params per URI path. Field introduced in 18.2.3."
                 }, 
+                "max_uris": {
+                    "default": 100, 
+                    "type": "integer", 
+                    "description": "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "min_hits_to_learn": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.4.", 
+                    "format": "int64"
+                }, 
                 "max_params": {
                     "default": 100, 
                     "type": "integer", 
@@ -725,12 +737,6 @@
                     "default": 30, 
                     "type": "integer", 
                     "description": "Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3.", 
-                    "format": "int32"
-                }, 
-                "max_uris": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.", 
                     "format": "int32"
                 }, 
                 "sampling_percent": {

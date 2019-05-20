@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -3556,6 +3556,132 @@
                 ]
             }
         }, 
+        "/serviceengine/{uuid}/vnicdb/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
+        "/serviceengine/{uuid}/natstat/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
         "/serviceengine/{uuid}/seagent/": {
             "get": {
                 "security": [
@@ -4491,7 +4617,7 @@
                 ]
             }
         }, 
-        "/serviceengine/{uuid}/vnicdb/": {
+        "/serviceengine/{uuid}/nat-flows/": {
             "get": {
                 "security": [
                     {
@@ -5063,30 +5189,15 @@
             ], 
             "type": "object", 
             "properties": {
-                "is_mgmt": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
-                }, 
-                "vlan_id": {
-                    "type": "integer", 
-                    "description": "VLAN ID. Allowed values are 0-4096.", 
-                    "format": "int32"
-                }, 
-                "vnic_networks": {
-                    "items": {
-                        "$ref": "#/definitions/vNICNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
-                }, 
                 "ip6_autocfg_enabled": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 }, 
-                "vrf_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VrfContext."
+                "enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable the interface. Field introduced in 18.2.4."
                 }, 
                 "if_name": {
                     "type": "string", 
@@ -5096,6 +5207,26 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
+                }, 
+                "is_mgmt": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
+                }, 
+                "vnic_networks": {
+                    "items": {
+                        "$ref": "#/definitions/vNICNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
+                }, 
+                "vlan_id": {
+                    "type": "integer", 
+                    "description": "VLAN ID. Allowed values are 0-4096.", 
+                    "format": "int32"
+                }, 
+                "vrf_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VrfContext."
                 }
             }
         }, 

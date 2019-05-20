@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SystemConfiguration Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure systemconfiguration\n- show systemconfiguration\n- test systememail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -447,6 +447,10 @@
                     "type": "boolean", 
                     "description": "Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean"
                 }, 
+                "welcome_workflow_complete": {
+                    "type": "boolean", 
+                    "description": "This flag is set once the Initial Controller Setup workflow is complete. Field introduced in 18.2.3."
+                }, 
                 "dns_configuration": {
                     "description": "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object", 
                     "$ref": "#/definitions/DNSConfiguration"
@@ -568,6 +572,10 @@
         "SecureChannelConfiguration": {
             "type": "object", 
             "properties": {
+                "bypass_secure_channel_must_checks": {
+                    "type": "boolean", 
+                    "description": "Boolean that allows force update of secure channel certificate. Field introduced in 18.2.4."
+                }, 
                 "sslkeyandcertificate_refs": {
                     "items": {
                         "type": "string"
@@ -855,6 +863,12 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable/Disable Clickjacking protection."
+                }, 
+                "api_force_timeout": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3.", 
+                    "format": "int32"
                 }, 
                 "enable_https": {
                     "default": true, 

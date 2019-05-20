@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugVirtualService Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- debug virtualservice <key>\n- show debug virtualservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2124,6 +2124,10 @@
         "OShiftK8SConfiguration": {
             "type": "object", 
             "properties": {
+                "sync_not_ready_addresses": {
+                    "type": "boolean", 
+                    "description": "Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.4."
+                }, 
                 "east_west_placement_subnet": {
                     "description": "Match against this prefix when placing east-west VSs on SEs .", 
                     "$ref": "#/definitions/IpAddrPrefix"
@@ -2436,7 +2440,7 @@
                 }, 
                 "se_group_ref": {
                     "type": "string", 
-                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
+                    "description": "This field has been generalized for all clouds and has been renamed to se_group_template_uuid. It is a reference to an object of type ServiceEngineGroup. Field deprecated in 18.2.4."
                 }, 
                 "name_owner": {
                     "default": true, 
@@ -3018,6 +3022,10 @@
                 "docker_configuration": {
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/DockerConfiguration"
+                }, 
+                "se_group_template_ref": {
+                    "type": "string", 
+                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.4."
                 }, 
                 "oshiftk8s_configuration": {
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 

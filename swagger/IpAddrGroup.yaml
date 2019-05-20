@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.3'
+    version: '18.2.4'
     title: Avi IpAddrGroup Object API
     contact:
         name: Avi Networks Inc.

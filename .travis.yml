@@ -23,6 +23,7 @@ branches:
   - 18.2.1
   - 18.2.2
   - 18.2.3
+  - 18.2.4
 
 matrix:
   include:
@@ -54,3 +55,11 @@ matrix:
       script:
       - nohup python ./go/examples/web_service.py &
       - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go -v
+
+notifications:
+  email:
+    recipients:
+      - grastogi@avinetworks.com
+      - chaitanya.deshpande@avinetworks.com
+      - shrikant.patil@avinetworks.com
+    on_failure: always

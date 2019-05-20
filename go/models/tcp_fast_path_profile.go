@@ -7,6 +7,9 @@ package models
 // swagger:model TCPFastPathProfile
 type TCPFastPathProfile struct {
 
+	// DSR profile information. Field introduced in 18.2.3.
+	DsrProfile *DsrProfile `json:"dsr_profile,omitempty"`
+
 	// When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections.
 	EnableSynProtection *bool `json:"enable_syn_protection,omitempty"`
 
