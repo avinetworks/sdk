@@ -84,8 +84,6 @@ class ConfigConverter(object):
     def conversion(self):
         """ All conversion controller over here """
         data = dict()
-        data['META'] = self.aviobj.meta(
-            tenant=self.tenant, controller_version=self.version)
         data['HealthMonitor'] = self.monitor.healthmonitor_conversion()
         data['ApplicationPersistenceProfile'] = self.persistance.app_persistance_conversion()
         data['Pool'] = self.pool.pool_conversion(data)

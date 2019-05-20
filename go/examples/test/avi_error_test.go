@@ -10,9 +10,9 @@ import (
 
 func TestAviError(t *testing.T) {
 	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword("fr3sca$%^"),
+		session.SetPassword(os.Getenv("password")),
 		session.SetTenant("admin"),
-		session.SetVersion("17.2.8"))
+		session.SetVersion(os.Getenv("version")))
 
 	if err != nil {
 		t.Log("Couldn't create session: ", err)

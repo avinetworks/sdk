@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1018,6 +1018,10 @@
                     "type": "string", 
                     "description": "Instance/Flavor name for SE instance."
                 }, 
+                "enable_gratarp_permanent": {
+                    "type": "boolean", 
+                    "description": "Enable GratArp for VIP_IP. Field introduced in 18.2.3."
+                }, 
                 "auto_redistribute_active_standby_load": {
                     "type": "boolean", 
                     "description": "Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API."
@@ -1134,6 +1138,10 @@
                     "type": "boolean", 
                     "description": "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
                 }, 
+                "se_pcap_lookahead": {
+                    "type": "boolean", 
+                    "description": "Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent. Field introduced in 18.2.3."
+                }, 
                 "vcenter_datastores_include": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
@@ -1167,9 +1175,8 @@
                     "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
                 }, 
                 "se_flow_probe_timer": {
-                    "default": 100, 
                     "type": "integer", 
-                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.", 
+                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.4. Field introduced in 18.1.4, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "se_dos_profile": {
@@ -1225,6 +1232,10 @@
                     "description": "Indicates the percent of memory reserved for config updates. Allowed values are 0-100. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
+                "data_network_id": {
+                    "type": "string", 
+                    "description": "Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3."
+                }, 
                 "custom_tag": {
                     "items": {
                         "$ref": "#/definitions/CustomTag"
@@ -1248,11 +1259,10 @@
                     "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
-                "min_se": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3,18.2.1.", 
-                    "format": "int32"
+                "reboot_on_panic": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Reboot the VM or host on kernel panic. Field introduced in 18.2.4."
                 }, 
                 "vcenter_datastores": {
                     "items": {
@@ -1294,7 +1304,7 @@
                 }, 
                 "reboot_on_stop": {
                     "type": "boolean", 
-                    "description": "Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3."
+                    "description": "Reboot the system if the SE is stopped. Field deprecated in 18.2.4."
                 }, 
                 "se_probe_port": {
                     "default": 7, 
@@ -1317,6 +1327,10 @@
                     "description": "Number of Async SSL threads per se_dp. Allowed values are 1-16.", 
                     "format": "int32"
                 }, 
+                "advertise_backend_networks": {
+                    "type": "boolean", 
+                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
+                }, 
                 "vcenter_folder": {
                     "default": "AviSeFolder", 
                     "type": "string", 
@@ -1335,9 +1349,11 @@
                     "description": "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
-                "advertise_backend_networks": {
-                    "type": "boolean", 
-                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature."
+                "max_memory_per_mempool": {
+                    "default": 64, 
+                    "type": "integer", 
+                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.", 
+                    "format": "int32"
                 }, 
                 "ssl_preprocess_sni_hostname": {
                     "default": true, 
@@ -1410,10 +1426,9 @@
                     "type": "string", 
                     "description": "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
                 }, 
-                "minimum_connection_memory": {
-                    "default": 20, 
+                "additional_config_memory": {
                     "type": "integer", 
-                    "description": "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2.", 
+                    "description": "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.", 
                     "format": "int32"
                 }, 
                 "vs_se_scaleout_additional_wait_time": {
@@ -1445,14 +1460,16 @@
                     "type": "boolean", 
                     "description": "If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set."
                 }, 
-                "data_network_id": {
-                    "type": "string", 
-                    "description": "Subnet used to spin up the data nic for Service Engines, used only for Azure cloud. Overrides the cloud level setting for Service Engine subnet. Field introduced in 18.2.3."
-                }, 
-                "max_memory_per_mempool": {
-                    "default": 64, 
+                "gratarp_permanent_periodicity": {
+                    "default": 10, 
                     "type": "integer", 
-                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.", 
+                    "description": "GratArp periodicity for VIP-IP. Allowed values are 5-30. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }, 
+                "min_se": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Minimum number of Services Engines in this group (relevant for SE AutoRebalance only). Allowed values are 0-1000. Field introduced in 17.2.13,18.1.3,18.2.1.", 
                     "format": "int32"
                 }, 
                 "se_tunnel_mode": {
@@ -1650,6 +1667,12 @@
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
                     "format": "int32"
                 }, 
+                "se_flow_probe_retry_timer": {
+                    "default": 40, 
+                    "type": "integer", 
+                    "description": "Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.4.", 
+                    "format": "int32"
+                }, 
                 "se_use_dpdk": {
                     "type": "integer", 
                     "description": "Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3.", 
@@ -1729,9 +1752,10 @@
                     "description": "Maximum number of virtualservices for which heartbeat messages are aggregated in one packet. Allowed values are 1-1024. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
-                "additional_config_memory": {
+                "minimum_connection_memory": {
+                    "default": 20, 
                     "type": "integer", 
-                    "description": "Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.", 
+                    "description": "Indicates the percent of memory reserved for connections. Allowed values are 0-100. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "mgmt_network_ref": {

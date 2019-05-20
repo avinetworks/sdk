@@ -6,7 +6,7 @@
                 "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-force\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
                 "headers": {
                     "X-CSRFToken": [
-                        "JvqEkNohALv8KJNTH9joM2pB8kUR2v2Z"
+                        "ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X"
                     ], 
                     "Content-Length": [
                         "180"
@@ -15,16 +15,16 @@
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=JvqEkNohALv8KJNTH9joM2pB8kUR2v2Z; avi-sessionid=xqu71cpk3wqur298oewzk11sr7pyqf01; csrftoken=ErvvTPyVpJQxyKBGoS4xMnctxH4hD5Ks; sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=y2gnc2bucvctu7b1pkgzlyeiw7mww9i3; csrftoken=ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X; sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj"
                     ], 
                     "X-Avi-Version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "Content-Type": [
                         "application/json"
@@ -34,158 +34,7 @@
                     ]
                 }, 
                 "method": "POST", 
-                "uri": "https://10.10.25.218/api/pool"
-            }, 
-            "response": {
-                "status": {
-                    "message": "UNAUTHORIZED", 
-                    "code": 401
-                }, 
-                "headers": {
-                    "set-cookie": [
-                        "sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:59 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=gbgr2ljqzz0eiywxha7oj38vbiy2zcr9; expires=Thu, 07-Mar-2019 14:31:59 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "avi_api_version": [
-                        "18.2.2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "HEAD, GET, POST, OPTIONS"
-                    ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
-                    ], 
-                    "date": [
-                        "Wed, 06 Mar 2019 14:31:59 GMT"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ], 
-                    "www-authenticate": [
-                        "Basic realm=\"api\""
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"detail\": \"CSRF Failed: CSRF token missing or incorrect.\"}"
-                }
-            }
-        }, 
-        {
-            "request": {
-                "body": "username=admin&password=avi123%24%25", 
-                "headers": {
-                    "Content-Length": [
-                        "36"
-                    ], 
-                    "Content-Type": [
-                        "application/x-www-form-urlencoded"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.25.218/login"
-            }, 
-            "response": {
-                "status": {
-                    "message": "OK", 
-                    "code": 200
-                }, 
-                "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
-                    "x-xss-protection": [
-                        "1; mode=block"
-                    ], 
-                    "content-security-policy": [
-                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
-                    ], 
-                    "x-content-type-options": [
-                        "nosniff"
-                    ], 
-                    "set-cookie": [
-                        "csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; expires=Wed, 04-Mar-2020 14:32:00 GMT; Max-Age=31449600; Path=/; secure", 
-                        "sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:00 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:00 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ], 
-                    "strict-transport-security": [
-                        "max-age=31536000; includeSubdomains"
-                    ], 
-                    "vary": [
-                        "Accept, Cookie"
-                    ], 
-                    "avi_api_version": [
-                        "16_4_2"
-                    ], 
-                    "connection": [
-                        "keep-alive"
-                    ], 
-                    "allow": [
-                        "POST, OPTIONS"
-                    ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
-                    ], 
-                    "date": [
-                        "Wed, 06 Mar 2019 14:32:00 GMT"
-                    ], 
-                    "x-frame-options": [
-                        "SAMEORIGIN"
-                    ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ], 
-                    "content-type": [
-                        "application/json"
-                    ], 
-                    "access-control-allow-headers": [
-                        "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken"
-                    ]
-                }, 
-                "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1551689129639876\", \"email_configuration\": {\"disable_tls\": false, \"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-586c342d-5949-4c01-941c-15a09930a7a1\"]}, \"dns_configuration\": {\"search_domain\": \"\"}, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"docker_mode\": false, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-23c8e969-37b1-460f-afff-872ec033280c\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-5fa2136e-7851-4ab9-9860-8c12355ff922\", \"/api/sslkeyandcertificate/sslkeyandcertificate-e840bff9-d5e1-4f36-b055-dd64682ae728\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": true, \"enable_http\": true, \"allow_basic_authentication\": true}, \"ntp_configuration\": {\"ntp_servers\": [{\"server\": {\"type\": \"DNS\", \"addr\": \"0.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"1.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"2.us.pool.ntp.org\"}}, {\"server\": {\"type\": \"DNS\", \"addr\": \"3.us.pool.ntp.org\"}}]}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"19.1.1\", \"build\": 5000, \"Tag\": \"19.1.1-5000-20190228.102224\", \"Date\": \"2019-02-28T10:22:24+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"tree\\\"},\\\"grid\\\":{\\\"pageSize\\\":30},\\\"performanceControls\\\":{}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.10.25.218/api/tenant/admin\"}, \"tenants\": [{\"url\": \"https://10.10.25.218/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"_last_modified\": \"1551702058989842\", \"local\": true, \"macro_in_progress\": 0, \"tenant_force_delete_in_progress\": false}, {\"url\": \"https://10.10.25.218/api/tenant/tenant-d3bd1433-6cec-4b77-9766-e91f52f76a09\", \"uuid\": \"tenant-d3bd1433-6cec-4b77-9766-e91f52f76a09\", \"name\": \"Migration\", \"_last_modified\": \"1551791282792449\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}], \"session_cookie_name\": \"avi-sessionid\"}"
-                }
-            }
-        }, 
-        {
-            "request": {
-                "body": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"default_server_port\": 80, \"name\": \"basic_vs-pool-force\", \"servers\": [{\"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"port\": 80}]}", 
-                "headers": {
-                    "X-CSRFToken": [
-                        "k7IddujvN2qcFdVadffetgsGnSN5A5Jy"
-                    ], 
-                    "Content-Length": [
-                        "180"
-                    ], 
-                    "X-Avi-Tenant": [
-                        "admin"
-                    ], 
-                    "Referer": [
-                        "https://10.10.25.218"
-                    ], 
-                    "timeout": [
-                        "60"
-                    ], 
-                    "Cookie": [
-                        "csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv"
-                    ], 
-                    "X-Avi-Version": [
-                        "18.2.2"
-                    ], 
-                    "Content-Type": [
-                        "application/json"
-                    ], 
-                    "Slug": [
-                        "pool-force-42"
-                    ]
-                }, 
-                "method": "POST", 
-                "uri": "https://10.10.25.218/api/pool"
+                "uri": "https://10.10.25.42/api/pool"
             }, 
             "response": {
                 "status": {
@@ -193,9 +42,6 @@
                     "code": 201
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -205,9 +51,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:01 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:01 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; expires=Tue, 14-May-2019 19:56:27 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -215,29 +63,35 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "connection": [
                         "keep-alive"
+                    ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
                     ], 
                     "location": [
-                        "https://10.10.25.218/api/pool/pool-force-42#basic_vs-pool-force"
+                        "https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force"
                     ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:32:01 GMT"
+                        "Mon, 13 May 2019 19:56:27 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -247,7 +101,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08#System-Analytics-Profile\", \"_last_modified\": \"1551882721232126\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"uuid\": \"pool-force-42\", \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.218/api/pool/pool-force-42#basic_vs-pool-force\", \"enabled\": true, \"connection_ramp_duration\": 10}"
+                    "string": "{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin#admin\", \"rewrite_host_header_to_sni\": false, \"delete_server_on_dns_refresh\": true, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59#System-Analytics-Profile\", \"_last_modified\": \"1557777387399191\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec#Default-Cloud\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a#global\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"uuid\": \"pool-force-42\", \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42#basic_vs-pool-force\", \"enabled\": true, \"connection_ramp_duration\": 10}"
                 }
             }
         }, 
@@ -256,29 +110,29 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "k7IddujvN2qcFdVadffetgsGnSN5A5Jy"
+                        "ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; csrftoken=ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X; sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj"
                     ], 
                     "X-Avi-Version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "Content-Type": [
                         "application/json"
                     ]
                 }, 
                 "method": "GET", 
-                "uri": "https://10.10.25.218/api/pool?name=basic_vs-pool-force"
+                "uri": "https://10.10.25.42/api/pool?name=basic_vs-pool-force"
             }, 
             "response": {
                 "status": {
@@ -286,9 +140,6 @@
                     "code": 200
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -298,9 +149,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:01 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:01 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; expires=Tue, 14-May-2019 19:56:27 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -308,26 +161,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:32:01 GMT"
+                        "Mon, 13 May 2019 19:56:27 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -337,7 +196,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08\", \"_last_modified\": \"1551882721232126\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.218/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"delete_server_on_dns_refresh\": true, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"_last_modified\": \"1557777387399191\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -346,29 +205,29 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "k7IddujvN2qcFdVadffetgsGnSN5A5Jy"
+                        "ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X"
                     ], 
                     "X-Avi-Tenant": [
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; csrftoken=ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X; sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj"
                     ], 
                     "X-Avi-Version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "Content-Type": [
                         "application/json"
                     ]
                 }, 
                 "method": "GET", 
-                "uri": "https://10.10.25.218/api/pool?name=basic_vs-pool-force"
+                "uri": "https://10.10.25.42/api/pool?name=basic_vs-pool-force"
             }, 
             "response": {
                 "status": {
@@ -376,9 +235,6 @@
                     "code": 200
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "x-xss-protection": [
                         "1; mode=block"
                     ], 
@@ -388,9 +244,11 @@
                     "x-content-type-options": [
                         "nosniff"
                     ], 
+                    "transfer-encoding": [
+                        "chunked"
+                    ], 
                     "set-cookie": [
-                        "sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:02 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:02 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; expires=Tue, 14-May-2019 19:56:28 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -398,26 +256,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, POST, OPTIONS"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:32:02 GMT"
+                        "Mon, 13 May 2019 19:56:28 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"
@@ -427,7 +291,7 @@
                     ]
                 }, 
                 "body": {
-                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.218/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.218/api/analyticsprofile/analyticsprofile-24d58b58-539b-4756-b384-4fd76900cc08\", \"_last_modified\": \"1551882721232126\", \"cloud_ref\": \"https://10.10.25.218/api/cloud/cloud-8d52dbfa-c88c-4e15-95dd-b4acfa34414e\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.218/api/vrfcontext/vrfcontext-63527b3c-1fcf-40d6-bb21-72d95b3fcc25\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.218/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
+                    "string": "{\"count\": 1, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.10.25.42/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"delete_server_on_dns_refresh\": true, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.64.10\"}, \"hostname\": \"10.90.64.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"lookup_server_by_name\": false, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"analytics_profile_ref\": \"https://10.10.25.42/api/analyticsprofile/analyticsprofile-f6849419-8ef7-4b7e-a5ec-aa60d3385d59\", \"_last_modified\": \"1557777387399191\", \"cloud_ref\": \"https://10.10.25.42/api/cloud/cloud-04b5a898-74a5-4966-82e3-e183c569e1ec\", \"lb_algorithm_core_nonaffinity\": 2, \"vrf_ref\": \"https://10.10.25.42/api/vrfcontext/vrfcontext-f988e19a-a964-4038-a2b8-672e0e40704a\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"sni_enabled\": true, \"server_timeout\": 0, \"request_queue_enabled\": false, \"name\": \"basic_vs-pool-force\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.10.25.42/api/pool/pool-force-42\", \"enabled\": true, \"uuid\": \"pool-force-42\", \"connection_ramp_duration\": 10}]}"
                 }
             }
         }, 
@@ -436,7 +300,7 @@
                 "body": null, 
                 "headers": {
                     "X-CSRFToken": [
-                        "k7IddujvN2qcFdVadffetgsGnSN5A5Jy"
+                        "ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X"
                     ], 
                     "Content-Length": [
                         "0"
@@ -445,23 +309,23 @@
                         "admin"
                     ], 
                     "Referer": [
-                        "https://10.10.25.218"
+                        "https://10.10.25.42"
                     ], 
                     "timeout": [
                         "60"
                     ], 
                     "Cookie": [
-                        "csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; csrftoken=k7IddujvN2qcFdVadffetgsGnSN5A5Jy; sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv"
+                        "csrftoken=V7m7rnOuPdZgXcYQLZzUyo3ZP3ZXXuOd; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; csrftoken=ciTXCkBoTbAH45B5U5P7sHU0NTb4TC4X; sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj"
                     ], 
                     "X-Avi-Version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "Content-Type": [
                         "application/json"
                     ]
                 }, 
                 "method": "DELETE", 
-                "uri": "https://10.10.25.218/api/pool/pool-force-42"
+                "uri": "https://10.10.25.42/api/pool/pool-force-42"
             }, 
             "response": {
                 "status": {
@@ -469,9 +333,6 @@
                     "code": 204
                 }, 
                 "headers": {
-                    "access-control-allow-credentials": [
-                        "true"
-                    ], 
                     "content-length": [
                         "0"
                     ], 
@@ -485,8 +346,7 @@
                         "nosniff"
                     ], 
                     "set-cookie": [
-                        "sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:02 GMT; httponly; Max-Age=86400; Path=/; secure", 
-                        "avi-sessionid=k3qhd2na5p2tor8wlqnwgd42452fu0hv; expires=Thu, 07-Mar-2019 14:32:02 GMT; httponly; Max-Age=86400; Path=/; secure"
+                        "avi-sessionid=e5ls247gv8ab8susj9qosyox5fdukwfj; expires=Tue, 14-May-2019 19:56:28 GMT; httponly; Max-Age=86400; Path=/; secure"
                     ], 
                     "strict-transport-security": [
                         "max-age=31536000; includeSubdomains"
@@ -494,26 +354,32 @@
                     "vary": [
                         "Accept, Cookie"
                     ], 
+                    "cache-control": [
+                        "private, no-cache, must-revalidate"
+                    ], 
                     "avi_api_version": [
-                        "18.2.2"
+                        "18.2.3"
                     ], 
                     "connection": [
                         "keep-alive"
                     ], 
+                    "access-control-allow-methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
+                    ], 
                     "allow": [
                         "HEAD, GET, PATCH, PUT, OPTIONS, DELETE"
                     ], 
-                    "cache-control": [
-                        "private, no-cache, must-revalidate"
+                    "access-control-allow-credentials": [
+                        "true"
                     ], 
                     "date": [
-                        "Wed, 06 Mar 2019 14:32:02 GMT"
+                        "Mon, 13 May 2019 19:56:28 GMT"
                     ], 
                     "x-frame-options": [
                         "SAMEORIGIN"
                     ], 
-                    "access-control-allow-methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
+                    "referrer-policy": [
+                        "strict-origin"
                     ], 
                     "content-type": [
                         "application/json"

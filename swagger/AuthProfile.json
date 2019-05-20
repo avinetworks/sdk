@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AuthProfile Object API", 
-        "version": "18.2.3", 
+        "version": "18.2.4", 
         "description": "CLI\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -642,7 +642,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "LDAP server IP address."
+                    "description": "LDAP server IP address or Hostname. Use IP address if an auth profile is used to configure Virtual Service."
                 }, 
                 "user_bind": {
                     "description": "LDAP anonymous bind configuration.", 
