@@ -15,7 +15,7 @@ from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.ansible.ansible_config_converter import\
     AviAnsibleConverter
-from avi.migrationtools.avi_migration_utils import get_count    
+from avi.migrationtools.avi_migration_utils import get_count
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -175,13 +175,13 @@ if __name__ == "__main__":
             Example:
             mcqcim.key: ZcZawJ7ps0AJ+5TMDi7UA==
             avi_key.pem : foobar
-            
+
         Example to provide baseline json file absolute location:
-            netscaler_converter.py -f ns.conf --baseline_profile 
+            netscaler_converter.py -f ns.conf --baseline_profile
             /home/<'sys_conf.json' or 'ns-Output.json'>
         Usecase: Need to merge objects if there is migration of two netscaler
                  instances/box to single controller.
-        
+
         Example to patch the config after conversion:
           netscaler_converter.py -f ns.conf --patch test/patch.yaml
           where patch.yaml file contains
@@ -189,35 +189,35 @@ if __name__ == "__main__":
            - match_name: <existing name example p1>
              patch:
                name: <changed name example coolpool>
-         
+
         Example to add the prefix to avi object name:
           netscaler_converter.py -f ns.conf --prefix abc
-        Usecase: When two configuration is to be uploaded to same controller 
+        Usecase: When two configuration is to be uploaded to same controller
                  then in order to differentiate between the objects that will
                  be uploaded in second time.
-        
+
         Example to use no object merge option:
           netscaler_converter.py -f ns.conf --no_object_merge
         Usecase: When we don't need to merge two same object (based on their
                  attribute values except name)
-         
+
         Example to use redirect option:
           netscaler_converter.py -f ns.conf --redirect
-        Usecase: If a http VS has no pool assigned to it but has redirect to 
+        Usecase: If a http VS has no pool assigned to it but has redirect to
                  https VS
-          
+
         Example to use ansible option:
           netscaler_converter.py -f ns.conf --ansible
         Usecase: To generate the ansible playbook for the avi configuration
                  which can be used for upload to controller
-          
+
         Example to use vs level status option:
           netscaler_converter.py -f ns.conf --vs_level_status
         Usecase: To get the vs level status for the avi objects in excel sheet
-         
+
         Example to use ignore config option:
           netscaler_converter.py -f ns.conf --ignore_config
-        Usecase: The attributes mentioned in ignore_config.yaml will appear in 
+        Usecase: The attributes mentioned in ignore_config.yaml will appear in
                  ignore column in excel sheet instead of skip.
                  It will need an ignore_config.yaml file like below
                  in the input directory defined by user
@@ -228,11 +228,11 @@ if __name__ == "__main__":
           netscaler_converter.py -f ns.conf --not_in_use
         Usecase: Dangling object which are not referenced by any avi object
                  will be removed.
-                 
+
         Example to use -s or --vs_state option:
           netsacaler_converter.py -f ns.conf -s <enable or disable>
         Usecase: To enable a VS after conversion to AVI.
-           
+
         Example to use --controller_version option:
           netscaler_converter.py -f ns.conf --controller_version <17.2.3>
         Usecase: To provide the version of controller.
@@ -241,13 +241,13 @@ if __name__ == "__main__":
             netscalar_converter.py -f ns.conf --segroup segroup_name
         UseCase: To add / Change segroup reference of vs
 
-        Example to use segroup flag 
+        Example to use segroup flag
             netscalar_converter.py -f ns.conf --segroup segroup_name
         UseCase: To add / Change segroup reference of vs
 
         Example to use vrf flag
             netscalar_converter.py -f ns.conf --vrf vrf_name
-        UseCase: Change all the vrf reference in the configuration while 
+        UseCase: Change all the vrf reference in the configuration while
         conversion
         '''
 
@@ -303,11 +303,11 @@ if __name__ == "__main__":
     parser.add_argument('--ns_passphrase_file',
                         help='Netscaler key passphrase yaml file')
     parser.add_argument('--ns_host_ip',
-                        help='host ip of Netscaler instance')                        
+                        help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
     parser.add_argument('--ns_ssh_password',
                         help='Netscaler host ssh password if password based '
-                             'authentication')                             
+                             'authentication')
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in')
     parser.add_argument('-O', '--option',
@@ -353,8 +353,11 @@ if __name__ == "__main__":
                         help='Update the available vrf ref with the custom vrf'
                              'reference')
     # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of '
-                                            'virtualservices')
+    parser.add_argument('--vs_filter',
+                        help='comma seperated names of virtualservices.\n'
+                        'Note: If patch data is supplied, vs_name should match '
+                        'the new name given in it'
+                        )
     parser.add_argument('--vs_level_status', action='store_true',
                         help='Add columns of vs reference and overall skipped '
                              'settings in status excel sheet')
