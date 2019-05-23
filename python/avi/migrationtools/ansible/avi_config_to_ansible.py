@@ -278,7 +278,7 @@ class AviAnsibleConverter(object):
                 if k == 'name' or 'tags':
                     continue
                 v['state'] = 'absent'
-                v['api_version'] = meta['version']['Version']
+                v['api_version'] = self.api_version
         ad['tasks'] = tasks
         with open('%s/avi_config_delete.yml' % self.outdir, "w") as outf:
             outf.write('# Auto-generated from Avi Configuration\n')
