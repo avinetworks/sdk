@@ -58,7 +58,7 @@ class AviAnsibleConverter(object):
         # for test vip
         self.test_vip = test_vip
         self.partitions = partitions
-        if avi_cfg['META']['version']['Version']:
+        if 'META' in avi_cfg and avi_cfg['META']['version']['Version']:
             self.api_version = avi_cfg['META']['version']['Version']
         else:
             self.api_version = controller_version
