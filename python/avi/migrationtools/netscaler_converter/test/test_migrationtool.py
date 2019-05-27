@@ -117,7 +117,27 @@ class TestNetscalerConverter:
     @pytest.fixture
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
+        import shutil
         conv.csv_writer_dict_list = list()
+        if os.path.exists(output_file):
+            for each_file in os.listdir(output_file):
+                file_path = os.path.join(output_file, each_file)
+                try:
+                    if os.path.isfile(file_path):
+                        if file_path.endswith('.log'):
+                            open('converter.log', 'w').close()
+                        else:
+                            os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(e)
+
+
+    # @pytest.fixture
+    # def cleanup(self):
+    #     import avi.migrationtools.f5_converter.conversion_util as conv
+    #     conv.csv_writer_dict_list = list()
 
     @pytest.mark.skip_travis
 
@@ -131,9 +151,9 @@ class TestNetscalerConverter:
                        ns_ssh_password=setup.get('ns_ssh_password'),
                        controller_version=setup.get('controller_version_v17'),
                        option=setup.get('option'),
-		                   controller_ip=setup.get('controller_ip_17_1_1'),
-		                   user=setup.get('controller_user_17_1_1'),
-		                   password=setup.get('controller_password_17_1_1'))
+                       controller_ip=setup.get('controller_ip_17_1_1'),
+                       user=setup.get('controller_user_17_1_1'),
+                       password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
 
@@ -410,7 +430,7 @@ class TestNetscalerConverter:
     @pytest.mark.travis
 
     @pytest.mark.TCID1_48_1497_21_0
-    def test_error_and_warning_count(self):
+    def test_error_and_warning_count(self, cleanup):
         set_update_count()
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
@@ -424,7 +444,7 @@ class TestNetscalerConverter:
     @pytest.mark.travis
 
     @pytest.mark.TCID1_48_1497_22_0
-    def test_lb_algorithm_match(self):
+    def test_lb_algorithm_match(self, cleanup):
         set_update_count()
         ns_config = get_ns_conf_dict(setup.get('config_file_name'))[0]
         netscaler_conv(config_file_name=setup.get('config_file_name'),
@@ -455,7 +475,7 @@ class TestNetscalerConverter:
     @pytest.mark.travis
 
     @pytest.mark.TCID1_48_1497_23_0
-    def test_multiple_backup_pool(self):
+    def test_multiple_backup_pool(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
@@ -474,7 +494,7 @@ class TestNetscalerConverter:
     @pytest.mark.travis
 
     @pytest.mark.TCID1_48_1497_24_0
-    def test_sslcert_dummy_status(self):
+    def test_sslcert_dummy_status(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
