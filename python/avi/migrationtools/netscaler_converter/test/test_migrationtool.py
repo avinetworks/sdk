@@ -32,6 +32,10 @@ if input_file is None:
     input_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'ns.conf'))
 
+if not output_file:
+    output_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output'))
+
 with open(config_file) as f:
     file_attribute = yaml.load(f)
 
@@ -71,10 +75,13 @@ setup = dict(
     output_file_path=output_file
 )
 
+if not os.path.exists(setup.get("output_file_path")):
+    os.mkdir(setup.get("output_file_path"))
 
-#logging.basicConfig(filename="runlog.txt", level=logging.DEBUG)
-mylogger = logging.getLogger()
-
+formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
+logging.basicConfig(filename=os.path.join(setup.get('output_file_path'),
+                    'converter.log'), level=logging.DEBUG, format=formatter)
+mylogger = logging.getLogger(__name__)
 
 class Namespace:
     def __init__(self, **kwargs):
@@ -83,7 +90,7 @@ class Namespace:
 
 def netscaler_conv(
         config_file_name=None, tenant='admin', cloud_name='Default-Cloud',
-        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path='output',
+        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path=output_file,
         option='cli-upload', user=None, password=None, controller_ip=None,
         vs_state='disable', controller_version=None, ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
