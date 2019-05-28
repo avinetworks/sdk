@@ -50,7 +50,6 @@ class AviAnsibleConverter(object):
                  partitions=None, controller_version=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
-        self.api_version = controller_version
         # Added prefix flag for object
         self.prefix = prefix
         self.not_in_use = not_in_use
@@ -59,6 +58,10 @@ class AviAnsibleConverter(object):
         # for test vip
         self.test_vip = test_vip
         self.partitions = partitions
+        if 'META' in avi_cfg and avi_cfg['META']['version']['Version']:
+            self.api_version = avi_cfg['META']['version']['Version']
+        else:
+            self.api_version = controller_version
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         self.skip_types = (skip_types if type(skip_types) == list
