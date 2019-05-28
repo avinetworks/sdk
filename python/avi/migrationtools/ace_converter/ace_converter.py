@@ -194,7 +194,7 @@ Optional:
 :param vs_state: To enable or disable after the vs is create
 
 :param option: (auto-upload) Upload after conversion, directly into controller
-    :param user: Username of Controller to upload 
+    :param user: Username of Controller to upload
     :param password: Password of Controller to upload
     :param controller_ip: The ip of the controller to upload
 '''
@@ -268,8 +268,11 @@ Optional:
                         help='Attach the vrf reference to pool and vs')
 
     # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of'
-                                            'virtualservices')
+    parser.add_argument('--vs_filter',
+                        help='comma seperated names of virtualservices.\n'
+                        'Note: If patch data is supplied, vs_name should match '
+                        'the new name given in it'
+                        )
 
     pargs = parser.parse_args()
 
