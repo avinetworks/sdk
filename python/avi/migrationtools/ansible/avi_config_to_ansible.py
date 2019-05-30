@@ -5,73 +5,21 @@ Created on September 15, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 """
 
-import argparse
 import json
-import re
-import urlparse
 from copy import deepcopy
-from urllib import urlencode
 
+import argparse
 import yaml
-from avi.migrationtools.f5_converter.conversion_util import F5Util
 
-DEFAULT_SKIP_TYPES = [
-    'SystemConfiguration', 'Network', 'debugcontroller', 'VIMgrVMRuntime',
-    'VIMgrIPSubnetRuntime', 'Alert', 'VIMgrSEVMRuntime', 'VIMgrClusterRuntime',
-    'VIMgrHostRuntime', 'DebugController', 'ServiceEngineGroup',
-    'SeProperties', 'ControllerProperties', 'CloudProperties']
-
-DEFAULT_SKIP_PARAMS = {
-    'sslprofile': ['dhparam']
-    }
+from avi.migrationtools.ansible.ansible_config_converter import \
+    AviAnsibleConverterBase
+from avi.migrationtools.ansible.ansible_constant import DEFAULT_SKIP_TYPES
 
 
-def should_use_block(value):
-    for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029":
-        if c in value:
-            return True
-    return False
+class AviAnsibleConverter(AviAnsibleConverterBase):
 
-
-def my_represent_scalar(self, tag, value, style=None):
-    if style is None:
-        if should_use_block(value):
-             style='|'
-        else:
-            style = self.default_style
-
-    node = yaml.representer.ScalarNode(tag, value, style=style)
-    if self.alias_key is not None:
-        self.represented_objects[self.alias_key] = node
-    return node
-
-yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
-utils = F5Util()
-meta_file = utils.get_project_path()+'/../common/avi_resource_types.yaml'
-with open(meta_file) as f:
-    supported_obj = yaml.load(f)
-
-
-class AviAnsibleConverter(object):
-    common_task_args = {
-        'controller': "{{ controller }}",
-        'username': "{{ username }}",
-        'password': "{{ password }}"
-    }
-
-    ansible_dict = dict({
-        'connection': 'local',
-        'hosts': 'localhost',
-        'vars': common_task_args,
-        'tasks': []})
-
-    skip_fields = ['uuid', 'url', 'ref_key', 'se_uuids']
-    skip_types = set(DEFAULT_SKIP_TYPES)
-    default_meta_order = supported_obj['avi_resource_types']
-
-    REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
-
-    def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None, controller_version=None):
+    def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None,
+                 controller_version=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
         if 'META' in avi_cfg and avi_cfg['META']['version']['Version']:
@@ -79,7 +27,6 @@ class AviAnsibleConverter(object):
         else:
             self.api_version = controller_version
         self.ansible_avi_config = {'avi_config': {}}
-        self.conversion_util = F5Util()
         if skip_types is None:
             skip_types = DEFAULT_SKIP_TYPES
         if skip_types:
@@ -92,109 +39,6 @@ class AviAnsibleConverter(object):
                  else set(filter_types.split(',')))
         else:
             self.filter_types = None
-
-    def transform_ref(self, x, obj):
-        """
-        :param obj:
-        :param x:
-        :return:
-        """
-        # converts ref into the relative reference
-        if not (isinstance(x, basestring) or isinstance(x, unicode)):
-            return x
-        if x == '/api/tenant/admin':
-            x = '/api/tenant/admin#admin'
-        # Added REGEX
-        if self.REF_MATCH.match(x):
-            name = x.rsplit('#', 1)[1]
-            obj_type = x.split('/api/')[1].split('/')[0]
-            # print name, obj_type
-            x = '/api/%s?name=%s' % (obj_type, name)
-        elif x.startswith('/api/') and '?' in x:
-            parsed = urlparse.urlparse(x)
-            params = urlparse.parse_qs(parsed.query)
-            if 'cloud' in params:
-                obj['cloud_ref'] = '/api/cloud?name=%s' % params['cloud'][0]
-        else:
-            print "[WARNING] Ignoring invalid reference:  %s" % x
-            return None
-
-        u = urlparse.urlparse(x)
-        query = {'name': urlparse.parse_qs(u.query)['name']}
-        # query.pop('tenant', None)
-        # query.pop('cloud', None)
-        u = u._replace(query=urlencode(query, True))
-        x = urlparse.urlunparse(u)
-        return x
-
-    def transform_obj_refs(self, obj):
-        if type(obj) != dict:
-            return
-        for k, v in obj.items():
-            if type(v) == dict:
-                self.transform_obj_refs(v)
-                continue
-            if k.endswith('_ref') or k.endswith('_refs'):
-                # check for whether v is string or list of strings
-                if isinstance(v, basestring) or isinstance(v, unicode):
-                    ref = self.transform_ref(v, obj)
-                    if ref:
-                        obj[k] = ref
-                    else:
-                        del obj[k]
-                elif type(v) == list:
-                    new_list = []
-                    for item in v:
-                        if type(item) == dict:
-                            self.transform_obj_refs(item)
-                        elif (isinstance(item, basestring) or
-                              isinstance(item, unicode)):
-                            ref = self.transform_ref(item, obj)
-                            if ref:
-                                new_list.append(ref)
-                    if new_list:
-                        obj[k] = new_list
-            elif type(v) == list:
-                for item in v:
-                    self.transform_obj_refs(item)
-        return obj
-
-    def update_tenant(self, obj):
-        """
-        updates the tenant field in the task. This is then picked up by
-        ansible task or aviconfig role to create objects in the right tenant
-        :param obj:
-        :return:
-        """
-        if 'tenant' not in obj and 'tenant_ref' in obj:
-            tenant = obj['tenant_ref'].split('name=')[1].strip()
-            obj.update({'tenant': tenant})
-
-    def purge_fields(self, rsrc_type, rsrc):
-        for skip_field in self.skip_fields:
-            rsrc.pop(skip_field, None)
-        for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
-            rsrc.pop(skip_param, None)
-        for skip_field in self.skip_fields:
-            rsrc.pop(skip_field, None)
-        for key in rsrc:
-            if isinstance(rsrc[key], str):
-                rsrc[key] = rsrc[key].encode('string-escape')
-            elif isinstance(rsrc[key], unicode) and key == 'key':
-                rsrc[key] = rsrc[key].encode()
-            elif isinstance(rsrc[key], unicode):
-                rsrc[key] = rsrc[key].encode('unicode-escape')
-
-        if rsrc_type == 'vsvip':
-            # check for floating IP and normal IP
-            for vip in rsrc.get('vip', []):
-                if vip.get('avi_allocated_fip', False):
-                    print ('purged floating ip from %s',
-                           vip['floating_ip']['addr'])
-                    vip.pop('floating_ip', None)
-                if vip.get('avi_allocated_vip', False):
-                    print ('purged avi vip %s', vip['ip_address']['addr'])
-                    vip.pop('ip_address', None)
 
     def build_ansible_objects(self, obj_type, objs, ansible_dict):
         """
@@ -278,7 +122,7 @@ class AviAnsibleConverter(object):
                 if k == 'name' or 'tags':
                     continue
                 v['state'] = 'absent'
-                v['api_version'] = self.api_version
+                v['api_version'] = avi_cfg['META']['version']['Version']
         ad['tasks'] = tasks
         with open('%s/avi_config_delete.yml' % self.outdir, "w") as outf:
             outf.write('# Auto-generated from Avi Configuration\n')
