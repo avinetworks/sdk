@@ -474,7 +474,7 @@ class TestNetscalerConverter:
     @pytest.mark.travis
 
     @pytest.mark.TCID1_48_1497_24_0
-    def test_sslcert_dummy_status(self):
+    def test_sslcert_dummy_status(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
