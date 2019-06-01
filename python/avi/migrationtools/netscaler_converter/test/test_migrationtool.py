@@ -32,6 +32,9 @@ if input_file is None:
     input_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'ns.conf'))
 
+if not output_file:
+    output_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output'))
 with open(config_file) as f:
     file_attribute = yaml.load(f)
 
@@ -83,7 +86,7 @@ class Namespace:
 
 def netscaler_conv(
         config_file_name=None, tenant='admin', cloud_name='Default-Cloud',
-        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path='output',
+        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path=output_file,
         option='cli-upload', user=None, password=None, controller_ip=None,
         vs_state='disable', controller_version=None, ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
@@ -96,7 +99,7 @@ def netscaler_conv(
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
         input_folder_location=input_folder_location,
-        output_file_path=output_file_path, option=option, user=user,
+        output_file_path=output_file, option=option, user=user,
         password=password, controller_ip=controller_ip, vs_state=vs_state,
         controller_version=controller_version, ns_host_ip=ns_host_ip,
         ns_ssh_user=ns_ssh_user, ns_ssh_password=ns_ssh_password,
@@ -118,6 +121,20 @@ class TestNetscalerConverter:
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
         conv.csv_writer_dict_list = list()
+        if os.path.exists(output_file):
+            for each_file in os.listdir(output_file):
+                file_path = os.path.join(output_file, each_file)
+                try:
+                    if os.path.isfile(file_path):
+                        if file_path.endswith('.log'):
+                            open('converter.log', 'w').close()
+                        else:
+                            os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(e)
+
 
     @pytest.mark.skip_travis
 
