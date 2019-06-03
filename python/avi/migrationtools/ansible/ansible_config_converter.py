@@ -512,10 +512,10 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
             inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
-        total_size = len(self.default_meta_order['avi_resource_types'])
+        total_size = len(self.default_meta_order)
         progressbar_count = 0
         print "Conversion Started For Ansible Create Object..."
-        for obj_type in self.default_meta_order['avi_resource_types']:
+        for obj_type in self.default_meta_order:
             progressbar_count += 1
             # Added call to check progress.
             msg = "Ansible Create Object..."
