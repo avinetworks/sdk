@@ -20,7 +20,7 @@ type GslbPool struct {
 	// Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1.
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3, 18.2.4.
+	// The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3.
 	FallbackAlgorithm *string `json:"fallback_algorithm,omitempty"`
 
 	// Select list of VIPs belonging to this GSLB service.

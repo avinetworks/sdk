@@ -39,6 +39,9 @@ type HealthMonitor struct {
 	// Required: true
 	Name *string `json:"name"`
 
+	// Health monitor for Radius. Field introduced in 18.2.3.
+	RadiusMonitor *HealthMonitorRadius `json:"radius_monitor,omitempty"`
+
 	// A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.
 	ReceiveTimeout *int32 `json:"receive_timeout,omitempty"`
 
@@ -57,7 +60,7 @@ type HealthMonitor struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	// Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP.
+	// Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.
 	// Required: true
 	Type *string `json:"type"`
 
