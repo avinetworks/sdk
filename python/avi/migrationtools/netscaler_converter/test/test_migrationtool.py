@@ -148,9 +148,9 @@ class TestNetscalerConverter:
                        ns_ssh_password=setup.get('ns_ssh_password'),
                        controller_version=setup.get('controller_version_v17'),
                        option=setup.get('option'),
-		                   controller_ip=setup.get('controller_ip_17_1_1'),
-		                   user=setup.get('controller_user_17_1_1'),
-		                   password=setup.get('controller_password_17_1_1'))
+                       controller_ip=setup.get('controller_ip_17_1_1'),
+                       user=setup.get('controller_user_17_1_1'),
+                       password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
 
@@ -158,8 +158,10 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        percentage_success('./output/ns-ConversionStatus.xlsx')
+                       output_file_path=setup.get('output_file_path'))
+        
+        output_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        percentage_success(output_file)
 
     @pytest.mark.travis
 
@@ -167,9 +169,11 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        output_sanitization('./output/ns-ConversionStatus.xlsx',
-                            './output/ns-Output.json')
+                       output_file_path=setup.get('output_file_path'))
+        
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        json_file = '%s/ns-Output.json' %setup.get('output_file_path')
+        output_sanitization(xlsx_file, json_file)
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_24_0
@@ -459,8 +463,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             lb_vs_conf = ns_config.get('add lb vserver', {})
             for vs_name in lb_vs_conf.keys():
@@ -488,8 +494,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             pooGroup = avi_config['PoolGroup']
             pool = [pool for pool in pooGroup if pool['name'] == \
