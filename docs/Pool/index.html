@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -445,6 +445,7 @@ font-style: italic;
     "service_metadata" : "aeiou",
     "capacity_estimation_ttfb_thresh" : 123,
     "lb_algorithm_hash" : "aeiou",
+    "delete_server_on_dns_refresh" : true,
     "request_queue_enabled" : true,
     "host_check_enabled" : true,
     "server_timeout" : 123,
@@ -681,6 +682,7 @@ font-style: italic;
   "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
+  "delete_server_on_dns_refresh" : true,
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
   "server_timeout" : 123,
@@ -1208,6 +1210,7 @@ font-style: italic;
   "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
+  "delete_server_on_dns_refresh" : true,
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
   "server_timeout" : 123,
@@ -1663,6 +1666,7 @@ font-style: italic;
   "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
+  "delete_server_on_dns_refresh" : true,
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
   "server_timeout" : 123,
@@ -1962,6 +1966,7 @@ font-style: italic;
   "service_metadata" : "aeiou",
   "capacity_estimation_ttfb_thresh" : 123,
   "lb_algorithm_hash" : "aeiou",
+  "delete_server_on_dns_refresh" : true,
   "request_queue_enabled" : true,
   "host_check_enabled" : true,
   "server_timeout" : 123,
@@ -2928,6 +2933,7 @@ font-style: italic;
 <div class="param">connection_ramp_duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration for which new connections will be gradually ramped up to a server recently brought online.  Useful for LB algorithms that are least connection based. Allowed values are 1-300. Special values are 0 - &#39;Immediate&#39;. format: int32</div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. </div>
 <div class="param">default_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Traffic sent to servers will use this destination server port unless overridden by the server&#39;s specific port attribute. The SSL checkbox enables Avi to server encryption. Allowed values are 1-65535. format: int32</div>
+<div class="param">delete_server_on_dns_refresh (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Indicates whether existing IPs are disabled(false) or deleted(true) on dns hostname refreshDetail -- On a dns refresh, some IPs set on pool may no longer be returned by the resolver. These IPs are deleted from the pool when this knob is set to true. They are disabled, if the knob is set to false. Field introduced in 18.2.3. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A description of the pool. </div>
 <div class="param">domain_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Comma separated list of domain names which will be used to verify the common names or subject alternative names presented by server certificates. It is performed only when common name check host_check_enabled is enabled. </div>
 <div class="param">east_west (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inherited config from VirtualService. </div>
@@ -2941,7 +2947,7 @@ font-style: italic;
 <div class="param">host_check_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match. </div>
 <div class="param">inline_health_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin. </div>
 <div class="param">ipaddrgroup_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use list of servers from Ip Address Group. It is a reference to an object of type IpAddrGroup. </div>
-<div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY. </div>
+<div class="param">lb_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a server within the pool&#39;s list of available servers. Enum options - LB_ALGORITHM_LEAST_CONNECTIONS, LB_ALGORITHM_ROUND_ROBIN, LB_ALGORITHM_FASTEST_RESPONSE, LB_ALGORITHM_CONSISTENT_HASH, LB_ALGORITHM_LEAST_LOAD, LB_ALGORITHM_FEWEST_SERVERS, LB_ALGORITHM_RANDOM, LB_ALGORITHM_FEWEST_TASKS, LB_ALGORITHM_NEAREST_SERVER, LB_ALGORITHM_CORE_AFFINITY, LB_ALGORITHM_TOPOLOGY. </div>
 <div class="param">lb_algorithm_consistent_hash_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name to be used for the hash key. </div>
 <div class="param">lb_algorithm_core_nonaffinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Degree of non-affinity for core afffinity based server selection. Allowed values are 1-65535. Field introduced in 17.1.3. format: int32</div>
 <div class="param">lb_algorithm_hash (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criteria used as a key for determining the hash between the client and  server. Enum options - LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS, LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS_AND_PORT, LB_ALGORITHM_CONSISTENT_HASH_URI, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_HEADER, LB_ALGORITHM_CONSISTENT_HASH_CUSTOM_STRING, LB_ALGORITHM_CONSISTENT_HASH_CALLID. </div>
@@ -2995,7 +3001,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
-<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
     </div>  <!-- field-items -->
   </div>
@@ -3004,7 +3010,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafpolicy <key> - show wafpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -255,6 +255,9 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "positive_security_model" : {
+      "group_refs" : [ "aeiou" ]
+    },
     "pre_crs_groups" : [ "" ],
     "description" : "aeiou",
     "learning" : {
@@ -263,6 +266,72 @@ font-style: italic;
       "confidence" : 123,
       "sampling_percent" : 123,
       "path_summarization_threshold" : 123
+    },
+    "whitelist" : {
+      "rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "protocol" : {
+            "match_criteria" : "aeiou",
+            "protocols" : "aeiou"
+          },
+          "cookie" : {
+            "match_criteria" : "aeiou",
+            "name" : "aeiou",
+            "value" : "aeiou",
+            "match_case" : "aeiou"
+          },
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "query" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "vs_port" : {
+            "match_criteria" : "aeiou",
+            "ports" : [ "" ]
+          },
+          "client_ip" : {
+            "group_refs" : [ "aeiou" ],
+            "match_criteria" : "aeiou",
+            "prefixes" : [ "" ],
+            "ranges" : [ {
+              "end" : "",
+              "begin" : ""
+            } ],
+            "addrs" : [ "" ]
+          },
+          "hdrs" : [ {
+            "match_criteria" : "aeiou",
+            "hdr" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          } ],
+          "version" : {
+            "match_criteria" : "aeiou",
+            "versions" : [ "aeiou" ]
+          }
+        },
+        "name" : "aeiou",
+        "description" : "aeiou",
+        "index" : 123,
+        "actions" : [ "aeiou" ]
+      } ]
     },
     "allow_mode_delegation" : true,
     "created_by" : "aeiou",
@@ -307,6 +376,7 @@ font-style: italic;
       } ]
     } ],
     "waf_crs_ref" : "aeiou",
+    "enable_app_learning" : true,
     "failure_mode" : "aeiou",
     "paranoia_level" : "aeiou",
     "waf_profile_ref" : "aeiou"
@@ -364,6 +434,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
   "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
@@ -372,6 +445,72 @@ font-style: italic;
     "confidence" : 123,
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
+  },
+  "whitelist" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ "" ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ "" ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "actions" : [ "aeiou" ]
+    } ]
   },
   "allow_mode_delegation" : true,
   "created_by" : "aeiou",
@@ -416,6 +555,7 @@ font-style: italic;
     } ]
   } ],
   "waf_crs_ref" : "aeiou",
+  "enable_app_learning" : true,
   "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
@@ -544,6 +684,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
   "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
@@ -552,6 +695,72 @@ font-style: italic;
     "confidence" : 123,
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
+  },
+  "whitelist" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ "" ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ "" ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "actions" : [ "aeiou" ]
+    } ]
   },
   "allow_mode_delegation" : true,
   "created_by" : "aeiou",
@@ -596,6 +805,7 @@ font-style: italic;
     } ]
   } ],
   "waf_crs_ref" : "aeiou",
+  "enable_app_learning" : true,
   "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
@@ -664,6 +874,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
   "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
@@ -672,6 +885,72 @@ font-style: italic;
     "confidence" : 123,
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
+  },
+  "whitelist" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ "" ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ "" ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "actions" : [ "aeiou" ]
+    } ]
   },
   "allow_mode_delegation" : true,
   "created_by" : "aeiou",
@@ -716,6 +995,7 @@ font-style: italic;
     } ]
   } ],
   "waf_crs_ref" : "aeiou",
+  "enable_app_learning" : true,
   "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
@@ -784,6 +1064,9 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "positive_security_model" : {
+    "group_refs" : [ "aeiou" ]
+  },
   "pre_crs_groups" : [ "" ],
   "description" : "aeiou",
   "learning" : {
@@ -792,6 +1075,72 @@ font-style: italic;
     "confidence" : 123,
     "sampling_percent" : 123,
     "path_summarization_threshold" : 123
+  },
+  "whitelist" : {
+    "rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "protocol" : {
+          "match_criteria" : "aeiou",
+          "protocols" : "aeiou"
+        },
+        "cookie" : {
+          "match_criteria" : "aeiou",
+          "name" : "aeiou",
+          "value" : "aeiou",
+          "match_case" : "aeiou"
+        },
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "query" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "vs_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ "" ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ "" ]
+        },
+        "hdrs" : [ {
+          "match_criteria" : "aeiou",
+          "hdr" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        } ],
+        "version" : {
+          "match_criteria" : "aeiou",
+          "versions" : [ "aeiou" ]
+        }
+      },
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "actions" : [ "aeiou" ]
+    } ]
   },
   "allow_mode_delegation" : true,
   "created_by" : "aeiou",
@@ -836,6 +1185,7 @@ font-style: italic;
     } ]
   } ],
   "waf_crs_ref" : "aeiou",
+  "enable_app_learning" : true,
   "failure_mode" : "aeiou",
   "paranoia_level" : "aeiou",
   "waf_profile_ref" : "aeiou"
@@ -864,17 +1214,65 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#CookieMatch"><code>CookieMatch</code></a></li>
+    <li><a href="#HTTPVersionMatch"><code>HTTPVersionMatch</code></a></li>
+    <li><a href="#HdrMatch"><code>HdrMatch</code></a></li>
+    <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
+    <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#MatchTarget"><code>MatchTarget</code></a></li>
+    <li><a href="#MethodMatch"><code>MethodMatch</code></a></li>
+    <li><a href="#PathMatch"><code>PathMatch</code></a></li>
+    <li><a href="#PortMatch"><code>PortMatch</code></a></li>
+    <li><a href="#ProtocolMatch"><code>ProtocolMatch</code></a></li>
+    <li><a href="#QueryMatch"><code>QueryMatch</code></a></li>
     <li><a href="#WafExcludeListEntry"><code>WafExcludeListEntry</code></a></li>
     <li><a href="#WafExclusionType"><code>WafExclusionType</code></a></li>
     <li><a href="#WafLearning"><code>WafLearning</code></a></li>
     <li><a href="#WafPolicy"><code>WafPolicy</code></a></li>
     <li><a href="#WafPolicyApiResponse"><code>WafPolicyApiResponse</code></a></li>
+    <li><a href="#WafPolicyWhitelist"><code>WafPolicyWhitelist</code></a></li>
+    <li><a href="#WafPolicyWhitelistRule"><code>WafPolicyWhitelistRule</code></a></li>
+    <li><a href="#WafPositiveSecurityModel"><code>WafPositiveSecurityModel</code></a></li>
     <li><a href="#WafRule"><code>WafRule</code></a></li>
     <li><a href="#WafRuleGroup"><code>WafRuleGroup</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="CookieMatch">CookieMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the cookie in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the cookie. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> String value in the cookie. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HTTPVersionMatch">HTTPVersionMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP version matching the version used in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">versions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> HTTP protocol version. Enum options - ZERO_NINE, ONE_ZERO, ONE_ONE, TWO_ZERO. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HdrMatch">HdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">hdr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the HTTP header whose value is to be matched. </div>
+<div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching headers in the HTTP request. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values to match in the HTTP header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HostHdrMatch">HostHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the host header. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -883,10 +1281,81 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="IpAddrMatch">IpAddrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> IP address(es). </div>
+<div class="param">group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of IP address group(s). It is a reference to an object of type IpAddrGroup. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">prefixes (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> IP address prefix(es). </div>
+<div class="param">ranges (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrRange">array[IpAddrRange]</a></span> IP address range(s). </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="IpAddrPrefix">IpAddrPrefix</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip_addr </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object </div>
 <div class="param">mask </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of mask. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddrRange">IpAddrRange</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
+<div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MatchTarget">MatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. </div>
+<div class="param">cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#CookieMatch">CookieMatch</a></span> Configure HTTP cookie(s). </div>
+<div class="param">hdrs (optional)</div><div class="param-desc"><span class="param-type"><a href="#HdrMatch">array[HdrMatch]</a></span> Configure HTTP header(s). </div>
+<div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. </div>
+<div class="param">method (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> Configure HTTP methods. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Configure request paths. </div>
+<div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#ProtocolMatch">ProtocolMatch</a></span> Configure the type of HTTP protocol. </div>
+<div class="param">query (optional)</div><div class="param-desc"><span class="param-type"><a href="#QueryMatch">QueryMatch</a></span> Configure request query. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPVersionMatch">HTTPVersionMatch</a></span> Configure versions of the HTTP protocol. </div>
+<div class="param">vs_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Configure virtual service ports. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PortMatch">PortMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ProtocolMatch">ProtocolMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for protocol matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">protocols </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP or HTTPS protocol. Enum options - HTTP, HTTPS. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="QueryMatch">QueryMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the query in HTTP request URI. Enum options - QUERY_MATCH_CONTAINS. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s). </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -909,11 +1378,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="WafLearning">WafLearning</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">arg_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field introduced in 18.1.2. format: int32</div>
-<div class="param">confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field introduced in 18.1.2. format: int32</div>
-<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Learning for WAF policy. Field introduced in 18.1.2. </div>
-<div class="param">path_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field introduced in 18.1.2. format: int32</div>
-<div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field introduced in 18.1.2. format: int32</div>
+      <div class="param">arg_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2. format: int32</div>
+<div class="param">confidence (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2. format: int32</div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Learning for WAF policy. Field deprecated in 18.2.3. Field introduced in 18.1.2. </div>
+<div class="param">path_summarization_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2. format: int32</div>
+<div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -924,11 +1393,13 @@ font-style: italic;
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 17.2.4. </div>
 <div class="param">crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are system created with CRS groups. Field introduced in 17.2.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
+<div class="param">enable_app_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Application Learning for this WAF policy. Field introduced in 18.2.3. </div>
 <div class="param">failure_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy failure mode. This can be &#39;Open&#39; or &#39;Closed&#39;. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2. </div>
-<div class="param">learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafLearning">WafLearning</a></span> Configure parameters for WAF learning. Field introduced in 18.1.2. </div>
+<div class="param">learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafLearning">WafLearning</a></span> Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2. </div>
 <div class="param">mode </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">paranoia_level (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Ruleset paranoia  mode. This is used to select Rules based on the paranoia-level tag. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 17.2.1. </div>
+<div class="param">positive_security_model (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPositiveSecurityModel">WafPositiveSecurityModel</a></span> The Positive Security Model. This is used to describe how the request or parts of the request should look like. It is executed in the Request Body Phase of Avi WAF. Field introduced in 18.2.3. </div>
 <div class="param">post_crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be enforced after the CRS groups. Field introduced in 17.2.1. </div>
 <div class="param">pre_crs_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafRuleGroup">array[WafRuleGroup]</a></span> WAF Rules are categorized in to groups based on their characterization. These groups are created by the user and will be  enforced before the CRS groups. Field introduced in 17.2.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.2.1. </div>
@@ -936,6 +1407,7 @@ font-style: italic;
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Field introduced in 17.2.1. </div>
 <div class="param">waf_crs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF core ruleset used for the CRS part of this Policy. It is a reference to an object of type WafCRS. Field introduced in 18.1.1. </div>
 <div class="param">waf_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Profile for WAF policy. It is a reference to an object of type WafProfile. Field introduced in 17.2.1. </div>
+<div class="param">whitelist (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPolicyWhitelist">WafPolicyWhitelist</a></span> A set of rules which describe conditions under which the request will bypass the WAF. This will be executed in the request header phase before any other WAF related code. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -943,6 +1415,29 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafPolicy">array[WafPolicy]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicyWhitelist">WafPolicyWhitelist</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPolicyWhitelistRule">array[WafPolicyWhitelistRule]</a></span> Rules to bypass WAF. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicyWhitelistRule">WafPolicyWhitelistRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">actions (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Actions to be performed upon successful matching. Enum options - WAF_POLICY_WHITELIST_ACTION_ALLOW, WAF_POLICY_WHITELIST_ACTION_DETECTION_MODE, WAF_POLICY_WHITELIST_ACTION_CONTINUE. Field introduced in 18.2.3. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of this rule. Field introduced in 18.2.3. </div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. Field introduced in 18.2.3. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rules are executed in order of this index field. Field introduced in 18.2.3. format: int32</div>
+<div class="param">match </div><div class="param-desc"><span class="param-type"><a href="#MatchTarget">MatchTarget</a></span> Match criteria describing requests to which this rule should be applied. Field introduced in 18.2.3. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A name describing the rule in a short form. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPositiveSecurityModel">WafPositiveSecurityModel</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> These groups should be used to separate different levels of concern. The order of the groups matters, one group may mark parts of the request as valid, so that subsequent groups will not check these parts. It is a reference to an object of type WafPolicyPSMGroup. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

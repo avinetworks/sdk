@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -1315,8 +1315,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="ClientLogStreamingConfig">ClientLogStreamingConfig</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">external_server </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The destination server IP address or hostname. If a name is provided, this should be resolvable on Avi Service Engines. Field introduced in 17.1.1. </div>
-<div class="param">external_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The destination server&#39;s service port. Field introduced in 17.1.1. format: int32</div>
+      <div class="param">external_server </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address or hostnames (FQDNs) of destination servers. If an FQDN is provided, this should be resolvable on Avi Service Engines. Multiple servers are supported by furnishing a comma-separated list of IP addresses or host names, for example, 11.11.11.11,23.12.12.4. Optionally, a separate port can be specified for each external server in the list, for example, 11.11.11.11 234,12.12.12.12 343. Field introduced in 17.1.1. </div>
+<div class="param">external_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The service port to use for the external servers. If multiple external servers have been specified, the single port number specified here will apply to all those servers for which an explicit port number has not been specified in the external server list. Field introduced in 17.1.1. format: int32</div>
 <div class="param">log_types_to_send (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of logs to stream to the external server. Default is LOGS_ALL, i.e., send all logs. Enum options - LOGS_SIGNIFICANT_ONLY, LOGS_UDF_ONLY, LOGS_UDF_SIGNIFICANT, LOGS_ALL. Field introduced in 17.1.1. </div>
 <div class="param">max_logs_per_second (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1. format: int32</div>
 <div class="param">protocol (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol to use for streaming logs. Enum options - LOG_STREAMING_PROTOCOL_UDP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_UDP, LOG_STREAMING_PROTOCOL_TCP, LOG_STREAMING_PROTOCOL_SYSLOG_OVER_TCP, LOG_STREAMING_PROTOCOL_RAW_OVER_UDP. Field introduced in 18.1.1. </div>

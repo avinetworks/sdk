@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show backupconfiguration <key> - configure backupconfiguration <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -262,10 +262,14 @@ font-style: italic;
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
+    "aws_secret_access" : "aeiou",
     "backup_file_prefix" : "aeiou",
     "ssh_user_ref" : "aeiou",
+    "aws_access_key" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "aws_bucket_id" : "aeiou",
+    "upload_to_s3" : true,
     "upload_to_remote_host" : true,
     "maximum_backups_stored" : 123
   } ]
@@ -329,10 +333,14 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "aws_secret_access" : "aeiou",
   "backup_file_prefix" : "aeiou",
   "ssh_user_ref" : "aeiou",
+  "aws_access_key" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "aws_bucket_id" : "aeiou",
+  "upload_to_s3" : true,
   "upload_to_remote_host" : true,
   "maximum_backups_stored" : 123
 }</code></pre>
@@ -467,10 +475,14 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "aws_secret_access" : "aeiou",
   "backup_file_prefix" : "aeiou",
   "ssh_user_ref" : "aeiou",
+  "aws_access_key" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "aws_bucket_id" : "aeiou",
+  "upload_to_s3" : true,
   "upload_to_remote_host" : true,
   "maximum_backups_stored" : 123
 }</code></pre>
@@ -545,10 +557,14 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "aws_secret_access" : "aeiou",
   "backup_file_prefix" : "aeiou",
   "ssh_user_ref" : "aeiou",
+  "aws_access_key" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "aws_bucket_id" : "aeiou",
+  "upload_to_s3" : true,
   "upload_to_remote_host" : true,
   "maximum_backups_stored" : 123
 }</code></pre>
@@ -623,10 +639,14 @@ font-style: italic;
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
+  "aws_secret_access" : "aeiou",
   "backup_file_prefix" : "aeiou",
   "ssh_user_ref" : "aeiou",
+  "aws_access_key" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "aws_bucket_id" : "aeiou",
+  "upload_to_s3" : true,
   "upload_to_remote_host" : true,
   "maximum_backups_stored" : 123
 }</code></pre>
@@ -662,6 +682,9 @@ font-style: italic;
     <h3 class="field-label"><a name="BackupConfiguration">BackupConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">aws_access_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS Access Key ID. Field introduced in 18.2.3. </div>
+<div class="param">aws_bucket_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS bucket. Field introduced in 18.2.3. </div>
+<div class="param">aws_secret_access (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS Secret Access Key. Field introduced in 18.2.3. </div>
 <div class="param">backup_file_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix of the exported configuration file. Field introduced in 17.1.1. </div>
 <div class="param">backup_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Passphrase of backup configuration. </div>
 <div class="param">maximum_backups_stored (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rotate the backup files based on this count. Allowed values are 1-20. format: int32</div>
@@ -672,6 +695,7 @@ font-style: italic;
 <div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Access Credentials for remote destination. It is a reference to an object of type CloudConnectorUser. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">upload_to_remote_host (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Remote Backup. </div>
+<div class="param">upload_to_s3 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Cloud Backup. Field introduced in 18.2.3. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
     </div>  <!-- field-items -->
