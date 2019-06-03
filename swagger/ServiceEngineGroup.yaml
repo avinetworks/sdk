@@ -1063,12 +1063,8 @@ definitions:
             realtime_se_metrics:
                 description: "Enable or disable real time SE metrics."
                 $ref: '#/definitions/MetricsRealTimeUpdate'
-            reboot_on_panic:
-                description: "Reboot the VM or host on kernel panic. Field introduced in 18.2.4."
-                type: boolean
-                default: True
             reboot_on_stop:
-                description: "Reboot the system if the SE is stopped. Field deprecated in 18.2.4."
+                description: "Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3."
                 type: boolean
             se_bandwidth_type:
                 description: "Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5."
@@ -1090,14 +1086,10 @@ definitions:
                 type: integer
                 default: 2
                 format: int32
-            se_flow_probe_retry_timer:
-                description: "Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.4."
-                type: integer
-                default: 40
-                format: int32
             se_flow_probe_timer:
-                description: "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.4. Field introduced in 18.1.4, 18.2.1."
+                description: "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1."
                 type: integer
+                default: 100
                 format: int32
             se_ipc_udp_port:
                 description: "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2."
