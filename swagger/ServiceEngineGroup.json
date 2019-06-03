@@ -1175,8 +1175,9 @@
                     "description": "If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5."
                 }, 
                 "se_flow_probe_timer": {
+                    "default": 100, 
                     "type": "integer", 
-                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.4. Field introduced in 18.1.4, 18.2.1.", 
+                    "description": "Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.", 
                     "format": "int32"
                 }, 
                 "se_dos_profile": {
@@ -1259,11 +1260,6 @@
                     "description": "Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
-                "reboot_on_panic": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Reboot the VM or host on kernel panic. Field introduced in 18.2.4."
-                }, 
                 "vcenter_datastores": {
                     "items": {
                         "$ref": "#/definitions/VcenterDatastore"
@@ -1304,7 +1300,7 @@
                 }, 
                 "reboot_on_stop": {
                     "type": "boolean", 
-                    "description": "Reboot the system if the SE is stopped. Field deprecated in 18.2.4."
+                    "description": "Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3."
                 }, 
                 "se_probe_port": {
                     "default": 7, 
@@ -1665,12 +1661,6 @@
                     "default": 10000, 
                     "type": "integer", 
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
-                    "format": "int32"
-                }, 
-                "se_flow_probe_retry_timer": {
-                    "default": 40, 
-                    "type": "integer", 
-                    "description": "Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.4.", 
                     "format": "int32"
                 }, 
                 "se_use_dpdk": {

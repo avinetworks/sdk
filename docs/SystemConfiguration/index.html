@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure systemconfiguration - show systemconfiguration - test systememail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -351,18 +351,20 @@ font-style: italic;
   },
   "ssh_ciphers" : [ "aeiou" ],
   "portal_configuration" : {
-    "use_uuid_from_input" : true,
     "disable_remote_cli_shell" : true,
+    "disable_swagger" : true,
+    "sslkeyandcertificate_refs" : [ "aeiou" ],
+    "password_strength_check" : true,
+    "enable_https" : true,
+    "http_port" : 123,
+    "use_uuid_from_input" : true,
     "https_port" : 123,
     "enable_http" : true,
     "enable_clickjacking_protection" : true,
-    "sslkeyandcertificate_refs" : [ "aeiou" ],
-    "password_strength_check" : true,
     "redirect_to_https" : true,
+    "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true,
-    "enable_https" : true,
-    "http_port" : 123
+    "allow_basic_authentication" : true
   },
   "dns_configuration" : {
     "search_domain" : "aeiou",
@@ -378,6 +380,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "default_license_tier" : "aeiou",
+  "welcome_workflow_complete" : true,
   "dns_virtualservice_refs" : [ "aeiou" ]
 }</code></pre>
 
@@ -538,18 +541,20 @@ font-style: italic;
   },
   "ssh_ciphers" : [ "aeiou" ],
   "portal_configuration" : {
-    "use_uuid_from_input" : true,
     "disable_remote_cli_shell" : true,
+    "disable_swagger" : true,
+    "sslkeyandcertificate_refs" : [ "aeiou" ],
+    "password_strength_check" : true,
+    "enable_https" : true,
+    "http_port" : 123,
+    "use_uuid_from_input" : true,
     "https_port" : 123,
     "enable_http" : true,
     "enable_clickjacking_protection" : true,
-    "sslkeyandcertificate_refs" : [ "aeiou" ],
-    "password_strength_check" : true,
     "redirect_to_https" : true,
+    "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true,
-    "enable_https" : true,
-    "http_port" : 123
+    "allow_basic_authentication" : true
   },
   "dns_configuration" : {
     "search_domain" : "aeiou",
@@ -565,6 +570,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "default_license_tier" : "aeiou",
+  "welcome_workflow_complete" : true,
   "dns_virtualservice_refs" : [ "aeiou" ]
 }</code></pre>
 
@@ -725,18 +731,20 @@ font-style: italic;
   },
   "ssh_ciphers" : [ "aeiou" ],
   "portal_configuration" : {
-    "use_uuid_from_input" : true,
     "disable_remote_cli_shell" : true,
+    "disable_swagger" : true,
+    "sslkeyandcertificate_refs" : [ "aeiou" ],
+    "password_strength_check" : true,
+    "enable_https" : true,
+    "http_port" : 123,
+    "use_uuid_from_input" : true,
     "https_port" : 123,
     "enable_http" : true,
     "enable_clickjacking_protection" : true,
-    "sslkeyandcertificate_refs" : [ "aeiou" ],
-    "password_strength_check" : true,
     "redirect_to_https" : true,
+    "api_force_timeout" : 123,
     "sslprofile_ref" : "aeiou",
-    "allow_basic_authentication" : true,
-    "enable_https" : true,
-    "http_port" : 123
+    "allow_basic_authentication" : true
   },
   "dns_configuration" : {
     "search_domain" : "aeiou",
@@ -752,6 +760,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "default_license_tier" : "aeiou",
+  "welcome_workflow_complete" : true,
   "dns_virtualservice_refs" : [ "aeiou" ]
 }</code></pre>
 
@@ -990,7 +999,9 @@ font-style: italic;
     <h3 class="field-label"><a name="PortalConfiguration">PortalConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allow_basic_authentication (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable HTTP basic authentication. </div>
+<div class="param">api_force_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Force API session timeout after the specified time (in hours). Allowed values are 1-24. Field introduced in 18.2.3. format: int32</div>
 <div class="param">disable_remote_cli_shell (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Remote CLI Shell Client access. </div>
+<div class="param">disable_swagger (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Swagger access. Field introduced in 18.2.3. </div>
 <div class="param">enable_clickjacking_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable Clickjacking protection. </div>
 <div class="param">enable_http (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enable_http of obj type PortalConfiguration field type str  type boolean </div>
 <div class="param">enable_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enable_https of obj type PortalConfiguration field type str  type boolean </div>
@@ -1077,6 +1088,7 @@ font-style: italic;
 <div class="param">ssh_hmacs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Allowed HMAC list for SSH to the management interface on the Controller and Service Engines. If this is not specified, all the default HMACs are allowed. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+<div class="param">welcome_workflow_complete (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This flag is set once the Initial Controller Setup workflow is complete. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

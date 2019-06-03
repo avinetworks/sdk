@@ -550,7 +550,7 @@
                 "format": {
                     "default": "SSL_PEM", 
                     "type": "string", 
-                    "description": "Format of the Key/Certificate file. Enum options - SSL_PEM, SSL_PKCS12. Field introduced in 18.1.2, 18.2.1."
+                    "description": "Format of the Key/Certificate file. Enum options - SSL_PEM, SSL_PKCS12."
                 }, 
                 "hardwaresecuritymodulegroup_ref": {
                     "type": "string", 
@@ -562,7 +562,7 @@
                 }, 
                 "certificate_base64": {
                     "type": "boolean", 
-                    "description": "States if the certificate is base64 encoded. Field introduced in 18.1.2, 18.2.1."
+                    "description": "States if the certificate is base64 encoded."
                 }, 
                 "key_params": {
                     "description": "Placeholder for description of property key_params of obj type SSLKeyAndCertificate field type str  type object", 
@@ -599,7 +599,7 @@
                 }, 
                 "key_base64": {
                     "type": "boolean", 
-                    "description": "States if the private key is base64 encoded. Field introduced in 18.1.2, 18.2.1."
+                    "description": "States if the private key is base64 encoded."
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -615,7 +615,7 @@
                 }, 
                 "key_passphrase": {
                     "type": "string", 
-                    "description": "Passphrase used to encrypt the private key. Field introduced in 18.1.2, 18.2.1."
+                    "description": "Passphrase used to encrypt the private key."
                 }, 
                 "certificate": {
                     "description": "Placeholder for description of property certificate of obj type SSLKeyAndCertificate field type str  type object", 

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug virtualservice <key> - show debug virtualservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -261,6 +261,7 @@ font-style: italic;
   "results" : [ {
     "capture_params" : {
       "duration" : 123,
+      "enable_ssl_session_key_capture" : true,
       "pkt_size" : 123,
       "num_pkts" : 123
     },
@@ -353,6 +354,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
   },
@@ -516,6 +518,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
   },
@@ -619,6 +622,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
   },
@@ -722,6 +726,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
   },
@@ -840,6 +845,7 @@ font-style: italic;
     <h3 class="field-label"><a name="DebugVirtualServiceCapture">DebugVirtualServiceCapture</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+<div class="param">enable_ssl_session_key_capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session key capture. Field introduced in 18.2.3. </div>
 <div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
 <div class="param">pkt_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - &#39;full capture&#39;. format: int32</div>
     </div>  <!-- field-items -->
@@ -853,7 +859,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugVsDataplane">DebugVsDataplane</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_DNS, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_VS_TCP_CONNECTION, DEBUG_VS_TCP_PKT, DEBUG_VS_TCP_APP, DEBUG_VS_TCP_APP_PKT, DEBUG_VS_TCP_RETRANSMIT, DEBUG_VS_TCP_TIMER, DEBUG_VS_TCP_CONN_ERROR, DEBUG_VS_TCP_PKT_ERROR, DEBUG_VS_TCP_REXMT, DEBUG_VS_TCP_ALL, DEBUG_VS_CREDIT, DEBUG_VS_PROXY_CONNECTION, DEBUG_VS_PROXY_PKT, DEBUG_VS_PROXY_ERR, DEBUG_VS_UDP, DEBUG_VS_UDP_PKT, DEBUG_VS_HM, DEBUG_VS_HM_ERR, DEBUG_VS_HM_PKT, DEBUG_VS_HTTP_CORE, DEBUG_VS_HTTP_ALL, DEBUG_VS_CONFIG, DEBUG_VS_EVENTS, DEBUG_VS_HTTP_RULES, DEBUG_VS_HM_EXT, DEBUG_VS_SSL, DEBUG_VS_WAF, DEBUG_VS_DNS, DEBUG_VS_PAA, DEBUG_VS_ALL, DEBUG_VS_ERROR, DEBUG_VS_NONE. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

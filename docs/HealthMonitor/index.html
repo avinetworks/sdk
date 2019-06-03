@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure healthmonitor <key> - show healthmonitor <key> ```  Examples - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -273,6 +273,7 @@ font-style: italic;
     "http_monitor" : {
       "http_response" : "aeiou",
       "ssl_attributes" : {
+        "server_name" : "aeiou",
         "pki_profile_ref" : "aeiou",
         "ssl_key_and_certificate_ref" : "aeiou",
         "ssl_profile_ref" : "aeiou"
@@ -282,6 +283,11 @@ font-style: italic;
       "http_response_code" : [ "aeiou" ],
       "maintenance_code" : [ "" ],
       "maintenance_response" : "aeiou"
+    },
+    "radius_monitor" : {
+      "password" : "aeiou",
+      "shared_secret" : "aeiou",
+      "username" : "aeiou"
     },
     "description" : "aeiou",
     "external_monitor" : {
@@ -382,6 +388,7 @@ font-style: italic;
   "http_monitor" : {
     "http_response" : "aeiou",
     "ssl_attributes" : {
+      "server_name" : "aeiou",
       "pki_profile_ref" : "aeiou",
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
@@ -391,6 +398,11 @@ font-style: italic;
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
+  },
+  "radius_monitor" : {
+    "password" : "aeiou",
+    "shared_secret" : "aeiou",
+    "username" : "aeiou"
   },
   "description" : "aeiou",
   "external_monitor" : {
@@ -614,6 +626,7 @@ font-style: italic;
   "http_monitor" : {
     "http_response" : "aeiou",
     "ssl_attributes" : {
+      "server_name" : "aeiou",
       "pki_profile_ref" : "aeiou",
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
@@ -623,6 +636,11 @@ font-style: italic;
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
+  },
+  "radius_monitor" : {
+    "password" : "aeiou",
+    "shared_secret" : "aeiou",
+    "username" : "aeiou"
   },
   "description" : "aeiou",
   "external_monitor" : {
@@ -734,6 +752,7 @@ font-style: italic;
   "http_monitor" : {
     "http_response" : "aeiou",
     "ssl_attributes" : {
+      "server_name" : "aeiou",
       "pki_profile_ref" : "aeiou",
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
@@ -743,6 +762,11 @@ font-style: italic;
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
+  },
+  "radius_monitor" : {
+    "password" : "aeiou",
+    "shared_secret" : "aeiou",
+    "username" : "aeiou"
   },
   "description" : "aeiou",
   "external_monitor" : {
@@ -854,6 +878,7 @@ font-style: italic;
   "http_monitor" : {
     "http_response" : "aeiou",
     "ssl_attributes" : {
+      "server_name" : "aeiou",
       "pki_profile_ref" : "aeiou",
       "ssl_key_and_certificate_ref" : "aeiou",
       "ssl_profile_ref" : "aeiou"
@@ -863,6 +888,11 @@ font-style: italic;
     "http_response_code" : [ "aeiou" ],
     "maintenance_code" : [ "" ],
     "maintenance_response" : "aeiou"
+  },
+  "radius_monitor" : {
+    "password" : "aeiou",
+    "shared_secret" : "aeiou",
+    "username" : "aeiou"
   },
   "description" : "aeiou",
   "external_monitor" : {
@@ -922,6 +952,7 @@ font-style: italic;
     <li><a href="#HealthMonitorDNS"><code>HealthMonitorDNS</code></a></li>
     <li><a href="#HealthMonitorExternal"><code>HealthMonitorExternal</code></a></li>
     <li><a href="#HealthMonitorHttp"><code>HealthMonitorHttp</code></a></li>
+    <li><a href="#HealthMonitorRadius"><code>HealthMonitorRadius</code></a></li>
     <li><a href="#HealthMonitorSIP"><code>HealthMonitorSIP</code></a></li>
     <li><a href="#HealthMonitorSSLAttributes"><code>HealthMonitorSSLAttributes</code></a></li>
     <li><a href="#HealthMonitorTcp"><code>HealthMonitorTcp</code></a></li>
@@ -941,13 +972,14 @@ font-style: italic;
 <div class="param">is_federated (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field describes the object&#39;s replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3. </div>
 <div class="param">monitor_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - &#39;Use server port&#39;. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A user friendly name for this health monitor. </div>
+<div class="param">radius_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorRadius">HealthMonitorRadius</a></span> Health monitor for Radius. Field introduced in 18.2.3. </div>
 <div class="param">receive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400. format: int32</div>
 <div class="param">send_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600. format: int32</div>
 <div class="param">sip_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorSIP">HealthMonitorSIP</a></span> Health monitor for SIP. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
 <div class="param">successful_checks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of continuous successful health checks before server is marked up. Allowed values are 1-50. format: int32</div>
 <div class="param">tcp_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorTcp">HealthMonitorTcp</a></span> Placeholder for description of property tcp_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS. </div>
 <div class="param">udp_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorUdp">HealthMonitorUdp</a></span> Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the health monitor. </div>
@@ -991,6 +1023,14 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="HealthMonitorRadius">HealthMonitorRadius</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Radius monitor will query Radius server with this password. Field introduced in 18.2.3. </div>
+<div class="param">shared_secret </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Radius monitor will query Radius server with this shared secret. Field introduced in 18.2.3. </div>
+<div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Radius monitor will query Radius server with this username. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="HealthMonitorSIP">HealthMonitorSIP</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">sip_monitor_transport (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
@@ -1002,6 +1042,7 @@ font-style: italic;
     <h3 class="field-label"><a name="HealthMonitorSSLAttributes">HealthMonitorSSLAttributes</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> PKI profile used to validate the SSL certificate presented by a server. It is a reference to an object of type PKIProfile. Field introduced in 17.1.1. </div>
+<div class="param">server_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections indicating SNI is enabled. Field introduced in 18.2.3. </div>
 <div class="param">ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service engines will present this SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 17.1.1. </div>
 <div class="param">ssl_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSL profile defines ciphers and SSL versions to be used for healthmonitor traffic to the back-end servers. It is a reference to an object of type SSLProfile. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->

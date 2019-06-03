@@ -118,7 +118,7 @@ type OpenStackConfiguration struct {
 	// Defines the mapping from OpenStack role names to avi local role names. For an OpenStack role, this mapping is consulted only if there is no local Avi role with the same name as the OpenStack role. This is an ordered list and only the first matching entry is used. You can use '*' to match all OpenStack role names.
 	RoleMapping []*OpenStackRoleMapping `json:"role_mapping,omitempty"`
 
-	// This field has been generalized for all clouds and has been renamed to se_group_template_uuid. It is a reference to an object of type ServiceEngineGroup. Field deprecated in 18.2.4.
+	// The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup.
 	SeGroupRef *string `json:"se_group_ref,omitempty"`
 
 	// If false, security-groups extension will not be used. .

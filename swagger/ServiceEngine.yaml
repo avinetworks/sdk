@@ -3367,10 +3367,6 @@ definitions:
                 description: "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
                 type: boolean
                 default: True
-            enabled:
-                description: "Enable the interface. Field introduced in 18.2.4."
-                type: boolean
-                default: True
             if_name:
                 description: "if_name of VlanInterface."
                 type: string

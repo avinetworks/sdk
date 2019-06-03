@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure authprofile <key> - show authprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -315,6 +315,7 @@ font-style: italic;
       "request_header" : "aeiou",
       "require_user_groups" : [ "aeiou" ]
     },
+    "pa_agent_ref" : "aeiou",
     "type" : "aeiou",
     "tacacs_plus" : {
       "authorization_attrs" : [ {
@@ -444,6 +445,7 @@ font-style: italic;
     "request_header" : "aeiou",
     "require_user_groups" : [ "aeiou" ]
   },
+  "pa_agent_ref" : "aeiou",
   "type" : "aeiou",
   "tacacs_plus" : {
     "authorization_attrs" : [ {
@@ -644,6 +646,7 @@ font-style: italic;
     "request_header" : "aeiou",
     "require_user_groups" : [ "aeiou" ]
   },
+  "pa_agent_ref" : "aeiou",
   "type" : "aeiou",
   "tacacs_plus" : {
     "authorization_attrs" : [ {
@@ -784,6 +787,7 @@ font-style: italic;
     "request_header" : "aeiou",
     "require_user_groups" : [ "aeiou" ]
   },
+  "pa_agent_ref" : "aeiou",
   "type" : "aeiou",
   "tacacs_plus" : {
     "authorization_attrs" : [ {
@@ -924,6 +928,7 @@ font-style: italic;
     "request_header" : "aeiou",
     "require_user_groups" : [ "aeiou" ]
   },
+  "pa_agent_ref" : "aeiou",
   "type" : "aeiou",
   "tacacs_plus" : {
     "authorization_attrs" : [ {
@@ -986,10 +991,11 @@ font-style: italic;
 <div class="param">http (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a></span> HTTP user authentication params. </div>
 <div class="param">ldap (optional)</div><div class="param-desc"><span class="param-type"><a href="#LdapAuthSettings">LdapAuthSettings</a></span> LDAP server and directory settings. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Auth Profile. </div>
+<div class="param">pa_agent_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> PingAccessAgent uuid. It is a reference to an object of type PingAccessAgent. Field introduced in 18.2.3. </div>
 <div class="param">saml (optional)</div><div class="param-desc"><span class="param-type"><a href="#SamlSettings">SamlSettings</a></span> SAML settings. Field introduced in 17.2.3. </div>
 <div class="param">tacacs_plus (optional)</div><div class="param-desc"><span class="param-type"><a href="#TacacsPlusAuthSettings">TacacsPlusAuthSettings</a></span> TACACS+ settings. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the Auth Profile. The type cannot be changed, after an auth profile has been saved. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the Auth Profile. Enum options - AUTH_PROFILE_LDAP, AUTH_PROFILE_TACACS_PLUS, AUTH_PROFILE_SAML, AUTH_PROFILE_PINGACCESS. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Auth Profile. </div>
     </div>  <!-- field-items -->
@@ -1005,7 +1011,7 @@ font-style: italic;
     <h3 class="field-label"><a name="AuthProfileHTTPClientParams">AuthProfileHTTPClientParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cache_expiration_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time a clients authentication is cached. Allowed values are 1-30. format: int32</div>
-<div class="param">group_member_is_full_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Group member entries contain full DNs instead of just user id attribute values. Field deprecated in 18.2.1. </div>
+<div class="param">group_member_is_full_dn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Group member entries contain full DNs instead of just user id attribute values. This should now be configured using the LdapDirectorySettings field instead. Field deprecated in 18.2.1. </div>
 <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Insert an HTTP header.  This field is used to define the header name.  The value of the header is set to the client&#39;s HTTP Auth user ID. </div>
 <div class="param">require_user_groups (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> A user should be a member of these groups.  Each group is defined by the DN.  For example, CN&#x3D;testgroup,OU&#x3D;groups,dc&#x3D;example,dc&#x3D;avinetworks,DC&#x3D;com. </div>
     </div>  <!-- field-items -->
@@ -1027,7 +1033,7 @@ font-style: italic;
 <div class="param">full_name_attribute (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> LDAP attribute that refers to user&#39;s full name. </div>
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Query the LDAP servers on this port. format: int32</div>
 <div class="param">security_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> LDAP connection security mode. Enum options - AUTH_LDAP_SECURE_NONE, AUTH_LDAP_SECURE_USE_LDAPS. </div>
-<div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> LDAP server IP address. </div>
+<div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> LDAP server IP address or Hostname. Use IP address if an auth profile is used to configure Virtual Service. </div>
 <div class="param">settings (optional)</div><div class="param-desc"><span class="param-type"><a href="#LdapDirectorySettings">LdapDirectorySettings</a></span> LDAP full directory configuration with administrator credentials. </div>
 <div class="param">user_bind (optional)</div><div class="param-desc"><span class="param-type"><a href="#LdapUserBindSettings">LdapUserBindSettings</a></span> LDAP anonymous bind configuration. </div>
     </div>  <!-- field-items -->
@@ -1082,7 +1088,7 @@ font-style: italic;
 <div class="param">org_display_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Display Name. Field introduced in 17.2.3. </div>
 <div class="param">org_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization Name. Field introduced in 17.2.3. </div>
 <div class="param">org_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider Organization URL. Field introduced in 17.2.3. </div>
-<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Defines the entity ID type. It cannot be changed after an auth profile has been saved. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3. </div>
+<div class="param">saml_entity_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of SAML endpoint. Enum options - AUTH_SAML_CLUSTER_VIP, AUTH_SAML_DNS_FQDN, AUTH_SAML_APP_VS. Field introduced in 17.2.3. </div>
 <div class="param">sp_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#SamlServiceProviderNode">array[SamlServiceProviderNode]</a></span> Service Provider node information. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact email. Field introduced in 17.2.3. </div>
 <div class="param">tech_contact_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Provider technical contact name. Field introduced in 17.2.3. </div>
