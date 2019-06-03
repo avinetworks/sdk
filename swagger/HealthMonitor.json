@@ -622,6 +622,28 @@
                 }
             }
         }, 
+        "HealthMonitorRadius": {
+            "required": [
+                "password", 
+                "shared_secret", 
+                "username"
+            ], 
+            "type": "object", 
+            "properties": {
+                "username": {
+                    "type": "string", 
+                    "description": "Radius monitor will query Radius server with this username. Field introduced in 18.2.3."
+                }, 
+                "password": {
+                    "type": "string", 
+                    "description": "Radius monitor will query Radius server with this password. Field introduced in 18.2.3."
+                }, 
+                "shared_secret": {
+                    "type": "string", 
+                    "description": "Radius monitor will query Radius server with this shared secret. Field introduced in 18.2.3."
+                }
+            }
+        }, 
         "HealthMonitorExternal": {
             "required": [
                 "command_code"
@@ -667,6 +689,10 @@
                     "type": "string", 
                     "description": "User defined description for the object."
                 }, 
+                "radius_monitor": {
+                    "description": "Health monitor for Radius. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/HealthMonitorRadius"
+                }, 
                 "udp_monitor": {
                     "description": "Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object", 
                     "$ref": "#/definitions/HealthMonitorUdp"
@@ -675,10 +701,9 @@
                     "description": "Placeholder for description of property http_monitor of obj type HealthMonitor field type str  type object", 
                     "$ref": "#/definitions/HealthMonitorHttp"
                 }, 
-                "_last_modified": {
-                    "readOnly": true, 
+                "name": {
                     "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                    "description": "A user friendly name for this health monitor."
                 }, 
                 "monitor_port": {
                     "type": "integer", 
@@ -692,6 +717,11 @@
                 "uuid": {
                     "type": "string", 
                     "description": "UUID of the health monitor."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -709,10 +739,6 @@
                 "is_federated": {
                     "type": "boolean", 
                     "description": "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "A user friendly name for this health monitor."
                 }, 
                 "failed_checks": {
                     "default": 2, 
@@ -742,7 +768,7 @@
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP."
+                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS."
                 }
             }
         }, 
@@ -827,11 +853,6 @@
                     "default": "DNS_QUERY_TYPE", 
                     "type": "string", 
                     "description": "  Query_Type  Response has atleast one answer of which      the resource record type matches the query type   Any_Type  Response should contain atleast one answer  AnyThing  An empty answer is enough. Enum options - DNS_QUERY_TYPE, DNS_ANY_TYPE, DNS_ANY_THING."
-                }, 
-                "record_type": {
-                    "default": "DNS_RECORD_A", 
-                    "type": "string", 
-                    "description": "Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.4."
                 }
             }
         }, 
