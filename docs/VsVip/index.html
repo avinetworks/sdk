@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vsvip <key> - show vsvip <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -259,6 +259,7 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "use_standard_alb" : true,
     "vrf_context_ref" : "aeiou",
     "cloud_ref" : "aeiou",
     "tenant_ref" : "aeiou",
@@ -373,6 +374,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "use_standard_alb" : true,
   "vrf_context_ref" : "aeiou",
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -558,6 +560,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "use_standard_alb" : true,
   "vrf_context_ref" : "aeiou",
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -683,6 +686,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "use_standard_alb" : true,
   "vrf_context_ref" : "aeiou",
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -808,6 +812,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "use_standard_alb" : true,
   "vrf_context_ref" : "aeiou",
   "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
@@ -991,6 +996,7 @@ font-style: italic;
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the VsVip object. Field introduced in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 17.1.1. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">use_standard_alb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This overrides the cloud level default and needs to match the SE Group value in which it will be used if the SE Group use_standard_alb value is set. This is only used when FIP is used for VS on Azure Cloud. Field introduced in 18.2.3. </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the VsVip object. Field introduced in 17.1.1. </div>
 <div class="param">vip (optional)</div><div class="param-desc"><span class="param-type"><a href="#Vip">array[Vip]</a></span> List of Virtual Service IPs and other shareable entities. Field introduced in 17.1.1. </div>
 <div class="param">vrf_context_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Virtual Routing Context that the Virtual Service is bound to. This is used to provide the isolation of the set of networks the application is attached to. It is a reference to an object of type VrfContext. Field introduced in 17.1.1. </div>

@@ -224,7 +224,7 @@ class F5Converter(AviConverter):
             avi_traffic = AviAnsibleConverter(
                 avi_config, output_dir, self.prefix, self.not_in_use,
                 test_vip=self.test_vip, skip_types=self.ansible_skip_types,
-                partitions=part_mapping)
+                partitions=part_mapping, controller_version=self.controller_version)
             avi_traffic.write_ansible_playbook(
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
@@ -423,7 +423,7 @@ if __name__ == "__main__":
     Example to use vs level status option:
         f5_converter.py -f bigip.conf --vs_level_status
     Usecase: To get the vs level status for the avi objects in excel sheet
-    
+
     Example to use segroup flag
         f5_converter.py -f ns.conf --segroup segroup_name
     UseCase: To add / Change segroup reference of vs
@@ -544,13 +544,16 @@ if __name__ == "__main__":
                         help='Update the available vrf ref with the custom vrf'
                              'reference')
     # Added command line args to execute vs_filter.py with vs_name.
-    parser.add_argument('--vs_filter', help='comma seperated names of '
-                                            'virtualservices')
+    parser.add_argument('--vs_filter',
+                        help='comma seperated names of virtualservices.\n'
+                        'Note: If patch data is supplied, vs_name should match '
+                        'the new name given in it'
+                        )
     parser.add_argument('--vs_level_status', action='store_true',
                         help='Add columns of vs reference and overall skipped '
                              'settings in status excel sheet')
 
-    
+
 
     args = parser.parse_args()
     # print avi f5 converter version

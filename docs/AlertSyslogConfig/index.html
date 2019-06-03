@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure alertsyslogconfig <key> - show alertsyslogconfig <key> - test alerttestsyslog <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -258,6 +258,7 @@ font-style: italic;
   "results" : [ {
     "syslog_servers" : [ {
       "udp" : true,
+      "tls_enable" : true,
       "format" : "aeiou",
       "syslog_server" : "aeiou",
       "syslog_server_port" : 123
@@ -324,6 +325,7 @@ font-style: italic;
     <pre class="example"><code>{
   "syslog_servers" : [ {
     "udp" : true,
+    "tls_enable" : true,
     "format" : "aeiou",
     "syslog_server" : "aeiou",
     "syslog_server_port" : 123
@@ -519,6 +521,7 @@ font-style: italic;
     <pre class="example"><code>{
   "syslog_servers" : [ {
     "udp" : true,
+    "tls_enable" : true,
     "format" : "aeiou",
     "syslog_server" : "aeiou",
     "syslog_server_port" : 123
@@ -596,6 +599,7 @@ font-style: italic;
     <pre class="example"><code>{
   "syslog_servers" : [ {
     "udp" : true,
+    "tls_enable" : true,
     "format" : "aeiou",
     "syslog_server" : "aeiou",
     "syslog_server_port" : 123
@@ -673,6 +677,7 @@ font-style: italic;
     <pre class="example"><code>{
   "syslog_servers" : [ {
     "udp" : true,
+    "tls_enable" : true,
     "format" : "aeiou",
     "syslog_server" : "aeiou",
     "syslog_server_port" : 123
@@ -739,6 +744,7 @@ font-style: italic;
       <div class="param">format (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8. </div>
 <div class="param">syslog_server </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The destination Syslog server IP address or hostname. </div>
 <div class="param">syslog_server_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The destination Syslog server&#39;s service port. format: int32</div>
+<div class="param">tls_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TLS to the syslog server. Field introduced in 17.2.16, 18.2.3. </div>
 <div class="param">udp </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network protocol to establish syslog session. </div>
     </div>  <!-- field-items -->
   </div>

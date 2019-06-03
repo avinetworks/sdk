@@ -5608,6 +5608,13 @@ User defined custom metrics using data-script
 <td> True </td>
 </tr>
 <tr>
+<td> user_metrics.avg_gauge </td>
+<td> Average of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_gauge&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> user_metrics.max_counter </td>
 <td> Maximum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
@@ -5615,9 +5622,23 @@ User defined custom metrics using data-script
 <td> True </td>
 </tr>
 <tr>
+<td> user_metrics.max_gauge </td>
+<td> Maximum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_gauge&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
 <td> user_metrics.min_counter </td>
 <td> Minimum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
+<td> Y </td>
+<td> True </td>
+</tr>
+<tr>
+<td> user_metrics.min_gauge </td>
+<td> Minimum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_gauge&limit=1&step=300&obj_id=foo. </td>
+<td> METRIC_COUNT </td>
 <td> Y </td>
 <td> True </td>
 </tr>
@@ -5630,7 +5651,7 @@ User defined custom metrics using data-script
 </tr>
 <tr>
 <td> user_metrics.sum_gauge </td>
-<td> Sum of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_gauge&limit=1&step=300&obj_id=foo. </td>
+<td> (Deprecated) Sum of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> Y </td>
 <td> True </td>

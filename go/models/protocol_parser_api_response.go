@@ -3,9 +3,9 @@ package models
 // This file is auto-generated.
 // Please contact avi-sdk@avinetworks.com for any change requests.
 
-// ControllerSiteAPIResponse controller site Api response
-// swagger:model ControllerSiteApiResponse
-type ControllerSiteAPIResponse struct {
+// ProtocolParserAPIResponse protocol parser Api response
+// swagger:model ProtocolParserApiResponse
+type ProtocolParserAPIResponse struct {
 
 	// count
 	// Required: true
@@ -13,5 +13,5 @@ type ControllerSiteAPIResponse struct {
 
 	// results
 	// Required: true
-	Results []*ControllerSite `json:"results,omitempty"`
+	Results []*ProtocolParser `json:"results,omitempty"`
 }

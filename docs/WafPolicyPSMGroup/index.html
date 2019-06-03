@@ -1,0 +1,944 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi WafPolicyPSMGroup Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi WafPolicyPSMGroup Object API</h1>
+    <div class="app-desc">CLI ``` - configure wafpolicypsmgroup <key> - show wafpolicypsmgroup <key> ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#wafpolicypsmgroupGet"><code><span class="http-method">get</span> /wafpolicypsmgroup</code></a></li>
+  <li><a href="#wafpolicypsmgroupPost"><code><span class="http-method">post</span> /wafpolicypsmgroup</code></a></li>
+  <li><a href="#wafpolicypsmgroupUuidDelete"><code><span class="http-method">delete</span> /wafpolicypsmgroup/{uuid}</code></a></li>
+  <li><a href="#wafpolicypsmgroupUuidGet"><code><span class="http-method">get</span> /wafpolicypsmgroup/{uuid}</code></a></li>
+  <li><a href="#wafpolicypsmgroupUuidPatch"><code><span class="http-method">patch</span> /wafpolicypsmgroup/{uuid}</code></a></li>
+  <li><a href="#wafpolicypsmgroupUuidPut"><code><span class="http-method">put</span> /wafpolicypsmgroup/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="wafpolicypsmgroupGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafpolicypsmgroup</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#WafPolicyPSMGroupApiResponse">WafPolicyPSMGroupApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "enable" : true,
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "is_learning_group" : true,
+    "locations" : [ {
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "methods" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        }
+      },
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "rules" : [ {
+        "mode" : "aeiou",
+        "rule_id" : "aeiou",
+        "match_elements" : [ {
+          "excluded" : true,
+          "name" : "aeiou",
+          "index" : 123,
+          "sub_element" : "aeiou"
+        } ],
+        "match_value_pattern" : "aeiou",
+        "enable" : true,
+        "match_value_max_length" : 123,
+        "name" : "aeiou",
+        "description" : "aeiou",
+        "index" : 123,
+        "match_case" : "aeiou",
+        "paranoia_level" : "aeiou"
+      } ]
+    } ],
+    "hit_action" : "aeiou",
+    "miss_action" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#WafPolicyPSMGroupApiResponse">WafPolicyPSMGroupApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="wafpolicypsmgroupPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /wafpolicypsmgroup</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicyPSMGroup object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "enable" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "is_learning_group" : true,
+  "locations" : [ {
+    "match" : {
+      "path" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
+      "methods" : {
+        "match_criteria" : "aeiou",
+        "methods" : [ "aeiou" ]
+      },
+      "host" : {
+        "match_criteria" : "aeiou",
+        "value" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      }
+    },
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "mode" : "aeiou",
+      "rule_id" : "aeiou",
+      "match_elements" : [ {
+        "excluded" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "sub_element" : "aeiou"
+      } ],
+      "match_value_pattern" : "aeiou",
+      "enable" : true,
+      "match_value_max_length" : 123,
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "match_case" : "aeiou",
+      "paranoia_level" : "aeiou"
+    } ]
+  } ],
+  "hit_action" : "aeiou",
+  "miss_action" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="wafpolicypsmgroupUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /wafpolicypsmgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="wafpolicypsmgroupUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /wafpolicypsmgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "enable" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "is_learning_group" : true,
+  "locations" : [ {
+    "match" : {
+      "path" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
+      "methods" : {
+        "match_criteria" : "aeiou",
+        "methods" : [ "aeiou" ]
+      },
+      "host" : {
+        "match_criteria" : "aeiou",
+        "value" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      }
+    },
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "mode" : "aeiou",
+      "rule_id" : "aeiou",
+      "match_elements" : [ {
+        "excluded" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "sub_element" : "aeiou"
+      } ],
+      "match_value_pattern" : "aeiou",
+      "enable" : true,
+      "match_value_max_length" : 123,
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "match_case" : "aeiou",
+      "paranoia_level" : "aeiou"
+    } ]
+  } ],
+  "hit_action" : "aeiou",
+  "miss_action" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="wafpolicypsmgroupUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /wafpolicypsmgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicyPSMGroup object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "enable" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "is_learning_group" : true,
+  "locations" : [ {
+    "match" : {
+      "path" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
+      "methods" : {
+        "match_criteria" : "aeiou",
+        "methods" : [ "aeiou" ]
+      },
+      "host" : {
+        "match_criteria" : "aeiou",
+        "value" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      }
+    },
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "mode" : "aeiou",
+      "rule_id" : "aeiou",
+      "match_elements" : [ {
+        "excluded" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "sub_element" : "aeiou"
+      } ],
+      "match_value_pattern" : "aeiou",
+      "enable" : true,
+      "match_value_max_length" : 123,
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "match_case" : "aeiou",
+      "paranoia_level" : "aeiou"
+    } ]
+  } ],
+  "hit_action" : "aeiou",
+  "miss_action" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="wafpolicypsmgroupUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /wafpolicypsmgroup/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">wafpolicypsmgroupUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; WafPolicyPSMGroup object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "enable" : true,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "description" : "aeiou",
+  "is_learning_group" : true,
+  "locations" : [ {
+    "match" : {
+      "path" : {
+        "match_criteria" : "aeiou",
+        "string_group_refs" : [ "aeiou" ],
+        "match_str" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      },
+      "methods" : {
+        "match_criteria" : "aeiou",
+        "methods" : [ "aeiou" ]
+      },
+      "host" : {
+        "match_criteria" : "aeiou",
+        "value" : [ "aeiou" ],
+        "match_case" : "aeiou"
+      }
+    },
+    "name" : "aeiou",
+    "description" : "aeiou",
+    "index" : 123,
+    "rules" : [ {
+      "mode" : "aeiou",
+      "rule_id" : "aeiou",
+      "match_elements" : [ {
+        "excluded" : true,
+        "name" : "aeiou",
+        "index" : 123,
+        "sub_element" : "aeiou"
+      } ],
+      "match_value_pattern" : "aeiou",
+      "enable" : true,
+      "match_value_max_length" : 123,
+      "name" : "aeiou",
+      "description" : "aeiou",
+      "index" : 123,
+      "match_case" : "aeiou",
+      "paranoia_level" : "aeiou"
+    } ]
+  } ],
+  "hit_action" : "aeiou",
+  "miss_action" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#WafPolicyPSMGroup">WafPolicyPSMGroup</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
+    <li><a href="#MethodMatch"><code>MethodMatch</code></a></li>
+    <li><a href="#PathMatch"><code>PathMatch</code></a></li>
+    <li><a href="#WafPSMLocation"><code>WafPSMLocation</code></a></li>
+    <li><a href="#WafPSMLocationMatch"><code>WafPSMLocationMatch</code></a></li>
+    <li><a href="#WafPSMMatchElement"><code>WafPSMMatchElement</code></a></li>
+    <li><a href="#WafPSMRule"><code>WafPSMRule</code></a></li>
+    <li><a href="#WafPolicyPSMGroup"><code>WafPolicyPSMGroup</code></a></li>
+    <li><a href="#WafPolicyPSMGroupApiResponse"><code>WafPolicyPSMGroupApiResponse</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="HostHdrMatch">HostHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the host header. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPSMLocation">WafPSMLocation</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this location. Field introduced in 18.2.3. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Location index, this is used to determine the order of the locations. Field introduced in 18.2.3. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPSMLocationMatch">WafPSMLocationMatch</a></span> Apply these rules only if the request is matching this description. Field introduced in 18.2.3. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined name for this location, if not set by the user, it is filled with data from the match. Field introduced in 18.2.3. </div>
+<div class="param">rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPSMRule">array[WafPSMRule]</a></span> A list of rules which should be applied on this location. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPSMLocationMatch">WafPSMLocationMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Apply the rules only to requests that match the specified Host header. If this is not set, the host header will not be checked. Field introduced in 18.2.3. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> Apply the rules only to requests that have the specified methods. If this is not set, the method will not be checked. Field introduced in 18.2.3. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Apply the rules only to requests that match the specified URI. If this is not set, the path will not be checked. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPSMMatchElement">WafPSMMatchElement</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">excluded (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark this element excluded, like in &#39;!ARGS password&#39;. Field introduced in 18.2.3. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Match_element index. Field introduced in 18.2.3. format: int32</div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The variable specification. For example ARGS or REQUEST_COOKIES. This can be a scalar like PATH_INFO. Enum options - WAF_VARIABLE_ARGS, WAF_VARIABLE_ARGS_GET, WAF_VARIABLE_ARGS_POST, WAF_VARIABLE_ARGS_NAMES, WAF_VARIABLE_REQUEST_COOKIES, WAF_VARIABLE_QUERY_STRING, WAF_VARIABLE_REQUEST_BASENAME, WAF_VARIABLE_REQUEST_URI, WAF_VARIABLE_PATH_INFO. Field introduced in 18.2.3. </div>
+<div class="param">sub_element (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the request collection element. This can be empty, if we address the whole collection or a scalar element. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPSMRule">WafPSMRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this rule. Field introduced in 18.2.3. </div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable this rule. Field introduced in 18.2.3. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rule index, this is used to determine the order of the rules. Field introduced in 18.2.3. format: int32</div>
+<div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The field match_value_pattern regular expression is case sensitive. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 18.2.3. </div>
+<div class="param">match_elements (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPSMMatchElement">array[WafPSMMatchElement]</a></span> The match elements, for example ARGS id or ARGS|!ARGS password. Field introduced in 18.2.3. </div>
+<div class="param">match_value_max_length (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The maximum allowed length of the match_value. If this is not set, the length will not be checked. Field introduced in 18.2.3. format: int32</div>
+<div class="param">match_value_pattern </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A regular expression which describes the expected value. Field introduced in 18.2.3. </div>
+<div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.2.3. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 18.2.3. </div>
+<div class="param">paranoia_level (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Ruleset paranoia mode. This is used to select Rules based on the paranoia-level. Enum options - WAF_PARANOIA_LEVEL_LOW, WAF_PARANOIA_LEVEL_MEDIUM, WAF_PARANOIA_LEVEL_HIGH, WAF_PARANOIA_LEVEL_EXTREME. Field introduced in 18.2.3. </div>
+<div class="param">rule_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Id field which is used for log and metric generation. This id must be unique for all rules in this group. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicyPSMGroup">WafPolicyPSMGroup</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this group. Field introduced in 18.2.3. </div>
+<div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable this WAF rule group. Field introduced in 18.2.3. </div>
+<div class="param">hit_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If a rule in this group matches the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3. </div>
+<div class="param">is_learning_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that this group is used for learning. Field introduced in 18.2.3. </div>
+<div class="param">locations (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPSMLocation">array[WafPSMLocation]</a></span> Positive Security Model locations. These are used to partition the application name space. Field introduced in 18.2.3. </div>
+<div class="param">miss_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If a rule in this group does not match the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined name of the group. Field introduced in 18.2.3. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of this object. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="WafPolicyPSMGroupApiResponse">WafPolicyPSMGroupApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafPolicyPSMGroup">array[WafPolicyPSMGroup]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

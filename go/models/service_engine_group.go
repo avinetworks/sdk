@@ -315,10 +315,7 @@ type ServiceEngineGroup struct {
 	// Enable or disable real time SE metrics.
 	RealtimeSeMetrics *MetricsRealTimeUpdate `json:"realtime_se_metrics,omitempty"`
 
-	// Reboot the VM or host on kernel panic. Field introduced in 18.2.4.
-	RebootOnPanic *bool `json:"reboot_on_panic,omitempty"`
-
-	// Reboot the system if the SE is stopped. Field deprecated in 18.2.4.
+	// Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3.
 	RebootOnStop *bool `json:"reboot_on_stop,omitempty"`
 
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
@@ -336,10 +333,7 @@ type ServiceEngineGroup struct {
 	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeRetries *int32 `json:"se_flow_probe_retries,omitempty"`
 
-	// Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.4.
-	SeFlowProbeRetryTimer *int32 `json:"se_flow_probe_retry_timer,omitempty"`
-
-	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.4. Field introduced in 18.1.4, 18.2.1.
+	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeTimer *int32 `json:"se_flow_probe_timer,omitempty"`
 
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.

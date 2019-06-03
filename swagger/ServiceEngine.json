@@ -5189,15 +5189,30 @@
             ], 
             "type": "object", 
             "properties": {
+                "is_mgmt": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
+                }, 
+                "vlan_id": {
+                    "type": "integer", 
+                    "description": "VLAN ID. Allowed values are 0-4096.", 
+                    "format": "int32"
+                }, 
+                "vnic_networks": {
+                    "items": {
+                        "$ref": "#/definitions/vNICNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
+                }, 
                 "ip6_autocfg_enabled": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 }, 
-                "enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable the interface. Field introduced in 18.2.4."
+                "vrf_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VrfContext."
                 }, 
                 "if_name": {
                     "type": "string", 
@@ -5207,26 +5222,6 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
-                }, 
-                "is_mgmt": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
-                }, 
-                "vnic_networks": {
-                    "items": {
-                        "$ref": "#/definitions/vNICNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
-                }, 
-                "vlan_id": {
-                    "type": "integer", 
-                    "description": "VLAN ID. Allowed values are 0-4096.", 
-                    "format": "int32"
-                }, 
-                "vrf_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VrfContext."
                 }
             }
         }, 

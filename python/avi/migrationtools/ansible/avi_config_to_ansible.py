@@ -74,7 +74,10 @@ class AviAnsibleConverter(object):
     def __init__(self, avi_cfg, outdir, skip_types=None, filter_types=None, controller_version=None):
         self.outdir = outdir
         self.avi_cfg = avi_cfg
-        self.controller_version = controller_version
+        if 'META' in avi_cfg and avi_cfg['META']['version']['Version']:
+            self.api_version = avi_cfg['META']['version']['Version']
+        else:
+            self.api_version = controller_version
         self.ansible_avi_config = {'avi_config': {}}
         self.conversion_util = F5Util()
         if skip_types is None:
@@ -208,7 +211,7 @@ class AviAnsibleConverter(object):
             self.transform_obj_refs(task)
             task.update(self.common_task_args)
             task.update(
-                {'api_version': self.controller_version})
+                {'api_version': self.api_version})
             task.update(
                 {'api_context': "{{avi_api_context | default(omit)}}"})
             # update tenant if there is a tenant_ref in the object
@@ -250,7 +253,7 @@ class AviAnsibleConverter(object):
             self.purge_fields(rsrc_type, rsrc)
             self.transform_obj_refs(rsrc)
             rsrc.update(
-                {'api_version': self.controller_version})
+                {'api_version': self.api_version})
             self.update_tenant(rsrc)
             print 'processed', obj_type, rsrc.get('name', 'N/A')
             ansible_dict['avi_config'][rsrc_type].append(rsrc)
@@ -275,7 +278,7 @@ class AviAnsibleConverter(object):
                 if k == 'name' or 'tags':
                     continue
                 v['state'] = 'absent'
-                v['api_version'] = meta['version']['Version']
+                v['api_version'] = self.api_version
         ad['tasks'] = tasks
         with open('%s/avi_config_delete.yml' % self.outdir, "w") as outf:
             outf.write('# Auto-generated from Avi Configuration\n')
