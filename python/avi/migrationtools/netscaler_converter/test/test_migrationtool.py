@@ -172,7 +172,18 @@ class TestNetscalerConverter:
                             './output/ns-Output.json')
 
     @pytest.mark.travis
+    @pytest.mark.TCID1_48_1497_24_0
+    def test_sslcert_dummy_status(self, cleanup):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
 
+        dummy_obj = 'Lab-Test-Cert'
+        assert check_dummy_cert_status('{}/ns-ConversionStatus.xlsx',
+                                       certObj=dummy_obj) == True
+
+    @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_3_0
     def test_without_options_17_1_1(self, cleanup):
         """
@@ -487,19 +498,6 @@ class TestNetscalerConverter:
             for each_member in pool['members']:
                 if 'Web-Append-HTT' in each_member['pool_ref']:
                     assert each_member['priority_label'] == '2'
-
-    @pytest.mark.travis
-
-    @pytest.mark.TCID1_48_1497_24_0
-    def test_sslcert_dummy_status(self, cleanup):
-        netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       tenant=file_attribute['tenant'],
-                       output_file_path=setup.get('output_file_path'),
-                       controller_version=setup.get('controller_version_v17'))
-
-        dummy_obj = 'Lab-Test-Cert'
-        assert check_dummy_cert_status('./output/ns-ConversionStatus.xlsx',
-                        certObj=dummy_obj) == True
 
 
 def teardown():
