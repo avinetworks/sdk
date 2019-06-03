@@ -158,8 +158,10 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        percentage_success('./output/ns-ConversionStatus.xlsx')
+                       output_file_path=setup.get('output_file_path'))
+        
+        output_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        percentage_success(output_file)
 
     @pytest.mark.travis
 
@@ -167,9 +169,11 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        output_sanitization('./output/ns-ConversionStatus.xlsx',
-                            './output/ns-Output.json')
+                       output_file_path=setup.get('output_file_path'))
+        
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        json_file = '%s/ns-Output.json' %setup.get('output_file_path')
+        output_sanitization(xlsx_file, json_file)
 
     @pytest.mark.travis
 
@@ -448,8 +452,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             lb_vs_conf = ns_config.get('add lb vserver', {})
             for vs_name in lb_vs_conf.keys():
@@ -477,8 +483,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             pooGroup = avi_config['PoolGroup']
             pool = [pool for pool in pooGroup if pool['name'] == \
@@ -498,7 +506,8 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         dummy_obj = 'Lab-Test-Cert'
-        assert check_dummy_cert_status('./output/ns-ConversionStatus.xlsx',
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        assert check_dummy_cert_status(xlsx_file,
                         certObj=dummy_obj) == True
 
 
