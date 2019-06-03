@@ -384,11 +384,6 @@ definitions:
                 type: integer
                 default: 100
                 format: int32
-            min_hits_to_learn:
-                description: "Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.4."
-                type: integer
-                default: 10000
-                format: int64
             sampling_percent:
                 description: "Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3."
                 type: integer
