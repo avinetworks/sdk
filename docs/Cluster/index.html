@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cluster - show cluster ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -258,6 +258,7 @@ font-style: italic;
     "nodes" : [ {
       "vm_mor" : "aeiou",
       "public_ip_or_name" : "",
+      "password" : "aeiou",
       "vm_uuid" : "aeiou",
       "ip" : {
         "addr" : "aeiou",
@@ -332,6 +333,7 @@ font-style: italic;
   "nodes" : [ {
     "vm_mor" : "aeiou",
     "public_ip_or_name" : "",
+    "password" : "aeiou",
     "vm_uuid" : "aeiou",
     "ip" : {
       "addr" : "aeiou",
@@ -477,6 +479,7 @@ font-style: italic;
   "nodes" : [ {
     "vm_mor" : "aeiou",
     "public_ip_or_name" : "",
+    "password" : "aeiou",
     "vm_uuid" : "aeiou",
     "ip" : {
       "addr" : "aeiou",
@@ -562,6 +565,7 @@ font-style: italic;
   "nodes" : [ {
     "vm_mor" : "aeiou",
     "public_ip_or_name" : "",
+    "password" : "aeiou",
     "vm_uuid" : "aeiou",
     "ip" : {
       "addr" : "aeiou",
@@ -647,6 +651,7 @@ font-style: italic;
   "nodes" : [ {
     "vm_mor" : "aeiou",
     "public_ip_or_name" : "",
+    "password" : "aeiou",
     "vm_uuid" : "aeiou",
     "ip" : {
       "addr" : "aeiou",
@@ -721,6 +726,7 @@ font-style: italic;
       <div class="param">categories (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Optional service categories that a node can be assigned (e.g. SYSTEM, INFRASTRUCTURE or ANALYTICS). Field introduced in 18.1.1. </div>
 <div class="param">ip </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of controller VM. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
+<div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The password we will use when authenticating with this node (Not persisted). Field introduced in 18.2.3. </div>
 <div class="param">public_ip_or_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Public IP address or hostname of the controller VM. Field introduced in 17.2.3. </div>
 <div class="param">vm_hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hostname assigned to this controller VM. </div>
 <div class="param">vm_mor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Managed object reference of this controller VM. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -270,8 +270,10 @@ font-style: italic;
       "domain_names" : [ "aeiou" ]
     },
     "tcp_app_profile" : {
+      "pki_profile_ref" : "aeiou",
       "proxy_protocol_enabled" : true,
-      "proxy_protocol_version" : "aeiou"
+      "proxy_protocol_version" : "aeiou",
+      "ssl_client_certificate_mode" : "aeiou"
     },
     "preserve_client_ip" : true,
     "description" : "aeiou",
@@ -362,6 +364,7 @@ font-style: italic;
       "enable_fire_and_forget" : true,
       "enable_request_body_buffering" : true,
       "client_max_request_size" : 123,
+      "fwd_close_hdr_for_bound_connections" : true,
       "enable_request_body_metrics" : true,
       "hsts_subdomains_enabled" : true,
       "ssl_client_certificate_action" : {
@@ -512,8 +515,10 @@ font-style: italic;
     "domain_names" : [ "aeiou" ]
   },
   "tcp_app_profile" : {
+    "pki_profile_ref" : "aeiou",
     "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
+    "proxy_protocol_version" : "aeiou",
+    "ssl_client_certificate_mode" : "aeiou"
   },
   "preserve_client_ip" : true,
   "description" : "aeiou",
@@ -604,6 +609,7 @@ font-style: italic;
     "enable_fire_and_forget" : true,
     "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
+    "fwd_close_hdr_for_bound_connections" : true,
     "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
@@ -825,8 +831,10 @@ font-style: italic;
     "domain_names" : [ "aeiou" ]
   },
   "tcp_app_profile" : {
+    "pki_profile_ref" : "aeiou",
     "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
+    "proxy_protocol_version" : "aeiou",
+    "ssl_client_certificate_mode" : "aeiou"
   },
   "preserve_client_ip" : true,
   "description" : "aeiou",
@@ -917,6 +925,7 @@ font-style: italic;
     "enable_fire_and_forget" : true,
     "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
+    "fwd_close_hdr_for_bound_connections" : true,
     "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
@@ -1078,8 +1087,10 @@ font-style: italic;
     "domain_names" : [ "aeiou" ]
   },
   "tcp_app_profile" : {
+    "pki_profile_ref" : "aeiou",
     "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
+    "proxy_protocol_version" : "aeiou",
+    "ssl_client_certificate_mode" : "aeiou"
   },
   "preserve_client_ip" : true,
   "description" : "aeiou",
@@ -1170,6 +1181,7 @@ font-style: italic;
     "enable_fire_and_forget" : true,
     "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
+    "fwd_close_hdr_for_bound_connections" : true,
     "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
@@ -1331,8 +1343,10 @@ font-style: italic;
     "domain_names" : [ "aeiou" ]
   },
   "tcp_app_profile" : {
+    "pki_profile_ref" : "aeiou",
     "proxy_protocol_enabled" : true,
-    "proxy_protocol_version" : "aeiou"
+    "proxy_protocol_version" : "aeiou",
+    "ssl_client_certificate_mode" : "aeiou"
   },
   "preserve_client_ip" : true,
   "description" : "aeiou",
@@ -1423,6 +1437,7 @@ font-style: italic;
     "enable_fire_and_forget" : true,
     "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
+    "fwd_close_hdr_for_bound_connections" : true,
     "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
@@ -1688,7 +1703,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DosThreshold">DosThreshold</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP. </div>
+      <div class="param">attack </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION. </div>
 <div class="param">max_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
 <div class="param">min_value </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum number of packets or connections or requests in a given interval of time to be deemed as attack. format: int32</div>
     </div>  <!-- field-items -->
@@ -1716,6 +1731,7 @@ font-style: italic;
 <div class="param">enable_fire_and_forget (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. </div>
 <div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
 <div class="param">enable_request_body_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. </div>
+<div class="param">fwd_close_hdr_for_bound_connections (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Forward the Connection  Close header coming from backend server to the client if connection-switching is enabled, i.e. front-end and backend connections are bound together. Field introduced in 18.2.3. </div>
 <div class="param">hsts_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Inserts HTTP Strict-Transport-Security header in the HTTPS response.  HSTS can help mitigate man-in-the-middle attacks by telling browsers that support HSTS that they should only access this site via HTTPS. </div>
 <div class="param">hsts_max_age (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of days for which the client should regard this virtual service as a known HSTS host. Allowed values are 0-10000. format: int64</div>
 <div class="param">hsts_subdomains_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert the &#39;includeSubdomains&#39; directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host&#39;s domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1. </div>
@@ -1775,7 +1791,7 @@ font-style: italic;
 <div class="param">aggressive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable caching objects without Cache-Control headers. </div>
 <div class="param">date_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a Date header was not added by the server, add a Date header to the object served from cache.  This indicates to the client when the object was originally sent by the server to the cache. </div>
 <div class="param">default_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default expiration time of cache objects received from the server without a Cache-Control expiration header.  This value may be overwritten by the Heuristic Expire setting. format: int32</div>
-<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable HTTP object caching.SE Group app_cache_percent must be set to allocate shared memory required for caching. A service engine restart is needed after setting this value. . </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable HTTP object caching.When enabling caching for the first time, SE Group app_cache_percent must beset to allocate shared memory required for caching (A service engine restart is needed after setting/resetting the SE group value). </div>
 <div class="param">heuristic_expire (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If a response object from the server does not include the Cache-Control header, but does include a Last-Modified header, the system will use this time to calculate the Cache-Control expiration.  If unable to solicit an Last-Modified header, then the system will fall back to the Cache Expire Time value. </div>
 <div class="param">ignore_request_cache_control (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Ignore client&#39;s cache control headers when fetching or storing from and to the cache. Field introduced in 18.1.2. </div>
 <div class="param">max_cache_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Max size, in bytes, of the cache.  The default, zero, indicates auto configuration. format: int64</div>
@@ -1825,7 +1841,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
-<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1850,7 +1866,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
@@ -1881,8 +1897,10 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="TCPApplicationProfile">TCPApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">proxy_protocol_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. </div>
+      <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. Field introduced in 18.2.3. </div>
+<div class="param">proxy_protocol_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/Disable the usage of proxy protocol to convey client connection information to the back-end servers.  Valid only for L4 application profiles and TCP proxy. </div>
 <div class="param">proxy_protocol_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Version of proxy protocol to be used to convey client connection information to the back-end servers. Enum options - PROXY_PROTOCOL_VERSION_1, PROXY_PROTOCOL_VERSION_2. </div>
+<div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

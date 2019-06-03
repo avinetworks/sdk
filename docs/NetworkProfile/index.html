@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkprofile <key> - show networkprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -281,10 +281,15 @@ font-style: italic;
       },
       "udp_fast_path_profile" : {
         "per_pkt_loadbalance" : true,
+        "dsr_profile" : "",
         "snat" : true,
         "session_idle_timeout" : 123
       },
       "tcp_fast_path_profile" : {
+        "dsr_profile" : {
+          "dsr_encap_type" : "aeiou",
+          "dsr_type" : "aeiou"
+        },
         "session_idle_timeout" : 123,
         "enable_syn_protection" : true
       },
@@ -378,10 +383,15 @@ font-style: italic;
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
+      "dsr_profile" : "",
       "snat" : true,
       "session_idle_timeout" : 123
     },
     "tcp_fast_path_profile" : {
+      "dsr_profile" : {
+        "dsr_encap_type" : "aeiou",
+        "dsr_type" : "aeiou"
+      },
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
@@ -546,10 +556,15 @@ font-style: italic;
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
+      "dsr_profile" : "",
       "snat" : true,
       "session_idle_timeout" : 123
     },
     "tcp_fast_path_profile" : {
+      "dsr_profile" : {
+        "dsr_encap_type" : "aeiou",
+        "dsr_type" : "aeiou"
+      },
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
@@ -654,10 +669,15 @@ font-style: italic;
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
+      "dsr_profile" : "",
       "snat" : true,
       "session_idle_timeout" : 123
     },
     "tcp_fast_path_profile" : {
+      "dsr_profile" : {
+        "dsr_encap_type" : "aeiou",
+        "dsr_type" : "aeiou"
+      },
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
@@ -762,10 +782,15 @@ font-style: italic;
     },
     "udp_fast_path_profile" : {
       "per_pkt_loadbalance" : true,
+      "dsr_profile" : "",
       "snat" : true,
       "session_idle_timeout" : 123
     },
     "tcp_fast_path_profile" : {
+      "dsr_profile" : {
+        "dsr_encap_type" : "aeiou",
+        "dsr_type" : "aeiou"
+      },
       "session_idle_timeout" : 123,
       "enable_syn_protection" : true
     },
@@ -857,6 +882,7 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#DsrProfile"><code>DsrProfile</code></a></li>
     <li><a href="#NetworkProfile"><code>NetworkProfile</code></a></li>
     <li><a href="#NetworkProfileApiResponse"><code>NetworkProfileApiResponse</code></a></li>
     <li><a href="#NetworkProfileUnion"><code>NetworkProfileUnion</code></a></li>
@@ -866,6 +892,13 @@ font-style: italic;
     <li><a href="#UDPProxyProfile"><code>UDPProxyProfile</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="DsrProfile">DsrProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">dsr_encap_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Encapsulation type to use when DSR is L3. Enum options - ENCAP_IPINIP. Field introduced in 18.2.3. </div>
+<div class="param">dsr_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DSR type L2/L3. Enum options - DSR_TYPE_L2, DSR_TYPE_L3. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="NetworkProfile">NetworkProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -899,7 +932,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="TCPFastPathProfile">TCPFastPathProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">enable_syn_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections. </div>
+      <div class="param">dsr_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DsrProfile">DsrProfile</a></span> DSR profile information. Field introduced in 18.2.3. </div>
+<div class="param">enable_syn_protection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections. </div>
 <div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - &#39;infinite&#39;. format: int32</div>
     </div>  <!-- field-items -->
   </div>
@@ -930,7 +964,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="UDPFastPathProfile">UDPFastPathProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">per_pkt_loadbalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server. </div>
+      <div class="param">dsr_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#DsrProfile">DsrProfile</a></span> DSR profile information. Field introduced in 18.2.3. </div>
+<div class="param">per_pkt_loadbalance (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When enabled, every UDP packet is considered a new transaction and may be load balanced to a different server.  When disabled, packets from the same client source IP and port are sent to the same server. </div>
 <div class="param">session_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The amount of time (in sec) for which a flow needs to be idle before it is deleted. Allowed values are 2-3600. format: int32</div>
 <div class="param">snat (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When disabled, Source NAT will not be performed for all client UDP packets. </div>
     </div>  <!-- field-items -->
