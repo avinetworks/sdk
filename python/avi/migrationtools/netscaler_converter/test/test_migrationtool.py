@@ -184,7 +184,9 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         dummy_obj = 'Lab-Test-Cert'
-        assert check_dummy_cert_status('{}/ns-ConversionStatus.xlsx',
+	xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        
+        assert check_dummy_cert_status(xlsx_file,
                                        certObj=dummy_obj) == True
 
     @pytest.mark.travis
@@ -355,7 +357,7 @@ class TestNetscalerConverter:
     @pytest.mark.skip_travis
 
     @pytest.mark.TCID1_48_1497_16_0
-    def test_reboot_clean__ansible_v17_1_1(self, cleanup):
+    def test_reboot_clean__ansible_v17_1_1(self):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -375,12 +377,12 @@ class TestNetscalerConverter:
     @pytest.mark.skip_travis
 
     @pytest.mark.TCID1_48_1497_17_0
-    def test_ansible_object_auto_upload(self, cleanup):
+    def test_ansible_object_auto_upload(self):
         """
         Input File on Local Filesystem, Test for Controller v17.x.x
         AutoUpload Flow
         """
-        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('sudo pip install avisdk --upgrade', shell=True))
         print(subprocess.check_output(
             '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
         try:
