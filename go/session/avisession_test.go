@@ -116,7 +116,7 @@ func testAviSession(t *testing.T, avisess *AviSession) {
 	tenant := make(map[string]string)
 	tenant["name"] = "testtenant"
 	var tres interface{}
-	err = avisess.Post("api/tenant", &tenant, &tres)
+	err = avisess.Post("api/tenant", &tenant, "", &tres)
 	glog.Infof("res: %s, err: %s", tres, err)
 	if err != nil {
 		t.Error("Tenant Creation failed: ", err)
@@ -140,7 +140,7 @@ func testAviSession(t *testing.T, avisess *AviSession) {
 	tenant["uuid"] = resp["results"].([]interface{})[0].(map[string]interface{})["uuid"].(string)
 
 	// delete the tenant
-	err = avisess.Delete("api/tenant/" + tenant["uuid"])
+	err = avisess.Delete("api/tenant/" + tenant["uuid"], "")
 	glog.Infof("err: %s", err)
 	if err != nil {
 		t.Error("Deletion failed")
@@ -152,7 +152,7 @@ func testAviSession(t *testing.T, avisess *AviSession) {
 	err = avisess.Get("api/tenant?name=testtenant", &res)
 	glog.Infof("res: %s, err: %s", res, err)
 	resp = res.(map[string]interface{})
-	glog.Infof("count: ", resp["count"])
+	glog.Infof("count: %v", resp["count"])
 	currCount = resp["count"].(float64)
 	if currCount != 0.0 {
 		t.Errorf("Expecting no tenant with that name")
@@ -166,8 +166,8 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	pname := "testpool"
 	tpool.Name = &pname
 	var res models.Pool
-	err := avisess.Post("api/pool", &tpool, &res)
-	glog.Infof("res: %s, err: %s", res, err)
+	err := avisess.Post("api/pool", &tpool, "", &res)
+	glog.Infof("res: %v, err: %v", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
 	}
@@ -175,8 +175,8 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	var npool2 models.Pool
 	err = avisess.GetObjectByName("pool", "testpool", &npool2)
 
-	glog.Infof("npool: %+v err: %+v", npool2, err)
-	glog.Infof("name %s: ", npool2.Name)
+	glog.Infof("npool: %v err: %v", npool2, err)
+	glog.Infof("name %v: ", npool2.Name)
 
 	var npool3 models.Pool
 	// Test patch before deleting the pool
@@ -191,7 +191,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	var servers = make([]models.Server, 1)
 	servers[0] = server
 	patch["servers"] = servers
-	err = avisess.Patch("api/pool/"+*npool2.UUID, &patch, "add", &npool3)
+	err = avisess.Patch("api/pool/"+*npool2.UUID, "", &patch,"add", &npool3)
 	if err != nil {
 		t.Errorf("Pool Patch failed %s", err)
 	}
@@ -200,7 +200,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	//	t.Error("Pool Patch failed %v", npool3)
 	//}
 
-	err = avisess.Delete("api/pool/" + *npool2.UUID)
+	err = avisess.Delete("api/pool/" + *npool2.UUID, "")
 
 	if err != nil {
 		t.Errorf("Pool deletion failed: %s", err)
@@ -226,8 +226,8 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	//bt := true
 	//tpool.InlineHealthMonitor = &bt
 	var res models.Pool
-	err := avisess.Post("api/pool", &tpool, &res)
-	glog.Infof("res: %s, err: %s", res, err)
+	err := avisess.Post("api/pool", &tpool, "", &res)
+	glog.Infof("res: %v, err: %v", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
 	}
@@ -259,7 +259,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	npool2.InlineHealthMonitor = &nt
 
 	var npool3 models.Pool
-	err = avisess.Put("api/pool/"+*npool2.UUID, &npool2, &npool3)
+	err = avisess.Put("api/pool/"+*npool2.UUID, &npool2, "", &npool3)
 
 	if err != nil {
 		t.Errorf("Pool Patch failed %s", err)
@@ -270,7 +270,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 		t.Errorf("Pool inline health monitor setting changed to true")
 	}
 
-	err = avisess.Delete("api/pool/" + *npool2.UUID)
+	err = avisess.Delete("api/pool/" + *npool2.UUID, "")
 	if err != nil {
 		t.Errorf("Pool deletion failed: %s", err)
 	}
