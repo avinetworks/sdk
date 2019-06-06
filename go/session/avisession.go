@@ -170,6 +170,15 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	return avisess, err
 }
 
+//SwitchTenant Sets tenant into the avisession.
+func (avisess *AviSession) SwitchTenant(tenant string) (error) {
+	avisess.tenant = tenant
+	if avisess.tenant == "" {
+		avisess.tenant = DEFAULT_API_TENANT
+	}
+	return nil
+}
+
 func (avisess *AviSession) initiateSession() error {
 	if avisess.insecure == true {
 		glog.Warning("Strict certificate verification is *DISABLED*")
