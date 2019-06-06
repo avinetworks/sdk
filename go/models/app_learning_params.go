@@ -16,9 +16,6 @@ type AppLearningParams struct {
 	// Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.
 	MaxUris *int32 `json:"max_uris,omitempty"`
 
-	// Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.4.
-	MinHitsToLearn *int64 `json:"min_hits_to_learn,omitempty"`
-
 	// Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3.
 	SamplingPercent *int32 `json:"sampling_percent,omitempty"`
 

@@ -148,9 +148,6 @@ type OShiftK8SConfiguration struct {
 	// Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1.
 	SSHUserRef *string `json:"ssh_user_ref,omitempty"`
 
-	// Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.4.
-	SyncNotReadyAddresses *bool `json:"sync_not_ready_addresses,omitempty"`
-
 	// If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se.
 	UseControllerImage *bool `json:"use_controller_image,omitempty"`
 

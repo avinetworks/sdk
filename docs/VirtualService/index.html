@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.2</div>
+    <div class="app-desc">Version: 18.2.4</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -198,6 +198,12 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
+  <li><a href="#ssopolicyGet"><code><span class="http-method">get</span> /ssopolicy</code></a></li>
+  <li><a href="#ssopolicyPost"><code><span class="http-method">post</span> /ssopolicy</code></a></li>
+  <li><a href="#ssopolicyUuidDelete"><code><span class="http-method">delete</span> /ssopolicy/{uuid}</code></a></li>
+  <li><a href="#ssopolicyUuidGet"><code><span class="http-method">get</span> /ssopolicy/{uuid}</code></a></li>
+  <li><a href="#ssopolicyUuidPatch"><code><span class="http-method">patch</span> /ssopolicy/{uuid}</code></a></li>
+  <li><a href="#ssopolicyUuidPut"><code><span class="http-method">put</span> /ssopolicy/{uuid}</code></a></li>
   <li><a href="#virtualserviceGet"><code><span class="http-method">get</span> /virtualservice</code></a></li>
   <li><a href="#virtualservicePost"><code><span class="http-method">post</span> /virtualservice</code></a></li>
   <li><a href="#virtualserviceUuidApicplacementPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/apicplacement</code></a></li>
@@ -248,6 +254,477 @@ font-style: italic;
   <li><a href="#virtualserviceUuidUserdefineddatascriptcountersGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/userdefineddatascriptcounters/</code></a></li>
   </ol>
 
+  <div class="method"><a name="ssopolicyGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ssopolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SSOPolicyApiResponse">SSOPolicyApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "default_auth_profile_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SSOPolicyApiResponse">SSOPolicyApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ssopolicyPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /ssopolicy</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; SSOPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SSOPolicy">SSOPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "authentication_policy" : {
+    "sp_metadata" : "aeiou",
+    "default_auth_profile_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "auth_profile_ref" : "aeiou",
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SSOPolicy">SSOPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ssopolicyUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /ssopolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ssopolicyUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /ssopolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SSOPolicy">SSOPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "authentication_policy" : {
+    "sp_metadata" : "aeiou",
+    "default_auth_profile_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "auth_profile_ref" : "aeiou",
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SSOPolicy">SSOPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ssopolicyUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /ssopolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; SSOPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SSOPolicy">SSOPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "authentication_policy" : {
+    "sp_metadata" : "aeiou",
+    "default_auth_profile_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "auth_profile_ref" : "aeiou",
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SSOPolicy">SSOPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="ssopolicyUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /ssopolicy/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">ssopolicyUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; SSOPolicy object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#SSOPolicy">SSOPolicy</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "authentication_policy" : {
+    "sp_metadata" : "aeiou",
+    "default_auth_profile_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "auth_profile_ref" : "aeiou",
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#SSOPolicy">SSOPolicy</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="virtualserviceGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -307,7 +784,6 @@ font-style: italic;
       "realm" : "aeiou",
       "type" : "aeiou"
     },
-    "subnet" : "",
     "dns_policies" : [ {
       "dns_policy_ref" : "aeiou",
       "index" : 123
@@ -318,20 +794,6 @@ font-style: italic;
     } ],
     "azure_availability_set" : "aeiou",
     "enable_autogw" : true,
-    "vrf_context_ref" : "aeiou",
-    "flow_dist" : "aeiou",
-    "dns_info" : [ {
-      "metadata" : "aeiou",
-      "fqdn" : "aeiou",
-      "num_records_in_response" : 123,
-      "cname" : {
-        "cname" : "aeiou"
-      },
-      "type" : "aeiou",
-      "ttl" : 123,
-      "algorithm" : "aeiou"
-    } ],
-    "avi_allocated_vip" : true,
     "content_rewrite" : {
       "req_match_replace_pair" : [ {
         "match_string" : "aeiou",
@@ -347,17 +809,9 @@ font-style: italic;
     },
     "type" : "aeiou",
     "traffic_enabled" : true,
-    "uuid" : "aeiou",
-    "vh_domain_name" : [ "aeiou" ],
     "pool_ref" : "aeiou",
     "delay_fairness" : true,
-    "snat_ip" : [ "" ],
     "cloud_ref" : "aeiou",
-    "microservice_ref" : "aeiou",
-    "error_page_profile_ref" : "aeiou",
-    "avi_allocated_fip" : true,
-    "server_network_profile_ref" : "aeiou",
-    "use_vip_as_snat" : true,
     "analytics_policy" : {
       "significant_log_throttle" : 123,
       "all_headers" : true,
@@ -408,18 +862,7 @@ font-style: italic;
         "enabled" : true
       }
     },
-    "ipam_network_subnet" : {
-      "subnet" : "",
-      "subnet_uuid" : "aeiou",
-      "subnet6" : "",
-      "subnet6_uuid" : "aeiou",
-      "network_ref" : "aeiou"
-    },
     "enable_rhi_snat" : true,
-    "sideband_profile" : {
-      "ip" : [ "" ],
-      "sideband_max_request_body_size" : 123
-    },
     "vip" : [ {
       "availability_zone" : "aeiou",
       "ip6_address" : "",
@@ -445,11 +888,115 @@ font-style: italic;
       "discovered_networks" : [ "" ]
     } ],
     "min_pools_up" : 123,
+    "sp_pool_refs" : [ "aeiou" ],
+    "apic_contract_graph" : "aeiou",
+    "subnet_uuid" : "aeiou",
+    "bulk_sync_kvcache" : true,
+    "waf_policy_ref" : "aeiou",
+    "security_policy_ref" : "aeiou",
+    "ssl_sess_cache_avg_size" : 123,
+    "cloud_type" : "aeiou",
+    "scaleout_ecmp" : true,
+    "cloud_config_cksum" : "aeiou",
+    "remove_listening_port_on_vs_down" : true,
+    "vsvip_ref" : "aeiou",
+    "network_security_policy_ref" : "aeiou",
+    "topology_policies" : [ "" ],
+    "pool_group_ref" : "aeiou",
+    "ssl_profile_ref" : "aeiou",
+    "enabled" : true,
+    "limit_doser" : true,
+    "discovered_subnet" : [ "" ],
+    "max_cps_per_client" : 123,
+    "sso_policy_ref" : "aeiou",
+    "sso_policy" : {
+      "tenant_ref" : "aeiou",
+      "name" : "aeiou",
+      "authentication_policy" : {
+        "sp_metadata" : "aeiou",
+        "default_auth_profile_ref" : "aeiou",
+        "cookie_timeout" : 123,
+        "auth_profile_ref" : "aeiou",
+        "entity_id" : "aeiou",
+        "key" : [ "" ],
+        "cookie_name" : "aeiou",
+        "single_signon_url" : "aeiou"
+      },
+      "uuid" : "aeiou",
+      "url" : "aeiou",
+      "_last_modified" : "aeiou"
+    },
+    "network_ref" : "aeiou",
+    "http_policies" : [ {
+      "http_policy_set_ref" : "aeiou",
+      "index" : 123
+    } ],
+    "availability_zone" : "aeiou",
+    "service_metadata" : "aeiou",
+    "services" : [ {
+      "override_network_profile_ref" : "aeiou",
+      "port" : 123,
+      "port_range_end" : 123,
+      "enable_ssl" : true,
+      "override_application_profile_ref" : "aeiou"
+    } ],
+    "url" : "aeiou",
+    "active_standby_se_tag" : "aeiou",
+    "nsx_securitygroup" : [ "aeiou" ],
+    "vh_parent_vs_uuid" : "aeiou",
+    "vsvip_cloud_config_cksum" : "aeiou",
+    "east_west_placement" : true,
+    "subnet" : "",
+    "saml_sp_config" : {
+      "sp_metadata" : "aeiou",
+      "signing_ssl_key_and_certificate_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "entity_id" : "aeiou",
+      "key" : [ {
+        "hmac_key" : "aeiou",
+        "aes_key" : "aeiou",
+        "name" : "aeiou"
+      } ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "vrf_context_ref" : "aeiou",
+    "flow_dist" : "aeiou",
+    "dns_info" : [ {
+      "metadata" : "aeiou",
+      "fqdn" : "aeiou",
+      "num_records_in_response" : 123,
+      "cname" : {
+        "cname" : "aeiou"
+      },
+      "type" : "aeiou",
+      "ttl" : 123,
+      "algorithm" : "aeiou"
+    } ],
+    "avi_allocated_vip" : true,
+    "uuid" : "aeiou",
+    "vh_domain_name" : [ "aeiou" ],
+    "snat_ip" : [ "" ],
+    "microservice_ref" : "aeiou",
+    "error_page_profile_ref" : "aeiou",
+    "avi_allocated_fip" : true,
+    "server_network_profile_ref" : "aeiou",
+    "use_vip_as_snat" : true,
+    "ipam_network_subnet" : {
+      "subnet" : "",
+      "subnet_uuid" : "aeiou",
+      "subnet6" : "",
+      "subnet6_uuid" : "aeiou",
+      "network_ref" : "aeiou"
+    },
+    "sideband_profile" : {
+      "ip" : [ "" ],
+      "sideband_max_request_body_size" : 123
+    },
     "performance_limits" : {
       "max_concurrent_connections" : 123,
       "max_throughput" : 123
     },
-    "sp_pool_refs" : [ "aeiou" ],
     "static_dns_records" : [ {
       "ip6_address" : [ {
         "ip6_address" : ""
@@ -478,13 +1025,9 @@ font-style: italic;
       "delegated" : true,
       "algorithm" : "aeiou"
     } ],
-    "apic_contract_graph" : "aeiou",
-    "subnet_uuid" : "aeiou",
     "fqdn" : "aeiou",
-    "bulk_sync_kvcache" : true,
     "weight" : 123,
     "auto_allocate_floating_ip" : true,
-    "waf_policy_ref" : "aeiou",
     "created_by" : "aeiou",
     "service_pool_select" : [ {
       "service_protocol" : "aeiou",
@@ -493,17 +1036,11 @@ font-style: italic;
       "service_pool_group_ref" : "aeiou",
       "service_port" : 123
     } ],
-    "security_policy_ref" : "aeiou",
+    "allow_invalid_client_cert" : true,
     "application_profile_ref" : "aeiou",
-    "ssl_sess_cache_avg_size" : 123,
-    "cloud_type" : "aeiou",
-    "scaleout_ecmp" : true,
     "flow_label_type" : "aeiou",
     "name" : "aeiou",
-    "cloud_config_cksum" : "aeiou",
     "traffic_clone_profile_ref" : "aeiou",
-    "remove_listening_port_on_vs_down" : true,
-    "vsvip_ref" : "aeiou",
     "host_name_xlate" : "aeiou",
     "connections_rate_limit" : {
       "period" : 123,
@@ -538,75 +1075,37 @@ font-style: italic;
       "http_cookie" : "aeiou",
       "http_header" : "aeiou"
     },
-    "network_security_policy_ref" : "aeiou",
     "port_uuid" : "aeiou",
     "description" : "aeiou",
     "vs_datascripts" : [ {
       "index" : 123,
       "vs_datascript_set_ref" : "aeiou"
     } ],
-    "pool_group_ref" : "aeiou",
     "ssl_key_and_certificate_refs" : [ "aeiou" ],
-    "ssl_profile_ref" : "aeiou",
-    "enabled" : true,
     "_last_modified" : "aeiou",
-    "limit_doser" : true,
     "se_group_ref" : "aeiou",
-    "discovered_subnet" : [ "" ],
     "network_profile_ref" : "aeiou",
     "auto_allocate_ip" : true,
     "close_client_conn_on_config_update" : true,
-    "max_cps_per_client" : 123,
     "floating_ip" : "",
     "floating_subnet_uuid" : "aeiou",
-    "sso_policy" : {
-      "authentication_policy" : {
-        "sp_metadata" : "aeiou",
-        "cookie_timeout" : 123,
-        "auth_profile_ref" : "aeiou",
-        "entity_id" : "aeiou",
-        "key" : [ {
-          "hmac_key" : "aeiou",
-          "aes_key" : "aeiou",
-          "name" : "aeiou"
-        } ],
-        "cookie_name" : "aeiou",
-        "single_signon_url" : "aeiou"
-      }
-    },
-    "network_ref" : "aeiou",
-    "http_policies" : [ {
-      "http_policy_set_ref" : "aeiou",
-      "index" : 123
-    } ],
     "discovered_network_ref" : [ "aeiou" ],
     "analytics_profile_ref" : "aeiou",
-    "availability_zone" : "aeiou",
-    "service_metadata" : "aeiou",
     "use_bridge_ip_as_vip" : true,
     "requests_rate_limit" : "",
     "enable_rhi" : true,
     "ip_address" : "",
-    "services" : [ {
-      "override_network_profile_ref" : "aeiou",
-      "port" : 123,
-      "port_range_end" : 123,
-      "enable_ssl" : true,
-      "override_application_profile_ref" : "aeiou"
+    "ssl_profile_selectors" : [ {
+      "ssl_profile_ref" : "aeiou",
+      "client_ip_list" : ""
     } ],
-    "url" : "aeiou",
-    "active_standby_se_tag" : "aeiou",
-    "nsx_securitygroup" : [ "aeiou" ],
     "tenant_ref" : "aeiou",
-    "vh_parent_vs_uuid" : "aeiou",
     "ign_pool_net_reach" : true,
     "discovered_networks" : [ {
       "subnet" : [ "" ],
       "subnet6" : [ "" ],
       "network_ref" : "aeiou"
-    } ],
-    "vsvip_cloud_config_cksum" : "aeiou",
-    "east_west_placement" : true
+    } ]
   } ]
 }</code></pre>
 
@@ -667,7 +1166,6 @@ font-style: italic;
     "realm" : "aeiou",
     "type" : "aeiou"
   },
-  "subnet" : "",
   "dns_policies" : [ {
     "dns_policy_ref" : "aeiou",
     "index" : 123
@@ -678,20 +1176,6 @@ font-style: italic;
   } ],
   "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
-  "vrf_context_ref" : "aeiou",
-  "flow_dist" : "aeiou",
-  "dns_info" : [ {
-    "metadata" : "aeiou",
-    "fqdn" : "aeiou",
-    "num_records_in_response" : 123,
-    "cname" : {
-      "cname" : "aeiou"
-    },
-    "type" : "aeiou",
-    "ttl" : 123,
-    "algorithm" : "aeiou"
-  } ],
-  "avi_allocated_vip" : true,
   "content_rewrite" : {
     "req_match_replace_pair" : [ {
       "match_string" : "aeiou",
@@ -707,17 +1191,9 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
-  "uuid" : "aeiou",
-  "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
-  "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
-  "microservice_ref" : "aeiou",
-  "error_page_profile_ref" : "aeiou",
-  "avi_allocated_fip" : true,
-  "server_network_profile_ref" : "aeiou",
-  "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
     "all_headers" : true,
@@ -768,18 +1244,7 @@ font-style: italic;
       "enabled" : true
     }
   },
-  "ipam_network_subnet" : {
-    "subnet" : "",
-    "subnet_uuid" : "aeiou",
-    "subnet6" : "",
-    "subnet6_uuid" : "aeiou",
-    "network_ref" : "aeiou"
-  },
   "enable_rhi_snat" : true,
-  "sideband_profile" : {
-    "ip" : [ "" ],
-    "sideband_max_request_body_size" : 123
-  },
   "vip" : [ {
     "availability_zone" : "aeiou",
     "ip6_address" : "",
@@ -805,11 +1270,115 @@ font-style: italic;
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
+  "sp_pool_refs" : [ "aeiou" ],
+  "apic_contract_graph" : "aeiou",
+  "subnet_uuid" : "aeiou",
+  "bulk_sync_kvcache" : true,
+  "waf_policy_ref" : "aeiou",
+  "security_policy_ref" : "aeiou",
+  "ssl_sess_cache_avg_size" : 123,
+  "cloud_type" : "aeiou",
+  "scaleout_ecmp" : true,
+  "cloud_config_cksum" : "aeiou",
+  "remove_listening_port_on_vs_down" : true,
+  "vsvip_ref" : "aeiou",
+  "network_security_policy_ref" : "aeiou",
+  "topology_policies" : [ "" ],
+  "pool_group_ref" : "aeiou",
+  "ssl_profile_ref" : "aeiou",
+  "enabled" : true,
+  "limit_doser" : true,
+  "discovered_subnet" : [ "" ],
+  "max_cps_per_client" : 123,
+  "sso_policy_ref" : "aeiou",
+  "sso_policy" : {
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "default_auth_profile_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ "" ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  },
+  "network_ref" : "aeiou",
+  "http_policies" : [ {
+    "http_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "availability_zone" : "aeiou",
+  "service_metadata" : "aeiou",
+  "services" : [ {
+    "override_network_profile_ref" : "aeiou",
+    "port" : 123,
+    "port_range_end" : 123,
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
+  } ],
+  "url" : "aeiou",
+  "active_standby_se_tag" : "aeiou",
+  "nsx_securitygroup" : [ "aeiou" ],
+  "vh_parent_vs_uuid" : "aeiou",
+  "vsvip_cloud_config_cksum" : "aeiou",
+  "east_west_placement" : true,
+  "subnet" : "",
+  "saml_sp_config" : {
+    "sp_metadata" : "aeiou",
+    "signing_ssl_key_and_certificate_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "vrf_context_ref" : "aeiou",
+  "flow_dist" : "aeiou",
+  "dns_info" : [ {
+    "metadata" : "aeiou",
+    "fqdn" : "aeiou",
+    "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
+    "type" : "aeiou",
+    "ttl" : 123,
+    "algorithm" : "aeiou"
+  } ],
+  "avi_allocated_vip" : true,
+  "uuid" : "aeiou",
+  "vh_domain_name" : [ "aeiou" ],
+  "snat_ip" : [ "" ],
+  "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
+  "avi_allocated_fip" : true,
+  "server_network_profile_ref" : "aeiou",
+  "use_vip_as_snat" : true,
+  "ipam_network_subnet" : {
+    "subnet" : "",
+    "subnet_uuid" : "aeiou",
+    "subnet6" : "",
+    "subnet6_uuid" : "aeiou",
+    "network_ref" : "aeiou"
+  },
+  "sideband_profile" : {
+    "ip" : [ "" ],
+    "sideband_max_request_body_size" : 123
+  },
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
   },
-  "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
     "ip6_address" : [ {
       "ip6_address" : ""
@@ -838,13 +1407,9 @@ font-style: italic;
     "delegated" : true,
     "algorithm" : "aeiou"
   } ],
-  "apic_contract_graph" : "aeiou",
-  "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
-  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
-  "waf_policy_ref" : "aeiou",
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -853,17 +1418,11 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
-  "security_policy_ref" : "aeiou",
+  "allow_invalid_client_cert" : true,
   "application_profile_ref" : "aeiou",
-  "ssl_sess_cache_avg_size" : 123,
-  "cloud_type" : "aeiou",
-  "scaleout_ecmp" : true,
   "flow_label_type" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
   "traffic_clone_profile_ref" : "aeiou",
-  "remove_listening_port_on_vs_down" : true,
-  "vsvip_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
     "period" : 123,
@@ -898,75 +1457,37 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
-  "network_security_policy_ref" : "aeiou",
   "port_uuid" : "aeiou",
   "description" : "aeiou",
   "vs_datascripts" : [ {
     "index" : 123,
     "vs_datascript_set_ref" : "aeiou"
   } ],
-  "pool_group_ref" : "aeiou",
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
-  "ssl_profile_ref" : "aeiou",
-  "enabled" : true,
   "_last_modified" : "aeiou",
-  "limit_doser" : true,
   "se_group_ref" : "aeiou",
-  "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
   "close_client_conn_on_config_update" : true,
-  "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
-  "sso_policy" : {
-    "authentication_policy" : {
-      "sp_metadata" : "aeiou",
-      "cookie_timeout" : 123,
-      "auth_profile_ref" : "aeiou",
-      "entity_id" : "aeiou",
-      "key" : [ {
-        "hmac_key" : "aeiou",
-        "aes_key" : "aeiou",
-        "name" : "aeiou"
-      } ],
-      "cookie_name" : "aeiou",
-      "single_signon_url" : "aeiou"
-    }
-  },
-  "network_ref" : "aeiou",
-  "http_policies" : [ {
-    "http_policy_set_ref" : "aeiou",
-    "index" : 123
-  } ],
   "discovered_network_ref" : [ "aeiou" ],
   "analytics_profile_ref" : "aeiou",
-  "availability_zone" : "aeiou",
-  "service_metadata" : "aeiou",
   "use_bridge_ip_as_vip" : true,
   "requests_rate_limit" : "",
   "enable_rhi" : true,
   "ip_address" : "",
-  "services" : [ {
-    "override_network_profile_ref" : "aeiou",
-    "port" : 123,
-    "port_range_end" : 123,
-    "enable_ssl" : true,
-    "override_application_profile_ref" : "aeiou"
+  "ssl_profile_selectors" : [ {
+    "ssl_profile_ref" : "aeiou",
+    "client_ip_list" : ""
   } ],
-  "url" : "aeiou",
-  "active_standby_se_tag" : "aeiou",
-  "nsx_securitygroup" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
-  "vh_parent_vs_uuid" : "aeiou",
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
     "subnet6" : [ "" ],
     "network_ref" : "aeiou"
-  } ],
-  "vsvip_cloud_config_cksum" : "aeiou",
-  "east_west_placement" : true
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1838,7 +2359,6 @@ font-style: italic;
     "realm" : "aeiou",
     "type" : "aeiou"
   },
-  "subnet" : "",
   "dns_policies" : [ {
     "dns_policy_ref" : "aeiou",
     "index" : 123
@@ -1849,20 +2369,6 @@ font-style: italic;
   } ],
   "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
-  "vrf_context_ref" : "aeiou",
-  "flow_dist" : "aeiou",
-  "dns_info" : [ {
-    "metadata" : "aeiou",
-    "fqdn" : "aeiou",
-    "num_records_in_response" : 123,
-    "cname" : {
-      "cname" : "aeiou"
-    },
-    "type" : "aeiou",
-    "ttl" : 123,
-    "algorithm" : "aeiou"
-  } ],
-  "avi_allocated_vip" : true,
   "content_rewrite" : {
     "req_match_replace_pair" : [ {
       "match_string" : "aeiou",
@@ -1878,17 +2384,9 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
-  "uuid" : "aeiou",
-  "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
-  "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
-  "microservice_ref" : "aeiou",
-  "error_page_profile_ref" : "aeiou",
-  "avi_allocated_fip" : true,
-  "server_network_profile_ref" : "aeiou",
-  "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
     "all_headers" : true,
@@ -1939,18 +2437,7 @@ font-style: italic;
       "enabled" : true
     }
   },
-  "ipam_network_subnet" : {
-    "subnet" : "",
-    "subnet_uuid" : "aeiou",
-    "subnet6" : "",
-    "subnet6_uuid" : "aeiou",
-    "network_ref" : "aeiou"
-  },
   "enable_rhi_snat" : true,
-  "sideband_profile" : {
-    "ip" : [ "" ],
-    "sideband_max_request_body_size" : 123
-  },
   "vip" : [ {
     "availability_zone" : "aeiou",
     "ip6_address" : "",
@@ -1976,11 +2463,115 @@ font-style: italic;
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
+  "sp_pool_refs" : [ "aeiou" ],
+  "apic_contract_graph" : "aeiou",
+  "subnet_uuid" : "aeiou",
+  "bulk_sync_kvcache" : true,
+  "waf_policy_ref" : "aeiou",
+  "security_policy_ref" : "aeiou",
+  "ssl_sess_cache_avg_size" : 123,
+  "cloud_type" : "aeiou",
+  "scaleout_ecmp" : true,
+  "cloud_config_cksum" : "aeiou",
+  "remove_listening_port_on_vs_down" : true,
+  "vsvip_ref" : "aeiou",
+  "network_security_policy_ref" : "aeiou",
+  "topology_policies" : [ "" ],
+  "pool_group_ref" : "aeiou",
+  "ssl_profile_ref" : "aeiou",
+  "enabled" : true,
+  "limit_doser" : true,
+  "discovered_subnet" : [ "" ],
+  "max_cps_per_client" : 123,
+  "sso_policy_ref" : "aeiou",
+  "sso_policy" : {
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "default_auth_profile_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ "" ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  },
+  "network_ref" : "aeiou",
+  "http_policies" : [ {
+    "http_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "availability_zone" : "aeiou",
+  "service_metadata" : "aeiou",
+  "services" : [ {
+    "override_network_profile_ref" : "aeiou",
+    "port" : 123,
+    "port_range_end" : 123,
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
+  } ],
+  "url" : "aeiou",
+  "active_standby_se_tag" : "aeiou",
+  "nsx_securitygroup" : [ "aeiou" ],
+  "vh_parent_vs_uuid" : "aeiou",
+  "vsvip_cloud_config_cksum" : "aeiou",
+  "east_west_placement" : true,
+  "subnet" : "",
+  "saml_sp_config" : {
+    "sp_metadata" : "aeiou",
+    "signing_ssl_key_and_certificate_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "vrf_context_ref" : "aeiou",
+  "flow_dist" : "aeiou",
+  "dns_info" : [ {
+    "metadata" : "aeiou",
+    "fqdn" : "aeiou",
+    "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
+    "type" : "aeiou",
+    "ttl" : 123,
+    "algorithm" : "aeiou"
+  } ],
+  "avi_allocated_vip" : true,
+  "uuid" : "aeiou",
+  "vh_domain_name" : [ "aeiou" ],
+  "snat_ip" : [ "" ],
+  "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
+  "avi_allocated_fip" : true,
+  "server_network_profile_ref" : "aeiou",
+  "use_vip_as_snat" : true,
+  "ipam_network_subnet" : {
+    "subnet" : "",
+    "subnet_uuid" : "aeiou",
+    "subnet6" : "",
+    "subnet6_uuid" : "aeiou",
+    "network_ref" : "aeiou"
+  },
+  "sideband_profile" : {
+    "ip" : [ "" ],
+    "sideband_max_request_body_size" : 123
+  },
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
   },
-  "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
     "ip6_address" : [ {
       "ip6_address" : ""
@@ -2009,13 +2600,9 @@ font-style: italic;
     "delegated" : true,
     "algorithm" : "aeiou"
   } ],
-  "apic_contract_graph" : "aeiou",
-  "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
-  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
-  "waf_policy_ref" : "aeiou",
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -2024,17 +2611,11 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
-  "security_policy_ref" : "aeiou",
+  "allow_invalid_client_cert" : true,
   "application_profile_ref" : "aeiou",
-  "ssl_sess_cache_avg_size" : 123,
-  "cloud_type" : "aeiou",
-  "scaleout_ecmp" : true,
   "flow_label_type" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
   "traffic_clone_profile_ref" : "aeiou",
-  "remove_listening_port_on_vs_down" : true,
-  "vsvip_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
     "period" : 123,
@@ -2069,75 +2650,37 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
-  "network_security_policy_ref" : "aeiou",
   "port_uuid" : "aeiou",
   "description" : "aeiou",
   "vs_datascripts" : [ {
     "index" : 123,
     "vs_datascript_set_ref" : "aeiou"
   } ],
-  "pool_group_ref" : "aeiou",
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
-  "ssl_profile_ref" : "aeiou",
-  "enabled" : true,
   "_last_modified" : "aeiou",
-  "limit_doser" : true,
   "se_group_ref" : "aeiou",
-  "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
   "close_client_conn_on_config_update" : true,
-  "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
-  "sso_policy" : {
-    "authentication_policy" : {
-      "sp_metadata" : "aeiou",
-      "cookie_timeout" : 123,
-      "auth_profile_ref" : "aeiou",
-      "entity_id" : "aeiou",
-      "key" : [ {
-        "hmac_key" : "aeiou",
-        "aes_key" : "aeiou",
-        "name" : "aeiou"
-      } ],
-      "cookie_name" : "aeiou",
-      "single_signon_url" : "aeiou"
-    }
-  },
-  "network_ref" : "aeiou",
-  "http_policies" : [ {
-    "http_policy_set_ref" : "aeiou",
-    "index" : 123
-  } ],
   "discovered_network_ref" : [ "aeiou" ],
   "analytics_profile_ref" : "aeiou",
-  "availability_zone" : "aeiou",
-  "service_metadata" : "aeiou",
   "use_bridge_ip_as_vip" : true,
   "requests_rate_limit" : "",
   "enable_rhi" : true,
   "ip_address" : "",
-  "services" : [ {
-    "override_network_profile_ref" : "aeiou",
-    "port" : 123,
-    "port_range_end" : 123,
-    "enable_ssl" : true,
-    "override_application_profile_ref" : "aeiou"
+  "ssl_profile_selectors" : [ {
+    "ssl_profile_ref" : "aeiou",
+    "client_ip_list" : ""
   } ],
-  "url" : "aeiou",
-  "active_standby_se_tag" : "aeiou",
-  "nsx_securitygroup" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
-  "vh_parent_vs_uuid" : "aeiou",
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
     "subnet6" : [ "" ],
     "network_ref" : "aeiou"
-  } ],
-  "vsvip_cloud_config_cksum" : "aeiou",
-  "east_west_placement" : true
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -2891,7 +3434,6 @@ font-style: italic;
     "realm" : "aeiou",
     "type" : "aeiou"
   },
-  "subnet" : "",
   "dns_policies" : [ {
     "dns_policy_ref" : "aeiou",
     "index" : 123
@@ -2902,20 +3444,6 @@ font-style: italic;
   } ],
   "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
-  "vrf_context_ref" : "aeiou",
-  "flow_dist" : "aeiou",
-  "dns_info" : [ {
-    "metadata" : "aeiou",
-    "fqdn" : "aeiou",
-    "num_records_in_response" : 123,
-    "cname" : {
-      "cname" : "aeiou"
-    },
-    "type" : "aeiou",
-    "ttl" : 123,
-    "algorithm" : "aeiou"
-  } ],
-  "avi_allocated_vip" : true,
   "content_rewrite" : {
     "req_match_replace_pair" : [ {
       "match_string" : "aeiou",
@@ -2931,17 +3459,9 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
-  "uuid" : "aeiou",
-  "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
-  "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
-  "microservice_ref" : "aeiou",
-  "error_page_profile_ref" : "aeiou",
-  "avi_allocated_fip" : true,
-  "server_network_profile_ref" : "aeiou",
-  "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
     "all_headers" : true,
@@ -2992,18 +3512,7 @@ font-style: italic;
       "enabled" : true
     }
   },
-  "ipam_network_subnet" : {
-    "subnet" : "",
-    "subnet_uuid" : "aeiou",
-    "subnet6" : "",
-    "subnet6_uuid" : "aeiou",
-    "network_ref" : "aeiou"
-  },
   "enable_rhi_snat" : true,
-  "sideband_profile" : {
-    "ip" : [ "" ],
-    "sideband_max_request_body_size" : 123
-  },
   "vip" : [ {
     "availability_zone" : "aeiou",
     "ip6_address" : "",
@@ -3029,11 +3538,115 @@ font-style: italic;
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
+  "sp_pool_refs" : [ "aeiou" ],
+  "apic_contract_graph" : "aeiou",
+  "subnet_uuid" : "aeiou",
+  "bulk_sync_kvcache" : true,
+  "waf_policy_ref" : "aeiou",
+  "security_policy_ref" : "aeiou",
+  "ssl_sess_cache_avg_size" : 123,
+  "cloud_type" : "aeiou",
+  "scaleout_ecmp" : true,
+  "cloud_config_cksum" : "aeiou",
+  "remove_listening_port_on_vs_down" : true,
+  "vsvip_ref" : "aeiou",
+  "network_security_policy_ref" : "aeiou",
+  "topology_policies" : [ "" ],
+  "pool_group_ref" : "aeiou",
+  "ssl_profile_ref" : "aeiou",
+  "enabled" : true,
+  "limit_doser" : true,
+  "discovered_subnet" : [ "" ],
+  "max_cps_per_client" : 123,
+  "sso_policy_ref" : "aeiou",
+  "sso_policy" : {
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "default_auth_profile_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ "" ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  },
+  "network_ref" : "aeiou",
+  "http_policies" : [ {
+    "http_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "availability_zone" : "aeiou",
+  "service_metadata" : "aeiou",
+  "services" : [ {
+    "override_network_profile_ref" : "aeiou",
+    "port" : 123,
+    "port_range_end" : 123,
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
+  } ],
+  "url" : "aeiou",
+  "active_standby_se_tag" : "aeiou",
+  "nsx_securitygroup" : [ "aeiou" ],
+  "vh_parent_vs_uuid" : "aeiou",
+  "vsvip_cloud_config_cksum" : "aeiou",
+  "east_west_placement" : true,
+  "subnet" : "",
+  "saml_sp_config" : {
+    "sp_metadata" : "aeiou",
+    "signing_ssl_key_and_certificate_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "vrf_context_ref" : "aeiou",
+  "flow_dist" : "aeiou",
+  "dns_info" : [ {
+    "metadata" : "aeiou",
+    "fqdn" : "aeiou",
+    "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
+    "type" : "aeiou",
+    "ttl" : 123,
+    "algorithm" : "aeiou"
+  } ],
+  "avi_allocated_vip" : true,
+  "uuid" : "aeiou",
+  "vh_domain_name" : [ "aeiou" ],
+  "snat_ip" : [ "" ],
+  "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
+  "avi_allocated_fip" : true,
+  "server_network_profile_ref" : "aeiou",
+  "use_vip_as_snat" : true,
+  "ipam_network_subnet" : {
+    "subnet" : "",
+    "subnet_uuid" : "aeiou",
+    "subnet6" : "",
+    "subnet6_uuid" : "aeiou",
+    "network_ref" : "aeiou"
+  },
+  "sideband_profile" : {
+    "ip" : [ "" ],
+    "sideband_max_request_body_size" : 123
+  },
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
   },
-  "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
     "ip6_address" : [ {
       "ip6_address" : ""
@@ -3062,13 +3675,9 @@ font-style: italic;
     "delegated" : true,
     "algorithm" : "aeiou"
   } ],
-  "apic_contract_graph" : "aeiou",
-  "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
-  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
-  "waf_policy_ref" : "aeiou",
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -3077,17 +3686,11 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
-  "security_policy_ref" : "aeiou",
+  "allow_invalid_client_cert" : true,
   "application_profile_ref" : "aeiou",
-  "ssl_sess_cache_avg_size" : 123,
-  "cloud_type" : "aeiou",
-  "scaleout_ecmp" : true,
   "flow_label_type" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
   "traffic_clone_profile_ref" : "aeiou",
-  "remove_listening_port_on_vs_down" : true,
-  "vsvip_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
     "period" : 123,
@@ -3122,75 +3725,37 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
-  "network_security_policy_ref" : "aeiou",
   "port_uuid" : "aeiou",
   "description" : "aeiou",
   "vs_datascripts" : [ {
     "index" : 123,
     "vs_datascript_set_ref" : "aeiou"
   } ],
-  "pool_group_ref" : "aeiou",
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
-  "ssl_profile_ref" : "aeiou",
-  "enabled" : true,
   "_last_modified" : "aeiou",
-  "limit_doser" : true,
   "se_group_ref" : "aeiou",
-  "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
   "close_client_conn_on_config_update" : true,
-  "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
-  "sso_policy" : {
-    "authentication_policy" : {
-      "sp_metadata" : "aeiou",
-      "cookie_timeout" : 123,
-      "auth_profile_ref" : "aeiou",
-      "entity_id" : "aeiou",
-      "key" : [ {
-        "hmac_key" : "aeiou",
-        "aes_key" : "aeiou",
-        "name" : "aeiou"
-      } ],
-      "cookie_name" : "aeiou",
-      "single_signon_url" : "aeiou"
-    }
-  },
-  "network_ref" : "aeiou",
-  "http_policies" : [ {
-    "http_policy_set_ref" : "aeiou",
-    "index" : 123
-  } ],
   "discovered_network_ref" : [ "aeiou" ],
   "analytics_profile_ref" : "aeiou",
-  "availability_zone" : "aeiou",
-  "service_metadata" : "aeiou",
   "use_bridge_ip_as_vip" : true,
   "requests_rate_limit" : "",
   "enable_rhi" : true,
   "ip_address" : "",
-  "services" : [ {
-    "override_network_profile_ref" : "aeiou",
-    "port" : 123,
-    "port_range_end" : 123,
-    "enable_ssl" : true,
-    "override_application_profile_ref" : "aeiou"
+  "ssl_profile_selectors" : [ {
+    "ssl_profile_ref" : "aeiou",
+    "client_ip_list" : ""
   } ],
-  "url" : "aeiou",
-  "active_standby_se_tag" : "aeiou",
-  "nsx_securitygroup" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
-  "vh_parent_vs_uuid" : "aeiou",
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
     "subnet6" : [ "" ],
     "network_ref" : "aeiou"
-  } ],
-  "vsvip_cloud_config_cksum" : "aeiou",
-  "east_west_placement" : true
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -3314,7 +3879,6 @@ font-style: italic;
     "realm" : "aeiou",
     "type" : "aeiou"
   },
-  "subnet" : "",
   "dns_policies" : [ {
     "dns_policy_ref" : "aeiou",
     "index" : 123
@@ -3325,20 +3889,6 @@ font-style: italic;
   } ],
   "azure_availability_set" : "aeiou",
   "enable_autogw" : true,
-  "vrf_context_ref" : "aeiou",
-  "flow_dist" : "aeiou",
-  "dns_info" : [ {
-    "metadata" : "aeiou",
-    "fqdn" : "aeiou",
-    "num_records_in_response" : 123,
-    "cname" : {
-      "cname" : "aeiou"
-    },
-    "type" : "aeiou",
-    "ttl" : 123,
-    "algorithm" : "aeiou"
-  } ],
-  "avi_allocated_vip" : true,
   "content_rewrite" : {
     "req_match_replace_pair" : [ {
       "match_string" : "aeiou",
@@ -3354,17 +3904,9 @@ font-style: italic;
   },
   "type" : "aeiou",
   "traffic_enabled" : true,
-  "uuid" : "aeiou",
-  "vh_domain_name" : [ "aeiou" ],
   "pool_ref" : "aeiou",
   "delay_fairness" : true,
-  "snat_ip" : [ "" ],
   "cloud_ref" : "aeiou",
-  "microservice_ref" : "aeiou",
-  "error_page_profile_ref" : "aeiou",
-  "avi_allocated_fip" : true,
-  "server_network_profile_ref" : "aeiou",
-  "use_vip_as_snat" : true,
   "analytics_policy" : {
     "significant_log_throttle" : 123,
     "all_headers" : true,
@@ -3415,18 +3957,7 @@ font-style: italic;
       "enabled" : true
     }
   },
-  "ipam_network_subnet" : {
-    "subnet" : "",
-    "subnet_uuid" : "aeiou",
-    "subnet6" : "",
-    "subnet6_uuid" : "aeiou",
-    "network_ref" : "aeiou"
-  },
   "enable_rhi_snat" : true,
-  "sideband_profile" : {
-    "ip" : [ "" ],
-    "sideband_max_request_body_size" : 123
-  },
   "vip" : [ {
     "availability_zone" : "aeiou",
     "ip6_address" : "",
@@ -3452,11 +3983,115 @@ font-style: italic;
     "discovered_networks" : [ "" ]
   } ],
   "min_pools_up" : 123,
+  "sp_pool_refs" : [ "aeiou" ],
+  "apic_contract_graph" : "aeiou",
+  "subnet_uuid" : "aeiou",
+  "bulk_sync_kvcache" : true,
+  "waf_policy_ref" : "aeiou",
+  "security_policy_ref" : "aeiou",
+  "ssl_sess_cache_avg_size" : 123,
+  "cloud_type" : "aeiou",
+  "scaleout_ecmp" : true,
+  "cloud_config_cksum" : "aeiou",
+  "remove_listening_port_on_vs_down" : true,
+  "vsvip_ref" : "aeiou",
+  "network_security_policy_ref" : "aeiou",
+  "topology_policies" : [ "" ],
+  "pool_group_ref" : "aeiou",
+  "ssl_profile_ref" : "aeiou",
+  "enabled" : true,
+  "limit_doser" : true,
+  "discovered_subnet" : [ "" ],
+  "max_cps_per_client" : 123,
+  "sso_policy_ref" : "aeiou",
+  "sso_policy" : {
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "authentication_policy" : {
+      "sp_metadata" : "aeiou",
+      "default_auth_profile_ref" : "aeiou",
+      "cookie_timeout" : 123,
+      "auth_profile_ref" : "aeiou",
+      "entity_id" : "aeiou",
+      "key" : [ "" ],
+      "cookie_name" : "aeiou",
+      "single_signon_url" : "aeiou"
+    },
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou"
+  },
+  "network_ref" : "aeiou",
+  "http_policies" : [ {
+    "http_policy_set_ref" : "aeiou",
+    "index" : 123
+  } ],
+  "availability_zone" : "aeiou",
+  "service_metadata" : "aeiou",
+  "services" : [ {
+    "override_network_profile_ref" : "aeiou",
+    "port" : 123,
+    "port_range_end" : 123,
+    "enable_ssl" : true,
+    "override_application_profile_ref" : "aeiou"
+  } ],
+  "url" : "aeiou",
+  "active_standby_se_tag" : "aeiou",
+  "nsx_securitygroup" : [ "aeiou" ],
+  "vh_parent_vs_uuid" : "aeiou",
+  "vsvip_cloud_config_cksum" : "aeiou",
+  "east_west_placement" : true,
+  "subnet" : "",
+  "saml_sp_config" : {
+    "sp_metadata" : "aeiou",
+    "signing_ssl_key_and_certificate_ref" : "aeiou",
+    "cookie_timeout" : 123,
+    "entity_id" : "aeiou",
+    "key" : [ {
+      "hmac_key" : "aeiou",
+      "aes_key" : "aeiou",
+      "name" : "aeiou"
+    } ],
+    "cookie_name" : "aeiou",
+    "single_signon_url" : "aeiou"
+  },
+  "vrf_context_ref" : "aeiou",
+  "flow_dist" : "aeiou",
+  "dns_info" : [ {
+    "metadata" : "aeiou",
+    "fqdn" : "aeiou",
+    "num_records_in_response" : 123,
+    "cname" : {
+      "cname" : "aeiou"
+    },
+    "type" : "aeiou",
+    "ttl" : 123,
+    "algorithm" : "aeiou"
+  } ],
+  "avi_allocated_vip" : true,
+  "uuid" : "aeiou",
+  "vh_domain_name" : [ "aeiou" ],
+  "snat_ip" : [ "" ],
+  "microservice_ref" : "aeiou",
+  "error_page_profile_ref" : "aeiou",
+  "avi_allocated_fip" : true,
+  "server_network_profile_ref" : "aeiou",
+  "use_vip_as_snat" : true,
+  "ipam_network_subnet" : {
+    "subnet" : "",
+    "subnet_uuid" : "aeiou",
+    "subnet6" : "",
+    "subnet6_uuid" : "aeiou",
+    "network_ref" : "aeiou"
+  },
+  "sideband_profile" : {
+    "ip" : [ "" ],
+    "sideband_max_request_body_size" : 123
+  },
   "performance_limits" : {
     "max_concurrent_connections" : 123,
     "max_throughput" : 123
   },
-  "sp_pool_refs" : [ "aeiou" ],
   "static_dns_records" : [ {
     "ip6_address" : [ {
       "ip6_address" : ""
@@ -3485,13 +4120,9 @@ font-style: italic;
     "delegated" : true,
     "algorithm" : "aeiou"
   } ],
-  "apic_contract_graph" : "aeiou",
-  "subnet_uuid" : "aeiou",
   "fqdn" : "aeiou",
-  "bulk_sync_kvcache" : true,
   "weight" : 123,
   "auto_allocate_floating_ip" : true,
-  "waf_policy_ref" : "aeiou",
   "created_by" : "aeiou",
   "service_pool_select" : [ {
     "service_protocol" : "aeiou",
@@ -3500,17 +4131,11 @@ font-style: italic;
     "service_pool_group_ref" : "aeiou",
     "service_port" : 123
   } ],
-  "security_policy_ref" : "aeiou",
+  "allow_invalid_client_cert" : true,
   "application_profile_ref" : "aeiou",
-  "ssl_sess_cache_avg_size" : 123,
-  "cloud_type" : "aeiou",
-  "scaleout_ecmp" : true,
   "flow_label_type" : "aeiou",
   "name" : "aeiou",
-  "cloud_config_cksum" : "aeiou",
   "traffic_clone_profile_ref" : "aeiou",
-  "remove_listening_port_on_vs_down" : true,
-  "vsvip_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
     "period" : 123,
@@ -3545,75 +4170,37 @@ font-style: italic;
     "http_cookie" : "aeiou",
     "http_header" : "aeiou"
   },
-  "network_security_policy_ref" : "aeiou",
   "port_uuid" : "aeiou",
   "description" : "aeiou",
   "vs_datascripts" : [ {
     "index" : 123,
     "vs_datascript_set_ref" : "aeiou"
   } ],
-  "pool_group_ref" : "aeiou",
   "ssl_key_and_certificate_refs" : [ "aeiou" ],
-  "ssl_profile_ref" : "aeiou",
-  "enabled" : true,
   "_last_modified" : "aeiou",
-  "limit_doser" : true,
   "se_group_ref" : "aeiou",
-  "discovered_subnet" : [ "" ],
   "network_profile_ref" : "aeiou",
   "auto_allocate_ip" : true,
   "close_client_conn_on_config_update" : true,
-  "max_cps_per_client" : 123,
   "floating_ip" : "",
   "floating_subnet_uuid" : "aeiou",
-  "sso_policy" : {
-    "authentication_policy" : {
-      "sp_metadata" : "aeiou",
-      "cookie_timeout" : 123,
-      "auth_profile_ref" : "aeiou",
-      "entity_id" : "aeiou",
-      "key" : [ {
-        "hmac_key" : "aeiou",
-        "aes_key" : "aeiou",
-        "name" : "aeiou"
-      } ],
-      "cookie_name" : "aeiou",
-      "single_signon_url" : "aeiou"
-    }
-  },
-  "network_ref" : "aeiou",
-  "http_policies" : [ {
-    "http_policy_set_ref" : "aeiou",
-    "index" : 123
-  } ],
   "discovered_network_ref" : [ "aeiou" ],
   "analytics_profile_ref" : "aeiou",
-  "availability_zone" : "aeiou",
-  "service_metadata" : "aeiou",
   "use_bridge_ip_as_vip" : true,
   "requests_rate_limit" : "",
   "enable_rhi" : true,
   "ip_address" : "",
-  "services" : [ {
-    "override_network_profile_ref" : "aeiou",
-    "port" : 123,
-    "port_range_end" : 123,
-    "enable_ssl" : true,
-    "override_application_profile_ref" : "aeiou"
+  "ssl_profile_selectors" : [ {
+    "ssl_profile_ref" : "aeiou",
+    "client_ip_list" : ""
   } ],
-  "url" : "aeiou",
-  "active_standby_se_tag" : "aeiou",
-  "nsx_securitygroup" : [ "aeiou" ],
   "tenant_ref" : "aeiou",
-  "vh_parent_vs_uuid" : "aeiou",
   "ign_pool_net_reach" : true,
   "discovered_networks" : [ {
     "subnet" : [ "" ],
     "subnet6" : [ "" ],
     "network_ref" : "aeiou"
-  } ],
-  "vsvip_cloud_config_cksum" : "aeiou",
-  "east_west_placement" : true
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -4441,7 +5028,10 @@ font-style: italic;
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ReplaceStringVar"><code>ReplaceStringVar</code></a></li>
     <li><a href="#RetryPlacementParams"><code>RetryPlacementParams</code></a></li>
+    <li><a href="#SAMLSPConfig"><code>SAMLSPConfig</code></a></li>
+    <li><a href="#SSLProfileSelector"><code>SSLProfileSelector</code></a></li>
     <li><a href="#SSOPolicy"><code>SSOPolicy</code></a></li>
+    <li><a href="#SSOPolicyApiResponse"><code>SSOPolicyApiResponse</code></a></li>
     <li><a href="#Service"><code>Service</code></a></li>
     <li><a href="#ServicePoolSelector"><code>ServicePoolSelector</code></a></li>
     <li><a href="#SidebandProfile"><code>SidebandProfile</code></a></li>
@@ -4495,13 +5085,14 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthenticationPolicy">AuthenticationPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">auth_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.1. </div>
-<div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field introduced in 18.2.1. </div>
-<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.1. format: int32</div>
-<div class="param">entity_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique entityID for this node. Entity ID on the IDP should match this. Field introduced in 18.2.1. </div>
-<div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field introduced in 18.2.1. </div>
-<div class="param">single_signon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Single Signon URL to be programmed on the IDP. Field introduced in 18.2.1. </div>
-<div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata. Field introduced in 18.2.1. </div>
+      <div class="param">auth_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. format: int32</div>
+<div class="param">default_auth_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.3. </div>
+<div class="param">entity_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique entityID for this node. Entity ID on the IDP should match this. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">single_signon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Single Signon URL to be programmed on the IDP. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4765,7 +5356,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
-<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
     </div>  <!-- field-items -->
   </div>
@@ -4774,7 +5365,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
 <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-2500. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
@@ -4798,9 +5389,40 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="SAMLSPConfig">SAMLSPConfig</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field introduced in 18.2.3. </div>
+<div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3. format: int32</div>
+<div class="param">entity_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3. </div>
+<div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field introduced in 18.2.3. </div>
+<div class="param">signing_ssl_key_and_certificate_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SP will use this SSL certificate to sign assertions going to the IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3. </div>
+<div class="param">single_signon_url </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML Single Signon URL to be programmed on the IDP. Field introduced in 18.2.3. </div>
+<div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata for this application. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSLProfileSelector">SSLProfileSelector</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip_list </div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client IP address groups. Field introduced in 18.2.3. </div>
+<div class="param">ssl_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSL profile for the client IP addresses listed. It is a reference to an object of type SSLProfile. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="SSOPolicy">SSOPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">authentication_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">authentication_policy </div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the SSO Policy. Field introduced in 18.2.3. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the SSO Policy. Field introduced in 18.2.3. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SSOPolicyApiResponse">SSOPolicyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#SSOPolicy">array[SSOPolicy]</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -4893,6 +5515,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">active_standby_se_tag (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> This configuration only applies if the VirtualService is in Legacy Active Standby HA mode and Load Distribution among Active Standby is enabled. This field is used to tag the VirtualService so that VirtualServices with the same tag will share the same Active ServiceEngine. VirtualServices with different tags will have different Active ServiceEngines. If one of the ServiceEngine&#39;s in the ServiceEngineGroup fails, all VirtualServices will end up using the same Active ServiceEngine. Redistribution of the VirtualServices can be either manual or automated when the failed ServiceEngine recovers. Redistribution is based on the auto redistribute property of the ServiceEngineGroup. Enum options - ACTIVE_STANDBY_SE_1, ACTIVE_STANDBY_SE_2. </div>
+<div class="param">allow_invalid_client_cert (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Process request even if invalid client certificate is presented. Datascript APIs need to be used for processing of such requests. Field introduced in 18.2.3. </div>
 <div class="param">analytics_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AnalyticsPolicy">AnalyticsPolicy</a></span> Determines analytics settings for the application. </div>
 <div class="param">analytics_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies settings related to analytics. It is a reference to an object of type AnalyticsProfile. </div>
 <div class="param">apic_contract_graph (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the Contract/Graph associated with the Virtual Service. Should be in the &lt;Contract name&gt; &lt;Graph name&gt; format. This is applicable only for Service Integration mode with Cisco APIC Controller . Field introduced in 17.2.12,18.1.2. </div>
@@ -4951,6 +5574,7 @@ font-style: italic;
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Virtual Service IP address. Field deprecated in 17.1.1. </div>
 <div class="param">remove_listening_port_on_vs_down (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Remove listening port if VirtualService is down. </div>
 <div class="param">requests_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateProfile">RateProfile</a></span> Rate limit the incoming requests to this virtual service. </div>
+<div class="param">saml_sp_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#SAMLSPConfig">SAMLSPConfig</a></span> Application-specific SAML config. Field introduced in 18.2.3. </div>
 <div class="param">scaleout_ecmp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable re-distribution of flows across service engines for a virtual service. Enable if the network itself performs flow hashing with ECMP in environments such as GCP. </div>
 <div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The Service Engine Group to use for this Virtual Service. Moving to a new SE Group is disruptive to existing connections for this VS. It is a reference to an object of type ServiceEngineGroup. </div>
 <div class="param">security_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Security policy applied on the traffic of the Virtual Service. This policy is used to perform security actions such as Distributed Denial of Service (DDoS) attack mitigation, etc. It is a reference to an object of type SecurityPolicy. Field introduced in 18.2.1. </div>
@@ -4963,12 +5587,15 @@ font-style: italic;
 <div class="param">sp_pool_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> GSLB pools used to manage site-persistence functionality. Each site-persistence pool contains the virtualservices in all the other sites, that is auto-generated by the GSLB manager. This is a read-only field for the user. It is a reference to an object of type Pool. Field introduced in 17.2.2. </div>
 <div class="param">ssl_key_and_certificate_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Select or create one or two certificates, EC and/or RSA, that will be presented to SSL/TLS terminated connections. It is a reference to an object of type SSLKeyAndCertificate. </div>
 <div class="param">ssl_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the set of SSL versions and ciphers to accept for SSL/TLS terminated connections. It is a reference to an object of type SSLProfile. </div>
+<div class="param">ssl_profile_selectors (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLProfileSelector">array[SSLProfileSelector]</a></span> Select SSL Profile based on client IP address match. Field introduced in 18.2.3. </div>
 <div class="param">ssl_sess_cache_avg_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Expected number of SSL session cache entries (may be exceeded). Allowed values are 1024-16383. format: int32</div>
-<div class="param">sso_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSOPolicy">SSOPolicy</a></span> Client Authentication and Authorization Policy for the virtualservice. Field introduced in 18.2.1. </div>
+<div class="param">sso_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSOPolicy">SSOPolicy</a></span> Client Authentication and Authorization Policy for the virtualservice. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">sso_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The SSO Policy attached to the virtualservice. It is a reference to an object of type SSOPolicy. Field introduced in 18.2.3. </div>
 <div class="param">static_dns_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRecord">array[DnsRecord]</a></span> List of static DNS records applied to this Virtual Service. These are static entries and no health monitoring is performed against the IP addresses. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Virtual Service IP. Field deprecated in 17.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> It represents subnet for the Virtual Service IP address allocation when auto_allocate_ip is True.It is only applicable in OpenStack or AWS cloud. This field is required if auto_allocate_ip is True. Field deprecated in 17.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">topology_policies (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsPolicies">array[DnsPolicies]</a></span> Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3. </div>
 <div class="param">traffic_clone_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Server network or list of servers for cloning traffic. It is a reference to an object of type TrafficCloneProfile. Field introduced in 17.1.1. </div>
 <div class="param">traffic_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Knob to enable the Virtual Service traffic on its assigned service engines. This setting is effective only when the enabled flag is set to True. Field introduced in 17.2.8. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify if this is a normal Virtual Service, or if it is the parent or child of an SNI-enabled virtual hosted Virtual Service. Enum options - VS_TYPE_NORMAL, VS_TYPE_VH_PARENT, VS_TYPE_VH_CHILD. </div>

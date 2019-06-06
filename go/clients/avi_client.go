@@ -50,7 +50,6 @@ type AviClient struct {
 	ClusterCloudDetails            *ClusterCloudDetailsClient
 	ControllerLicense              *ControllerLicenseClient
 	ControllerProperties           *ControllerPropertiesClient
-	ControllerSite                 *ControllerSiteClient
 	CustomIPAMDNSProfile           *CustomIPAMDNSProfileClient
 	DNSPolicy                      *DNSPolicyClient
 	DebugController                *DebugControllerClient
@@ -82,6 +81,7 @@ type AviClient struct {
 	PoolGroup                      *PoolGroupClient
 	PoolGroupDeploymentPolicy      *PoolGroupDeploymentPolicyClient
 	PriorityLabels                 *PriorityLabelsClient
+	ProtocolParser                 *ProtocolParserClient
 	Role                           *RoleClient
 	SCPoolServerStateInfo          *SCPoolServerStateInfoClient
 	SCVsStateInfo                  *SCVsStateInfoClient
@@ -159,7 +159,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ClusterCloudDetails = NewClusterCloudDetailsClient(aviSession)
 	aviClient.ControllerLicense = NewControllerLicenseClient(aviSession)
 	aviClient.ControllerProperties = NewControllerPropertiesClient(aviSession)
-	aviClient.ControllerSite = NewControllerSiteClient(aviSession)
 	aviClient.CustomIPAMDNSProfile = NewCustomIPAMDNSProfileClient(aviSession)
 	aviClient.DNSPolicy = NewDNSPolicyClient(aviSession)
 	aviClient.DebugController = NewDebugControllerClient(aviSession)
@@ -191,6 +190,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.PoolGroup = NewPoolGroupClient(aviSession)
 	aviClient.PoolGroupDeploymentPolicy = NewPoolGroupDeploymentPolicyClient(aviSession)
 	aviClient.PriorityLabels = NewPriorityLabelsClient(aviSession)
+	aviClient.ProtocolParser = NewProtocolParserClient(aviSession)
 	aviClient.Role = NewRoleClient(aviSession)
 	aviClient.SCPoolServerStateInfo = NewSCPoolServerStateInfoClient(aviSession)
 	aviClient.SCVsStateInfo = NewSCVsStateInfoClient(aviSession)
