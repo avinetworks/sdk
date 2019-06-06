@@ -63,7 +63,7 @@ def my_represent_scalar(self, tag, value, style=None):
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 meta_file = mg_util.get_project_path() + '/common/avi_resource_types.yaml'
 with open(meta_file) as f:
-    supported_obj = yaml.load(f)
+    supported_obj = yaml.full_load(f)
 
 
 class AviAnsibleConverterBase(object):
