@@ -5,16 +5,16 @@ Created on September 15, 2016
 @author: Gaurav Rastogi (grastogi@avinetworks.com)
 '''
 
-import argparse
 import json
 import logging
-import os
-import re
 import urlparse
 from copy import deepcopy
 from urllib import urlencode
 
+import argparse
+import re
 import yaml
+
 from avi.migrationtools.ansible.ansible_constant import \
     (USERNAME, PASSWORD, HTTP_TYPE, SSL_TYPE, DNS_TYPE, L4_TYPE, AVI_CONTROLLER,
      APPLICATION_PROFILE_REF, CREATE_OBJECT, GEN_TRAFFIC, common_task_args,
@@ -25,7 +25,6 @@ from avi.migrationtools.ansible.ansible_constant import \
      ADDR, VS_NAME, REGISTER, VALUE, AVI_CON_TENANT, ANSIBLE_STR, RETRIES,
      RETRIES_TIME, DELAY_TIME, DELAY, RESULT_STATUS, UNTIL, AVI_VS_IP_ADDRESS,
      AVI_CON_USERNAME, AVI_CON_PASSWORD)
-
 from avi.migrationtools.ansible.ansible_traffic_generation import TrafficGen
 from avi.migrationtools.avi_migration_utils import MigrationUtil
 from avi.migrationtools.avi_orphan_object import \
@@ -36,54 +35,54 @@ LOG = logging.getLogger(__name__)
 # Added util object
 mg_util = MigrationUtil()
 
+DEFAULT_SKIP_PARAMS = {
+    'sslprofile': ['dhparam']
+}
 
-class AviAnsibleConverter(object):
+
+def should_use_block(value):
+    for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029":
+        if c in value:
+            return True
+    return False
+
+
+def my_represent_scalar(self, tag, value, style=None):
+    if style is None:
+        if should_use_block(value):
+            style = '|'
+        else:
+            style = self.default_style
+
+    node = yaml.representer.ScalarNode(tag, value, style=style)
+    if self.alias_key is not None:
+        self.represented_objects[self.alias_key] = node
+    return node
+
+
+yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
+meta_file = mg_util.get_project_path() + '/common/avi_resource_types.yaml'
+with open(meta_file) as f:
+    supported_obj = yaml.full_load(f)
+
+
+class AviAnsibleConverterBase(object):
+    common_task_args = {
+        'controller': "{{ controller }}",
+        'username': "{{ username }}",
+        'password': "{{ password }}"
+    }
+
+    ansible_dict = dict({
+        'connection': 'local',
+        'hosts': 'localhost',
+        'vars': common_task_args,
+        'tasks': []})
+
     skip_fields = SKIP_FIELDS
-    skip_types = set(DEFAULT_SKIP_TYPES)
+    default_meta_order = supported_obj['avi_resource_types']
+
     REF_MATCH = re.compile('^/api/[\w/.#&-]*#[\s|\w/.&-:]*$')
-    # Modified REGEX
-    REL_REF_MATCH = re.compile(
-        '/api/[A-z]+/\?[A-z_\-]+\=[A-z_\-]+\&[A-z_\-]+\=.*')
-
-    def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
-                 filter_types=None, ns_vs_name_dict=None, test_vip=None,
-                 partitions=None, controller_version=None):
-        self.outdir = outdir
-        self.avi_cfg = avi_cfg
-        # Added prefix flag for object
-        self.prefix = prefix
-        self.not_in_use = not_in_use
-        # Added ns vs dict
-        self.ns_vs_name_dict = ns_vs_name_dict
-        # for test vip
-        self.test_vip = test_vip
-        self.partitions = partitions
-        if 'META' in avi_cfg and avi_cfg['META']['version']['Version']:
-            self.api_version = avi_cfg['META']['version']['Version']
-        else:
-            self.api_version = controller_version
-        if skip_types is None:
-            skip_types = DEFAULT_SKIP_TYPES
-        self.skip_types = (skip_types if type(skip_types) == list
-                           else skip_types.split(','))
-        if filter_types:
-            self.filter_types = \
-                (set(filter_types) if type(filter_types) == list
-                 else set(filter_types.split(',')))
-        else:
-            self.filter_types = None
-
-        # Read file to get meta order.
-        self.ansible_rest_file_path = os.path.join(os.path.dirname(__file__),
-                                                   '../common/avi_resource_types.yaml')
-
-        with open(self.ansible_rest_file_path, 'r') as f:
-            self.default_meta_order = yaml.load(f)
-
-        # Convert list of resource to lower case.
-        self.default_meta_order['avi_resource_types'] = \
-            map(lambda x: x.lower(),
-                self.default_meta_order['avi_resource_types'])
 
     def transform_ref(self, x, obj):
         """
@@ -130,7 +129,10 @@ class AviAnsibleConverter(object):
                 # check for whether v is string or list of strings
                 if isinstance(v, basestring) or isinstance(v, unicode):
                     ref = self.transform_ref(v, obj)
-                    obj[k] = ref
+                    if ref:
+                        obj[k] = ref
+                    else:
+                        del obj[k]
                 elif type(v) == list:
                     new_list = []
                     for item in v:
@@ -138,7 +140,9 @@ class AviAnsibleConverter(object):
                             self.transform_obj_refs(item)
                         elif (isinstance(item, basestring) or
                               isinstance(item, unicode)):
-                            new_list.append(self.transform_ref(item, obj))
+                            ref = self.transform_ref(item, obj)
+                            if ref:
+                                new_list.append(ref)
                     if new_list:
                         obj[k] = new_list
             elif type(v) == list:
@@ -157,6 +161,62 @@ class AviAnsibleConverter(object):
             tenant = obj['tenant_ref'].split('name=')[1].strip()
             obj.update({'tenant': tenant})
 
+    def purge_fields(self, rsrc_type, rsrc):
+        for skip_field in self.skip_fields:
+            rsrc.pop(skip_field, None)
+        for skip_param in DEFAULT_SKIP_PARAMS.get(rsrc_type, []):
+            rsrc.pop(skip_param, None)
+        for skip_field in self.skip_fields:
+            rsrc.pop(skip_field, None)
+        for key in rsrc:
+            if isinstance(rsrc[key], str):
+                rsrc[key] = rsrc[key].encode('string-escape')
+            elif isinstance(rsrc[key], unicode) and key == 'key':
+                rsrc[key] = rsrc[key].encode()
+            elif isinstance(rsrc[key], unicode):
+                rsrc[key] = rsrc[key].encode('unicode-escape')
+
+        if rsrc_type == 'vsvip':
+            # check for floating IP and normal IP
+            for vip in rsrc.get('vip', []):
+                if vip.get('avi_allocated_fip', False):
+                    print ('purged floating ip from %s',
+                           vip['floating_ip']['addr'])
+                    vip.pop('floating_ip', None)
+                if vip.get('avi_allocated_vip', False):
+                    print ('purged avi vip %s', vip['ip_address']['addr'])
+                    vip.pop('ip_address', None)
+
+class AviAnsibleConverterMigration(AviAnsibleConverterBase):
+    skip_fields = SKIP_FIELDS
+    skip_types = set(DEFAULT_SKIP_TYPES)
+
+    def __init__(self, avi_cfg, outdir, prefix, not_in_use, skip_types=None,
+                 filter_types=None, ns_vs_name_dict=None, test_vip=None,
+                 partitions=None, controller_version=None):
+        self.outdir = outdir
+        self.avi_cfg = avi_cfg
+        self.api_version = controller_version
+        # Added prefix flag for object
+        self.prefix = prefix
+        self.not_in_use = not_in_use
+        # Added ns vs dict
+        self.ns_vs_name_dict = ns_vs_name_dict
+        # for test vip
+        self.test_vip = test_vip
+        self.partitions = partitions
+        if skip_types is None:
+            skip_types = DEFAULT_SKIP_TYPES
+        self.skip_types = (skip_types if type(skip_types) == list
+                           else skip_types.split(','))
+        if filter_types:
+            self.filter_types = \
+                (set(filter_types) if type(filter_types) == list
+                 else set(filter_types.split(',')))
+        else:
+            self.filter_types = None
+
+
     def build_ansible_objects(self, obj_type, objs, ansible_dict, inuse_list):
         """
         adds per object type ansible task
@@ -166,18 +226,12 @@ class AviAnsibleConverter(object):
         Returns
             Ansible dict
         """
-
-        # get the reference dict
-        vs_ref_dict = get_vs_ref()
-
         for obj in objs:
             task = deepcopy(obj)
             # Added tag for checking object ref.
-            used_tag = 'in_use'
             if isinstance(task, str):
                 continue
-            for skip_field in self.skip_fields:
-                task.pop(skip_field, None)
+            self.purge_fields(obj_type, task)
             self.transform_obj_refs(task)
             task.update(common_task_args)
             self.update_tenant(task)
@@ -187,47 +241,13 @@ class AviAnsibleConverter(object):
 
             # replacing test vips for both versions 17.1 and 16.4
             if self.test_vip:
-                test_vip = self.test_vip.split('.')[:3]
-                if self.api_version == '16.4':
-                    if task.get('ip_address', []):
-                        task['ip_address']['addr']\
-                            = '.'.join(test_vip +
-                                       task['ip_address']['addr'].split('.')[3:])
-                else:
-                    if task.get('vip', []):
-                        for id, ip in enumerate(task['vip']):
-                            task['vip'][id]['ip_address']['addr']\
-                                = '.'.join(test_vip +
-                                           task['vip'][id]['ip_address']['addr'].split('.')[3:])
-                        if task.get('vsvip_ref', []):
-                            task.get('vsvip_ref', [])
+                self.update_ip_for_test_vip(task)
+
             task.update({'api_context': "{{api_context | default(omit)}}"})
             task.update({API_VERSION: self.api_version})
-            # Check object present in list for tag.
-            tenant = None
-            if 'tenant_ref' in obj:
-                link, tenant = get_name_and_entity(obj['tenant_ref'])
-            key = PATH_KEY_MAP.get(obj_type, '')
-            name = '%s-%s-%s' % (obj['name'], key, tenant)
-            if inuse_list and name not in inuse_list:
-                used_tag = 'not_in_use'
 
-            tname = None
-            if 'tenant_ref' in obj:
-                entity, tname = get_name_and_entity(obj['tenant_ref'])
+            tags = self.get_task_tags(obj, obj_type, inuse_list)
 
-            # creating the equivalent key
-            vs_ref_type = '%s$$%s$$%s' % (obj['name'], obj_type.lower(), tname)
-            vs_ref_tags = None
-
-            if vs_ref_type in vs_ref_dict:
-                vs_ref_tags = vs_ref_dict[vs_ref_type]
-
-            tags = [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
-
-            # eliminate nonetype in vs_ref_tags
-            if vs_ref_tags:
-                tags.extend(vs_ref_tags)
             ansible_dict[TASKS].append(
                 {
                     task_id: task,
@@ -235,6 +255,53 @@ class AviAnsibleConverter(object):
                     TAGS: tags
                 })
         return ansible_dict
+
+    def update_ip_for_test_vip(self, task):
+        test_vip = self.test_vip.split('.')[:3]
+        if self.api_version == '16.4':
+            if task.get('ip_address', []):
+                task['ip_address']['addr'] \
+                    = '.'.join(test_vip +
+                               task['ip_address']['addr'].split('.')[3:])
+        else:
+            if task.get('vip', []):
+                for id, ip in enumerate(task['vip']):
+                    task['vip'][id]['ip_address']['addr'] \
+                        = '.'.join(test_vip +
+                                   task['vip'][id]['ip_address']['addr'].split('.')[3:])
+                if task.get('vsvip_ref', []):
+                    task.get('vsvip_ref', [])
+
+    def get_task_tags(self, obj, obj_type, inuse_list):
+        # get the reference dict
+        vs_ref_dict = get_vs_ref()
+        used_tag = 'in_use'
+        # Check object present in list for tag.
+        tenant = None
+        if 'tenant_ref' in obj:
+            link, tenant = get_name_and_entity(obj['tenant_ref'])
+        key = PATH_KEY_MAP.get(obj_type, '')
+        name = '%s-%s-%s' % (obj['name'], key, tenant)
+        if inuse_list and name not in inuse_list:
+            used_tag = 'not_in_use'
+
+        tname = None
+        if 'tenant_ref' in obj:
+            entity, tname = get_name_and_entity(obj['tenant_ref'])
+
+        # creating the equivalent key
+        vs_ref_type = '%s$$%s$$%s' % (obj['name'], obj_type.lower(), tname)
+        vs_ref_tags = None
+        if vs_ref_type in vs_ref_dict:
+            vs_ref_tags = vs_ref_dict[vs_ref_type]
+
+        tags = [obj[NAME], CREATE_OBJECT, obj_type.lower(), used_tag]
+        # eliminate nonetype in vs_ref_tags
+        if vs_ref_tags:
+            tags.extend(vs_ref_tags)
+
+        return tags
+
 
     def get_f5_attributes(self, vs_dict):
         """
@@ -445,10 +512,10 @@ class AviAnsibleConverter(object):
             inuse_list = filter_for_vs(self.avi_cfg)
         ad = deepcopy(ansible_dict)
         generate_traffic_dict = deepcopy(ansible_dict)
-        total_size = len(self.default_meta_order['avi_resource_types'])
+        total_size = len(self.default_meta_order)
         progressbar_count = 0
         print "Conversion Started For Ansible Create Object..."
-        for obj_type in self.default_meta_order['avi_resource_types']:
+        for obj_type in self.default_meta_order:
             progressbar_count += 1
             # Added call to check progress.
             msg = "Ansible Create Object..."
@@ -538,11 +605,9 @@ if __name__ == '__main__':
 
     with open(args.config_file, "r+") as f:
         avi_cfg = json.loads(f.read())
-        aac = AviAnsibleConverter(avi_cfg, args.output_dir,
-                                  None, None,
-                                  skip_types=args.skip_types,
-                                  filter_types=args.filter_types,
-                                  partitions=args.partition_file,
-                                  controller_version=args.controller_version)
+        aac = AviAnsibleConverterMigration(
+            avi_cfg, args.output_dir, None, None, skip_types=args.skip_types,
+            filter_types=args.filter_types, partitions=args.partition_file,
+            controller_version=args.controller_version)
+
         aac.write_ansible_playbook()
-# avi_cfg, outdir, prefix, not_in_use, skip_types=None, filter_types=None

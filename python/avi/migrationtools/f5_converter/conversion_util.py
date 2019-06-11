@@ -1102,9 +1102,6 @@ class F5Util(MigrationUtil):
         li = s.rsplit(old, occurrence)
         return new.join(li)
 
-    def get_project_path(self):
-        return os.path.abspath(os.path.dirname(__file__))
-
     def clone_pool_if_shared(self, ref, avi_config, vs_name, tenant, p_tenant,
                              persist_type, controller_version, app_prof_ref,
                              sysdict, cloud_name='Default-Cloud', prefix=None):

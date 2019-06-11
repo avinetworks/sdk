@@ -7,7 +7,7 @@ import yaml
 
 # Read avi object to API path map from yaml file.
 yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__), './common/avi_resource_types.yaml'))
-yml_data = yaml.load(open(yml_file, 'r'))
+yml_data = yaml.full_load(open(yml_file, 'r'))
 # Converts avi object types to avi resource types
 data_lower_case = map(lambda x: x.lower(), yml_data['avi_resource_types'])
 # Generates AVI resource types to avi object type mapping in form of dictionary.

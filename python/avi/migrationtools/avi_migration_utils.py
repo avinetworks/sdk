@@ -590,3 +590,6 @@ class MigrationUtil(object):
         if new_name:
             self.find_and_add_ne(found_obj, avi_config, avi_graph, new_name,
                                  depth)
+
+    def get_project_path(self):
+        return os.path.abspath(os.path.dirname(__file__))
