@@ -14,7 +14,7 @@ from avi.migrationtools.ace_converter.ace_config_converter import\
 from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
 from pkg_resources import resource_filename
 from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverterMigration
 
 template_loc, template_name =\
     os.path.split(resource_filename(
@@ -95,7 +95,7 @@ class AceConvertor(AviConverter):
 
         # writing ansible if needed
         if self.create_ansible:
-            avi_traffic = AviAnsibleConverter(
+            avi_traffic = AviAnsibleConverterMigration(
                 avi_config, self.output_file_path, prefix=None, not_in_use=None)
             avi_traffic.write_ansible_playbook()
 

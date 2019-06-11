@@ -19,6 +19,7 @@ avi_resource_types:
   - ErrorPageBody
   - AutoScaleLaunchConfig
   - CertificateManagementProfile
+  - ControllerSite
   - Webhook
   - StringGroup
   - Cluster
