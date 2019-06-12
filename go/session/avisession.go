@@ -171,10 +171,14 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 }
 
 //SwitchTenant Sets tenant into the avisession.
-func (avisess *AviSession) SwitchTenant(tenant string) (error) {
-	avisess.tenant = tenant
-	if avisess.tenant == "" {
-		avisess.tenant = DEFAULT_API_TENANT
+func (avisess *AviSession) SwitchTenant(tenant string) error {
+	if tenant == "" {
+		errorResult := AviError{}
+		errorResult.err = fmt.Errorf("please provide tenant name")
+		glog.Error("Please provide tenant name.")
+		return errorResult
+	} else {
+		avisess.tenant = tenant
 	}
 	return nil
 }
