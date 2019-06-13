@@ -105,8 +105,16 @@ func (client *DebugServiceEngineClient) Patch(uuid string, patch interface{}, pa
 }
 
 // Delete an existing DebugServiceEngine object with a given UUID
-func (client *DebugServiceEngineClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *DebugServiceEngineClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	if len(newOptions) != 0 {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	} else {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	}
 }
 
 // DeleteByName - Delete an existing DebugServiceEngine object with a given name

@@ -105,8 +105,16 @@ func (client *VrfContextClient) Patch(uuid string, patch interface{}, patchOp st
 }
 
 // Delete an existing VrfContext object with a given UUID
-func (client *VrfContextClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *VrfContextClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	newOptions := make([]session.ApiOptionsParams, len(options)+1)
+	for i, p := range options {
+		newOptions[i] = p
+	}
+	if len(newOptions) != 0 {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	} else {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	}
 }
 
 // DeleteByName - Delete an existing VrfContext object with a given name

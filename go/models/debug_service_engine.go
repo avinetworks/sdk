@@ -14,6 +14,9 @@ type DebugServiceEngine struct {
 	// Enable/disable packet capture. Field introduced in 18.2.2.
 	Capture *bool `json:"capture,omitempty"`
 
+	// Capture filter for SE pcap. Field introduced in 18.2.5.
+	CaptureFilters *CaptureFilters `json:"capture_filters,omitempty"`
+
 	// Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.
 	CaptureParams *DebugVirtualServiceCapture `json:"capture_params,omitempty"`
 

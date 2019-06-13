@@ -94,6 +94,9 @@ type OShiftK8SConfiguration struct {
 	// Nuage Overlay SDN Controller information. Field deprecated in 17.2.13,18.1.5,18.2.1.
 	NuageController *NuageSDNController `json:"nuage_controller,omitempty"`
 
+	// Enables sharding of Routes and Ingresses to this number (if non zero) of virtual services in the admin tenant per SEGroup. Sharding is done by hashing on the namespace of the Ingress/Route object. This knob is valid only if shared_virtualservice_namespace flag is set. Field introduced in 18.2.5.
+	NumShards *int32 `json:"num_shards,omitempty"`
+
 	// Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3.
 	OverrideServicePorts *bool `json:"override_service_ports,omitempty"`
 
@@ -139,6 +142,9 @@ type OShiftK8SConfiguration struct {
 	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11,18.1.2.
 	ServicePortMatchHTTPService *bool `json:"service_port_match_http_service,omitempty"`
 
+	// Prefix to be used for Shard VS name when num_shards knob is non zero. Format for Shard VS name will be <shard_prefix>-<shard_idx>-CloudName-SEGroupName. Default value is 'shard-vs'. Field introduced in 18.2.5.
+	ShardPrefix *string `json:"shard_prefix,omitempty"`
+
 	// Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3.
 	SharedVirtualserviceNamespace *bool `json:"shared_virtualservice_namespace,omitempty"`
 
@@ -147,6 +153,9 @@ type OShiftK8SConfiguration struct {
 
 	// Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1.
 	SSHUserRef *string `json:"ssh_user_ref,omitempty"`
+
+	// Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.5.
+	SyncNotReadyAddresses *bool `json:"sync_not_ready_addresses,omitempty"`
 
 	// If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se.
 	UseControllerImage *bool `json:"use_controller_image,omitempty"`
