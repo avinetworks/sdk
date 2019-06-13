@@ -466,7 +466,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 func (avisess *AviSession) restRequestWithOptions(verb string, uri string, payload interface{}, tenant string, retryNum ...int) ([]byte, error) {
 	var result []byte
 	url := avisess.prefix + uri
-	fmt.Println("Tenant :", tenant)
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -812,16 +811,17 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 	}
 	if opts.tenant != "" {
 		res, err := avisess.restRequestWithOptions(verb, url, payload, opts.tenant)
-		fmt.Println("Rohan: ", res)
 		if err != nil || res == nil {
 			return err
 		}
+		return json.Unmarshal(res, &response)
+	} else {
+		res, rerror := avisess.restRequest(verb, url, payload)
+		if rerror != nil || res == nil {
+			return rerror
+		}
+		return json.Unmarshal(res, &response)
 	}
-	res, rerror := avisess.restRequest(verb, url, payload)
-	if rerror != nil || res == nil {
-		return rerror
-	}
-	return json.Unmarshal(res, &response)
 }
 
 // Get issues a GET request against the avisess REST API.
@@ -844,7 +844,7 @@ func (avisess *AviSession) Put(uri string, payload interface{}, response interfa
 func (avisess *AviSession) Patch(uri string, payload interface{}, patchOp string, response interface{}) error {
 	var patchPayload = make(map[string]interface{})
 	patchPayload[patchOp] = payload
-	glog.Info(" PATCH OP %v data %v", patchOp, payload)
+	glog.Infof(" PATCH OP %v data %v", patchOp, payload)
 	return avisess.restRequestInterfaceResponse("PATCH", uri, patchPayload, response)
 }
 

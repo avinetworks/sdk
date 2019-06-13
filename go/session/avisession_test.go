@@ -152,7 +152,7 @@ func testAviSession(t *testing.T, avisess *AviSession) {
 	err = avisess.Get("api/tenant?name=testtenant", &res)
 	glog.Infof("res: %s, err: %s", res, err)
 	resp = res.(map[string]interface{})
-	glog.Infof("count: ", resp["count"])
+	glog.Infof("count: %v", resp["count"])
 	currCount = resp["count"].(float64)
 	if currCount != 0.0 {
 		t.Errorf("Expecting no tenant with that name")
@@ -167,7 +167,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	tpool.Name = &pname
 	var res models.Pool
 	err := avisess.Post("api/pool", &tpool, &res)
-	glog.Infof("res: %s, err: %s", res, err)
+	glog.Infof("res: %v, err: %v", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
 	}
@@ -176,7 +176,7 @@ func testAviPool(t *testing.T, avisess *AviSession) {
 	err = avisess.GetObjectByName("pool", "testpool", &npool2)
 
 	glog.Infof("npool: %+v err: %+v", npool2, err)
-	glog.Infof("name %s: ", npool2.Name)
+	glog.Infof("name %v: ", npool2.Name)
 
 	var npool3 models.Pool
 	// Test patch before deleting the pool
@@ -219,6 +219,11 @@ func TestAviPool(t *testing.T) {
 	}
 }
 
+func TestTenantSwitch(t *testing.T) {
+	for _, session := range getSessions(t) {
+		testTenantSwitch(t, session)
+	}
+}
 func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	tpool := models.Pool{}
 	pname := "gosdk-test-pool"
@@ -227,7 +232,7 @@ func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	//tpool.InlineHealthMonitor = &bt
 	var res models.Pool
 	err := avisess.Post("api/pool", &tpool, &res)
-	glog.Infof("res: %s, err: %s", res, err)
+	glog.Infof("res: %v, err: %v", res, err)
 	if err != nil {
 		t.Errorf("Pool Creation failed: %s", err)
 	}
@@ -363,5 +368,37 @@ func TestAviReads(t *testing.T) {
 			checkTime(t, start, "GetVirtualServiceInventory")
 
 		}
+	}
+}
+
+func testTenantSwitch(t *testing.T, avisess *AviSession) {
+	tpool := models.Pool{}
+	pname := "test-admin-pool"
+	tpool.Name = &pname
+	var res models.Pool
+	start := time.Now()
+	err := avisess.Post("api/pool", &tpool, &res, SetOptTenant("Test-Admin"))
+	checkTime(t, start, "CreatePool")
+	glog.Infof("res: %v, err: %v", res, err)
+	if err != nil {
+		t.Errorf("Pool Creation failed: %s", err)
+	}
+
+	var npool2 models.Pool
+	start = time.Now()
+	err = avisess.GetObject("pool", SetName("test-admin-pool"),SetOptTenant("Test-Admin"), SetResult(&npool2))
+	checkTime(t, start, "GetPoolByTenant")
+	if err != nil {
+		t.Errorf("Pool Fecting failed: %s", err)
+	}
+
+	glog.Infof("npool: %+v err: %+v", npool2, err)
+	glog.Infof("name %v: ", npool2.Name)
+	uri := "api/pool/" + *npool2.UUID
+	start = time.Now()
+	err = avisess.DeleteObject(uri, SetOptTenant("Test-Admin"))
+	checkTime(t, start, "DeletePoolByTenant")
+	if err != nil {
+		t.Errorf("Pool Deletion failed: %s", err)
 	}
 }
