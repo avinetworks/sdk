@@ -45,23 +45,23 @@ func (client *ControllerSiteClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of ControllerSite objects
-func (client *ControllerSiteClient) GetAll() ([]*models.ControllerSite, error) {
+func (client *ControllerSiteClient) GetAll(options ...session.ApiOptionsParams) ([]*models.ControllerSite, error) {
 	var plist []*models.ControllerSite
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing ControllerSite by uuid
-func (client *ControllerSiteClient) Get(uuid string) (*models.ControllerSite, error) {
+func (client *ControllerSiteClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.ControllerSite, error) {
 	var obj *models.ControllerSite
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing ControllerSite by name
-func (client *ControllerSiteClient) GetByName(name string) (*models.ControllerSite, error) {
+func (client *ControllerSiteClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.ControllerSite, error) {
 	var obj *models.ControllerSite
-	err := client.aviSession.GetObjectByName("controllersite", name, &obj)
+	err := client.aviSession.GetObjectByName("controllersite", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *ControllerSiteClient) GetObject(options ...session.ApiOptionsParam
 }
 
 // Create a new ControllerSite object
-func (client *ControllerSiteClient) Create(obj *models.ControllerSite) (*models.ControllerSite, error) {
+func (client *ControllerSiteClient) Create(obj *models.ControllerSite, options ...session.ApiOptionsParams) (*models.ControllerSite, error) {
 	var robj *models.ControllerSite
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing ControllerSite object
-func (client *ControllerSiteClient) Update(obj *models.ControllerSite) (*models.ControllerSite, error) {
+func (client *ControllerSiteClient) Update(obj *models.ControllerSite, options ...session.ApiOptionsParams) (*models.ControllerSite, error) {
 	var robj *models.ControllerSite
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,33 +97,29 @@ func (client *ControllerSiteClient) Update(obj *models.ControllerSite) (*models.
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.ControllerSite
 // or it should be json compatible of form map[string]interface{}
-func (client *ControllerSiteClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ControllerSite, error) {
+func (client *ControllerSiteClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.ControllerSite, error) {
 	var robj *models.ControllerSite
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing ControllerSite object with a given UUID
 func (client *ControllerSiteClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-	newOptions := make([]session.ApiOptionsParams, len(options)+1)
-	for i, p := range options {
-		newOptions[i] = p
-	}
-	if len(newOptions) != 0 {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
-	} else {
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
 	}
 }
 
 // DeleteByName - Delete an existing ControllerSite object with a given name
-func (client *ControllerSiteClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *ControllerSiteClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession

@@ -45,23 +45,23 @@ func (client *NetworkServiceClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of NetworkService objects
-func (client *NetworkServiceClient) GetAll() ([]*models.NetworkService, error) {
+func (client *NetworkServiceClient) GetAll(options ...session.ApiOptionsParams) ([]*models.NetworkService, error) {
 	var plist []*models.NetworkService
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing NetworkService by uuid
-func (client *NetworkServiceClient) Get(uuid string) (*models.NetworkService, error) {
+func (client *NetworkServiceClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.NetworkService, error) {
 	var obj *models.NetworkService
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing NetworkService by name
-func (client *NetworkServiceClient) GetByName(name string) (*models.NetworkService, error) {
+func (client *NetworkServiceClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.NetworkService, error) {
 	var obj *models.NetworkService
-	err := client.aviSession.GetObjectByName("networkservice", name, &obj)
+	err := client.aviSession.GetObjectByName("networkservice", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *NetworkServiceClient) GetObject(options ...session.ApiOptionsParam
 }
 
 // Create a new NetworkService object
-func (client *NetworkServiceClient) Create(obj *models.NetworkService) (*models.NetworkService, error) {
+func (client *NetworkServiceClient) Create(obj *models.NetworkService, options ...session.ApiOptionsParams) (*models.NetworkService, error) {
 	var robj *models.NetworkService
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing NetworkService object
-func (client *NetworkServiceClient) Update(obj *models.NetworkService) (*models.NetworkService, error) {
+func (client *NetworkServiceClient) Update(obj *models.NetworkService, options ...session.ApiOptionsParams) (*models.NetworkService, error) {
 	var robj *models.NetworkService
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,33 +97,29 @@ func (client *NetworkServiceClient) Update(obj *models.NetworkService) (*models.
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.NetworkService
 // or it should be json compatible of form map[string]interface{}
-func (client *NetworkServiceClient) Patch(uuid string, patch interface{}, patchOp string) (*models.NetworkService, error) {
+func (client *NetworkServiceClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.NetworkService, error) {
 	var robj *models.NetworkService
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing NetworkService object with a given UUID
 func (client *NetworkServiceClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-	newOptions := make([]session.ApiOptionsParams, len(options)+1)
-	for i, p := range options {
-		newOptions[i] = p
-	}
-	if len(newOptions) != 0 {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
-	} else {
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
 	}
 }
 
 // DeleteByName - Delete an existing NetworkService object with a given name
-func (client *NetworkServiceClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *NetworkServiceClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession
