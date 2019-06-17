@@ -12,7 +12,7 @@ def switch_priorities(session, pool_uuid, pool_name, retries=5):
         return 'Too many retry attempts - aborting!'
     query = 'refers_to=pool:%s' % pool_uuid
     pg_result = session.get('poolgroup', params=query)
-    if pg_result.count == 0:
+    if pg_result.count() == 0:
         return 'No pool group found referencing pool %s' % pool_name
 
     pg_obj = pg_result.json()['results'][0]
@@ -86,7 +86,9 @@ def sticky_pool_group():
 
     return result
 
-# Use with a ControlScript to perform 'sticky' failover of pool groups.
+# Use with a ControlScript and Alert(s) to perform 'sticky' failover of pool groups.
+#
+# Alert should trigger on 'Pool Up' and 'Pool Down' events.
 #
 # Create a ControlScript as follows:
 #
