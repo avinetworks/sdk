@@ -39,7 +39,6 @@ class AceConvertor(AviConverter):
         self.controller_version = args.controller_version
         self.sdk_version = sdk_version
         self.enable_vs = (True if str(args.vs_state) == "enable" else False)
-        print "enable_vs", self.enable_vs, args.vs_state
         self.input_folder_location = args.input_folder_location
         self.tenant = args.tenant
         self.cloud = args.cloud_name
@@ -153,6 +152,7 @@ class AceConvertor(AviConverter):
 
             # increment the row value
             row += 1
+        workbook.close()
 
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
@@ -230,7 +230,7 @@ Optional:
                         help='location of key and cert file')
 
     parser.add_argument('-o', '--output_loc',
-                        help='Out file location', default='.')
+                        help='Out file location', default='output')
 
     # Auto Upload Options
     parser.add_argument('-O', '--option',

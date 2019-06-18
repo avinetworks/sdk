@@ -199,11 +199,12 @@ def create_ace_grammer():
     #     2 match virtual-address 127.0.0.1 tcp eq 1234
     #     2 match virtual-address 127.0.0.1 tcp any
     #     2 match http url .*
-
+    description = Keyword('description')
     classmap = Keyword('class-map')
+    ipaddress = Combine(Word(nums) + ('.' + Word(nums)) * 3)
     classmap_type = Keyword('type')
     mgmt = Keyword('management') | (
-        Keyword('http') + Keyword('loadbalance'))
+            Keyword('http') + Keyword('loadbalance'))
     type_key_att = classmap_type + mgmt
     match_key = Keyword('match-any') | Keyword('match-all')
 
@@ -224,12 +225,15 @@ def create_ace_grammer():
     any_key = Keyword('any')
     add_att = Optional(proto) + source_dest + ipaddress + ipaddress
     virt_att = virtual_add + ipaddress + \
-        proto_type + ((eq_key + eq_val) | any_key)
+               proto_type + ((eq_key + eq_val) | any_key)
+
+    grammer7_3 = Group(description + restOfLine)
 
     grammer7_2 = Group(num + match_key +
                        (add_att | virt_att)) | grammer_url
 
-    grammer_7 = Group(grammer7_1 + ZeroOrMore(grammer7_2))
+    grammer_7 = Group(
+        grammer7_1 + Optional(grammer7_3) + ZeroOrMore(grammer7_2))
 
     # grammer8:
     # policy-map type loadbalance first-match LB_TEST_MAP_1235
@@ -872,46 +876,51 @@ class Parser():
 
 if __name__ == '__main__':
     s = """
-serverfarm host sfarm_IDST-EXTADRESSBUCH-HTTPS
-  probe probe_L7_IDST-EXTADRESSBUCH-HTTPS
-  fail-on-all
-  rserver rserver_L0550022 443
-    inservice
-  rserver rserver_L0551022 443
-    inservice
+class-map match-any ADASAP-REDIRECT-CM
+  description ***https redirection for all services***
+  2 match virtual-address 10.148.185.248 tcp eq www
+  3 match virtual-address 10.148.185.249 tcp eq www
         """
 
     name = Word(printables)
     num = Word(nums)
     serverfarm = Keyword('serverfarm')
     host = Keyword('host')
-    grammer_12_1 = Group(serverfarm + host + name)
-    grammer_12_2 = Group(Keyword('probe') + name)
-    grammer_12_3 = Group(Keyword('inband-health') +
-                         Keyword('check') + name)
-    grammer_12_4_1 = Keyword('rserver') + ~Word(
-        'host') + name + ZeroOrMore(num)
-    grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
-    grammer_12_4_3 = Group(Keyword('probe')+ restOfLine)
-    grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
+    description = Keyword('description')
+    classmap = Keyword('class-map')
+    ipaddress = Combine(Word(nums) + ('.' + Word(nums)) * 3)
+    classmap_type = Keyword('type')
+    mgmt = Keyword('management') | (
+            Keyword('http') + Keyword('loadbalance'))
+    type_key_att = classmap_type + mgmt
+    match_key = Keyword('match-any') | Keyword('match-all')
 
-    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
-                         ZeroOrMore(grammer_12_4_4) +
-                         ZeroOrMore(grammer_12_4_2))
-    grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
-                         Keyword('slowstart') + num)
-    # grammer_12_6 = Group(Keyword('description') + printables)
-    # grammer_12_7 = Group(Keyword('predictor') + printables)
-    grammer_12_6 = Group(Keyword('description') + restOfLine)
-    grammer_12_7 = Group(Keyword('predictor') + restOfLine)
-    grammer_12_8 = Group(Keyword('retcode') + restOfLine)
-    grammer_12_9 = Keyword('fail-on-all')
+    grammer7_1 = Group(classmap + match_key + name)
 
-    grammer_12 = Group(grammer_12_1 + ZeroOrMore(
-        grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
-        grammer_12_5 | grammer_12_6 | grammer_12_7 | grammer_12_8 |
-        grammer_12_9))
+    match_key = Keyword('match')
+    proto_key = Keyword('protocol')
+    grammer_url = Group(
+        num + match_key + Keyword('http') + Keyword('url') + name)
+    proto_type = Keyword('tcp') | Keyword('icmp') | Keyword(
+        'snmp') | Keyword('http') | Keyword('https') | Keyword('udp')
+    proto = proto_key + proto_type
+    source_dest = Keyword(
+        'source-address') | Keyword('destination-address')
+    virtual_add = Keyword('virtual-address')
+    eq_key = Keyword('eq')
+    eq_val = Keyword('https') | Keyword('www') | Keyword('http') | num
+    any_key = Keyword('any')
+    add_att = Optional(proto) + source_dest + ipaddress + ipaddress
+    virt_att = virtual_add + ipaddress + \
+               proto_type + ((eq_key + eq_val) | any_key)
 
-    for match, start, end in grammer_12.scanString(s):
+    grammer7_3 = Group(description + restOfLine)
+
+    grammer7_2 = Group(num + match_key +
+                       (add_att | virt_att)) | grammer_url
+
+    grammer_7 = Group(grammer7_1 + Optional(grammer7_3) +ZeroOrMore(grammer7_2))
+
+    for match, start, end in grammer_7.scanString(s):
         print match
 
