@@ -3,25 +3,17 @@ package test
 import (
 	"fmt"
 	"github.com/avinetworks/sdk/go/models"
-
-	//"github.com/avinetworks/sdk/go/models"
-
-	//"github.com/avinetworks/sdk/go/models"
+	"os"
 	"testing"
-
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/session"
 )
 
-var cuuid string
-var uuid string
-var profuuid string
-
-func TestCreateVirtualservice(t *testing.T) {
-	aviClient, err := clients.NewAviClient("10.10.24.17", "admin",
-		session.SetPassword("password"),
+func TestCreateObjectInDiffTenant(t *testing.T) {
+	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
+		session.SetPassword(os.Getenv("password")),
 		session.SetTenant("admin"),
-		session.SetVersion("18.2.5"),
+		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure)
 
 	if err != nil {
@@ -41,9 +33,10 @@ func TestCreateVirtualservice(t *testing.T) {
 
 	tres, err := aviClient.Tenant.Create(&tobj)
 	if err != nil {
-		fmt.Println("\n [ERROR] : ", err)
+		fmt.Println("\n[ERROR] : ", err)
+		t.Fail()
 	} else {
-		fmt.Println("\n Tenant " , *tres.Name ," Created successfully.")
+		fmt.Println("\nTenant", *tres.Name ,"Created successfully.")
 	}
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
@@ -68,41 +61,44 @@ func TestCreateVirtualservice(t *testing.T) {
 
 	npobj, err := aviClient.Pool.Create(&pobj, session.SetOptTenant(tenant))
 	if err == nil {
-		fmt.Println("\n POOL ", *npobj.Name, "Created successfully in tenant", tenant)
+		fmt.Println("\nPOOL", *npobj.Name, "Created successfully in tenant", tenant)
 	} else {
-		fmt.Printf("\n [ERROR]: %s", err)
+		fmt.Printf("\n[ERROR]: %s", err)
 		t.Fail()
 	}
 
 	// Get pool Object from other tenant.
 	plObj1, err := aviClient.Pool.GetObject(session.SetName("Test-pool"), session.SetOptTenant(tenant))
 	if err != nil {
-		fmt.Printf("\n [ERROR]: %+v", err)
+		fmt.Printf("\n[ERROR]: %+v", err)
+		t.Fail()
 	} else {
-		fmt.Printf("\n Get Pool Object of name: %+v from tenant %s", *plObj1.Name, tenant)
+		fmt.Printf("\nGet Pool Object of name: %+v from tenant %s", *plObj1.Name, tenant)
 	}
 
 	nobj, err := aviClient.Pool.Update(plObj1, session.SetOptTenant(tenant))
-	if err == nil {
-		fmt.Println("\n Updated Pool ", *nobj.Name ," in tenant ", tenant ," successfully.")
-	} else {
-		fmt.Printf("\n [ERROR] : %s", err)
+	if err != nil {
+		fmt.Printf("\n[ERROR] : %s", err)
 		t.Fail()
+	} else {
+		fmt.Println("\nUpdated Pool ", *nobj.Name ," in tenant ", tenant ," successfully.")
 	}
 
 	obj, err := aviClient.Pool.Get(*nobj.UUID, session.SetOptTenant(tenant))
 	if err != nil {
-		fmt.Println("\n [ERROR] :", err)
+		fmt.Println("\n[ERROR] :", err)
+		t.Fail()
 	} else {
-		fmt.Println("Get Pool Object of name ", *obj.Name ," from tenant ", tenant)
+		fmt.Println("Get Pool Object of name", *obj.Name ,"from tenant", tenant)
 	}
 
 	//vservice := models.Pool{}
 	pool, err := aviClient.Pool.GetByName("Test-pool", session.SetOptTenant(tenant))
 	if err != nil {
-		fmt.Println("\n [ERROR] is : ", err)
+		fmt.Println("\n[ERROR] is : ", err)
+		t.Fail()
 	} else {
-		fmt.Println("Obtain Pool from tenant ", tenant ," by GetObjectByName is ", *pool.Name)
+		fmt.Println("Get Pool", *pool.Name ,"from tenant", tenant ,"by GetObjectByName.")
 	}
 
 	// Delete Pool object of other tenant.
@@ -124,15 +120,14 @@ func TestCreateVirtualservice(t *testing.T) {
 
 
 	// Delete Pool Object by UUID from other tenant
-	err = aviClient.Pool.Delete(*plObj1.UUID, session.SetOptTenant("Test-Admin"))
-	if err == nil {
-		fmt.Println("Pool Deleted successfully")
+	err = aviClient.Pool.Delete(*plObj1.UUID, session.SetOptTenant(tenant))
+	if err != nil {
+		fmt.Println("Error", err)
+		t.Fail()
 	} else {
-		fmt.Println("Error ", err)
+		fmt.Println("Pool Deleted successfully")
 	}
 
 	//Delete Pool Object by UUID from admin tenant
 	aviClient.Tenant.Delete(*tres.UUID)
-
 }
-
