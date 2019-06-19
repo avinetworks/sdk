@@ -116,7 +116,7 @@ type ServiceEngineGroup struct {
 	// If set, disable the config memory check done in service engine. Field introduced in 18.1.2.
 	DisableSeMemoryCheck *bool `json:"disable_se_memory_check,omitempty"`
 
-	// Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path.  TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1.
+	// Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path. TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1.
 	DisableTso *bool `json:"disable_tso,omitempty"`
 
 	// Amount of disk space for each of the Service Engine virtual machines.
@@ -282,6 +282,24 @@ type ServiceEngineGroup struct {
 	// Required: true
 	Name *string `json:"name"`
 
+	// Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowTCPClosedTimeout *int32 `json:"nat_flow_tcp_closed_timeout,omitempty"`
+
+	// Idle timeout in seconds for nat tcp flows in established state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowTCPEstablishedTimeout *int32 `json:"nat_flow_tcp_established_timeout,omitempty"`
+
+	// Idle timeout in seconds for nat tcp flows in half closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowTCPHalfClosedTimeout *int32 `json:"nat_flow_tcp_half_closed_timeout,omitempty"`
+
+	// Idle timeout in seconds for nat tcp flows in handshake state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowTCPHandshakeTimeout *int32 `json:"nat_flow_tcp_handshake_timeout,omitempty"`
+
+	// Idle timeout in seconds for nat udp flows in noresponse state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowUDPNoresponseTimeout *int32 `json:"nat_flow_udp_noresponse_timeout,omitempty"`
+
+	// Idle timeout in seconds for nat udp flows in response state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.
+	NatFlowUDPResponseTimeout *int32 `json:"nat_flow_udp_response_timeout,omitempty"`
+
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
 
@@ -315,7 +333,10 @@ type ServiceEngineGroup struct {
 	// Enable or disable real time SE metrics.
 	RealtimeSeMetrics *MetricsRealTimeUpdate `json:"realtime_se_metrics,omitempty"`
 
-	// Reboot the system if the SE is stopped. Field introduced in 17.2.16,18.2.3.
+	// Reboot the VM or host on kernel panic. Field introduced in 18.2.5.
+	RebootOnPanic *bool `json:"reboot_on_panic,omitempty"`
+
+	// Reboot the system if the SE is stopped. Field deprecated in 18.2.5.
 	RebootOnStop *bool `json:"reboot_on_stop,omitempty"`
 
 	// Select the SE bandwidth for the bandwidth license. Enum options - SE_BANDWIDTH_UNLIMITED, SE_BANDWIDTH_25M, SE_BANDWIDTH_200M, SE_BANDWIDTH_1000M, SE_BANDWIDTH_10000M. Field introduced in 17.2.5.
@@ -333,7 +354,10 @@ type ServiceEngineGroup struct {
 	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeRetries *int32 `json:"se_flow_probe_retries,omitempty"`
 
-	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field introduced in 18.1.4, 18.2.1.
+	// Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.5.
+	SeFlowProbeRetryTimer *int32 `json:"se_flow_probe_retry_timer,omitempty"`
+
+	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeTimer *int32 `json:"se_flow_probe_timer,omitempty"`
 
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.

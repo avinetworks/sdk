@@ -45,23 +45,23 @@ func (client *NatPolicyClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of NatPolicy objects
-func (client *NatPolicyClient) GetAll() ([]*models.NatPolicy, error) {
+func (client *NatPolicyClient) GetAll(options ...session.ApiOptionsParams) ([]*models.NatPolicy, error) {
 	var plist []*models.NatPolicy
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing NatPolicy by uuid
-func (client *NatPolicyClient) Get(uuid string) (*models.NatPolicy, error) {
+func (client *NatPolicyClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.NatPolicy, error) {
 	var obj *models.NatPolicy
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing NatPolicy by name
-func (client *NatPolicyClient) GetByName(name string) (*models.NatPolicy, error) {
+func (client *NatPolicyClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.NatPolicy, error) {
 	var obj *models.NatPolicy
-	err := client.aviSession.GetObjectByName("natpolicy", name, &obj)
+	err := client.aviSession.GetObjectByName("natpolicy", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *NatPolicyClient) GetObject(options ...session.ApiOptionsParams) (*
 }
 
 // Create a new NatPolicy object
-func (client *NatPolicyClient) Create(obj *models.NatPolicy) (*models.NatPolicy, error) {
+func (client *NatPolicyClient) Create(obj *models.NatPolicy, options ...session.ApiOptionsParams) (*models.NatPolicy, error) {
 	var robj *models.NatPolicy
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing NatPolicy object
-func (client *NatPolicyClient) Update(obj *models.NatPolicy) (*models.NatPolicy, error) {
+func (client *NatPolicyClient) Update(obj *models.NatPolicy, options ...session.ApiOptionsParams) (*models.NatPolicy, error) {
 	var robj *models.NatPolicy
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,25 +97,29 @@ func (client *NatPolicyClient) Update(obj *models.NatPolicy) (*models.NatPolicy,
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.NatPolicy
 // or it should be json compatible of form map[string]interface{}
-func (client *NatPolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.NatPolicy, error) {
+func (client *NatPolicyClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.NatPolicy, error) {
 	var robj *models.NatPolicy
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing NatPolicy object with a given UUID
-func (client *NatPolicyClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *NatPolicyClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	if len(options) == 0 {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	}
 }
 
 // DeleteByName - Delete an existing NatPolicy object with a given name
-func (client *NatPolicyClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *NatPolicyClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession

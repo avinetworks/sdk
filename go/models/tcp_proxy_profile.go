@@ -49,7 +49,7 @@ type TCPProxyProfile struct {
 	// Maximum number of TCP segments that can be queued for reassembly. Configuring this to 0 disables the feature and provides unlimited queuing. Field introduced in 17.2.13, 18.1.4, 18.2.1.
 	ReassemblyQueueSize *int32 `json:"reassembly_queue_size,omitempty"`
 
-	// Size of the receive window. Allowed values are 32-65536.
+	// Size of the receive window. Allowed values are 2-65536.
 	ReceiveWindow *int32 `json:"receive_window,omitempty"`
 
 	// Controls the number of duplicate acks required to trigger retransmission. Setting a higher value reduces retransmission caused by packet reordering. A larger value is recommended in public cloud environments where packet reordering is quite common. The default value is 8 in public cloud platforms (AWS, Azure, GCP), and 3 in other environments. Allowed values are 1-100. Field introduced in 17.2.7.
