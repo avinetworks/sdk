@@ -98,7 +98,8 @@ class AceConvertor(AviConverter):
         # writing ansible if needed
         if self.create_ansible:
             avi_traffic = AviAnsibleConverterMigration(
-                avi_config, self.output_file_path, prefix=None, not_in_use=None)
+                avi_config, self.output_file_path, prefix=None, not_in_use=None,
+            controller_version=self.controller_version)
             avi_traffic.write_ansible_playbook()
 
         # create excel sheet

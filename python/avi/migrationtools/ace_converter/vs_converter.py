@@ -46,7 +46,6 @@ class VSConverter(object):
                 protocol = 'HTTPS'
                 port = 443
         httppolicyset = {
-            "http_security_policy": [],
             "http_request_policy": {
                 "rules": [
                     {
@@ -97,7 +96,6 @@ class VSConverter(object):
                         type = 'header'
         if type == 'ssl':
             httppolicyset = {
-                "http_security_policy": [],
                 "http_request_policy": {
                     "rules": [
                         {
@@ -324,22 +322,16 @@ class VSConverter(object):
 
         # get the number of vips available
         for class_map in self.parsed.get('class-map', ''):
-            # if ('match-all' not in class_map.values() and 'match-any'
-            #         not in class_map.values()):
-            #     LOG.warning('This type of class map not supported : %s' %
-            #                 class_map['class-map'])
-            #     update_excel(
-            #         'class-map', class_map['class-map'], status='Skipped',
-            #         avi_obj='This type of class map not supported')
-            #     continue
             for address in class_map['desc']:
-                if "source-address" in address or "destination-address" in address:
+                if ("source-address" in address or "destination-address"
+                        in address):
                     LOG.warning(
-                        'source-address or destination-address in class map not supported :%s'
-                        % class_map['class-map'])
+                        'source-address or destination-address in class map not'
+                        ' supported :%s' % class_map['class-map'])
                     update_excel('class-map', class_map['class-map'],
                                  status='Skipped',
-                                 avi_obj='source-address or destination-address in class map not supported')
+                                 avi_obj='source-address or destination-address'
+                                         ' in class map not supported')
                     break
                 if "virtual-address" in address:
                     vip = address['virtual-address']
@@ -403,6 +395,42 @@ class VSConverter(object):
                                 cloud_name=self.cloud)
         return vs_ref, port, vs_ip, l4_type
 
+    def get_ssl_refs(self, data, cls):
+        policy_name = None
+        ssl = []
+        ssl_cert = []
+        for obj in cls['class_desc']:
+            if obj.get('loadbalance', '') == 'policy':
+                policy_name = obj['type']
+            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if
+                       ssl1.get('name') == obj.get('type') and "ssl-proxy"
+                       in obj.keys()]
+            if ssl_ref:
+                ssl = self.common_utils.get_object_ref(ssl_ref[0], 'sslprofile',
+                                                       tenant=self.tenant)
+                if [cert for cert in data['SSLKeyAndCertificate'] if
+                    cert['name'] == ssl_ref[0]]:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        ssl_ref[0], 'sslkeyandcertificate', tenant=self.tenant)
+                elif [cert for cert in data['SSLKeyAndCertificate'] if
+                      cert['name'] == '%s-dummy' % ssl_ref[0]]:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        '%s-dummy' % ssl_ref[0], 'sslkeyandcertificate',
+                        tenant=self.tenant)
+                else:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        'System-Default-Cert', 'sslkeyandcertificate',
+                        tenant=self.tenant)
+        return policy_name, ssl, ssl_cert
+
+    def get_vs_state(self, cls):
+        state = False
+        for class_dec in cls['class_desc']:
+            if "loadbalance" in class_dec.keys() and (class_dec.get(
+                    'type', []) == 'inservice' and self.enable_vs):
+                state = True
+        return state
+
     def virtual_service_conversion(self, data):
         self.data = data
         vs_list = list()
@@ -415,56 +443,34 @@ class VSConverter(object):
             if policy_map.get('match', '') == 'multi-match':
                 update_excel(
                     'policy-map', policy_map['policy-map'], status='Indirect')
-                for cls in policy_map['desc']:
-                    if cls.get('class', []):
-                        policy_name = None
-                        ssl = []
-                        ssl_cert = []
-                        for obj in cls['class_desc']:
-                            if obj.get('loadbalance', '') == 'policy':
-                                policy_name = obj['type']
-                            ssl_ref = [obj['type'] for ssl1 in
-                                       data['SSLProfile'] if
-                                       ssl1.get('name') == obj.get('type') and
-                                       "ssl-proxy" in obj.keys()]
-                            if ssl_ref:
-                                ssl = self.common_utils.get_object_ref(
-                                    ssl_ref[0], 'sslprofile',
-                                    tenant=self.tenant)
-                                ssl_cert = self.common_utils.get_object_ref(
-                                    ssl_ref[0], 'sslkeyandcertificate',
-                                    tenant=self.tenant)
-                        if policy_name:
-                            vs, cloned_pool, http_policy_set, msg = \
-                                self.virtual_service_conversion_policy(
-                                    policy_name, data, ssl_profile=ssl,
-                                    ssl_cert=ssl_cert)
-                            if vs:
-                                vs['enabled'] = False
-                                for class_dec in cls['class_desc']:
-                                    if "loadbalance" in class_dec.keys():
-                                        if (class_dec.get('type', []) ==
-                                                'inservice' and self.enable_vs):
-                                            vs['enabled'] = True
+                p_map_class = [cls for cls in policy_map['desc'] if
+                               cls.get('class', [])]
+                for cls in p_map_class:
+                    policy_name, ssl, ssl_cert = self.get_ssl_refs(data, cls)
+                    if policy_name:
+                        vs, cloned_pool, http_policy_set, msg = \
+                            self.virtual_service_conversion_policy(
+                                policy_name, data, ssl_profile=ssl,
+                                ssl_cert=ssl_cert)
+                        if vs:
+                            vs['enabled'] = self.get_vs_state(cls)
+                            # updating excel sheet
+                            update_excel('policy-map', vs['name'], avi_obj=vs)
 
-                                # updating excel sheet
-                                update_excel(
-                                    'policy-map', vs['name'], avi_obj=vs)
-
-                                # updating object
-                                vs_list.append(vs)
-                                self.port_fix(vs_list)
-                                if cloned_pool:
-                                    cloned_pool_list.append(cloned_pool)
-                                if http_policy_set:
-                                    http_list.append(http_policy_set)
-                            else:
-                                update_excel('policy-map', cls['class'],
-                                             status='Skipped', avi_obj=msg)
+                            # updating object
+                            vs_list.append(vs)
+                            self.port_fix(vs_list)
+                            if cloned_pool:
+                                cloned_pool_list.append(cloned_pool)
+                            if http_policy_set:
+                                http_list.append(http_policy_set)
                         else:
-                            update_excel(
-                                'policy-map', cls['class'], status='Skipped',
-                                avi_obj='Policy is not in policy\'s class map')
+                            update_excel('policy-map', cls['class'],
+                                         status='Skipped', avi_obj=msg)
+                    else:
+                        update_excel(
+                            'policy-map', cls['class'], status='Skipped',
+                            avi_obj='Policy is not in policy\'s class map')
         return vs_list, cloned_pool_list, http_list
 
     def port_fix(self, vs_list):
