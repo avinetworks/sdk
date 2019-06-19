@@ -597,12 +597,19 @@ class F5Util(MigrationUtil):
                     break
             services_obj = [{'port': port, 'enable_ssl': enable_ssl}]
         else:
-            if {service.get('port_range_end') for vs in vs_dup_ips for
-               service in vs['services']}:
+            used_ports = []
+            for vs in vs_dup_ips:
+                for service in vs['services']:
+                    if service.get('port_range_end', None):
+                        used_ports.extend(range(
+                            int(service['port']),
+                            int(service['port_range_end']) + 1
+                        ))
+                    else:
+                        used_ports.append(int(service['port']))
+            if used_ports and min(used_ports) == 1 and max(used_ports) == 65535:
                 LOG.debug('Skipped: Duplicate IP-Port for vs %s', vs_name)
                 return None, None, None, None
-            used_ports = list({service['port'] for vs in vs_dup_ips for
-                              service in vs['services']})
             if used_ports:
                 services_obj = []
                 if conv_const.PORT_END not in used_ports:
@@ -1094,9 +1101,6 @@ class F5Util(MigrationUtil):
     def rreplace(self, s, old, new, occurrence):
         li = s.rsplit(old, occurrence)
         return new.join(li)
-
-    def get_project_path(self):
-        return os.path.abspath(os.path.dirname(__file__))
 
     def clone_pool_if_shared(self, ref, avi_config, vs_name, tenant, p_tenant,
                              persist_type, controller_version, app_prof_ref,

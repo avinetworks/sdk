@@ -15,7 +15,7 @@ from avi.migrationtools.f5_converter import (f5_config_converter,
                                              f5_parser, scp_util)
 from avi.migrationtools import avi_rest_lib
 from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
+from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverterMigration
 from pkg_resources import parse_version
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.f5_converter.conversion_util import F5Util
@@ -221,7 +221,7 @@ class F5Converter(AviConverter):
                           report_name)
         # Call to create ansible playbook if create ansible flag set.
         if self.create_ansible:
-            avi_traffic = AviAnsibleConverter(
+            avi_traffic = AviAnsibleConverterMigration(
                 avi_config, output_dir, self.prefix, self.not_in_use,
                 test_vip=self.test_vip, skip_types=self.ansible_skip_types,
                 partitions=part_mapping, controller_version=self.controller_version)
@@ -278,6 +278,7 @@ class F5Converter(AviConverter):
             else:
                 # Added to get directory path.
                 dir_path = self.conversion_util.get_project_path()
+                dir_path = dir_path + os.path.sep + "f5_converter"
             with open(dir_path + os.path.sep + "f5_v%s_defaults.conf" %
                       self.f5_config_version, "r") as defaults_file:
                 if self.skip_default_file:

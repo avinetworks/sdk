@@ -10,11 +10,10 @@ import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
 import avi.migrationtools.netscaler_converter.netscaler_parser as ns_parser
 import avi.migrationtools.netscaler_converter.scp_util as scp_util
-from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverter
+from avi.migrationtools.ansible.ansible_config_converter import \
+    AviAnsibleConverterMigration
 from avi.migrationtools.avi_converter import AviConverter
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
-from avi.migrationtools.ansible.ansible_config_converter import\
-    AviAnsibleConverter
 from avi.migrationtools.avi_migration_utils import get_count
 
 LOG = logging.getLogger(__name__)
@@ -134,7 +133,7 @@ class NetscalerConverter(AviConverter):
         self.write_output(
             avi_config, output_dir, '%s-Output.json' % report_name)
         if self.create_ansible:
-            avi_traffic = AviAnsibleConverter(
+            avi_traffic = AviAnsibleConverterMigration(
                 avi_config, output_dir, self.prefix, self.not_in_use,
                 ns_vs_name_dict=vs_name_dict, test_vip=self.test_vip,
                 skip_types=self.ansible_skip_types)
