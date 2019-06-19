@@ -45,23 +45,23 @@ func (client *SSOPolicyClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of SSOPolicy objects
-func (client *SSOPolicyClient) GetAll() ([]*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) GetAll(options ...session.ApiOptionsParams) ([]*models.SSOPolicy, error) {
 	var plist []*models.SSOPolicy
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing SSOPolicy by uuid
-func (client *SSOPolicyClient) Get(uuid string) (*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.SSOPolicy, error) {
 	var obj *models.SSOPolicy
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing SSOPolicy by name
-func (client *SSOPolicyClient) GetByName(name string) (*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.SSOPolicy, error) {
 	var obj *models.SSOPolicy
-	err := client.aviSession.GetObjectByName("ssopolicy", name, &obj)
+	err := client.aviSession.GetObjectByName("ssopolicy", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *SSOPolicyClient) GetObject(options ...session.ApiOptionsParams) (*
 }
 
 // Create a new SSOPolicy object
-func (client *SSOPolicyClient) Create(obj *models.SSOPolicy) (*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) Create(obj *models.SSOPolicy, options ...session.ApiOptionsParams) (*models.SSOPolicy, error) {
 	var robj *models.SSOPolicy
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing SSOPolicy object
-func (client *SSOPolicyClient) Update(obj *models.SSOPolicy) (*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) Update(obj *models.SSOPolicy, options ...session.ApiOptionsParams) (*models.SSOPolicy, error) {
 	var robj *models.SSOPolicy
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,25 +97,29 @@ func (client *SSOPolicyClient) Update(obj *models.SSOPolicy) (*models.SSOPolicy,
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.SSOPolicy
 // or it should be json compatible of form map[string]interface{}
-func (client *SSOPolicyClient) Patch(uuid string, patch interface{}, patchOp string) (*models.SSOPolicy, error) {
+func (client *SSOPolicyClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.SSOPolicy, error) {
 	var robj *models.SSOPolicy
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing SSOPolicy object with a given UUID
-func (client *SSOPolicyClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *SSOPolicyClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	if len(options) == 0 {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	}
 }
 
 // DeleteByName - Delete an existing SSOPolicy object with a given name
-func (client *SSOPolicyClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *SSOPolicyClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession

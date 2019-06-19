@@ -50,6 +50,7 @@ type AviClient struct {
 	ClusterCloudDetails            *ClusterCloudDetailsClient
 	ControllerLicense              *ControllerLicenseClient
 	ControllerProperties           *ControllerPropertiesClient
+	ControllerSite                 *ControllerSiteClient
 	CustomIPAMDNSProfile           *CustomIPAMDNSProfileClient
 	DNSPolicy                      *DNSPolicyClient
 	DebugController                *DebugControllerClient
@@ -75,6 +76,7 @@ type AviClient struct {
 	NetworkProfile                 *NetworkProfileClient
 	NetworkRuntime                 *NetworkRuntimeClient
 	NetworkSecurityPolicy          *NetworkSecurityPolicyClient
+	NetworkService                 *NetworkServiceClient
 	PKIprofile                     *PKIprofileClient
 	PingAccessAgent                *PingAccessAgentClient
 	Pool                           *PoolClient
@@ -97,7 +99,6 @@ type AviClient struct {
 	ServerAutoScalePolicy          *ServerAutoScalePolicyClient
 	ServiceEngine                  *ServiceEngineClient
 	ServiceEngineGroup             *ServiceEngineGroupClient
-	ServiceEnginePolicy            *ServiceEnginePolicyClient
 	SnmpTrapProfile                *SnmpTrapProfileClient
 	StringGroup                    *StringGroupClient
 	SystemConfiguration            *SystemConfigurationClient
@@ -159,6 +160,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ClusterCloudDetails = NewClusterCloudDetailsClient(aviSession)
 	aviClient.ControllerLicense = NewControllerLicenseClient(aviSession)
 	aviClient.ControllerProperties = NewControllerPropertiesClient(aviSession)
+	aviClient.ControllerSite = NewControllerSiteClient(aviSession)
 	aviClient.CustomIPAMDNSProfile = NewCustomIPAMDNSProfileClient(aviSession)
 	aviClient.DNSPolicy = NewDNSPolicyClient(aviSession)
 	aviClient.DebugController = NewDebugControllerClient(aviSession)
@@ -184,6 +186,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.NetworkProfile = NewNetworkProfileClient(aviSession)
 	aviClient.NetworkRuntime = NewNetworkRuntimeClient(aviSession)
 	aviClient.NetworkSecurityPolicy = NewNetworkSecurityPolicyClient(aviSession)
+	aviClient.NetworkService = NewNetworkServiceClient(aviSession)
 	aviClient.PKIprofile = NewPKIprofileClient(aviSession)
 	aviClient.PingAccessAgent = NewPingAccessAgentClient(aviSession)
 	aviClient.Pool = NewPoolClient(aviSession)
@@ -206,7 +209,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ServerAutoScalePolicy = NewServerAutoScalePolicyClient(aviSession)
 	aviClient.ServiceEngine = NewServiceEngineClient(aviSession)
 	aviClient.ServiceEngineGroup = NewServiceEngineGroupClient(aviSession)
-	aviClient.ServiceEnginePolicy = NewServiceEnginePolicyClient(aviSession)
 	aviClient.SnmpTrapProfile = NewSnmpTrapProfileClient(aviSession)
 	aviClient.StringGroup = NewStringGroupClient(aviSession)
 	aviClient.SystemConfiguration = NewSystemConfigurationClient(aviSession)

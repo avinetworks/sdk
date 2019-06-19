@@ -32,6 +32,9 @@ if input_file is None:
     input_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                               'ns.conf'))
 
+if not output_file:
+    output_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                               'output'))
 with open(config_file) as f:
     file_attribute = yaml.load(f)
 
@@ -83,7 +86,7 @@ class Namespace:
 
 def netscaler_conv(
         config_file_name=None, tenant='admin', cloud_name='Default-Cloud',
-        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path='output',
+        input_folder_location='python/avi/migrationtools/netscaler_converter/test/certs', output_file_path=output_file,
         option='cli-upload', user=None, password=None, controller_ip=None,
         vs_state='disable', controller_version=None, ns_host_ip=None,
         ns_ssh_user=None, ns_ssh_password=None, ns_key_file=None,
@@ -96,7 +99,7 @@ def netscaler_conv(
     args = Namespace(
         ns_config_file=config_file_name, tenant=tenant, cloud_name=cloud_name,
         input_folder_location=input_folder_location,
-        output_file_path=output_file_path, option=option, user=user,
+        output_file_path=output_file, option=option, user=user,
         password=password, controller_ip=controller_ip, vs_state=vs_state,
         controller_version=controller_version, ns_host_ip=ns_host_ip,
         ns_ssh_user=ns_ssh_user, ns_ssh_password=ns_ssh_password,
@@ -118,6 +121,20 @@ class TestNetscalerConverter:
     def cleanup(self):
         import avi.migrationtools.f5_converter.conversion_util as conv
         conv.csv_writer_dict_list = list()
+        if os.path.exists(output_file):
+            for each_file in os.listdir(output_file):
+                file_path = os.path.join(output_file, each_file)
+                try:
+                    if os.path.isfile(file_path):
+                        if file_path.endswith('.log'):
+                            open('converter.log', 'w').close()
+                        else:
+                            os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(e)
+
 
     @pytest.mark.skip_travis
 
@@ -131,9 +148,9 @@ class TestNetscalerConverter:
                        ns_ssh_password=setup.get('ns_ssh_password'),
                        controller_version=setup.get('controller_version_v17'),
                        option=setup.get('option'),
-		                   controller_ip=setup.get('controller_ip_17_1_1'),
-		                   user=setup.get('controller_user_17_1_1'),
-		                   password=setup.get('controller_password_17_1_1'))
+                       controller_ip=setup.get('controller_ip_17_1_1'),
+                       user=setup.get('controller_user_17_1_1'),
+                       password=setup.get('controller_password_17_1_1'))
 
     @pytest.mark.travis
 
@@ -141,8 +158,10 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        percentage_success('./output/ns-ConversionStatus.xlsx')
+                       output_file_path=setup.get('output_file_path'))
+        
+        output_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        percentage_success(output_file)
 
     @pytest.mark.travis
 
@@ -150,12 +169,27 @@ class TestNetscalerConverter:
     def test_output_sanitization_17_1_1(self, cleanup):
         netscaler_conv(config_file_name=setup.get('config_file_name'),
                        controller_version=setup.get('controller_version_v17'),
-                       output_file_path='output')
-        output_sanitization('./output/ns-ConversionStatus.xlsx',
-                            './output/ns-Output.json')
+                       output_file_path=setup.get('output_file_path'))
+        
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        json_file = '%s/ns-Output.json' %setup.get('output_file_path')
+        output_sanitization(xlsx_file, json_file)
 
     @pytest.mark.travis
+    @pytest.mark.TCID1_48_1497_24_0
+    def test_sslcert_dummy_status(self, cleanup):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
 
+        dummy_obj = 'Lab-Test-Cert'
+	xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+        
+        assert check_dummy_cert_status(xlsx_file,
+                                       certObj=dummy_obj) == True
+
+    @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_3_0
     def test_without_options_17_1_1(self, cleanup):
         """
@@ -323,7 +357,7 @@ class TestNetscalerConverter:
     @pytest.mark.skip_travis
 
     @pytest.mark.TCID1_48_1497_16_0
-    def test_reboot_clean__ansible_v17_1_1(self, cleanup):
+    def test_reboot_clean__ansible_v17_1_1(self):
         """""
         Verify Controller v17.1.1 is running and clean reboot avi api.
         After controller setup completed, upload the AviInternal certificate file.
@@ -343,12 +377,12 @@ class TestNetscalerConverter:
     @pytest.mark.skip_travis
 
     @pytest.mark.TCID1_48_1497_17_0
-    def test_ansible_object_auto_upload(self, cleanup):
+    def test_ansible_object_auto_upload(self):
         """
         Input File on Local Filesystem, Test for Controller v17.x.x
         AutoUpload Flow
         """
-        print(subprocess.check_output('pip install avisdk --upgrade', shell=True))
+        print(subprocess.check_output('sudo pip install avisdk --upgrade', shell=True))
         print(subprocess.check_output(
             '/usr/local/bin/ansible-galaxy install avinetworks.avisdk', shell=True))
         try:
@@ -431,8 +465,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             lb_vs_conf = ns_config.get('add lb vserver', {})
             for vs_name in lb_vs_conf.keys():
@@ -460,8 +496,10 @@ class TestNetscalerConverter:
                        tenant=file_attribute['tenant'],
                        output_file_path=setup.get('output_file_path'),
                        controller_version=setup.get('controller_version_v17'))
+        
+        output_file = '%s/ns-Output.json' %setup.get('output_file_path')
 
-        with open('./output/ns-Output.json', 'r') as file_strem:
+        with open(output_file, 'r') as file_strem:
             avi_config = json.load(file_strem)
             pooGroup = avi_config['PoolGroup']
             pool = [pool for pool in pooGroup if pool['name'] == \
@@ -470,19 +508,6 @@ class TestNetscalerConverter:
             for each_member in pool['members']:
                 if 'Web-Append-HTT' in each_member['pool_ref']:
                     assert each_member['priority_label'] == '2'
-
-    @pytest.mark.travis
-
-    @pytest.mark.TCID1_48_1497_24_0
-    def test_sslcert_dummy_status(self):
-        netscaler_conv(config_file_name=setup.get('config_file_name'),
-                       tenant=file_attribute['tenant'],
-                       output_file_path=setup.get('output_file_path'),
-                       controller_version=setup.get('controller_version_v17'))
-
-        dummy_obj = 'Lab-Test-Cert'
-        assert check_dummy_cert_status('./output/ns-ConversionStatus.xlsx',
-                        certObj=dummy_obj) == True
 
 
 def teardown():

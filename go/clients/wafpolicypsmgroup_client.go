@@ -45,23 +45,23 @@ func (client *WafPolicyPSMGroupClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of WafPolicyPSMGroup objects
-func (client *WafPolicyPSMGroupClient) GetAll() ([]*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) GetAll(options ...session.ApiOptionsParams) ([]*models.WafPolicyPSMGroup, error) {
 	var plist []*models.WafPolicyPSMGroup
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing WafPolicyPSMGroup by uuid
-func (client *WafPolicyPSMGroupClient) Get(uuid string) (*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.WafPolicyPSMGroup, error) {
 	var obj *models.WafPolicyPSMGroup
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing WafPolicyPSMGroup by name
-func (client *WafPolicyPSMGroupClient) GetByName(name string) (*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.WafPolicyPSMGroup, error) {
 	var obj *models.WafPolicyPSMGroup
-	err := client.aviSession.GetObjectByName("wafpolicypsmgroup", name, &obj)
+	err := client.aviSession.GetObjectByName("wafpolicypsmgroup", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *WafPolicyPSMGroupClient) GetObject(options ...session.ApiOptionsPa
 }
 
 // Create a new WafPolicyPSMGroup object
-func (client *WafPolicyPSMGroupClient) Create(obj *models.WafPolicyPSMGroup) (*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) Create(obj *models.WafPolicyPSMGroup, options ...session.ApiOptionsParams) (*models.WafPolicyPSMGroup, error) {
 	var robj *models.WafPolicyPSMGroup
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing WafPolicyPSMGroup object
-func (client *WafPolicyPSMGroupClient) Update(obj *models.WafPolicyPSMGroup) (*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) Update(obj *models.WafPolicyPSMGroup, options ...session.ApiOptionsParams) (*models.WafPolicyPSMGroup, error) {
 	var robj *models.WafPolicyPSMGroup
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,25 +97,29 @@ func (client *WafPolicyPSMGroupClient) Update(obj *models.WafPolicyPSMGroup) (*m
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.WafPolicyPSMGroup
 // or it should be json compatible of form map[string]interface{}
-func (client *WafPolicyPSMGroupClient) Patch(uuid string, patch interface{}, patchOp string) (*models.WafPolicyPSMGroup, error) {
+func (client *WafPolicyPSMGroupClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.WafPolicyPSMGroup, error) {
 	var robj *models.WafPolicyPSMGroup
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing WafPolicyPSMGroup object with a given UUID
-func (client *WafPolicyPSMGroupClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *WafPolicyPSMGroupClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	if len(options) == 0 {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	}
 }
 
 // DeleteByName - Delete an existing WafPolicyPSMGroup object with a given name
-func (client *WafPolicyPSMGroupClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *WafPolicyPSMGroupClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession

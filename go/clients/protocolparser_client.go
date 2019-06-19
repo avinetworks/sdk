@@ -45,23 +45,23 @@ func (client *ProtocolParserClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of ProtocolParser objects
-func (client *ProtocolParserClient) GetAll() ([]*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) GetAll(options ...session.ApiOptionsParams) ([]*models.ProtocolParser, error) {
 	var plist []*models.ProtocolParser
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing ProtocolParser by uuid
-func (client *ProtocolParserClient) Get(uuid string) (*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.ProtocolParser, error) {
 	var obj *models.ProtocolParser
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing ProtocolParser by name
-func (client *ProtocolParserClient) GetByName(name string) (*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.ProtocolParser, error) {
 	var obj *models.ProtocolParser
-	err := client.aviSession.GetObjectByName("protocolparser", name, &obj)
+	err := client.aviSession.GetObjectByName("protocolparser", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *ProtocolParserClient) GetObject(options ...session.ApiOptionsParam
 }
 
 // Create a new ProtocolParser object
-func (client *ProtocolParserClient) Create(obj *models.ProtocolParser) (*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) Create(obj *models.ProtocolParser, options ...session.ApiOptionsParams) (*models.ProtocolParser, error) {
 	var robj *models.ProtocolParser
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing ProtocolParser object
-func (client *ProtocolParserClient) Update(obj *models.ProtocolParser) (*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) Update(obj *models.ProtocolParser, options ...session.ApiOptionsParams) (*models.ProtocolParser, error) {
 	var robj *models.ProtocolParser
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,25 +97,29 @@ func (client *ProtocolParserClient) Update(obj *models.ProtocolParser) (*models.
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.ProtocolParser
 // or it should be json compatible of form map[string]interface{}
-func (client *ProtocolParserClient) Patch(uuid string, patch interface{}, patchOp string) (*models.ProtocolParser, error) {
+func (client *ProtocolParserClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.ProtocolParser, error) {
 	var robj *models.ProtocolParser
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing ProtocolParser object with a given UUID
-func (client *ProtocolParserClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *ProtocolParserClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	if len(options) == 0 {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	}
 }
 
 // DeleteByName - Delete an existing ProtocolParser object with a given name
-func (client *ProtocolParserClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *ProtocolParserClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession

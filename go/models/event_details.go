@@ -73,6 +73,9 @@ type EventDetails struct {
 	// Placeholder for description of property cc_parkintf_details of obj type EventDetails field type str  type object
 	CcParkintfDetails *CloudVipParkingIntf `json:"cc_parkintf_details,omitempty"`
 
+	//  Field introduced in 18.2.5.
+	CcScalesetNotifDetails *CCScaleSetNotifDetails `json:"cc_scaleset_notif_details,omitempty"`
+
 	// Placeholder for description of property cc_se_vm_details of obj type EventDetails field type str  type object
 	CcSeVMDetails *CloudSeVMChange `json:"cc_se_vm_details,omitempty"`
 
@@ -222,6 +225,12 @@ type EventDetails struct {
 
 	// Placeholder for description of property metrics_db_disk_details of obj type EventDetails field type str  type object
 	MetricsDbDiskDetails *MetricsDbDiskEventDetails `json:"metrics_db_disk_details,omitempty"`
+
+	// Placeholder for description of property metrics_db_queue_full_details of obj type EventDetails field type str  type object
+	MetricsDbQueueFullDetails *MetricsDbQueueFullEventDetails `json:"metrics_db_queue_full_details,omitempty"`
+
+	// Placeholder for description of property metrics_db_queue_healthy_details of obj type EventDetails field type str  type object
+	MetricsDbQueueHealthyDetails *MetricsDbQueueHealthyEventDetails `json:"metrics_db_queue_healthy_details,omitempty"`
 
 	// Placeholder for description of property mgmt_nw_change_details of obj type EventDetails field type str  type object
 	MgmtNwChangeDetails *VinfraMgmtNwChangeDetails `json:"mgmt_nw_change_details,omitempty"`

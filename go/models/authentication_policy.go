@@ -10,6 +10,9 @@ type AuthenticationPolicy struct {
 	// Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field deprecated in 18.2.3. Field introduced in 18.2.1.
 	AuthProfileRef *string `json:"auth_profile_ref,omitempty"`
 
+	// Add rules to apply auth profile to specific targets. Field introduced in 18.2.5.
+	AuthnRules []*AuthenticationRule `json:"authn_rules,omitempty"`
+
 	// HTTP cookie name for authenticated session. Field deprecated in 18.2.3. Field introduced in 18.2.1.
 	CookieName *string `json:"cookie_name,omitempty"`
 

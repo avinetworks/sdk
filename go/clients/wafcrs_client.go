@@ -45,23 +45,23 @@ func (client *WafCRSClient) getAPIPath(uuid string) string {
 }
 
 // GetAll is a collection API to get a list of WafCRS objects
-func (client *WafCRSClient) GetAll() ([]*models.WafCRS, error) {
+func (client *WafCRSClient) GetAll(options ...session.ApiOptionsParams) ([]*models.WafCRS, error) {
 	var plist []*models.WafCRS
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist)
+	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
 	return plist, err
 }
 
 // Get an existing WafCRS by uuid
-func (client *WafCRSClient) Get(uuid string) (*models.WafCRS, error) {
+func (client *WafCRSClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.WafCRS, error) {
 	var obj *models.WafCRS
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj)
+	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
 	return obj, err
 }
 
 // GetByName - Get an existing WafCRS by name
-func (client *WafCRSClient) GetByName(name string) (*models.WafCRS, error) {
+func (client *WafCRSClient) GetByName(name string, options ...session.ApiOptionsParams) (*models.WafCRS, error) {
 	var obj *models.WafCRS
-	err := client.aviSession.GetObjectByName("wafcrs", name, &obj)
+	err := client.aviSession.GetObjectByName("wafcrs", name, &obj, options...)
 	return obj, err
 }
 
@@ -79,17 +79,17 @@ func (client *WafCRSClient) GetObject(options ...session.ApiOptionsParams) (*mod
 }
 
 // Create a new WafCRS object
-func (client *WafCRSClient) Create(obj *models.WafCRS) (*models.WafCRS, error) {
+func (client *WafCRSClient) Create(obj *models.WafCRS, options ...session.ApiOptionsParams) (*models.WafCRS, error) {
 	var robj *models.WafCRS
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj)
+	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing WafCRS object
-func (client *WafCRSClient) Update(obj *models.WafCRS) (*models.WafCRS, error) {
+func (client *WafCRSClient) Update(obj *models.WafCRS, options ...session.ApiOptionsParams) (*models.WafCRS, error) {
 	var robj *models.WafCRS
 	path := client.getAPIPath(*obj.UUID)
-	err := client.aviSession.Put(path, obj, &robj)
+	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
 
@@ -97,25 +97,29 @@ func (client *WafCRSClient) Update(obj *models.WafCRS) (*models.WafCRS, error) {
 // patchOp: Patch operation - add, replace, or delete
 // patch: Patch payload should be compatible with the models.WafCRS
 // or it should be json compatible of form map[string]interface{}
-func (client *WafCRSClient) Patch(uuid string, patch interface{}, patchOp string) (*models.WafCRS, error) {
+func (client *WafCRSClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.WafCRS, error) {
 	var robj *models.WafCRS
 	path := client.getAPIPath(uuid)
-	err := client.aviSession.Patch(path, patch, patchOp, &robj)
+	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing WafCRS object with a given UUID
-func (client *WafCRSClient) Delete(uuid string) error {
-	return client.aviSession.Delete(client.getAPIPath(uuid))
+func (client *WafCRSClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	if len(options) == 0 {
+		return client.aviSession.Delete(client.getAPIPath(uuid))
+	} else {
+		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+	}
 }
 
 // DeleteByName - Delete an existing WafCRS object with a given name
-func (client *WafCRSClient) DeleteByName(name string) error {
-	res, err := client.GetByName(name)
+func (client *WafCRSClient) DeleteByName(name string, options ...session.ApiOptionsParams) error {
+	res, err := client.GetByName(name, options...)
 	if err != nil {
 		return err
 	}
-	return client.Delete(*res.UUID)
+	return client.Delete(*res.UUID, options...)
 }
 
 // GetAviSession
