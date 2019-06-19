@@ -187,8 +187,10 @@ class VSConverter(object):
                                 stick_farm = vsobj['sticky-serverfarm']
                                 for farm in self.parsed['sticky']:
                                     for farm_desc in farm['desc']:
-                                        if farm_desc.get('serverfarm'):
+                                        if (farm['name'] == stick_farm and
+                                                farm_desc.get('serverfarm')):
                                             pool = farm_desc['serverfarm']
+                                            original_pool_name = pool
                                             break
                             if 'serverfarm' in vsobj.keys():
                                 pool = vsobj['serverfarm']
@@ -209,10 +211,9 @@ class VSConverter(object):
                                         pool = pool_obj['name']
                                 USED_POOLS.append(pool)
 
-                            update_excel('class-map',
-                                         pool,
-                                         avi_obj="Refer "
-                                                 "Class Map : {}".format(name))
+                            update_excel('class-map', pool,
+                                         avi_obj="Refer Class Map : {}".format(
+                                             name))
 
                 # finding the ips for vip
                 ip_list = [ip]
@@ -278,6 +279,7 @@ class VSConverter(object):
                     temp_vs['se_group_ref'] = segroup_ref
                 if pool_ref:
                     temp_vs['pool_ref'] = pool_ref
+                nw_ref = None
                 if l4_type:
                     app_ref = self.common_utils.get_object_ref(
                         'System-L4-Application', 'applicationprofile',
@@ -291,8 +293,21 @@ class VSConverter(object):
                         nw_ref = self.common_utils.get_object_ref(
                             'System-UDP-Fast-Path', 'networkprofile',
                             tenant='admin')
-                    temp_vs['application_profile_ref'] = app_ref
-                    temp_vs['network_profile_ref'] = nw_ref
+                elif enable_ssl:
+                    app_ref = self.common_utils.get_object_ref(
+                        'System-Secure-HTTP', 'applicationprofile',
+                        tenant='admin')
+                else:
+                    app_ref = self.common_utils.get_object_ref(
+                        'System-HTTP', 'applicationprofile',
+                        tenant='admin')
+                if not nw_ref:
+                    nw_ref = self.common_utils.get_object_ref(
+                        'System-TCP-Proxy', 'networkprofile',
+                        tenant='admin')
+
+                temp_vs['application_profile_ref'] = app_ref
+                temp_vs['network_profile_ref'] = nw_ref
                 if ssl_profile:
                     temp_vs['ssl_profile_ref'] = ssl_profile
                 if ssl_cert:
@@ -384,9 +399,11 @@ class VSConverter(object):
                         if 'udp' in cmap.keys():
                             l4_type = 'udp'
                         if port == 'www':
+                            l4_type = None
                             port = 80
                         if port == 'https':
                             port = 443
+                            l4_type = None
                         vs_ip = cmap.get('virtual-address', [])
                         if vs_ip:
                             vs_ip_temp = '{}-vip'.format(vs_ip)
