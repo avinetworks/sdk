@@ -142,9 +142,9 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		}
 	}
 
-    if avisess.tenant == "" {
-        avisess.tenant = DEFAULT_API_TENANT
-    }
+	if avisess.tenant == "" {
+		avisess.tenant = DEFAULT_API_TENANT
+	}
 	if avisess.version == "" {
 		avisess.version = DEFAULT_AVI_VERSION
 	}
@@ -904,6 +904,7 @@ func (opts *ApiOptions) setResult(result interface{}) error {
 
 type ApiOptionsParams func(*ApiOptions) error
 
+// GetUri returns the URI
 func (avisess *AviSession) GetUri(obj string, options ...ApiOptionsParams) (string, error) {
 	opts, err := getOptions(options)
 	if err != nil {
@@ -932,6 +933,7 @@ func (avisess *AviSession) GetUri(obj string, options ...ApiOptionsParams) (stri
 	return uri, nil
 }
 
+// DeleteObject performs DELETE Operation and delete the data
 func (avisess *AviSession) DeleteObject(uri string, options ...ApiOptionsParams) error {
 	opts, err := getOptions(options)
 	if err != nil {
@@ -940,7 +942,7 @@ func (avisess *AviSession) DeleteObject(uri string, options ...ApiOptionsParams)
 	return avisess.restRequestInterfaceResponse("DELETE", uri, opts.payload, opts.result, options...)
 }
 
-func getOptions(options []ApiOptionsParams) (*ApiOptions ,error) {
+func getOptions(options []ApiOptionsParams) (*ApiOptions, error) {
 	opts := &ApiOptions{}
 	for _, opt := range options {
 		err := opt(opts)
@@ -950,6 +952,8 @@ func getOptions(options []ApiOptionsParams) (*ApiOptions ,error) {
 	}
 	return opts, nil
 }
+
+// GetObject performs GET and return object data
 func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) error {
 	opts, err := getOptions(options)
 	uri, err := avisess.GetUri(obj, options...)
