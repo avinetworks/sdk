@@ -10,6 +10,7 @@ import logging
 import urlparse
 from copy import deepcopy
 from urllib import urlencode
+import urllib
 
 import argparse
 import re
@@ -116,7 +117,7 @@ class AviAnsibleConverterBase(object):
         # query.pop('cloud', None)
         u = u._replace(query=urlencode(query, True))
         x = urlparse.urlunparse(u)
-        return x
+        return urllib.unquote(x)
 
     def transform_obj_refs(self, obj):
         if type(obj) != dict:
