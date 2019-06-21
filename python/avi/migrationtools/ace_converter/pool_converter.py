@@ -109,58 +109,54 @@ class PoolConverter(object):
                 pool_list.append(temp_pool)
         return pool_list
 
-    def server_converter(self, name, port, server_port=[]):
+    def server_converter(self, servers_list, port, server_port=[]):
         """ Server Conversion \n
             :param @name: Server name
             :param @port: Service Port
             * Get -  the server name
             * Reply - with server avi object
         """
-        position = None
-        if self.parsed.get('rserver', ''):
-            for index, elem in enumerate(self.parsed['rserver']):
-                if elem['host'] == name:
-                    position = index
-                    server_name = elem['host']
-
-        if position is None:
-            LOG.warning("rserver %s not found ..".format(name))
-            return False
-
-        details = self.parsed['rserver'][position]
         server_list = list()
         server = ''
-        desc = ''
-        enabled = False
+        for server_name in servers_list:
+            found_server = None
+            if self.parsed.get('rserver', ''):
+                found_server = [obj for obj in self.parsed['rserver'] if
+                                obj['host'] == server_name]
+            if not found_server:
+                LOG.warning("rserver %s not found ..".format(servers_list))
+                return False
 
-        # server conversion
-        for serv in details['desc']:
-            # checking for ip address ,default port ?
-            if 'ip address' in serv.keys():
-                server = serv['ip address']
-            # checking for desc
-            if 'description' in serv.keys():
-                desc = serv['description']
-            # checking for server enabled or not ?
-            if 'type' in serv.keys():
-                enabled = (True if serv['type'] == 'inservice' else False)
+            desc = ''
+            enabled = False
+            # server conversion
+            for serv in found_server[0]['desc']:
+                # checking for ip address ,default port ?
+                if 'ip address' in serv.keys():
+                    server = serv['ip address']
+                # checking for desc
+                if 'description' in serv.keys():
+                    desc = serv['description']
+                # checking for server enabled or not ?
+                if 'type' in serv.keys():
+                    enabled = (True if serv['type'] == 'inservice' else False)
 
-        if server != '':
-            sp_str = '%s:%s' % (server, port)
-            if sp_str not in server_port:
-                server_port.append(sp_str)
-                server_list.append({
-                    "ip": {
-                        "addr": server,
-                        "type": "V4",
-                    },
-                    "enabled": enabled,
-                    "description": desc,
-                    "port": port
-                })
+            if server != '':
+                sp_str = '%s:%s' % (server, port)
+                if sp_str not in server_port:
+                    server_port.append(sp_str)
+                    server_list.append({
+                        "ip": {
+                            "addr": server,
+                            "type": "V4",
+                        },
+                        "enabled": enabled,
+                        "description": desc,
+                        "port": port
+                    })
 
-        # Update Excel Sheet
-        update_excel('rserver', server_name, avi_obj=server_list)
+            # Update Excel Sheet
+            update_excel('rserver', server_name, avi_obj=server_list)
 
         return server_list
 
