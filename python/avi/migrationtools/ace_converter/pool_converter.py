@@ -60,6 +60,7 @@ class PoolConverter(object):
                     })
             skipped_list = list()
             server = []
+            server_port = []
             for pools in pool['desc']:
                 farm_set = set(pools.keys())
                 skipped_list_temp = list(farm_set.intersection(set(POOL_SKIP)))
@@ -68,12 +69,11 @@ class PoolConverter(object):
                 if "rserver" in pools.keys():
                     if 'port' in pools.keys():
                         use_port = pools['port']
-                        server.extend(self.server_converter(pools['rserver'], use_port))
                     else:
                         use_port = default_port
-                        server.extend(self.server_converter(pools['rserver'], use_port))
-
-
+                    server_obj = self.server_converter(
+                        pools['rserver'], use_port, server_port=server_port)
+                    server.extend(server_obj)
 
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
@@ -110,7 +110,7 @@ class PoolConverter(object):
                 pool_list.append(temp_pool)
         return pool_list
 
-    def server_converter(self, name, port):
+    def server_converter(self, name, port, server_port=[]):
         """ Server Conversion \n
             :param @name: Server name
             :param @port: Service Port
@@ -147,15 +147,18 @@ class PoolConverter(object):
                 enabled = (True if serv['type'] == 'inservice' else False)
 
         if server != '':
-            server_list.append({
-                "ip": {
-                    "addr": server,
-                    "type": "V4",
-                },
-                "enabled": enabled,
-                "description": desc,
-                "port": port
-            })
+            sp_str = '%s:%s' % (server, port)
+            if sp_str not in server_port:
+                server_port.append(sp_str)
+                server_list.append({
+                    "ip": {
+                        "addr": server,
+                        "type": "V4",
+                    },
+                    "enabled": enabled,
+                    "description": desc,
+                    "port": port
+                })
 
         # Update Excel Sheet
         update_excel('rserver', server_name, avi_obj=server_list)
