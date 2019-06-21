@@ -586,33 +586,27 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 matched[0][1]: matched[0][2],   # getting serverfarm name
                 'desc': []
             }
+            temp_dict = dict()
             for match in matched[1:]:
-                temp_dict = dict()
                 if len(match) < 3:
-                    temp_dict = {
-                        match[0]: match[1]
-                    }
+                    temp_dict[match[0]] = match[1]
                 # Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as
                 # ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input
                 # configuration file.
                 elif 'rserver' in match:
                     if len(match) >= 4:
-                        temp_dict = {
-                            match[0]: match[1],
+                        temp_dict[match[0]] = match[1]
                             # if port no is present in configuration.
-                            'port': match[2],
+                        temp_dict['port'] = match[2]
                             # inservice status
-                            'enabled': match[4] if len(match) > 4 else match[3]
-                        }
+                        temp_dict['enabled'] = match[4] if len(match) > 4 else match[3]
                     else:
-                        temp_dict = {
-                            match[0]: match[1],
-                            'port': match[2]
-                        }
+                        temp_dict[match[0]] = match[1]
+                        temp_dict['port'] = match[2]
                 # Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add
                 # that filed into serverfarm otherwise just ignore.
-                if len(temp_dict.keys()) > 1:
-                    extra_dict['desc'].append(temp_dict)
+            if len(temp_dict.keys()) > 0:
+                extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: server farm for value : {}'.format(name_to_log))
         if key == 'parameter-map':
             matched = matched[0][0]

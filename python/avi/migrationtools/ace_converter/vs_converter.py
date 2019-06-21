@@ -184,6 +184,7 @@ class VSConverter(object):
                         if 'sticky-serverfarm' in vsobj.keys() or\
                                 'serverfarm' in vsobj.keys():
                             if 'sticky-serverfarm' in vsobj.keys():
+                                l4_type = None
                                 stick_farm = vsobj['sticky-serverfarm']
                                 for farm in self.parsed['sticky']:
                                     for farm_desc in farm['desc']:
@@ -235,6 +236,7 @@ class VSConverter(object):
                     LOG.warn('Skipped VS %s as no pool found' % name)
                     continue
                 if action:
+                    l4_type = None
                     http_policy_set = self.create_http_policy(action, name)
                     http_policy_ref = self.common_utils.get_object_ref(
                         object_name=http_policy_set.get('name'),
