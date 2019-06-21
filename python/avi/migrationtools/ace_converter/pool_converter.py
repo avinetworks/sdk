@@ -50,9 +50,9 @@ class PoolConverter(object):
             temp_pool = dict()
             name = pool.get('host', '')
             app_persistance = self.find_app_persistance(name, data)
-            app_ref = self.common_utils.get_object_ref(app_persistance,
-                                                       'applicationpersistenceprofile',
-                                                       tenant=self.tenant)
+            app_ref = self.common_utils.get_object_ref(
+                app_persistance, 'applicationpersistenceprofile',
+                tenant=self.tenant)
             if app_persistance:
                 temp_pool.update(
                     {
@@ -74,7 +74,6 @@ class PoolConverter(object):
                     server_obj = self.server_converter(
                         pools['rserver'], use_port, server_port=server_port)
                     server.extend(server_obj)
-
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
                         if pools.get('probe') == hm['name']:

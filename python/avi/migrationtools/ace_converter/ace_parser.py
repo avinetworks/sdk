@@ -607,7 +607,7 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                     else:
                         temp_dict = {
                             match[0]: match[1],
-                            'enabled': match[2] if len(match)>2 else 'false'
+                            'port': match[2]
                         }
                 # Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add
                 # that filed into serverfarm otherwise just ignore.
@@ -876,51 +876,47 @@ class Parser():
 
 if __name__ == '__main__':
     s = """
-class-map match-any ADASAP-REDIRECT-CM
-  description ***https redirection for all services***
-  2 match virtual-address 10.148.185.248 tcp eq www
-  3 match virtual-address 10.148.185.249 tcp eq www
+serverfarm host SF-BIZLINK-WWW_80
+  description **DEV Bizlink HTTP Server Farm**
+  probe PROBE_TCP:80
+  rserver BIZLINK-EU2BWB001 80
+    inservice
+  rserver BIZLINK-EU2BWB001 9084
+    inservice
+  rserver EUHUB02-SG001 80
+  rserver EUHUB02-SG001 9084
         """
 
     name = Word(printables)
     num = Word(nums)
     serverfarm = Keyword('serverfarm')
     host = Keyword('host')
-    description = Keyword('description')
-    classmap = Keyword('class-map')
-    ipaddress = Combine(Word(nums) + ('.' + Word(nums)) * 3)
-    classmap_type = Keyword('type')
-    mgmt = Keyword('management') | (
-            Keyword('http') + Keyword('loadbalance'))
-    type_key_att = classmap_type + mgmt
-    match_key = Keyword('match-any') | Keyword('match-all')
+    grammer_12_1 = Group(serverfarm + host + name)
+    grammer_12_2 = Group(Keyword('probe') + name)
+    grammer_12_3 = Group(Keyword('inband-health') +
+                         Keyword('check') + name)
+    grammer_12_4_1 = Keyword('rserver') + ~Word(
+        'host') + name + ZeroOrMore(num)
+    grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
+    grammer_12_4_3 = Group(Keyword('probe') + restOfLine)
+    grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
 
-    grammer7_1 = Group(classmap + match_key + name)
+    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
+                         ZeroOrMore(grammer_12_4_4) +
+                         ZeroOrMore(grammer_12_4_2))
+    grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
+                         Keyword('slowstart') + num)
+    grammer_12_6 = Group(Keyword('description') + restOfLine)
+    grammer_12_7 = Group(Keyword('predictor') + restOfLine)
+    grammer_12_8 = Group(Keyword('retcode') + restOfLine)
+    grammer_12_9 = Group(Keyword('failaction') + restOfLine)
+    grammer_12_10 = Keyword('fail-on-all')
 
-    match_key = Keyword('match')
-    proto_key = Keyword('protocol')
-    grammer_url = Group(
-        num + match_key + Keyword('http') + Keyword('url') + name)
-    proto_type = Keyword('tcp') | Keyword('icmp') | Keyword(
-        'snmp') | Keyword('http') | Keyword('https') | Keyword('udp')
-    proto = proto_key + proto_type
-    source_dest = Keyword(
-        'source-address') | Keyword('destination-address')
-    virtual_add = Keyword('virtual-address')
-    eq_key = Keyword('eq')
-    eq_val = Keyword('https') | Keyword('www') | Keyword('http') | num
-    any_key = Keyword('any')
-    add_att = Optional(proto) + source_dest + ipaddress + ipaddress
-    virt_att = virtual_add + ipaddress + \
-               proto_type + ((eq_key + eq_val) | any_key)
+    grammer_12 = Group(grammer_12_1 + ZeroOrMore(
+        grammer_12_2 | grammer_12_3 | grammer_12_4 | grammer_12_5 |
+        grammer_12_6 | grammer_12_7 | grammer_12_8 | grammer_12_9 |
+        grammer_12_10))
 
-    grammer7_3 = Group(description + restOfLine)
-
-    grammer7_2 = Group(num + match_key +
-                       (add_att | virt_att)) | grammer_url
-
-    grammer_7 = Group(grammer7_1 + Optional(grammer7_3) +ZeroOrMore(grammer7_2))
-
-    for match, start, end in grammer_7.scanString(s):
+    for match, start, end in grammer_12.scanString(s):
         print match
 
