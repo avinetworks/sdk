@@ -231,10 +231,7 @@ class VSConverter(object):
                     pool_ref = self.common_utils.get_object_ref(
                         pool, 'pool', tenant=self.tenant,
                         cloud_name=self.cloud)
-                if not pool:
-                    msg = 'No Pool configured for VS {}'.format(name)
-                    LOG.warn('Skipped VS %s as no pool found' % name)
-                    continue
+
                 if action:
                     l4_type = None
                     http_policy_set = self.create_http_policy(action, name)
@@ -259,6 +256,15 @@ class VSConverter(object):
                                         object_type='httppolicyset', tenant=self.tenant)
 
                 enable_ssl = (True if ssl_profile else False)
+                if port == 443 and not ssl_cert:
+                    l4_type = 'tcp'
+
+                if not pool and not http_policy_ref:
+                    msg = 'No Pool or http policy configured for VS {}'.format(
+                        name)
+                    LOG.warn('Skipped VS %s as no pool or http policy found' %
+                             name)
+                    continue
 
                 temp_vs = {
                     "vsvip_ref": vs_ref,
@@ -274,6 +280,11 @@ class VSConverter(object):
                     "tenant_ref": self.tenant_ref,
                     "type": "VS_TYPE_NORMAL"
                 }
+
+                if  isinstance(port, str) and '-' in port:
+                    temp_vs['services']['port'] = port.split('-')[0]
+                    temp_vs['services']['port_range_end'] = port.split('-')[1]
+
                 if self.segroup:
                     segroup_ref = self.common_utils.get_object_ref(
                         self.segroup, 'serviceenginegroup', tenant=self.tenant,
@@ -400,6 +411,12 @@ class VSConverter(object):
                             l4_type = 'tcp'
                         if 'udp' in cmap.keys():
                             l4_type = 'udp'
+                        if port == 'ftp':
+                            l4_type = 'tcp'
+                            port = 21
+                        if port == 'ftp-data':
+                            l4_type = 'tcp'
+                            port = 20
                         if port == 'www':
                             l4_type = None
                             port = 80
@@ -458,38 +475,38 @@ class VSConverter(object):
 
         for policy_map in self.parsed.get('policy-map', ''):
             LOG.debug("Conversion started for policy-map: %s" %
-                      policy_map.get('name', 'No-Name_found'))
-            if policy_map.get('match', '') == 'multi-match':
-                update_excel(
-                    'policy-map', policy_map['policy-map'], status='Indirect')
-                p_map_class = [cls for cls in policy_map['desc'] if
-                               cls.get('class', [])]
-                for cls in p_map_class:
-                    policy_name, ssl, ssl_cert = self.get_ssl_refs(data, cls)
-                    if policy_name:
-                        vs, cloned_pool, http_policy_set, msg = \
-                            self.virtual_service_conversion_policy(
-                                policy_name, data, ssl_profile=ssl,
-                                ssl_cert=ssl_cert)
-                        if vs:
-                            vs['enabled'] = self.get_vs_state(cls)
-                            # updating excel sheet
-                            update_excel('policy-map', vs['name'], avi_obj=vs)
+                      policy_map.get('name', policy_map.get('policy-map', '')))
+            # if policy_map.get('match', '') == 'multi-match':
+            #     update_excel(
+            #         'policy-map', policy_map['policy-map'], status='Indirect')
+            p_map_class = [cls for cls in policy_map['desc'] if
+                           cls.get('class', [])]
+            for cls in p_map_class:
+                policy_name, ssl, ssl_cert = self.get_ssl_refs(data, cls)
+                if policy_name:
+                    vs, cloned_pool, http_policy_set, msg = \
+                        self.virtual_service_conversion_policy(
+                            policy_name, data, ssl_profile=ssl,
+                            ssl_cert=ssl_cert)
+                    if vs:
+                        vs['enabled'] = self.get_vs_state(cls)
+                        # updating excel sheet
+                        update_excel('policy-map', vs['name'], avi_obj=vs)
 
-                            # updating object
-                            vs_list.append(vs)
-                            self.port_fix(vs_list)
-                            if cloned_pool:
-                                cloned_pool_list.append(cloned_pool)
-                            if http_policy_set:
-                                http_list.append(http_policy_set)
-                        else:
-                            update_excel('policy-map', cls['class'],
-                                         status='Skipped', avi_obj=msg)
+                        # updating object
+                        vs_list.append(vs)
+                        self.port_fix(vs_list)
+                        if cloned_pool:
+                            cloned_pool_list.append(cloned_pool)
+                        if http_policy_set:
+                            http_list.append(http_policy_set)
                     else:
-                        update_excel(
-                            'policy-map', cls['class'], status='Skipped',
-                            avi_obj='Policy is not in policy\'s class map')
+                        update_excel('policy-map', cls['class'],
+                                     status='Skipped', avi_obj=msg)
+                else:
+                    update_excel(
+                        'policy-map', cls['class'], status='Skipped',
+                        avi_obj='Policy is not in policy\'s class map')
         return vs_list, cloned_pool_list, http_list
 
     def port_fix(self, vs_list):
