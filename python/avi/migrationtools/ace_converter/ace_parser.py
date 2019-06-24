@@ -612,7 +612,10 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                             temp_dict['rserver'].append(match[1])
                         else:
                             temp_dict['rserver'] = [match[1]]
-                        temp_dict['port'] = match[2]
+                        if len(match) >= 3:
+                            temp_dict['port'] = match[2]
+                        else:
+                            temp_dict['port'] = 80
                 elif len(match) < 3:
                     temp_dict[match[0]] = match[1]
             if len(temp_dict.keys()) > 0:
