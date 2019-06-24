@@ -223,8 +223,8 @@ def create_ace_grammer():
         'source-address') | Keyword('destination-address')
     virtual_add = Keyword('virtual-address')
     eq_key = Keyword('eq')
-    eq_val = Keyword('https') | Keyword('www') | Keyword('http') | \
-             Keyword('ftp') | Keyword('ftp-data') | num
+    eq_val = (Keyword('ftp-data') | Keyword('https') | Keyword('www') |
+              Keyword('http') | Keyword('ftp') | num)
     any_key = Keyword('any')
     range_key = Keyword('range')
     add_att = Optional(proto) + source_dest + ipaddress + ipaddress
@@ -923,8 +923,8 @@ class-map match-any CM2-BIZLINK-FTP-DATA
         'source-address') | Keyword('destination-address')
     virtual_add = Keyword('virtual-address')
     eq_key = Keyword('eq')
-    eq_val = Keyword('https') | Keyword('www') | Keyword('http') | \
-             Keyword('ftp') | Keyword('ftp-data') | num
+    eq_val = (Keyword('ftp-data') | Keyword('https') | Keyword('www') |
+              Keyword('http') | Keyword('ftp') | num)
     any_key = Keyword('any')
     range_key = Keyword('range')
     add_att = Optional(proto) + source_dest + ipaddress + ipaddress

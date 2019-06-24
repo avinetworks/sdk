@@ -149,7 +149,7 @@ class VSConverter(object):
     def virtual_service_conversion_policy(self, name, data, ssl_profile=None,
                                           ssl_cert=None):
         global USED_POOLS
-        port = None
+        ports = None
         vs_ref = None
         port_end = None
         l4_type = None
@@ -166,9 +166,9 @@ class VSConverter(object):
                 original_pool_name = None
                 pool_ref = None
                 action = None
-                vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
+                vs_ref, ports, ip, l4_type = self.get_vsref_and_port_from_class(
                     name)
-                if not vs_ref or port is None or not ip:
+                if not vs_ref or not ports or not ip:
                     msg = 'No vsvip, ip-port for policy-map {}'.format(name)
                     LOG.warn('Skipping VS %s as no vsvip or ip-port found for '
                              'policy-map' % name)
@@ -256,7 +256,7 @@ class VSConverter(object):
                                         object_type='httppolicyset', tenant=self.tenant)
 
                 enable_ssl = (True if ssl_profile else False)
-                if port == 443 and not ssl_cert:
+                if 443 in ports and not ssl_cert:
                     l4_type = 'tcp'
 
                 if not pool and not http_policy_ref:
@@ -270,10 +270,7 @@ class VSConverter(object):
                     "vsvip_ref": vs_ref,
                     "enabled": False,
                     "vs_datascripts": [],
-                    "services": [{
-                        "enable_ssl": enable_ssl,
-                        "port": port,
-                    }],
+                    "services": [],
                     "description": None,
                     "name": name,
                     "cloud_ref": self.cloud_ref,
@@ -281,9 +278,19 @@ class VSConverter(object):
                     "type": "VS_TYPE_NORMAL"
                 }
 
-                if  isinstance(port, str) and '-' in port:
-                    temp_vs['services']['port'] = port.split('-')[0]
-                    temp_vs['services']['port_range_end'] = port.split('-')[1]
+                for port in ports:
+                    if  isinstance(port, str) and '-' in port:
+                        service = {
+                            "enable_ssl": enable_ssl,
+                            "port": port.split('-')[0],
+                            'port_range_end': port.split('-')[1]
+                        }
+                    else:
+                        service = {
+                            "enable_ssl": enable_ssl,
+                            "port": port,
+                        }
+                    temp_vs["services"].append(service)
 
                 if self.segroup:
                     segroup_ref = self.common_utils.get_object_ref(
@@ -388,6 +395,7 @@ class VSConverter(object):
     def get_vsref_and_port_from_class(self, class_name):
         vs_ref = None
         port = None
+        port_list = []
         vs_ip = None
         port_end = None
         l4_type = None
@@ -406,7 +414,7 @@ class VSConverter(object):
                 if 'match' in class_map['type'] and class_map[
                         'class-map'] == lb_policy and class_map['desc']:
                     for cmap in class_map['desc']:
-                        port = cmap.get('tcp', cmap.get('udp', ''))
+                        port = cmap.get('tcp', cmap.get('udp', 80))
                         if 'tcp' in cmap.keys():
                             l4_type = 'tcp'
                         if 'udp' in cmap.keys():
@@ -423,13 +431,15 @@ class VSConverter(object):
                         if port == 'https':
                             port = 443
                             l4_type = None
+                        if port not in port_list:
+                            port_list.append(port)
                         vs_ip = cmap.get('virtual-address', [])
                         if vs_ip:
                             vs_ip_temp = '{}-vip'.format(vs_ip)
                             vs_ref = self.common_utils.get_object_ref(
                                 vs_ip_temp, 'vsvip', tenant=self.tenant,
                                 cloud_name=self.cloud)
-        return vs_ref, port, vs_ip, l4_type
+        return vs_ref, port_list, vs_ip, l4_type
 
     def get_ssl_refs(self, data, cls):
         policy_name = None
