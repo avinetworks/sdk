@@ -22,7 +22,8 @@ DEFAULT_SKIP_TYPES = [
     'SeProperties', 'ControllerProperties', 'CloudProperties']
 
 
-SKIP_FIELDS = ['uuid', 'url', 'ref_key', 'se_uuids', 'key_passphrase']
+SKIP_FIELDS = ['uuid', 'url', 'ref_key', 'se_uuids', 'key_passphrase',
+               'extension']
 HTTP_TYPE = 'http'
 SSL_TYPE = 'ssl'
 DNS_TYPE = 'dns'
