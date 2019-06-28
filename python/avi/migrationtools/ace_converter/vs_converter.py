@@ -255,8 +255,9 @@ class VSConverter(object):
                                         object_name=http_policy_set['name'],
                                         object_type='httppolicyset', tenant=self.tenant)
 
+                # rules for finding VS is l4 or l7
                 enable_ssl = (True if ssl_profile else False)
-                if 443 in ports and not ssl_cert:
+                if 443 in ports and not ssl_cert and not http_policy_ref:
                     l4_type = 'tcp'
 
                 if not pool and not http_policy_ref:
@@ -279,15 +280,18 @@ class VSConverter(object):
                 }
 
                 for port in ports:
-                    if  isinstance(port, str) and '-' in port:
+                    ssl_service = enable_ssl
+                    if enable_ssl and port == 80:
+                        ssl_service = False
+                    if isinstance(port, str) and '-' in port:
                         service = {
-                            "enable_ssl": enable_ssl,
+                            "enable_ssl": ssl_service,
                             "port": port.split('-')[0],
                             'port_range_end': port.split('-')[1]
                         }
                     else:
                         service = {
-                            "enable_ssl": enable_ssl,
+                            "enable_ssl": ssl_service,
                             "port": port,
                         }
                     temp_vs["services"].append(service)

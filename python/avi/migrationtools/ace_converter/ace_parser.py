@@ -599,23 +599,23 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 # configuration file.
                 if 'rserver' == match[0]:
                     if len(match) >= 4:
+                        enabled = match[4] if len(match) > 4 else match[3]
+                        port = match[2]
                         if 'rserver' in temp_dict:
-                            temp_dict['rserver'].append(match[1])
+                            temp_dict['rserver'].update({'%s:%s' % (match[1], port): enabled})
                         else:
-                            temp_dict['rserver'] = [match[1]]
-                            # if port no is present in configuration.
-                        temp_dict['port'] = match[2]
-                            # inservice status
-                        temp_dict['enabled'] = match[4] if len(match) > 4 else match[3]
+                            temp_dict['rserver'] = {'%s:%s' % (match[1], port): enabled}
                     else:
-                        if 'rserver' in temp_dict:
-                            temp_dict['rserver'].append(match[1])
-                        else:
-                            temp_dict['rserver'] = [match[1]]
                         if len(match) >= 3:
-                            temp_dict['port'] = match[2]
+                            port = match[2]
                         else:
-                            temp_dict['port'] = 80
+                            port = 80
+                        enabled = False
+                        if 'rserver' in temp_dict:
+                            temp_dict['rserver'].update({'%s:%s' % (match[1], port): enabled})
+                        else:
+                            temp_dict['rserver'] = {'%s:%s' % (match[1], port): enabled}
+
                 elif len(match) < 3:
                     temp_dict[match[0]] = match[1]
             if len(temp_dict.keys()) > 0:
@@ -891,55 +891,46 @@ class Parser():
 
 if __name__ == '__main__':
     s = """
-class-map match-any CM2-BIZLINK-FTP-DATA
-  140 match virtual-address 10.148.183.140 tcp range 1024 65535
+serverfarm host SF-ADFS-HTTPS
+  description ** ADFS Bluecoat HTTPS Server Farm **
+  probe PROBE_TCP:443
+  rserver EU2XAPW030 443
+  rserver EU2XAPW031 443
+  rserver EUHUB02-SG001 443
+    inservice
         """
 
     name = Word(printables)
     num = Word(nums)
     type_key = Word('type')
-    policy_key = Keyword('policy-map')
-    lb_key = Keyword('loadbalance')
-    http_kw = Keyword('http')
-    description = Keyword('description')
-    classmap = Keyword('class-map')
-    ipaddress = Combine(Word(nums) + ('.' + Word(nums)) * 3)
-    classmap_type = Keyword('type')
-    mgmt = Keyword('management') | (
-            Keyword('http') + Keyword('loadbalance'))
-    type_key_att = classmap_type + mgmt
-    match_key = Keyword('match-any') | Keyword('match-all')
+    serverfarm = Keyword('serverfarm')
+    host = Keyword('host')
+    grammer_12_1 = Group(serverfarm + host + name)
+    grammer_12_2 = Group(Keyword('probe') + name)
+    grammer_12_3 = Group(Keyword('inband-health') +
+                         Keyword('check') + name)
+    grammer_12_4_1 = Keyword('rserver') + ~Word(
+        'host') + name + ZeroOrMore(num)
+    grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
+    grammer_12_4_3 = Group(Keyword('probe') + restOfLine)
+    grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
 
-    grammer7_1 = Group(classmap + match_key + name)
+    grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
+                         ZeroOrMore(grammer_12_4_4) +
+                         ZeroOrMore(grammer_12_4_2))
+    grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
+                         Keyword('slowstart') + num)
+    grammer_12_6 = Group(Keyword('description') + restOfLine)
+    grammer_12_7 = Group(Keyword('predictor') + restOfLine)
+    grammer_12_8 = Group(Keyword('retcode') + restOfLine)
+    grammer_12_9 = Group(Keyword('failaction') + restOfLine)
+    grammer_12_10 = Keyword('fail-on-all')
 
-    match_key = Keyword('match')
-    proto_key = Keyword('protocol')
-    grammer_url = Group(
-        num + match_key + Keyword('http') + Keyword('url') + name)
-    proto_type = Keyword('tcp') | Keyword('icmp') | Keyword(
-        'snmp') | Keyword('http') | Keyword('https') | Keyword('udp')
-    proto = proto_key + proto_type
-    source_dest = Keyword(
-        'source-address') | Keyword('destination-address')
-    virtual_add = Keyword('virtual-address')
-    eq_key = Keyword('eq')
-    eq_val = (Keyword('ftp-data') | Keyword('https') | Keyword('www') |
-              Keyword('http') | Keyword('ftp') | num)
-    any_key = Keyword('any')
-    range_key = Keyword('range')
-    add_att = Optional(proto) + source_dest + ipaddress + ipaddress
-    virt_att = virtual_add + ipaddress + \
-               proto_type + ((eq_key + eq_val) | any_key |
-                             (range_key + num + num))
+    grammer_12 = Group(grammer_12_1 + ZeroOrMore(
+        grammer_12_2 | grammer_12_3 | grammer_12_4 | grammer_12_5 |
+        grammer_12_6 | grammer_12_7 | grammer_12_8 | grammer_12_9 |
+        grammer_12_10))
 
-    grammer7_3 = Group(description + restOfLine)
-
-    grammer7_2 = Group(num + match_key +
-                       (add_att | virt_att)) | grammer_url
-
-    grammer_7 = Group(
-        grammer7_1 + Optional(grammer7_3) + ZeroOrMore(grammer7_2))
-
-    for match, start, end in grammer_7.scanString(s):
+    for match, start, end in grammer_12.scanString(s):
         print match
 
