@@ -257,8 +257,10 @@ class VSConverter(object):
 
                 # rules for finding VS is l4 or l7
                 enable_ssl = (True if ssl_profile else False)
-                if 443 in ports and not ssl_cert and not http_policy_ref:
+                if 443 in ports and not ssl_cert:
                     l4_type = 'tcp'
+                    if http_policy_ref:
+                        http_policy_ref = None
 
                 if not pool and not http_policy_ref:
                     msg = 'No Pool or http policy configured for VS {}'.format(
