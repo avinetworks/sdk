@@ -810,7 +810,8 @@ func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, err
 }
 
 // GetMultipartRaw performs a GET API call and returns multipart raw data (File Download)
-func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc_ptr *os.File, options ...ApiOptionsParams) error {
+// The verb input is ignored and kept only for backwards compatibility
+func (avisess *AviSession) GetMultipartRaw(verb string, uri string, file_loc_ptr *os.File, options ...ApiOptionsParams) error {
 	opts, err := getOptions(options)
 	if err != nil {
 		return err
@@ -819,6 +820,7 @@ func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc_ptr
 }
 
 // PostMultipartRequest performs a POST API call and uploads multipart data
+// The verb input is ignored and kept only for backwards compatibility
 func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc_ptr *os.File, options ...ApiOptionsParams) error {
 	opts, err := getOptions(options)
 	if err != nil {
