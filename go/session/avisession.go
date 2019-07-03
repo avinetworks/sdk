@@ -304,7 +304,7 @@ func (avisess *AviSession) isTokenAuth() bool {
 	return avisess.authToken != "" || avisess.refreshAuthToken != nil
 }
 
-func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string) error {
+func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string, lastErr error) error {
 	if retry == 0 {
 		return nil
 	} else if retry == 1 {
@@ -314,9 +314,12 @@ func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string
 	} else if retry == 3 {
 		time.Sleep(1 * time.Second)
 	} else if retry > 3 {
+		if lastErr != nil {
+			glog.Errorf("Aborting after 3 times. Last error %v", lastErr)
+			return lastErr
+		}
 		errorResult := AviError{Verb: verb, Url: url}
 		errorResult.err = fmt.Errorf("tried 3 times and failed")
-		glog.Error("Aborting after 3 times")
 		return errorResult
 	}
 	return nil
@@ -376,7 +379,8 @@ func (avisess *AviSession) collectCookiesFromResp(resp *http.Response) {
 
 // restRequest makes a REST request to the Avi Controller's REST API.
 // Returns a byte[] if successful
-func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, tenant string, retryNum ...int) ([]byte, error) {
+func (avisess *AviSession) restRequest(verb string, uri string, payload interface{}, tenant string, lastError error,
+	retryNum ...int) ([]byte, error) {
 	var result []byte
 	url := avisess.prefix + uri
 	// If optional retryNum arg is provided, then count which retry number this is
@@ -384,7 +388,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if len(retryNum) > 0 {
 		retry = retryNum[0]
 	}
-	if errorResult := avisess.checkRetryForSleep(retry, verb, url); errorResult != nil {
+	if errorResult := avisess.checkRetryForSleep(retry, verb, url, lastError); errorResult != nil {
 		return nil, errorResult
 	}
 	var payloadIO io.Reader
@@ -434,7 +438,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 			return nil, err
 		}
 		// Doing this so that a new request is made to the
-		return avisess.restRequest(verb, uri, payload, tenant, retry+1)
+		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 	}
 
 	defer resp.Body.Close()
@@ -463,7 +467,8 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 
 // restMultipartUploadRequest makes a REST request to the Avi Controller's REST API using POST to upload a file.
 // Return status of multipart upload.
-func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path_ptr *os.File, retryNum ...int) error {
+func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, file_path_ptr *os.File, tenant string, lastErr error,
+	retryNum ...int) error {
 	url := avisess.prefix + "/api/fileservice/" + uri
 
 	// If optional retryNum arg is provided, then count which retry number this is
@@ -472,7 +477,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		retry = retryNum[0]
 	}
 
-	if errorResult := avisess.checkRetryForSleep(retry, verb, url); errorResult != nil {
+	if errorResult := avisess.checkRetryForSleep(retry, verb, url, lastErr); errorResult != nil {
 		return errorResult
 	}
 
@@ -516,7 +521,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 		errorResult.err = fmt.Errorf("restMultipartUploadRequest Adding URI field failed: %v", err)
 		return errorResult
 	}
-	req, errorResult := avisess.newAviRequest(verb, url, &b, "")
+	req, errorResult := avisess.newAviRequest(verb, url, &b, tenant)
 	if errorResult.err != nil {
 		return errorResult
 	}
@@ -556,7 +561,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 			return err
 		}
 		// Doing this so that a new request is made to the
-		return avisess.restMultipartUploadRequest(verb, uri, file_path_ptr, retry+1)
+		return avisess.restMultipartUploadRequest(verb, uri, file_path_ptr, tenant, errorResult, retry+1)
 	}
 
 	defer resp.Body.Close()
@@ -584,7 +589,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 // restMultipartDownloadRequest makes a REST request to the Avi Controller's REST API.
 // Returns multipart download and write data to file
-func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path_ptr *os.File, tenant string, retryNum ...int) error {
+func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string, file_path_ptr *os.File, tenant string, lastErr error, retryNum ...int) error {
 	url := avisess.prefix + "/api/fileservice/" + uri
 
 	// If optional retryNum arg is provided, then count which retry number this is
@@ -593,7 +598,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 		retry = retryNum[0]
 	}
 
-	if errorResult := avisess.checkRetryForSleep(retry, verb, url); errorResult != nil {
+	if errorResult := avisess.checkRetryForSleep(retry, verb, url, lastErr); errorResult != nil {
 		return errorResult
 	}
 
@@ -634,7 +639,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 			glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
 			return err
 		}
-		return avisess.restMultipartDownloadRequest(verb, uri, file_path_ptr, tenant)
+		return avisess.restMultipartDownloadRequest(verb, uri, file_path_ptr, tenant, errorResult)
 	}
 
 	defer resp.Body.Close()
@@ -723,7 +728,7 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 	if err != nil {
 		return err
 	}
-	res, rerror := avisess.restRequest(verb, url, payload, opts.tenant)
+	res, rerror := avisess.restRequest(verb, url, payload, opts.tenant, nil)
 	if rerror != nil || res == nil {
 		return rerror
 	}
@@ -774,7 +779,7 @@ func (avisess *AviSession) GetCollectionRaw(uri string, options ...ApiOptionsPar
 		return result, err
 	}
 
-	res, rerror := avisess.restRequest("GET", uri, nil, opts.tenant)
+	res, rerror := avisess.restRequest("GET", uri, nil, opts.tenant, nil)
 	if rerror != nil || res == nil {
 		return result, rerror
 	}
@@ -796,22 +801,32 @@ func (avisess *AviSession) GetCollection(uri string, objList interface{}, option
 
 // GetRaw performs a GET API call and returns raw data
 func (avisess *AviSession) GetRaw(uri string) ([]byte, error) {
-	return avisess.restRequest("GET", uri, nil, "")
+	return avisess.restRequest("GET", uri, nil, "", nil)
 }
 
 // PostRaw performs a POST API call and returns raw data
 func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) {
-	return avisess.restRequest("POST", uri, payload, "")
+	return avisess.restRequest("POST", uri, payload, "", nil)
 }
 
 // GetMultipartRaw performs a GET API call and returns multipart raw data (File Download)
-func (avisess *AviSession) GetMultipartRaw(verv string, uri string, file_loc_ptr *os.File, tenant string) error {
-	return avisess.restMultipartDownloadRequest("GET", uri, file_loc_ptr, tenant)
+// The verb input is ignored and kept only for backwards compatibility
+func (avisess *AviSession) GetMultipartRaw(verb string, uri string, file_loc_ptr *os.File, options ...ApiOptionsParams) error {
+	opts, err := getOptions(options)
+	if err != nil {
+		return err
+	}
+	return avisess.restMultipartDownloadRequest("GET", uri, file_loc_ptr, opts.tenant, nil)
 }
 
 // PostMultipartRequest performs a POST API call and uploads multipart data
-func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc_ptr *os.File) error {
-	return avisess.restMultipartUploadRequest("POST", uri, file_loc_ptr)
+// The verb input is ignored and kept only for backwards compatibility
+func (avisess *AviSession) PostMultipartRequest(verb string, uri string, file_loc_ptr *os.File, options ...ApiOptionsParams) error {
+	opts, err := getOptions(options)
+	if err != nil {
+		return err
+	}
+	return avisess.restMultipartUploadRequest("POST", uri, file_loc_ptr, opts.tenant, nil)
 }
 
 type ApiOptions struct {
