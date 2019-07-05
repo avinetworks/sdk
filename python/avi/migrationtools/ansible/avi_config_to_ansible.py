@@ -119,7 +119,7 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
             for k, v in task.iteritems():
-                if k == 'name' or 'tags':
+                if k == 'name' or k == 'tags':
                     continue
                 v['state'] = 'absent'
                 v['api_version'] = avi_cfg['META']['version']['Version']
