@@ -138,6 +138,8 @@ class F5Converter(AviConverter):
         partitions = []
         # Add logger and print avi f5 converter version
         self.print_pip_and_controller_version()
+        if self.vs_filter and self.prefix:
+            self.add_prefix_in_vs_filter()
         if self.partition_config:
             partitions = self.partition_config.split(',')
         source_file = None
@@ -231,6 +233,16 @@ class F5Converter(AviConverter):
             self.upload_config_to_controller(avi_config)
         print "Total Warning: ", get_count('warning')
         print "Total Errors: ", get_count('error')
+
+    def add_prefix_in_vs_filter(self):
+        vs_with_prefix = ""
+        virtual_services = self.vs_filter.split(',')
+        for vs_name in virtual_services:
+            vs_name = '{}-{}'.format(self.prefix, vs_name)
+            if vs_with_prefix == "":
+                vs_with_prefix = vs_with_prefix + vs_name
+            else: vs_with_prefix = vs_with_prefix + "," + vs_name
+        self.vs_filter = vs_with_prefix
 
     def get_default_config(self, is_download, path):
         """
