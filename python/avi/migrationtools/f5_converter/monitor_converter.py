@@ -277,8 +277,9 @@ class MonitorConfigConv(object):
                         merge_object_mapping, sys_dict)
                     if not avi_monitor:
                         continue
-                    avi_monitor['name'] = '%s-%s' % (avi_monitor['name'],
-                                                     'dummy')
+
+                    name = '%s-%s' % (avi_monitor['name'], 'dummy')
+                    avi_monitor['name'] = name
                     avi_monitor["type"] = "HEALTH_MONITOR_EXTERNAL"
                     ext_monitor = {
                         "command_code": "",
