@@ -71,6 +71,9 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     if (obj_val and module.params.get("obj_password", None) and
                 "password" in obj_val):
         obj_val["obj_password"] = obj_val["password"]
+    if (obj_val and module.params.get("obj_state", None) and
+                "state" in obj_val):
+        obj_val["obj_state"] = obj_val["state"]
     old_obj_val = existing_obj if changed and existing_obj else None
     api_context_val = api_context if disable_fact else None
     ansible_facts_val = dict(
@@ -386,15 +389,18 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     purge_optional_fields(obj, module)
 
     # Special code to handle situation where object has a field
-    # named username. This is used in case of api/user
-    # The following code copies the username and password
-    # from the obj_username and obj_password fields.
+    # named username/password/state. The following code copies
+    # username, password and state from the obj_username, obj_password
+    # and obj_state fields.
     if 'obj_username' in obj:
         obj['username'] = obj['obj_username']
         obj.pop('obj_username')
     if 'obj_password' in obj:
         obj['password'] = obj['obj_password']
         obj.pop('obj_password')
+    if 'obj_state' in obj:
+        obj['state'] = obj['obj_state']
+        obj.pop('obj_state')
     if 'full_name' not in obj and 'name' in obj and obj_type == "user":
         obj['full_name'] = obj['name']
         # Special case as name represent full_name in user module
