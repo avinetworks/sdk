@@ -50,6 +50,8 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
             Ansible dict
         """
         for obj in objs:
+            if obj.get('name', '').startswith('System-') or obj.get('system_default', False):
+                continue
             task = deepcopy(obj)
             self.purge_fields(obj_type, task)
             self.transform_obj_refs(task)
@@ -92,7 +94,7 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
             ansible_dict['avi_config'][rsrc_type] = []
         for obj in objs:
             rsrc = deepcopy(obj)
-            if rsrc.get('name', '').startswith('System-'):
+            if rsrc.get('name', '').startswith('System-') or rsrc.get('system_default', False):
                 continue
             self.purge_fields(rsrc_type, rsrc)
             self.transform_obj_refs(rsrc)
