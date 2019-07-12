@@ -1312,7 +1312,7 @@ class TestF5Converter:
                 == "F5-VIP-443-002"][0]
 
         vsData2 = [data['http_policies'] for data in vsObject if data['name']
-            == "F5-VIP-Forwarding"][0]
+            == "F5-VIP-443-004"][0]
         list = []
         list.append(vsData1[0])
         list.append(vsData2[0])
@@ -1399,7 +1399,7 @@ class TestF5Converter:
             httpPolicySet = data['HTTPPolicySet']
 
         vsDataOfVa1 = [data for data in vsObject if data['name'] == "F5-VIP-443-004"]
-        vsDataOfVa2 = [data for data in vsObject if data['name'] == "F5-VIP-Forwarding"]
+        vsDataOfVa2 = [data for data in vsObject if data['name'] == "F5-VIP-443-002"]
         httppolicydata1 = vsDataOfVa1[0]['http_policies']
         httppolicydata2 = vsDataOfVa2[0]['http_policies']
         for i in httppolicydata1:
@@ -1412,7 +1412,7 @@ class TestF5Converter:
 
         for i in httppolicydata2:
             policyName = i['http_policy_set_ref'].split('name=')[1].split('&')[0]
-            if policyName == "req_pol_rule-F5-VIP-Forwarding":
+            if policyName == "req_pol_rule-F5-VIP-443-004":
               httppolicy = [data['name'] for data in httpPolicySet if
                             data['name'] == policyName][0]
               print policyName, " ", httppolicy
