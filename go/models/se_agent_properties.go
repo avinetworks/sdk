@@ -70,6 +70,24 @@ type SeAgentProperties struct {
 	// Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	NsHelperDeqIntervalMsec *int32 `json:"ns_helper_deq_interval_msec,omitempty"`
 
+	// Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5.
+	ScShardCleanupMaxTime *int32 `json:"sc_shard_cleanup_max_time,omitempty"`
+
+	// Max elements to dequeue in one shot from the state_ring by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.
+	ScStateRingBatchDequeueLimit *int32 `json:"sc_state_ring_batch_dequeue_limit,omitempty"`
+
+	// Interval for checking health of grpc streams to statecache_mgr. Allowed values are 1-90000. Field introduced in 18.2.5.
+	ScStreamCheckInterval *int32 `json:"sc_stream_check_interval,omitempty"`
+
+	// Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.
+	ScThreadQBatchDequeueLimit *int32 `json:"sc_thread_q_batch_dequeue_limit,omitempty"`
+
+	// Max elements in the Q between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.
+	ScThreadQMaxSize *int32 `json:"sc_thread_q_max_size,omitempty"`
+
+	// Interval for grpc thread to sleep between doing work. Allowed values are 1-10000. Field introduced in 18.2.5.
+	ScThreadSleepInterval *int32 `json:"sc_thread_sleep_interval,omitempty"`
+
 	// SDB pipeline flush interval. Allowed values are 1-10000.
 	SdbFlushInterval *int32 `json:"sdb_flush_interval,omitempty"`
 

@@ -36,25 +36,35 @@ func NewAlertEmailConfigClient(aviSession *session.AviSession) *AlertEmailConfig
 	return &AlertEmailConfigClient{aviSession: aviSession}
 }
 
-func (client *AlertEmailConfigClient) getAPIPath(uuid string) string {
+func (client *AlertEmailConfigClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/alertemailconfig"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of AlertEmailConfig objects
 func (client *AlertEmailConfigClient) GetAll(options ...session.ApiOptionsParams) ([]*models.AlertEmailConfig, error) {
 	var plist []*models.AlertEmailConfig
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing AlertEmailConfig by uuid
 func (client *AlertEmailConfigClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.AlertEmailConfig, error) {
 	var obj *models.AlertEmailConfig
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *AlertEmailConfigClient) GetObject(options ...session.ApiOptionsPar
 // Create a new AlertEmailConfig object
 func (client *AlertEmailConfigClient) Create(obj *models.AlertEmailConfig, options ...session.ApiOptionsParams) (*models.AlertEmailConfig, error) {
 	var robj *models.AlertEmailConfig
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing AlertEmailConfig object
 func (client *AlertEmailConfigClient) Update(obj *models.AlertEmailConfig, options ...session.ApiOptionsParams) (*models.AlertEmailConfig, error) {
 	var robj *models.AlertEmailConfig
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *AlertEmailConfigClient) Update(obj *models.AlertEmailConfig, optio
 // or it should be json compatible of form map[string]interface{}
 func (client *AlertEmailConfigClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.AlertEmailConfig, error) {
 	var robj *models.AlertEmailConfig
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing AlertEmailConfig object with a given UUID
 func (client *AlertEmailConfigClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

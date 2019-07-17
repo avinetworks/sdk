@@ -36,25 +36,35 @@ func NewServiceEngineGroupClient(aviSession *session.AviSession) *ServiceEngineG
 	return &ServiceEngineGroupClient{aviSession: aviSession}
 }
 
-func (client *ServiceEngineGroupClient) getAPIPath(uuid string) string {
+func (client *ServiceEngineGroupClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/serviceenginegroup"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of ServiceEngineGroup objects
 func (client *ServiceEngineGroupClient) GetAll(options ...session.ApiOptionsParams) ([]*models.ServiceEngineGroup, error) {
 	var plist []*models.ServiceEngineGroup
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing ServiceEngineGroup by uuid
 func (client *ServiceEngineGroupClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.ServiceEngineGroup, error) {
 	var obj *models.ServiceEngineGroup
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *ServiceEngineGroupClient) GetObject(options ...session.ApiOptionsP
 // Create a new ServiceEngineGroup object
 func (client *ServiceEngineGroupClient) Create(obj *models.ServiceEngineGroup, options ...session.ApiOptionsParams) (*models.ServiceEngineGroup, error) {
 	var robj *models.ServiceEngineGroup
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing ServiceEngineGroup object
 func (client *ServiceEngineGroupClient) Update(obj *models.ServiceEngineGroup, options ...session.ApiOptionsParams) (*models.ServiceEngineGroup, error) {
 	var robj *models.ServiceEngineGroup
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *ServiceEngineGroupClient) Update(obj *models.ServiceEngineGroup, o
 // or it should be json compatible of form map[string]interface{}
 func (client *ServiceEngineGroupClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.ServiceEngineGroup, error) {
 	var robj *models.ServiceEngineGroup
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing ServiceEngineGroup object with a given UUID
 func (client *ServiceEngineGroupClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

@@ -838,6 +838,7 @@ type ApiOptions struct {
 	includeName bool
 	payload     interface{}
 	result      interface{}
+	params      map[string]string
 }
 
 func SetOptTenant(tenant string) func(*ApiOptions) error {
@@ -914,6 +915,17 @@ func SetResult(result interface{}) func(*ApiOptions) error {
 
 func (opts *ApiOptions) setResult(result interface{}) error {
 	opts.result = result
+	return nil
+}
+
+func SetParams(params map[string]string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setParams(params)
+	}
+}
+
+func (opts *ApiOptions) setParams(params map[string]string) error {
+	opts.params = params
 	return nil
 }
 
@@ -1014,4 +1026,18 @@ func (avisess *AviSession) GetControllerVersion() (string, error) {
 	}
 	version := resp.(map[string]interface{})["version"].(map[string]interface{})["Version"].(string)
 	return version, nil
+}
+
+func SetApiFilter(path string, options ...ApiOptionsParams) (string, error) {
+	opts, err := getOptions(options)
+	if err != nil {
+		return "", err
+	}
+	if len(opts.params) != 0 {
+		path = path + "/?"
+		for k,v := range(opts.params){
+			path += k + "="+ v + "&"
+		}
+	}
+	return path, nil
 }

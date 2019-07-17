@@ -36,25 +36,35 @@ func NewSSLProfileClient(aviSession *session.AviSession) *SSLProfileClient {
 	return &SSLProfileClient{aviSession: aviSession}
 }
 
-func (client *SSLProfileClient) getAPIPath(uuid string) string {
+func (client *SSLProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/sslprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of SSLProfile objects
 func (client *SSLProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.SSLProfile, error) {
 	var plist []*models.SSLProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing SSLProfile by uuid
 func (client *SSLProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.SSLProfile, error) {
 	var obj *models.SSLProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *SSLProfileClient) GetObject(options ...session.ApiOptionsParams) (
 // Create a new SSLProfile object
 func (client *SSLProfileClient) Create(obj *models.SSLProfile, options ...session.ApiOptionsParams) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing SSLProfile object
 func (client *SSLProfileClient) Update(obj *models.SSLProfile, options ...session.ApiOptionsParams) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *SSLProfileClient) Update(obj *models.SSLProfile, options ...sessio
 // or it should be json compatible of form map[string]interface{}
 func (client *SSLProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.SSLProfile, error) {
 	var robj *models.SSLProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing SSLProfile object with a given UUID
 func (client *SSLProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

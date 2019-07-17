@@ -36,25 +36,35 @@ func NewAlertScriptConfigClient(aviSession *session.AviSession) *AlertScriptConf
 	return &AlertScriptConfigClient{aviSession: aviSession}
 }
 
-func (client *AlertScriptConfigClient) getAPIPath(uuid string) string {
+func (client *AlertScriptConfigClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/alertscriptconfig"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of AlertScriptConfig objects
 func (client *AlertScriptConfigClient) GetAll(options ...session.ApiOptionsParams) ([]*models.AlertScriptConfig, error) {
 	var plist []*models.AlertScriptConfig
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing AlertScriptConfig by uuid
 func (client *AlertScriptConfigClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.AlertScriptConfig, error) {
 	var obj *models.AlertScriptConfig
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *AlertScriptConfigClient) GetObject(options ...session.ApiOptionsPa
 // Create a new AlertScriptConfig object
 func (client *AlertScriptConfigClient) Create(obj *models.AlertScriptConfig, options ...session.ApiOptionsParams) (*models.AlertScriptConfig, error) {
 	var robj *models.AlertScriptConfig
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing AlertScriptConfig object
 func (client *AlertScriptConfigClient) Update(obj *models.AlertScriptConfig, options ...session.ApiOptionsParams) (*models.AlertScriptConfig, error) {
 	var robj *models.AlertScriptConfig
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *AlertScriptConfigClient) Update(obj *models.AlertScriptConfig, opt
 // or it should be json compatible of form map[string]interface{}
 func (client *AlertScriptConfigClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.AlertScriptConfig, error) {
 	var robj *models.AlertScriptConfig
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing AlertScriptConfig object with a given UUID
 func (client *AlertScriptConfigClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

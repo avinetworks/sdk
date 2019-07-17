@@ -36,25 +36,35 @@ func NewCertificateManagementProfileClient(aviSession *session.AviSession) *Cert
 	return &CertificateManagementProfileClient{aviSession: aviSession}
 }
 
-func (client *CertificateManagementProfileClient) getAPIPath(uuid string) string {
+func (client *CertificateManagementProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/certificatemanagementprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of CertificateManagementProfile objects
 func (client *CertificateManagementProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.CertificateManagementProfile, error) {
 	var plist []*models.CertificateManagementProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing CertificateManagementProfile by uuid
 func (client *CertificateManagementProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.CertificateManagementProfile, error) {
 	var obj *models.CertificateManagementProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *CertificateManagementProfileClient) GetObject(options ...session.A
 // Create a new CertificateManagementProfile object
 func (client *CertificateManagementProfileClient) Create(obj *models.CertificateManagementProfile, options ...session.ApiOptionsParams) (*models.CertificateManagementProfile, error) {
 	var robj *models.CertificateManagementProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing CertificateManagementProfile object
 func (client *CertificateManagementProfileClient) Update(obj *models.CertificateManagementProfile, options ...session.ApiOptionsParams) (*models.CertificateManagementProfile, error) {
 	var robj *models.CertificateManagementProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *CertificateManagementProfileClient) Update(obj *models.Certificate
 // or it should be json compatible of form map[string]interface{}
 func (client *CertificateManagementProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.CertificateManagementProfile, error) {
 	var robj *models.CertificateManagementProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing CertificateManagementProfile object with a given UUID
 func (client *CertificateManagementProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

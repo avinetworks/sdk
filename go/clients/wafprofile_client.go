@@ -36,25 +36,35 @@ func NewWafProfileClient(aviSession *session.AviSession) *WafProfileClient {
 	return &WafProfileClient{aviSession: aviSession}
 }
 
-func (client *WafProfileClient) getAPIPath(uuid string) string {
+func (client *WafProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/wafprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of WafProfile objects
 func (client *WafProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.WafProfile, error) {
 	var plist []*models.WafProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing WafProfile by uuid
 func (client *WafProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.WafProfile, error) {
 	var obj *models.WafProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *WafProfileClient) GetObject(options ...session.ApiOptionsParams) (
 // Create a new WafProfile object
 func (client *WafProfileClient) Create(obj *models.WafProfile, options ...session.ApiOptionsParams) (*models.WafProfile, error) {
 	var robj *models.WafProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing WafProfile object
 func (client *WafProfileClient) Update(obj *models.WafProfile, options ...session.ApiOptionsParams) (*models.WafProfile, error) {
 	var robj *models.WafProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *WafProfileClient) Update(obj *models.WafProfile, options ...sessio
 // or it should be json compatible of form map[string]interface{}
 func (client *WafProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.WafProfile, error) {
 	var robj *models.WafProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing WafProfile object with a given UUID
 func (client *WafProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

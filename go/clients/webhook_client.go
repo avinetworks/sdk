@@ -36,25 +36,35 @@ func NewWebhookClient(aviSession *session.AviSession) *WebhookClient {
 	return &WebhookClient{aviSession: aviSession}
 }
 
-func (client *WebhookClient) getAPIPath(uuid string) string {
+func (client *WebhookClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/webhook"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of Webhook objects
 func (client *WebhookClient) GetAll(options ...session.ApiOptionsParams) ([]*models.Webhook, error) {
 	var plist []*models.Webhook
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing Webhook by uuid
 func (client *WebhookClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.Webhook, error) {
 	var obj *models.Webhook
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *WebhookClient) GetObject(options ...session.ApiOptionsParams) (*mo
 // Create a new Webhook object
 func (client *WebhookClient) Create(obj *models.Webhook, options ...session.ApiOptionsParams) (*models.Webhook, error) {
 	var robj *models.Webhook
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing Webhook object
 func (client *WebhookClient) Update(obj *models.Webhook, options ...session.ApiOptionsParams) (*models.Webhook, error) {
 	var robj *models.Webhook
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *WebhookClient) Update(obj *models.Webhook, options ...session.ApiO
 // or it should be json compatible of form map[string]interface{}
 func (client *WebhookClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.Webhook, error) {
 	var robj *models.Webhook
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing Webhook object with a given UUID
 func (client *WebhookClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

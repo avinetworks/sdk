@@ -36,25 +36,35 @@ func NewAuthProfileClient(aviSession *session.AviSession) *AuthProfileClient {
 	return &AuthProfileClient{aviSession: aviSession}
 }
 
-func (client *AuthProfileClient) getAPIPath(uuid string) string {
+func (client *AuthProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/authprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of AuthProfile objects
 func (client *AuthProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.AuthProfile, error) {
 	var plist []*models.AuthProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing AuthProfile by uuid
 func (client *AuthProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.AuthProfile, error) {
 	var obj *models.AuthProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *AuthProfileClient) GetObject(options ...session.ApiOptionsParams) 
 // Create a new AuthProfile object
 func (client *AuthProfileClient) Create(obj *models.AuthProfile, options ...session.ApiOptionsParams) (*models.AuthProfile, error) {
 	var robj *models.AuthProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing AuthProfile object
 func (client *AuthProfileClient) Update(obj *models.AuthProfile, options ...session.ApiOptionsParams) (*models.AuthProfile, error) {
 	var robj *models.AuthProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *AuthProfileClient) Update(obj *models.AuthProfile, options ...sess
 // or it should be json compatible of form map[string]interface{}
 func (client *AuthProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.AuthProfile, error) {
 	var robj *models.AuthProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing AuthProfile object with a given UUID
 func (client *AuthProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

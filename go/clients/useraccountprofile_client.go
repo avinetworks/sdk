@@ -36,25 +36,35 @@ func NewUserAccountProfileClient(aviSession *session.AviSession) *UserAccountPro
 	return &UserAccountProfileClient{aviSession: aviSession}
 }
 
-func (client *UserAccountProfileClient) getAPIPath(uuid string) string {
+func (client *UserAccountProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/useraccountprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of UserAccountProfile objects
 func (client *UserAccountProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.UserAccountProfile, error) {
 	var plist []*models.UserAccountProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing UserAccountProfile by uuid
 func (client *UserAccountProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.UserAccountProfile, error) {
 	var obj *models.UserAccountProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *UserAccountProfileClient) GetObject(options ...session.ApiOptionsP
 // Create a new UserAccountProfile object
 func (client *UserAccountProfileClient) Create(obj *models.UserAccountProfile, options ...session.ApiOptionsParams) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing UserAccountProfile object
 func (client *UserAccountProfileClient) Update(obj *models.UserAccountProfile, options ...session.ApiOptionsParams) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *UserAccountProfileClient) Update(obj *models.UserAccountProfile, o
 // or it should be json compatible of form map[string]interface{}
 func (client *UserAccountProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.UserAccountProfile, error) {
 	var robj *models.UserAccountProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing UserAccountProfile object with a given UUID
 func (client *UserAccountProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

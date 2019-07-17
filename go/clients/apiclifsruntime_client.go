@@ -36,25 +36,35 @@ func NewAPICLifsRuntimeClient(aviSession *session.AviSession) *APICLifsRuntimeCl
 	return &APICLifsRuntimeClient{aviSession: aviSession}
 }
 
-func (client *APICLifsRuntimeClient) getAPIPath(uuid string) string {
+func (client *APICLifsRuntimeClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/apiclifsruntime"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of APICLifsRuntime objects
 func (client *APICLifsRuntimeClient) GetAll(options ...session.ApiOptionsParams) ([]*models.APICLifsRuntime, error) {
 	var plist []*models.APICLifsRuntime
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing APICLifsRuntime by uuid
 func (client *APICLifsRuntimeClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.APICLifsRuntime, error) {
 	var obj *models.APICLifsRuntime
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *APICLifsRuntimeClient) GetObject(options ...session.ApiOptionsPara
 // Create a new APICLifsRuntime object
 func (client *APICLifsRuntimeClient) Create(obj *models.APICLifsRuntime, options ...session.ApiOptionsParams) (*models.APICLifsRuntime, error) {
 	var robj *models.APICLifsRuntime
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing APICLifsRuntime object
 func (client *APICLifsRuntimeClient) Update(obj *models.APICLifsRuntime, options ...session.ApiOptionsParams) (*models.APICLifsRuntime, error) {
 	var robj *models.APICLifsRuntime
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *APICLifsRuntimeClient) Update(obj *models.APICLifsRuntime, options
 // or it should be json compatible of form map[string]interface{}
 func (client *APICLifsRuntimeClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.APICLifsRuntime, error) {
 	var robj *models.APICLifsRuntime
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing APICLifsRuntime object with a given UUID
 func (client *APICLifsRuntimeClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

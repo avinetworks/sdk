@@ -36,25 +36,35 @@ func NewVIMgrSEVMRuntimeClient(aviSession *session.AviSession) *VIMgrSEVMRuntime
 	return &VIMgrSEVMRuntimeClient{aviSession: aviSession}
 }
 
-func (client *VIMgrSEVMRuntimeClient) getAPIPath(uuid string) string {
+func (client *VIMgrSEVMRuntimeClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/vimgrsevmruntime"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of VIMgrSEVMRuntime objects
 func (client *VIMgrSEVMRuntimeClient) GetAll(options ...session.ApiOptionsParams) ([]*models.VIMgrSEVMRuntime, error) {
 	var plist []*models.VIMgrSEVMRuntime
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing VIMgrSEVMRuntime by uuid
 func (client *VIMgrSEVMRuntimeClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.VIMgrSEVMRuntime, error) {
 	var obj *models.VIMgrSEVMRuntime
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *VIMgrSEVMRuntimeClient) GetObject(options ...session.ApiOptionsPar
 // Create a new VIMgrSEVMRuntime object
 func (client *VIMgrSEVMRuntimeClient) Create(obj *models.VIMgrSEVMRuntime, options ...session.ApiOptionsParams) (*models.VIMgrSEVMRuntime, error) {
 	var robj *models.VIMgrSEVMRuntime
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing VIMgrSEVMRuntime object
 func (client *VIMgrSEVMRuntimeClient) Update(obj *models.VIMgrSEVMRuntime, options ...session.ApiOptionsParams) (*models.VIMgrSEVMRuntime, error) {
 	var robj *models.VIMgrSEVMRuntime
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *VIMgrSEVMRuntimeClient) Update(obj *models.VIMgrSEVMRuntime, optio
 // or it should be json compatible of form map[string]interface{}
 func (client *VIMgrSEVMRuntimeClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.VIMgrSEVMRuntime, error) {
 	var robj *models.VIMgrSEVMRuntime
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing VIMgrSEVMRuntime object with a given UUID
 func (client *VIMgrSEVMRuntimeClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

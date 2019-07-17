@@ -11,7 +11,7 @@ type GCPOneArmMode struct {
 	// Required: true
 	DataVpcNetworkName *string `json:"data_vpc_network_name"`
 
-	// Project ID of the Service Engine Data Network. Field introduced in 18.2.1.
+	// Project ID of the Service Engine Data Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1.
 	DataVpcProjectID *string `json:"data_vpc_project_id,omitempty"`
 
 	// Service Engine Data Network Subnet Name. Field introduced in 18.2.1.

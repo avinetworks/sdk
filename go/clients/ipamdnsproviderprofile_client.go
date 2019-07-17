@@ -36,25 +36,35 @@ func NewIPAMDNSProviderProfileClient(aviSession *session.AviSession) *IPAMDNSPro
 	return &IPAMDNSProviderProfileClient{aviSession: aviSession}
 }
 
-func (client *IPAMDNSProviderProfileClient) getAPIPath(uuid string) string {
+func (client *IPAMDNSProviderProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/ipamdnsproviderprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of IPAMDNSProviderProfile objects
 func (client *IPAMDNSProviderProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.IPAMDNSProviderProfile, error) {
 	var plist []*models.IPAMDNSProviderProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing IPAMDNSProviderProfile by uuid
 func (client *IPAMDNSProviderProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.IPAMDNSProviderProfile, error) {
 	var obj *models.IPAMDNSProviderProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *IPAMDNSProviderProfileClient) GetObject(options ...session.ApiOpti
 // Create a new IPAMDNSProviderProfile object
 func (client *IPAMDNSProviderProfileClient) Create(obj *models.IPAMDNSProviderProfile, options ...session.ApiOptionsParams) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing IPAMDNSProviderProfile object
 func (client *IPAMDNSProviderProfileClient) Update(obj *models.IPAMDNSProviderProfile, options ...session.ApiOptionsParams) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *IPAMDNSProviderProfileClient) Update(obj *models.IPAMDNSProviderPr
 // or it should be json compatible of form map[string]interface{}
 func (client *IPAMDNSProviderProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.IPAMDNSProviderProfile, error) {
 	var robj *models.IPAMDNSProviderProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing IPAMDNSProviderProfile object with a given UUID
 func (client *IPAMDNSProviderProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

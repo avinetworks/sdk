@@ -36,25 +36,35 @@ func NewApplicationPersistenceProfileClient(aviSession *session.AviSession) *App
 	return &ApplicationPersistenceProfileClient{aviSession: aviSession}
 }
 
-func (client *ApplicationPersistenceProfileClient) getAPIPath(uuid string) string {
+func (client *ApplicationPersistenceProfileClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/applicationpersistenceprofile"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of ApplicationPersistenceProfile objects
 func (client *ApplicationPersistenceProfileClient) GetAll(options ...session.ApiOptionsParams) ([]*models.ApplicationPersistenceProfile, error) {
 	var plist []*models.ApplicationPersistenceProfile
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing ApplicationPersistenceProfile by uuid
 func (client *ApplicationPersistenceProfileClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.ApplicationPersistenceProfile, error) {
 	var obj *models.ApplicationPersistenceProfile
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *ApplicationPersistenceProfileClient) GetObject(options ...session.
 // Create a new ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Create(obj *models.ApplicationPersistenceProfile, options ...session.ApiOptionsParams) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing ApplicationPersistenceProfile object
 func (client *ApplicationPersistenceProfileClient) Update(obj *models.ApplicationPersistenceProfile, options ...session.ApiOptionsParams) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *ApplicationPersistenceProfileClient) Update(obj *models.Applicatio
 // or it should be json compatible of form map[string]interface{}
 func (client *ApplicationPersistenceProfileClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.ApplicationPersistenceProfile, error) {
 	var robj *models.ApplicationPersistenceProfile
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing ApplicationPersistenceProfile object with a given UUID
 func (client *ApplicationPersistenceProfileClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

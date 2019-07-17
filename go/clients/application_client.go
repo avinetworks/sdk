@@ -36,25 +36,35 @@ func NewApplicationClient(aviSession *session.AviSession) *ApplicationClient {
 	return &ApplicationClient{aviSession: aviSession}
 }
 
-func (client *ApplicationClient) getAPIPath(uuid string) string {
+func (client *ApplicationClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/application"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of Application objects
 func (client *ApplicationClient) GetAll(options ...session.ApiOptionsParams) ([]*models.Application, error) {
 	var plist []*models.Application
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing Application by uuid
 func (client *ApplicationClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.Application, error) {
 	var obj *models.Application
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *ApplicationClient) GetObject(options ...session.ApiOptionsParams) 
 // Create a new Application object
 func (client *ApplicationClient) Create(obj *models.Application, options ...session.ApiOptionsParams) (*models.Application, error) {
 	var robj *models.Application
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing Application object
 func (client *ApplicationClient) Update(obj *models.Application, options ...session.ApiOptionsParams) (*models.Application, error) {
 	var robj *models.Application
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *ApplicationClient) Update(obj *models.Application, options ...sess
 // or it should be json compatible of form map[string]interface{}
 func (client *ApplicationClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.Application, error) {
 	var robj *models.Application
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing Application object with a given UUID
 func (client *ApplicationClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 

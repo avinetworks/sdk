@@ -36,25 +36,35 @@ func NewMicroServiceGroupClient(aviSession *session.AviSession) *MicroServiceGro
 	return &MicroServiceGroupClient{aviSession: aviSession}
 }
 
-func (client *MicroServiceGroupClient) getAPIPath(uuid string) string {
+func (client *MicroServiceGroupClient) getAPIPath(uuid string, options ...session.ApiOptionsParams) (string, error) {
 	path := "api/microservicegroup"
+	var err error
 	if uuid != "" {
 		path += "/" + uuid
+	} else {
+		path, err = session.SetApiFilter(path, options...)
+		if err != nil {
+			return "", err
+		}
 	}
-	return path
+	return path, nil
 }
 
 // GetAll is a collection API to get a list of MicroServiceGroup objects
 func (client *MicroServiceGroupClient) GetAll(options ...session.ApiOptionsParams) ([]*models.MicroServiceGroup, error) {
 	var plist []*models.MicroServiceGroup
-	err := client.aviSession.GetCollection(client.getAPIPath(""), &plist, options...)
+	path, err := client.getAPIPath("", options...)
+	if err == nil {
+		err = client.aviSession.GetCollection(path, &plist, options...)
+	}
 	return plist, err
 }
 
 // Get an existing MicroServiceGroup by uuid
 func (client *MicroServiceGroupClient) Get(uuid string, options ...session.ApiOptionsParams) (*models.MicroServiceGroup, error) {
 	var obj *models.MicroServiceGroup
-	err := client.aviSession.Get(client.getAPIPath(uuid), &obj, options...)
+	path, _ := client.getAPIPath(uuid)
+	err := client.aviSession.Get(path, &obj, options...)
 	return obj, err
 }
 
@@ -81,14 +91,15 @@ func (client *MicroServiceGroupClient) GetObject(options ...session.ApiOptionsPa
 // Create a new MicroServiceGroup object
 func (client *MicroServiceGroupClient) Create(obj *models.MicroServiceGroup, options ...session.ApiOptionsParams) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
-	err := client.aviSession.Post(client.getAPIPath(""), obj, &robj, options...)
+	path, _ := client.getAPIPath("")
+	err := client.aviSession.Post(path, obj, &robj, options...)
 	return robj, err
 }
 
 // Update an existing MicroServiceGroup object
 func (client *MicroServiceGroupClient) Update(obj *models.MicroServiceGroup, options ...session.ApiOptionsParams) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
-	path := client.getAPIPath(*obj.UUID)
+	path, _ := client.getAPIPath(*obj.UUID)
 	err := client.aviSession.Put(path, obj, &robj, options...)
 	return robj, err
 }
@@ -99,17 +110,18 @@ func (client *MicroServiceGroupClient) Update(obj *models.MicroServiceGroup, opt
 // or it should be json compatible of form map[string]interface{}
 func (client *MicroServiceGroupClient) Patch(uuid string, patch interface{}, patchOp string, options ...session.ApiOptionsParams) (*models.MicroServiceGroup, error) {
 	var robj *models.MicroServiceGroup
-	path := client.getAPIPath(uuid)
+	path, _ := client.getAPIPath(uuid)
 	err := client.aviSession.Patch(path, patch, patchOp, &robj, options...)
 	return robj, err
 }
 
 // Delete an existing MicroServiceGroup object with a given UUID
 func (client *MicroServiceGroupClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
+	path, _ := client.getAPIPath(uuid)
 	if len(options) == 0 {
-		return client.aviSession.Delete(client.getAPIPath(uuid))
+		return client.aviSession.Delete(path)
 	} else {
-		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
+		return client.aviSession.DeleteObject(path, options...)
 	}
 }
 
