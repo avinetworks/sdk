@@ -77,4 +77,19 @@ func TestCreateHealthmonitor(t *testing.T) {
 		t.Fail()
 	}
 
+	// Filter params
+	params := map[string]string {
+		"page_size" : "3",
+		"page": "1",
+		"tenant": "admin",
+	}
+
+	hmdata, err := aviClient.HealthMonitor.GetAll(session.SetParams(params))
+	if err != nil {
+		fmt.Println("\n [ERROR] : ", err)
+		t.Fail()
+	} else {
+		fmt.Printf("\n\nObtained Healthmonitors by applying filters: %+v", hmdata)
+	}
+
 }
