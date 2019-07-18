@@ -1034,7 +1034,7 @@ func SetApiFilter(path string, options ...ApiOptionsParams) (string, error) {
 		return "", err
 	}
 	if len(opts.params) != 0 {
-		path = path + "/?"
+		path += "?"
 		for k,v := range(opts.params){
 			path += k + "="+ v + "&"
 		}
