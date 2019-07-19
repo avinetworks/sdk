@@ -197,6 +197,9 @@ func (avisess *AviSession) initiateSession() error {
 		cred["password"] = avisess.password
 	}
 
+	avisess.csrfToken = ""
+	avisess.sessionid = ""
+
 	rerror = avisess.Post("login", cred, res)
 	if rerror != nil {
 		return rerror
@@ -405,14 +408,15 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return result, errorResult
 	}
 
-	glog.Infof("Sending req for uri %v", url)
 	resp, err := avisess.client.Do(req)
 	if err != nil {
-		errorResult.err = fmt.Errorf("client.Do failed: %v", err)
+		errorResult.err = fmt.Errorf("client.Do uri %v failed: %v", uri, err)
 		dump, err := httputil.DumpRequestOut(req, true)
 		debug(dump, err)
 		return result, errorResult
 	}
+
+	glog.Infof("Req for uri %v RespCode %v", url, resp.StatusCode)
 
 	errorResult.HttpStatusCode = resp.StatusCode
 	avisess.collectCookiesFromResp(resp)
@@ -450,8 +454,9 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	result, err = ioutil.ReadAll(resp.Body)
 	if err == nil {
 		if resp.StatusCode < 200 || resp.StatusCode > 299 {
-			mres, _ := convertAviResponseToMapInterface(result)
-			glog.Infof("Error resp: %v", mres)
+			mres, merr := convertAviResponseToMapInterface(result)
+			glog.Infof("Error code %v parsed resp: %v err %v",
+				resp.StatusCode, mres, merr)
 			emsg := fmt.Sprintf("%v", mres)
 			errorResult.Message = &emsg
 		} else {
