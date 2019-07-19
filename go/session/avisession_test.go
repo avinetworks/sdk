@@ -224,6 +224,13 @@ func TestTenantSwitch(t *testing.T) {
 		testTenantSwitch(t, session)
 	}
 }
+
+func TestApiLogout(t *testing.T) {
+	for _, session := range getSessions(t) {
+		testApiLogout(t, session)
+	}
+}
+
 func testAviDefaultFields(t *testing.T, avisess *AviSession) {
 	tpool := models.Pool{}
 	pname := "gosdk-test-pool"
@@ -437,5 +444,18 @@ func testTenantSwitch(t *testing.T, avisess *AviSession) {
 	err = avisess.Delete(uri)
 	if err != nil {
 		t.Errorf("Tenant Deletion failed: %s", err)
+	}
+}
+
+// Tests to check logout functionality
+func testApiLogout(t *testing.T, avisess *AviSession) {
+	avisess.Logout()
+	credentialsSession, err := NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+		SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure)
+	if err == nil {
+		// session id's should be not equal
+		if avisess.sessionid == credentialsSession.sessionid {
+			t.Fail()
+		}
 	}
 }
