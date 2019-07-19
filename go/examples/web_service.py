@@ -6,6 +6,64 @@ from flask import jsonify
 
 app = Flask(__name__)
 
+def healthmonitor_filter_response():
+    responce = {
+        "count": 10,
+        "results": [
+            {
+                "receive_timeout": 4,
+                "tenant_ref": "https://10.10.28.71/api/tenant/admin",
+                "is_federated": False,
+                "name": "System-HTTP",
+                "failed_checks": 3,
+                "send_interval": 10,
+                "http_monitor": {
+                    "exact_http_request": False,
+                    "http_request": "HEAD / HTTP/1.0",
+                    "http_response_code": [
+                        "HTTP_2XX",
+                        "HTTP_3XX"
+                    ]
+                },
+                "successful_checks": 3,
+                "type": "HEALTH_MONITOR_HTTP",
+                "uuid": "healthmonitor-9bc3b954-f8b6-4e89-9e6a-db592dd6d78e"
+            },
+            {
+                "https_monitor": {
+                    "exact_http_request": False,
+                    "http_request": "HEAD / HTTP/1.0",
+                    "http_response_code": [
+                        "HTTP_2XX",
+                        "HTTP_3XX"
+                    ]
+                },
+                "receive_timeout": 4,
+                "tenant_ref": "https://10.10.28.71/api/tenant/admin",
+                "is_federated": False,
+                "name": "System-HTTPS",
+                "failed_checks": 3,
+                "send_interval": 10,
+                "successful_checks": 3,
+                "type": "HEALTH_MONITOR_HTTPS",
+                "uuid": "healthmonitor-e00db079-a665-45b6-9b6d-ed8dcf081abf"
+            },
+            {
+                "receive_timeout": 4,
+                "tenant_ref": "https://10.10.28.71/api/tenant/admin",
+                "is_federated": False,
+                "name": "System-Ping",
+                "failed_checks": 2,
+                "send_interval": 10,
+                "successful_checks": 2,
+                "type": "HEALTH_MONITOR_PING",
+                "uuid": "healthmonitor-3886593a-6bab-445c-834c-333cf04b4f56"
+            }
+        ],
+        "next": "https://10.10.28.71/api/healthmonitor/?tenant=admin&page_size=3&page=2"
+    }
+    return responce
+
 @app.route("/", methods=['POST','GET'])
 def main():
     d = {"csrftoken": "DEpq2MIeXMDcn5V5sazJSTghNCtgzdRv	", "sessionid": "mfxw1q6qyftghyl92rq04a3fpqqq0iny"}
@@ -259,7 +317,7 @@ def create_healthmonitor():
             "receive_timeout": 3,
             "failed_checks": 2,
             "send_interval": 4,
-            "http_monitor": {   
+            "http_monitor": {
                 "exact_http_request": False,
                 "http_request": "HEAD / HTTP/1.0",
                 "http_response_code": ["HTTP_3XX"]
@@ -292,33 +350,37 @@ def get_tenant():
 
 @app.route("/api/healthmonitor", methods=['GET'])
 def get_healthmonitor():
-
-    res = {
-        "count": 1,
-        "results": [
-            {
-                "uuid": "healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
-                "receive_timeout": 2,
-                "_last_modified": "1523889827791133",
-                "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
-                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
-                "is_federated": False,
-                "failed_checks": 2,
-                "send_interval": 3,
-                "http_monitor": {
-                "exact_http_request": False,
-                "http_request": "HEAD / HTTP/1.0",
-                "http_response_code": [
-                "HTTP_3XX"
-                ]
-                },
-                "successful_checks": 10,
-                "type": "HEALTH_MONITOR_HTTP",
-                "name": "Test-Hm"
-            }
-        ]
-    }
-    return json.dumps(res)
+    if 'page' and 'page_size' and 'page' in request.args and 'name' not in request.args:
+        resp = healthmonitor_filter_response()
+        return jsonify(resp)
+        exit
+    elif 'name' in request.args:
+        res = {
+            "count": 1,
+            "results": [
+                {
+                    "uuid": "healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                    "receive_timeout": 2,
+                    "_last_modified": "1523889827791133",
+                    "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                    "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                    "is_federated": False,
+                    "failed_checks": 2,
+                    "send_interval": 3,
+                    "http_monitor": {
+                    "exact_http_request": False,
+                    "http_request": "HEAD / HTTP/1.0",
+                    "http_response_code": [
+                    "HTTP_3XX"
+                    ]
+                    },
+                    "successful_checks": 10,
+                    "type": "HEALTH_MONITOR_HTTP",
+                    "name": "Test-Hm"
+                }
+            ]
+        }
+        return json.dumps(res)
 
 @app.route("/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2", methods=['PUT'])
 def get_name():
@@ -382,7 +444,6 @@ def get_applicationPersistenceprofile():
         ]
     }
     return jsonify(responce)
-
 
 @app.route("/api/sslprofile", methods=['POST'])
 def create_sslprofile():
@@ -764,7 +825,6 @@ def create_virtualservice():
     }
     return jsonify(responce)
 
-
 @app.route("/api/cloud/cloud-a1c23bff-deae-4e4b-b530-5fbeb9914adb", methods=['DELETE'])
 def delete_cloud():
     data = {}
@@ -794,3 +854,4 @@ def delete_tenant():
 if __name__ == "__main__":
     app.debug = True
     app.run(port=8080, ssl_context='adhoc')
+
