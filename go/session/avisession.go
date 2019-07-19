@@ -728,6 +728,9 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 	if err != nil {
 		return err
 	}
+	if len(opts.params) != 0 {
+		url = updateUri(url, opts)
+	}
 	res, rerror := avisess.restRequest(verb, url, payload, opts.tenant, nil)
 	if rerror != nil || res == nil {
 		return rerror
@@ -778,7 +781,9 @@ func (avisess *AviSession) GetCollectionRaw(uri string, options ...ApiOptionsPar
 	if err != nil {
 		return result, err
 	}
-
+	if len(opts.params) != 0 {
+		uri = updateUri(uri, opts)
+	}
 	res, rerror := avisess.restRequest("GET", uri, nil, opts.tenant, nil)
 	if rerror != nil || res == nil {
 		return result, rerror
@@ -838,6 +843,7 @@ type ApiOptions struct {
 	includeName bool
 	payload     interface{}
 	result      interface{}
+	params      map[string]string
 }
 
 func SetOptTenant(tenant string) func(*ApiOptions) error {
@@ -914,6 +920,17 @@ func SetResult(result interface{}) func(*ApiOptions) error {
 
 func (opts *ApiOptions) setResult(result interface{}) error {
 	opts.result = result
+	return nil
+}
+
+func SetParams(params map[string]string) func(*ApiOptions) error {
+	return func(opts *ApiOptions) error {
+		return opts.setParams(params)
+	}
+}
+
+func (opts *ApiOptions) setParams(params map[string]string) error {
+	opts.params = params
 	return nil
 }
 
@@ -1025,4 +1042,18 @@ func (avisess *AviSession) Logout() error {
 		return err
 	}
 	return nil
+}
+
+func updateUri(uri string, opts *ApiOptions) string {
+	if strings.Contains(uri, "?") { uri += "&" } else {
+		uri += "?"
+	}
+	for k,v := range(opts.params){
+		if (k == "name" && opts.name != "") || (opts.cloud != "" && k == "cloud") || (opts.includeName && k == "include_name") || (opts.skipDefault && k == "skip_default") || ( opts.cloudUUID != "" && k == "cloud_ref.uuid"){
+			continue
+		} else {
+			uri += k + "="+ v + "&"
+		}
+	}
+	return uri
 }
