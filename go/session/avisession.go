@@ -1015,3 +1015,14 @@ func (avisess *AviSession) GetControllerVersion() (string, error) {
 	version := resp.(map[string]interface{})["version"].(map[string]interface{})["Version"].(string)
 	return version, nil
 }
+
+// Logout performs log out operation of the Avi Controller
+func (avisess *AviSession) Logout() error {
+	url := avisess.prefix + "logout"
+	req, _ := avisess.newAviRequest("POST", url, nil, avisess.tenant)
+	_, err := avisess.client.Do(req)
+	if err != nil {
+		return err
+	}
+	return nil
+}
