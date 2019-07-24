@@ -931,6 +931,35 @@ class ApiSession(Session):
         else:
             return None
 
+    def get_all_objects_of_type(self, obj_type, tenant='', tenant_uuid='',
+                                timeout=None, params=None, api_version=None,
+                                **kwargs):
+        """
+        Helper method to get all objects of specific type from controller.
+        """
+        all_objs = []
+        if params is None:
+            params={}
+        params['page_size'] = 200 # Max limt on Controller
+        resp = self.get(obj_type, tenant, tenant_uuid, timeout=timeout,
+                        params=params, api_version=api_version, **kwargs).json()
+        if 'results' in resp:
+            all_objs += resp['results']
+        else:
+            # For apis returning single object eg. api/cluster
+            all_objs += [resp]
+
+        page = 2 #  Initialized to 2 for new page requests
+        while resp.get('next', None) is not None:
+            params['page'] = page
+            resp = self.get(obj_type, tenant, tenant_uuid, timeout=timeout,
+                            params=params, api_version=api_version, **kwargs).json()
+            all_objs += resp['results']
+            page += 1
+
+        for obj in all_objs:
+            yield obj
+
     def _get_api_path(self, path, uuid=None):
         """
         This function returns the full url from relative path and uuid.
