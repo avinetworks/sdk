@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -356,6 +356,7 @@ font-style: italic;
       "vrf_id" : 123,
       "is_hsm" : true,
       "port_uuid" : "aeiou",
+      "delete_vnic" : true,
       "if_name" : "aeiou",
       "is_asm" : true,
       "can_se_dp_takeover" : true,
@@ -388,6 +389,7 @@ font-style: italic;
         "if_name" : "aeiou",
         "ip6_autocfg_enabled" : true,
         "vrf_ref" : "aeiou",
+        "enabled" : true,
         "is_mgmt" : true,
         "vnic_networks" : [ {
           "mode" : "aeiou",
@@ -487,6 +489,7 @@ font-style: italic;
     "vrf_id" : 123,
     "is_hsm" : true,
     "port_uuid" : "aeiou",
+    "delete_vnic" : true,
     "if_name" : "aeiou",
     "is_asm" : true,
     "can_se_dp_takeover" : true,
@@ -519,6 +522,7 @@ font-style: italic;
       "if_name" : "aeiou",
       "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
+      "enabled" : true,
       "is_mgmt" : true,
       "vnic_networks" : [ {
         "mode" : "aeiou",
@@ -1771,6 +1775,7 @@ font-style: italic;
     "vrf_id" : 123,
     "is_hsm" : true,
     "port_uuid" : "aeiou",
+    "delete_vnic" : true,
     "if_name" : "aeiou",
     "is_asm" : true,
     "can_se_dp_takeover" : true,
@@ -1803,6 +1808,7 @@ font-style: italic;
       "if_name" : "aeiou",
       "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
+      "enabled" : true,
       "is_mgmt" : true,
       "vnic_networks" : [ {
         "mode" : "aeiou",
@@ -3057,6 +3063,7 @@ font-style: italic;
     "vrf_id" : 123,
     "is_hsm" : true,
     "port_uuid" : "aeiou",
+    "delete_vnic" : true,
     "if_name" : "aeiou",
     "is_asm" : true,
     "can_se_dp_takeover" : true,
@@ -3089,6 +3096,7 @@ font-style: italic;
       "if_name" : "aeiou",
       "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
+      "enabled" : true,
       "is_mgmt" : true,
       "vnic_networks" : [ {
         "mode" : "aeiou",
@@ -3251,6 +3259,7 @@ font-style: italic;
     "vrf_id" : 123,
     "is_hsm" : true,
     "port_uuid" : "aeiou",
+    "delete_vnic" : true,
     "if_name" : "aeiou",
     "is_asm" : true,
     "can_se_dp_takeover" : true,
@@ -3283,6 +3292,7 @@ font-style: italic;
       "if_name" : "aeiou",
       "ip6_autocfg_enabled" : true,
       "vrf_ref" : "aeiou",
+      "enabled" : true,
       "is_mgmt" : true,
       "vnic_networks" : [ {
         "mode" : "aeiou",
@@ -4698,6 +4708,7 @@ font-style: italic;
 <div class="param">can_se_dp_takeover (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property can_se_dp_takeover of obj type vNIC field type str  type boolean </div>
 <div class="param">connected (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property connected of obj type vNIC field type str  type boolean </div>
 <div class="param">del_pending (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property del_pending of obj type vNIC field type str  type boolean </div>
+<div class="param">delete_vnic (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Delete this VNIC. Please confirm dp_deletion_done before removing the VNIC from the cloud. Field introduced in 18.2.5. </div>
 <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean </div>
 <div class="param">dp_deletion_done (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The VNIC has been cleaned up in the datapath. Field introduced in 18.2.3. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property enabled of obj type vNIC field type str  type boolean </div>
@@ -4735,6 +4746,7 @@ font-style: italic;
     <h3 class="field-label"><a name="VlanInterface">VlanInterface</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean </div>
+<div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable the interface. Field introduced in 18.2.5. </div>
 <div class="param">if_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of VlanInterface. </div>
 <div class="param">ip6_autocfg_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable IPv6 auto configuration. Field introduced in 18.1.1. </div>
 <div class="param">is_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean </div>

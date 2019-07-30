@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -199,11 +199,8 @@ font-style: italic;
   <div class="method-summary"></div>
   <ol>
   <li><a href="#sepropertiesGet"><code><span class="http-method">get</span> /seproperties</code></a></li>
-  <li><a href="#sepropertiesPost"><code><span class="http-method">post</span> /seproperties</code></a></li>
-  <li><a href="#sepropertiesUuidDelete"><code><span class="http-method">delete</span> /seproperties/{uuid}</code></a></li>
-  <li><a href="#sepropertiesUuidGet"><code><span class="http-method">get</span> /seproperties/{uuid}</code></a></li>
-  <li><a href="#sepropertiesUuidPatch"><code><span class="http-method">patch</span> /seproperties/{uuid}</code></a></li>
-  <li><a href="#sepropertiesUuidPut"><code><span class="http-method">put</span> /seproperties/{uuid}</code></a></li>
+  <li><a href="#sepropertiesPatch"><code><span class="http-method">patch</span> /seproperties</code></a></li>
+  <li><a href="#sepropertiesPut"><code><span class="http-method">put</span> /seproperties</code></a></li>
   </ol>
 
   <div class="method"><a name="sepropertiesGet"/>
@@ -244,285 +241,6 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#SePropertiesApiResponse">SePropertiesApiResponse</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "count" : 123,
-  "results" : [ {
-    "se_bootup_properties" : {
-      "se_log_buffer_chunk_count" : 123,
-      "log_agent_trace_enabled" : true,
-      "se_dp_compression" : {
-        "window_size" : 123,
-        "buf_size" : 123,
-        "hash_size" : 123,
-        "buf_num" : 123,
-        "level_aggressive" : 123,
-        "level_normal" : 123
-      },
-      "se_lro" : 123,
-      "se_rum_sampling_res_interval" : 123,
-      "se_rum_sampling_res_percent" : 123,
-      "se_tunnel_mode" : 123,
-      "se_log_buffer_conn_blocking_dequeue" : true,
-      "se_emulated_cores" : 123,
-      "l7_resvd_listen_conns_per_core" : 123,
-      "se_pcap_pkt_sz" : 123,
-      "se_rum_sampling_nav_interval" : 123,
-      "se_dpdk_pmd" : 123,
-      "ssl_sess_cache_timeout" : 123,
-      "log_agent_debug_enabled" : true,
-      "se_ip_encap_ipc" : 123,
-      "docker_backend_portstart" : 123,
-      "se_l3_encap_ipc" : 123,
-      "fair_queueing_enabled" : true,
-      "l7_conns_per_core" : 123,
-      "se_log_buffer_events_blocking_dequeue" : true,
-      "ssl_sess_cache_per_vs" : 123,
-      "se_pcap_pkt_count" : 123,
-      "docker_backend_portend" : 123,
-      "geo_db_granularity" : 123,
-      "se_log_buffer_app_blocking_dequeue" : true,
-      "se_use_dpdk" : 123,
-      "distribute_queues" : true,
-      "distribute_vnics" : true,
-      "tcp_syncache_hashsize" : 123,
-      "se_rum_sampling_nav_percent" : 123,
-      "se_tx_batch_size" : 123,
-      "se_log_buffer_connlog_size" : 123,
-      "se_log_buffer_applog_size" : 123,
-      "se_log_buffer_events_size" : 123
-    },
-    "se_runtime_properties" : {
-      "dp_hb_frequency" : 123,
-      "se_auth_ldap_cache_size" : 123,
-      "max_throughput" : 123,
-      "se_metrics_rt_enabled" : true,
-      "lb_fail_max_time" : 123,
-      "se_dump_core_on_assert" : true,
-      "se_dp_log_nf_enqueue_percent" : 123,
-      "connections_lossy_log_rate_limiter_threshold" : 123,
-      "scaleout_udp_per_pkt" : true,
-      "services_accessible_all_interfaces" : true,
-      "mcache_store_in_min_size" : 123,
-      "log_agent_pause_interval" : 123,
-      "se_handle_interface_routes" : true,
-      "feproxy_vips_enable_proxy_arp" : true,
-      "http_rum_min_content_length" : 123,
-      "mcache_store_in_max_size" : 123,
-      "log_agent_file_sz_event" : 123,
-      "log_message_max_file_list_size" : 123,
-      "dp_aggressive_hb_timeout_count" : 123,
-      "dp_aggressive_hb_frequency" : 123,
-      "mcache_max_cache_size" : 123456789,
-      "log_agent_log_storage_min_sz" : 123,
-      "se_malloc_thresh" : 123,
-      "upstream_keepalive" : true,
-      "se_dp_compression" : {
-        "max_low_rtt" : 123,
-        "min_high_rtt" : 123,
-        "min_length" : 123,
-        "mobile_str" : [ "aeiou" ]
-      },
-      "dp_hb_timeout_count" : 123,
-      "se_auth_ldap_conns_per_server" : 123,
-      "log_agent_export_msg_buffer_size" : 123,
-      "upstream_connpool_conn_idle_tmo" : 123,
-      "disable_tso" : true,
-      "log_agent_max_storage_excess_percent" : 123,
-      "se_random_tcp_drops" : true,
-      "log_agent_max_concurrent_rsync" : 123,
-      "se_metrics_interval" : 123,
-      "upstream_connpool_strategy" : 123,
-      "log_agent_max_active_adf_files_per_vs" : 123,
-      "se_dp_vnic_queue_stall_event_sleep" : 123,
-      "se_dp_vnic_stall_se_restart_window" : 123,
-      "flow_table_batch_push_frequency" : 123,
-      "se_rate_limiters" : {
-        "icmp_rsp_rl" : 123,
-        "rst_rl" : 123,
-        "arp_rl" : 123,
-        "flow_probe_rl" : 123,
-        "default_rl" : 123,
-        "icmp_rl" : 123
-      },
-      "mcache_store_out_enabled" : true,
-      "mcache_enabled" : true,
-      "se_auth_ldap_reconnect_timeout" : 123,
-      "flow_table_new_syn_max_entries" : 123,
-      "log_agent_file_sz_debug" : 123,
-      "se_auth_ldap_bind_timeout" : 123,
-      "dupip_timeout_count" : 123,
-      "upstream_connpool_conn_life_tmo" : 123,
-      "persistence_mem_max" : 123,
-      "upstream_read_timeout" : 123,
-      "mcache_store_se_max_size" : 123456789,
-      "log_agent_max_logmessage_proto_sz" : 123,
-      "upstream_connpool_conn_max_reuse" : 123,
-      "log_agent_conn_send_buffer_size" : 123,
-      "lbaction_rq_per_request_max_retries" : 123,
-      "persistence_entries_low_watermark" : 123,
-      "http_rum_console_log" : true,
-      "upstream_connpool_server_max_cache" : 123,
-      "service_port_ranges" : [ {
-        "start" : 123,
-        "end" : 123
-      } ],
-      "mcache_fetch_enabled" : true,
-      "log_agent_min_storage_per_vs" : 123,
-      "se_dp_vnic_queue_stall_threshold" : 123,
-      "se_memory_poison" : true,
-      "se_dp_log_udf_enqueue_percent" : 123,
-      "connections_udfnf_log_rate_limiter_threshold" : 123,
-      "se_hb_persist_fudge_bits" : 123,
-      "log_agent_file_sz_appl" : 123,
-      "tcp_syn_cache_max" : 123,
-      "log_agent_export_wait_time" : 123,
-      "se_dp_vnic_restart_on_queue_stall_count" : 123,
-      "disable_gro" : true,
-      "dupip_frequency" : 123,
-      "log_agent_sleep_interval" : 123,
-      "se_metrics_rt_interval" : 123,
-      "se_packet_buffer_max" : 123,
-      "ngx_free_connection_stack" : true,
-      "enable_hsm_log" : true,
-      "baremetal_dispatcher_handles_flows" : true,
-      "upstream_connpool_cache_thresh" : 123,
-      "dos_profile" : {
-        "thresh_period" : 123,
-        "thresh_info" : [ {
-          "min_value" : 123,
-          "attack" : "aeiou",
-          "max_value" : 123
-        } ]
-      },
-      "user_defined_metric_age" : 123,
-      "disable_flow_probes" : true,
-      "downstream_send_timeout" : 123,
-      "upstream_send_timeout" : 123,
-      "global_mtu" : 123,
-      "upstream_connpool_conn_idle_thresh_tmo" : 123,
-      "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
-      "se_auth_ldap_connect_timeout" : 123,
-      "mcache_store_in_enabled" : true,
-      "lb_batch_push_frequency" : 123,
-      "app_headers" : [ {
-        "hdr_name" : "aeiou",
-        "hdr_string_op" : "aeiou",
-        "hdr_match_case" : "aeiou"
-      } ],
-      "log_agent_file_sz_conn" : 123,
-      "log_agent_unknown_vs_timer" : 123,
-      "se_mac_error_threshold_to_disable_promiscious" : 123,
-      "se_dp_if_state_poll_interval" : 123,
-      "se_dp_hm_drops" : 123,
-      "service_ip_subnets" : [ {
-        "ip_addr" : {
-          "addr" : "aeiou",
-          "type" : "aeiou"
-        },
-        "mask" : 123
-      } ],
-      "upstream_connpool_core_max_cache" : 123,
-      "tcp_syncache_max_retransmit_default" : 123,
-      "spdy_fwd_proxy_parse_enable" : true,
-      "upstream_connect_timeout" : 123,
-      "flow_table_max_entries_deprecated" : 123,
-      "se_auth_ldap_servers_failover_only" : true,
-      "se_dp_vnic_queue_stall_timeout" : 123,
-      "upstream_connpool_enable" : true,
-      "se_auth_ldap_request_timeout" : 123,
-      "log_agent_compress_logs" : true,
-      "lbaction_num_requests_to_dispatch" : 123
-    },
-    "se_agent_properties" : {
-      "debug_mode" : true,
-      "controller_echo_rpc_aggressive_timeout" : 123,
-      "states_flush_interval" : 123,
-      "ns_helper_deq_interval_msec" : 123,
-      "dp_deq_interval_msec" : 123,
-      "dp_max_wait_rsp_time_sec" : 123,
-      "controller_heartbeat_miss_limit" : 123,
-      "controller_echo_miss_aggressive_limit" : 123,
-      "vnic_probe_interval" : 123,
-      "vnic_dhcp_ip_check_interval" : 123,
-      "headless_timeout_sec" : 123,
-      "sdb_pipeline_size" : 123,
-      "cpustats_interval" : 123,
-      "controller_rpc_timeout" : 123,
-      "ctrl_reg_pending_max_wait_time" : 123,
-      "dp_enq_interval_msec" : 123,
-      "controller_heartbeat_timeout_sec" : 123,
-      "dp_reg_pending_max_wait_time" : 123,
-      "ignore_docker_mac_change" : true,
-      "sdb_flush_interval" : 123,
-      "send_se_ready_timeout" : 123,
-      "dp_aggressive_deq_interval_msec" : 123,
-      "vnic_dhcp_ip_max_retries" : 123,
-      "dp_aggressive_enq_interval_msec" : 123,
-      "controller_echo_miss_limit" : 123,
-      "dp_batch_size" : 123,
-      "vnic_ip_delete_interval" : 123,
-      "vnicdb_cmd_history_size" : 123,
-      "controller_registration_timeout_sec" : 123,
-      "sdb_scan_count" : 123,
-      "controller_echo_rpc_timeout" : 123,
-      "se_grp_change_disruptive" : true
-    },
-    "uuid" : "aeiou",
-    "url" : "aeiou",
-    "_last_modified" : "aeiou"
-  } ]
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    OK
-        <a href="#SePropertiesApiResponse">SePropertiesApiResponse</a>
-    <h4 class="field-label">401</h4>
-    log in failed
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="sepropertiesPost"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /seproperties</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">sepropertiesPost</span>)</div>
-    <div class="method-notes"></div>
-
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Request body</h3>
-    <div class="field-items">
-      <div class="param">body (required)</div>
-
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; SeProperties object creation </div>
-    </div>  <!-- field-items -->
-
-
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
       <a href="#SeProperties">SeProperties</a>
       
     </div>
@@ -577,6 +295,7 @@ font-style: italic;
     "se_log_buffer_events_size" : 123
   },
   "se_runtime_properties" : {
+    "admin_ssh_enabled" : true,
     "dp_hb_frequency" : 123,
     "se_auth_ldap_cache_size" : 123,
     "max_throughput" : 123,
@@ -726,6 +445,16 @@ font-style: italic;
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
+    "seagent_statecache_properties" : {
+      "sc_state_ring_batch_dequeue_limit" : 123,
+      "sc_stream_check_interval" : 123,
+      "sc_thread_sleep_interval" : 123,
+      "sc_shard_cleanup_max_time" : 123,
+      "sc_states_flush_interval" : 123,
+      "sc_thread_q_max_size" : 123,
+      "sc_batch_buffer_flush_limit" : 123,
+      "sc_thread_q_batch_dequeue_limit" : 123
+    },
     "controller_echo_miss_aggressive_limit" : 123,
     "vnic_probe_interval" : 123,
     "vnic_dhcp_ip_check_interval" : 123,
@@ -773,367 +502,13 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="sepropertiesUuidDelete"/>
+  <div class="method"><a name="sepropertiesPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /seproperties/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">sepropertiesUuidDelete</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /seproperties</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">sepropertiesPatch</span>)</div>
     <div class="method-notes"></div>
 
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">name (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
-    </div>  <!-- field-items -->
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      
-      String
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>"aeiou"</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">204</h4>
-    object deleted
-        <a href="#String">String</a>
-    <h4 class="field-label">404</h4>
-    not found
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="sepropertiesUuidGet"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /seproperties/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">sepropertiesUuidGet</span>)</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
-
-    <h3 class="field-label">Consumes</h3>
-    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-
-
-    <h3 class="field-label">Query parameters</h3>
-    <div class="field-items">
-      <div class="param">name (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
-
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
-    </div>  <!-- field-items -->
-
-
-    <h3 class="field-label">Return type</h3>
-    <div class="return-type">
-      <a href="#SeProperties">SeProperties</a>
-      
-    </div>
-
-    <!--Todo: process Response Object and its headers, schema, examples -->
-
-    <h3 class="field-label">Example data</h3>
-    <div class="example-data-content-type">Content-Type: application/json</div>
-    <pre class="example"><code>{
-  "se_bootup_properties" : {
-    "se_log_buffer_chunk_count" : 123,
-    "log_agent_trace_enabled" : true,
-    "se_dp_compression" : {
-      "window_size" : 123,
-      "buf_size" : 123,
-      "hash_size" : 123,
-      "buf_num" : 123,
-      "level_aggressive" : 123,
-      "level_normal" : 123
-    },
-    "se_lro" : 123,
-    "se_rum_sampling_res_interval" : 123,
-    "se_rum_sampling_res_percent" : 123,
-    "se_tunnel_mode" : 123,
-    "se_log_buffer_conn_blocking_dequeue" : true,
-    "se_emulated_cores" : 123,
-    "l7_resvd_listen_conns_per_core" : 123,
-    "se_pcap_pkt_sz" : 123,
-    "se_rum_sampling_nav_interval" : 123,
-    "se_dpdk_pmd" : 123,
-    "ssl_sess_cache_timeout" : 123,
-    "log_agent_debug_enabled" : true,
-    "se_ip_encap_ipc" : 123,
-    "docker_backend_portstart" : 123,
-    "se_l3_encap_ipc" : 123,
-    "fair_queueing_enabled" : true,
-    "l7_conns_per_core" : 123,
-    "se_log_buffer_events_blocking_dequeue" : true,
-    "ssl_sess_cache_per_vs" : 123,
-    "se_pcap_pkt_count" : 123,
-    "docker_backend_portend" : 123,
-    "geo_db_granularity" : 123,
-    "se_log_buffer_app_blocking_dequeue" : true,
-    "se_use_dpdk" : 123,
-    "distribute_queues" : true,
-    "distribute_vnics" : true,
-    "tcp_syncache_hashsize" : 123,
-    "se_rum_sampling_nav_percent" : 123,
-    "se_tx_batch_size" : 123,
-    "se_log_buffer_connlog_size" : 123,
-    "se_log_buffer_applog_size" : 123,
-    "se_log_buffer_events_size" : 123
-  },
-  "se_runtime_properties" : {
-    "dp_hb_frequency" : 123,
-    "se_auth_ldap_cache_size" : 123,
-    "max_throughput" : 123,
-    "se_metrics_rt_enabled" : true,
-    "lb_fail_max_time" : 123,
-    "se_dump_core_on_assert" : true,
-    "se_dp_log_nf_enqueue_percent" : 123,
-    "connections_lossy_log_rate_limiter_threshold" : 123,
-    "scaleout_udp_per_pkt" : true,
-    "services_accessible_all_interfaces" : true,
-    "mcache_store_in_min_size" : 123,
-    "log_agent_pause_interval" : 123,
-    "se_handle_interface_routes" : true,
-    "feproxy_vips_enable_proxy_arp" : true,
-    "http_rum_min_content_length" : 123,
-    "mcache_store_in_max_size" : 123,
-    "log_agent_file_sz_event" : 123,
-    "log_message_max_file_list_size" : 123,
-    "dp_aggressive_hb_timeout_count" : 123,
-    "dp_aggressive_hb_frequency" : 123,
-    "mcache_max_cache_size" : 123456789,
-    "log_agent_log_storage_min_sz" : 123,
-    "se_malloc_thresh" : 123,
-    "upstream_keepalive" : true,
-    "se_dp_compression" : {
-      "max_low_rtt" : 123,
-      "min_high_rtt" : 123,
-      "min_length" : 123,
-      "mobile_str" : [ "aeiou" ]
-    },
-    "dp_hb_timeout_count" : 123,
-    "se_auth_ldap_conns_per_server" : 123,
-    "log_agent_export_msg_buffer_size" : 123,
-    "upstream_connpool_conn_idle_tmo" : 123,
-    "disable_tso" : true,
-    "log_agent_max_storage_excess_percent" : 123,
-    "se_random_tcp_drops" : true,
-    "log_agent_max_concurrent_rsync" : 123,
-    "se_metrics_interval" : 123,
-    "upstream_connpool_strategy" : 123,
-    "log_agent_max_active_adf_files_per_vs" : 123,
-    "se_dp_vnic_queue_stall_event_sleep" : 123,
-    "se_dp_vnic_stall_se_restart_window" : 123,
-    "flow_table_batch_push_frequency" : 123,
-    "se_rate_limiters" : {
-      "icmp_rsp_rl" : 123,
-      "rst_rl" : 123,
-      "arp_rl" : 123,
-      "flow_probe_rl" : 123,
-      "default_rl" : 123,
-      "icmp_rl" : 123
-    },
-    "mcache_store_out_enabled" : true,
-    "mcache_enabled" : true,
-    "se_auth_ldap_reconnect_timeout" : 123,
-    "flow_table_new_syn_max_entries" : 123,
-    "log_agent_file_sz_debug" : 123,
-    "se_auth_ldap_bind_timeout" : 123,
-    "dupip_timeout_count" : 123,
-    "upstream_connpool_conn_life_tmo" : 123,
-    "persistence_mem_max" : 123,
-    "upstream_read_timeout" : 123,
-    "mcache_store_se_max_size" : 123456789,
-    "log_agent_max_logmessage_proto_sz" : 123,
-    "upstream_connpool_conn_max_reuse" : 123,
-    "log_agent_conn_send_buffer_size" : 123,
-    "lbaction_rq_per_request_max_retries" : 123,
-    "persistence_entries_low_watermark" : 123,
-    "http_rum_console_log" : true,
-    "upstream_connpool_server_max_cache" : 123,
-    "service_port_ranges" : [ {
-      "start" : 123,
-      "end" : 123
-    } ],
-    "mcache_fetch_enabled" : true,
-    "log_agent_min_storage_per_vs" : 123,
-    "se_dp_vnic_queue_stall_threshold" : 123,
-    "se_memory_poison" : true,
-    "se_dp_log_udf_enqueue_percent" : 123,
-    "connections_udfnf_log_rate_limiter_threshold" : 123,
-    "se_hb_persist_fudge_bits" : 123,
-    "log_agent_file_sz_appl" : 123,
-    "tcp_syn_cache_max" : 123,
-    "log_agent_export_wait_time" : 123,
-    "se_dp_vnic_restart_on_queue_stall_count" : 123,
-    "disable_gro" : true,
-    "dupip_frequency" : 123,
-    "log_agent_sleep_interval" : 123,
-    "se_metrics_rt_interval" : 123,
-    "se_packet_buffer_max" : 123,
-    "ngx_free_connection_stack" : true,
-    "enable_hsm_log" : true,
-    "baremetal_dispatcher_handles_flows" : true,
-    "upstream_connpool_cache_thresh" : 123,
-    "dos_profile" : {
-      "thresh_period" : 123,
-      "thresh_info" : [ {
-        "min_value" : 123,
-        "attack" : "aeiou",
-        "max_value" : 123
-      } ]
-    },
-    "user_defined_metric_age" : 123,
-    "disable_flow_probes" : true,
-    "downstream_send_timeout" : 123,
-    "upstream_send_timeout" : 123,
-    "global_mtu" : 123,
-    "upstream_connpool_conn_idle_thresh_tmo" : 123,
-    "log_agent_max_storage_ignore_percent" : 1.3579000000000001069366817318950779736042022705078125,
-    "se_auth_ldap_connect_timeout" : 123,
-    "mcache_store_in_enabled" : true,
-    "lb_batch_push_frequency" : 123,
-    "app_headers" : [ {
-      "hdr_name" : "aeiou",
-      "hdr_string_op" : "aeiou",
-      "hdr_match_case" : "aeiou"
-    } ],
-    "log_agent_file_sz_conn" : 123,
-    "log_agent_unknown_vs_timer" : 123,
-    "se_mac_error_threshold_to_disable_promiscious" : 123,
-    "se_dp_if_state_poll_interval" : 123,
-    "se_dp_hm_drops" : 123,
-    "service_ip_subnets" : [ {
-      "ip_addr" : {
-        "addr" : "aeiou",
-        "type" : "aeiou"
-      },
-      "mask" : 123
-    } ],
-    "upstream_connpool_core_max_cache" : 123,
-    "tcp_syncache_max_retransmit_default" : 123,
-    "spdy_fwd_proxy_parse_enable" : true,
-    "upstream_connect_timeout" : 123,
-    "flow_table_max_entries_deprecated" : 123,
-    "se_auth_ldap_servers_failover_only" : true,
-    "se_dp_vnic_queue_stall_timeout" : 123,
-    "upstream_connpool_enable" : true,
-    "se_auth_ldap_request_timeout" : 123,
-    "log_agent_compress_logs" : true,
-    "lbaction_num_requests_to_dispatch" : 123
-  },
-  "se_agent_properties" : {
-    "debug_mode" : true,
-    "controller_echo_rpc_aggressive_timeout" : 123,
-    "states_flush_interval" : 123,
-    "ns_helper_deq_interval_msec" : 123,
-    "dp_deq_interval_msec" : 123,
-    "dp_max_wait_rsp_time_sec" : 123,
-    "controller_heartbeat_miss_limit" : 123,
-    "controller_echo_miss_aggressive_limit" : 123,
-    "vnic_probe_interval" : 123,
-    "vnic_dhcp_ip_check_interval" : 123,
-    "headless_timeout_sec" : 123,
-    "sdb_pipeline_size" : 123,
-    "cpustats_interval" : 123,
-    "controller_rpc_timeout" : 123,
-    "ctrl_reg_pending_max_wait_time" : 123,
-    "dp_enq_interval_msec" : 123,
-    "controller_heartbeat_timeout_sec" : 123,
-    "dp_reg_pending_max_wait_time" : 123,
-    "ignore_docker_mac_change" : true,
-    "sdb_flush_interval" : 123,
-    "send_se_ready_timeout" : 123,
-    "dp_aggressive_deq_interval_msec" : 123,
-    "vnic_dhcp_ip_max_retries" : 123,
-    "dp_aggressive_enq_interval_msec" : 123,
-    "controller_echo_miss_limit" : 123,
-    "dp_batch_size" : 123,
-    "vnic_ip_delete_interval" : 123,
-    "vnicdb_cmd_history_size" : 123,
-    "controller_registration_timeout_sec" : 123,
-    "sdb_scan_count" : 123,
-    "controller_echo_rpc_timeout" : 123,
-    "se_grp_change_disruptive" : true
-  },
-  "uuid" : "aeiou",
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
-}</code></pre>
-
-    <h3 class="field-label">Produces</h3>
-    This API call produces the following media types according to the <span class="header">Accept</span> request header;
-    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
-    <ul>
-      <li><code>application/json</code></li>
-    </ul>
-
-    <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    OK
-        <a href="#SeProperties">SeProperties</a>
-    <h4 class="field-label">401</h4>
-    log in failed
-        <a href="#"></a>
-  </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="sepropertiesUuidPatch"/>
-    <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /seproperties/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">sepropertiesUuidPatch</span>)</div>
-    <div class="method-notes"></div>
-
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
@@ -1213,6 +588,7 @@ font-style: italic;
     "se_log_buffer_events_size" : 123
   },
   "se_runtime_properties" : {
+    "admin_ssh_enabled" : true,
     "dp_hb_frequency" : 123,
     "se_auth_ldap_cache_size" : 123,
     "max_throughput" : 123,
@@ -1362,6 +738,16 @@ font-style: italic;
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
+    "seagent_statecache_properties" : {
+      "sc_state_ring_batch_dequeue_limit" : 123,
+      "sc_stream_check_interval" : 123,
+      "sc_thread_sleep_interval" : 123,
+      "sc_shard_cleanup_max_time" : 123,
+      "sc_states_flush_interval" : 123,
+      "sc_thread_q_max_size" : 123,
+      "sc_batch_buffer_flush_limit" : 123,
+      "sc_thread_q_batch_dequeue_limit" : 123
+    },
     "controller_echo_miss_aggressive_limit" : 123,
     "vnic_probe_interval" : 123,
     "vnic_dhcp_ip_check_interval" : 123,
@@ -1409,19 +795,13 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="sepropertiesUuidPut"/>
+  <div class="method"><a name="sepropertiesPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /seproperties/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">sepropertiesUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /seproperties</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">sepropertiesPut</span>)</div>
     <div class="method-notes"></div>
 
-    <h3 class="field-label">Path parameters</h3>
-    <div class="field-items">
-      <div class="param">uuid (required)</div>
-
-      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
-    </div>  <!-- field-items -->
 
     <h3 class="field-label">Consumes</h3>
     This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
@@ -1501,6 +881,7 @@ font-style: italic;
     "se_log_buffer_events_size" : 123
   },
   "se_runtime_properties" : {
+    "admin_ssh_enabled" : true,
     "dp_hb_frequency" : 123,
     "se_auth_ldap_cache_size" : 123,
     "max_throughput" : 123,
@@ -1650,6 +1031,16 @@ font-style: italic;
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
     "controller_heartbeat_miss_limit" : 123,
+    "seagent_statecache_properties" : {
+      "sc_state_ring_batch_dequeue_limit" : 123,
+      "sc_stream_check_interval" : 123,
+      "sc_thread_sleep_interval" : 123,
+      "sc_shard_cleanup_max_time" : 123,
+      "sc_states_flush_interval" : 123,
+      "sc_thread_q_max_size" : 123,
+      "sc_batch_buffer_flush_limit" : 123,
+      "sc_thread_q_batch_dequeue_limit" : 123
+    },
     "controller_echo_miss_aggressive_limit" : 123,
     "vnic_probe_interval" : 123,
     "vnic_dhcp_ip_check_interval" : 123,
@@ -1711,6 +1102,7 @@ font-style: italic;
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#PortRange"><code>PortRange</code></a></li>
     <li><a href="#SeAgentProperties"><code>SeAgentProperties</code></a></li>
+    <li><a href="#SeAgentStateCacheProperties"><code>SeAgentStateCacheProperties</code></a></li>
     <li><a href="#SeBootupCompressionProperties"><code>SeBootupCompressionProperties</code></a></li>
     <li><a href="#SeBootupProperties"><code>SeBootupProperties</code></a></li>
     <li><a href="#SeProperties"><code>SeProperties</code></a></li>
@@ -1792,6 +1184,7 @@ font-style: italic;
 <div class="param">sdb_pipeline_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB pipeline size. Allowed values are 1-10000. format: int32</div>
 <div class="param">sdb_scan_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> SDB scan count. Allowed values are 1-1000. format: int32</div>
 <div class="param">se_grp_change_disruptive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3. </div>
+<div class="param">seagent_statecache_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeAgentStateCacheProperties">SeAgentStateCacheProperties</a></span> SeAgent properties for State Cache functionality. Field introduced in 18.2.5. </div>
 <div class="param">send_se_ready_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">states_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5. format: int32</div>
 <div class="param">vnic_dhcp_ip_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip check interval. Allowed values are 1-1000. format: int32</div>
@@ -1799,6 +1192,19 @@ font-style: italic;
 <div class="param">vnic_ip_delete_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> wait interval before deleting IP. format: int32</div>
 <div class="param">vnic_probe_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Probe vnic interval. format: int32</div>
 <div class="param">vnicdb_cmd_history_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeAgentStateCacheProperties">SeAgentStateCacheProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">sc_batch_buffer_flush_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to flush in one shot from the internal buffer by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_shard_cleanup_max_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_state_ring_batch_dequeue_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to dequeue in one shot from the state_ring by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_states_flush_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_stream_check_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for checking health of grpc streams to statecache_mgr. Allowed values are 1-90000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_thread_q_batch_dequeue_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_thread_q_max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max elements in the Q between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">sc_thread_sleep_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Interval for grpc thread to sleep between doing work. Allowed values are 1-10000. Field introduced in 18.2.5. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1816,7 +1222,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SeBootupProperties">SeBootupProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1. </div>
-<div class="param">distribute_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes vnic ownership among cores so multiple cores handle dispatcher duties. </div>
+<div class="param">distribute_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated. Field deprecated in 18.2.5. </div>
 <div class="param">docker_backend_portend (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> End of the Local TCP port range used by SE for backend connections in docker environment. format: int32</div>
 <div class="param">docker_backend_portstart (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Start of the Local TCP port range used by SE for backend connections in docker environment. format: int32</div>
 <div class="param">fair_queueing_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable fair queueing for packet transmission among virtualservices on an SE. </div>
@@ -1837,15 +1243,15 @@ font-style: italic;
 <div class="param">se_log_buffer_connlog_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. format: int32</div>
 <div class="param">se_log_buffer_events_blocking_dequeue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Internal flag that blocks dataplane until all outstanding events are flushed to log-agent process. </div>
 <div class="param">se_log_buffer_events_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments. format: int32</div>
-<div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Enable or disable Large Receive Optimization for vnics. format: int32</div>
-<div class="param">se_pcap_pkt_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces. format: int32</div>
-<div class="param">se_pcap_pkt_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max size of each packet in the pcap interface. format: int32</div>
+<div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
+<div class="param">se_pcap_pkt_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
+<div class="param">se_pcap_pkt_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
 <div class="param">se_rum_sampling_nav_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> when sampling for navigation timing data from the end user client. minimum time to wait on server between samples. format: int32</div>
 <div class="param">se_rum_sampling_nav_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> percentage of navigation timing data to sample from the end user client for client insights. format: int32</div>
 <div class="param">se_rum_sampling_res_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> when sampling for resource timing data from the end user client. minimum time to wait on server between samples. format: int32</div>
 <div class="param">se_rum_sampling_res_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> percentage of resource timing data to sample from the end user client for client insights. format: int32</div>
 <div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1. format: int32</div>
-<div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of packets to batch for transmit to the nic. format: int32</div>
+<div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
 <div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3. format: int32</div>
 <div class="param">ssl_sess_cache_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of ssl_sess_cache_per_vs. format: int32</div>
 <div class="param">ssl_sess_cache_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of ssl_sess_cache_timeout. format: int32</div>
@@ -1893,7 +1299,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SeRuntimeProperties">SeRuntimeProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">app_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppHdr">array[AppHdr]</a></span> Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object </div>
+      <div class="param">admin_ssh_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow admin user ssh access to SE. Field introduced in 18.2.5. </div>
+<div class="param">app_headers (optional)</div><div class="param-desc"><span class="param-type"><a href="#AppHdr">array[AppHdr]</a></span> Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object </div>
 <div class="param">baremetal_dispatcher_handles_flows (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Control if dispatcher core also handles TCP flows in baremetal SE. </div>
 <div class="param">connections_lossy_log_rate_limiter_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rate limit on maximum adf lossy log to pushper second. format: int32</div>
 <div class="param">connections_udfnf_log_rate_limiter_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rate limit on maximum adf udf or nf log to pushper second. format: int32</div>
@@ -1964,11 +1371,11 @@ font-style: italic;
 <div class="param">se_dp_if_state_poll_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of jiffies between polling interface state. format: int32</div>
 <div class="param">se_dp_log_nf_enqueue_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal buffer full indicator on the Service Engine beyond which the unfiltered logs are abandoned. format: int32</div>
 <div class="param">se_dp_log_udf_enqueue_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned. format: int32</div>
-<div class="param">se_dp_vnic_queue_stall_event_sleep (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1. format: int32</div>
-<div class="param">se_dp_vnic_queue_stall_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1. format: int32</div>
-<div class="param">se_dp_vnic_queue_stall_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1. format: int32</div>
-<div class="param">se_dp_vnic_restart_on_queue_stall_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
-<div class="param">se_dp_vnic_stall_se_restart_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
+<div class="param">se_dp_vnic_queue_stall_event_sleep (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1. format: int32</div>
+<div class="param">se_dp_vnic_queue_stall_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1. format: int32</div>
+<div class="param">se_dp_vnic_queue_stall_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1. format: int32</div>
+<div class="param">se_dp_vnic_restart_on_queue_stall_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
+<div class="param">se_dp_vnic_stall_se_restart_window (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1. format: int32</div>
 <div class="param">se_dump_core_on_assert (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable core dump on assert. Field introduced in 18.1.3, 18.2.1. </div>
 <div class="param">se_handle_interface_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Accept/ignore interface routes (i.e, no next hop IP address). </div>
 <div class="param">se_hb_persist_fudge_bits (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Internal use only. Allowed values are 0-7. format: int32</div>
