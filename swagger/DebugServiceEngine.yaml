@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi DebugServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,86 @@ paths:
 
 
 definitions:
+    CaptureFilters:
+        type: object
+        properties:
+            capture_ip:
+                description: "IP filter for SE pcap. Field introduced in 18.2.5."
+                $ref: '#/definitions/DebugIpAddr'
+            capture_ipc:
+                description: "Capture filter for SE ipc. Field introduced in 18.2.5."
+                $ref: '#/definitions/CaptureIPC'
+            dst_port_end:
+                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            dst_port_start:
+                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            eth_proto:
+                description: "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                type: string
+                default: "ETH_TYPE_IPV4"
+            ip_proto:
+                description: "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                type: string
+                default: "IP_TYPE_TCP"
+            src_port:
+                description: "Source Port filter for SE pcap. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            tcp_ack:
+                description: "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                type: boolean
+            tcp_fin:
+                description: "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                type: boolean
+            tcp_push:
+                description: "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                type: boolean
+            tcp_syn:
+                description: "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                type: boolean
+    CaptureIPC:
+        type: object
+        properties:
+            flow_del_probe:
+                description: "Flow del probe filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            flow_mirror_add:
+                description: "Flow mirror add filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            flow_mirror_all:
+                description: "Filter for all flow mirror SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            flow_mirror_del:
+                description: "Flow mirror del filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            flow_probe:
+                description: "Flow probe filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            flow_probe_all:
+                description: "Filter for all flow probe SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            ipc_batched:
+                description: "IPC batched filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
+            ipc_rx_req:
+                description: "Filter for incoming IPC request. Field introduced in 18.2.5."
+                type: boolean
+            ipc_rx_res:
+                description: "Filter for incoming IPC response. Field introduced in 18.2.5."
+                type: boolean
+            ipc_tx_req:
+                description: "Filter for outgoing IPC request. Field introduced in 18.2.5."
+                type: boolean
+            ipc_tx_res:
+                description: "Filter for outgoing IPC response. Field introduced in 18.2.5."
+                type: boolean
+            vs_hb:
+                description: "Vs heart beat filter for SE IPC. Field introduced in 18.2.5."
+                type: boolean
     DebugIpAddr:
         type: object
         properties:
@@ -402,7 +482,7 @@ definitions:
             -   flag
         properties:
             flag:
-                description: " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT."
+                description: " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT, DEBUG_NAT_ERROR, DEBUG_NAT_PKT, DEBUG_NAT_END2END, DEBUG_NAT_ALL, DEBUG_PCAP_SE_IPC."
                 type: string
     DebugSeFault:
         type: object
@@ -444,6 +524,9 @@ definitions:
             capture:
                 description: "Enable/disable packet capture. Field introduced in 18.2.2."
                 type: boolean
+            capture_filters:
+                description: "Capture filter for SE pcap. Field introduced in 18.2.5."
+                $ref: '#/definitions/CaptureFilters'
             capture_params:
                 description: "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
                 $ref: '#/definitions/DebugVirtualServiceCapture'
@@ -509,6 +592,10 @@ definitions:
                 description: "Total number of packets to capture."
                 type: integer
                 format: int32
+            pcap_ng:
+                description: "Enable PcapNg for packet capture. Field introduced in 18.2.5."
+                type: boolean
+                default: True
             pkt_size:
                 description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
                 type: integer

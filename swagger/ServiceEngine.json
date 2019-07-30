@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -4938,6 +4938,10 @@
                     "description": "Number of vlan_id.", 
                     "format": "int32"
                 }, 
+                "delete_vnic": {
+                    "type": "boolean", 
+                    "description": "Delete this VNIC. Please confirm dp_deletion_done before removing the VNIC from the cloud. Field introduced in 18.2.5."
+                }, 
                 "is_portchannel": {
                     "type": "boolean", 
                     "description": "Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean"
@@ -5189,30 +5193,15 @@
             ], 
             "type": "object", 
             "properties": {
-                "is_mgmt": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
-                }, 
-                "vlan_id": {
-                    "type": "integer", 
-                    "description": "VLAN ID. Allowed values are 0-4096.", 
-                    "format": "int32"
-                }, 
-                "vnic_networks": {
-                    "items": {
-                        "$ref": "#/definitions/vNICNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
-                }, 
                 "ip6_autocfg_enabled": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 }, 
-                "vrf_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VrfContext."
+                "enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable the interface. Field introduced in 18.2.5."
                 }, 
                 "if_name": {
                     "type": "string", 
@@ -5222,6 +5211,26 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
+                }, 
+                "is_mgmt": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property is_mgmt of obj type VlanInterface field type str  type boolean"
+                }, 
+                "vnic_networks": {
+                    "items": {
+                        "$ref": "#/definitions/vNICNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property vnic_networks of obj type VlanInterface field type str  type object"
+                }, 
+                "vlan_id": {
+                    "type": "integer", 
+                    "description": "VLAN ID. Allowed values are 0-4096.", 
+                    "format": "int32"
+                }, 
+                "vrf_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VrfContext."
                 }
             }
         }, 

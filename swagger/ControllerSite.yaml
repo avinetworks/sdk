@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi ControllerSite Object API
     contact:
         name: Avi Networks Inc.
@@ -355,25 +355,25 @@ definitions:
                 readOnly: True
                 type: string
             address:
-                description: "IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. Field introduced in 18.2.4."
+                description: "IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. Field introduced in 18.2.5."
                 type: string
             name:
-                description: "Name for the Site Controller Cluster. Field introduced in 18.2.4."
+                description: "Name for the Site Controller Cluster. Field introduced in 18.2.5."
                 type: string
             port:
-                description: "The Controller Site Cluster's REST API port number. Allowed values are 1-65535. Field introduced in 18.2.4."
+                description: "The Controller Site Cluster's REST API port number. Allowed values are 1-65535. Field introduced in 18.2.5."
                 type: integer
                 default: 443
                 format: int32
             tenant_ref:
-                description: "Reference for the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.4."
+                description: "Reference for the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.5."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "Reference for the Site Controller Cluster. Field introduced in 18.2.4."
+                description: "Reference for the Site Controller Cluster. Field introduced in 18.2.5."
                 type: string
     ControllerSiteApiResponse:
         type: object

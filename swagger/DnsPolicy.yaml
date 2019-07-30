@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi DnsPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -488,6 +488,30 @@ definitions:
                 type: array
                 items:
                     type: string
+    DnsRateProfile:
+        type: object
+        required:
+            -   action
+        properties:
+            action:
+                description: "Action to perform upon rate limiting. Field introduced in 18.2.5."
+                $ref: '#/definitions/DnsRuleRLAction'
+            burst_size:
+                description: "Maximum number of connections or requests or packets to be rate limited instantaneously. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            count:
+                description: "Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            fine_grain:
+                description: "Enable fine granularity. Field introduced in 18.2.5."
+                type: boolean
+            period:
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-300. Field introduced in 18.2.5."
+                type: integer
+                default: 1
+                format: int32
     DnsRrSet:
         type: object
         required:
@@ -555,6 +579,9 @@ definitions:
             allow:
                 description: "Allow or drop the DNS query. Field introduced in 17.1.1."
                 $ref: '#/definitions/DnsRuleActionAllowDrop'
+            dns_rate_limit:
+                description: "Rate limit the DNS requests. Field introduced in 18.2.5."
+                $ref: '#/definitions/DnsRateProfile'
             gslb_site_selection:
                 description: "Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5."
                 $ref: '#/definitions/DnsRuleActionGslbSiteSelection'
@@ -653,6 +680,13 @@ definitions:
             query_type:
                 description: "DNS query types to match against request query type. Field introduced in 17.1.1."
                 $ref: '#/definitions/DnsQueryTypeMatch'
+    DnsRuleRLAction:
+        type: object
+        properties:
+            type:
+                description: "Type of action to be enforced upon hitting the rate limit. Enum options - DNS_RL_ACTION_NONE, DNS_RL_ACTION_DROP_REQ. Field introduced in 18.2.5."
+                type: string
+                default: "DNS_RL_ACTION_NONE"
     DnsTransportProtocolMatch:
         type: object
         required:

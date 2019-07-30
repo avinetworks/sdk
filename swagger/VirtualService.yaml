@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi VirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -2067,6 +2067,47 @@ paths:
                         type: string
                 401:
                     description: log in failed
+    /virtualservice/{uuid}/ssopolicystats/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
     /virtualservice/{uuid}/traffic_clone_stats/:
         get:
             consumes:
@@ -2552,6 +2593,36 @@ definitions:
             vgrp:
                 description: "vgrp of ApicVSPlacementReq."
                 type: string
+    AuthAttributeMatch:
+        type: object
+        properties:
+            attribute_name:
+                description: "Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5."
+                type: string
+            attribute_value_list:
+                description: "Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5."
+                $ref: '#/definitions/StringMatch'
+    AuthenticationAction:
+        type: object
+        required:
+            -   type
+        properties:
+            type:
+                description: "Authentication Action to be taken for a matched Rule. Enum options - SKIP_AUTHENTICATION, USE_DEFAULT_AUTHENTICATION. Field introduced in 18.2.5."
+                type: string
+                default: "USE_DEFAULT_AUTHENTICATION"
+    AuthenticationMatch:
+        type: object
+        properties:
+            client_ip:
+                description: "Configure client ip addresses. Field introduced in 18.2.5."
+                $ref: '#/definitions/IpAddrMatch'
+            host_hdr:
+                description: "Configure the host header. Field introduced in 18.2.5."
+                $ref: '#/definitions/HostHdrMatch'
+            path:
+                description: "Configure request paths. Field introduced in 18.2.5."
+                $ref: '#/definitions/PathMatch'
     AuthenticationPolicy:
         type: object
         required:
@@ -2560,6 +2631,11 @@ definitions:
             auth_profile_ref:
                 description: "Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field deprecated in 18.2.3. Field introduced in 18.2.1."
                 type: string
+            authn_rules:
+                description: "Add rules to apply auth profile to specific targets. Field introduced in 18.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/AuthenticationRule'
             cookie_name:
                 description: "HTTP cookie name for authenticated session. Field deprecated in 18.2.3. Field introduced in 18.2.1."
                 type: string
@@ -2585,6 +2661,90 @@ definitions:
             sp_metadata:
                 description: "SAML SP metadata. Field deprecated in 18.2.3. Field introduced in 18.2.1."
                 readOnly: True
+                type: string
+    AuthenticationRule:
+        type: object
+        required:
+            -   enable
+            -   index
+            -   name
+        properties:
+            action:
+                description: "Enable or disable authentication for matched targets. Field introduced in 18.2.5."
+                $ref: '#/definitions/AuthenticationAction'
+            enable:
+                description: "Enable or disable the rule. Field introduced in 18.2.5."
+                type: boolean
+                default: True
+            index:
+                description: "Index of the rule. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            match:
+                description: "Add match criteria to the rule. Field introduced in 18.2.5."
+                $ref: '#/definitions/AuthenticationMatch'
+            name:
+                description: "Name of the rule. Field introduced in 18.2.5."
+                type: string
+    AuthorizationAction:
+        type: object
+        properties:
+            status_code:
+                description: "HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5."
+                type: string
+                default: "HTTP_RESPONSE_STATUS_CODE_403"
+            type:
+                description: "Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5."
+                type: string
+                default: "ALLOW_ACCESS"
+    AuthorizationMatch:
+        type: object
+        properties:
+            attr_matches:
+                description: "Attributes whose values need to be matched . Field introduced in 18.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/AuthAttributeMatch'
+            host_hdr:
+                description: "Host header value to be matched. Field introduced in 18.2.5."
+                $ref: '#/definitions/HostHdrMatch'
+            method:
+                description: "HTTP methods to be matched. Field introduced in 18.2.5."
+                $ref: '#/definitions/MethodMatch'
+            path:
+                description: "Paths/URLs to be matched. Field introduced in 18.2.5."
+                $ref: '#/definitions/PathMatch'
+    AuthorizationPolicy:
+        type: object
+        properties:
+            authz_rules:
+                description: "Authorization Policy Rules. Field introduced in 18.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/AuthorizationRule'
+    AuthorizationRule:
+        type: object
+        required:
+            -   enable
+            -   index
+            -   name
+        properties:
+            action:
+                description: "Authorization action when rule is matched. Field introduced in 18.2.5."
+                $ref: '#/definitions/AuthorizationAction'
+            enable:
+                description: "Enable or disable the rule. Field introduced in 18.2.5."
+                type: boolean
+                default: True
+            index:
+                description: "Index of the Authorization Policy rule. Field introduced in 18.2.5."
+                type: integer
+                format: int32
+            match:
+                description: "Authorization match criteria for the rule. Field introduced in 18.2.5."
+                $ref: '#/definitions/AuthorizationMatch'
+            name:
+                description: "Name of the rule. Field introduced in 18.2.5."
                 type: string
     Cif:
         type: object
@@ -2813,6 +2973,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/DnsARdata'
+            metadata:
+                description: "Internal metadata for the DNS record. Field introduced in 18.2.5."
+                type: string
             ns:
                 description: "Name Server information in NS record. Field introduced in 17.1.1."
                 type: array
@@ -2879,6 +3042,23 @@ definitions:
                 type: integer
                 default: 10
                 format: int32
+    HostHdrMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                type: string
+            value:
+                description: "String value(s) in the host header."
+                type: array
+                items:
+                    type: string
     HTTPClientAuthenticationParams:
         type: object
         properties:
@@ -3081,6 +3261,19 @@ definitions:
             replacement_string:
                 description: "Replacement string."
                 $ref: '#/definitions/ReplaceStringVar'
+    MethodMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_criteria:
+                description: "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                type: string
+            methods:
+                description: "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                type: array
+                items:
+                    type: string
     MetricsRealTimeUpdate:
         type: object
         required:
@@ -3094,6 +3287,29 @@ definitions:
             enabled:
                 description: "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
                 type: boolean
+    PathMatch:
+        type: object
+        required:
+            -   match_criteria
+        properties:
+            match_case:
+                description: "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                type: string
+                default: "INSENSITIVE"
+            match_criteria:
+                description: "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                type: string
+                default: "CONTAINS"
+            match_str:
+                description: "String values."
+                type: array
+                items:
+                    type: string
+            string_group_refs:
+                description: "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                type: array
+                items:
+                    type: string
     PerformanceLimits:
         type: object
         properties:
@@ -3284,6 +3500,7 @@ definitions:
         required:
             -   authentication_policy
             -   name
+            -   type
         properties:
             _last_modified:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
@@ -3292,12 +3509,19 @@ definitions:
             authentication_policy:
                 description: "Authentication Policy Settings. Field introduced in 18.2.1."
                 $ref: '#/definitions/AuthenticationPolicy'
+            authorization_policy:
+                description: "Authorization Policy Settings. Field introduced in 18.2.5."
+                $ref: '#/definitions/AuthorizationPolicy'
             name:
                 description: "Name of the SSO Policy. Field introduced in 18.2.3."
                 type: string
             tenant_ref:
                 description: "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
                 type: string
+            type:
+                description: "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5."
+                type: string
+                default: "SSO_TYPE_SAML"
             url:
                 description: "url"
                 readOnly: True
@@ -3425,6 +3649,11 @@ definitions:
             network_ref:
                 description: "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
                 type: string
+            placement_networks:
+                description: "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/VipPlacementNetwork'
             port_uuid:
                 description: "(internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1."
                 type: string
@@ -3443,6 +3672,18 @@ definitions:
             vip_id:
                 description: "Unique ID associated with the vip. Field introduced in 17.1.1."
                 type: string
+    VipPlacementNetwork:
+        type: object
+        properties:
+            network_ref:
+                description: "Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5."
+                type: string
+            subnet:
+                description: "IPv4 Subnet to use for vip placement. Field introduced in 18.2.5."
+                $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "IPv6 subnet to use for vip placement. Field introduced in 18.2.5."
+                $ref: '#/definitions/IpAddrPrefix'
     VirtualService:
         type: object
         required:

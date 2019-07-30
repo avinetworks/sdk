@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VirtualService Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure virtualservice <key>\n- show virtualservice <key>\n- scaleout virtualservice <key>\n- scalein virtualservice <key>\n- migrate virtualservice <key>\n- switchover virtualservice <key>\n- clear virtualservice <key>\n- resync virtualservice <key>\n- rotatekeys virtualservice <key>\n- apicplacement virtualservice <key>\n- retryplacement virtualservice <key>\n```\n\nExamples\n- **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled\n  ```json\n    {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}\n  ```\n\n- **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n\n- **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi\n  ```json\n    {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2097,6 +2097,69 @@
                 ]
             }
         }, 
+        "/virtualservice/{uuid}/ssopolicystats/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
         "/virtualservice/{uuid}/clear": {
             "post": {
                 "security": [
@@ -3721,30 +3784,6 @@
         }
     }, 
     "definitions": {
-        "Lif": {
-            "type": "object", 
-            "properties": {
-                "subnet": {
-                    "type": "string", 
-                    "description": "subnet of Lif."
-                }, 
-                "lif": {
-                    "type": "string", 
-                    "description": "lif of Lif."
-                }, 
-                "cifs": {
-                    "items": {
-                        "$ref": "#/definitions/Cif"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property cifs of obj type Lif field type str  type object"
-                }, 
-                "lif_label": {
-                    "type": "string", 
-                    "description": "lif_label of Lif."
-                }
-            }
-        }, 
         "ServicePoolSelector": {
             "required": [
                 "service_port"
@@ -3775,59 +3814,33 @@
                 }
             }
         }, 
-        "MatchReplacePair": {
+        "Service": {
             "required": [
-                "match_string"
+                "port"
             ], 
             "type": "object", 
             "properties": {
-                "match_string": {
+                "enable_ssl": {
+                    "type": "boolean", 
+                    "description": "Enable SSL termination and offload for traffic from clients."
+                }, 
+                "override_application_profile_ref": {
                     "type": "string", 
-                    "description": "String to be matched."
+                    "description": "Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4."
                 }, 
-                "replacement_string": {
-                    "description": "Replacement string.", 
-                    "$ref": "#/definitions/ReplaceStringVar"
-                }
-            }
-        }, 
-        "IpAddrMatch": {
-            "required": [
-                "match_criteria"
-            ], 
-            "type": "object", 
-            "properties": {
-                "group_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                "port_range_end": {
+                    "type": "integer", 
+                    "description": "The end of the Virtual Service's port number range. Allowed values are 1-65535. Special values are 0- 'single port'.", 
+                    "format": "int32"
                 }, 
-                "prefixes": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address prefix(es)."
+                "port": {
+                    "type": "integer", 
+                    "description": "The Virtual Service's port number. Allowed values are 1-65535.", 
+                    "format": "int32"
                 }, 
-                "ranges": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrRange"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address range(s)."
-                }, 
-                "addrs": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddr"
-                    }, 
-                    "type": "array", 
-                    "description": "IP address(es)."
-                }, 
-                "match_criteria": {
+                "override_network_profile_ref": {
                     "type": "string", 
-                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                    "description": "Override the network profile for this specific service port. It is a reference to an object of type NetworkProfile."
                 }
             }
         }, 
@@ -3854,27 +3867,6 @@
                 }
             }
         }, 
-        "HTTPClientAuthenticationParams": {
-            "type": "object", 
-            "properties": {
-                "realm": {
-                    "type": "string", 
-                    "description": "Basic authentication realm to present to a user along with the prompt for credentials."
-                }, 
-                "auth_profile_ref": {
-                    "type": "string", 
-                    "description": "Auth Profile to use for validating users. It is a reference to an object of type AuthProfile."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "type of client authentication. Enum options - HTTP_BASIC_AUTH."
-                }, 
-                "request_uri_path": {
-                    "description": "Rrequest URI path when the authentication applies.", 
-                    "$ref": "#/definitions/StringMatch"
-                }
-            }
-        }, 
         "DnsAAAARdata": {
             "required": [
                 "ip6_address"
@@ -3884,23 +3876,6 @@
                 "ip6_address": {
                     "description": "IPv6 address for FQDN. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
-        "ClientInsightsSampling": {
-            "type": "object", 
-            "properties": {
-                "skip_uris": {
-                    "description": "URL patterns to avoid when inserting RUM script.", 
-                    "$ref": "#/definitions/StringMatch"
-                }, 
-                "client_ip": {
-                    "description": "Client IP addresses to check when inserting RUM script.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "sample_uris": {
-                    "description": "URL patterns to check when inserting RUM script.", 
-                    "$ref": "#/definitions/StringMatch"
                 }
             }
         }, 
@@ -3924,39 +3899,52 @@
                 }
             }
         }, 
-        "DnsPolicies": {
+        "PathMatch": {
             "required": [
-                "dns_policy_ref", 
-                "index"
+                "match_criteria"
             ], 
             "type": "object", 
             "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Index of the dns policy. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "dns_policy_ref": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
                     "type": "string", 
-                    "description": "UUID of the dns policy. It is a reference to an object of type DnsPolicy. Field introduced in 17.1.1."
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values."
+                }, 
+                "match_criteria": {
+                    "default": "CONTAINS", 
+                    "type": "string", 
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
                 }
             }
         }, 
-        "MetricsRealTimeUpdate": {
-            "required": [
-                "enabled"
-            ], 
+        "VipPlacementNetwork": {
             "type": "object", 
             "properties": {
-                "duration": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
-                    "format": "int32"
+                "subnet": {
+                    "description": "IPv4 Subnet to use for vip placement. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
                 }, 
-                "enabled": {
-                    "type": "boolean", 
-                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                "subnet6": {
+                    "description": "IPv6 subnet to use for vip placement. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }, 
+                "network_ref": {
+                    "type": "string", 
+                    "description": "Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -3983,6 +3971,13 @@
                     "type": "string", 
                     "description": "Single Signon URL to be programmed on the IDP. Field deprecated in 18.2.3. Field introduced in 18.2.1."
                 }, 
+                "authn_rules": {
+                    "items": {
+                        "$ref": "#/definitions/AuthenticationRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Add rules to apply auth profile to specific targets. Field introduced in 18.2.5."
+                }, 
                 "key": {
                     "items": {
                         "$ref": "#/definitions/HttpCookiePersistenceKey"
@@ -4006,66 +4001,35 @@
                 }
             }
         }, 
-        "Cif": {
-            "type": "object", 
-            "properties": {
-                "adapter": {
-                    "type": "string", 
-                    "description": "adapter of Cif."
-                }, 
-                "mac_address": {
-                    "type": "string", 
-                    "description": "mac_address of Cif."
-                }, 
-                "se_uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of se."
-                }, 
-                "resources": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "resources of Cif."
-                }, 
-                "cif": {
-                    "type": "string", 
-                    "description": "cif of Cif."
-                }
-            }
-        }, 
-        "HTTPRedirectAction": {
+        "AuthorizationRule": {
             "required": [
-                "protocol"
+                "enable", 
+                "index", 
+                "name"
             ], 
             "type": "object", 
             "properties": {
-                "host": {
-                    "description": "Host config.", 
-                    "$ref": "#/definitions/URIParam"
+                "action": {
+                    "description": "Authorization action when rule is matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationAction"
                 }, 
-                "protocol": {
-                    "type": "string", 
-                    "description": "Protocol type. Enum options - HTTP, HTTPS."
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the Authorization Policy rule. Field introduced in 18.2.5.", 
+                    "format": "int32"
                 }, 
-                "path": {
-                    "description": "Path config.", 
-                    "$ref": "#/definitions/URIParam"
-                }, 
-                "keep_query": {
+                "enable": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Keep or drop the query of the incoming request URI in the redirected URI."
+                    "description": "Enable or disable the rule. Field introduced in 18.2.5."
                 }, 
-                "status_code": {
-                    "default": "HTTP_REDIRECT_STATUS_CODE_302", 
+                "name": {
                     "type": "string", 
-                    "description": "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                    "description": "Name of the rule. Field introduced in 18.2.5."
                 }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Port to which redirect the request. Allowed values are 1-65535.", 
-                    "format": "int32"
+                "match": {
+                    "description": "Authorization match criteria for the rule. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationMatch"
                 }
             }
         }, 
@@ -4100,53 +4064,6 @@
                     "type": "integer", 
                     "description": "Port number.", 
                     "format": "int32"
-                }
-            }
-        }, 
-        "Service": {
-            "required": [
-                "port"
-            ], 
-            "type": "object", 
-            "properties": {
-                "enable_ssl": {
-                    "type": "boolean", 
-                    "description": "Enable SSL termination and offload for traffic from clients."
-                }, 
-                "override_application_profile_ref": {
-                    "type": "string", 
-                    "description": "Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4."
-                }, 
-                "port_range_end": {
-                    "type": "integer", 
-                    "description": "The end of the Virtual Service's port number range. Allowed values are 1-65535. Special values are 0- 'single port'.", 
-                    "format": "int32"
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "The Virtual Service's port number. Allowed values are 1-65535.", 
-                    "format": "int32"
-                }, 
-                "override_network_profile_ref": {
-                    "type": "string", 
-                    "description": "Override the network profile for this specific service port. It is a reference to an object of type NetworkProfile."
-                }
-            }
-        }, 
-        "SSLProfileSelector": {
-            "required": [
-                "client_ip_list", 
-                "ssl_profile_ref"
-            ], 
-            "type": "object", 
-            "properties": {
-                "client_ip_list": {
-                    "description": "Configure client IP address groups. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "ssl_profile_ref": {
-                    "type": "string", 
-                    "description": "SSL profile for the client IP addresses listed. It is a reference to an object of type SSLProfile. Field introduced in 18.2.3."
                 }
             }
         }, 
@@ -4237,41 +4154,6 @@
                 }
             }
         }, 
-        "SSOPolicy": {
-            "required": [
-                "authentication_policy", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the SSO Policy. Field introduced in 18.2.3."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
-                }, 
-                "authentication_policy": {
-                    "description": "Authentication Policy Settings. Field introduced in 18.2.1.", 
-                    "$ref": "#/definitions/AuthenticationPolicy"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the SSO Policy. Field introduced in 18.2.3."
-                }
-            }
-        }, 
         "SSOPolicyApiResponse": {
             "required": [
                 "count", 
@@ -4335,47 +4217,6 @@
                 }
             }
         }, 
-        "ClientLogFilter": {
-            "required": [
-                "enabled", 
-                "index", 
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Number of index.", 
-                    "format": "int32"
-                }, 
-                "client_ip": {
-                    "description": "Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object", 
-                    "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "duration": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": " Special values are 0 - 'infinite'.", 
-                    "format": "int32"
-                }, 
-                "all_headers": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property all_headers of obj type ClientLogFilter field type str  type boolean"
-                }, 
-                "enabled": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property enabled of obj type ClientLogFilter field type str  type boolean"
-                }, 
-                "uri": {
-                    "description": "Placeholder for description of property uri of obj type ClientLogFilter field type str  type object", 
-                    "$ref": "#/definitions/StringMatch"
-                }
-            }
-        }, 
         "APICNetworkRel": {
             "type": "object", 
             "properties": {
@@ -4393,29 +4234,35 @@
                 }
             }
         }, 
-        "DiscoveredNetwork": {
+        "AuthenticationRule": {
             "required": [
-                "network_ref"
+                "enable", 
+                "index", 
+                "name"
             ], 
             "type": "object", 
             "properties": {
-                "subnet": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered subnet for this IP."
+                "action": {
+                    "description": "Enable or disable authentication for matched targets. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthenticationAction"
                 }, 
-                "subnet6": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the rule. Field introduced in 18.2.5.", 
+                    "format": "int32"
                 }, 
-                "network_ref": {
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the rule. Field introduced in 18.2.5."
+                }, 
+                "name": {
                     "type": "string", 
-                    "description": "Discovered network for this IP. It is a reference to an object of type Network."
+                    "description": "Name of the rule. Field introduced in 18.2.5."
+                }, 
+                "match": {
+                    "description": "Add match criteria to the rule. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthenticationMatch"
                 }
             }
         }, 
@@ -4915,34 +4762,31 @@
                 }
             }
         }, 
-        "ContentRewriteProfile": {
+        "Cif": {
             "type": "object", 
             "properties": {
-                "rewritable_content_ref": {
+                "adapter": {
                     "type": "string", 
-                    "description": "Rewrite only content types listed in this string group. Content types not present in this list are not rewritten. It is a reference to an object of type StringGroup."
+                    "description": "adapter of Cif."
                 }, 
-                "response_rewrite_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable rewrite on response body."
+                "mac_address": {
+                    "type": "string", 
+                    "description": "mac_address of Cif."
                 }, 
-                "request_rewrite_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable rewrite on request body."
+                "se_uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of se."
                 }, 
-                "req_match_replace_pair": {
+                "resources": {
                     "items": {
-                        "$ref": "#/definitions/MatchReplacePair"
+                        "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Strings to be matched and replaced with on the request body."
+                    "description": "resources of Cif."
                 }, 
-                "rsp_match_replace_pair": {
-                    "items": {
-                        "$ref": "#/definitions/MatchReplacePair"
-                    }, 
-                    "type": "array", 
-                    "description": "Strings to be matched and replaced with on the response body."
+                "cif": {
+                    "type": "string", 
+                    "description": "cif of Cif."
                 }
             }
         }, 
@@ -4965,21 +4809,6 @@
                 }
             }
         }, 
-        "PerformanceLimits": {
-            "type": "object", 
-            "properties": {
-                "max_concurrent_connections": {
-                    "type": "integer", 
-                    "description": "The maximum number of concurrent client conections allowed to the Virtual Service.", 
-                    "format": "int32"
-                }, 
-                "max_throughput": {
-                    "type": "integer", 
-                    "description": "The maximum throughput per second for all clients allowed through the client side of the Virtual Service.", 
-                    "format": "int32"
-                }
-            }
-        }, 
         "IpAddrPrefix": {
             "required": [
                 "ip_addr", 
@@ -4995,105 +4824,6 @@
                     "type": "integer", 
                     "description": "Number of mask.", 
                     "format": "int32"
-                }
-            }
-        }, 
-        "VsMigrateParams": {
-            "required": [
-                "vip_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "new_vcpus": {
-                    "type": "integer", 
-                    "description": "Number of new_vcpus.", 
-                    "format": "int32"
-                }, 
-                "to_new_se": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property to_new_se of obj type VsMigrateParams field type str  type boolean"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "from_se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "to_host_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VIMgrHostRuntime."
-                }, 
-                "to_se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "vip_id": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "SAMLSPConfig": {
-            "required": [
-                "entity_id", 
-                "single_signon_url"
-            ], 
-            "type": "object", 
-            "properties": {
-                "single_signon_url": {
-                    "type": "string", 
-                    "description": "SAML Single Signon URL to be programmed on the IDP. Field introduced in 18.2.3."
-                }, 
-                "entity_id": {
-                    "type": "string", 
-                    "description": "Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3."
-                }, 
-                "signing_ssl_key_and_certificate_ref": {
-                    "type": "string", 
-                    "description": "SP will use this SSL certificate to sign assertions going to the IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3."
-                }, 
-                "key": {
-                    "items": {
-                        "$ref": "#/definitions/HttpCookiePersistenceKey"
-                    }, 
-                    "type": "array", 
-                    "description": "Key to generate the cookie. Field introduced in 18.2.3."
-                }, 
-                "sp_metadata": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "SAML SP metadata for this application. Field introduced in 18.2.3."
-                }, 
-                "cookie_name": {
-                    "type": "string", 
-                    "description": "HTTP cookie name for authenticated session. Field introduced in 18.2.3."
-                }, 
-                "cookie_timeout": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "URIParam": {
-            "required": [
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "tokens": {
-                    "items": {
-                        "$ref": "#/definitions/URIParamToken"
-                    }, 
-                    "type": "array", 
-                    "description": "Token config either for the URI components or a constant string."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
                 }
             }
         }, 
@@ -5190,6 +4920,691 @@
                 }
             }
         }, 
+        "L4Policies": {
+            "required": [
+                "index", 
+                "l4_policy_set_ref"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the virtual service L4 policy set. Field introduced in 17.2.7.", 
+                    "format": "int32"
+                }, 
+                "l4_policy_set_ref": {
+                    "type": "string", 
+                    "description": "ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7."
+                }
+            }
+        }, 
+        "VsScaleoutParams": {
+            "required": [
+                "vip_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "new_vcpus": {
+                    "type": "integer", 
+                    "description": "Number of new_vcpus.", 
+                    "format": "int32"
+                }, 
+                "to_new_se": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property to_new_se of obj type VsScaleoutParams field type str  type boolean"
+                }, 
+                "vip_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.1."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "to_host_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VIMgrHostRuntime."
+                }, 
+                "to_se_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "admin_up": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property admin_up of obj type VsScaleoutParams field type str  type boolean"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "DnsInfo": {
+            "type": "object", 
+            "properties": {
+                "cname": {
+                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
+                    "$ref": "#/definitions/DnsCnameRdata"
+                }, 
+                "algorithm": {
+                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
+                    "type": "string", 
+                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
+                }, 
+                "ttl": {
+                    "type": "integer", 
+                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
+                    "format": "int32"
+                }, 
+                "num_records_in_response": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "type": {
+                    "default": "DNS_RECORD_A", 
+                    "type": "string", 
+                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
+                }, 
+                "fqdn": {
+                    "type": "string", 
+                    "description": "Fully qualified domain name."
+                }, 
+                "metadata": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
+                }
+            }
+        }, 
+        "DnsSrvRdata": {
+            "required": [
+                "port"
+            ], 
+            "type": "object", 
+            "properties": {
+                "priority": {
+                    "type": "integer", 
+                    "description": "Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535.", 
+                    "format": "int32"
+                }, 
+                "port": {
+                    "type": "integer", 
+                    "description": "Service port. Allowed values are 0-65535.", 
+                    "format": "int32"
+                }, 
+                "weight": {
+                    "type": "integer", 
+                    "description": "Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535.", 
+                    "format": "int32"
+                }, 
+                "target": {
+                    "default": "default.host", 
+                    "type": "string", 
+                    "description": "Canonical hostname, of the machine hosting the service, with no trailing period. 'default.host' is valid but not 'default.host.'."
+                }
+            }
+        }, 
+        "VsMigrateParams": {
+            "required": [
+                "vip_id"
+            ], 
+            "type": "object", 
+            "properties": {
+                "new_vcpus": {
+                    "type": "integer", 
+                    "description": "Number of new_vcpus.", 
+                    "format": "int32"
+                }, 
+                "to_new_se": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property to_new_se of obj type VsMigrateParams field type str  type boolean"
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of the object."
+                }, 
+                "from_se_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "to_host_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VIMgrHostRuntime."
+                }, 
+                "to_se_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "vip_id": {
+                    "type": "string", 
+                    "description": " Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "Lif": {
+            "type": "object", 
+            "properties": {
+                "subnet": {
+                    "type": "string", 
+                    "description": "subnet of Lif."
+                }, 
+                "lif": {
+                    "type": "string", 
+                    "description": "lif of Lif."
+                }, 
+                "cifs": {
+                    "items": {
+                        "$ref": "#/definitions/Cif"
+                    }, 
+                    "type": "array", 
+                    "description": "Placeholder for description of property cifs of obj type Lif field type str  type object"
+                }, 
+                "lif_label": {
+                    "type": "string", 
+                    "description": "lif_label of Lif."
+                }
+            }
+        }, 
+        "MatchReplacePair": {
+            "required": [
+                "match_string"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_string": {
+                    "type": "string", 
+                    "description": "String to be matched."
+                }, 
+                "replacement_string": {
+                    "description": "Replacement string.", 
+                    "$ref": "#/definitions/ReplaceStringVar"
+                }
+            }
+        }, 
+        "IpAddrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                }, 
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "AuthenticationMatch": {
+            "type": "object", 
+            "properties": {
+                "host_hdr": {
+                    "description": "Configure the host header. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "client_ip": {
+                    "description": "Configure client ip addresses. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "path": {
+                    "description": "Configure request paths. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/PathMatch"
+                }
+            }
+        }, 
+        "HTTPClientAuthenticationParams": {
+            "type": "object", 
+            "properties": {
+                "realm": {
+                    "type": "string", 
+                    "description": "Basic authentication realm to present to a user along with the prompt for credentials."
+                }, 
+                "auth_profile_ref": {
+                    "type": "string", 
+                    "description": "Auth Profile to use for validating users. It is a reference to an object of type AuthProfile."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "type of client authentication. Enum options - HTTP_BASIC_AUTH."
+                }, 
+                "request_uri_path": {
+                    "description": "Rrequest URI path when the authentication applies.", 
+                    "$ref": "#/definitions/StringMatch"
+                }
+            }
+        }, 
+        "AuthorizationPolicy": {
+            "type": "object", 
+            "properties": {
+                "authz_rules": {
+                    "items": {
+                        "$ref": "#/definitions/AuthorizationRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Authorization Policy Rules. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "ClientInsightsSampling": {
+            "type": "object", 
+            "properties": {
+                "skip_uris": {
+                    "description": "URL patterns to avoid when inserting RUM script.", 
+                    "$ref": "#/definitions/StringMatch"
+                }, 
+                "client_ip": {
+                    "description": "Client IP addresses to check when inserting RUM script.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "sample_uris": {
+                    "description": "URL patterns to check when inserting RUM script.", 
+                    "$ref": "#/definitions/StringMatch"
+                }
+            }
+        }, 
+        "DnsPolicies": {
+            "required": [
+                "dns_policy_ref", 
+                "index"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the dns policy. Field introduced in 17.1.1.", 
+                    "format": "int32"
+                }, 
+                "dns_policy_ref": {
+                    "type": "string", 
+                    "description": "UUID of the dns policy. It is a reference to an object of type DnsPolicy. Field introduced in 17.1.1."
+                }
+            }
+        }, 
+        "MetricsRealTimeUpdate": {
+            "required": [
+                "enabled"
+            ], 
+            "type": "object", 
+            "properties": {
+                "duration": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track."
+                }
+            }
+        }, 
+        "MethodMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "HTTPRedirectAction": {
+            "required": [
+                "protocol"
+            ], 
+            "type": "object", 
+            "properties": {
+                "host": {
+                    "description": "Host config.", 
+                    "$ref": "#/definitions/URIParam"
+                }, 
+                "protocol": {
+                    "type": "string", 
+                    "description": "Protocol type. Enum options - HTTP, HTTPS."
+                }, 
+                "path": {
+                    "description": "Path config.", 
+                    "$ref": "#/definitions/URIParam"
+                }, 
+                "keep_query": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Keep or drop the query of the incoming request URI in the redirected URI."
+                }, 
+                "status_code": {
+                    "default": "HTTP_REDIRECT_STATUS_CODE_302", 
+                    "type": "string", 
+                    "description": "HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307."
+                }, 
+                "port": {
+                    "type": "integer", 
+                    "description": "Port to which redirect the request. Allowed values are 1-65535.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "SSLProfileSelector": {
+            "required": [
+                "client_ip_list", 
+                "ssl_profile_ref"
+            ], 
+            "type": "object", 
+            "properties": {
+                "client_ip_list": {
+                    "description": "Configure client IP address groups. Field introduced in 18.2.3.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "ssl_profile_ref": {
+                    "type": "string", 
+                    "description": "SSL profile for the client IP addresses listed. It is a reference to an object of type SSLProfile. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "HostHdrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "value": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s) in the host header."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
+                }
+            }
+        }, 
+        "SSOPolicy": {
+            "required": [
+                "authentication_policy", 
+                "name", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
+                }, 
+                "authentication_policy": {
+                    "description": "Authentication Policy Settings. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/AuthenticationPolicy"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the SSO Policy. Field introduced in 18.2.3."
+                }, 
+                "authorization_policy": {
+                    "description": "Authorization Policy Settings. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationPolicy"
+                }, 
+                "type": {
+                    "default": "SSO_TYPE_SAML", 
+                    "type": "string", 
+                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the SSO Policy. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "ClientLogFilter": {
+            "required": [
+                "enabled", 
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "index": {
+                    "type": "integer", 
+                    "description": "Number of index.", 
+                    "format": "int32"
+                }, 
+                "client_ip": {
+                    "description": "Placeholder for description of property client_ip of obj type ClientLogFilter field type str  type object", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
+                }, 
+                "duration": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": " Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
+                "all_headers": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property all_headers of obj type ClientLogFilter field type str  type boolean"
+                }, 
+                "enabled": {
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property enabled of obj type ClientLogFilter field type str  type boolean"
+                }, 
+                "uri": {
+                    "description": "Placeholder for description of property uri of obj type ClientLogFilter field type str  type object", 
+                    "$ref": "#/definitions/StringMatch"
+                }
+            }
+        }, 
+        "AuthorizationMatch": {
+            "type": "object", 
+            "properties": {
+                "host_hdr": {
+                    "description": "Host header value to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "attr_matches": {
+                    "items": {
+                        "$ref": "#/definitions/AuthAttributeMatch"
+                    }, 
+                    "type": "array", 
+                    "description": "Attributes whose values need to be matched . Field introduced in 18.2.5."
+                }, 
+                "method": {
+                    "description": "HTTP methods to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/MethodMatch"
+                }, 
+                "path": {
+                    "description": "Paths/URLs to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/PathMatch"
+                }
+            }
+        }, 
+        "ContentRewriteProfile": {
+            "type": "object", 
+            "properties": {
+                "rewritable_content_ref": {
+                    "type": "string", 
+                    "description": "Rewrite only content types listed in this string group. Content types not present in this list are not rewritten. It is a reference to an object of type StringGroup."
+                }, 
+                "response_rewrite_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable rewrite on response body."
+                }, 
+                "request_rewrite_enabled": {
+                    "type": "boolean", 
+                    "description": "Enable rewrite on request body."
+                }, 
+                "req_match_replace_pair": {
+                    "items": {
+                        "$ref": "#/definitions/MatchReplacePair"
+                    }, 
+                    "type": "array", 
+                    "description": "Strings to be matched and replaced with on the request body."
+                }, 
+                "rsp_match_replace_pair": {
+                    "items": {
+                        "$ref": "#/definitions/MatchReplacePair"
+                    }, 
+                    "type": "array", 
+                    "description": "Strings to be matched and replaced with on the response body."
+                }
+            }
+        }, 
+        "PerformanceLimits": {
+            "type": "object", 
+            "properties": {
+                "max_concurrent_connections": {
+                    "type": "integer", 
+                    "description": "The maximum number of concurrent client conections allowed to the Virtual Service.", 
+                    "format": "int32"
+                }, 
+                "max_throughput": {
+                    "type": "integer", 
+                    "description": "The maximum throughput per second for all clients allowed through the client side of the Virtual Service.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "AuthAttributeMatch": {
+            "type": "object", 
+            "properties": {
+                "attribute_value_list": {
+                    "description": "Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/StringMatch"
+                }, 
+                "attribute_name": {
+                    "type": "string", 
+                    "description": "Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "SAMLSPConfig": {
+            "required": [
+                "entity_id", 
+                "single_signon_url"
+            ], 
+            "type": "object", 
+            "properties": {
+                "single_signon_url": {
+                    "type": "string", 
+                    "description": "SAML Single Signon URL to be programmed on the IDP. Field introduced in 18.2.3."
+                }, 
+                "entity_id": {
+                    "type": "string", 
+                    "description": "Globally unique SAML entityID for this node. The SAML application entity ID on the IDP should match this. Field introduced in 18.2.3."
+                }, 
+                "signing_ssl_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "SP will use this SSL certificate to sign assertions going to the IdP. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 18.2.3."
+                }, 
+                "key": {
+                    "items": {
+                        "$ref": "#/definitions/HttpCookiePersistenceKey"
+                    }, 
+                    "type": "array", 
+                    "description": "Key to generate the cookie. Field introduced in 18.2.3."
+                }, 
+                "sp_metadata": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "SAML SP metadata for this application. Field introduced in 18.2.3."
+                }, 
+                "cookie_name": {
+                    "type": "string", 
+                    "description": "HTTP cookie name for authenticated session. Field introduced in 18.2.3."
+                }, 
+                "cookie_timeout": {
+                    "default": 60, 
+                    "type": "integer", 
+                    "description": "Cookie timeout in minutes. Allowed values are 1-1440. Field introduced in 18.2.3.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "URIParam": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "tokens": {
+                    "items": {
+                        "$ref": "#/definitions/URIParamToken"
+                    }, 
+                    "type": "array", 
+                    "description": "Token config either for the URI components or a constant string."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "URI param type. Enum options - URI_PARAM_TYPE_TOKENIZED."
+                }
+            }
+        }, 
         "DnsRecord": {
             "required": [
                 "type"
@@ -5265,6 +5680,25 @@
                 "type": {
                     "type": "string", 
                     "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
+                }, 
+                "metadata": {
+                    "type": "string", 
+                    "description": "Internal metadata for the DNS record. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "AuthorizationAction": {
+            "type": "object", 
+            "properties": {
+                "status_code": {
+                    "default": "HTTP_RESPONSE_STATUS_CODE_403", 
+                    "type": "string", 
+                    "description": "HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5."
+                }, 
+                "type": {
+                    "default": "ALLOW_ACCESS", 
+                    "type": "string", 
+                    "description": "Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -5296,21 +5730,16 @@
                 }
             }
         }, 
-        "L4Policies": {
+        "AuthenticationAction": {
             "required": [
-                "index", 
-                "l4_policy_set_ref"
+                "type"
             ], 
             "type": "object", 
             "properties": {
-                "index": {
-                    "type": "integer", 
-                    "description": "Index of the virtual service L4 policy set. Field introduced in 17.2.7.", 
-                    "format": "int32"
-                }, 
-                "l4_policy_set_ref": {
+                "type": {
+                    "default": "USE_DEFAULT_AUTHENTICATION", 
                     "type": "string", 
-                    "description": "ID of the virtual service L4 policy set. It is a reference to an object of type L4PolicySet. Field introduced in 17.2.7."
+                    "description": "Authentication Action to be taken for a matched Rule. Enum options - SKIP_AUTHENTICATION, USE_DEFAULT_AUTHENTICATION. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -5370,42 +5799,16 @@
                 }
             }
         }, 
-        "DnsInfo": {
+        "ReplaceStringVar": {
             "type": "object", 
             "properties": {
-                "cname": {
-                    "description": "Canonical name in CNAME record. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/DnsCnameRdata"
-                }, 
-                "algorithm": {
-                    "default": "DNS_RECORD_RESPONSE_CONSISTENT_HASH", 
-                    "type": "string", 
-                    "description": "Specifies the algorithm to pick the IP address(es) to be returned, when multiple entries are configured. This does not apply if num_records_in_response is 0. Default is consistent hash. Enum options - DNS_RECORD_RESPONSE_ROUND_ROBIN, DNS_RECORD_RESPONSE_CONSISTENT_HASH. Field introduced in 17.1.1."
-                }, 
-                "ttl": {
-                    "type": "integer", 
-                    "description": "Time to live for fqdn record. Default value is chosen from DNS profile for this cloud if no value provided.", 
-                    "format": "int32"
-                }, 
-                "num_records_in_response": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Specifies the number of records returned for this FQDN. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- 'Return all records'. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
                 "type": {
-                    "default": "DNS_RECORD_A", 
                     "type": "string", 
-                    "description": "DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY."
+                    "description": "Type of replacement string - can be a variable exposed from datascript, value of an HTTP header or a custom user-input literal string. Enum options - DATASCRIPT_VAR, HTTP_HEADER_VAR, LITERAL_STRING."
                 }, 
-                "fqdn": {
+                "val": {
                     "type": "string", 
-                    "description": "Fully qualified domain name."
-                }, 
-                "metadata": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "Any metadata associated with this record. Field introduced in 17.2.2."
+                    "description": "Value of the replacement string - name of variable exposed from datascript, name of the HTTP header or a custom user-input literal string."
                 }
             }
         }, 
@@ -5524,74 +5927,42 @@
                     "description": "Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1.", 
                     "$ref": "#/definitions/IPNetworkSubnet"
                 }, 
+                "placement_networks": {
+                    "items": {
+                        "$ref": "#/definitions/VipPlacementNetwork"
+                    }, 
+                    "type": "array", 
+                    "description": "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5."
+                }, 
                 "subnet6": {
                     "description": "Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1.", 
                     "$ref": "#/definitions/IpAddrPrefix"
                 }
             }
         }, 
-        "DnsSrvRdata": {
+        "DiscoveredNetwork": {
             "required": [
-                "port"
+                "network_ref"
             ], 
             "type": "object", 
             "properties": {
-                "priority": {
-                    "type": "integer", 
-                    "description": "Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535.", 
-                    "format": "int32"
+                "subnet": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered subnet for this IP."
                 }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Service port. Allowed values are 0-65535.", 
-                    "format": "int32"
+                "subnet6": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "Discovered IPv6 subnet for this IP. Field introduced in 18.1.1."
                 }, 
-                "weight": {
-                    "type": "integer", 
-                    "description": "Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535.", 
-                    "format": "int32"
-                }, 
-                "target": {
-                    "default": "default.host", 
+                "network_ref": {
                     "type": "string", 
-                    "description": "Canonical hostname, of the machine hosting the service, with no trailing period. 'default.host' is valid but not 'default.host.'."
-                }
-            }
-        }, 
-        "VsScaleoutParams": {
-            "required": [
-                "vip_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "new_vcpus": {
-                    "type": "integer", 
-                    "description": "Number of new_vcpus.", 
-                    "format": "int32"
-                }, 
-                "to_new_se": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property to_new_se of obj type VsScaleoutParams field type str  type boolean"
-                }, 
-                "vip_id": {
-                    "type": "string", 
-                    "description": " Field introduced in 17.1.1."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "to_host_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type VIMgrHostRuntime."
-                }, 
-                "to_se_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngine."
-                }, 
-                "admin_up": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property admin_up of obj type VsScaleoutParams field type str  type boolean"
+                    "description": "Discovered network for this IP. It is a reference to an object of type Network."
                 }
             }
         }, 
@@ -5604,19 +5975,6 @@
                 "cname": {
                     "type": "string", 
                     "description": "Canonical name."
-                }
-            }
-        }, 
-        "ReplaceStringVar": {
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": "Type of replacement string - can be a variable exposed from datascript, value of an HTTP header or a custom user-input literal string. Enum options - DATASCRIPT_VAR, HTTP_HEADER_VAR, LITERAL_STRING."
-                }, 
-                "val": {
-                    "type": "string", 
-                    "description": "Value of the replacement string - name of variable exposed from datascript, name of the HTTP header or a custom user-input literal string."
                 }
             }
         }, 
@@ -5686,23 +6044,6 @@
                 "aes_key": {
                     "type": "string", 
                     "description": "aes_key of HttpCookiePersistenceKey."
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
                 }
             }
         }

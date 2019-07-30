@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi HealthMonitor Object API
     contact:
         name: Avi Networks Inc.
@@ -500,6 +500,10 @@ definitions:
                 description: "When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses. Enum options - RCODE_NO_ERROR, RCODE_ANYTHING."
                 type: string
                 default: "RCODE_NO_ERROR"
+            record_type:
+                description: "Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.5."
+                type: string
+                default: "DNS_RECORD_A"
             response_string:
                 description: "The resource record of the queried DNS server's response for the Request Name must include the IP address defined in this field. ."
                 type: string
@@ -568,16 +572,15 @@ definitions:
                 type: string
     HealthMonitorSIP:
         type: object
-        required:
-            -   sip_request_code
         properties:
             sip_monitor_transport:
                 description: "Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1."
                 type: string
                 default: "SIP_UDP_PROTO"
             sip_request_code:
-                description: "Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1."
+                description: "Specify the SIP request to be sent to the server. By default, SIP OPTIONS request will be sent. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 type: string
+                default: "SIP_OPTIONS"
             sip_response:
                 description: "Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8, 18.1.3, 18.2.1."
                 type: string
