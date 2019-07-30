@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -606,7 +606,7 @@
                 "receive_window": {
                     "default": 64, 
                     "type": "integer", 
-                    "description": "Size of the receive window. Allowed values are 32-65536.", 
+                    "description": "Size of the receive window. Allowed values are 2-65536.", 
                     "format": "int32"
                 }, 
                 "aggressive_congestion_avoidance": {
@@ -718,7 +718,7 @@
                 "session_idle_timeout": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
+                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-7200. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }
             }

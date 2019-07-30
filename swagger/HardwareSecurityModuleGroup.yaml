@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi HardwareSecurityModuleGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -463,7 +463,7 @@ definitions:
             ha_group_num:
                 description: "Group Number of generated HA Group."
                 type: integer
-                format: int32
+                format: int64
             is_ha:
                 description: "Set to indicate HA across more than one servers."
                 type: boolean

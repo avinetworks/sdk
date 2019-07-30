@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi ServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -3367,6 +3367,10 @@ definitions:
                 description: "Placeholder for description of property dhcp_enabled of obj type VlanInterface field type str  type boolean"
                 type: boolean
                 default: True
+            enabled:
+                description: "Enable the interface. Field introduced in 18.2.5."
+                type: boolean
+                default: True
             if_name:
                 description: "if_name of VlanInterface."
                 type: string
@@ -3409,6 +3413,9 @@ definitions:
                 type: boolean
             del_pending:
                 description: "Placeholder for description of property del_pending of obj type vNIC field type str  type boolean"
+                type: boolean
+            delete_vnic:
+                description: "Delete this VNIC. Please confirm dp_deletion_done before removing the VNIC from the cloud. Field introduced in 18.2.5."
                 type: boolean
             dhcp_enabled:
                 description: "Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean"

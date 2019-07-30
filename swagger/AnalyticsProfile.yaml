@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi AnalyticsProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -772,6 +772,9 @@ definitions:
                 type: integer
                 default: 514
                 format: int32
+            format_config:
+                description: "Configuration to specify the format of streamed logs. By default, each log is encoded in JSON format. Field introduced in 18.2.5."
+                $ref: '#/definitions/ClientLogStreamingFormat'
             log_types_to_send:
                 description: "Type of logs to stream to the external server. Default is LOGS_ALL, i.e., send all logs. Enum options - LOGS_SIGNIFICANT_ONLY, LOGS_UDF_ONLY, LOGS_UDF_SIGNIFICANT, LOGS_ALL. Field introduced in 17.1.1."
                 type: string
@@ -788,6 +791,19 @@ definitions:
             syslog_config:
                 description: "Syslog configuration if a Syslog-based protocol is specified for streaming. Field introduced in 18.1.1."
                 $ref: '#/definitions/StreamingSyslogConfig'
+    ClientLogStreamingFormat:
+        type: object
+        required:
+            -   format
+        properties:
+            format:
+                description: "Format for the streamed logs. Enum options - LOG_STREAMING_FORMAT_JSON_FULL, LOG_STREAMING_FORMAT_JSON_SELECTED. Field introduced in 18.2.5."
+                type: string
+            included_fields:
+                description: "List of log fields to be streamed, when selective fields (LOG_STREAMING_FORMAT_JSON_SELECTED) option is chosen. Only top-level fields in application or connection logs are supported. Field introduced in 18.2.5."
+                type: array
+                items:
+                    type: string
     HTTPStatusRange:
         type: object
         required:

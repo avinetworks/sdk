@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SSOPolicy Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure ssopolicy <key>\n- show ssopolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -494,39 +494,384 @@
         }
     }, 
     "definitions": {
-        "SSOPolicyApiResponse": {
+        "IpAddrRange": {
             "required": [
-                "count", 
-                "results"
+                "begin", 
+                "end"
             ], 
             "type": "object", 
             "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
+                "begin": {
+                    "description": "Starting IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/SSOPolicy"
-                    }, 
-                    "type": "array"
+                "end": {
+                    "description": "Ending IP address of the range.", 
+                    "$ref": "#/definitions/IpAddr"
                 }
             }
         }, 
-        "HttpCookiePersistenceKey": {
+        "AuthorizationMatch": {
             "type": "object", 
             "properties": {
-                "hmac_key": {
+                "host_hdr": {
+                    "description": "Host header value to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "attr_matches": {
+                    "items": {
+                        "$ref": "#/definitions/AuthAttributeMatch"
+                    }, 
+                    "type": "array", 
+                    "description": "Attributes whose values need to be matched . Field introduced in 18.2.5."
+                }, 
+                "method": {
+                    "description": "HTTP methods to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/MethodMatch"
+                }, 
+                "path": {
+                    "description": "Paths/URLs to be matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/PathMatch"
+                }
+            }
+        }, 
+        "MethodMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK."
+                }, 
+                "match_criteria": {
                     "type": "string", 
-                    "description": "hmac_key of HttpCookiePersistenceKey."
+                    "description": "Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "IpAddrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of IP address group(s). It is a reference to an object of type IpAddrGroup."
+                }, 
+                "prefixes": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address prefix(es)."
+                }, 
+                "ranges": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddrRange"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address range(s)."
+                }, 
+                "addrs": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "IP address(es)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for IP address matching the HTTP request. Enum options - IS_IN, IS_NOT_IN."
+                }
+            }
+        }, 
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
+            "type": "object", 
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
+                "mask": {
+                    "type": "integer", 
+                    "description": "Number of mask.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "AuthAttributeMatch": {
+            "type": "object", 
+            "properties": {
+                "attribute_value_list": {
+                    "description": "Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/StringMatch"
+                }, 
+                "attribute_name": {
+                    "type": "string", 
+                    "description": "Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "AuthenticationMatch": {
+            "type": "object", 
+            "properties": {
+                "host_hdr": {
+                    "description": "Configure the host header. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/HostHdrMatch"
+                }, 
+                "client_ip": {
+                    "description": "Configure client ip addresses. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/IpAddrMatch"
+                }, 
+                "path": {
+                    "description": "Configure request paths. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/PathMatch"
+                }
+            }
+        }, 
+        "AuthorizationPolicy": {
+            "type": "object", 
+            "properties": {
+                "authz_rules": {
+                    "items": {
+                        "$ref": "#/definitions/AuthorizationRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Authorization Policy Rules. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "PathMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String values."
+                }, 
+                "match_criteria": {
+                    "default": "CONTAINS", 
+                    "type": "string", 
+                    "description": "Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                }
+            }
+        }, 
+        "SSOPolicy": {
+            "required": [
+                "authentication_policy", 
+                "name", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
+                }, 
+                "authentication_policy": {
+                    "description": "Authentication Policy Settings. Field introduced in 18.2.1.", 
+                    "$ref": "#/definitions/AuthenticationPolicy"
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "name to use for cookie encryption."
+                    "description": "Name of the SSO Policy. Field introduced in 18.2.3."
                 }, 
-                "aes_key": {
+                "authorization_policy": {
+                    "description": "Authorization Policy Settings. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationPolicy"
+                }, 
+                "type": {
+                    "default": "SSO_TYPE_SAML", 
                     "type": "string", 
-                    "description": "aes_key of HttpCookiePersistenceKey."
+                    "description": "SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the SSO Policy. Field introduced in 18.2.3."
+                }
+            }
+        }, 
+        "AuthorizationRule": {
+            "required": [
+                "enable", 
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "action": {
+                    "description": "Authorization action when rule is matched. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationAction"
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the Authorization Policy rule. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the rule. Field introduced in 18.2.5."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 18.2.5."
+                }, 
+                "match": {
+                    "description": "Authorization match criteria for the rule. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthorizationMatch"
+                }
+            }
+        }, 
+        "AuthenticationAction": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "default": "USE_DEFAULT_AUTHENTICATION", 
+                    "type": "string", 
+                    "description": "Authentication Action to be taken for a matched Rule. Enum options - SKIP_AUTHENTICATION, USE_DEFAULT_AUTHENTICATION. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "AuthenticationRule": {
+            "required": [
+                "enable", 
+                "index", 
+                "name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "action": {
+                    "description": "Enable or disable authentication for matched targets. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthenticationAction"
+                }, 
+                "index": {
+                    "type": "integer", 
+                    "description": "Index of the rule. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable or disable the rule. Field introduced in 18.2.5."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the rule. Field introduced in 18.2.5."
+                }, 
+                "match": {
+                    "description": "Add match criteria to the rule. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/AuthenticationMatch"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "StringMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "string_group_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "UUID of the string group(s). It is a reference to an object of type StringGroup."
+                }, 
+                "match_str": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s)."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for string matching the HTTP request. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
+                }
+            }
+        }, 
+        "HostHdrMatch": {
+            "required": [
+                "match_criteria"
+            ], 
+            "type": "object", 
+            "properties": {
+                "match_case": {
+                    "default": "INSENSITIVE", 
+                    "type": "string", 
+                    "description": "Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE."
+                }, 
+                "value": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "String value(s) in the host header."
+                }, 
+                "match_criteria": {
+                    "type": "string", 
+                    "description": "Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL."
                 }
             }
         }, 
@@ -553,6 +898,13 @@
                     "type": "string", 
                     "description": "Single Signon URL to be programmed on the IDP. Field deprecated in 18.2.3. Field introduced in 18.2.1."
                 }, 
+                "authn_rules": {
+                    "items": {
+                        "$ref": "#/definitions/AuthenticationRule"
+                    }, 
+                    "type": "array", 
+                    "description": "Add rules to apply auth profile to specific targets. Field introduced in 18.2.5."
+                }, 
                 "key": {
                     "items": {
                         "$ref": "#/definitions/HttpCookiePersistenceKey"
@@ -576,38 +928,54 @@
                 }
             }
         }, 
-        "SSOPolicy": {
+        "SSOPolicyApiResponse": {
             "required": [
-                "authentication_policy", 
-                "name"
+                "count", 
+                "results"
             ], 
             "type": "object", 
             "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
                 }, 
-                "uuid": {
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/SSOPolicy"
+                    }, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "AuthorizationAction": {
+            "type": "object", 
+            "properties": {
+                "status_code": {
+                    "default": "HTTP_RESPONSE_STATUS_CODE_403", 
                     "type": "string", 
-                    "description": "UUID of the SSO Policy. Field introduced in 18.2.3."
+                    "description": "HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5."
                 }, 
-                "url": {
-                    "readOnly": true, 
+                "type": {
+                    "default": "ALLOW_ACCESS", 
                     "type": "string", 
-                    "description": "url"
-                }, 
-                "tenant_ref": {
+                    "description": "Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "HttpCookiePersistenceKey": {
+            "type": "object", 
+            "properties": {
+                "hmac_key": {
                     "type": "string", 
-                    "description": "UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3."
-                }, 
-                "authentication_policy": {
-                    "description": "Authentication Policy Settings. Field introduced in 18.2.1.", 
-                    "$ref": "#/definitions/AuthenticationPolicy"
+                    "description": "hmac_key of HttpCookiePersistenceKey."
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "Name of the SSO Policy. Field introduced in 18.2.3."
+                    "description": "name to use for cookie encryption."
+                }, 
+                "aes_key": {
+                    "type": "string", 
+                    "description": "aes_key of HttpCookiePersistenceKey."
                 }
             }
         }
