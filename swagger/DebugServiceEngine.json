@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugServiceEngine Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -494,6 +494,60 @@
         }
     }, 
     "definitions": {
+        "CaptureFilters": {
+            "type": "object", 
+            "properties": {
+                "tcp_fin": {
+                    "type": "boolean", 
+                    "description": "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                }, 
+                "dst_port_start": {
+                    "type": "integer", 
+                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "dst_port_end": {
+                    "type": "integer", 
+                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "src_port": {
+                    "type": "integer", 
+                    "description": "Source Port filter for SE pcap. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "capture_ipc": {
+                    "description": "Capture filter for SE ipc. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/CaptureIPC"
+                }, 
+                "tcp_push": {
+                    "type": "boolean", 
+                    "description": "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                }, 
+                "capture_ip": {
+                    "description": "IP filter for SE pcap. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/DebugIpAddr"
+                }, 
+                "tcp_syn": {
+                    "type": "boolean", 
+                    "description": "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                }, 
+                "ip_proto": {
+                    "default": "IP_TYPE_TCP", 
+                    "type": "string", 
+                    "description": "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                }, 
+                "tcp_ack": {
+                    "type": "boolean", 
+                    "description": "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                }, 
+                "eth_proto": {
+                    "default": "ETH_TYPE_IPV4", 
+                    "type": "string", 
+                    "description": "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                }
+            }
+        }, 
         "IpAddrRange": {
             "required": [
                 "begin", 
@@ -585,25 +639,60 @@
             "properties": {
                 "flag": {
                     "type": "string", 
-                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT."
+                    "description": " Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT, DEBUG_NAT_ERROR, DEBUG_NAT_PKT, DEBUG_NAT_END2END, DEBUG_NAT_ALL, DEBUG_PCAP_SE_IPC."
                 }
             }
         }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
+        "CaptureIPC": {
             "type": "object", 
             "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
+                "vs_hb": {
+                    "type": "boolean", 
+                    "description": "Vs heart beat filter for SE IPC. Field introduced in 18.2.5."
                 }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
+                "flow_probe_all": {
+                    "type": "boolean", 
+                    "description": "Filter for all flow probe SE IPC. Field introduced in 18.2.5."
+                }, 
+                "flow_mirror_all": {
+                    "type": "boolean", 
+                    "description": "Filter for all flow mirror SE IPC. Field introduced in 18.2.5."
+                }, 
+                "ipc_batched": {
+                    "type": "boolean", 
+                    "description": "IPC batched filter for SE IPC. Field introduced in 18.2.5."
+                }, 
+                "flow_mirror_del": {
+                    "type": "boolean", 
+                    "description": "Flow mirror del filter for SE IPC. Field introduced in 18.2.5."
+                }, 
+                "ipc_tx_res": {
+                    "type": "boolean", 
+                    "description": "Filter for outgoing IPC response. Field introduced in 18.2.5."
+                }, 
+                "flow_probe": {
+                    "type": "boolean", 
+                    "description": "Flow probe filter for SE IPC. Field introduced in 18.2.5."
+                }, 
+                "ipc_tx_req": {
+                    "type": "boolean", 
+                    "description": "Filter for outgoing IPC request. Field introduced in 18.2.5."
+                }, 
+                "ipc_rx_req": {
+                    "type": "boolean", 
+                    "description": "Filter for incoming IPC request. Field introduced in 18.2.5."
+                }, 
+                "ipc_rx_res": {
+                    "type": "boolean", 
+                    "description": "Filter for incoming IPC response. Field introduced in 18.2.5."
+                }, 
+                "flow_del_probe": {
+                    "type": "boolean", 
+                    "description": "Flow del probe filter for SE IPC. Field introduced in 18.2.5."
+                }, 
+                "flow_mirror_add": {
+                    "type": "boolean", 
+                    "description": "Flow mirror add filter for SE IPC. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -643,6 +732,36 @@
                 }
             }
         }, 
+        "DebugVirtualServiceCapture": {
+            "type": "object", 
+            "properties": {
+                "duration": {
+                    "type": "integer", 
+                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
+                    "format": "int32"
+                }, 
+                "pcap_ng": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable PcapNg for packet capture. Field introduced in 18.2.5."
+                }, 
+                "enable_ssl_session_key_capture": {
+                    "type": "boolean", 
+                    "description": "Enable SSL session key capture. Field introduced in 18.2.3."
+                }, 
+                "num_pkts": {
+                    "type": "integer", 
+                    "description": "Total number of packets to capture.", 
+                    "format": "int32"
+                }, 
+                "pkt_size": {
+                    "default": 128, 
+                    "type": "integer", 
+                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "DebugServiceEngine": {
             "type": "object", 
             "properties": {
@@ -650,10 +769,9 @@
                     "type": "boolean", 
                     "description": "Enable/disable packet capture. Field introduced in 18.2.2."
                 }, 
-                "_last_modified": {
-                    "readOnly": true, 
+                "uuid": {
                     "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "seagent_debug": {
                     "items": {
@@ -667,9 +785,9 @@
                     "type": "string", 
                     "description": "url"
                 }, 
-                "fault": {
-                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
-                    "$ref": "#/definitions/DebugSeFault"
+                "capture_params": {
+                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "$ref": "#/definitions/DebugVirtualServiceCapture"
                 }, 
                 "debug_ip": {
                     "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
@@ -678,6 +796,10 @@
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
+                }, 
+                "capture_filters": {
+                    "description": "Capture filter for SE pcap. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/CaptureFilters"
                 }, 
                 "name": {
                     "default": "VM name unknown", 
@@ -691,9 +813,9 @@
                     "type": "array", 
                     "description": "Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object"
                 }, 
-                "capture_params": {
-                    "description": "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
-                    "$ref": "#/definitions/DebugVirtualServiceCapture"
+                "fault": {
+                    "description": "Params for SE fault injection. Field introduced in 18.1.2.", 
+                    "$ref": "#/definitions/DebugSeFault"
                 }, 
                 "cpu_shares": {
                     "items": {
@@ -702,9 +824,10 @@
                     "type": "array", 
                     "description": "Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object"
                 }, 
-                "uuid": {
+                "_last_modified": {
+                    "readOnly": true, 
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }
             }
         }, 
@@ -753,27 +876,20 @@
                 }
             }
         }, 
-        "DebugVirtualServiceCapture": {
+        "IpAddrPrefix": {
+            "required": [
+                "ip_addr", 
+                "mask"
+            ], 
             "type": "object", 
             "properties": {
-                "duration": {
-                    "type": "integer", 
-                    "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
-                    "format": "int32"
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
-                "enable_ssl_session_key_capture": {
-                    "type": "boolean", 
-                    "description": "Enable SSL session key capture. Field introduced in 18.2.3."
-                }, 
-                "num_pkts": {
+                "mask": {
                     "type": "integer", 
-                    "description": "Total number of packets to capture.", 
-                    "format": "int32"
-                }, 
-                "pkt_size": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.", 
+                    "description": "Number of mask.", 
                     "format": "int32"
                 }
             }

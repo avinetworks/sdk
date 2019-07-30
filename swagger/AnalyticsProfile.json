@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AnalyticsProfile Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -584,6 +584,10 @@
                     "description": "Maximum number of logs per second streamed to the remote server. By default, 100 logs per second are streamed. Set this to zero(0) to not enforce any limit. Field introduced in 17.1.1.", 
                     "format": "int32"
                 }, 
+                "format_config": {
+                    "description": "Configuration to specify the format of streamed logs. By default, each log is encoded in JSON format. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/ClientLogStreamingFormat"
+                }, 
                 "log_types_to_send": {
                     "default": "LOGS_ALL", 
                     "type": "string", 
@@ -595,22 +599,22 @@
                 }
             }
         }, 
-        "HTTPStatusRange": {
+        "ClientLogStreamingFormat": {
             "required": [
-                "begin", 
-                "end"
+                "format"
             ], 
             "type": "object", 
             "properties": {
-                "begin": {
-                    "type": "integer", 
-                    "description": "Starting HTTP response status code.", 
-                    "format": "int32"
+                "included_fields": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "List of log fields to be streamed, when selective fields (LOG_STREAMING_FORMAT_JSON_SELECTED) option is chosen. Only top-level fields in application or connection logs are supported. Field introduced in 18.2.5."
                 }, 
-                "end": {
-                    "type": "integer", 
-                    "description": "Ending HTTP response status code.", 
-                    "format": "int32"
+                "format": {
+                    "type": "string", 
+                    "description": "Format for the streamed logs. Enum options - LOG_STREAMING_FORMAT_JSON_FULL, LOG_STREAMING_FORMAT_JSON_SELECTED. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -1188,6 +1192,25 @@
                 "match": {
                     "description": "Criterion to use for matching in the Log. Field introduced in 17.2.10, 18.1.2.", 
                     "$ref": "#/definitions/StringMatch"
+                }
+            }
+        }, 
+        "HTTPStatusRange": {
+            "required": [
+                "begin", 
+                "end"
+            ], 
+            "type": "object", 
+            "properties": {
+                "begin": {
+                    "type": "integer", 
+                    "description": "Starting HTTP response status code.", 
+                    "format": "int32"
+                }, 
+                "end": {
+                    "type": "integer", 
+                    "description": "Ending HTTP response status code.", 
+                    "format": "int32"
                 }
             }
         }

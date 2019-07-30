@@ -26,7 +26,8 @@ type SSOPolicy struct {
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
 	// SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5.
-	Type *string `json:"type,omitempty"`
+	// Required: true
+	Type *string `json:"type"`
 
 	// url
 	// Read Only: true

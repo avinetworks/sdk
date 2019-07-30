@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi NatPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -424,15 +424,12 @@ definitions:
             destination_ip:
                 description: "Destination IP of the packet. Field introduced in 18.2.3."
                 $ref: '#/definitions/IpAddrMatch'
-            destination_port:
-                description: "Destination Port of the packet. Field introduced in 18.2.3."
-                $ref: '#/definitions/PortMatch'
+            services:
+                description: "Services like port-matching and protocol. Field introduced in 18.2.5."
+                $ref: '#/definitions/ServiceMatch'
             source_ip:
                 description: "Source IP of the packet. Field introduced in 18.2.3."
                 $ref: '#/definitions/IpAddrMatch'
-            source_port:
-                description: "Source Port of the packet. Field introduced in 18.2.3."
-                $ref: '#/definitions/PortMatch'
     NatPolicy:
         type: object
         properties:
@@ -477,14 +474,19 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/NatPolicy"
-    NatPolicyActionParam:
+    NatPolicyAction:
         type: object
+        required:
+            -   type
         properties:
             nat_info:
                 description: "Pool of IP Addresses used for Nat. Field introduced in 18.2.3."
                 type: array
                 items:
                     $ref: '#/definitions/NatAddrInfo'
+            type:
+                description: "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
+                type: string
     NatRule:
         type: object
         required:
@@ -495,11 +497,8 @@ definitions:
             -   name
         properties:
             action:
-                description: "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
-                type: string
-            action_param:
                 description: "Nat rule Action Information. Field introduced in 18.2.3."
-                $ref: '#/definitions/NatPolicyActionParam'
+                $ref: '#/definitions/NatPolicyAction'
             created_by:
                 description: "Creator name. Field introduced in 18.2.3."
                 type: string
@@ -530,3 +529,12 @@ definitions:
                 items:
                     type: integer
                 format: int32
+    ServiceMatch:
+        type: object
+        properties:
+            destination_port:
+                description: "Destination Port of the packet. Field introduced in 18.2.5."
+                $ref: '#/definitions/PortMatch'
+            source_port:
+                description: "Source Port of the packet. Field introduced in 18.2.5."
+                $ref: '#/definitions/PortMatch'

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi HardwareSecurityModuleGroup Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure hardwaresecuritymodulegroup <key>\n- show hardwaresecuritymodulegroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -781,7 +781,7 @@
                 "ha_group_num": {
                     "type": "integer", 
                     "description": "Group Number of generated HA Group.", 
-                    "format": "int32"
+                    "format": "int64"
                 }, 
                 "server": {
                     "items": {

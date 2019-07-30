@@ -16,6 +16,9 @@ type DebugVirtualServiceCapture struct {
 	// Total number of packets to capture.
 	NumPkts *int32 `json:"num_pkts,omitempty"`
 
+	// Enable PcapNg for packet capture. Field introduced in 18.2.5.
+	PcapNg *bool `json:"pcap_ng,omitempty"`
+
 	// Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'.
 	PktSize *int32 `json:"pkt_size,omitempty"`
 }

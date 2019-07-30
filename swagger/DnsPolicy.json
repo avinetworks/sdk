@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -715,6 +715,16 @@
                 }
             }
         }, 
+        "DnsRuleRLAction": {
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "default": "DNS_RL_ACTION_NONE", 
+                    "type": "string", 
+                    "description": "Type of action to be enforced upon hitting the rate limit. Enum options - DNS_RL_ACTION_NONE, DNS_RL_ACTION_DROP_REQ. Field introduced in 18.2.5."
+                }
+            }
+        }, 
         "DnsAAAARdata": {
             "required": [
                 "ip6_address"
@@ -901,6 +911,38 @@
                 }
             }
         }, 
+        "DnsRateProfile": {
+            "required": [
+                "action"
+            ], 
+            "type": "object", 
+            "properties": {
+                "action": {
+                    "description": "Action to perform upon rate limiting. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/DnsRuleRLAction"
+                }, 
+                "count": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "burst_size": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections or requests or packets to be rate limited instantaneously. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "period": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "fine_grain": {
+                    "type": "boolean", 
+                    "description": "Enable fine granularity. Field introduced in 18.2.5."
+                }
+            }
+        }, 
         "DnsRuleActionResponse": {
             "type": "object", 
             "properties": {
@@ -971,6 +1013,10 @@
         "DnsRuleAction": {
             "type": "object", 
             "properties": {
+                "dns_rate_limit": {
+                    "description": "Rate limit the DNS requests. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/DnsRateProfile"
+                }, 
                 "pool_switching": {
                     "description": "Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 18.1.3, 17.2.12.", 
                     "$ref": "#/definitions/DnsRuleActionPoolSwitching"

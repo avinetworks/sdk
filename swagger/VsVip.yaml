@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi VsVip Object API
     contact:
         name: Avi Networks Inc.
@@ -508,6 +508,11 @@ definitions:
             network_ref:
                 description: "Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1."
                 type: string
+            placement_networks:
+                description: "Placement networks/subnets to use for vip placement. Field introduced in 18.2.5."
+                type: array
+                items:
+                    $ref: '#/definitions/VipPlacementNetwork'
             port_uuid:
                 description: "(internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1."
                 type: string
@@ -526,6 +531,18 @@ definitions:
             vip_id:
                 description: "Unique ID associated with the vip. Field introduced in 17.1.1."
                 type: string
+    VipPlacementNetwork:
+        type: object
+        properties:
+            network_ref:
+                description: "Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5."
+                type: string
+            subnet:
+                description: "IPv4 Subnet to use for vip placement. Field introduced in 18.2.5."
+                $ref: '#/definitions/IpAddrPrefix'
+            subnet6:
+                description: "IPv6 subnet to use for vip placement. Field introduced in 18.2.5."
+                $ref: '#/definitions/IpAddrPrefix'
     VsVip:
         type: object
         required:

@@ -41,5 +41,6 @@ type WafPSMRule struct {
 	ParanoiaLevel *string `json:"paranoia_level,omitempty"`
 
 	// Id field which is used for log and metric generation. This id must be unique for all rules in this group. Field introduced in 18.2.3.
-	RuleID *string `json:"rule_id,omitempty"`
+	// Required: true
+	RuleID *string `json:"rule_id"`
 }

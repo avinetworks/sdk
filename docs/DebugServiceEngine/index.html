@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,6 +257,7 @@ font-style: italic;
   "results" : [ {
     "capture_params" : {
       "duration" : 123,
+      "pcap_ng" : true,
       "enable_ssl_session_key_capture" : true,
       "pkt_size" : 123,
       "num_pkts" : 123
@@ -267,25 +268,9 @@ font-style: italic;
       "sub_module" : "aeiou",
       "log_every_n" : 123
     } ],
-    "debug_ip" : {
-      "prefixes" : [ {
-        "ip_addr" : "",
-        "mask" : 123
-      } ],
-      "ranges" : [ {
-        "end" : "",
-        "begin" : ""
-      } ],
-      "addrs" : [ {
-        "addr" : "aeiou",
-        "type" : "aeiou"
-      } ]
-    },
-    "tenant_ref" : "aeiou",
     "flags" : [ {
       "flag" : "aeiou"
     } ],
-    "name" : "aeiou",
     "capture" : true,
     "fault" : {
       "se_waf_learning_alloc_fail_frequency" : 123,
@@ -296,13 +281,55 @@ font-style: italic;
       "se_shm_malloc_fail_type" : 123,
       "se_shm_malloc_fail_frequency" : 123
     },
+    "capture_filters" : {
+      "src_port" : 123,
+      "ip_proto" : "aeiou",
+      "tcp_ack" : true,
+      "tcp_syn" : true,
+      "tcp_fin" : true,
+      "dst_port_start" : 123,
+      "tcp_push" : true,
+      "capture_ip" : {
+        "prefixes" : [ {
+          "ip_addr" : "",
+          "mask" : 123
+        } ],
+        "ranges" : [ {
+          "end" : "",
+          "begin" : ""
+        } ],
+        "addrs" : [ {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        } ]
+      },
+      "capture_ipc" : {
+        "flow_del_probe" : true,
+        "flow_mirror_del" : true,
+        "ipc_tx_res" : true,
+        "ipc_tx_req" : true,
+        "vs_hb" : true,
+        "flow_probe" : true,
+        "ipc_batched" : true,
+        "ipc_rx_req" : true,
+        "flow_mirror_add" : true,
+        "flow_mirror_all" : true,
+        "flow_probe_all" : true,
+        "ipc_rx_res" : true
+      },
+      "dst_port_end" : 123,
+      "eth_proto" : "aeiou"
+    },
     "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou",
+    "debug_ip" : "",
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
     "cpu_shares" : [ {
       "shares" : 123,
       "cpu" : 123
-    } ],
-    "url" : "aeiou",
-    "_last_modified" : "aeiou"
+    } ]
   } ]
 }</code></pre>
 
@@ -359,6 +386,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
@@ -369,25 +397,9 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
-  "debug_ip" : {
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ]
-  },
-  "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
-  "name" : "aeiou",
   "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
@@ -398,13 +410,55 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
   },
+  "capture_filters" : {
+    "src_port" : 123,
+    "ip_proto" : "aeiou",
+    "tcp_ack" : true,
+    "tcp_syn" : true,
+    "tcp_fin" : true,
+    "dst_port_start" : 123,
+    "tcp_push" : true,
+    "capture_ip" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
+    "capture_ipc" : {
+      "flow_del_probe" : true,
+      "flow_mirror_del" : true,
+      "ipc_tx_res" : true,
+      "ipc_tx_req" : true,
+      "vs_hb" : true,
+      "flow_probe" : true,
+      "ipc_batched" : true,
+      "ipc_rx_req" : true,
+      "flow_mirror_add" : true,
+      "flow_mirror_all" : true,
+      "flow_probe_all" : true,
+      "ipc_rx_res" : true
+    },
+    "dst_port_end" : 123,
+    "eth_proto" : "aeiou"
+  },
   "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "debug_ip" : "",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ],
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -532,6 +586,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
@@ -542,25 +597,9 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
-  "debug_ip" : {
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ]
-  },
-  "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
-  "name" : "aeiou",
   "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
@@ -571,13 +610,55 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
   },
+  "capture_filters" : {
+    "src_port" : 123,
+    "ip_proto" : "aeiou",
+    "tcp_ack" : true,
+    "tcp_syn" : true,
+    "tcp_fin" : true,
+    "dst_port_start" : 123,
+    "tcp_push" : true,
+    "capture_ip" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
+    "capture_ipc" : {
+      "flow_del_probe" : true,
+      "flow_mirror_del" : true,
+      "ipc_tx_res" : true,
+      "ipc_tx_req" : true,
+      "vs_hb" : true,
+      "flow_probe" : true,
+      "ipc_batched" : true,
+      "ipc_rx_req" : true,
+      "flow_mirror_add" : true,
+      "flow_mirror_all" : true,
+      "flow_probe_all" : true,
+      "ipc_rx_res" : true
+    },
+    "dst_port_end" : 123,
+    "eth_proto" : "aeiou"
+  },
   "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "debug_ip" : "",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ],
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -645,6 +726,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
@@ -655,25 +737,9 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
-  "debug_ip" : {
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ]
-  },
-  "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
-  "name" : "aeiou",
   "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
@@ -684,13 +750,55 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
   },
+  "capture_filters" : {
+    "src_port" : 123,
+    "ip_proto" : "aeiou",
+    "tcp_ack" : true,
+    "tcp_syn" : true,
+    "tcp_fin" : true,
+    "dst_port_start" : 123,
+    "tcp_push" : true,
+    "capture_ip" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
+    "capture_ipc" : {
+      "flow_del_probe" : true,
+      "flow_mirror_del" : true,
+      "ipc_tx_res" : true,
+      "ipc_tx_req" : true,
+      "vs_hb" : true,
+      "flow_probe" : true,
+      "ipc_batched" : true,
+      "ipc_rx_req" : true,
+      "flow_mirror_add" : true,
+      "flow_mirror_all" : true,
+      "flow_probe_all" : true,
+      "ipc_rx_res" : true
+    },
+    "dst_port_end" : 123,
+    "eth_proto" : "aeiou"
+  },
   "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "debug_ip" : "",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ],
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -758,6 +866,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
     "num_pkts" : 123
@@ -768,25 +877,9 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
-  "debug_ip" : {
-    "prefixes" : [ {
-      "ip_addr" : "",
-      "mask" : 123
-    } ],
-    "ranges" : [ {
-      "end" : "",
-      "begin" : ""
-    } ],
-    "addrs" : [ {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    } ]
-  },
-  "tenant_ref" : "aeiou",
   "flags" : [ {
     "flag" : "aeiou"
   } ],
-  "name" : "aeiou",
   "capture" : true,
   "fault" : {
     "se_waf_learning_alloc_fail_frequency" : 123,
@@ -797,13 +890,55 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123
   },
+  "capture_filters" : {
+    "src_port" : 123,
+    "ip_proto" : "aeiou",
+    "tcp_ack" : true,
+    "tcp_syn" : true,
+    "tcp_fin" : true,
+    "dst_port_start" : 123,
+    "tcp_push" : true,
+    "capture_ip" : {
+      "prefixes" : [ {
+        "ip_addr" : "",
+        "mask" : 123
+      } ],
+      "ranges" : [ {
+        "end" : "",
+        "begin" : ""
+      } ],
+      "addrs" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
+    "capture_ipc" : {
+      "flow_del_probe" : true,
+      "flow_mirror_del" : true,
+      "ipc_tx_res" : true,
+      "ipc_tx_req" : true,
+      "vs_hb" : true,
+      "flow_probe" : true,
+      "ipc_batched" : true,
+      "ipc_rx_req" : true,
+      "flow_mirror_add" : true,
+      "flow_mirror_all" : true,
+      "flow_probe_all" : true,
+      "ipc_rx_res" : true
+    },
+    "dst_port_end" : 123,
+    "eth_proto" : "aeiou"
+  },
   "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "debug_ip" : "",
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
   "cpu_shares" : [ {
     "shares" : 123,
     "cpu" : 123
-  } ],
-  "url" : "aeiou",
-  "_last_modified" : "aeiou"
+  } ]
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -829,6 +964,8 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#CaptureFilters"><code>CaptureFilters</code></a></li>
+    <li><a href="#CaptureIPC"><code>CaptureIPC</code></a></li>
     <li><a href="#DebugIpAddr"><code>DebugIpAddr</code></a></li>
     <li><a href="#DebugSeAgent"><code>DebugSeAgent</code></a></li>
     <li><a href="#DebugSeCpuShares"><code>DebugSeCpuShares</code></a></li>
@@ -842,6 +979,39 @@ font-style: italic;
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="CaptureFilters">CaptureFilters</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">capture_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 18.2.5. </div>
+<div class="param">capture_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureIPC">CaptureIPC</a></span> Capture filter for SE ipc. Field introduced in 18.2.5. </div>
+<div class="param">dst_port_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
+<div class="param">dst_port_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
+<div class="param">eth_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5. </div>
+<div class="param">ip_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5. </div>
+<div class="param">src_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Source Port filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_ack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5. </div>
+<div class="param">tcp_fin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5. </div>
+<div class="param">tcp_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Push flag filter for SE pcap. Field introduced in 18.2.5. </div>
+<div class="param">tcp_syn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="CaptureIPC">CaptureIPC</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">flow_del_probe (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flow del probe filter for SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">flow_mirror_add (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flow mirror add filter for SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">flow_mirror_all (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for all flow mirror SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">flow_mirror_del (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flow mirror del filter for SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">flow_probe (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flow probe filter for SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">flow_probe_all (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for all flow probe SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">ipc_batched (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> IPC batched filter for SE IPC. Field introduced in 18.2.5. </div>
+<div class="param">ipc_rx_req (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for incoming IPC request. Field introduced in 18.2.5. </div>
+<div class="param">ipc_rx_res (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for incoming IPC response. Field introduced in 18.2.5. </div>
+<div class="param">ipc_tx_req (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for outgoing IPC request. Field introduced in 18.2.5. </div>
+<div class="param">ipc_tx_res (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Filter for outgoing IPC response. Field introduced in 18.2.5. </div>
+<div class="param">vs_hb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Vs heart beat filter for SE IPC. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="DebugIpAddr">DebugIpAddr</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -869,7 +1039,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeDataplane">DebugSeDataplane</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT. </div>
+      <div class="param">flag </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - DEBUG_DISPATCHER_FLOW, DEBUG_DISPATCHER_FLOW_DETAIL, DEBUG_DISPATCHER_FLOW_ALL, DEBUG_CONFIG, DEBUG_IP, DEBUG_IP_PKT_IN, DEBUG_IP_PKT_OUT, DEBUG_ARP, DEBUG_ARP_PKT_IN, DEBUG_ARP_PKT_OUT, DEBUG_ETHERNET, DEBUG_ETHERNET_PKT_IN, DEBUG_ETHERNET_PKT_OUT, DEBUG_ICMP, DEBUG_PCAP_RX, DEBUG_PCAP_TX, DEBUG_PCAP_DROP, DEBUG_PCAP_ALL, DEBUG_MISC, DEBUG_CRUD, DEBUG_POOL, DEBUG_PCAP_DOS, DEBUG_PCAP_HM, DEBUG_SE_APP, DEBUG_UDP, DEBUG_SE_VS_HB, DEBUG_ND, DEBUG_ERROR, DEBUG_NONE, DEBUG_ALL, DEBUG_STRICT, DEBUG_FLOW_MIRROR, DEBUG_NAT, DEBUG_NAT_ERROR, DEBUG_NAT_PKT, DEBUG_NAT_END2END, DEBUG_NAT_ALL, DEBUG_PCAP_SE_IPC. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -889,6 +1059,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable packet capture. Field introduced in 18.2.2. </div>
+<div class="param">capture_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFilters">CaptureFilters</a></span> Capture filter for SE pcap. Field introduced in 18.2.5. </div>
 <div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
@@ -914,6 +1085,7 @@ font-style: italic;
       <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enable_ssl_session_key_capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session key capture. Field introduced in 18.2.3. </div>
 <div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
+<div class="param">pcap_ng (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable PcapNg for packet capture. Field introduced in 18.2.5. </div>
 <div class="param">pkt_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - &#39;full capture&#39;. format: int32</div>
     </div>  <!-- field-items -->
   </div>
