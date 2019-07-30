@@ -27,7 +27,6 @@ avi_resource_types:
   - AlertEmailConfig
   - SSLProfile
   - SecurityPolicy
-  - AlertSyslogConfig
   - CustomIpamDnsProfile
   - AlertScriptConfig
   - NetworkProfile
@@ -39,18 +38,19 @@ avi_resource_types:
   - AnalyticsProfile
   - MicroServiceGroup
   - IpamDnsProviderProfile
-  - ActionGroupConfig
   - ApplicationProfile
   - NatPolicy
   - Scheduler
+  - AlertSyslogConfig
   - HealthMonitor
   - NetworkSecurityPolicy
   - Cloud
-  - AlertConfig
   - Backup
+  - ActionGroupConfig
   - GslbService
   - VrfContext
   - PriorityLabels
+  - AlertConfig
   - ServerAutoScalePolicy
   - Network
   - TrafficCloneProfile
@@ -59,8 +59,8 @@ avi_resource_types:
   - ServiceEngineGroup
   - PoolGroup
   - PingAccessAgent
+  - NetworkService
   - ServiceEngine
-  - ServiceEnginePolicy
   - DnsPolicy
   - HTTPPolicySet
   - VSDataScriptSet
