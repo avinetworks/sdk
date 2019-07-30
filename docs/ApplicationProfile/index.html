@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,17 +257,19 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "dns_service_profile" : {
+      "aaaa_empty_response" : true,
+      "edns" : true,
+      "edns_client_subnet_prefix_len" : 123,
+      "ttl" : 123,
+      "admin_email" : "aeiou",
+      "domain_names" : [ "aeiou" ],
       "authoritative_domain_names" : [ "aeiou" ],
       "dns_over_tcp_enabled" : true,
       "negative_caching_ttl" : 123,
+      "name_server" : "aeiou",
       "error_response" : "aeiou",
-      "aaaa_empty_response" : true,
-      "edns" : true,
       "num_dns_ip" : 123,
-      "ecs_stripping_enabled" : true,
-      "edns_client_subnet_prefix_len" : 123,
-      "ttl" : 123,
-      "domain_names" : [ "aeiou" ]
+      "ecs_stripping_enabled" : true
     },
     "tcp_app_profile" : {
       "pki_profile_ref" : "aeiou",
@@ -376,6 +378,7 @@ font-style: italic;
       },
       "ssl_client_certificate_mode" : "aeiou",
       "max_rps_cip_uri" : 123,
+      "disable_sni_hostname_check" : true,
       "pki_profile_ref" : "aeiou",
       "max_bad_rps_cip" : 123,
       "http_to_https" : true,
@@ -384,6 +387,7 @@ font-style: italic;
       "max_rps_uri" : 123,
       "max_rps_unknown_uri" : 123,
       "xff_alternate_name" : "aeiou",
+      "max_keepalive_requests" : 123,
       "spdy_fwd_proxy_mode" : true,
       "hsts_max_age" : 123456789,
       "use_app_keepalive_timeout" : true,
@@ -502,17 +506,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "admin_email" : "aeiou",
+    "domain_names" : [ "aeiou" ],
     "authoritative_domain_names" : [ "aeiou" ],
     "dns_over_tcp_enabled" : true,
     "negative_caching_ttl" : 123,
+    "name_server" : "aeiou",
     "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
     "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
+    "ecs_stripping_enabled" : true
   },
   "tcp_app_profile" : {
     "pki_profile_ref" : "aeiou",
@@ -621,6 +627,7 @@ font-style: italic;
     },
     "ssl_client_certificate_mode" : "aeiou",
     "max_rps_cip_uri" : 123,
+    "disable_sni_hostname_check" : true,
     "pki_profile_ref" : "aeiou",
     "max_bad_rps_cip" : 123,
     "http_to_https" : true,
@@ -629,6 +636,7 @@ font-style: italic;
     "max_rps_uri" : 123,
     "max_rps_unknown_uri" : 123,
     "xff_alternate_name" : "aeiou",
+    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
@@ -818,17 +826,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "admin_email" : "aeiou",
+    "domain_names" : [ "aeiou" ],
     "authoritative_domain_names" : [ "aeiou" ],
     "dns_over_tcp_enabled" : true,
     "negative_caching_ttl" : 123,
+    "name_server" : "aeiou",
     "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
     "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
+    "ecs_stripping_enabled" : true
   },
   "tcp_app_profile" : {
     "pki_profile_ref" : "aeiou",
@@ -937,6 +947,7 @@ font-style: italic;
     },
     "ssl_client_certificate_mode" : "aeiou",
     "max_rps_cip_uri" : 123,
+    "disable_sni_hostname_check" : true,
     "pki_profile_ref" : "aeiou",
     "max_bad_rps_cip" : 123,
     "http_to_https" : true,
@@ -945,6 +956,7 @@ font-style: italic;
     "max_rps_uri" : 123,
     "max_rps_unknown_uri" : 123,
     "xff_alternate_name" : "aeiou",
+    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
@@ -1074,17 +1086,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "admin_email" : "aeiou",
+    "domain_names" : [ "aeiou" ],
     "authoritative_domain_names" : [ "aeiou" ],
     "dns_over_tcp_enabled" : true,
     "negative_caching_ttl" : 123,
+    "name_server" : "aeiou",
     "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
     "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
+    "ecs_stripping_enabled" : true
   },
   "tcp_app_profile" : {
     "pki_profile_ref" : "aeiou",
@@ -1193,6 +1207,7 @@ font-style: italic;
     },
     "ssl_client_certificate_mode" : "aeiou",
     "max_rps_cip_uri" : 123,
+    "disable_sni_hostname_check" : true,
     "pki_profile_ref" : "aeiou",
     "max_bad_rps_cip" : 123,
     "http_to_https" : true,
@@ -1201,6 +1216,7 @@ font-style: italic;
     "max_rps_uri" : 123,
     "max_rps_unknown_uri" : 123,
     "xff_alternate_name" : "aeiou",
+    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
@@ -1330,17 +1346,19 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "aaaa_empty_response" : true,
+    "edns" : true,
+    "edns_client_subnet_prefix_len" : 123,
+    "ttl" : 123,
+    "admin_email" : "aeiou",
+    "domain_names" : [ "aeiou" ],
     "authoritative_domain_names" : [ "aeiou" ],
     "dns_over_tcp_enabled" : true,
     "negative_caching_ttl" : 123,
+    "name_server" : "aeiou",
     "error_response" : "aeiou",
-    "aaaa_empty_response" : true,
-    "edns" : true,
     "num_dns_ip" : 123,
-    "ecs_stripping_enabled" : true,
-    "edns_client_subnet_prefix_len" : 123,
-    "ttl" : 123,
-    "domain_names" : [ "aeiou" ]
+    "ecs_stripping_enabled" : true
   },
   "tcp_app_profile" : {
     "pki_profile_ref" : "aeiou",
@@ -1449,6 +1467,7 @@ font-style: italic;
     },
     "ssl_client_certificate_mode" : "aeiou",
     "max_rps_cip_uri" : 123,
+    "disable_sni_hostname_check" : true,
     "pki_profile_ref" : "aeiou",
     "max_bad_rps_cip" : 123,
     "http_to_https" : true,
@@ -1457,6 +1476,7 @@ font-style: italic;
     "max_rps_uri" : 123,
     "max_rps_unknown_uri" : 123,
     "xff_alternate_name" : "aeiou",
+    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
     "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
@@ -1681,6 +1701,7 @@ font-style: italic;
     <h3 class="field-label"><a name="DnsServiceApplicationProfile">DnsServiceApplicationProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">aaaa_empty_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Respond to AAAA queries with empty response when there are only IPV4 records. </div>
+<div class="param">admin_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the administrator responsible for this zone . This field is used in SOA records (rname) pertaining to all domain names specified as authoritative domain names. If not configured, the default value &#39;hostmaster&#39; is used in SOA responses. Field introduced in 18.2.5. </div>
 <div class="param">authoritative_domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field introduced in 17.1.6,17.2.2. </div>
 <div class="param">dns_over_tcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1. </div>
 <div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. </div>
@@ -1688,6 +1709,7 @@ font-style: italic;
 <div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
 <div class="param">edns_client_subnet_prefix_len (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the IP address prefix length to use in the EDNS client subnet (ECS) option. When the incoming request does not have any ECS option and the prefix length is specified, an ECS option is inserted in the request passed to upstream server. If the incoming request already has an ECS option, the prefix length (and correspondingly the address) in the ECS option is updated, with the minimum of the prefix length present in the incoming and the configured prefix length, before passing the request to upstream server. Allowed values are 1-32. Field introduced in 17.1.3. format: int32</div>
 <div class="param">error_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Drop or respond to client when the DNS service encounters an error processing a client query. By default, such a request is dropped without any response, or passed through to a passthrough pool, if configured. When set to respond, an appropriate response is sent to client, e.g. NXDOMAIN response for non-existent records, empty NOERROR response for unsupported queries, etc. Enum options - DNS_ERROR_RESPONSE_ERROR, DNS_ERROR_RESPONSE_NONE. </div>
+<div class="param">name_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The &lt;domain-name&gt;  of the name server that was the original or primary source of data for this zone. This field is used in SOA records (mname) pertaining to all domain names specified as authoritative domain names. If not configured, domain name is used as name server in SOA response. Field introduced in 18.2.5. </div>
 <div class="param">negative_caching_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record&#39;s minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4. format: int32</div>
 <div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400. format: int32</div>
@@ -1728,6 +1750,7 @@ font-style: italic;
 <div class="param">compression_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#CompressionProfile">CompressionProfile</a></span> HTTP Compression settings to use with this HTTP Profile. </div>
 <div class="param">connection_multiplexing_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP. </div>
 <div class="param">disable_keepalive_posts_msie6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. </div>
+<div class="param">disable_sni_hostname_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5. </div>
 <div class="param">enable_fire_and_forget (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. </div>
 <div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
 <div class="param">enable_request_body_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. </div>
@@ -1743,6 +1766,7 @@ font-style: italic;
 <div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_keepalive_requests (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of HTTP requests that can be sent over a Keep-Alive connection. &#39;0&#39; means unlimited. Allowed values are 0-1000000. Special values are 0- &#39;Unlimited requests on a connection&#39;. Field introduced in 18.2.5. format: int32</div>
 <div class="param">max_response_headers_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. format: int32</div>
 <div class="param">max_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
@@ -1885,7 +1909,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SSLClientRequestHeader">SSLClientRequestHeader</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">request_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If this header exists, reset the connection. If the ssl variable is specified, add a header with this value. </div>
-<div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER. </div>
+<div class="param">request_header_value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Set the request header with the value as indicated by this SSL variable. Eg. send the whole certificate in PEM format. Enum options - HTTP_POLICY_VAR_CLIENT_IP, HTTP_POLICY_VAR_VS_PORT, HTTP_POLICY_VAR_VS_IP, HTTP_POLICY_VAR_HTTP_HDR, HTTP_POLICY_VAR_SSL_CLIENT_FINGERPRINT, HTTP_POLICY_VAR_SSL_CLIENT_SERIAL, HTTP_POLICY_VAR_SSL_CLIENT_ISSUER, HTTP_POLICY_VAR_SSL_CLIENT_SUBJECT, HTTP_POLICY_VAR_SSL_CLIENT_RAW, HTTP_POLICY_VAR_SSL_PROTOCOL, HTTP_POLICY_VAR_SSL_SERVER_NAME, HTTP_POLICY_VAR_USER_NAME, HTTP_POLICY_VAR_SSL_CIPHER, HTTP_POLICY_VAR_REQUEST_ID. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

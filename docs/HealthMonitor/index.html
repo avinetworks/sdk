@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure healthmonitor <key> - show healthmonitor <key> ```  Examples - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -266,7 +266,8 @@ font-style: italic;
       "response_string" : "aeiou",
       "qtype" : "aeiou",
       "query_name" : "aeiou",
-      "rcode" : "aeiou"
+      "rcode" : "aeiou",
+      "record_type" : "aeiou"
     },
     "failed_checks" : 123,
     "monitor_port" : 123,
@@ -381,7 +382,8 @@ font-style: italic;
     "response_string" : "aeiou",
     "qtype" : "aeiou",
     "query_name" : "aeiou",
-    "rcode" : "aeiou"
+    "rcode" : "aeiou",
+    "record_type" : "aeiou"
   },
   "failed_checks" : 123,
   "monitor_port" : 123,
@@ -619,7 +621,8 @@ font-style: italic;
     "response_string" : "aeiou",
     "qtype" : "aeiou",
     "query_name" : "aeiou",
-    "rcode" : "aeiou"
+    "rcode" : "aeiou",
+    "record_type" : "aeiou"
   },
   "failed_checks" : 123,
   "monitor_port" : 123,
@@ -745,7 +748,8 @@ font-style: italic;
     "response_string" : "aeiou",
     "qtype" : "aeiou",
     "query_name" : "aeiou",
-    "rcode" : "aeiou"
+    "rcode" : "aeiou",
+    "record_type" : "aeiou"
   },
   "failed_checks" : 123,
   "monitor_port" : 123,
@@ -871,7 +875,8 @@ font-style: italic;
     "response_string" : "aeiou",
     "qtype" : "aeiou",
     "query_name" : "aeiou",
-    "rcode" : "aeiou"
+    "rcode" : "aeiou",
+    "record_type" : "aeiou"
   },
   "failed_checks" : 123,
   "monitor_port" : 123,
@@ -998,6 +1003,7 @@ font-style: italic;
       <div class="param">qtype (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>   Query_Type  Response has atleast one answer of which      the resource record type matches the query type   Any_Type  Response should contain atleast one answer  AnyThing  An empty answer is enough. Enum options - DNS_QUERY_TYPE, DNS_ANY_TYPE, DNS_ANY_THING. </div>
 <div class="param">query_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The DNS monitor will query the DNS server for the fully qualified name in this field. </div>
 <div class="param">rcode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses. Enum options - RCODE_NO_ERROR, RCODE_ANYTHING. </div>
+<div class="param">record_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.5. </div>
 <div class="param">response_string (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The resource record of the queried DNS server&#39;s response for the Request Name must include the IP address defined in this field. . </div>
     </div>  <!-- field-items -->
   </div>
@@ -1034,7 +1040,7 @@ font-style: italic;
     <h3 class="field-label"><a name="HealthMonitorSIP">HealthMonitorSIP</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">sip_monitor_transport (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
-<div class="param">sip_request_code </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify the SIP request to be sent to the server. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
+<div class="param">sip_request_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specify the SIP request to be sent to the server. By default, SIP OPTIONS request will be sent. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
 <div class="param">sip_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8, 18.1.3, 18.2.1. </div>
     </div>  <!-- field-items -->
   </div>

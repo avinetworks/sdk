@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Avi ServerAutoScalePolicy Object API</title>
+    <title>Avi NetworkService Object API</title>
     <style type="text/css">
       body { 
 	font-family: Trebuchet MS, sans-serif;
@@ -179,8 +179,8 @@ font-style: italic;
     </style>
   </head>
   <body>
-  <h1>Avi ServerAutoScalePolicy Object API</h1>
-    <div class="app-desc">CLI ``` - configure serverautoscalepolicy <key> - show serverautoscalepolicy <key> ``` </div>
+  <h1>Avi NetworkService Object API</h1>
+    <div class="app-desc">CLI ``` - configure networkservice <key> - show networkservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
     <div class="app-desc">Version: 18.2.5</div>
@@ -198,19 +198,19 @@ font-style: italic;
   <h2>Table of Contents </h2>
   <div class="method-summary"></div>
   <ol>
-  <li><a href="#serverautoscalepolicyGet"><code><span class="http-method">get</span> /serverautoscalepolicy</code></a></li>
-  <li><a href="#serverautoscalepolicyPost"><code><span class="http-method">post</span> /serverautoscalepolicy</code></a></li>
-  <li><a href="#serverautoscalepolicyUuidDelete"><code><span class="http-method">delete</span> /serverautoscalepolicy/{uuid}</code></a></li>
-  <li><a href="#serverautoscalepolicyUuidGet"><code><span class="http-method">get</span> /serverautoscalepolicy/{uuid}</code></a></li>
-  <li><a href="#serverautoscalepolicyUuidPatch"><code><span class="http-method">patch</span> /serverautoscalepolicy/{uuid}</code></a></li>
-  <li><a href="#serverautoscalepolicyUuidPut"><code><span class="http-method">put</span> /serverautoscalepolicy/{uuid}</code></a></li>
+  <li><a href="#networkserviceGet"><code><span class="http-method">get</span> /networkservice</code></a></li>
+  <li><a href="#networkservicePost"><code><span class="http-method">post</span> /networkservice</code></a></li>
+  <li><a href="#networkserviceUuidDelete"><code><span class="http-method">delete</span> /networkservice/{uuid}</code></a></li>
+  <li><a href="#networkserviceUuidGet"><code><span class="http-method">get</span> /networkservice/{uuid}</code></a></li>
+  <li><a href="#networkserviceUuidPatch"><code><span class="http-method">patch</span> /networkservice/{uuid}</code></a></li>
+  <li><a href="#networkserviceUuidPut"><code><span class="http-method">put</span> /networkservice/{uuid}</code></a></li>
   </ol>
 
-  <div class="method"><a name="serverautoscalepolicyGet"/>
+  <div class="method"><a name="networkserviceGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /serverautoscalepolicy</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /networkservice</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkserviceGet</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -238,13 +238,17 @@ font-style: italic;
 
       <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div><div class="param">cloud_uuid (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid&#x3D;cloud-xyz. </div><div class="param">cloud_ref.name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name&#x3D;Default-Cloud. </div>
     </div>  <!-- field-items -->
 
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ServerAutoScalePolicyApiResponse">ServerAutoScalePolicyApiResponse</a>
+      <a href="#NetworkServiceApiResponse">NetworkServiceApiResponse</a>
       
     </div>
 
@@ -255,24 +259,36 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "scalein_cooldown" : 123,
-    "use_predicted_load" : true,
-    "max_scaleout_adjustment_step" : 123,
-    "intelligent_autoscale" : true,
-    "description" : "aeiou",
-    "uuid" : "aeiou",
-    "max_size" : 123,
-    "url" : "aeiou",
-    "_last_modified" : "aeiou",
-    "scaleout_cooldown" : 123,
-    "scalein_alertconfig_refs" : [ "aeiou" ],
-    "max_scalein_adjustment_step" : 123,
+    "service_type" : "aeiou",
+    "routing_service" : {
+      "enable_routing" : true,
+      "flowtable_profile" : {
+        "udp_idle_timeout" : 123,
+        "tcp_idle_timeout" : 123,
+        "tcp_connection_setup_timeout" : 123,
+        "tcp_closed_timeout" : 123,
+        "tcp_reset_timeout" : 123,
+        "tcp_half_closed_timeout" : 123
+      },
+      "advertise_backend_networks" : true,
+      "enable_vmac" : true,
+      "nat_policy_ref" : "aeiou",
+      "routing_by_linux_ipstack" : true,
+      "floating_intf_ip_se_2" : [ "" ],
+      "enable_vip_on_all_interfaces" : true,
+      "floating_intf_ip" : [ {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      } ]
+    },
+    "cloud_ref" : "aeiou",
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "intelligent_scalein_margin" : 123,
-    "min_size" : 123,
-    "intelligent_scaleout_margin" : 123,
-    "scaleout_alertconfig_refs" : [ "aeiou" ]
+    "vrf_ref" : "aeiou",
+    "uuid" : "aeiou",
+    "url" : "aeiou",
+    "_last_modified" : "aeiou",
+    "se_group_ref" : "aeiou"
   } ]
 }</code></pre>
 
@@ -286,17 +302,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ServerAutoScalePolicyApiResponse">ServerAutoScalePolicyApiResponse</a>
+        <a href="#NetworkServiceApiResponse">NetworkServiceApiResponse</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="serverautoscalepolicyPost"/>
+  <div class="method"><a name="networkservicePost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /serverautoscalepolicy</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyPost</span>)</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /networkservice</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkservicePost</span>)</div>
     <div class="method-notes"></div>
 
 
@@ -310,7 +326,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ServerAutoScalePolicy object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkService object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -318,7 +334,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+      <a href="#NetworkService">NetworkService</a>
       
     </div>
 
@@ -327,24 +343,36 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "scalein_cooldown" : 123,
-  "use_predicted_load" : true,
-  "max_scaleout_adjustment_step" : 123,
-  "intelligent_autoscale" : true,
-  "description" : "aeiou",
-  "uuid" : "aeiou",
-  "max_size" : 123,
-  "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "scaleout_cooldown" : 123,
-  "scalein_alertconfig_refs" : [ "aeiou" ],
-  "max_scalein_adjustment_step" : 123,
+  "service_type" : "aeiou",
+  "routing_service" : {
+    "enable_routing" : true,
+    "flowtable_profile" : {
+      "udp_idle_timeout" : 123,
+      "tcp_idle_timeout" : 123,
+      "tcp_connection_setup_timeout" : 123,
+      "tcp_closed_timeout" : 123,
+      "tcp_reset_timeout" : 123,
+      "tcp_half_closed_timeout" : 123
+    },
+    "advertise_backend_networks" : true,
+    "enable_vmac" : true,
+    "nat_policy_ref" : "aeiou",
+    "routing_by_linux_ipstack" : true,
+    "floating_intf_ip_se_2" : [ "" ],
+    "enable_vip_on_all_interfaces" : true,
+    "floating_intf_ip" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
+  "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "intelligent_scalein_margin" : 123,
-  "min_size" : 123,
-  "intelligent_scaleout_margin" : 123,
-  "scaleout_alertconfig_refs" : [ "aeiou" ]
+  "vrf_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_group_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -357,17 +385,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+        <a href="#NetworkService">NetworkService</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="serverautoscalepolicyUuidDelete"/>
+  <div class="method"><a name="networkserviceUuidDelete"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /serverautoscalepolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyUuidDelete</span>)</div>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /networkservice/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkserviceUuidDelete</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -421,11 +449,11 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="serverautoscalepolicyUuidGet"/>
+  <div class="method"><a name="networkserviceUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /serverautoscalepolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyUuidGet</span>)</div>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /networkservice/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkserviceUuidGet</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -461,7 +489,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+      <a href="#NetworkService">NetworkService</a>
       
     </div>
 
@@ -470,24 +498,36 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "scalein_cooldown" : 123,
-  "use_predicted_load" : true,
-  "max_scaleout_adjustment_step" : 123,
-  "intelligent_autoscale" : true,
-  "description" : "aeiou",
-  "uuid" : "aeiou",
-  "max_size" : 123,
-  "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "scaleout_cooldown" : 123,
-  "scalein_alertconfig_refs" : [ "aeiou" ],
-  "max_scalein_adjustment_step" : 123,
+  "service_type" : "aeiou",
+  "routing_service" : {
+    "enable_routing" : true,
+    "flowtable_profile" : {
+      "udp_idle_timeout" : 123,
+      "tcp_idle_timeout" : 123,
+      "tcp_connection_setup_timeout" : 123,
+      "tcp_closed_timeout" : 123,
+      "tcp_reset_timeout" : 123,
+      "tcp_half_closed_timeout" : 123
+    },
+    "advertise_backend_networks" : true,
+    "enable_vmac" : true,
+    "nat_policy_ref" : "aeiou",
+    "routing_by_linux_ipstack" : true,
+    "floating_intf_ip_se_2" : [ "" ],
+    "enable_vip_on_all_interfaces" : true,
+    "floating_intf_ip" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
+  "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "intelligent_scalein_margin" : 123,
-  "min_size" : 123,
-  "intelligent_scaleout_margin" : 123,
-  "scaleout_alertconfig_refs" : [ "aeiou" ]
+  "vrf_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_group_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -500,17 +540,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+        <a href="#NetworkService">NetworkService</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="serverautoscalepolicyUuidPatch"/>
+  <div class="method"><a name="networkserviceUuidPatch"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /serverautoscalepolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyUuidPatch</span>)</div>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /networkservice/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkserviceUuidPatch</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -530,7 +570,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ServerAutoScalePolicy object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkService object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -544,7 +584,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+      <a href="#NetworkService">NetworkService</a>
       
     </div>
 
@@ -553,24 +593,36 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "scalein_cooldown" : 123,
-  "use_predicted_load" : true,
-  "max_scaleout_adjustment_step" : 123,
-  "intelligent_autoscale" : true,
-  "description" : "aeiou",
-  "uuid" : "aeiou",
-  "max_size" : 123,
-  "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "scaleout_cooldown" : 123,
-  "scalein_alertconfig_refs" : [ "aeiou" ],
-  "max_scalein_adjustment_step" : 123,
+  "service_type" : "aeiou",
+  "routing_service" : {
+    "enable_routing" : true,
+    "flowtable_profile" : {
+      "udp_idle_timeout" : 123,
+      "tcp_idle_timeout" : 123,
+      "tcp_connection_setup_timeout" : 123,
+      "tcp_closed_timeout" : 123,
+      "tcp_reset_timeout" : 123,
+      "tcp_half_closed_timeout" : 123
+    },
+    "advertise_backend_networks" : true,
+    "enable_vmac" : true,
+    "nat_policy_ref" : "aeiou",
+    "routing_by_linux_ipstack" : true,
+    "floating_intf_ip_se_2" : [ "" ],
+    "enable_vip_on_all_interfaces" : true,
+    "floating_intf_ip" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
+  "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "intelligent_scalein_margin" : 123,
-  "min_size" : 123,
-  "intelligent_scaleout_margin" : 123,
-  "scaleout_alertconfig_refs" : [ "aeiou" ]
+  "vrf_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_group_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -583,17 +635,17 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+        <a href="#NetworkService">NetworkService</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
-  <div class="method"><a name="serverautoscalepolicyUuidPut"/>
+  <div class="method"><a name="networkserviceUuidPut"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /serverautoscalepolicy/{uuid}</code></pre></div>
-    <div class="method-summary"> (<span class="nickname">serverautoscalepolicyUuidPut</span>)</div>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /networkservice/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">networkserviceUuidPut</span>)</div>
     <div class="method-notes"></div>
 
     <h3 class="field-label">Path parameters</h3>
@@ -613,7 +665,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">body (required)</div>
 
-      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; ServerAutoScalePolicy object creation </div>
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; NetworkService object creation </div>
     </div>  <!-- field-items -->
 
 
@@ -627,7 +679,7 @@ font-style: italic;
 
     <h3 class="field-label">Return type</h3>
     <div class="return-type">
-      <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+      <a href="#NetworkService">NetworkService</a>
       
     </div>
 
@@ -636,24 +688,36 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "scalein_cooldown" : 123,
-  "use_predicted_load" : true,
-  "max_scaleout_adjustment_step" : 123,
-  "intelligent_autoscale" : true,
-  "description" : "aeiou",
-  "uuid" : "aeiou",
-  "max_size" : 123,
-  "url" : "aeiou",
-  "_last_modified" : "aeiou",
-  "scaleout_cooldown" : 123,
-  "scalein_alertconfig_refs" : [ "aeiou" ],
-  "max_scalein_adjustment_step" : 123,
+  "service_type" : "aeiou",
+  "routing_service" : {
+    "enable_routing" : true,
+    "flowtable_profile" : {
+      "udp_idle_timeout" : 123,
+      "tcp_idle_timeout" : 123,
+      "tcp_connection_setup_timeout" : 123,
+      "tcp_closed_timeout" : 123,
+      "tcp_reset_timeout" : 123,
+      "tcp_half_closed_timeout" : 123
+    },
+    "advertise_backend_networks" : true,
+    "enable_vmac" : true,
+    "nat_policy_ref" : "aeiou",
+    "routing_by_linux_ipstack" : true,
+    "floating_intf_ip_se_2" : [ "" ],
+    "enable_vip_on_all_interfaces" : true,
+    "floating_intf_ip" : [ {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    } ]
+  },
+  "cloud_ref" : "aeiou",
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "intelligent_scalein_margin" : 123,
-  "min_size" : 123,
-  "intelligent_scaleout_margin" : 123,
-  "scaleout_alertconfig_refs" : [ "aeiou" ]
+  "vrf_ref" : "aeiou",
+  "uuid" : "aeiou",
+  "url" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_group_ref" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -666,7 +730,7 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     OK
-        <a href="#ServerAutoScalePolicy">ServerAutoScalePolicy</a>
+        <a href="#NetworkService">NetworkService</a>
     <h4 class="field-label">401</h4>
     log in failed
         <a href="#"></a>
@@ -679,38 +743,65 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
-    <li><a href="#ServerAutoScalePolicy"><code>ServerAutoScalePolicy</code></a></li>
-    <li><a href="#ServerAutoScalePolicyApiResponse"><code>ServerAutoScalePolicyApiResponse</code></a></li>
+    <li><a href="#FlowtableProfile"><code>FlowtableProfile</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#NetworkService"><code>NetworkService</code></a></li>
+    <li><a href="#NetworkServiceApiResponse"><code>NetworkServiceApiResponse</code></a></li>
+    <li><a href="#RoutingService"><code>RoutingService</code></a></li>
   </ol>
 
   <div class="model">
-    <h3 class="field-label"><a name="ServerAutoScalePolicy">ServerAutoScalePolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="FlowtableProfile">FlowtableProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">intelligent_autoscale (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Avi intelligent autoscale algorithm where autoscale is performed by comparing load on the pool against estimated capacity of all the servers. </div>
-<div class="param">intelligent_scalein_margin (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum extra capacity as percentage of load used by the intelligent scheme. Scalein is triggered when available capacity is more than this margin. Allowed values are 1-99. format: int32</div>
-<div class="param">intelligent_scaleout_margin (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum extra capacity as percentage of load used by the intelligent scheme. Scaleout is triggered when available capacity is less than this margin. Allowed values are 1-99. format: int32</div>
-<div class="param">max_scalein_adjustment_step (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers to scalein simultaneously. The actual number of servers to scalein is chosen such that target number of servers is always more than or equal to the min_size. format: int32</div>
-<div class="param">max_scaleout_adjustment_step (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers to scaleout simultaneously. The actual number of servers to scaleout is chosen such that target number of servers is always less than or equal to the max_size. format: int32</div>
-<div class="param">max_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of servers after scaleout. Allowed values are 0-400. format: int32</div>
-<div class="param">min_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> No scale-in happens once number of operationally up servers reach min_servers. Allowed values are 0-400. format: int32</div>
-<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
-<div class="param">scalein_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scalein when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scalein_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scalein is triggered to allow previous scalein to successfully complete. format: int32</div>
-<div class="param">scaleout_alertconfig_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Trigger scaleout when alerts due to any of these Alert configurations are raised. It is a reference to an object of type AlertConfig. </div>
-<div class="param">scaleout_cooldown (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cooldown period during which no new scaleout is triggered to allow previous scaleout to successfully complete. format: int32</div>
-<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
-<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
-<div class="param">use_predicted_load (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use predicted load rather than current load. </div>
-<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
+      <div class="param">tcp_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_connection_setup_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_half_closed_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_reset_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
+<div class="param">udp_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="ServerAutoScalePolicyApiResponse">ServerAutoScalePolicyApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NetworkService">NetworkService</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. Field introduced in 18.2.5. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the NetworkService. Field introduced in 18.2.5. </div>
+<div class="param">routing_service (optional)</div><div class="param-desc"><span class="param-type"><a href="#RoutingService">RoutingService</a></span> Routing Information of the NetworkService. Field introduced in 18.2.5. </div>
+<div class="param">se_group_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Service Engine Group to which the service is applied. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.5. </div>
+<div class="param">service_type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Indicates the type of NetworkService. Enum options - ROUTING_SERVICE. Field introduced in 18.2.5. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. Field introduced in 18.2.5. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the NetworkService. Field introduced in 18.2.5. </div>
+<div class="param">vrf_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> VRF context to which the service is scoped. It is a reference to an object of type VrfContext. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="NetworkServiceApiResponse">NetworkServiceApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
-<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#ServerAutoScalePolicy">array[ServerAutoScalePolicy]</a></span>  </div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#NetworkService">array[NetworkService]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RoutingService">RoutingService</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">advertise_backend_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise reachability of backend server networks via ADC through BGP for default gateway feature. Field introduced in 18.2.5. </div>
+<div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Service Engine acts as Default Gateway for this service. Field introduced in 18.2.5. </div>
+<div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of this service. Field introduced in 18.2.5. </div>
+<div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. Field introduced in 18.2.5. </div>
+<div class="param">floating_intf_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Floating Interface IPs for the RoutingService. Field introduced in 18.2.5. </div>
+<div class="param">floating_intf_ip_se_2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field introduced in 18.2.5. </div>
+<div class="param">flowtable_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#FlowtableProfile">FlowtableProfile</a></span> Routing Service related Flow profile information. Field introduced in 18.2.5. </div>
+<div class="param">nat_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> NAT policy for outbound NAT functionality. This is done in post-routing. It is a reference to an object of type NatPolicy. Field introduced in 18.2.5. </div>
+<div class="param">routing_by_linux_ipstack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> For IP Routing feature, enabling this knob will fallback to routing through Linux, by default routing is done via Service Engine data-path. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure hardwaresecuritymodulegroup <key> - show hardwaresecuritymodulegroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -274,7 +274,7 @@ font-style: italic;
         } ],
         "is_ha" : true,
         "server_pem" : "aeiou",
-        "ha_group_num" : 123,
+        "ha_group_num" : 123456789,
         "node_info" : [ {
           "client_priv_key" : "aeiou",
           "chrystoki_conf" : "aeiou",
@@ -380,7 +380,7 @@ font-style: italic;
       } ],
       "is_ha" : true,
       "server_pem" : "aeiou",
-      "ha_group_num" : 123,
+      "ha_group_num" : 123456789,
       "node_info" : [ {
         "client_priv_key" : "aeiou",
         "chrystoki_conf" : "aeiou",
@@ -557,7 +557,7 @@ font-style: italic;
       } ],
       "is_ha" : true,
       "server_pem" : "aeiou",
-      "ha_group_num" : 123,
+      "ha_group_num" : 123456789,
       "node_info" : [ {
         "client_priv_key" : "aeiou",
         "chrystoki_conf" : "aeiou",
@@ -674,7 +674,7 @@ font-style: italic;
       } ],
       "is_ha" : true,
       "server_pem" : "aeiou",
-      "ha_group_num" : 123,
+      "ha_group_num" : 123456789,
       "node_info" : [ {
         "client_priv_key" : "aeiou",
         "chrystoki_conf" : "aeiou",
@@ -791,7 +791,7 @@ font-style: italic;
       } ],
       "is_ha" : true,
       "server_pem" : "aeiou",
-      "ha_group_num" : 123,
+      "ha_group_num" : 123456789,
       "node_info" : [ {
         "client_priv_key" : "aeiou",
         "chrystoki_conf" : "aeiou",
@@ -886,7 +886,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="HSMSafenetLuna">HSMSafenetLuna</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ha_group_num (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Group Number of generated HA Group. format: int32</div>
+      <div class="param">ha_group_num (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Group Number of generated HA Group. format: int64</div>
 <div class="param">is_ha </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Set to indicate HA across more than one servers. </div>
 <div class="param">node_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMSafenetClientInfo">array[HSMSafenetClientInfo]</a></span> Node specific information. </div>
 <div class="param">server (optional)</div><div class="param-desc"><span class="param-type"><a href="#HSMSafenetLunaServer">array[HSMSafenetLunaServer]</a></span> SafeNet/Gemalto HSM Servers used for crypto operations. </div>
