@@ -17,7 +17,7 @@ type WafPolicyPSMGroup struct {
 	// Enable or disable this WAF rule group. Field introduced in 18.2.3.
 	Enable *bool `json:"enable,omitempty"`
 
-	// If a rule in this group matches the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3.
+	// If a rule in this group matches the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_ALLOW_PARAMETER. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3.
 	HitAction *string `json:"hit_action,omitempty"`
 
 	// This field indicates that this group is used for learning. Field introduced in 18.2.3.
@@ -26,7 +26,7 @@ type WafPolicyPSMGroup struct {
 	// Positive Security Model locations. These are used to partition the application name space. Field introduced in 18.2.3.
 	Locations []*WafPSMLocation `json:"locations,omitempty"`
 
-	// If a rule in this group does not match the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3.
+	// If a rule in this group does not match the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_BLOCK. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3.
 	MissAction *string `json:"miss_action,omitempty"`
 
 	// User defined name of the group. Field introduced in 18.2.3.

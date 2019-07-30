@@ -7,6 +7,9 @@ package models
 // swagger:model SeRuntimeProperties
 type SeRuntimeProperties struct {
 
+	// Allow admin user ssh access to SE. Field introduced in 18.2.5.
+	AdminSSHEnabled *bool `json:"admin_ssh_enabled,omitempty"`
+
 	// Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object
 	AppHeaders []*AppHdr `json:"app_headers,omitempty"`
 
@@ -220,19 +223,19 @@ type SeRuntimeProperties struct {
 	// Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned.
 	SeDpLogUdfEnqueuePercent *int32 `json:"se_dp_log_udf_enqueue_percent,omitempty"`
 
-	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.
 	SeDpVnicQueueStallEventSleep *int32 `json:"se_dp_vnic_queue_stall_event_sleep,omitempty"`
 
-	// Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.
 	SeDpVnicQueueStallThreshold *int32 `json:"se_dp_vnic_queue_stall_threshold,omitempty"`
 
-	// Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 17.1.1.
+	// Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.
 	SeDpVnicQueueStallTimeout *int32 `json:"se_dp_vnic_queue_stall_timeout,omitempty"`
 
-	// Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 17.1.14, 17.2.5, 18.1.1.
+	// Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.
 	SeDpVnicRestartOnQueueStallCount *int32 `json:"se_dp_vnic_restart_on_queue_stall_count,omitempty"`
 
-	// Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 17.1.14, 17.2.5, 18.1.1.
+	// Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.
 	SeDpVnicStallSeRestartWindow *int32 `json:"se_dp_vnic_stall_se_restart_window,omitempty"`
 
 	// Enable core dump on assert. Field introduced in 18.1.3, 18.2.1.

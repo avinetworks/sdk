@@ -10,7 +10,7 @@ type SeBootupProperties struct {
 	// Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1.
 	DistributeQueues *bool `json:"distribute_queues,omitempty"`
 
-	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.
+	// Deprecated. Field deprecated in 18.2.5.
 	DistributeVnics *bool `json:"distribute_vnics,omitempty"`
 
 	// End of the Local TCP port range used by SE for backend connections in docker environment.
@@ -73,13 +73,13 @@ type SeBootupProperties struct {
 	// Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.
 	SeLogBufferEventsSize *int32 `json:"se_log_buffer_events_size,omitempty"`
 
-	// Enable or disable Large Receive Optimization for vnics.
+	// Deprecated. Field deprecated in 18.2.5.
 	SeLro *int32 `json:"se_lro,omitempty"`
 
-	// Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.
+	// Deprecated. Field deprecated in 18.2.5.
 	SePcapPktCount *int32 `json:"se_pcap_pkt_count,omitempty"`
 
-	// Max size of each packet in the pcap interface.
+	// Deprecated. Field deprecated in 18.2.5.
 	SePcapPktSz *int32 `json:"se_pcap_pkt_sz,omitempty"`
 
 	// when sampling for navigation timing data from the end user client. minimum time to wait on server between samples.
@@ -97,7 +97,7 @@ type SeBootupProperties struct {
 	// Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1.
 	SeTunnelMode *int32 `json:"se_tunnel_mode,omitempty"`
 
-	// Number of packets to batch for transmit to the nic.
+	// Deprecated. Field deprecated in 18.2.5.
 	SeTxBatchSize *int32 `json:"se_tx_batch_size,omitempty"`
 
 	// This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.
