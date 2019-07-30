@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NatPolicy Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure natpolicy <key>\n- show natpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -511,18 +511,6 @@
                 }
             }
         }, 
-        "NatPolicyActionParam": {
-            "type": "object", 
-            "properties": {
-                "nat_info": {
-                    "items": {
-                        "$ref": "#/definitions/NatAddrInfo"
-                    }, 
-                    "type": "array", 
-                    "description": "Pool of IP Addresses used for Nat. Field introduced in 18.2.3."
-                }
-            }
-        }, 
         "IpAddrMatch": {
             "required": [
                 "match_criteria"
@@ -621,17 +609,13 @@
                     "type": "string", 
                     "description": "Nat rule Name. Field introduced in 18.2.3."
                 }, 
-                "action_param": {
+                "action": {
                     "description": "Nat rule Action Information. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/NatPolicyActionParam"
+                    "$ref": "#/definitions/NatPolicyAction"
                 }, 
                 "match": {
                     "description": "Nat rule Match Criteria. Field introduced in 18.2.3.", 
                     "$ref": "#/definitions/NatMatchTarget"
-                }, 
-                "action": {
-                    "type": "string", 
-                    "description": "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
                 }, 
                 "created_by": {
                     "type": "string", 
@@ -701,12 +685,25 @@
                 }
             }
         }, 
-        "NatMatchTarget": {
+        "ServiceMatch": {
             "type": "object", 
             "properties": {
                 "source_port": {
-                    "description": "Source Port of the packet. Field introduced in 18.2.3.", 
+                    "description": "Source Port of the packet. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/PortMatch"
+                }, 
+                "destination_port": {
+                    "description": "Destination Port of the packet. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/PortMatch"
+                }
+            }
+        }, 
+        "NatMatchTarget": {
+            "type": "object", 
+            "properties": {
+                "services": {
+                    "description": "Services like port-matching and protocol. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/ServiceMatch"
                 }, 
                 "destination_ip": {
                     "description": "Destination IP of the packet. Field introduced in 18.2.3.", 
@@ -715,10 +712,6 @@
                 "source_ip": {
                     "description": "Source IP of the packet. Field introduced in 18.2.3.", 
                     "$ref": "#/definitions/IpAddrMatch"
-                }, 
-                "destination_port": {
-                    "description": "Destination Port of the packet. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/PortMatch"
                 }
             }
         }, 
@@ -751,6 +744,25 @@
                         "$ref": "#/definitions/NatPolicy"
                     }, 
                     "type": "array"
+                }
+            }
+        }, 
+        "NatPolicyAction": {
+            "required": [
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "nat_info": {
+                    "items": {
+                        "$ref": "#/definitions/NatAddrInfo"
+                    }, 
+                    "type": "array", 
+                    "description": "Pool of IP Addresses used for Nat. Field introduced in 18.2.3."
+                }, 
+                "type": {
+                    "type": "string", 
+                    "description": "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
                 }
             }
         }

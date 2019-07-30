@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -671,7 +671,6 @@
             "type": "object", 
             "properties": {
                 "confidence": {
-                    "default": 90, 
                     "type": "integer", 
                     "description": "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
@@ -681,19 +680,16 @@
                     "description": "Enable Learning for WAF policy. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 }, 
                 "sampling_percent": {
-                    "default": 10, 
                     "type": "integer", 
                     "description": "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "arg_summarization_threshold": {
-                    "default": 3, 
                     "type": "integer", 
                     "description": "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
                 "path_summarization_threshold": {
-                    "default": 5, 
                     "type": "integer", 
                     "description": "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2.", 
                     "format": "int32"

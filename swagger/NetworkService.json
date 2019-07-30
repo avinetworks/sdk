@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi Tenant Object API", 
+        "title": "Avi NetworkService Object API", 
         "version": "18.2.5", 
-        "description": "CLI\n```\n- configure tenant <key>\n- show tenant <key>\n```\n", 
+        "description": "CLI\n```\n- configure networkservice <key>\n- show networkservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,171 +10,7 @@
         }
     }, 
     "paths": {
-        "/tenant": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/Tenant"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "Tenant object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/Tenant"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/TenantApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/tenant/{uuid}": {
+        "/networkservice/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -188,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/Tenant"
+                            "$ref": "#/definitions/NetworkService"
                         }
                     }, 
                     "401": {
@@ -234,10 +70,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "Tenant object creation", 
+                        "description": "NetworkService object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/Tenant"
+                            "$ref": "#/definitions/NetworkService"
                         }
                     }, 
                     {
@@ -265,7 +101,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/Tenant"
+                            "$ref": "#/definitions/NetworkService"
                         }
                     }, 
                     "401": {
@@ -359,7 +195,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/Tenant"
+                            "$ref": "#/definitions/NetworkService"
                         }
                     }, 
                     "401": {
@@ -405,10 +241,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "Tenant object creation", 
+                        "description": "NetworkService object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/Tenant"
+                            "$ref": "#/definitions/NetworkService"
                         }
                     }, 
                     {
@@ -491,10 +327,297 @@
                     "application/json"
                 ]
             }
+        }, 
+        "/networkservice": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/NetworkService"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "NetworkService object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/NetworkService"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/NetworkServiceApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
+                        "name": "cloud_uuid"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
+                        "name": "cloud_ref.name"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
         }
     }, 
     "definitions": {
-        "TenantApiResponse": {
+        "NetworkService": {
+            "required": [
+                "name", 
+                "se_group_ref", 
+                "service_type", 
+                "vrf_ref"
+            ], 
+            "type": "object", 
+            "properties": {
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "routing_service": {
+                    "description": "Routing Information of the NetworkService. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/RoutingService"
+                }, 
+                "cloud_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud. Field introduced in 18.2.5."
+                }, 
+                "se_group_ref": {
+                    "type": "string", 
+                    "description": "Service Engine Group to which the service is applied. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.5."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 18.2.5."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the NetworkService. Field introduced in 18.2.5."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "service_type": {
+                    "type": "string", 
+                    "description": "Indicates the type of NetworkService. Enum options - ROUTING_SERVICE. Field introduced in 18.2.5."
+                }, 
+                "vrf_ref": {
+                    "type": "string", 
+                    "description": "VRF context to which the service is scoped. It is a reference to an object of type VrfContext. Field introduced in 18.2.5."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID of the NetworkService. Field introduced in 18.2.5."
+                }
+            }
+        }, 
+        "FlowtableProfile": {
+            "type": "object", 
+            "properties": {
+                "tcp_reset_timeout": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Timeout in seconds for TCP flows after RST is seen.Within this timeout, if any non-syn packet is seenfrom the endpoint from which RST is received,nat-flow moves to established state. Otherwise nat-flowis cleaned up. This state helps to mitigate the impactof RST attacks. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "tcp_half_closed_timeout": {
+                    "default": 30, 
+                    "type": "integer", 
+                    "description": "Idle timeout in seconds for TCP flows in half closed state. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "tcp_idle_timeout": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Idle timeout in seconds for TCP flows. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "tcp_connection_setup_timeout": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Idle timeout in seconds for nat TCP flows in connection setup state. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "tcp_closed_timeout": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Idle timeout in seconds for TCP flows in closed state. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
+                "udp_idle_timeout": {
+                    "default": 10, 
+                    "type": "integer", 
+                    "description": "Idle timeout in seconds for UDP flows. Allowed values are 1-36000. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "IpAddr": {
+            "required": [
+                "addr", 
+                "type"
+            ], 
+            "type": "object", 
+            "properties": {
+                "type": {
+                    "type": "string", 
+                    "description": " Enum options - V4, DNS, V6."
+                }, 
+                "addr": {
+                    "type": "string", 
+                    "description": "IP address."
+                }
+            }
+        }, 
+        "NetworkServiceApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -507,71 +630,57 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/Tenant"
+                        "$ref": "#/definitions/NetworkService"
                     }, 
                     "type": "array"
                 }
             }
         }, 
-        "TenantConfiguration": {
+        "RoutingService": {
             "type": "object", 
             "properties": {
-                "se_in_provider_context": {
+                "enable_vip_on_all_interfaces": {
                     "default": true, 
                     "type": "boolean", 
-                    "description": "Controls the ownership of ServiceEngines. Service Engines can either be exclusively owned by each tenant or owned by the administrator and shared by all tenants. When ServiceEngines are owned by the administrator, each tenant can have either read access or no access to their Service Engines."
+                    "description": "Enable VIP on all interfaces of this service. Field introduced in 18.2.5."
                 }, 
-                "tenant_access_to_provider_se": {
-                    "default": true, 
+                "enable_routing": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property tenant_access_to_provider_se of obj type TenantConfiguration field type str  type boolean"
+                    "description": "Service Engine acts as Default Gateway for this service. Field introduced in 18.2.5."
                 }, 
-                "tenant_vrf": {
+                "routing_by_linux_ipstack": {
                     "type": "boolean", 
-                    "description": "When 'Per Tenant IP Domain' is selected, each tenant gets its own routing domain that is not shared with any other tenant. When 'Share IP Domain across all tenants' is selected, all tenants share the same routing domain."
-                }
-            }
-        }, 
-        "Tenant": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                    "description": "For IP Routing feature, enabling this knob will fallback to routing through Linux, by default routing is done via Service Engine data-path. Field introduced in 18.2.5."
                 }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
+                "floating_intf_ip": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "Floating Interface IPs for the RoutingService. Field introduced in 18.2.5."
                 }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }, 
-                "created_by": {
-                    "type": "string", 
-                    "description": "Creator of this tenant."
-                }, 
-                "config_settings": {
-                    "description": "Placeholder for description of property config_settings of obj type Tenant field type str  type object", 
-                    "$ref": "#/definitions/TenantConfiguration"
-                }, 
-                "local": {
-                    "default": true, 
+                "advertise_backend_networks": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property local of obj type Tenant field type str  type boolean"
+                    "description": "Advertise reachability of backend server networks via ADC through BGP for default gateway feature. Field introduced in 18.2.5."
                 }, 
-                "name": {
+                "floating_intf_ip_se_2": {
+                    "items": {
+                        "$ref": "#/definitions/IpAddr"
+                    }, 
+                    "type": "array", 
+                    "description": "If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field introduced in 18.2.5."
+                }, 
+                "enable_vmac": {
+                    "type": "boolean", 
+                    "description": "Use Virtual MAC address for interfaces on which floating interface IPs are placed. Field introduced in 18.2.5."
+                }, 
+                "nat_policy_ref": {
                     "type": "string", 
-                    "description": "Name of the object."
+                    "description": "NAT policy for outbound NAT functionality. This is done in post-routing. It is a reference to an object of type NatPolicy. Field introduced in 18.2.5."
+                }, 
+                "flowtable_profile": {
+                    "description": "Routing Service related Flow profile information. Field introduced in 18.2.5.", 
+                    "$ref": "#/definitions/FlowtableProfile"
                 }
             }
         }

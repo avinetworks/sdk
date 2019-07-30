@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -1047,6 +1047,9 @@ definitions:
                 type: integer
                 default: 360
                 format: int32
+            shared_ssl_certificates:
+                description: "SSL Certificates in the admin tenant can be used in non-admin tenants. Field introduced in 18.2.5."
+                type: boolean
             ssl_certificate_expiry_warning_days:
                 description: "Number of days for SSL Certificate expiry warning."
                 type: array

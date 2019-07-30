@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -475,7 +475,7 @@ definitions:
                 description: "When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-3600. Special values are 0 - 'infinite'."
+                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-7200. Special values are 0 - 'infinite'."
                 type: integer
                 default: 300
                 format: int32
@@ -540,7 +540,7 @@ definitions:
                 type: integer
                 format: int32
             receive_window:
-                description: "Size of the receive window. Allowed values are 32-65536."
+                description: "Size of the receive window. Allowed values are 2-65536."
                 type: integer
                 default: 64
                 format: int32

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertEmailConfig Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure alertemailconfig <key>\n- show alertemailconfig <key>\n- test alerttestemail <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
