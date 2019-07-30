@@ -82,6 +82,9 @@ type SeAgentProperties struct {
 	// Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3.
 	SeGrpChangeDisruptive *bool `json:"se_grp_change_disruptive,omitempty"`
 
+	// SeAgent properties for State Cache functionality. Field introduced in 18.2.5.
+	SeagentStatecacheProperties *SeAgentStateCacheProperties `json:"seagent_statecache_properties,omitempty"`
+
 	// Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SendSeReadyTimeout *int32 `json:"send_se_ready_timeout,omitempty"`
 

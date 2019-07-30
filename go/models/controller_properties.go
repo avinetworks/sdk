@@ -134,6 +134,9 @@ type ControllerProperties struct {
 	// Time to wait before marking segroup upgrade as stuck.
 	SeupgradeSegroupMinDeadTimeout *int32 `json:"seupgrade_segroup_min_dead_timeout,omitempty"`
 
+	// SSL Certificates in the admin tenant can be used in non-admin tenants. Field introduced in 18.2.5.
+	SharedSslCertificates *bool `json:"shared_ssl_certificates,omitempty"`
+
 	// Number of days for SSL Certificate expiry warning.
 	SslCertificateExpiryWarningDays []int64 `json:"ssl_certificate_expiry_warning_days,omitempty,omitempty"`
 
