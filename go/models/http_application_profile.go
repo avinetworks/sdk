@@ -37,6 +37,9 @@ type HTTPApplicationProfile struct {
 	// Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections.
 	DisableKeepalivePostsMsie6 *bool `json:"disable_keepalive_posts_msie6,omitempty"`
 
+	// Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5.
+	DisableSniHostnameCheck *bool `json:"disable_sni_hostname_check,omitempty"`
+
 	// Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4.
 	EnableFireAndForget *bool `json:"enable_fire_and_forget,omitempty"`
 
@@ -81,6 +84,9 @@ type HTTPApplicationProfile struct {
 
 	// Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxBadRpsURI *int32 `json:"max_bad_rps_uri,omitempty"`
+
+	// The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5.
+	MaxKeepaliveRequests *int32 `json:"max_keepalive_requests,omitempty"`
 
 	// Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256.
 	MaxResponseHeadersSize *int32 `json:"max_response_headers_size,omitempty"`
