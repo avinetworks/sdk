@@ -106,7 +106,7 @@ func (client *SecureChannelAvailableLocalIpsClient) Patch(uuid string, patch int
 
 // Delete an existing SecureChannelAvailableLocalIps object with a given UUID
 func (client *SecureChannelAvailableLocalIpsClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-	if len(options) == 0 {
+    if len(options) == 0{
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
