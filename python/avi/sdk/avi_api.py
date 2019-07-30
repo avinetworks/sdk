@@ -931,34 +931,82 @@ class ApiSession(Session):
         else:
             return None
 
-    def get_all_objects_of_type(self, obj_type, tenant='', tenant_uuid='',
-                                timeout=None, params=None, api_version=None,
-                                **kwargs):
+    def _paginator(self, *args, **kwargs):
         """
-        Helper method to get all objects of specific type from controller.
+        This is a private method to simulate an iterator
+        on top of the pagination functionality provided by Avi Controller.
+
+        :param *args: Accepts all args accepted by get method of class
+            ApiSession.
+        :params **kwargs: Accepts all kwargs accepted by get method of class
+            ApiSession.
+
+        Yields batch of objects in the range of 0 to page_size passed in kwargs.
         """
-        all_objs = []
-        if params is None:
-            params={}
-        params['page_size'] = 200 # Max limt on Controller
-        resp = self.get(obj_type, tenant, tenant_uuid, timeout=timeout,
-                        params=params, api_version=api_version, **kwargs).json()
+        resp = self.get(*args, **kwargs).json()
         if 'results' in resp:
-            all_objs += resp['results']
+            yield resp['results']
         else:
             # For apis returning single object eg. api/cluster
-            all_objs += [resp]
+             yield [resp]
 
-        page = 2 #  Initialized to 2 for new page requests
+        page = 2 # Initialized to 2 for new page requests
         while resp.get('next', None) is not None:
-            params['page'] = page
-            resp = self.get(obj_type, tenant, tenant_uuid, timeout=timeout,
-                            params=params, api_version=api_version, **kwargs).json()
-            all_objs += resp['results']
+            kwargs['params']['page'] = page
+            resp = self.get(*args, **kwargs).json()
             page += 1
+            yield resp['results']
 
-        for obj in all_objs:
-            yield obj
+    def get_objects_iter(self, obj_type, tenant='', tenant_uuid='',
+                         timeout=None, params=None, api_version=None, **kwargs):
+        """
+        Iterator to fetch objects of any type from Avi Controller.
+        By default, 100 objects are fetched in every batch. However, user can
+        override this behaviour by passing page_size as params.
+
+        Irrespective of page_size the method will yield only one object for
+        each iteration.
+
+        :param obj_type: Type of object that needs to be fetched from
+			Avi Controller. Ex: pool, virtualservice
+        :param tenant: overrides the tenant used during session creation.
+        :param tenant_uuid: overrides the tenant or tenant_uuid during session
+            creation.
+        :param timeout: timeout for API calls; Default value is 60 seconds.
+        :param params: dictionary of key value pairs to be sent as query
+            parameters.
+        :param api_version: overrides x-avi-header in request header during
+            session creation.
+        :param **kwargs: Accepts any other params accepted by Session class get
+			method.
+
+        Yields objects of type obj_type one by one. Example
+
+        >>> # Looping over get_objects_iter
+        >>> all_pools_iter = get_objects_iter('pool', params={'fields':'name'})
+        >>> for pool in all_pools_iter:
+        ...  #Do something with pool
+        ...  print(pool)
+        {u'name': u'pool-avi',
+        u'server_count': 0,
+        u'url': u'https://192.10.20.30/api/pool/<uuid>',
+        u'uuid': u'<uuid>'}
+        """
+        if params is None:
+            params={}
+
+        if params.get('page_size', None) is None:
+            params['page_size'] = 100
+
+        page_size = params.get('page_size')
+        if int(page_size) > 200:
+            raise ValueError('page_size cannot be more than 200')
+        pages_iter =  self._paginator(obj_type, tenant=tenant, params=params,
+                                      tenant_uuid=tenant_uuid, timeout=timeout,
+                                      api_version=api_version, **kwargs)
+        for page in pages_iter:
+            for obj in page:
+                yield obj
 
     def _get_api_path(self, path, uuid=None):
         """
