@@ -119,7 +119,10 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
             for k, v in task.iteritems():
-                if k == 'name' or k == 'tags':
+                if k == 'name' or k == 'tags' or k =='register':
+                    continue
+                if v.get('system_default'):
+                    tasks.remove(task)
                     continue
                 v['state'] = 'absent'
                 v['api_version'] = self.avi_cfg['META']['version']['Version']
