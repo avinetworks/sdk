@@ -125,7 +125,7 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
                     tasks.remove(task)
                     continue
                 v['state'] = 'absent'
-                v['api_version'] = self.avi_cfg['META']['version']['Version']
+                v['api_version'] = self.api_version
         ad['tasks'] = tasks
         with open('%s/avi_config_delete.yml' % self.outdir, "w") as outf:
             outf.write('# Auto-generated from Avi Configuration\n')

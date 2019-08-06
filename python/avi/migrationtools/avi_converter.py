@@ -37,7 +37,7 @@ class AviConverter(object):
 
         if self.patch:
             with open(self.patch) as f:
-                patches = yaml.load(f)
+                patches = yaml.full_load(f)
             cp = ConfigPatch(avi_config, patches)
             avi_config = cp.patch()
         # Check if vs_filter args present then execute vs_filter.py with args

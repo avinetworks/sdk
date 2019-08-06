@@ -22,7 +22,7 @@ with open(input_file, "r+") as f:
     outdir = output_file
 
 with open(config_file) as f:
-    file_attribute = yaml.load(f)
+    file_attribute = yaml.full_load(f)
 
 setup = dict(
     controller_ip=file_attribute['controller_ip_17_1_1'],
