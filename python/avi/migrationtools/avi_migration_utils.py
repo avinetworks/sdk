@@ -12,7 +12,6 @@ import networkx as nx
 import pexpect
 import yaml
 from OpenSSL import crypto
-from avi.migrationtools.vs_filter import path_key_map, get_name_and_entity
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
@@ -509,12 +508,12 @@ class MigrationUtil(object):
                     or key == 'ssl_profile_name':
                 if not obj_dict[key]:
                     continue
-                entity, name = get_name_and_entity(obj_dict[key])
+                entity, name = self.get_name_and_entity(obj_dict[key])
                 self.search_ne(entity, name, avi_graph, avi_config, depth,
                                vsname)
             elif key.endswith('refs'):
                 for ref in obj_dict[key]:
-                    entity, name = get_name_and_entity(ref)
+                    entity, name = self.get_name_and_entity(ref)
                     self.search_ne(entity, name, avi_graph, avi_config, depth,
                                    vsname)
             elif isinstance(obj_dict[key], dict):
@@ -560,7 +559,7 @@ class MigrationUtil(object):
                       tree
         :param vsname: name of VS
         """
-
+        path_key_map = self.get_path_key_map()
         avi_conf_key = path_key_map[entity]
         found_obj_list = avi_config.get(avi_conf_key)
         found_obj = [obj for obj in found_obj_list if obj['name'] == name] if \
@@ -593,3 +592,24 @@ class MigrationUtil(object):
 
     def get_project_path(self):
         return os.path.abspath(os.path.dirname(__file__))
+
+    def get_name_and_entity(self, url):
+        """
+        Parses reference string to extract object type and
+        :param url: reference url to be parsed
+        :return: entity and object name
+        """
+        parsed = urlparse.urlparse(url)
+        return parsed.path.split('/')[2], \
+               urlparse.parse_qs(parsed.query)['name'][0]
+
+    def get_path_key_map(self):
+        yml_file = os.path.join(self.get_project_path(),
+                                './common/avi_resource_types.yaml')
+        yml_data = yaml.full_load(open(yml_file, 'r'))
+        # Converts avi object types to avi resource types
+        data_lower_case = map(lambda x: x.lower(),
+                              yml_data['avi_resource_types'])
+        # Generates AVI resource types to avi object type mapping
+        # in form of dictionary.
+        return dict(zip(data_lower_case, yml_data['avi_resource_types']))

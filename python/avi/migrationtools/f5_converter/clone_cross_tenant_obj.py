@@ -13,7 +13,7 @@ conv_utils = F5Util()
 
 obj_not_supported = ('vrfcontext', 'cloud', 'tenant',)
 
-# These objects are present in admin tenant and visible across the other tenants.
+# These objects are present in admin tenant and visible across other tenants.
 admin_obj_visible_to_all = ('poolgroup', 'httppolicyset', 'pool',
                             'pkiprofile', 'stringgroup',
                             'vrfcontext', 'applicationprofile',
@@ -23,8 +23,9 @@ admin_obj_visible_to_all = ('poolgroup', 'httppolicyset', 'pool',
 
 # Iterate over these objects and clone cross tenant objects.
 # Read supported avi objects from yaml file.
-yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__), '../common/avi_resource_types.yaml'))
-supported_obj = yaml.load(open(yml_file, 'r'))
+yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        '../common/avi_resource_types.yaml'))
+supported_obj = yaml.full_load(open(yml_file, 'r'))
 # Reverse order of avi_objects is required during clone operation.
 avi_object_types = tuple(supported_obj['avi_resource_types'][::-1])
 
@@ -56,7 +57,8 @@ class CloneObjects:
         cloned_obj_ref = conv_utils.get_object_ref(
             cloned_obj['name'], obj_type, tenant=cross_tenant)
         if cloned_obj_ref in self.cloned:
-            LOG.info("Object already cloned. Return clone object ref %s", cloned_obj_ref)
+            LOG.info("Object already cloned. Return clone object ref %s",
+                     cloned_obj_ref)
             return None, cloned_obj_ref
         otenant = conv_utils.get_name(object['tenant_ref'])
         LOG.info("Cloned object %s with name %s from tenant %s to tenant %s.",
