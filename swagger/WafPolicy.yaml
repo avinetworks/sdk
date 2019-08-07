@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi WafPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -636,12 +636,10 @@ definitions:
             arg_summarization_threshold:
                 description: "Suffix Summarization threshold used to compress args. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
-                default: 3
                 format: int32
             confidence:
                 description: "Confidence level used to derive rules from the WAF learning. Allowed values are 60-100. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
-                default: 90
                 format: int32
             enable:
                 description: "Enable Learning for WAF policy. Field deprecated in 18.2.3. Field introduced in 18.1.2."
@@ -649,12 +647,10 @@ definitions:
             path_summarization_threshold:
                 description: "Suffix Summarization threshold used to compress paths. Allowed values are 3-255. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
-                default: 5
                 format: int32
             sampling_percent:
                 description: "Sampling percent of the requests subjected to WAF learning. Allowed values are 1-100. Field deprecated in 18.2.3. Field introduced in 18.1.2."
                 type: integer
-                default: 10
                 format: int32
     WafPolicy:
         type: object

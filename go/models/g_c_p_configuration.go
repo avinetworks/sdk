@@ -16,7 +16,7 @@ type GCPConfiguration struct {
 	// Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1.
 	GcsBucketName *string `json:"gcs_bucket_name,omitempty"`
 
-	// Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, se_project_id will be used. Field introduced in 18.2.1.
+	// Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, Service Engine Project ID will be used. Field introduced in 18.2.1.
 	GcsProjectID *string `json:"gcs_project_id,omitempty"`
 
 	// Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1.

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugVirtualService Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- debug virtualservice <key>\n- show debug virtualservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -711,6 +711,11 @@
                     "type": "integer", 
                     "description": "Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.", 
                     "format": "int32"
+                }, 
+                "pcap_ng": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable PcapNg for packet capture. Field introduced in 18.2.5."
                 }, 
                 "enable_ssl_session_key_capture": {
                     "type": "boolean", 

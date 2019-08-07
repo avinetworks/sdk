@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi AlertSyslogConfig Object API
     contact:
         name: Avi Networks Inc.
@@ -441,10 +441,19 @@ definitions:
             -   syslog_server
             -   udp
         properties:
+            anon_auth:
+                description: "Enable anonymous authentication of Syslog Serverwhich will disable server certificate authentication. Field introduced in 17.2.17, 18.2.5."
+                type: boolean
             format:
                 description: "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
                 type: string
                 default: "SYSLOG_LEGACY"
+            pkiprofile_ref:
+                description: "Select the PKIProfile containing a CA or list of CA chainswhich will validate the certificate of the syslog server. It is a reference to an object of type PKIProfile. Field introduced in 17.2.17, 18.2.5."
+                type: string
+            ssl_key_and_certificate_ref:
+                description: "Select a certificate and key which will be used to authenticate to the syslog server. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 17.2.17, 18.2.5."
+                type: string
             syslog_server:
                 description: "The destination Syslog server IP address or hostname."
                 type: string

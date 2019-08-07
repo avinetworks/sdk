@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vsvip <key> - show vsvip <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -281,6 +281,11 @@ font-style: italic;
       "subnet" : "",
       "port_uuid" : "aeiou",
       "subnet_uuid" : "aeiou",
+      "placement_networks" : [ {
+        "subnet" : "",
+        "subnet6" : "",
+        "network_ref" : "aeiou"
+      } ],
       "avi_allocated_vip" : true,
       "vip_id" : "aeiou",
       "ip_address" : "",
@@ -396,6 +401,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -582,6 +592,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -708,6 +723,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -834,6 +854,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -905,6 +930,7 @@ font-style: italic;
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#Vip"><code>Vip</code></a></li>
+    <li><a href="#VipPlacementNetwork"><code>VipPlacementNetwork</code></a></li>
     <li><a href="#VsVip"><code>VsVip</code></a></li>
     <li><a href="#VsVipApiResponse"><code>VsVipApiResponse</code></a></li>
   </ol>
@@ -978,12 +1004,21 @@ font-style: italic;
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the VIP. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
+<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipPlacementNetwork">array[VipPlacementNetwork]</a></span> Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. </div>
 <div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID associated with the vip. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VipPlacementNetwork">VipPlacementNetwork</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5. </div>
+<div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv4 Subnet to use for vip placement. Field introduced in 18.2.5. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet to use for vip placement. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

@@ -142,7 +142,7 @@ type OShiftK8SConfiguration struct {
 	// Perform service port matching to create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Field deprecated in 17.2.11,18.1.2.
 	ServicePortMatchHTTPService *bool `json:"service_port_match_http_service,omitempty"`
 
-	// Prefix to be used for Shard VS name when num_shards knob is non zero. Format for Shard VS name will be <shard_prefix>-<shard_idx>-CloudName-SEGroupName. Default value is 'shard-vs'. Field introduced in 18.2.5.
+	// Prefix to be used for Shard VS name when num_shards knob is non zero. Format for Shard VS name will be <shard_prefix>-<idx>-CloudName-SEGroupName. Field introduced in 18.2.5.
 	ShardPrefix *string `json:"shard_prefix,omitempty"`
 
 	// Projects/Namespaces use a shared virtualservice for http/https Routes and Ingress objects unless overriden by the avi_virtualservice  dedicated|shared annotation. Field introduced in 17.1.9,17.2.3.

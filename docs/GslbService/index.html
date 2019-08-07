@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslbservice <key> - show gslbservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,14 +256,32 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
-    "application_persistence_profile_ref" : "aeiou",
     "site_persistence_enabled" : true,
     "pool_algorithm" : "aeiou",
     "description" : "aeiou",
+    "uuid" : "aeiou",
+    "enabled" : true,
+    "_last_modified" : "aeiou",
+    "down_response" : {
+      "fallback_ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "type" : "aeiou"
+    },
+    "hm_off" : true,
+    "wildcard_match" : true,
+    "use_edns_client_subnet" : true,
+    "health_monitor_refs" : [ "aeiou" ],
+    "num_dns_ip" : 123,
+    "is_federated" : true,
+    "resolve_cname" : true,
+    "application_persistence_profile_ref" : "aeiou",
     "groups" : [ {
       "consistent_hash_mask" : 123,
       "members" : [ {
         "cloud_uuid" : "aeiou",
+        "hostname" : "aeiou",
         "public_ip" : {
           "ip" : ""
         },
@@ -299,27 +317,11 @@ font-style: italic;
     "controller_health_status_enabled" : true,
     "created_by" : "aeiou",
     "ttl" : 123,
-    "uuid" : "aeiou",
-    "enabled" : true,
     "url" : "aeiou",
-    "_last_modified" : "aeiou",
     "domain_names" : [ "aeiou" ],
-    "down_response" : {
-      "fallback_ip" : {
-        "addr" : "aeiou",
-        "type" : "aeiou"
-      },
-      "type" : "aeiou"
-    },
-    "hm_off" : true,
-    "wildcard_match" : true,
-    "use_edns_client_subnet" : true,
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
-    "health_monitor_refs" : [ "aeiou" ],
-    "num_dns_ip" : 123,
-    "health_monitor_scope" : "aeiou",
-    "is_federated" : true
+    "health_monitor_scope" : "aeiou"
   } ]
 }</code></pre>
 
@@ -374,14 +376,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "application_persistence_profile_ref" : "aeiou",
   "site_persistence_enabled" : true,
   "pool_algorithm" : "aeiou",
   "description" : "aeiou",
+  "uuid" : "aeiou",
+  "enabled" : true,
+  "_last_modified" : "aeiou",
+  "down_response" : {
+    "fallback_ip" : {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    },
+    "type" : "aeiou"
+  },
+  "hm_off" : true,
+  "wildcard_match" : true,
+  "use_edns_client_subnet" : true,
+  "health_monitor_refs" : [ "aeiou" ],
+  "num_dns_ip" : 123,
+  "is_federated" : true,
+  "resolve_cname" : true,
+  "application_persistence_profile_ref" : "aeiou",
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
       "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
@@ -417,27 +437,11 @@ font-style: italic;
   "controller_health_status_enabled" : true,
   "created_by" : "aeiou",
   "ttl" : 123,
-  "uuid" : "aeiou",
-  "enabled" : true,
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
   "domain_names" : [ "aeiou" ],
-  "down_response" : {
-    "fallback_ip" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
-    "type" : "aeiou"
-  },
-  "hm_off" : true,
-  "wildcard_match" : true,
-  "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "health_monitor_refs" : [ "aeiou" ],
-  "num_dns_ip" : 123,
-  "health_monitor_scope" : "aeiou",
-  "is_federated" : true
+  "health_monitor_scope" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -563,14 +567,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "application_persistence_profile_ref" : "aeiou",
   "site_persistence_enabled" : true,
   "pool_algorithm" : "aeiou",
   "description" : "aeiou",
+  "uuid" : "aeiou",
+  "enabled" : true,
+  "_last_modified" : "aeiou",
+  "down_response" : {
+    "fallback_ip" : {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    },
+    "type" : "aeiou"
+  },
+  "hm_off" : true,
+  "wildcard_match" : true,
+  "use_edns_client_subnet" : true,
+  "health_monitor_refs" : [ "aeiou" ],
+  "num_dns_ip" : 123,
+  "is_federated" : true,
+  "resolve_cname" : true,
+  "application_persistence_profile_ref" : "aeiou",
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
       "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
@@ -606,27 +628,11 @@ font-style: italic;
   "controller_health_status_enabled" : true,
   "created_by" : "aeiou",
   "ttl" : 123,
-  "uuid" : "aeiou",
-  "enabled" : true,
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
   "domain_names" : [ "aeiou" ],
-  "down_response" : {
-    "fallback_ip" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
-    "type" : "aeiou"
-  },
-  "hm_off" : true,
-  "wildcard_match" : true,
-  "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "health_monitor_refs" : [ "aeiou" ],
-  "num_dns_ip" : 123,
-  "health_monitor_scope" : "aeiou",
-  "is_federated" : true
+  "health_monitor_scope" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -692,14 +698,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "application_persistence_profile_ref" : "aeiou",
   "site_persistence_enabled" : true,
   "pool_algorithm" : "aeiou",
   "description" : "aeiou",
+  "uuid" : "aeiou",
+  "enabled" : true,
+  "_last_modified" : "aeiou",
+  "down_response" : {
+    "fallback_ip" : {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    },
+    "type" : "aeiou"
+  },
+  "hm_off" : true,
+  "wildcard_match" : true,
+  "use_edns_client_subnet" : true,
+  "health_monitor_refs" : [ "aeiou" ],
+  "num_dns_ip" : 123,
+  "is_federated" : true,
+  "resolve_cname" : true,
+  "application_persistence_profile_ref" : "aeiou",
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
       "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
@@ -735,27 +759,11 @@ font-style: italic;
   "controller_health_status_enabled" : true,
   "created_by" : "aeiou",
   "ttl" : 123,
-  "uuid" : "aeiou",
-  "enabled" : true,
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
   "domain_names" : [ "aeiou" ],
-  "down_response" : {
-    "fallback_ip" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
-    "type" : "aeiou"
-  },
-  "hm_off" : true,
-  "wildcard_match" : true,
-  "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "health_monitor_refs" : [ "aeiou" ],
-  "num_dns_ip" : 123,
-  "health_monitor_scope" : "aeiou",
-  "is_federated" : true
+  "health_monitor_scope" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -821,14 +829,32 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
-  "application_persistence_profile_ref" : "aeiou",
   "site_persistence_enabled" : true,
   "pool_algorithm" : "aeiou",
   "description" : "aeiou",
+  "uuid" : "aeiou",
+  "enabled" : true,
+  "_last_modified" : "aeiou",
+  "down_response" : {
+    "fallback_ip" : {
+      "addr" : "aeiou",
+      "type" : "aeiou"
+    },
+    "type" : "aeiou"
+  },
+  "hm_off" : true,
+  "wildcard_match" : true,
+  "use_edns_client_subnet" : true,
+  "health_monitor_refs" : [ "aeiou" ],
+  "num_dns_ip" : 123,
+  "is_federated" : true,
+  "resolve_cname" : true,
+  "application_persistence_profile_ref" : "aeiou",
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
       "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
@@ -864,27 +890,11 @@ font-style: italic;
   "controller_health_status_enabled" : true,
   "created_by" : "aeiou",
   "ttl" : 123,
-  "uuid" : "aeiou",
-  "enabled" : true,
   "url" : "aeiou",
-  "_last_modified" : "aeiou",
   "domain_names" : [ "aeiou" ],
-  "down_response" : {
-    "fallback_ip" : {
-      "addr" : "aeiou",
-      "type" : "aeiou"
-    },
-    "type" : "aeiou"
-  },
-  "hm_off" : true,
-  "wildcard_match" : true,
-  "use_edns_client_subnet" : true,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
-  "health_monitor_refs" : [ "aeiou" ],
-  "num_dns_ip" : 123,
-  "health_monitor_scope" : "aeiou",
-  "is_federated" : true
+  "health_monitor_scope" : "aeiou"
 }</code></pre>
 
     <h3 class="field-label">Produces</h3>
@@ -1025,6 +1035,7 @@ font-style: italic;
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or Disable member to decide if this address should be provided in DNS responses. </div>
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The pool member is configured with a fully qualified domain name.  The FQDN is resolved to an IP address by the controller. DNS service shall health monitor the resolved IP address while it will return the fqdn(cname) in the DNS response.If the user has configured an IP address (in addition to the FQDN), then the IP address will get overwritten whenever periodic FQDN refresh is done by the controller. . </div>
 <div class="param">hm_proxies (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbHealthMonitorProxy">array[GslbHealthMonitorProxy]</a></span> Internal generated system-field. Field deprecated in 18.2.2. Field introduced in 17.1.1. </div>
+<div class="param">hostname (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Hostname to be used as host header for http health monitors and as TLS server name for https health monitors.(By default, the fqdn of the GSLB pool member or GSLB service is used.) Note  this field is not used as http host header when exact_http_request is set in the health monitor. . Field introduced in 18.2.5. </div>
 <div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IP address of the pool member. If this IP address is hosted via an AVI virtual service, then the user should configure the cluster uuid and virtual service uuid. If this IP address is hosted on a third-party device and the device is tagged/tethered to a third-party site, then user can configure the third-party site uuid.  User may configure the IP address without the cluster uuid or the virtual service uuid.  In this option, some advanced site related features cannot be enabled. If the user has configured a fqdn for the pool member, then it takes precedence and will overwrite the configured IP address. . </div>
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the pool member. Field introduced in 17.1.1. </div>
 <div class="param">public_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbIpAddr">GslbIpAddr</a></span> Alternate IP addresses of the pool member. In usual deployments, the VIP in the virtual service is a private IP address. This gets configured in the &#39;ip&#39; field of the GSLB service. This field is used to host the public IP address for the VIP, which gets NATed to the private IP by a firewall. Client DNS requests coming in from within the intranet should have the private IP served in the A record, and requests from outside this should be served the public IP address. Field introduced in 17.1.2. </div>
@@ -1052,6 +1063,7 @@ font-style: italic;
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name for the GSLB service. </div>
 <div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of IP addresses of this GSLB service to be returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
 <div class="param">pool_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a GSLB pool within the GSLB service list of available pools. Enum options - GSLB_SERVICE_ALGORITHM_PRIORITY, GSLB_SERVICE_ALGORITHM_GEO. Field introduced in 17.2.3. </div>
+<div class="param">resolve_cname (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that for a CNAME query, respond with resolved CNAMEs in the additional section with A records. Field introduced in 18.2.5. </div>
 <div class="param">site_persistence_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable site-persistence for the GslbService. . Field introduced in 17.2.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TTL value (in seconds) for records served for this GSLB service by the DNS Service. Allowed values are 0-86400. format: int32</div>

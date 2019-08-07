@@ -311,35 +311,35 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.apdexc </td>
 <td> apdex for server based on connections </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_available_capacity </td>
 <td> Maximum available capacity of server in connections/s. It is difference between the max_capacity  and averaged load on the server </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_bandwidth </td>
 <td> Average transmit and receive network bandwidth between client and virtual service. </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_capacity </td>
 <td> Average of max capacity of a server in connections/sacross all micro service engines. Pool level metric reflects averaged max capacity across all the servers in the pool. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_server.avg_complete_conns </td>
 <td> Rate of total connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -360,14 +360,14 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.avg_est_capacity </td>
 <td> Avg of estimated capacity of a server in connections/ssummed across all micro service engines. Pool level metric reflects summed estimated capacity across all the servers in the pool. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_goodput </td>
 <td> Actual application data goodput as bytes per second </td>
 <td> BYTES_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -388,21 +388,21 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.avg_new_established_conns </td>
 <td> Average rate new pool server connections established as per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_open_conns </td>
 <td> Avg number of open connections </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_pool_bandwidth </td>
 <td> Average transmit and receive network bandwidth between client and virtual service across all servers in a Pool. </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -423,14 +423,14 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.avg_pool_new_established_conns </td>
 <td> Average rate of new pool server connections established as per second across all servers </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.avg_pool_open_conns </td>
 <td> Average per server open connections in the pool </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -479,7 +479,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.avg_total_rtt </td>
 <td> Averaged RTT across all connections closed </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -507,21 +507,21 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.avg_uptime </td>
 <td> Averaged server Uptime as percent of time it was up </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.max_available_capacity </td>
 <td> Maximum available capacity of server in connections/s. It is difference between the max_capacity  and averaged load on the server </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_server.max_capacity </td>
 <td> Maximum capacity of a server in connections/sacross all micro service engines. Pool level metric reflects maximum capacity across all the servers in the pool. This metric's 1 day value would represent maximum capacity over any .real time window over that 1 day window </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -563,14 +563,14 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.pct_connection_errors </td>
 <td> Percent of l4 connection dropped and lossy for server </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_server.pct_connection_saturation </td>
 <td> Saturation percent of server in percent </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -626,7 +626,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> l4_server.sum_lb_fail_count </td>
 <td> Number of times load balancing failed </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -725,28 +725,28 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.apdexc </td>
 <td> apdex measuring quality of network connections to servers </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_client.apdexrtt </td>
 <td> apdex measuring network connection quality based on RTT </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_application_dos_attacks </td>
 <td> Number of Application DDOS attacks occurring </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_bandwidth </td>
 <td> Average transmit and receive network bandwidth between client and virtual service. </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -760,7 +760,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_complete_conns </td>
 <td> Rate of total connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -774,196 +774,196 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_dos_app_error </td>
 <td> DoS attack: Rate of HTTP App Errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_attacks </td>
 <td> Number DDOS attacks occurring </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_bad_rst_flood </td>
 <td> DoS attack: Rate of Bad Rst Floods </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_bandwidth </td>
 <td> Average transmit and receive network bandwidth between client and virtual service related to DDoS attack. </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_conn </td>
 <td> Number of connections considered as DoS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_conn_ip_rl_drop </td>
 <td> DoS attack: Connections dropped due to IP rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_conn_rl_drop </td>
 <td> DoS attack: Connections dropped due to VS rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_fake_session </td>
 <td> DoS attack: Rate of Fake Sessions </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_http_abort </td>
 <td> DoS attack: Rate of HTTP Aborts </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_http_error </td>
 <td> DoS attack: Rate of HTTP Errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_http_timeout </td>
 <td> DoS attack: Rate of HTTP Timeouts </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_malformed_flood </td>
 <td> DoS attack: Rate of Malformed Packet Floods </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_non_syn_flood </td>
 <td> DoS attack: Non SYN packet flood </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req </td>
 <td> Number of request considered as DoS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_cookie_rl_drop </td>
 <td> DoS attack: Requests dropped due to Cookie rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_custom_rl_drop </td>
 <td> DoS attack: Requests dropped due to Custom rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_hdr_rl_drop </td>
 <td> DoS attack: Requests dropped due to Header rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_rl_drop </td>
 <td> DoS attack: Requests dropped due to IP rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_rl_drop_bad </td>
 <td> DoS attack: Requests dropped due to IP rate limit for bad requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_scan_bad_rl_drop </td>
 <td> DoS attack: Requests dropped due to bad IP rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_scan_unknown_rl_drop </td>
 <td> DoS attack: Requests dropped due to unknown IP rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_uri_rl_drop </td>
 <td> DoS attack: Requests dropped due to IP+URL rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_ip_uri_rl_drop_bad </td>
 <td> DoS attack: Requests dropped due to IP+URL rate limit for bad requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_rl_drop </td>
 <td> DoS attack: Requests dropped due to VS rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_uri_rl_drop </td>
 <td> DoS attack: Requests dropped due to URL rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_uri_rl_drop_bad </td>
 <td> DoS attack: Requests dropped due to URL rate limit for bad requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_uri_scan_bad_rl_drop </td>
 <td> DoS attack: Requests dropped due to bad URL rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_req_uri_scan_unknown_rl_drop </td>
 <td> DoS attack: Requests dropped due to unknown URL rate limit </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -977,35 +977,35 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_dos_slow_uri </td>
 <td> DoS attack: Slow Uri </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_small_window_stress </td>
 <td> DoS attack: Rate of Small Window Stresses </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_ssl_error </td>
 <td> DoS attack: Rate of HTTP SSL Errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_syn_flood </td>
 <td> DoS attack: Rate of Syn Floods </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l4_client.avg_dos_total_req </td>
 <td> Total number of request used for L7 dos requests normalization </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1019,7 +1019,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_dos_zero_window_stress </td>
 <td> DoS attack: Rate of Zero Window Stresses </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1033,7 +1033,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_l4_client_latency </td>
 <td> Average L4 connection duration which does not include client RTT </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1054,7 +1054,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_network_dos_attacks </td>
 <td> Number of Network DDOS attacks occurring </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1124,7 +1124,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.avg_total_rtt </td>
 <td> Average network round trip time between client and virtual service </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1152,7 +1152,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.max_open_conns </td>
 <td> Max number of open connections </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1194,7 +1194,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.pct_connection_errors </td>
 <td> Percent of l4 connection dropped and lossy for virtual service </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1222,7 +1222,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.pct_network_dos_attacks </td>
 <td> Deprecated </td>
 <td>  </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1250,7 +1250,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.sum_connection_dropped_user_limit </td>
 <td> Total number of connection dropped due to vserver connection limit </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1327,7 +1327,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> l4_client.sum_packet_dropped_user_bandwidth_limit </td>
 <td> Total number of packets dropped due to vserver bandwidth limit </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1384,28 +1384,28 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.apdexr </td>
 <td> apdex measuring response quality of server </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_application_response_time </td>
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_complete_responses </td>
 <td> Rate of HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_error_responses </td>
 <td> Rate of HTTP error responses sent per second. It does not include errors excluded in analytics profile. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1419,21 +1419,21 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_frustrated_responses </td>
 <td> Avg number of HTTP requests that completed within frustrated latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_pool_complete_responses </td>
 <td> Avg rate of HTTP responses sent per second across all servers in a pool </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_pool_error_responses </td>
 <td> Average rate of HTTP responses sent per second across all servers in a pool </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1461,7 +1461,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_resp_3xx </td>
 <td> Rate of 3xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1475,7 +1475,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_resp_4xx_errors </td>
 <td> Rate of 4xx HTTP responses as errors sent per second. It does not include any error codes excluded in the analytics profile </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1496,7 +1496,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_resp_5xx_errors </td>
 <td> Rate of 5xx HTTP responses as errors sent per second. It does not include any error codes excluded in the analytics profile </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1510,14 +1510,14 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_resp_latency </td>
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_satisfactory_responses </td>
 <td> Avg number of HTTP requests that completed within satisfactory latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1531,35 +1531,35 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.avg_timeouts </td>
 <td> Average number of requests that timeouted out. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_server.avg_tolerated_responses </td>
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.avg_total_requests </td>
 <td> Average rate of HTTP requests received by a pool's server per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_server.max_concurrent_sessions </td>
 <td> Maximum number of concurrent HTTP sessions </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_server.pct_response_errors </td>
 <td> Percent of HTTP 4xx and 5xx responses </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1608,7 +1608,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> l7_server.sum_lb_fail_count </td>
 <td> Number of times load balancing failed </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1735,112 +1735,112 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.apdexr </td>
 <td> Client Apdex measures quality of server response based on latency </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_application_response_time </td>
 <td> Average server/application response latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_blocking_time </td>
 <td> Average time client was blocked as reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_browser_rendering_time </td>
 <td> Average browser rendering latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_cache_bytes </td>
 <td> Average cache bytes </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_cache_hits </td>
 <td> Average cache hit of requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_cacheable_bytes </td>
 <td> Average cacheable bytes </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_cacheable_hits </td>
 <td> Average cacheable hit of requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_client_data_transfer_time </td>
 <td> Average client data transfer time that represents latency of sending response to the client excluding the RTT time . Higher client data transfer time signifies lower bandwidth  between client and Avi Service Engine </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_client_rtt </td>
 <td> Average client Round Trip Time </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_client_txn_latency </td>
 <td> Average client transaction latency computed by adding response latencies across all HTTP requests. </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_complete_responses </td>
 <td> Rate of HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_connection_time </td>
 <td> Average client connection latency reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_dns_lookup_time </td>
 <td> Average domain lookup latency reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_dom_content_load_time </td>
 <td> Average Dom content Load Time reported by clients </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_error_responses </td>
 <td> Rate of HTTP error responses sent per second. It does not include errors excluded in analytics profile. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1854,7 +1854,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.avg_frustrated_responses </td>
 <td> Avg number of HTTP requests that completed within frustrated latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1882,14 +1882,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.avg_page_download_time </td>
 <td> Average Page Load time reported by clients </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_page_load_time </td>
 <td> Average Page Load Time reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1924,273 +1924,280 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.avg_redirection_time </td>
 <td> Average redirect latency reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_reqs_per_session </td>
 <td> Average requests per session measured for closed sessions </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_1xx </td>
 <td> Rate of 1xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_2xx </td>
 <td> Rate of 2xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_3xx </td>
 <td> Rate of 3xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_4xx </td>
 <td> Rate of 4xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_4xx_avi_errors </td>
 <td> Rate of 4xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_5xx </td>
 <td> Rate of 5xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_resp_5xx_avi_errors </td>
 <td> Rate of 5xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_rum_client_data_transfer_time </td>
 <td> Total client data transfer time by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_satisfactory_responses </td>
 <td> Avg number of HTTP requests that completed within satisfactory latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_server_rtt </td>
 <td> Average server Round Trip Time </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_service_time </td>
 <td> Average latency from receipt of request to start of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_auth_dsa </td>
 <td> Average SSL Sessions using DSA certificate </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_auth_ecdsa </td>
 <td> Average SSL Sessions using Elliptic Curve DSA (ECDSA) certificates </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_auth_rsa </td>
 <td> Average SSL Sessions using RSA certificate </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_connections </td>
 <td> Average SSL Sessions </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ecdsa_non_pfs </td>
 <td> Average SSL Exchanges using EC Cerificates without PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ecdsa_pfs </td>
 <td> Average SSL Exchanges using EC Cerificates and PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_errors </td>
 <td> Average SSL errors due to clients, protocol errors,network errors and handshake timeouts </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_failed_connections </td>
 <td> Average SSL connections failed due to protocol , network or timeout reasons </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshake_network_errors </td>
 <td> Average SSL handshakes failed due to network errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshake_protocol_errors </td>
 <td> Average SSL handshake failed due to clients or protocol errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshakes_new </td>
 <td> Average new successful SSL sessions </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshakes_non_pfs </td>
 <td> Average SSL Exchanges using Non-PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshakes_pfs </td>
 <td> Average SSL Exchanges using PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshakes_reused </td>
 <td> Average new successful resumed SSL sessions </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_handshakes_timedout </td>
 <td> Average SSL handshakes timed out </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_kx_dh </td>
 <td> Average SSL Exchanges using Diffie-Hellman </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_kx_ecdh </td>
 <td> Average SSL Exchanges using RSA </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_kx_rsa </td>
 <td> Average SSL Exchanges using RSA </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_rsa_non_pfs </td>
 <td> Average SSL Exchanges using RSA Cerificates without PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_rsa_pfs </td>
 <td> Average SSL Exchanges using RSA Cerificates and PFS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ver_ssl30 </td>
 <td> Average SSL Sessions with version 3.0 </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ver_tls10 </td>
 <td> Average SSL Sessions with TLS version 1.0 </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ver_tls11 </td>
 <td> Average SSL Sessions with TLS version 1.1 </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_ssl_ver_tls12 </td>
 <td> Average SSL Sessions with TLS version 1.2 </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.avg_tolerated_responses </td>
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> l7_client.avg_total_http2_requests </td>
+<td> Average number of client HTTP2 requests received by the Virtual Service per second. </td>
+<td> PER_SECOND </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_total_requests </td>
 <td> Average rate of client HTTP requests received by the virtual service per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2204,217 +2211,217 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.avg_waf_attacks </td>
 <td> Average number of transactions per second identified by WAF as attacks. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_disabled </td>
 <td> Average number of transactions per second bypassing WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_evaluated </td>
 <td> Average number of transactions per second evaluated by WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_evaluated_request_body_phase </td>
 <td> Average number of requests per second evaluated by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_evaluated_request_header_phase </td>
 <td> Average number of requests per second evaluated by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_evaluated_response_body_phase </td>
 <td> Average number of responses per second evaluated by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_evaluated_response_header_phase </td>
 <td> Average number of responsess per second evaluated by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_flagged </td>
 <td> Average number of transactions per second flagged by WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_flagged_request_body_phase </td>
 <td> Average number of requests per second flagged (but not rejected) by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_flagged_request_header_phase </td>
 <td> Average number of requests per second flagged (but not rejected) by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_flagged_response_body_phase </td>
 <td> Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_flagged_response_header_phase </td>
 <td> Average number of responses per second flagged (but not rejected) by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_latency_request_body_phase </td>
 <td> Average waf latency seen due to WAF Request Body processing. </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_latency_request_header_phase </td>
 <td> Average waf latency seen due to WAF Request Header processing. </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_latency_response_body_phase </td>
 <td> Average waf latency seen due to WAF Response Body processing. </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_latency_response_header_phase </td>
 <td> Average waf latency seen due to WAF Response Header processing. </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_matched </td>
 <td> Average number of transactions per second matched by WAF rule/rules. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_matched_request_body_phase </td>
 <td> Average number of requests per second matched by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_matched_request_header_phase </td>
 <td> Average number of requests per second matched by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_matched_response_body_phase </td>
 <td> Average number of responses per second matched by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_matched_response_header_phase </td>
 <td> Average number of responses per second matched by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_rejected </td>
 <td> Average number of transactions per second rejected by WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_rejected_request_body_phase </td>
 <td> Average number of requests per second rejected by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_rejected_request_header_phase </td>
 <td> Average number of requests per second rejected by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_rejected_response_body_phase </td>
 <td> Average number of responses per second rejected by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waf_rejected_response_header_phase </td>
 <td> Average number of responses per second rejected by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.avg_waiting_time </td>
 <td> Average Waiting Time reported by client </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.max_concurrent_sessions </td>
 <td> Maximum number of concurrent HTTP sessions </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> l7_client.max_ssl_open_sessions </td>
 <td> Maximum number of open SSL sessions </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.pct_cache_hits </td>
 <td> Percentage cache hit of requests </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.pct_cacheable_hits </td>
 <td> Percentage cacheable hit of requests </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2435,14 +2442,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.pct_response_errors </td>
 <td> Percent of 4xx and 5xx responses </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.pct_ssl_failed_connections </td>
 <td> Percent of SSL connections failured due to protocol , network or timeout reasons </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2491,14 +2498,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.rum_apdexr </td>
 <td> Apdex measures quality of server response based on Real User Metric </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.ssl_protocol_strength </td>
 <td> Protocol strength of SSL ciphers used. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2820,7 +2827,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_disabled </td>
 <td> Total number of requests bypassing WAF. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2841,21 +2848,21 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_evaluated_response_body_phase </td>
 <td> Total number of responses evaluated by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_evaluated_response_header_phase </td>
 <td> Total number of responses evaluated by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_flagged </td>
 <td> Total number of transactions (requests or responses) flagged as attack by WAF. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2876,14 +2883,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_flagged_response_body_phase </td>
 <td> Total number of responses flagged (but not rejected) by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_flagged_response_header_phase </td>
 <td> Total number of responses flagged (but not rejected) by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2904,14 +2911,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_latency_response_body_phase </td>
 <td> Total latency seen by all evaluated responses in Response Body Phase </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_latency_response_header_phase </td>
 <td> Total latency seen by all evaluated responsess in WAF Response Header Phase </td>
 <td> MICROSECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2932,21 +2939,21 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_matched_response_body_phase </td>
 <td> Total number of responses matched by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_matched_response_header_phase </td>
 <td> Total number of responses matched by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_rejected </td>
 <td> Total number of transactions (requests or responses) rejected by WAF. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2967,14 +2974,14 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> l7_client.sum_waf_rejected_response_body_phase </td>
 <td> Total number of responses rejected by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> l7_client.sum_waf_rejected_response_header_phase </td>
 <td> Total number of responses rejected by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3003,245 +3010,245 @@ Virtualmachine Infrastructure Metrics
 <td> vm_stats.avg_cpu_maxlimited </td>
 <td> Percent of time virtual machine was ready to run but had to wait due to CPU limits. This indicates potential configuration issue of not enough CPU assigned to the virtual machine. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_cpu_ready </td>
 <td> Percent of time virtual machine was ready to run but had to wait as it could not be scheduled on physical CPU. This indicates CPU starvation for the virtual machine. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_cpu_usage </td>
 <td> Average CPU usage as a percentage of CPU available to the server. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_cpu_wait </td>
 <td> Percent of time virtual machine was ready to run either due to other VMs stealing CPU or hitting CPU limits configured in vCenter. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_cpus_system_time_secs </td>
 <td> CPU time consumed in kernel land </td>
 <td> SECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_cpus_user_time_secs </td>
 <td> CPU time consumed in user land </td>
 <td> SECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk1_usage </td>
 <td> Virtual disk1 capacity usage. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk2_usage </td>
 <td> Virtual disk2 capacity usage. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk3_usage </td>
 <td> Virtual disk3 capacity usage. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk4_usage </td>
 <td> Virtual disk4 capacity usage. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_commands_aborted </td>
 <td> Average rate of disk commands aborted </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_io </td>
 <td> Rate of disk reads and writes </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_max_total_latency </td>
 <td> Average max latency observed across all disks </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_number_read </td>
 <td> Average number of times data was read from each virtual disk on the virtual machine </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_number_write </td>
 <td> Average number of times data was written to each virtual disk on the virtual machine </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_read </td>
 <td> Rate of reading data from the disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_disk_write </td>
 <td> Rate of writing data from the disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_mem_swap_in </td>
 <td> Total amount of data that has been read into machine memory from the swap file since the virtual machine was powered on </td>
 <td> KILO_BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_mem_swap_out </td>
 <td> Total amount of data that the VMkernel has written to the virtual machine swap file from machine memory. This statistic refers to VMkernel swapping and not to guest OS swapping </td>
 <td> KILO_BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_mem_usage </td>
 <td> Average memory usage as percentage of memory available to the server. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_mem_vmmemctl </td>
 <td> Virtual machine: Amount of guest physical memory that is currently reclaimed from the virtual machine through ballooning. This is the amount of guest physical memory that has been allocated and pinned by the balloon driver </td>
 <td> KILO_BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_dropped </td>
 <td> Rate of dropped network packets in both receive and transmit direction. This may be indication of potential network congestion. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_dropped_rx </td>
 <td> Average number of receive packets dropped </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_dropped_tx </td>
 <td> Average number of transmit packets dropped </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_errors_rx </td>
 <td> Average number of packets with errors received </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_errors_tx </td>
 <td> Average number of packets with errors transmitted </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_received </td>
 <td> Average network traffic received by the virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_transmitted </td>
 <td> Average network traffic transmitted by the virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_net_usage </td>
 <td> Combined transmit and receive bandwidth for virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_port_usage </td>
 <td> Percentage of high ports used </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_uptime </td>
 <td> Total % time VM was up during an interval. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_virtual_disk_commands_aborted </td>
 <td> Number of SCSI commands aborted  </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> vm_stats.avg_virtual_disk_read </td>
 <td> Rate of read data from the virtual disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_virtual_disk_throughput_usage </td>
 <td> Virtual disk I/O rate. </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> vm_stats.avg_virtual_disk_write </td>
 <td> Rate of read data from the virtual disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 </table>
@@ -3263,14 +3270,14 @@ ServiceEngine Metrics
 <td> se_stats.avg_connection_mem_usage </td>
 <td> Connection memory usage as percentage of total allowed for connections </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_connection_policy_drops </td>
 <td> Total number of connections dropped at SE due to  policies configured in VS eg. security policy, rate limits connection limit, bandwidth limit etc. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3291,91 +3298,91 @@ ServiceEngine Metrics
 <td> se_stats.avg_cpu_usage </td>
 <td> This is the host's view of the CPU usage as amount of actively used virtual CPU, as a percentage of total available CPU </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_disk1_usage </td>
 <td> SE disk 1 capacity usage. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_icmp_flood </td>
 <td> DoS attack: Icmp Ping Flood </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_ip_frag_full </td>
 <td> DoS attack: Ip Fragmentation Full </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_ip_frag_incomplete </td>
 <td> DoS attack: Ip Fragmentation Incomplete </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_ip_frag_overrun </td>
 <td> DoS attack: Ip Fragmentation Overrun </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_ip_frag_toosmall </td>
 <td> DoS attack: Ip Fragmentation Too Small </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_land </td>
 <td> DoS attack: Land </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_port_scan </td>
 <td> DoS attack: Port Scan </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_smurf </td>
 <td> DoS attack: Smurf </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_tcp_non_syn_flood </td>
 <td> DoS attack: Non Syn Flood (Deprecated) </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_teardrop </td>
 <td> DoS attack: Teardrop </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_dos_unknown_protocol </td>
 <td> DoS attack: Unknown Protocol </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3389,21 +3396,21 @@ ServiceEngine Metrics
 <td> se_stats.avg_mem_usage </td>
 <td> Memory usage as percentage of total configured or available memory </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_packet_buffer_header_usage </td>
 <td> Packet Buffer usage as percentage of total packet buffer headers </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_packet_buffer_large_usage </td>
 <td> Packet Buffer usage as percentage of total large packet buffers </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3417,14 +3424,14 @@ ServiceEngine Metrics
 <td> se_stats.avg_packet_buffer_small_usage </td>
 <td> Packet Buffer usage as percentage of total small packet buffers </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_packet_buffer_usage </td>
 <td> Packet Buffer usage as percentage of total configured packet buffers </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3438,49 +3445,49 @@ ServiceEngine Metrics
 <td> se_stats.avg_persistent_table_usage </td>
 <td> session persistent table entries usage percent </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_rx_bytes_dropped </td>
 <td> Avg. number of bytes per sec of received packets dropped. It includes packets across all VS and non VS </td>
 <td> BYTES_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_rx_pkts_dropped </td>
 <td> Avg. number of received packets dropped per sec. It includes packets across all VS and non VS </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_shared_memory_usage </td>
 <td> Shared memory usage as percentage of total available shared memory </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.avg_ssl_session_cache </td>
 <td> ssl session cache </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.avg_ssl_session_cache_usage </td>
 <td> ssl session cache usage in percent </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.max_connection_mem_total </td>
 <td> Total memory available for connections on the Service Engine </td>
 <td> MEGA_BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3508,7 +3515,7 @@ ServiceEngine Metrics
 <td> se_stats.max_total_memory </td>
 <td> Total memory present on the Service Engine </td>
 <td> MEGA_BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3536,49 +3543,49 @@ ServiceEngine Metrics
 <td> se_stats.pct_syn_cache_usage </td>
 <td> Percentage of SYN cache usage. Higher usage indicates too many connection attempts and open at service engine </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_stats.sum_cache_object_allocation_failure </td>
 <td> Number of times cacheable objects were dropped due to memory allocation failure </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.sum_connection_dropped_memory_limit </td>
 <td> Number of times connection memory limit is reached </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.sum_connection_dropped_packet_buffer_stressed </td>
 <td> Number of times connection is dropped because packet buffer limit is reached </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.sum_connection_dropped_persistence_table_limit </td>
 <td> Number of times persistent table allocaction fails </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.sum_packet_buffer_allocation_failure </td>
 <td> Number of times packet buffer allocation failed </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 <tr>
 <td> se_stats.sum_packet_dropped_packet_buffer_stressed </td>
 <td> Number of times packet is dropped because packet buffer limit is reached </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> False </td>
 </tr>
 </table>
@@ -3600,7 +3607,7 @@ Controller Metrics
 <td> controller_stats.avg_cpu_usage </td>
 <td> This is the host's view of the CPU usage as amount of actively used virtual CPU, as a percentage of total available CPU </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3628,7 +3635,7 @@ Controller Metrics
 <td> controller_stats.avg_mem_usage </td>
 <td> Memory usage as percentage of total configured or available memory </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3804,98 +3811,98 @@ Navigation Timing Metrics
 <td> rum.application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.dom_content_load_time </td>
 <td> Total time browser waited to load document content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum.waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -3917,98 +3924,98 @@ Navigation Timings aggregated over dimension Browser
 <td> rum_browser.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_browser.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4030,98 +4037,98 @@ Navigation Timings aggregated over dimension URL
 <td> rum_url.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_url.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4143,98 +4150,98 @@ Navigation Timings aggregated over dimension Operating System
 <td> rum_os.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_os.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4256,98 +4263,98 @@ Navigation Timings aggregated over dimension Language
 <td> rum_lang.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_lang.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4369,98 +4376,98 @@ Navigation Timings aggregated over dimension Device Type
 <td> rum_devtype.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_devtype.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4482,98 +4489,98 @@ Navigation Timings aggregated over dimension Country
 <td> rum_country.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_country.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4595,98 +4602,98 @@ Navigation Timings aggregated over dimension IPGroup
 <td> rum_ipgroup.sum_application_response_time </td>
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_blocking_time </td>
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_browser_rendering_time </td>
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_client_rtt </td>
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_connection_time </td>
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_dns_lookup_time </td>
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_dom_content_load_time </td>
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_page_download_time </td>
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_page_load_time </td>
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_redirection_time </td>
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_rum_client_data_transfer_time </td>
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_server_rtt </td>
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_service_time </td>
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> rum_ipgroup.sum_waiting_time </td>
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4708,14 +4715,14 @@ Dos Attack Metrics
 <td> dos.avg_attack_count </td>
 <td> Rate of DOS attack per sec </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dos.sum_attack_duration </td>
 <td> Duration of the Attack </td>
 <td> SECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -4737,245 +4744,245 @@ VSERVER DNS metrics
 <td> dns_client.avg_avi_errors </td>
 <td> Rate of avi errors per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_complete_queries </td>
 <td> Rate of DNS responses per second. it includes errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_domain_lookup_failures </td>
 <td> Rate of domain lookup DNS Requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_errored_queries </td>
 <td> Rate of errored DNS responses per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_gslbpool_member_not_available </td>
 <td> Rate of GSLB pool member not available per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_invalid_queries </td>
 <td> Rate of invalid queries </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_local_nxdomains </td>
 <td> Rate of nxdomains per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_local_responses </td>
 <td> Rate of local responses from Avi (GSLB) per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_a </td>
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_aaaa </td>
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_any </td>
 <td> Rate of DNS Requests of type ANY per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_dnskey </td>
 <td> Rate of DNS Requests of type DNSKEY per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_mx </td>
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_ns </td>
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_other </td>
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_rrsig </td>
 <td> Rate of DNS Requests of type RRSIG per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_srv </td>
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_req_type_txt </td>
 <td> Rate of DNS Requests of type TXT per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_a </td>
 <td> Rate of DNS Responses of type A per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_aaaa </td>
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_cname </td>
 <td> Rate of DNS Requests of type CNAME per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_mx </td>
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_ns </td>
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_other </td>
 <td> Rate of DNS Requests of type OTHER per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_type_srv </td>
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_resp_unsolicited </td>
 <td> Rate of DNS Response without a request per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_tcp_passthrough_errors </td>
 <td> Rate of TCP passthrough DNS errored requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_tcp_passthrough_queries </td>
 <td> Rate of TCP passthrough DNS Requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_tcp_queries </td>
 <td> Rate of tcp queries per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_udp_passthrough_errors </td>
 <td> Rate of UDP passthrough DNS errored requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_udp_passthrough_queries </td>
 <td> Rate of UDP passthrough DNS Requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_udp_passthrough_resp_time </td>
 <td> Average query response time for UDP passthrough queries </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_udp_queries </td>
 <td> Rate of udp queries per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.avg_unsupported_queries </td>
 <td> Rate of unsupported DNS Requests per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_client.pct_errored_queries </td>
 <td> Percentage of errored DNS responses </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5004,98 +5011,98 @@ SERVER DNS metrics
 <td> dns_server.avg_complete_queries </td>
 <td> Rate of DNS responses per second. it includes errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_errored_queries </td>
 <td> Rate of errored DNS responses per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_req_type_a </td>
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_req_type_aaaa </td>
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_a </td>
 <td> Rate of DNS Responses of type A per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_aaaa </td>
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_cname </td>
 <td> Rate of DNS Requests of type CNAME per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_mx </td>
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_ns </td>
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_other </td>
 <td> Rate of DNS Requests of type OTHER per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_resp_type_srv </td>
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_tcp_queries </td>
 <td> Rate of tcp queries per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.avg_udp_queries </td>
 <td> Rate of udp queries per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> dns_server.pct_errored_queries </td>
 <td> Percentage of errored DNS responses </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5117,70 +5124,70 @@ Metrics for destination traffic from a VS
 <td> service_insights.avg_bandwidth </td>
 <td> Rate of Bandwidth </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_client_end2end_latency </td>
 <td> Avg. client end2end latency seen by clients excluding failed responses </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_complete_conns </td>
 <td> Average rate of connetions per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_complete_responses </td>
 <td> Rate of complete responses including errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_dropped_conns </td>
 <td> Average rate of dropped connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_error_responses </td>
 <td> Rate of errors requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_http_timeout </td>
 <td> Rate of HTTP timeouts </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_policy_drops </td>
 <td> Average rate of policy-dropped connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.avg_total_requests </td>
 <td> Rate of requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> service_insights.max_open_conns </td>
 <td> Maximum number of concurrent open connections </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5209,91 +5216,91 @@ Metrics for source of traffic to a VS
 <td> source_insights.avg_bandwidth </td>
 <td> Rate of Bandwidth </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_client_end2end_latency </td>
 <td> Avg. client end2end latency seen by clients excluding failed responses </td>
 <td> MILLISECONDS </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_complete_conns </td>
 <td> Average rate of connetions per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_complete_responses </td>
 <td> Rate of complete responses including errors </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_dropped_conns </td>
 <td> Average rate of dropped connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_error_responses </td>
 <td> Rate of errors requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_http_timeout </td>
 <td> Rate of HTTP timeouts </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_policy_drops </td>
 <td> Average rate of policy-dropped connections per second </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_total_requests </td>
 <td> Rate of requests </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_waf_attacks </td>
 <td> Average number of transactions per second identified by WAF as attacks. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_waf_flagged </td>
 <td> Average number of transactions per second flagged by WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.avg_waf_rejected </td>
 <td> Average number of transactions per second rejected by WAF. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> source_insights.max_open_conns </td>
 <td> Maximum number of concurrent open connections </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5491,7 +5498,7 @@ SE Interface Metrics
 <td> se_if.avg_bandwidth </td>
 <td> Average transmit and receive network bandwidth for an interface. </td>
 <td> BITS_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5512,7 +5519,7 @@ SE Interface Metrics
 <td> se_if.avg_rx_bytes_dropped_non_vs </td>
 <td> Average rate of received bytes dropped per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5526,7 +5533,7 @@ SE Interface Metrics
 <td> se_if.avg_rx_pkts_dropped_non_vs </td>
 <td> Average rate of received packets dropped per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5575,14 +5582,14 @@ SE Interface Metrics
 <td> se_if.sum_connection_dropped_syn_seen_limit </td>
 <td> Number of times flowtable syn seen entry limit is reached. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> se_if.sum_connection_dropped_table_limit </td>
 <td> Number of times flowtable entries limit is reached. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5604,56 +5611,56 @@ User defined custom metrics using data-script
 <td> user_metrics.avg_counter </td>
 <td> Time averaged value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.avg_gauge </td>
 <td> Average of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.max_counter </td>
 <td> Maximum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.max_gauge </td>
 <td> Maximum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.min_counter </td>
 <td> Minimum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.min_gauge </td>
 <td> Minimum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.sum_counter </td>
 <td> Sum of raw counter value reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_counter&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> user_metrics.sum_gauge </td>
 <td> (Deprecated) Sum of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5675,84 +5682,84 @@ WAF group specific metrics
 <td> waf_group.avg_evaluated </td>
 <td> Time averaged value of connections per second evaluated by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.avg_flagged </td>
 <td> Time averaged value of connections per second flagged by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.avg_matched </td>
 <td> Time averaged value of connections per second matched WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.avg_rejected </td>
 <td> Time averaged value of connections per second rejected by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.max_evaluated </td>
 <td> Maximum value of connections per second evaluated by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.max_flagged </td>
 <td> Maximum value of connections per second flagged by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.max_matched </td>
 <td> Maximum value of connections per second matched  WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.max_rejected </td>
 <td> Maximum value of connections per second rejected by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.sum_evaluated </td>
 <td> Total number of connections evaluated by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.sum_flagged </td>
 <td> Total number of connections flagged by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.sum_matched </td>
 <td> Total number of connections matched by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_group.sum_rejected </td>
 <td> Total number of connections rejected by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5774,63 +5781,63 @@ WAF tag specific metrics
 <td> waf_tag.avg_flagged </td>
 <td> Time averaged value of connections per second flagged as attack by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.avg_matched </td>
 <td> Time averaged value of connections per second matched any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.avg_rejected </td>
 <td> Time averaged value of connections per second rejected by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.max_flagged </td>
 <td> Maximum value of connections per second flagged as attach by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.max_matched </td>
 <td> Maximum value of connections per second matched any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.max_rejected </td>
 <td> Maximum value of connections per second rejected by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.sum_flagged </td>
 <td> Total number of connections flagged as attack by any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.sum_matched </td>
 <td> Total number of connections matched any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_tag.sum_rejected </td>
 <td> Total number of connections rejected by any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5852,84 +5859,84 @@ WAF rule specific metrics
 <td> waf_rule.avg_evaluated </td>
 <td> Time averaged value of connections per second evaluated by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.avg_flagged </td>
 <td> Time averaged value of connections per second flagged as attack by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.avg_matched </td>
 <td> Time averaged value of connections per second matched WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.avg_rejected </td>
 <td> Time averaged value of connections per second rejected by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.max_evaluated </td>
 <td> Maximum value of connections per second evaluated by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.max_flagged </td>
 <td> Maximum value of connections per second flagged as attack by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.max_matched </td>
 <td> Max value of connections per second matched WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.max_rejected </td>
 <td> Maximum value of connections per second rejected by WAF Rule. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.sum_evaluated </td>
 <td> Total number of connections evaluated by WAF Rule. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.sum_flagged </td>
 <td> Total number of connections flagged as attack by WAF Rule. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.sum_matched </td>
 <td> Total number of connections matched by WAF Rule. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> waf_rule.sum_rejected </td>
 <td> Total number of connections rejected by WAF Rule. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>
@@ -5951,91 +5958,404 @@ stats for processes running on controller
 <td> process_stats.avg_ctx_switches_invol </td>
 <td> Average number of involuntary context switches per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_ctx_switches_vol </td>
 <td> Average number of voluntary  context switches per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_fds </td>
 <td> number of file descriptors currently opened by this process. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_io_read_bytes </td>
 <td> Average per second number of io bytes read by process. </td>
 <td> BYTES_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_io_read_count </td>
 <td> Average number of io reads by process per second. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_io_write_bytes </td>
 <td> Average per second io bytes writes by process. </td>
 <td> BYTES_PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_io_write_count </td>
 <td> Average per second number of io writes by process. </td>
 <td> PER_SECOND </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_num_threads </td>
 <td> Average number of threads currently used by this process. </td>
 <td> METRIC_COUNT </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_pss </td>
 <td> Average memory (in bytes) shared with other processes. </td>
 <td> BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_rss </td>
 <td> Average Resident Set Size (aka non-swapped physical memory which process is using). </td>
 <td> BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_swap </td>
 <td> Average Amount of memory that has been swapped out to disk. </td>
 <td> BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.avg_vms </td>
 <td> Average Virtual Memory Size (aka total virtual memory which process is using). </td>
 <td> BYTES </td>
-<td> Y </td>
+<td> True </td>
 <td> True </td>
 </tr>
 <tr>
 <td> process_stats.max_cpu_pct </td>
 <td> Maximum cpu usage by this process. </td>
 <td> PERCENT </td>
-<td> Y </td>
+<td> True </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Http2_Client Metrics </h2>
+<div class='container-fluid'>
+<p>
+Http Ver 2 Client metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> http2_client.avg_complete_responses </td>
+<td> Rate of HTTP2 responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.avg_error_responses </td>
+<td> Rate of HTTP2 error responses sent per second. It does not include errors excluded in analytics profile </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_errors_excluded </td>
+<td> Rate of HTTP2 responses excluded as errors based on analytics profile </td>
+<td> PER_SECOND </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_1xx </td>
+<td> Rate of 1xx HTTP2 responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_2xx </td>
+<td> Rate of 2xx HTTP2 responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_3xx </td>
+<td> Rate of 3xx HTTP2 responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_4xx </td>
+<td> Rate of HTTP2 4xx responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_4xx_avi_errors </td>
+<td> Rate of HTTP2 4xx responses as errors sent by Avi Vantage. It does not include any error codes excluded in the analytics profile and pool server errors </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_5xx </td>
+<td> Rate of 5xx HTTP2 responses sent per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_resp_5xx_avi_errors </td>
+<td> Rate of HTTP2 5xx responses as errors sent by Avi Vantage. It does not include any error codes excluded in the analytics profile and pool server errors </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> http2_client.avg_total_requests </td>
+<td> Average rate of client HTTP2 requests received by the virtual service per second </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.pct_response_errors </td>
+<td> Percent of HTTP2 4xx and 5xx responses. It doesn't include errors excluded in analytics profile </td>
+<td> PERCENT </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_get_reqs </td>
+<td> Total number of HTTP2 GET requests </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_other_reqs </td>
+<td> Total number of HTTP2 requests that are not GET or POST requests </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_post_reqs </td>
+<td> Total number of HTTP2 POST requests </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_resp_1xx </td>
+<td> Total number of HTTP2 1XX responses </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_resp_2xx </td>
+<td> Total number of HTTP2 2XX responses </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_resp_3xx </td>
+<td> Total number of HTTP2 3XX responses </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_resp_4xx </td>
+<td> Total number of HTTP2 4XX error responses </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+<tr>
+<td> http2_client.sum_resp_5xx </td>
+<td> Total number of HTTP2 5XX error responses </td>
+<td> METRIC_COUNT </td>
+<td> False </td>
+<td> False </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Whitelist Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF whitelist rule specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_whitelist.sum_action_allow </td>
+<td> Total number of requests where WAF whitelist allow action got executed. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_whitelist.sum_action_continue </td>
+<td> Total number of requests where WAF whitelist continue action got executed. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_whitelist.sum_action_detection_mode </td>
+<td> Total number of requests where WAF whitelist detection mode action got executed. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_whitelist.sum_evaluated </td>
+<td> Total number of requests evaluated by a WAF whitelist rule. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_whitelist.sum_matched </td>
+<td> Total number of requests matched by a WAF whitelist rule. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Psmgroup Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF PSM group specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_psmgroup.sum_allowed_match_elements </td>
+<td> Total number of requests with matched_elements marked as valid by a WAF PSM group. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmgroup.sum_evaluated </td>
+<td> Total number of requests evaluated by a WAF PSM group. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmgroup.sum_flagged </td>
+<td> Total number of requests flagged by a WAF PSM group. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmgroup.sum_rejected </td>
+<td> Total number of requests rejected by a WAF PSM group. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Psmlocation Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF PSM location specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_psmlocation.sum_matched </td>
+<td> Total number of requests matched by a WAF PSM location. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Waf_Psmrule Metrics </h2>
+<div class='container-fluid'>
+<p>
+WAF PSM rule specific metrics
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> waf_psmrule.sum_evaluated </td>
+<td> Total number of requests evaluated by a WAF PSM rule. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmrule.sum_hit_actions </td>
+<td> Total number of requests where at least one WAF PSM rule match_element matched the value. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmrule.sum_matched </td>
+<td> Total number of requests with at least one present match_element a WAF PSM rule. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> waf_psmrule.sum_miss_actions </td>
+<td> Total number of requests where at least one WAF PSM rule match_element did not match the value. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>

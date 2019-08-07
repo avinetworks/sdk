@@ -17,8 +17,9 @@ type WafPSMLocation struct {
 	// Apply these rules only if the request is matching this description. Field introduced in 18.2.3.
 	Match *WafPSMLocationMatch `json:"match,omitempty"`
 
-	// User defined name for this location, if not set by the user, it is filled with data from the match. Field introduced in 18.2.3.
-	Name *string `json:"name,omitempty"`
+	// User defined name for this location, it must be unique in the group. Field introduced in 18.2.3.
+	// Required: true
+	Name *string `json:"name"`
 
 	// A list of rules which should be applied on this location. Field introduced in 18.2.3.
 	Rules []*WafPSMRule `json:"rules,omitempty"`

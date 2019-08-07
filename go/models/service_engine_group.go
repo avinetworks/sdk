@@ -20,7 +20,7 @@ type ServiceEngineGroup struct {
 	// Indicates the percent of config memory used for config updates. Allowed values are 0-90. Field deprecated in 18.1.2. Field introduced in 18.1.1.
 	AdditionalConfigMemory *int32 `json:"additional_config_memory,omitempty"`
 
-	// Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature.
+	// Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature. Field deprecated in 18.2.5.
 	AdvertiseBackendNetworks *bool `json:"advertise_backend_networks,omitempty"`
 
 	// Enable aggressive failover configuration for ha.
@@ -32,7 +32,7 @@ type ServiceEngineGroup struct {
 	// Allow SEs to be created using burst license. Field introduced in 17.2.5.
 	AllowBurst *bool `json:"allow_burst,omitempty"`
 
-	// A percent value of total SE memory reserved for application caching. This is an SE bootup property and requires SE restart. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.
+	// A percent value of total SE memory reserved for applicationcaching. This is an SE bootup property and requires SE restart.Requires SE Reboot. Allowed values are 0 - 100. Special values are 0- 'disable'. Field introduced in 18.2.3.
 	AppCachePercent *int32 `json:"app_cache_percent,omitempty"`
 
 	// A percent value of total SE memory reserved for Application learning. This is an SE bootup property and requires SE restart. Allowed values are 0 - 10. Field introduced in 18.2.3.
@@ -41,10 +41,10 @@ type ServiceEngineGroup struct {
 	// Amount of SE memory in GB until which shared memory is collected in core archive. Field introduced in 17.1.3.
 	ArchiveShmLimit *int32 `json:"archive_shm_limit,omitempty"`
 
-	// SSL handshakes will be handled by dedicated SSL Threads.
+	// SSL handshakes will be handled by dedicated SSL Threads.Requires SE Reboot.
 	AsyncSsl *bool `json:"async_ssl,omitempty"`
 
-	// Number of Async SSL threads per se_dp. Allowed values are 1-16.
+	// Number of Async SSL threads per se_dp.Requires SE Reboot. Allowed values are 1-16.
 	AsyncSslThreads *int32 `json:"async_ssl_threads,omitempty"`
 
 	// If set, Virtual Services will be automatically migrated when load on an SE is less than minimum or more than maximum thresholds. Only Alerts are generated when the auto_rebalance is not set.
@@ -125,8 +125,11 @@ type ServiceEngineGroup struct {
 	// Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.
 	DistributeLoadActiveStandby *bool `json:"distribute_load_active_standby,omitempty"`
 
-	// Distributes queue ownership among cores so multiple cores handle dispatcher duties. Field introduced in 17.2.8.
+	// Distributes queue ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 17.2.8.
 	DistributeQueues *bool `json:"distribute_queues,omitempty"`
+
+	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.
+	DistributeVnics *bool `json:"distribute_vnics,omitempty"`
 
 	// Enable GratArp for VIP_IP. Field introduced in 18.2.3.
 	EnableGratarpPermanent *bool `json:"enable_gratarp_permanent,omitempty"`
@@ -137,13 +140,16 @@ type ServiceEngineGroup struct {
 	// Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2.
 	EnableMultiLb *bool `json:"enable_multi_lb,omitempty"`
 
-	// Enable routing for this ServiceEngineGroup .
+	// Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled.Requires SE Reboot. Field introduced in 18.2.5.
+	EnablePcapTxRing *bool `json:"enable_pcap_tx_ring,omitempty"`
+
+	// Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5.
 	EnableRouting *bool `json:"enable_routing,omitempty"`
 
-	// Enable VIP on all interfaces of SE. Field introduced in 17.1.1.
+	// Enable VIP on all interfaces of SE. Field deprecated in 18.2.5. Field introduced in 17.1.1.
 	EnableVipOnAllInterfaces *bool `json:"enable_vip_on_all_interfaces,omitempty"`
 
-	// Use Virtual MAC address for interfaces on which floating interface IPs are placed.
+	// Use Virtual MAC address for interfaces on which floating interface IPs are placed. Field deprecated in 18.2.5.
 	EnableVMAC *bool `json:"enable_vmac,omitempty"`
 
 	// End local ephemeral port number for outbound connections. Field introduced in 17.2.13, 18.1.5, 18.2.1.
@@ -158,10 +164,10 @@ type ServiceEngineGroup struct {
 	// Extra config memory to support large Geo DB configuration. Field introduced in 17.1.1.
 	ExtraSharedConfigMemory *int32 `json:"extra_shared_config_memory,omitempty"`
 
-	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled.
+	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 1 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5.
 	FloatingIntfIP []*IPAddr `json:"floating_intf_ip,omitempty"`
 
-	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled.
+	// If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP's will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP's to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field deprecated in 18.2.5.
 	FloatingIntfIPSe2 []*IPAddr `json:"floating_intf_ip_se_2,omitempty"`
 
 	// Maximum number of flow table entries that have not completed TCP three-way handshake yet. Field introduced in 17.2.5.
@@ -303,7 +309,7 @@ type ServiceEngineGroup struct {
 	// This setting limits the number of non-significant logs generated per second per core on this SE. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	NonSignificantLogThrottle *int32 `json:"non_significant_log_throttle,omitempty"`
 
-	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
+	// Number of dispatcher cores (0,1,2,4,8 or 16). If set to 0, then number of dispatcher cores is deduced automatically.Requires SE Reboot. Allowed values are 0,1,2,4,8,16. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	NumDispatcherCores *int32 `json:"num_dispatcher_cores,omitempty"`
 
 	// Number of changes in num flow cores sum to ignore.
@@ -348,13 +354,28 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
 	SeDosProfile *DosThresholdProfile `json:"se_dos_profile,omitempty"`
 
-	// Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver. Allowed values are 0-2. Field introduced in 18.1.3.
+	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
+	SeDpVnicQueueStallEventSleep *int32 `json:"se_dp_vnic_queue_stall_event_sleep,omitempty"`
+
+	// Number of consecutive transmit failures to look for before generating a Vnic transmit queue stall event. Field introduced in 18.2.5.
+	SeDpVnicQueueStallThreshold *int32 `json:"se_dp_vnic_queue_stall_threshold,omitempty"`
+
+	// Time (in milliseconds) to wait for network/NIC recovery on detecting a transmit queue stall after which service engine resets the NIC. Field introduced in 18.2.5.
+	SeDpVnicQueueStallTimeout *int32 `json:"se_dp_vnic_queue_stall_timeout,omitempty"`
+
+	// Number of consecutive transmit queue stall events in se_dp_vnic_stall_se_restart_window to look for before restarting SE. Field introduced in 18.2.5.
+	SeDpVnicRestartOnQueueStallCount *int32 `json:"se_dp_vnic_restart_on_queue_stall_count,omitempty"`
+
+	// Window of time (in seconds) during which se_dp_vnic_restart_on_queue_stall_count number of consecutive stalls results in a SE restart. Field introduced in 18.2.5.
+	SeDpVnicStallSeRestartWindow *int32 `json:"se_dp_vnic_stall_se_restart_window,omitempty"`
+
+	// Determines if DPDK pool mode driver should be used or not   0  Automatically determine based on hypervisor/NIC type 1  Unconditionally use DPDK poll mode driver 2  Don't use DPDK poll mode driver.Requires SE Reboot. Allowed values are 0-2. Field introduced in 18.1.3.
 	SeDpdkPmd *int32 `json:"se_dpdk_pmd,omitempty"`
 
-	// Flow probe retry count if no replies are received. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
+	// Flow probe retry count if no replies are received.Requires SE Reboot. Allowed values are 0-5. Field introduced in 18.1.4, 18.2.1.
 	SeFlowProbeRetries *int32 `json:"se_flow_probe_retries,omitempty"`
 
-	// Timeout in milliseconds for flow probe retries. Allowed values are 20-50. Field introduced in 18.2.5.
+	// Timeout in milliseconds for flow probe retries.Requires SE Reboot. Allowed values are 20-50. Field introduced in 18.2.5.
 	SeFlowProbeRetryTimer *int32 `json:"se_flow_probe_retry_timer,omitempty"`
 
 	// Timeout in milliseconds for flow probe entries. Allowed values are 10-200. Field deprecated in 18.2.5. Field introduced in 18.1.4, 18.2.1.
@@ -363,11 +384,20 @@ type ServiceEngineGroup struct {
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
 	SeIpcUDPPort *int32 `json:"se_ipc_udp_port,omitempty"`
 
+	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
+	SeLro *bool `json:"se_lro,omitempty"`
+
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix *string `json:"se_name_prefix,omitempty"`
 
 	// Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent. Field introduced in 18.2.3.
 	SePcapLookahead *bool `json:"se_pcap_lookahead,omitempty"`
+
+	// Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.Requires SE Reboot. Field introduced in 18.2.5.
+	SePcapPktCount *int32 `json:"se_pcap_pkt_count,omitempty"`
+
+	// Max size of each packet in the pcap interface. Requires SE Reboot. Field introduced in 18.2.5.
+	SePcapPktSz *int32 `json:"se_pcap_pkt_sz,omitempty"`
 
 	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitFrequency *int32 `json:"se_pcap_reinit_frequency,omitempty"`
@@ -381,13 +411,13 @@ type ServiceEngineGroup struct {
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort *int32 `json:"se_remote_punt_udp_port,omitempty"`
 
-	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field introduced in 18.2.3.
+	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3.
 	SeRouting *bool `json:"se_routing,omitempty"`
 
-	// Sideband traffic will be handled by a dedicated core. Field introduced in 16.5.2, 17.1.9, 17.2.3.
+	// Sideband traffic will be handled by a dedicated core.Requires SE Reboot. Field introduced in 16.5.2, 17.1.9, 17.2.3.
 	SeSbDedicatedCore *bool `json:"se_sb_dedicated_core,omitempty"`
 
-	// Number of Sideband threads per SE. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.
+	// Number of Sideband threads per SE.Requires SE Reboot. Allowed values are 1-128. Field introduced in 16.5.2, 17.1.9, 17.2.3.
 	SeSbThreads *int32 `json:"se_sb_threads,omitempty"`
 
 	// Multiplier for SE threads based on vCPU. Allowed values are 1-10.
@@ -399,10 +429,13 @@ type ServiceEngineGroup struct {
 	// Determines if DSR from secondary SE is active or not  0  Automatically determine based on hypervisor type. 1  Disable DSR unconditionally. 2  Enable DSR unconditionally. Allowed values are 0-2. Field introduced in 17.1.1.
 	SeTunnelMode *int32 `json:"se_tunnel_mode,omitempty"`
 
-	// UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode. Field introduced in 17.1.3.
+	// UDP Port for tunneled packets from secondary to primary SE in Docker bridge mode.Requires SE Reboot. Field introduced in 17.1.3.
 	SeTunnelUDPPort *int32 `json:"se_tunnel_udp_port,omitempty"`
 
-	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally. Allowed values are 0-1. Field introduced in 17.1.2.
+	// Number of packets to batch for transmit to the nic. Requires SE Reboot. Field introduced in 18.2.5.
+	SeTxBatchSize *int32 `json:"se_tx_batch_size,omitempty"`
+
+	// Determines if SE-SE IPC messages are encapsulated in a UDP header  0  Automatically determine based on hypervisor type. 1  Use UDP encap unconditionally.Requires SE Reboot. Allowed values are 0-1. Field introduced in 17.1.2.
 	SeUDPEncapIpc *int32 `json:"se_udp_encap_ipc,omitempty"`
 
 	// Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3.
@@ -505,9 +538,9 @@ type ServiceEngineGroup struct {
 	// Amount of memory reserved on SE for WAF learning. This can be atmost 5% of SE memory. Field deprecated in 18.2.3. Field introduced in 18.1.2.
 	WafLearningMemory *int32 `json:"waf_learning_memory,omitempty"`
 
-	// Enable memory pool for WAF. Field introduced in 17.2.3.
+	// Enable memory pool for WAF.Requires SE Reboot. Field introduced in 17.2.3.
 	WafMempool *bool `json:"waf_mempool,omitempty"`
 
-	// Memory pool size used for WAF. Field introduced in 17.2.3.
+	// Memory pool size used for WAF.Requires SE Reboot. Field introduced in 17.2.3.
 	WafMempoolSize *int32 `json:"waf_mempool_size,omitempty"`
 }

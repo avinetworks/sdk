@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -247,6 +247,7 @@ font-style: italic;
   <li><a href="#virtualserviceUuidScaleinPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scalein</code></a></li>
   <li><a href="#virtualserviceUuidScaleoutPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/scaleout</code></a></li>
   <li><a href="#virtualserviceUuidSescaleoutstatusGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/sescaleoutstatus/</code></a></li>
+  <li><a href="#virtualserviceUuidSsopolicystatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/ssopolicystats/</code></a></li>
   <li><a href="#virtualserviceUuidSwitchoverPost"><code><span class="http-method">post</span> /virtualservice/{uuid}/switchover</code></a></li>
   <li><a href="#virtualserviceUuidTcpstatGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/tcpstat/</code></a></li>
   <li><a href="#virtualserviceUuidTrafficCloneStatsGet"><code><span class="http-method">get</span> /virtualservice/{uuid}/traffic_clone_stats/</code></a></li>
@@ -307,6 +308,43 @@ font-style: italic;
     "name" : "aeiou",
     "authentication_policy" : {
       "sp_metadata" : "aeiou",
+      "authn_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "client_ip" : {
+            "group_refs" : [ "aeiou" ],
+            "match_criteria" : "aeiou",
+            "prefixes" : [ {
+              "ip_addr" : "",
+              "mask" : 123
+            } ],
+            "ranges" : [ {
+              "end" : "",
+              "begin" : ""
+            } ],
+            "addrs" : [ {
+              "addr" : "aeiou",
+              "type" : "aeiou"
+            } ]
+          }
+        },
+        "name" : "aeiou",
+        "action" : {
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ],
       "default_auth_profile_ref" : "aeiou",
       "cookie_timeout" : 123,
       "auth_profile_ref" : "aeiou",
@@ -318,6 +356,34 @@ font-style: italic;
       } ],
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
+    },
+    "type" : "aeiou",
+    "authorization_policy" : {
+      "authz_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : "",
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : "",
+          "attr_matches" : [ {
+            "attribute_name" : "aeiou",
+            "attribute_value_list" : {
+              "match_criteria" : "aeiou",
+              "string_group_refs" : [ "aeiou" ],
+              "match_str" : [ "aeiou" ]
+            }
+          } ]
+        },
+        "name" : "aeiou",
+        "action" : {
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ]
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -380,6 +446,43 @@ font-style: italic;
   "name" : "aeiou",
   "authentication_policy" : {
     "sp_metadata" : "aeiou",
+    "authn_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ],
     "default_auth_profile_ref" : "aeiou",
     "cookie_timeout" : 123,
     "auth_profile_ref" : "aeiou",
@@ -391,6 +494,34 @@ font-style: italic;
     } ],
     "cookie_name" : "aeiou",
     "single_signon_url" : "aeiou"
+  },
+  "type" : "aeiou",
+  "authorization_policy" : {
+    "authz_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : "",
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : "",
+        "attr_matches" : [ {
+          "attribute_name" : "aeiou",
+          "attribute_value_list" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ]
+          }
+        } ]
+      },
+      "name" : "aeiou",
+      "action" : {
+        "status_code" : "aeiou",
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ]
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -524,6 +655,43 @@ font-style: italic;
   "name" : "aeiou",
   "authentication_policy" : {
     "sp_metadata" : "aeiou",
+    "authn_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ],
     "default_auth_profile_ref" : "aeiou",
     "cookie_timeout" : 123,
     "auth_profile_ref" : "aeiou",
@@ -535,6 +703,34 @@ font-style: italic;
     } ],
     "cookie_name" : "aeiou",
     "single_signon_url" : "aeiou"
+  },
+  "type" : "aeiou",
+  "authorization_policy" : {
+    "authz_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : "",
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : "",
+        "attr_matches" : [ {
+          "attribute_name" : "aeiou",
+          "attribute_value_list" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ]
+          }
+        } ]
+      },
+      "name" : "aeiou",
+      "action" : {
+        "status_code" : "aeiou",
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ]
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -608,6 +804,43 @@ font-style: italic;
   "name" : "aeiou",
   "authentication_policy" : {
     "sp_metadata" : "aeiou",
+    "authn_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ],
     "default_auth_profile_ref" : "aeiou",
     "cookie_timeout" : 123,
     "auth_profile_ref" : "aeiou",
@@ -619,6 +852,34 @@ font-style: italic;
     } ],
     "cookie_name" : "aeiou",
     "single_signon_url" : "aeiou"
+  },
+  "type" : "aeiou",
+  "authorization_policy" : {
+    "authz_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : "",
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : "",
+        "attr_matches" : [ {
+          "attribute_name" : "aeiou",
+          "attribute_value_list" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ]
+          }
+        } ]
+      },
+      "name" : "aeiou",
+      "action" : {
+        "status_code" : "aeiou",
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ]
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -692,6 +953,43 @@ font-style: italic;
   "name" : "aeiou",
   "authentication_policy" : {
     "sp_metadata" : "aeiou",
+    "authn_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : {
+          "match_criteria" : "aeiou",
+          "string_group_refs" : [ "aeiou" ],
+          "match_str" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "host_hdr" : {
+          "match_criteria" : "aeiou",
+          "value" : [ "aeiou" ],
+          "match_case" : "aeiou"
+        },
+        "client_ip" : {
+          "group_refs" : [ "aeiou" ],
+          "match_criteria" : "aeiou",
+          "prefixes" : [ {
+            "ip_addr" : "",
+            "mask" : 123
+          } ],
+          "ranges" : [ {
+            "end" : "",
+            "begin" : ""
+          } ],
+          "addrs" : [ {
+            "addr" : "aeiou",
+            "type" : "aeiou"
+          } ]
+        }
+      },
+      "name" : "aeiou",
+      "action" : {
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ],
     "default_auth_profile_ref" : "aeiou",
     "cookie_timeout" : 123,
     "auth_profile_ref" : "aeiou",
@@ -703,6 +1001,34 @@ font-style: italic;
     } ],
     "cookie_name" : "aeiou",
     "single_signon_url" : "aeiou"
+  },
+  "type" : "aeiou",
+  "authorization_policy" : {
+    "authz_rules" : [ {
+      "enable" : true,
+      "match" : {
+        "path" : "",
+        "method" : {
+          "match_criteria" : "aeiou",
+          "methods" : [ "aeiou" ]
+        },
+        "host_hdr" : "",
+        "attr_matches" : [ {
+          "attribute_name" : "aeiou",
+          "attribute_value_list" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ]
+          }
+        } ]
+      },
+      "name" : "aeiou",
+      "action" : {
+        "status_code" : "aeiou",
+        "type" : "aeiou"
+      },
+      "index" : 123
+    } ]
   },
   "uuid" : "aeiou",
   "url" : "aeiou",
@@ -869,6 +1195,11 @@ font-style: italic;
       "subnet" : "",
       "port_uuid" : "aeiou",
       "subnet_uuid" : "aeiou",
+      "placement_networks" : [ {
+        "subnet" : "",
+        "subnet6" : "",
+        "network_ref" : "aeiou"
+      } ],
       "avi_allocated_vip" : true,
       "vip_id" : "aeiou",
       "ip_address" : "",
@@ -914,6 +1245,28 @@ font-style: italic;
       "name" : "aeiou",
       "authentication_policy" : {
         "sp_metadata" : "aeiou",
+        "authn_rules" : [ {
+          "enable" : true,
+          "match" : {
+            "path" : {
+              "match_criteria" : "aeiou",
+              "string_group_refs" : [ "aeiou" ],
+              "match_str" : [ "aeiou" ],
+              "match_case" : "aeiou"
+            },
+            "host_hdr" : {
+              "match_criteria" : "aeiou",
+              "value" : [ "aeiou" ],
+              "match_case" : "aeiou"
+            },
+            "client_ip" : ""
+          },
+          "name" : "aeiou",
+          "action" : {
+            "type" : "aeiou"
+          },
+          "index" : 123
+        } ],
         "default_auth_profile_ref" : "aeiou",
         "cookie_timeout" : 123,
         "auth_profile_ref" : "aeiou",
@@ -921,6 +1274,30 @@ font-style: italic;
         "key" : [ "" ],
         "cookie_name" : "aeiou",
         "single_signon_url" : "aeiou"
+      },
+      "type" : "aeiou",
+      "authorization_policy" : {
+        "authz_rules" : [ {
+          "enable" : true,
+          "match" : {
+            "path" : "",
+            "method" : {
+              "match_criteria" : "aeiou",
+              "methods" : [ "aeiou" ]
+            },
+            "host_hdr" : "",
+            "attr_matches" : [ {
+              "attribute_name" : "aeiou",
+              "attribute_value_list" : ""
+            } ]
+          },
+          "name" : "aeiou",
+          "action" : {
+            "status_code" : "aeiou",
+            "type" : "aeiou"
+          },
+          "index" : 123
+        } ]
       },
       "uuid" : "aeiou",
       "url" : "aeiou",
@@ -1001,6 +1378,7 @@ font-style: italic;
       "ip6_address" : [ {
         "ip6_address" : ""
       } ],
+      "metadata" : "aeiou",
       "fqdn" : [ "aeiou" ],
       "ns" : [ {
         "ip6_address" : "",
@@ -1251,6 +1629,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -1296,6 +1679,28 @@ font-style: italic;
     "name" : "aeiou",
     "authentication_policy" : {
       "sp_metadata" : "aeiou",
+      "authn_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "client_ip" : ""
+        },
+        "name" : "aeiou",
+        "action" : {
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ],
       "default_auth_profile_ref" : "aeiou",
       "cookie_timeout" : 123,
       "auth_profile_ref" : "aeiou",
@@ -1303,6 +1708,30 @@ font-style: italic;
       "key" : [ "" ],
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
+    },
+    "type" : "aeiou",
+    "authorization_policy" : {
+      "authz_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : "",
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : "",
+          "attr_matches" : [ {
+            "attribute_name" : "aeiou",
+            "attribute_value_list" : ""
+          } ]
+        },
+        "name" : "aeiou",
+        "action" : {
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ]
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -1383,6 +1812,7 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
       "ip6_address" : "",
@@ -2444,6 +2874,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -2489,6 +2924,28 @@ font-style: italic;
     "name" : "aeiou",
     "authentication_policy" : {
       "sp_metadata" : "aeiou",
+      "authn_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "client_ip" : ""
+        },
+        "name" : "aeiou",
+        "action" : {
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ],
       "default_auth_profile_ref" : "aeiou",
       "cookie_timeout" : 123,
       "auth_profile_ref" : "aeiou",
@@ -2496,6 +2953,30 @@ font-style: italic;
       "key" : [ "" ],
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
+    },
+    "type" : "aeiou",
+    "authorization_policy" : {
+      "authz_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : "",
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : "",
+          "attr_matches" : [ {
+            "attribute_name" : "aeiou",
+            "attribute_value_list" : ""
+          } ]
+        },
+        "name" : "aeiou",
+        "action" : {
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ]
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -2576,6 +3057,7 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
       "ip6_address" : "",
@@ -3519,6 +4001,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -3564,6 +4051,28 @@ font-style: italic;
     "name" : "aeiou",
     "authentication_policy" : {
       "sp_metadata" : "aeiou",
+      "authn_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "client_ip" : ""
+        },
+        "name" : "aeiou",
+        "action" : {
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ],
       "default_auth_profile_ref" : "aeiou",
       "cookie_timeout" : 123,
       "auth_profile_ref" : "aeiou",
@@ -3571,6 +4080,30 @@ font-style: italic;
       "key" : [ "" ],
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
+    },
+    "type" : "aeiou",
+    "authorization_policy" : {
+      "authz_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : "",
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : "",
+          "attr_matches" : [ {
+            "attribute_name" : "aeiou",
+            "attribute_value_list" : ""
+          } ]
+        },
+        "name" : "aeiou",
+        "action" : {
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ]
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -3651,6 +4184,7 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
       "ip6_address" : "",
@@ -3964,6 +4498,11 @@ font-style: italic;
     "subnet" : "",
     "port_uuid" : "aeiou",
     "subnet_uuid" : "aeiou",
+    "placement_networks" : [ {
+      "subnet" : "",
+      "subnet6" : "",
+      "network_ref" : "aeiou"
+    } ],
     "avi_allocated_vip" : true,
     "vip_id" : "aeiou",
     "ip_address" : "",
@@ -4009,6 +4548,28 @@ font-style: italic;
     "name" : "aeiou",
     "authentication_policy" : {
       "sp_metadata" : "aeiou",
+      "authn_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : {
+            "match_criteria" : "aeiou",
+            "string_group_refs" : [ "aeiou" ],
+            "match_str" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "host_hdr" : {
+            "match_criteria" : "aeiou",
+            "value" : [ "aeiou" ],
+            "match_case" : "aeiou"
+          },
+          "client_ip" : ""
+        },
+        "name" : "aeiou",
+        "action" : {
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ],
       "default_auth_profile_ref" : "aeiou",
       "cookie_timeout" : 123,
       "auth_profile_ref" : "aeiou",
@@ -4016,6 +4577,30 @@ font-style: italic;
       "key" : [ "" ],
       "cookie_name" : "aeiou",
       "single_signon_url" : "aeiou"
+    },
+    "type" : "aeiou",
+    "authorization_policy" : {
+      "authz_rules" : [ {
+        "enable" : true,
+        "match" : {
+          "path" : "",
+          "method" : {
+            "match_criteria" : "aeiou",
+            "methods" : [ "aeiou" ]
+          },
+          "host_hdr" : "",
+          "attr_matches" : [ {
+            "attribute_name" : "aeiou",
+            "attribute_value_list" : ""
+          } ]
+        },
+        "name" : "aeiou",
+        "action" : {
+          "status_code" : "aeiou",
+          "type" : "aeiou"
+        },
+        "index" : 123
+      } ]
     },
     "uuid" : "aeiou",
     "url" : "aeiou",
@@ -4096,6 +4681,7 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
       "ip6_address" : "",
@@ -4717,6 +5303,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="virtualserviceUuidSsopolicystatsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /virtualservice/{uuid}/ssopolicystats/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">virtualserviceUuidSsopolicystatsGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="virtualserviceUuidSwitchoverPost"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -4993,7 +5631,15 @@ font-style: italic;
     <li><a href="#APICNetworkRel"><code>APICNetworkRel</code></a></li>
     <li><a href="#AnalyticsPolicy"><code>AnalyticsPolicy</code></a></li>
     <li><a href="#ApicVSPlacementReq"><code>ApicVSPlacementReq</code></a></li>
+    <li><a href="#AuthAttributeMatch"><code>AuthAttributeMatch</code></a></li>
+    <li><a href="#AuthenticationAction"><code>AuthenticationAction</code></a></li>
+    <li><a href="#AuthenticationMatch"><code>AuthenticationMatch</code></a></li>
     <li><a href="#AuthenticationPolicy"><code>AuthenticationPolicy</code></a></li>
+    <li><a href="#AuthenticationRule"><code>AuthenticationRule</code></a></li>
+    <li><a href="#AuthorizationAction"><code>AuthorizationAction</code></a></li>
+    <li><a href="#AuthorizationMatch"><code>AuthorizationMatch</code></a></li>
+    <li><a href="#AuthorizationPolicy"><code>AuthorizationPolicy</code></a></li>
+    <li><a href="#AuthorizationRule"><code>AuthorizationRule</code></a></li>
     <li><a href="#Cif"><code>Cif</code></a></li>
     <li><a href="#ClientInsightsSampling"><code>ClientInsightsSampling</code></a></li>
     <li><a href="#ClientLogFilter"><code>ClientLogFilter</code></a></li>
@@ -5013,6 +5659,7 @@ font-style: italic;
     <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
     <li><a href="#HTTPPolicies"><code>HTTPPolicies</code></a></li>
     <li><a href="#HTTPRedirectAction"><code>HTTPRedirectAction</code></a></li>
+    <li><a href="#HostHdrMatch"><code>HostHdrMatch</code></a></li>
     <li><a href="#HttpCookiePersistenceKey"><code>HttpCookiePersistenceKey</code></a></li>
     <li><a href="#IPNetworkSubnet"><code>IPNetworkSubnet</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
@@ -5022,7 +5669,9 @@ font-style: italic;
     <li><a href="#L4Policies"><code>L4Policies</code></a></li>
     <li><a href="#Lif"><code>Lif</code></a></li>
     <li><a href="#MatchReplacePair"><code>MatchReplacePair</code></a></li>
+    <li><a href="#MethodMatch"><code>MethodMatch</code></a></li>
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
+    <li><a href="#PathMatch"><code>PathMatch</code></a></li>
     <li><a href="#PerformanceLimits"><code>PerformanceLimits</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
@@ -5040,6 +5689,7 @@ font-style: italic;
     <li><a href="#URIParamToken"><code>URIParamToken</code></a></li>
     <li><a href="#VSDataScripts"><code>VSDataScripts</code></a></li>
     <li><a href="#Vip"><code>Vip</code></a></li>
+    <li><a href="#VipPlacementNetwork"><code>VipPlacementNetwork</code></a></li>
     <li><a href="#VirtualService"><code>VirtualService</code></a></li>
     <li><a href="#VirtualServiceApiResponse"><code>VirtualServiceApiResponse</code></a></li>
     <li><a href="#VsMigrateParams"><code>VsMigrateParams</code></a></li>
@@ -5083,9 +5733,31 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="AuthAttributeMatch">AuthAttributeMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5. </div>
+<div class="param">attribute_value_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#StringMatch">StringMatch</a></span> Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthenticationAction">AuthenticationAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Authentication Action to be taken for a matched Rule. Enum options - SKIP_AUTHENTICATION, USE_DEFAULT_AUTHENTICATION. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthenticationMatch">AuthenticationMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">client_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Configure client ip addresses. Field introduced in 18.2.5. </div>
+<div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Configure the host header. Field introduced in 18.2.5. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Configure request paths. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="AuthenticationPolicy">AuthenticationPolicy</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">auth_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+<div class="param">authn_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationRule">array[AuthenticationRule]</a></span> Add rules to apply auth profile to specific targets. Field introduced in 18.2.5. </div>
 <div class="param">cookie_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name for authenticated session. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
 <div class="param">cookie_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Cookie timeout in minutes. Allowed values are 1-1440. Field deprecated in 18.2.3. Field introduced in 18.2.1. format: int32</div>
 <div class="param">default_auth_profile_ref </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Auth Profile to use for validating users. It is a reference to an object of type AuthProfile. Field introduced in 18.2.3. </div>
@@ -5093,6 +5765,48 @@ font-style: italic;
 <div class="param">key (optional)</div><div class="param-desc"><span class="param-type"><a href="#HttpCookiePersistenceKey">array[HttpCookiePersistenceKey]</a></span> Key to generate the cookie. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
 <div class="param">single_signon_url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Single Signon URL to be programmed on the IDP. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
 <div class="param">sp_metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SAML SP metadata. Field deprecated in 18.2.3. Field introduced in 18.2.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthenticationRule">AuthenticationRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationAction">AuthenticationAction</a></span> Enable or disable authentication for matched targets. Field introduced in 18.2.5. </div>
+<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. Field introduced in 18.2.5. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the rule. Field introduced in 18.2.5. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthenticationMatch">AuthenticationMatch</a></span> Add match criteria to the rule. Field introduced in 18.2.5. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthorizationAction">AuthorizationAction</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code to use for local response when an policy rule is matched. Enum options - HTTP_RESPONSE_STATUS_CODE_403. Field introduced in 18.2.5. </div>
+<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Defines the action taken when an authorization policy rule is matched.By default, access is allowed to the requested resource. Enum options - ALLOW_ACCESS, CLOSE_CONNECTION, HTTP_LOCAL_RESPONSE. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthorizationMatch">AuthorizationMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">attr_matches (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthAttributeMatch">array[AuthAttributeMatch]</a></span> Attributes whose values need to be matched . Field introduced in 18.2.5. </div>
+<div class="param">host_hdr (optional)</div><div class="param-desc"><span class="param-type"><a href="#HostHdrMatch">HostHdrMatch</a></span> Host header value to be matched. Field introduced in 18.2.5. </div>
+<div class="param">method (optional)</div><div class="param-desc"><span class="param-type"><a href="#MethodMatch">MethodMatch</a></span> HTTP methods to be matched. Field introduced in 18.2.5. </div>
+<div class="param">path (optional)</div><div class="param-desc"><span class="param-type"><a href="#PathMatch">PathMatch</a></span> Paths/URLs to be matched. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthorizationPolicy">AuthorizationPolicy</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">authz_rules (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationRule">array[AuthorizationRule]</a></span> Authorization Policy Rules. Field introduced in 18.2.5. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="AuthorizationRule">AuthorizationRule</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationAction">AuthorizationAction</a></span> Authorization action when rule is matched. Field introduced in 18.2.5. </div>
+<div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable the rule. Field introduced in 18.2.5. </div>
+<div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Index of the Authorization Policy rule. Field introduced in 18.2.5. format: int32</div>
+<div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationMatch">AuthorizationMatch</a></span> Authorization match criteria for the rule. Field introduced in 18.2.5. </div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the rule. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -5205,6 +5919,7 @@ font-style: italic;
 <div class="param">fqdn (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Fully Qualified Domain Name. </div>
 <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAAAARdata">array[DnsAAAARdata]</a></span> IPv6 address in AAAA record. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. </div>
+<div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Internal metadata for the DNS record. Field introduced in 18.2.5. </div>
 <div class="param">ns (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 17.1.1. </div>
 <div class="param">num_records_in_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of records returned by the DNS service. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- &#39;Return all records&#39;. Field introduced in 17.1.1. format: int32</div>
 <div class="param">service_locator (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsSrvRdata">array[DnsSrvRdata]</a></span> Service locator info in SRV record. </div>
@@ -5263,6 +5978,14 @@ font-style: italic;
 <div class="param">port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Port to which redirect the request. Allowed values are 1-65535. format: int32</div>
 <div class="param">protocol </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Protocol type. Enum options - HTTP, HTTPS. </div>
 <div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP redirect status code. Enum options - HTTP_REDIRECT_STATUS_CODE_301, HTTP_REDIRECT_STATUS_CODE_302, HTTP_REDIRECT_STATUS_CODE_307. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="HostHdrMatch">HostHdrMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the match. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for the host header value match. Enum options - HDR_EXISTS, HDR_DOES_NOT_EXIST, HDR_BEGINS_WITH, HDR_DOES_NOT_BEGIN_WITH, HDR_CONTAINS, HDR_DOES_NOT_CONTAIN, HDR_ENDS_WITH, HDR_DOES_NOT_END_WITH, HDR_EQUALS, HDR_DOES_NOT_EQUAL. </div>
+<div class="param">value (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String value(s) in the host header. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -5338,10 +6061,26 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="MethodMatch">MethodMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for HTTP method matching the method in the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
+<div class="param">methods (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Configure HTTP method(s). Enum options - HTTP_METHOD_GET, HTTP_METHOD_HEAD, HTTP_METHOD_PUT, HTTP_METHOD_DELETE, HTTP_METHOD_POST, HTTP_METHOD_OPTIONS, HTTP_METHOD_TRACE, HTTP_METHOD_CONNECT, HTTP_METHOD_PATCH, HTTP_METHOD_PROPFIND, HTTP_METHOD_PROPPATCH, HTTP_METHOD_MKCOL, HTTP_METHOD_COPY, HTTP_METHOD_MOVE, HTTP_METHOD_LOCK, HTTP_METHOD_UNLOCK. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="MetricsRealTimeUpdate">MetricsRealTimeUpdate</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Real time metrics collection duration in minutes. 0 for infinite. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enabled </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables real time metrics collection.  When disabled, 6 hour view is the most granular the system will track. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PathMatch">PathMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Case sensitivity to use for the matching. Enum options - SENSITIVE, INSENSITIVE. </div>
+<div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for matching the path in the HTTP request URI. Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH. </div>
+<div class="param">match_str (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> String values. </div>
+<div class="param">string_group_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> UUID of the string group(s). It is a reference to an object of type StringGroup. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -5412,8 +6151,10 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">authentication_policy </div><div class="param-desc"><span class="param-type"><a href="#AuthenticationPolicy">AuthenticationPolicy</a></span> Authentication Policy Settings. Field introduced in 18.2.1. </div>
+<div class="param">authorization_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthorizationPolicy">AuthorizationPolicy</a></span> Authorization Policy Settings. Field introduced in 18.2.5. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the SSO Policy. Field introduced in 18.2.3. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.3. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SSO Policy Type. Enum options - SSO_TYPE_SAML, SSO_TYPE_PINGACCESS. Field introduced in 18.2.5. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID of the SSO Policy. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
@@ -5502,12 +6243,21 @@ font-style: italic;
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv4 Address of the VIP. Field introduced in 17.1.1. </div>
 <div class="param">ipam_network_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IPNetworkSubnet">IPNetworkSubnet</a></span> Subnet and/or Network for allocating VirtualService IP by IPAM Provider module. Field introduced in 17.1.1. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Manually override the network on which the Vip is placed. It is a reference to an object of type Network. Field introduced in 17.1.1. </div>
+<div class="param">placement_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#VipPlacementNetwork">array[VipPlacementNetwork]</a></span> Placement networks/subnets to use for vip placement. Field introduced in 18.2.5. </div>
 <div class="param">port_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> (internal-use) Network port assigned to the Vip IP address. Field introduced in 17.1.1. </div>
 <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IP. Field introduced in 17.1.1. </div>
 <div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Subnet providing reachability for client facing Vip IPv6. Field introduced in 18.1.1. </div>
 <div class="param">subnet6_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IPv6 address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 18.1.1. </div>
 <div class="param">subnet_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If auto_allocate_ip is True, then the subnet for the Vip IP address allocation. This field is applicable only if the VirtualService belongs to an Openstack or AWS cloud, in which case it is mandatory, if auto_allocate is selected. Field introduced in 17.1.1. </div>
 <div class="param">vip_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique ID associated with the vip. Field introduced in 17.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VipPlacementNetwork">VipPlacementNetwork</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network to use for vip placement. It is a reference to an object of type Network. Field introduced in 18.2.5. </div>
+<div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv4 Subnet to use for vip placement. Field introduced in 18.2.5. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet to use for vip placement. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

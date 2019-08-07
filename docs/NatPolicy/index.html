@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure natpolicy <key> - show natpolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -271,16 +271,17 @@ font-style: italic;
           "ranges" : [ "" ],
           "addrs" : [ "" ]
         },
-        "destination_port" : {
-          "match_criteria" : "aeiou",
-          "ports" : [ "" ]
+        "services" : {
+          "destination_port" : {
+            "match_criteria" : "aeiou",
+            "ports" : [ "" ]
+          },
+          "source_port" : ""
         },
-        "source_port" : "",
         "source_ip" : ""
       },
       "name" : "aeiou",
-      "action" : "aeiou",
-      "action_param" : {
+      "action" : {
         "nat_info" : [ {
           "nat_ip" : {
             "addr" : "aeiou",
@@ -290,7 +291,8 @@ font-style: italic;
             "end" : "",
             "begin" : ""
           }
-        } ]
+        } ],
+        "type" : "aeiou"
       },
       "index" : 123,
       "created_by" : "aeiou"
@@ -369,16 +371,17 @@ font-style: italic;
         "ranges" : [ "" ],
         "addrs" : [ "" ]
       },
-      "destination_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
+      "services" : {
+        "destination_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "source_port" : ""
       },
-      "source_port" : "",
       "source_ip" : ""
     },
     "name" : "aeiou",
-    "action" : "aeiou",
-    "action_param" : {
+    "action" : {
       "nat_info" : [ {
         "nat_ip" : {
           "addr" : "aeiou",
@@ -388,7 +391,8 @@ font-style: italic;
           "end" : "",
           "begin" : ""
         }
-      } ]
+      } ],
+      "type" : "aeiou"
     },
     "index" : 123,
     "created_by" : "aeiou"
@@ -538,16 +542,17 @@ font-style: italic;
         "ranges" : [ "" ],
         "addrs" : [ "" ]
       },
-      "destination_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
+      "services" : {
+        "destination_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "source_port" : ""
       },
-      "source_port" : "",
       "source_ip" : ""
     },
     "name" : "aeiou",
-    "action" : "aeiou",
-    "action_param" : {
+    "action" : {
       "nat_info" : [ {
         "nat_ip" : {
           "addr" : "aeiou",
@@ -557,7 +562,8 @@ font-style: italic;
           "end" : "",
           "begin" : ""
         }
-      } ]
+      } ],
+      "type" : "aeiou"
     },
     "index" : 123,
     "created_by" : "aeiou"
@@ -647,16 +653,17 @@ font-style: italic;
         "ranges" : [ "" ],
         "addrs" : [ "" ]
       },
-      "destination_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
+      "services" : {
+        "destination_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "source_port" : ""
       },
-      "source_port" : "",
       "source_ip" : ""
     },
     "name" : "aeiou",
-    "action" : "aeiou",
-    "action_param" : {
+    "action" : {
       "nat_info" : [ {
         "nat_ip" : {
           "addr" : "aeiou",
@@ -666,7 +673,8 @@ font-style: italic;
           "end" : "",
           "begin" : ""
         }
-      } ]
+      } ],
+      "type" : "aeiou"
     },
     "index" : 123,
     "created_by" : "aeiou"
@@ -756,16 +764,17 @@ font-style: italic;
         "ranges" : [ "" ],
         "addrs" : [ "" ]
       },
-      "destination_port" : {
-        "match_criteria" : "aeiou",
-        "ports" : [ "" ]
+      "services" : {
+        "destination_port" : {
+          "match_criteria" : "aeiou",
+          "ports" : [ "" ]
+        },
+        "source_port" : ""
       },
-      "source_port" : "",
       "source_ip" : ""
     },
     "name" : "aeiou",
-    "action" : "aeiou",
-    "action_param" : {
+    "action" : {
       "nat_info" : [ {
         "nat_ip" : {
           "addr" : "aeiou",
@@ -775,7 +784,8 @@ font-style: italic;
           "end" : "",
           "begin" : ""
         }
-      } ]
+      } ],
+      "type" : "aeiou"
     },
     "index" : 123,
     "created_by" : "aeiou"
@@ -816,10 +826,11 @@ font-style: italic;
     <li><a href="#NatAddrInfo"><code>NatAddrInfo</code></a></li>
     <li><a href="#NatMatchTarget"><code>NatMatchTarget</code></a></li>
     <li><a href="#NatPolicy"><code>NatPolicy</code></a></li>
-    <li><a href="#NatPolicyActionParam"><code>NatPolicyActionParam</code></a></li>
+    <li><a href="#NatPolicyAction"><code>NatPolicyAction</code></a></li>
     <li><a href="#NatPolicyApiResponse"><code>NatPolicyApiResponse</code></a></li>
     <li><a href="#NatRule"><code>NatRule</code></a></li>
     <li><a href="#PortMatch"><code>PortMatch</code></a></li>
+    <li><a href="#ServiceMatch"><code>ServiceMatch</code></a></li>
   </ol>
 
   <div class="model">
@@ -864,9 +875,8 @@ font-style: italic;
     <h3 class="field-label"><a name="NatMatchTarget">NatMatchTarget</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">destination_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Destination IP of the packet. Field introduced in 18.2.3. </div>
-<div class="param">destination_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Destination Port of the packet. Field introduced in 18.2.3. </div>
+<div class="param">services (optional)</div><div class="param-desc"><span class="param-type"><a href="#ServiceMatch">ServiceMatch</a></span> Services like port-matching and protocol. Field introduced in 18.2.5. </div>
 <div class="param">source_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrMatch">IpAddrMatch</a></span> Source IP of the packet. Field introduced in 18.2.3. </div>
-<div class="param">source_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Source Port of the packet. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -883,9 +893,10 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
-    <h3 class="field-label"><a name="NatPolicyActionParam">NatPolicyActionParam</a> <a class="up" href="#__Models">Up</a></h3>
+    <h3 class="field-label"><a name="NatPolicyAction">NatPolicyAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">nat_info (optional)</div><div class="param-desc"><span class="param-type"><a href="#NatAddrInfo">array[NatAddrInfo]</a></span> Pool of IP Addresses used for Nat. Field introduced in 18.2.3. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -898,8 +909,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="NatRule">NatRule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3. </div>
-<div class="param">action_param (optional)</div><div class="param-desc"><span class="param-type"><a href="#NatPolicyActionParam">NatPolicyActionParam</a></span> Nat rule Action Information. Field introduced in 18.2.3. </div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#NatPolicyAction">NatPolicyAction</a></span> Nat rule Action Information. Field introduced in 18.2.3. </div>
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Creator name. Field introduced in 18.2.3. </div>
 <div class="param">enable </div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Nat rule enable flag. Field introduced in 18.2.3. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Nat rule Index. Field introduced in 18.2.3. format: int32</div>
@@ -912,6 +922,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">match_criteria </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Criterion to use for port matching the HTTP request. Enum options - IS_IN, IS_NOT_IN. </div>
 <div class="param">ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> Listening TCP port(s). Allowed values are 1-65535. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="ServiceMatch">ServiceMatch</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">destination_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Destination Port of the packet. Field introduced in 18.2.5. </div>
+<div class="param">source_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#PortMatch">PortMatch</a></span> Source Port of the packet. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   </body>

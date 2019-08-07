@@ -187,6 +187,9 @@ type EventDetails struct {
 	// Placeholder for description of property dos_attack_event_details of obj type EventDetails field type str  type object
 	DosAttackEventDetails *DosAttackEventDetails `json:"dos_attack_event_details,omitempty"`
 
+	// Placeholder for description of property gcp_cloud_router_info of obj type EventDetails field type str  type object
+	GcpCloudRouterInfo *GCPCloudRouterUpdate `json:"gcp_cloud_router_info,omitempty"`
+
 	// Placeholder for description of property gcp_info of obj type EventDetails field type str  type object
 	GcpInfo *GCPSetup `json:"gcp_info,omitempty"`
 

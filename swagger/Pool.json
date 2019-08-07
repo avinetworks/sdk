@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Pool Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure pool <key>\n- show pool <key>\n- scaleout pool <key>\n- scalein pool <key>\n- clear pool <key>\n```\n\nExamples\n- **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend\n  ```json\n    {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -2348,12 +2348,12 @@
                 }, 
                 "upstream_connpool_conn_max_reuse": {
                     "type": "integer", 
-                    "description": "Connection max used times. Field introduced in 18.2.1.", 
+                    "description": "Maximum number of times a connection can be reused. Special values are 0- 'unlimited'. Field introduced in 18.2.1.", 
                     "format": "int32"
                 }, 
                 "upstream_connpool_server_max_cache": {
                     "type": "integer", 
-                    "description": "Max cache connections per server. Field introduced in 18.2.1.", 
+                    "description": "Maximum number of connections a server can cache. Special values are 0- 'unlimited'. Field introduced in 18.2.1.", 
                     "format": "int32"
                 }
             }

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafprofile <key> - show wafprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -269,6 +269,7 @@ font-style: italic;
       "allowed_methods" : [ "aeiou" ],
       "learning_params" : {
         "enable_per_uri_learning" : true,
+        "min_hits_to_learn" : 123456789,
         "max_uris" : 123,
         "update_interval" : 123,
         "sampling_percent" : 123,
@@ -371,6 +372,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
+      "min_hits_to_learn" : 123456789,
       "max_uris" : 123,
       "update_interval" : 123,
       "sampling_percent" : 123,
@@ -544,6 +546,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
+      "min_hits_to_learn" : 123456789,
       "max_uris" : 123,
       "update_interval" : 123,
       "sampling_percent" : 123,
@@ -657,6 +660,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
+      "min_hits_to_learn" : 123456789,
       "max_uris" : 123,
       "update_interval" : 123,
       "sampling_percent" : 123,
@@ -770,6 +774,7 @@ font-style: italic;
     "allowed_methods" : [ "aeiou" ],
     "learning_params" : {
       "enable_per_uri_learning" : true,
+      "min_hits_to_learn" : 123456789,
       "max_uris" : 123,
       "update_interval" : 123,
       "sampling_percent" : 123,
@@ -852,6 +857,7 @@ font-style: italic;
       <div class="param">enable_per_uri_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Learn the params per URI path. Field introduced in 18.2.3. </div>
 <div class="param">max_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of params to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3. format: int32</div>
 <div class="param">max_uris (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3. format: int32</div>
+<div class="param">min_hits_to_learn (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.5. format: int64</div>
 <div class="param">sampling_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percent of the requests subjected to Application learning. Allowed values are 1-100. Field introduced in 18.2.3. format: int32</div>
 <div class="param">update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Frequency with which SE publishes Application learning data to controller. Allowed values are 1-10080. Field introduced in 18.2.3. format: int32</div>
     </div>  <!-- field-items -->
