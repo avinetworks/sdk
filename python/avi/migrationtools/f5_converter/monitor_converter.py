@@ -685,9 +685,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if tcp_monitor:
             if maintenance_resp:
                 tcp_monitor["maintenance_response"] = maintenance_resp
-            tcp_monitor["http_response"] = http_rsp
+            tcp_monitor["tcp_response"] = http_rsp
         else:
-            tcp_monitor = {"http_response": http_rsp}
+            tcp_monitor = {"tcp_response": http_rsp}
             if maintenance_resp:
                 tcp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["tcp_monitor"] = tcp_monitor
@@ -736,9 +736,9 @@ class MonitorConfigConvV11(MonitorConfigConv):
         if udp_monitor:
             if maintenance_resp:
                 udp_monitor["maintenance_response"] = maintenance_resp
-            udp_monitor["http_response"] = http_rsp
+            udp_monitor["udp_response"] = http_rsp
         else:
-            udp_monitor = {"http_response": http_rsp}
+            udp_monitor = {"udp_response": http_rsp}
             if maintenance_resp:
                 udp_monitor["maintenance_response"] = maintenance_resp
             monitor_dict["udp_monitor"] = udp_monitor
