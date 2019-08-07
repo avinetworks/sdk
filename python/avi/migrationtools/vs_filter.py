@@ -4,25 +4,14 @@ import json
 import os
 import urlparse
 import yaml
+from avi.migrationtools.avi_migration_utils import MigrationUtil
 
 # Read avi object to API path map from yaml file.
-yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__), './common/avi_resource_types.yaml'))
-yml_data = yaml.full_load(open(yml_file, 'r'))
-# Converts avi object types to avi resource types
-data_lower_case = map(lambda x: x.lower(), yml_data['avi_resource_types'])
-# Generates AVI resource types to avi object type mapping in form of dictionary.
-path_key_map = dict(zip(data_lower_case, yml_data['avi_resource_types']))
+mg_util = MigrationUtil()
+
+path_key_map = mg_util.get_path_key_map()
 
 warning_list = []
-
-def get_name_and_entity(url):
-    """
-    Parses reference string to extract object type and
-    :param url: reference url to be parsed
-    :return: entity and object name
-    """
-    parsed = urlparse.urlparse(url)
-    return parsed.path.split('/')[2], urlparse.parse_qs(parsed.query)['name'][0]
 
 
 def filter_for_vs(avi_config, vs_names):
@@ -102,11 +91,11 @@ def find_and_add_objects(obj_dict, avi_config, new_config, depth):
                 or key == 'ssl_profile_name':
             if not obj_dict[key]:
                 continue
-            entity, name = get_name_and_entity(obj_dict[key])
+            entity, name = mg_util.get_name_and_entity(obj_dict[key])
             search_obj(entity, name, new_config, avi_config, depth)
         elif key.endswith('refs'):
             for ref in obj_dict[key]:
-                entity, name = get_name_and_entity(ref)
+                entity, name = mg_util.get_name_and_entity(ref)
                 search_obj(entity, name, new_config, avi_config, depth)
         elif isinstance(obj_dict[key], dict):
             find_and_add_objects(obj_dict[key], avi_config, new_config, depth)

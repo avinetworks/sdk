@@ -17,7 +17,7 @@ class Test(unittest.TestCase):
             self.acfg = json.load(f)
 
         with open('patch.yaml') as f:
-            self.patches = yaml.load(f)
+            self.patches = yaml.full_load(f)
 
     def tearDown(self):
         pass

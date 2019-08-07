@@ -429,7 +429,7 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
                 tenant = str(vs['tenant_ref']).split('=')[-1]
             if type(self.partitions) == str:
                 with open(self.partitions) as f:
-                    data = yaml.load(f)
+                    data = yaml.full_load(f)
                 partition = data['partition-vs-mappings']
             else:
                 partition = self.partitions
