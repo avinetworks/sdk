@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi DebugVirtualService Object API
     contact:
         name: Avi Networks Inc.
@@ -462,6 +462,10 @@ definitions:
                 description: "Total number of packets to capture."
                 type: integer
                 format: int32
+            pcap_ng:
+                description: "Enable PcapNg for packet capture. Field introduced in 18.2.5."
+                type: boolean
+                default: True
             pkt_size:
                 description: "Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - 'full capture'."
                 type: integer

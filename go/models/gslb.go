@@ -26,7 +26,7 @@ type Gslb struct {
 	// Sub domain configuration for the GSLB.  GSLB service's FQDN must be a match one of these subdomains. .
 	DNSConfigs []*DNSConfig `json:"dns_configs,omitempty"`
 
-	// Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 300-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3.
+	// Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 60-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3.
 	ErrorResyncInterval *int32 `json:"error_resync_interval,omitempty"`
 
 	// This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3.

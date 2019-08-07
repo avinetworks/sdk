@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicyPSMGroup Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure wafpolicypsmgroup <key>\n- show wafpolicypsmgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -617,14 +617,14 @@
                     "description": "This field indicates that this group is used for learning. Field introduced in 18.2.3."
                 }, 
                 "hit_action": {
-                    "default": "WAF_ACTION_NO_OP", 
+                    "default": "WAF_ACTION_ALLOW_PARAMETER", 
                     "type": "string", 
-                    "description": "If a rule in this group matches the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
+                    "description": "If a rule in this group matches the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_ALLOW_PARAMETER. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
                 }, 
                 "miss_action": {
                     "default": "WAF_ACTION_NO_OP", 
                     "type": "string", 
-                    "description": "If a rule in this group does not match the match_value pattern, this action will be executed. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
+                    "description": "If a rule in this group does not match the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_BLOCK. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3."
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
@@ -663,7 +663,8 @@
             "required": [
                 "index", 
                 "match_value_pattern", 
-                "name"
+                "name", 
+                "rule_id"
             ], 
             "type": "object", 
             "properties": {
@@ -755,7 +756,8 @@
         }, 
         "WafPSMLocation": {
             "required": [
-                "index"
+                "index", 
+                "name"
             ], 
             "type": "object", 
             "properties": {
@@ -781,7 +783,7 @@
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "User defined name for this location, if not set by the user, it is filled with data from the match. Field introduced in 18.2.3."
+                    "description": "User defined name for this location, it must be unique in the group. Field introduced in 18.2.3."
                 }
             }
         }

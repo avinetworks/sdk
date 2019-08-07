@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CloudProperties Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure cloudproperties\n- show cloudproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -985,9 +985,9 @@
                     "description": "Number of vs_se_ping_fail.", 
                     "format": "int32"
                 }, 
-                "portal_token": {
-                    "type": "string", 
-                    "description": "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
+                "shared_ssl_certificates": {
+                    "type": "boolean", 
+                    "description": "SSL Certificates in the admin tenant can be used in non-admin tenants. Field introduced in 18.2.5."
                 }, 
                 "cluster_ip_gratuitous_arp_period": {
                     "default": 60, 
@@ -1034,6 +1034,10 @@
                     "type": "integer", 
                     "description": "Number of se_vnic_cooldown.", 
                     "format": "int32"
+                }, 
+                "portal_token": {
+                    "type": "string", 
+                    "description": "Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2."
                 }, 
                 "vnic_op_fail_time": {
                     "default": 180, 

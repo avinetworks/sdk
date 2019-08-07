@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerSite Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure controllersite <key>\n- show controllersite <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -508,11 +508,11 @@
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "Name for the Site Controller Cluster. Field introduced in 18.2.4."
+                    "description": "Name for the Site Controller Cluster. Field introduced in 18.2.5."
                 }, 
                 "address": {
                     "type": "string", 
-                    "description": "IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. Field introduced in 18.2.4."
+                    "description": "IP Address or a DNS resolvable, fully qualified domain name of the Site Controller Cluster. Field introduced in 18.2.5."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -521,17 +521,17 @@
                 }, 
                 "tenant_ref": {
                     "type": "string", 
-                    "description": "Reference for the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.4."
+                    "description": "Reference for the Tenant. It is a reference to an object of type Tenant. Field introduced in 18.2.5."
                 }, 
                 "port": {
                     "default": 443, 
                     "type": "integer", 
-                    "description": "The Controller Site Cluster's REST API port number. Allowed values are 1-65535. Field introduced in 18.2.4.", 
+                    "description": "The Controller Site Cluster's REST API port number. Allowed values are 1-65535. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "uuid": {
                     "type": "string", 
-                    "description": "Reference for the Site Controller Cluster. Field introduced in 18.2.4."
+                    "description": "Reference for the Site Controller Cluster. Field introduced in 18.2.5."
                 }
             }
         }, 

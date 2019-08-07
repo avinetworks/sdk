@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure pool <key> - show pool <key> - scaleout pool <key> - scalein pool <key> - clear pool <key> ```  Examples - **pool_example**: To create a basic pool object that uses the least connections algorithm and has a couple of application servers in the backend   ```json     {u'lb_algorithm': u'LB_ALGORITHM_LEAST_CONNECTIONS', u'default_server_port': 80, u'name': u'production_pool', u'servers': [{u'ip': {u'type': u'V4', u'addr': u'10.10.90.120'}}, {u'ip': {u'type': u'V4', u'addr': u'10.10.90.121'}}]}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.4</div>
+    <div class="app-desc">Version: 18.2.5</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -2755,8 +2755,8 @@ font-style: italic;
     <div class="field-items">
       <div class="param">upstream_connpool_conn_idle_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection idle timeout. Field introduced in 18.2.1. format: int32</div>
 <div class="param">upstream_connpool_conn_life_tmo (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection life timeout. Field introduced in 18.2.1. format: int32</div>
-<div class="param">upstream_connpool_conn_max_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Connection max used times. Field introduced in 18.2.1. format: int32</div>
-<div class="param">upstream_connpool_server_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max cache connections per server. Field introduced in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_conn_max_reuse (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of times a connection can be reused. Special values are 0- &#39;unlimited&#39;. Field introduced in 18.2.1. format: int32</div>
+<div class="param">upstream_connpool_server_max_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections a server can cache. Special values are 0- &#39;unlimited&#39;. Field introduced in 18.2.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

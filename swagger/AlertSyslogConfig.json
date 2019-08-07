@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AlertSyslogConfig Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure alertsyslogconfig <key>\n- show alertsyslogconfig <key>\n- test alerttestsyslog <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -582,20 +582,32 @@
                     "type": "boolean", 
                     "description": "Network protocol to establish syslog session."
                 }, 
+                "pkiprofile_ref": {
+                    "type": "string", 
+                    "description": "Select the PKIProfile containing a CA or list of CA chainswhich will validate the certificate of the syslog server. It is a reference to an object of type PKIProfile. Field introduced in 17.2.17, 18.2.5."
+                }, 
+                "format": {
+                    "default": "SYSLOG_LEGACY", 
+                    "type": "string", 
+                    "description": "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
+                }, 
                 "syslog_server_port": {
                     "default": 514, 
                     "type": "integer", 
                     "description": "The destination Syslog server's service port.", 
                     "format": "int32"
                 }, 
+                "anon_auth": {
+                    "type": "boolean", 
+                    "description": "Enable anonymous authentication of Syslog Serverwhich will disable server certificate authentication. Field introduced in 17.2.17, 18.2.5."
+                }, 
+                "ssl_key_and_certificate_ref": {
+                    "type": "string", 
+                    "description": "Select a certificate and key which will be used to authenticate to the syslog server. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 17.2.17, 18.2.5."
+                }, 
                 "syslog_server": {
                     "type": "string", 
                     "description": "The destination Syslog server IP address or hostname."
-                }, 
-                "format": {
-                    "default": "SYSLOG_LEGACY", 
-                    "type": "string", 
-                    "description": "Syslog output format - legacy, RFC 5424, JSON. Enum options - SYSLOG_LEGACY, SYSLOG_RFC5424, SYSLOG_JSON. Field introduced in 17.2.8."
                 }
             }
         }, 

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.2.4", 
+        "version": "18.2.5", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1459,7 +1459,7 @@
                 }, 
                 "frontend_data_vpc_project_id": {
                     "type": "string", 
-                    "description": "Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1."
+                    "description": "Project ID of the Service Engine Frontend Data Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
                 }, 
                 "frontend_data_vpc_subnet_name": {
                     "type": "string", 
@@ -2124,6 +2124,11 @@
         "OShiftK8SConfiguration": {
             "type": "object", 
             "properties": {
+                "sync_not_ready_addresses": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Allow the not_ready_addresses in the kubernetes endpoint object to be added as servers in the AVI pool object. Field introduced in 18.2.5."
+                }, 
                 "east_west_placement_subnet": {
                     "description": "Match against this prefix when placing east-west VSs on SEs .", 
                     "$ref": "#/definitions/IpAddrPrefix"
@@ -2239,6 +2244,11 @@
                     "type": "string", 
                     "description": "Openshift/K8S Cluster ID used to uniquely map same named namespaces as tenants in Avi. In order to use more than one OpenShift/K8S cloud on this controller, cluster_tag has to be unique across these clouds. Changing cluster_tag is disruptive as all virtual services in the cloud will be recreated. Field introduced in 17.2.5."
                 }, 
+                "num_shards": {
+                    "type": "integer", 
+                    "description": "Enables sharding of Routes and Ingresses to this number (if non zero) of virtual services in the admin tenant per SEGroup. Sharding is done by hashing on the namespace of the Ingress/Route object. This knob is valid only if shared_virtualservice_namespace flag is set. Field introduced in 18.2.5.", 
+                    "format": "int32"
+                }, 
                 "docker_registry_se": {
                     "description": "Docker registry for ServiceEngine image.", 
                     "$ref": "#/definitions/DockerRegistry"
@@ -2291,6 +2301,11 @@
                     "type": "boolean", 
                     "description": "Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode."
                 }, 
+                "se_volume": {
+                    "default": "/var/lib/avi", 
+                    "type": "string", 
+                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                }, 
                 "use_service_cluster_ip_as_ew_vip": {
                     "type": "boolean", 
                     "description": "Use Cluster IP of service as VIP for East-West services; This option requires that kube proxy is disabled on all nodes."
@@ -2319,10 +2334,9 @@
                     "type": "boolean", 
                     "description": "Allow Avi Vantage to create SecurityContextConstraints and ServiceAccounts which allow Egress Pods to run in privileged mode in an Openshift environment. Enabling this would exclude egress services from 'disable_auto_backend_service_sync' (if set) behaviour. Note  Access credentials must have cluster-admin role privileges. Field introduced in 17.1.1."
                 }, 
-                "se_volume": {
-                    "default": "/var/lib/avi", 
+                "shard_prefix": {
                     "type": "string", 
-                    "description": "Host volume to be used as a disk for Avi SE, This is a disruptive change."
+                    "description": "Prefix to be used for Shard VS name when num_shards knob is non zero. Format for Shard VS name will be <shard_prefix>-<idx>-CloudName-SEGroupName. Field introduced in 18.2.5."
                 }, 
                 "use_scheduling_disabled_nodes": {
                     "type": "boolean", 
@@ -2436,7 +2450,7 @@
                 }, 
                 "se_group_ref": {
                     "type": "string", 
-                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup."
+                    "description": "This field has been generalized for all clouds and has been renamed to se_group_template_uuid. It is a reference to an object of type ServiceEngineGroup. Field deprecated in 18.2.5."
                 }, 
                 "name_owner": {
                     "default": true, 
@@ -2624,7 +2638,7 @@
                 }, 
                 "gcs_project_id": {
                     "type": "string", 
-                    "description": "Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, se_project_id will be used. Field introduced in 18.2.1."
+                    "description": "Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
                 }, 
                 "cloud_credentials_ref": {
                     "type": "string", 
@@ -2817,7 +2831,7 @@
             "properties": {
                 "data_vpc_project_id": {
                     "type": "string", 
-                    "description": "Project ID of the Service Engine Data Network. Field introduced in 18.2.1."
+                    "description": "Project ID of the Service Engine Data Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
                 }, 
                 "data_vpc_network_name": {
                     "type": "string", 
@@ -2962,15 +2976,15 @@
             "properties": {
                 "vpc_network_name": {
                     "type": "string", 
-                    "description": "Service Engine Inband Network Name. Field introduced in 18.2.2."
+                    "description": "Service Engine Network Name. Field introduced in 18.2.2."
                 }, 
                 "vpc_subnet_name": {
                     "type": "string", 
-                    "description": "Service Engine Inband Network Subnet Name. Field introduced in 18.2.1."
+                    "description": "Service Engine Network Subnet Name. Field introduced in 18.2.1."
                 }, 
                 "vpc_project_id": {
                     "type": "string", 
-                    "description": "Project ID of the Service Engine Inband Network. Field introduced in 18.2.1."
+                    "description": "Project ID of the Service Engine Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
                 }
             }
         }, 
@@ -3019,6 +3033,10 @@
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/DockerConfiguration"
                 }, 
+                "se_group_template_ref": {
+                    "type": "string", 
+                    "description": "The Service Engine Group to use as template. It is a reference to an object of type ServiceEngineGroup. Field introduced in 18.2.5."
+                }, 
                 "oshiftk8s_configuration": {
                     "description": "Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/OShiftK8SConfiguration"
@@ -3026,7 +3044,7 @@
                 "autoscale_polling_interval": {
                     "default": 60, 
                     "type": "integer", 
-                    "description": "CloudConnector polling interval for external autoscale groups. Field introduced in 18.2.2.", 
+                    "description": "CloudConnector polling interval in seconds for external autoscale groups, minimum 60 seconds. Allowed values are 60-3600. Field introduced in 18.2.2.", 
                     "format": "int32"
                 }, 
                 "dhcp_enabled": {

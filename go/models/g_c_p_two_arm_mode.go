@@ -19,7 +19,7 @@ type GCPTwoArmMode struct {
 	// Required: true
 	FrontendDataVpcNetworkName *string `json:"frontend_data_vpc_network_name"`
 
-	// Project ID of the Service Engine Frontend Data Network. Field introduced in 18.2.1.
+	// Project ID of the Service Engine Frontend Data Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1.
 	FrontendDataVpcProjectID *string `json:"frontend_data_vpc_project_id,omitempty"`
 
 	// Service Engine Frontend Data Network Subnet Name. Field introduced in 18.2.1.

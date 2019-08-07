@@ -22,6 +22,9 @@ type VNIC struct {
 	// Placeholder for description of property del_pending of obj type vNIC field type str  type boolean
 	DelPending *bool `json:"del_pending,omitempty"`
 
+	// Delete this VNIC. Please confirm dp_deletion_done before removing the VNIC from the cloud. Field introduced in 18.2.5.
+	DeleteVnic *bool `json:"delete_vnic,omitempty"`
+
 	// Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean
 	DhcpEnabled *bool `json:"dhcp_enabled,omitempty"`
 

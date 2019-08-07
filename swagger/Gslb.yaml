@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.4'
+    version: '18.2.5'
     title: Avi Gslb Object API
     contact:
         name: Avi Networks Inc.
@@ -523,8 +523,9 @@ definitions:
                 items:
                     $ref: '#/definitions/DNSConfig'
             error_resync_interval:
-                description: "Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 300-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3."
+                description: "Frequency with which errored messages are resynced to follower sites. Value of 0 disables resync behavior. Allowed values are 60-3600. Special values are 0 - 'Disable'. Field introduced in 18.2.3."
                 type: integer
+                default: 300
                 format: int32
             is_federated:
                 description: "This field indicates that this object is replicated across GSLB federation. Field introduced in 17.1.3."
