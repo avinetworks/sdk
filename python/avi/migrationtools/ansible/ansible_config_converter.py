@@ -526,10 +526,10 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
             # have a temp dict for accessing lowercase keys
             avi_cfg_temp = {k.lower(): v for k, v in self.avi_cfg.items()}
 
-            if obj_type not in avi_cfg_temp or obj_type in self.skip_types:
+            if obj_type.lower() not in avi_cfg_temp or obj_type in self.skip_types:
                 continue
-            self.build_ansible_objects(obj_type, avi_cfg_temp[obj_type], ad,
-                                       inuse_list)
+            self.build_ansible_objects(obj_type, avi_cfg_temp[obj_type.lower()],
+                                       ad, inuse_list)
         # if f5 username, password and server present then only generate
         #  playbook for traffic.
         if f5server and f5user and f5password and instance_type == 'f5':
