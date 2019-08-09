@@ -667,6 +667,10 @@ class TestF5Converter:
                 f5_config_version=setup.get('file_version_v11'),
                 f5_ssh_port=setup.get('f5_ssh_port'),
                 ansible=setup.get('ansible'))
+        fileName = output_file + '/avi_config_create_object.yml'
+        with open(fileName) as f:
+            file_object = yaml.full_load(f)
+            assert file_object[0].get('tasks', False)
 
     @pytest.mark.skip_travis
 
