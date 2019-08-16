@@ -15,7 +15,7 @@ conv_utils = F5Util()
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
-                     object_merge_check, prefix, keypassphrase):
+                     object_merge_check, prefix, keypassphrase, skip_pki=False):
         """
 
         :param version:  version of f5 instance
@@ -29,11 +29,11 @@ class ProfileConfigConv(object):
         if version == '10':
             return ProfileConfigConvV10(
                 f5_profile_attributes, object_merge_check, prefix,
-                keypassphrase)
+                keypassphrase, skip_pki)
         if version in ['11', '12']:
             return ProfileConfigConvV11(
                 f5_profile_attributes, object_merge_check, prefix,
-                keypassphrase)
+                keypassphrase, skip_pki)
 
     default_key = None
 
@@ -351,7 +351,7 @@ class ProfileConfigConv(object):
 
 class ProfileConfigConvV11(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
-                 keypassphrase):
+                 keypassphrase, skip_pki):
         """
 
         :param f5_profile_attributes: f5 profile attributes from yaml file.
@@ -407,6 +407,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         self.certkey_count = 0
         # Added prefix for objects
         self.prefix = prefix
+        self.skip_pki = skip_pki
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -560,7 +561,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             else:
                 ca_file_name = None
 
-            if ca_file_name:
+            if ca_file_name and not self.skip_pki:
                 pki_profile = dict()
                 file_path = input_dir+os.path.sep+ca_file_name
                 pki_profile["name"] = name
@@ -1111,7 +1112,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 class ProfileConfigConvV10(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
-                 keypassphrase):
+                 keypassphrase, skip_pki):
         """
 
         :param f5_profile_attributes: f5 profile attributes from yaml file.
@@ -1153,6 +1154,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         self.certkey_count = 0
         # Added prefix for objects
         self.prefix = prefix
+        self.skip_pki = skip_pki
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -1263,7 +1265,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 ca_file_name = ca_file_name.replace('\"', '').strip()
             else:
                 ca_file_name = None
-            if ca_file_name:
+            if ca_file_name and not self.skip_pki:
                 pki_profile = dict()
                 file_path = input_dir+os.path.sep+ca_file_name
                 pki_profile["name"] = name
