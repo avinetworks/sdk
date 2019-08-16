@@ -34,6 +34,7 @@ class F5Converter(AviConverter):
     def __init__(self, args):
         self.bigip_config_file = args.bigip_config_file
         self.skip_default_file = args.skip_default_file
+        self.skip_pki = args.skip_pki
         self.f5_config_version = args.f5_config_version
         self.input_folder_location = args.input_folder_location
         self.output_file_path = args.output_file_path if args.output_file_path \
@@ -107,7 +108,7 @@ class F5Converter(AviConverter):
         """
         avi_rest_lib.upload_config_to_controller(
             avi_config, self.controller_ip, self.user, self.password,
-            self.tenant)
+            self.tenant, self.controller_version)
 
     def convert(self):
         if not os.path.exists(self.output_file_path):
@@ -211,7 +212,8 @@ class F5Converter(AviConverter):
             self.controller_version, report_name, self.prefix,
             self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name, self.f5_passphrase_file,
-            self.vs_level_status, self.vrf, self.segroup, custom_mappings)
+            self.vs_level_status, self.vrf, self.segroup, custom_mappings,
+            self.skip_pki)
 
         avi_config = self.process_for_utils(avi_config_dict)
         # Check if flag true then skip not in use object
@@ -517,17 +519,20 @@ if __name__ == "__main__":
                                         'location of patch.yaml')
     # Added prefix for objects
     parser.add_argument('--prefix', help='Prefix for objects')
-    parser.add_argument('--skip_default_file',
-                        help='Flag for skip default file', action='store_true')
     parser.add_argument('-s', '--vs_state', choices=['enable', 'disable'],
                         help='traffic_enabled state of VS created',
                         default='disable')
-    # Adding support for test vip
     parser.add_argument('--segroup',
-                    help='Update the available segroup ref with the'
-                            'custom ref')
+                        help='Update the available segroup ref with the'
+                             'custom ref')
+    parser.add_argument('--skip_default_file',
+                        help='Flag for skip default file', action='store_true')
+    parser.add_argument('--skip_pki',
+                        help='Skip migration of PKI profile',
+                        action='store_true')
     parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
                         default='admin')
+    # Adding support for test vip
     parser.add_argument('--test_vip',
                         help='Enable test vip for ansible generated file '
                         'It will replace the original vip '
