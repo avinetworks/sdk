@@ -31,12 +31,14 @@ avi_object_types = tuple(supported_obj['avi_resource_types'][::-1])
 
 
 class CloneObjects:
+
+    cloned = []
+
     """ Share methods for cross tenant cloning of AVI Objects"""
     def __init__(self, avi_configs):
         self.old_avi_config = avi_configs
-
-    # List of already cloned objects. Avoid duplication of objects.
-    cloned = []
+        # List of already cloned objects. Avoid duplication of objects.
+        self.cloned = []
 
     def clone_object(self, object, obj_type, cross_tenant):
         """
