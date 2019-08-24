@@ -56,6 +56,11 @@ from pysphere import VIServer
 import traceback
 import uuid
 import os
+import ssl
+
+
+default_context = ssl._create_default_https_context
+ssl._create_default_https_context = ssl._create_unverified_context
 
 
 def getAviApiSession(tenant='admin'):
@@ -100,7 +105,7 @@ def create_vmware_instance(vmware_settings, pool_name):
     ip_address = ''
     for _ in range(20):
         # try for 5mins
-        if (new_vm.is_powered_on() and new_vm.get_property('net', False)):
+        if new_vm.is_powered_on() and new_vm.get_property('net', False):
             net_intfs = new_vm.get_property('net', False)
             ip_addresses = \
                 [net_intf['ip_addresses'][0]
@@ -109,6 +114,7 @@ def create_vmware_instance(vmware_settings, pool_name):
             ip_address = ip_addresses[0] if ip_addresses else ''
             if ip_address:
                 break
+        print('sleeping for vm to come up', new_vm_name, 'powered', new_vm.is_powered_on())
         time.sleep(15)
 
     if not ip_address:
@@ -167,12 +173,15 @@ def scaleout(vmware_settings, *args):
         'port': 0,
         'hostname': hostname,
     }
+    # refresh the pool object
+    pool_obj = api.get('pool/%s' % pool_uuid).json()
     # add new server to the pool
     pool_obj['servers'].append(new_server)
     # call controller API to update the pool
     print('new pool obj', pool_obj)
     resp = api.put('pool/%s' % pool_uuid, data=json.dumps(pool_obj))
-    print('updated pool', pool_obj['name'], resp.status_code)
+    print('updated pool %s num servers %s rcode %s' % (
+          pool_obj['name'], len(pool_obj.get('servers', [])), resp.status_code))
 
 
 def scalein(vmware_settings, *args):
