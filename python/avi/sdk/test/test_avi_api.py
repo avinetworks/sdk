@@ -14,6 +14,7 @@ import os
 import vcr
 import copy
 from datetime import timedelta
+from parameterized import parameterized
 
 gSAMPLE_CONFIG = None
 api = None
@@ -727,6 +728,19 @@ class Test(unittest.TestCase):
             verify=False)
 
         assert api_session1.avi_credentials.session_id == api_session2.avi_credentials.session_id
+
+    @parameterized.expand(
+        [('https://192.10.100.132/api/vrfcontext/vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295',
+          'vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295'),
+         ('https://192.10.100.132/api/vrfcontext/vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295#test-vrf',
+          'vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295'),
+         ('vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295',
+          'vrfcontext-31f1b55f-319c-44eb-862f-69d79ffdf295')
+         ])
+    @pytest.mark.travis
+    def test_get_slug_from_uri(self, input, expected):
+        assert api.get_slug_from_uri(input) == expected
+
 
 
 if __name__ == "__main__":
