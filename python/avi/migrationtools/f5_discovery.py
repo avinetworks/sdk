@@ -2,19 +2,20 @@
 
 import os
 import sys
+
 import argparse
-import json
-import yaml
-import xlsxwriter
 import time
-from datetime import datetime
+import xlsxwriter
+import yaml
 from collections import defaultdict
+from datetime import datetime
 
 try:
     from bigsuds import BIGIP               # version 10
-    from f5.bigip import ManagementRoot     # version 11
+    from f5.bigip import ManagementRoot     # version 11+
 except ImportError:
-    print "Please Install bigsuds and f5 sdk python packages using `pip install bigsuds f5-sdk` "
+    print ("Please Install bigsuds and f5 sdk python packages using "
+           "`pip install bigsuds f5-sdk`")
     sys.exit(1)
 
 profile_mappings = {
@@ -38,6 +39,8 @@ def get_name_and_entity(url):
 
 
 class F5InventoryConv(object):
+    avi_object = None
+    version = None
 
     @classmethod
     def get_instance(cls, version, host, port, username, password, interval):
@@ -48,11 +51,12 @@ class F5InventoryConv(object):
         :param port: port for f5 box
         :param username: username for f5 box
         :param password: password for f5 box
+        :param interval: Interval between two traffic stat samples
         :return: object of respective f5 version object.
         """
         if version == '10':
             return F5InventoryConvV10(host, port, username, password, interval)
-        if version in ['11', '12']:
+        if int(version) > 10:
             return F5InventoryConvV11(host, port, username, password, interval)
 
     def get_inventory(self):
@@ -61,7 +65,7 @@ class F5InventoryConv(object):
     def get_all_virtual_service(self):
         pass
 
-    def print_human(self, path, version, ip, interval=1):
+    def print_human(self, path, version, ip):
 
         # refactor the data for easy access
         traffic_global_dict = {}
@@ -69,7 +73,13 @@ class F5InventoryConv(object):
             for k, v in data.iteritems():
                 if data[k].get('traffic'):
                     entries = data[k]['traffic']
-                    unpacked_entries = { str(k): v[u'value'] for k, v in entries.items() if v.get(u'value', '') is not '' }
+                    if int(version) > 11:
+                        entries = (entries[entries.keys()[0]]
+                                   ['nestedStats']['entries'])
+                    unpacked_entries = {
+                        str(k): v[u'value'] for k, v in entries.items()
+                        if v.get(u'value', '') is not ''
+                    }
                     if k in traffic_global_dict:
                         traffic_global_dict[k].append(unpacked_entries)
                     else:
@@ -77,7 +87,10 @@ class F5InventoryConv(object):
 
                 if data[k].get('traffic_list'):
                     # for types in data[k]['traffic_list']:
-                    unpacked_entries = { types['type']: types['value']['high'] for types in data[k]['traffic_list']}
+                    unpacked_entries = {
+                        types['type']: types['value']['high']
+                        for types in data[k]['traffic_list']
+                    }
                     if k in traffic_global_dict:
                         traffic_global_dict[k].append(unpacked_entries)
                     else:
@@ -88,10 +101,10 @@ class F5InventoryConv(object):
         for k in traffic_global_dict.keys():
             intermediate = defaultdict(list)
 
-            if version == '11':
+            if int(version) > 10:
                 mean_key = ['clientside.curConns']
-                keys =  ['totRequests', 'clientside.totConns',
-                            'clientside.bitsIn', 'clientside.pktsOut']
+                keys = ['totRequests', 'clientside.totConns',
+                        'clientside.bitsIn', 'clientside.pktsOut']
             else:
                 mean_key = ['STATISTIC_EPHEMERAL_CURRENT_CONNECTIONS']
                 keys = ['STATISTIC_CLIENT_SIDE_PACKETS_OUT',
@@ -105,23 +118,29 @@ class F5InventoryConv(object):
 
             for key in keys:
                 value = intermediate[key]
-                per_sec =  abs((value[0] - value[1]) / (2 * 60))
-                if k in new_traffic_global_dict:
-                    new_traffic_global_dict[k].update({ key: per_sec})
+                if value and len(value) > 1:
+                    per_sec = abs((value[0] - value[1]) / (2 * 60))
                 else:
-                    new_traffic_global_dict[k] = { key: per_sec}
+                    per_sec = 0
+                if k in new_traffic_global_dict:
+                    new_traffic_global_dict[k].update({key: per_sec})
+                else:
+                    new_traffic_global_dict[k] = {key: per_sec}
 
             for key in mean_key:
                 value = intermediate[key]
-                mean_val =abs((value[0] + value[1]) /2)
-                if k in new_traffic_global_dict:
-                    new_traffic_global_dict[k].update({ key: mean_val})
+                if value and len(value) > 1:
+                    mean_val = abs((value[0] + value[1]) / 2)
                 else:
-                    new_traffic_global_dict[k] = { key: mean_val}
-
+                    mean_val = 0
+                if k in new_traffic_global_dict:
+                    new_traffic_global_dict[k].update({key: mean_val})
+                else:
+                    new_traffic_global_dict[k] = {key: mean_val}
 
         # Print the Summary
-        workbook = xlsxwriter.Workbook(path + os.sep + '{}_discovery_data.xlsx'.format(ip))
+        workbook = xlsxwriter.Workbook(
+            path + os.sep + '{}_discovery_data.xlsx'.format(ip))
 
         bold = workbook.add_format({'bold': True})
         disabled = workbook.add_format({'font_color': 'red'})
@@ -133,7 +152,7 @@ class F5InventoryConv(object):
         worksheet_summary = workbook.add_worksheet('Summary')
         worksheet_summary.merge_range(3, 4, 3, 7, 'Summary', large_heading)
         worksheet_summary.set_row(3, 40)
-        worksheet_summary.set_column(5,6, width=24)
+        worksheet_summary.set_column(5, 6, width=24)
 
         worksheet_summary.write(5, 5, "F5 Version", bold)
         worksheet_summary.write(5, 6, str(version))
@@ -146,20 +165,19 @@ class F5InventoryConv(object):
 
         total_vs = total_pools = total_enabled_vs = total_enabled_pools = 0
 
-        input = self.avi_object[0]
+        obj_data = self.avi_object[0]
         total_input = self.avi_object
 
         pool_list = []
         vs_list = []
-        traffic_list = []
         tenant_list = set()
 
-        for vs in input.keys():
+        for vs in obj_data.keys():
             total_vs = total_vs + 1
 
             temp_dict = {}
             details_dict = {}
-            vsval = input[vs]
+            vsval = obj_data[vs]
 
             # directory model
             profile = {
@@ -177,7 +195,8 @@ class F5InventoryConv(object):
 
             # filter with profile
             for k in profile_mappings.keys():
-                if list(set(profile_mappings[k]).intersection(set(vsval.get('profiles')))) != []:
+                if list(set(profile_mappings[k]).intersection(
+                        set(vsval.get('profiles')))):
                     profile[k] = 'Y'
 
             if profile['l4'] == 'Y' and profile['l7']:
@@ -208,8 +227,11 @@ class F5InventoryConv(object):
                 total_pools = total_pools + 1
                 if vsval['pool']['members'][0].get('name'):
                     pool_details = vsval['pool']['members'][0]
-                    pool_list.append({'name': pool_details.get('name'), 'status': pool_details.get(
-                        'state'), 'vs_enabled': vs_state, })
+                    pool_list.append({
+                        'name': pool_details.get('name'),
+                        'status': pool_details.get('state'),
+                        'vs_enabled': vs_state,
+                    })
                     if pool_details.get('state') == 'up':
                         total_enabled_pools = total_enabled_pools + 1 
                 else:
@@ -235,7 +257,7 @@ class F5InventoryConv(object):
         init = 0
 
         # sort the list
-        vs_list = sorted(vs_list, key=lambda k: k['max_conn'], reverse=True)
+        vs_list = sorted(vs_list, key=lambda k1: k1['max_conn'], reverse=True)
 
         for vs in vs_list:
             if vs.get('name'):
@@ -260,7 +282,7 @@ class F5InventoryConv(object):
             worksheet.write(row, 0, vs_name, bold)
             status = disabled
             v = ''
-            if vs.get('enabled') == True:
+            if vs.get('enabled'):
                 status = enabled
                 v = 'Y'
                 total_enabled_vs = total_enabled_vs + 1
@@ -280,18 +302,28 @@ class F5InventoryConv(object):
                 worksheet.write(row, col, vs['max_conn'], bold)
             
             # write necessary details 
-            if version == '11':
-                open_conn = new_traffic_global_dict[vs_name]['clientside.curConns']
-                req_psec = new_traffic_global_dict[vs_name]['totRequests']
-                conn_psec = new_traffic_global_dict[vs_name]['clientside.totConns']
-                bytes_psec = new_traffic_global_dict[vs_name]['clientside.bitsIn']
-                pkts_psec = new_traffic_global_dict[vs_name]['clientside.pktsOut']
+            if int(version) > 10:
+                open_conn = (new_traffic_global_dict[vs_name]
+                             ['clientside.curConns'])
+                req_psec = (new_traffic_global_dict[vs_name]
+                            ['totRequests'])
+                conn_psec = (new_traffic_global_dict[vs_name]
+                             ['clientside.totConns'])
+                bytes_psec = (new_traffic_global_dict[vs_name]
+                              ['clientside.bitsIn'])
+                pkts_psec = (new_traffic_global_dict[vs_name]
+                             ['clientside.pktsOut'])
             else:
-                open_conn = new_traffic_global_dict[vs_name]['STATISTIC_EPHEMERAL_CURRENT_CONNECTIONS']
-                req_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_PACKETS_OUT']
-                conn_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_TOTAL_CONNECTIONS']
-                bytes_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_BYTES_OUT']
-                pkts_psec = new_traffic_global_dict[vs_name]['STATISTIC_CLIENT_SIDE_PACKETS_OUT']
+                open_conn = (new_traffic_global_dict[vs_name]
+                             ['STATISTIC_EPHEMERAL_CURRENT_CONNECTIONS'])
+                req_psec = (new_traffic_global_dict[vs_name]
+                            ['STATISTIC_CLIENT_SIDE_PACKETS_OUT'])
+                conn_psec = (new_traffic_global_dict[vs_name]
+                             ['STATISTIC_CLIENT_SIDE_TOTAL_CONNECTIONS'])
+                bytes_psec = (new_traffic_global_dict[vs_name]
+                              ['STATISTIC_CLIENT_SIDE_BYTES_OUT'])
+                pkts_psec = (new_traffic_global_dict[vs_name]
+                             ['STATISTIC_CLIENT_SIDE_PACKETS_OUT'])
               
             worksheet.write(row, col+1, open_conn, bold)    
             worksheet.write(row, col+2, req_psec, bold)    
@@ -311,7 +343,9 @@ class F5InventoryConv(object):
                     col = col + 1
                     from_row = chr(ord('A') + col) + "3"
                     to_row = chr(ord('A') + col) + str(end_row)
-                    worksheet.write_formula(row, col, '=COUNTIF({}:{},"Y")'.format(from_row, to_row),bold)
+                    worksheet.write_formula(
+                        row, col, '=COUNTIF({}:{},"Y")'.format(
+                            from_row, to_row), bold)
 
         # write pools
         row = 0
@@ -340,23 +374,33 @@ class F5InventoryConv(object):
         for all_vs in total_input:
             sheet = sheet + 1
             traffic_list = []
-            worksheet_traffic = workbook.add_worksheet('Traffic-Sheet -{}'.format(sheet))
+            worksheet_traffic = workbook.add_worksheet(
+                'Traffic-Sheet -{}'.format(sheet))
             for vs in all_vs.keys():
                 vsval = all_vs[vs]
                 # Traffic Details
-                if vsval.get('traffic'):
-                    traffic_list.append(
-                        {'name': vs, 'details': vsval['traffic']})
+                t_entries = vsval.get('traffic')
+                if t_entries:
+                    if int(version) > 11:
+                        traffic_list.append(
+                            {
+                                'name': vs,
+                                'details': t_entries[
+                                    t_entries.keys()[0]][
+                                    'nestedStats']['entries']})
+                    else:
+                        traffic_list.append(
+                            {'name': vs, 'details': vsval['traffic']})
     
                 # write traffic details on different page
                 row, col = 0, 0
                 worksheet_traffic.write('A1', 'Vs Name', bold)
                 init = 0
-                if self.version == '11':
-                    for vs in traffic_list:
+                if int(self.version) > 10:
+                    for t_vs in traffic_list:
                         # for Title Creation
                         if init == 0:
-                            for keys, vals in vs['details'].items():
+                            for keys, vals in t_vs['details'].items():
                                 if 'value' in vals:
                                     col = col + 1
                                     worksheet_traffic.write(
@@ -366,8 +410,8 @@ class F5InventoryConv(object):
 
                         # write details
                         col = 1
-                        worksheet_traffic.write(row, 0, vs['name'])
-                        for k, v in vs['details'].items():
+                        worksheet_traffic.write(row, 0, t_vs['name'])
+                        for k, v in t_vs['details'].items():
                             if 'value' in v:
                                 state = enabled
                                 val = int(v[u'value'])
@@ -404,6 +448,8 @@ class F5InventoryConv(object):
             print "Total enabled pools: ", total_enabled_pools
         print "--------------------"
 
+        workbook.close()
+
     def write_output(self, output_dir, avi_object):
         """
         :param output_dir: output path for file
@@ -428,6 +474,7 @@ class F5InventoryConvV10(F5InventoryConv):
         self.avi_traffic_object = []
         self.interval = interval
         self.port = port
+        self.avi_object_temp = {}
 
     def get_all_virtual_service(self):
         """
@@ -439,7 +486,6 @@ class F5InventoryConvV10(F5InventoryConv):
     def get_inventory(self):
 
         i = 0
-
         while i < 2:
             self.avi_object_temp = {}
             i += 1
@@ -451,37 +497,36 @@ class F5InventoryConvV10(F5InventoryConv):
 
             virtual_services = self.get_all_virtual_service()
             for vs in virtual_services:
-                self.avi_object_temp = {}
+
                 vs_object = {
                     'name': vs
                 }
-                state = self.f5_client.LocalLB.VirtualServer.get_enabled_state([
-                                                                            vs])
+                state = self.f5_client.LocalLB.VirtualServer.get_enabled_state(
+                    [vs])
                 state = state[0].split('STATE_')[1]
                 if state == 'ENABLED':
                     vs_object['enabled'] = True
                 else:
                     vs_object['enabled'] = False
-                destination = self.f5_client.LocalLB.VirtualServer.get_destination([
-                    vs])
+                destination = (self.f5_client.LocalLB.VirtualServer.
+                               get_destination([vs]))
                 if destination:
                     vs_object['destination'] = destination
-                persist = self.f5_client.LocalLB.VirtualServer\
-                    .get_persistence_profile([vs])[0]
+                persist = (self.f5_client.LocalLB.VirtualServer.
+                           get_persistence_profile([vs])[0])
                 if persist:
                     persist = [persist_profile['profile_name'] for
-                            persist_profile in persist]
+                               persist_profile in persist]
                     vs_object['persist'] = persist
-                source_address_translation = self.f5_client.LocalLB.VirtualServer\
-                    .get_snat_type([vs])
-                source_address_translation = source_address_translation[0].split(
-                    'SNAT_TYPE_')[1]
+                source_address_translation = (self.f5_client.LocalLB.
+                                              VirtualServer.get_snat_type([vs]))
+                source_address_translation = source_address_translation[
+                    0].split('SNAT_TYPE_')[1]
                 if source_address_translation != 'NONE':
                     vs_object['source_address_translation'] = \
                         source_address_translation
-                pool = self.f5_client.LocalLB.VirtualServer.get_default_pool_name([
-                    vs])[0]
-                exit
+                pool = (self.f5_client.LocalLB.VirtualServer.
+                        get_default_pool_name([vs])[0])
                 if pool:
                     vs_object['pool'] = {
                         'name': pool
@@ -489,30 +534,35 @@ class F5InventoryConvV10(F5InventoryConv):
                     members = self.f5_client.LocalLB.Pool.get_member([pool])[0]
                     if members:
                         vs_object['pool']['members'] = members
-                    health_monitors = \
-                        self.f5_client.LocalLB.Pool.get_monitor_instance([pool])[0]
+                    health_monitors = (self.f5_client.LocalLB.Pool.
+                                       get_monitor_instance([pool])[0])
                     if health_monitors:
-                        monitors = set([monitor['instance']['template_name'] for
-                                        monitor in health_monitors])
+                        monitors = set(
+                            [monitor['instance']['template_name'] for
+                             monitor in health_monitors]
+                        )
                         vs_object['pool']['health_monitors'] = list(monitors)
-                profiles = self.f5_client.LocalLB.VirtualServer.get_profile([vs])[
-                    0]
+                profiles = (self.f5_client.LocalLB.VirtualServer.
+                            get_profile([vs])[0])
                 if profiles:
                     profiles = [profile['profile_name'] for profile in profiles]
                     vs_object['profiles'] = profiles
 
-                traffic = self.f5_client.LocalLB.VirtualServer.get_statistics([vs])
+                traffic = (self.f5_client.LocalLB.VirtualServer.
+                           get_statistics([vs]))
 
                 max_conn = 0
 
                 for t in traffic['statistics'][0]['statistics']:
-                    if t.get('type') == 'STATISTIC_CLIENT_SIDE_MAXIMUM_CONNECTIONS':
-                        max_conn =  int(t['value']['high'])
+                    if (t.get('type') ==
+                            'STATISTIC_CLIENT_SIDE_MAXIMUM_CONNECTIONS'):
+                        max_conn = int(t['value']['high'])
                 
                 vs_object['max_conn'] = max_conn
 
                 if traffic and len(traffic['statistics']):
-                    vs_object['traffic_list'] = traffic['statistics'][0]['statistics']
+                    vs_object['traffic_list'] = traffic['statistics'][0][
+                        'statistics']
                 self.avi_object_temp[vs_object['name']] = vs_object
             self.avi_object.append(self.avi_object_temp)
 
@@ -525,6 +575,7 @@ class F5InventoryConvV11(F5InventoryConv):
         self.version = '11'
         self.avi_traffic_object = []
         self.interval = interval
+        self.avi_object_temp = {}
 
     def get_all_virtual_service(self):
         """
@@ -536,9 +587,7 @@ class F5InventoryConvV11(F5InventoryConv):
     def get_inventory(self):
 
         i = 0
-
         while i < 2:
-            self.avi_object_temp = {}
             i += 1
             if i == 1:
                 print "Running Sample for 1st time"
@@ -578,21 +627,27 @@ class F5InventoryConvV11(F5InventoryConv):
                             vs_object['pool']['partition'] = pool_partition
                         poolobj = self.f5_client.tm.ltm.pools.pool.load(
                             partition=pool_partition, name=pool_name)
-                        health_monitors = [get_name_and_entity(monitors.strip())[1]
-                                        for monitors in poolobj.monitor.split(
-                                        ' and ') if monitors]
+                        health_monitors = [
+                            get_name_and_entity(monitors.strip())[1]
+                            for monitors in poolobj.monitor.split(' and ')
+                            if monitors
+                        ]
                         if health_monitors:
-                            vs_object['pool']['health_monitors'] = health_monitors
-                        members = [{'name': pool_member.name,
-                                    'address': pool_member.address,
-                                    'state': pool_member.state} for
-                                pool_member in
-                                poolobj.members_s.get_collection()]
+                            vs_object['pool']['health_monitors'] = \
+                                health_monitors
+                        members = [
+                            {
+                                'name': pool_member.name,
+                                'address': pool_member.address,
+                                'state': pool_member.state
+                            }
+                            for pool_member in
+                            poolobj.members_s.get_collection()
+                        ]
                         if members:
                             vs_object['pool']['members'] = members
                 virtual_obj = self.f5_client.tm.ltm.virtuals.virtual.load(
                     partition=vs.partition, name=vs.name)
-
 
                 profiles = [profile.name for profile in
                             virtual_obj.profiles_s.get_collection()]
@@ -608,7 +663,8 @@ class F5InventoryConvV11(F5InventoryConv):
                     vs_object['rules'] = vs.rules
 
                 vs_object['traffic'] = virtual_obj.stats.load().entries
-                max_conn = virtual_obj.stats.load().entries.get(u'clientside.maxConns', 0)
+                max_conn = virtual_obj.stats.load().entries.get(
+                    u'clientside.maxConns', 0)
                 vs_object['max_conn'] = max_conn
 
                 # if str(vs.name) == 'miska-http':
@@ -644,7 +700,8 @@ if __name__ == '__main__':
                         help='Print the human readable output')
     
     parser.add_argument('-i', '--interval', default=2,
-                        help='Take the sample data with interval [default 2 mins]')
+                        help='Take the sample data with interval '
+                             '[default 2 mins]')
 
     parser.add_argument('--f5_port',
                         help='f5 host port id non default port is used ',
@@ -665,14 +722,12 @@ if __name__ == '__main__':
         print "Creating output directory ..."
         os.makedirs(args.output_file_path)
 
-    f5_inventory_conv = F5InventoryConv.get_instance(args.f5_config_version,
-                                                     args.f5_ip,
-                                                     args.f5_port,
-                                                     args.f5_user,
-                                                     args.f5_password,
-                                                     args.interval)
+    f5_inventory_conv = F5InventoryConv.get_instance(
+        args.f5_config_version, args.f5_ip, args.f5_port, args.f5_user,
+        args.f5_password, args.interval)
+
     f5_inventory_conv.get_inventory()
 
     f5_inventory_conv.print_human(
-        args.output_file_path, args.f5_config_version, args.f5_ip, args.interval)
+        args.output_file_path, args.f5_config_version, args.f5_ip)
     print "\n Inventory Complete ..."
