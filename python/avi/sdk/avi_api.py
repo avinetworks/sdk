@@ -4,6 +4,7 @@ import copy
 import json
 import logging
 import time
+import urlparse
 from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
@@ -922,12 +923,10 @@ class ApiSession(Session):
             raise ObjectNotFound('Object %s Not found' % (obj))
         if isinstance(obj, Response):
             obj = json.loads(obj.text)
-        if obj.get(0, None):
-            return obj[0]['uuid']
-        elif obj.get('uuid', None):
-            return obj['uuid']
+        if obj.get('uuid', None):
+            return obj['uuid'].split('#')[0]
         elif obj.get('results', None):
-            return obj['results'][0]['uuid']
+            return obj['results'][0]['uuid'].split('#')[0]
         else:
             return None
 
@@ -1007,6 +1006,17 @@ class ApiSession(Session):
         for page in pages_iter:
             for obj in page:
                 yield obj
+
+    def get_slug_from_uri(self, uri):
+        """return uuid/slug from URI"""
+        if not uri or '/' not in uri:
+            return uri
+        parsed = urlparse.urlparse(uri)
+        path = parsed.path
+        uuid = os.path.basename(path)
+        if '#' in uuid:
+            uuid = uuid.split('#')[0]
+        return uuid
 
     def _get_api_path(self, path, uuid=None):
         """

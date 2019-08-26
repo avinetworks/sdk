@@ -73,3 +73,8 @@ python/avi/migrationtools/gss_convertor/out
 python/avi/migrationtools/gss_convertor/input
 vscode
 output/
+
+
+#Virtual environment files
+venv
+.venv
