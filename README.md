@@ -3,27 +3,27 @@
 [![Build Status](https://travis-ci.org/avinetworks/sdk.svg?branch=17.1.4_pytest)](https://travis-ci.org/avinetworks/sdk)
 
 This repository includes API documentation, SDK and sample source to integrate
-into Avi Solution. Here is brief description of the contents
+into the Avi Solution. Below is brief description of the contents.
 
-- **doc**: Avi API documentation. It includes documentation for the load balancer
+- **doc**: Avi API documentation includes documentation for the load balancer
 objects, Analytics Metrics, and Log Analytics APIs.
-- **python**: Source for the python SDK. The pip package can be downloaded from
+- **python**: Source for the Python SDK. The pip package can be downloaded from
 [Releases](https://github.com/avinetworks/sdk/releases "Avi SDK Releases").
-Here are list of important SDK directories
-    - **samples**: Python samples are in directory python/avi/sdk/samples.
-        - **autoscale**: Gives examples of creating control scripts for
-        server autoscale
+Here are list of important SDK directories:
+    - **samples**: Python samples are in the python/avi/sdk/samples directory.
+        - **autoscale**: Gives ControlScript examples for
+        server autoscaling.
         - **heat**: Provides a heat example for pool servers that can be used
-        with server autoscale feature and control scripts
-        - **virtualservice_examples_api**: provides examples of programmatically
-        creating most common VirtuaServices like basic VS, SSL VS, analytics
-        APIs, tenant based APIs etc.
+        with the server autoscale feature and ControlScripts.
+        - **virtualservice_examples_api**: Provides examples of programmatically
+        creating most common virtual services, such as basic VS, SSL VS, analytics
+        APIs, tenant-based APIs, etc.
     - **utils**: Useful utilities for devops automation.
-        - **f5_converter**: It is utility for converting F5 configuration into
-        AVI configuration
-        - **httppolicyset_templates**: Provides easy to use templates for
-        creating HTTP request and redirect policies for most common use cases
-        - **Mesos**: Provides CRUD apis to create Marathon App with AVI labels
+        - **f5_converter**: Is a utility for converting an F5 configuration into
+        an Avi Vantage configuration.
+        - **httppolicyset_templates**: Provides easy-to-use templates for
+        creating HTTP request and redirect policies for most common use cases.
+        - **Mesos**: Provides CRUD APIs to create a Marathon app with Avi labels.
 
 # Installation
 Pip packages are hosted on GitHub. They can be installed simply as:
@@ -31,13 +31,13 @@ Pip packages are hosted on GitHub. They can be installed simply as:
 ```sh
 $ pip install avisdk
 ```
-### Avi Migration Tools Install - installs F5 and Netscaler to avi conversion tools
+### Avi Migration Tools Install - installs F5-to-Avi and NetScaler-to-Avi conversion tools
 ```sh
 $ pip install avimigrationtools
 ```
 
-### Python Virtual Environment based installation
-It is recommended to use virtual env based installation if you are just
+### Python Virtual-Environment-based Installation
+It is recommended to use a virtual-environment-based installation if you are just
 experimenting with the SDK or F5 converter.
 
 ```sh
@@ -86,16 +86,16 @@ api = ApiSession.get_session("localhost", user, token=token, tenant=tenant)
 ```
 # SAML Authentication Usage
 ### prerequisite:
-1. SAML configured/enabled controller.
+1. SAML configured/enabled Controller.
 
 To set up SAML SSO controller, please refer the below link. 
 (https://avinetworks.com/docs/17.2/single-sign-on-with-saml/)
 
-Currently, SDK support two IDPs for SAML based authentication:
+Currently, the SDK supports two IDPs for SAML-based authentication:
 1) Okta
 2) Onelogin
 
-## SAML based session usage for the OKta IDP
+## SAML-based Session Usage for the Okta IDP
 
 ```python
 from avi.sdk.saml_avi_api import OktaSAMLApiSession
@@ -119,7 +119,7 @@ for vs in resp.json()['results']:
 resp = api.delete_by_name('virtualservice', 'sample_vs')
 ```
 
-## SAML based session usage for the Onelogin IDP
+## SAML-based Session Usage for the OneLogin IDP
 
 ```python
 from avi.sdk.saml_avi_api import OneloginSAMLApiSession
