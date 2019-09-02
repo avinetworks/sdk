@@ -737,10 +737,14 @@ func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
 		url = updateUri(url, opts)
 	}
 	res, rerror := avisess.restRequest(verb, url, payload, opts.tenant, nil)
-	if rerror != nil || res == nil {
+	if rerror != nil {
 		return rerror
 	}
-	return json.Unmarshal(res, &response)
+	if len(res) == 0 {
+		return nil
+	} else {
+		return json.Unmarshal(res, &response)
+	}
 }
 
 // Get issues a GET request against the avisess REST API.
