@@ -168,6 +168,12 @@ class PoolConfigConv(object):
             'lb_algorithm': algo,
             'cloud_ref': conv_utils.get_object_ref(cloud_ref, 'cloud')
         }
+        for server in servers:
+            if server["port"] == '0':
+                pool_obj.update({"use_service_port": "true"})
+                server.update(port = "80")
+            else:
+                continue
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
