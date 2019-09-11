@@ -36,7 +36,7 @@ if not output_file:
     output_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                                'output'))
 with open(config_file) as f:
-    file_attribute = yaml.full_load(f)
+    file_attribute = yaml.load(f, Loader=yaml.Loader)
 
 setup = dict(
     controller_version_v17=file_attribute['controller_version_v17'],
