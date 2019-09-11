@@ -48,7 +48,7 @@ elif any([input_file_version, input_file]):
 
 
 with open(config_file) as f:
-    file_attribute = yaml.full_load(f)
+    file_attribute = yaml.load(f, Loader=yaml.Loader)
 
 setup = dict(
     controller_version_v17=file_attribute['controller_version_v17'],
@@ -653,7 +653,7 @@ class TestF5Converter:
                 skip_pki=True)
         file_name = output_file + '/avi_config_create_object.yml'
         with open(file_name) as o_file:
-            file_object = yaml.full_load(o_file)
+            file_object = yaml.load(o_file, Loader=yaml.Loader)
             assert file_object[0].get('tasks', False)
 
     @pytest.mark.skip_travis
@@ -750,7 +750,7 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'))
         file_name = output_file + '/bigip_v10-Output.json'
         with open(file_name) as o_file:
-            file_object = yaml.full_load(o_file)
+            file_object = yaml.load(o_file, Loader=yaml.Loader)
         persistence_profiles = file_object['ApplicationPersistenceProfile']
         for p_type in persistence_profiles:
             if "COOKIE" in p_type['persistence_type']:
@@ -767,7 +767,7 @@ class TestF5Converter:
                 output_file_path=setup.get('output_file_path'))
         file_name = output_file + '/bigip_v11-Output.json'
         with open(file_name) as o_file:
-            file_object = yaml.full_load(o_file)
+            file_object = yaml.load(o_file, Loader=yaml.Loader)
         persistence_profiles = file_object['ApplicationPersistenceProfile']
         for p_type in persistence_profiles:
             if "COOKIE" in p_type['persistence_type']:
@@ -1075,7 +1075,7 @@ class TestF5Converter:
 
         o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
         with open(input_role_config_file) as i_file:
-            custom_config = yaml.full_load(i_file)
+            custom_config = yaml.load(i_file, Loader=yaml.Loader)
 
         with open(o_file) as json_file:
             data = json.load(json_file)
