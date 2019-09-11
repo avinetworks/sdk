@@ -63,7 +63,7 @@ def my_represent_scalar(self, tag, value, style=None):
 yaml.representer.BaseRepresenter.represent_scalar = my_represent_scalar
 meta_file = mg_util.get_project_path() + '/common/avi_resource_types.yaml'
 with open(meta_file) as f:
-    supported_obj = yaml.full_load(f)
+    supported_obj = yaml.load(f, Loader=yaml.Loader)
 
 
 class AviAnsibleConverterBase(object):
@@ -429,7 +429,7 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
                 tenant = str(vs['tenant_ref']).split('=')[-1]
             if type(self.partitions) == str:
                 with open(self.partitions) as f:
-                    data = yaml.full_load(f)
+                    data = yaml.load(f, Loader=yaml.Loader)
                 partition = data['partition-vs-mappings']
             else:
                 partition = self.partitions
