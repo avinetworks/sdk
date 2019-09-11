@@ -606,7 +606,7 @@ class MigrationUtil(object):
     def get_path_key_map(self):
         yml_file = os.path.join(self.get_project_path(),
                                 './common/avi_resource_types.yaml')
-        yml_data = yaml.full_load(open(yml_file, 'r'))
+        yml_data = yaml.load(open(yml_file, 'r'), Loader=yaml.Loader)
         # Converts avi object types to avi resource types
         data_lower_case = map(lambda x: x.lower(),
                               yml_data['avi_resource_types'])

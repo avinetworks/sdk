@@ -25,7 +25,7 @@ admin_obj_visible_to_all = ('poolgroup', 'httppolicyset', 'pool',
 # Read supported avi objects from yaml file.
 yml_file = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         '../common/avi_resource_types.yaml'))
-supported_obj = yaml.full_load(open(yml_file, 'r'))
+supported_obj = yaml.load(open(yml_file, 'r'), Loader=yaml.Loader)
 # Reverse order of avi_objects is required during clone operation.
 avi_object_types = tuple(supported_obj['avi_resource_types'][::-1])
 

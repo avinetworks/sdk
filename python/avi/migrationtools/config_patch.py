@@ -321,7 +321,7 @@ if __name__ == '__main__':
         acfg = json.load(f)
 
     with open(args.patchconfig) as f:
-        patches = yaml.full_load(f)
+        patches = yaml.load(f, Loader=yaml.Loader)
     cp = ConfigPatch(acfg, patches)
     patched_cfg = cp.patch()
     with open(args.aviconfig + '.patched', 'w') as f:
