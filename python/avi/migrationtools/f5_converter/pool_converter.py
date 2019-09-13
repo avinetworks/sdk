@@ -168,6 +168,9 @@ class PoolConfigConv(object):
             'lb_algorithm': algo,
             'cloud_ref': conv_utils.get_object_ref(cloud_ref, 'cloud')
         }
+
+        if any(server["port"] == "" for server in servers):
+            pool_obj.update({"use_service_port": "true"})
         if not tenant_ref == 'admin':
             tenant = tenant_ref
         pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
@@ -493,6 +496,8 @@ class PoolConfigConvV11(PoolConfigConv):
                             if orig_port else " no port"))
                 server_skipped.append(server_name)
                 continue
+            if port == '0':
+                port = ""
             enabled = True
             state = server.get("state", 'enabled')
             session = server.get("session", 'enabled')
@@ -507,6 +512,7 @@ class PoolConfigConvV11(PoolConfigConv):
                 LOG.warning('Avi does not support IPv6. Replace 1.1.1.1 '
                             'ipv4 for : %s' % ip_addr)
                 ip_addr = '1.1.1.1'
+
             server_obj = {
                 'ip': {
                     'addr': ip_addr,
