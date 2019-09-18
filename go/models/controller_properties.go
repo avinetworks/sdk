@@ -59,6 +59,9 @@ type ControllerProperties struct {
 	// Number of dead_se_detection_timer.
 	DeadSeDetectionTimer *int32 `json:"dead_se_detection_timer,omitempty"`
 
+	// Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6.
+	DefaultMinimumAPITimeout *int32 `json:"default_minimum_api_timeout,omitempty"`
+
 	// Period for refresh pool and gslb DNS job.
 	DNSRefreshPeriod *int32 `json:"dns_refresh_period,omitempty"`
 

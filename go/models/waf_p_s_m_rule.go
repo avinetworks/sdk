@@ -7,7 +7,7 @@ package models
 // swagger:model WafPSMRule
 type WafPSMRule struct {
 
-	// Freetext comment about this rule. Field introduced in 18.2.3.
+	// Free-text comment about this rule. Field introduced in 18.2.3.
 	Description *string `json:"description,omitempty"`
 
 	// Enable or disable this rule. Field introduced in 18.2.3.

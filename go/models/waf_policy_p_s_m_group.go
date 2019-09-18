@@ -11,7 +11,7 @@ type WafPolicyPSMGroup struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// Freetext comment about this group. Field introduced in 18.2.3.
+	// Free-text comment about this group. Field introduced in 18.2.3.
 	Description *string `json:"description,omitempty"`
 
 	// Enable or disable this WAF rule group. Field introduced in 18.2.3.

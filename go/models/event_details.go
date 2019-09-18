@@ -28,6 +28,12 @@ type EventDetails struct {
 	// Placeholder for description of property avg_uptime_change_details of obj type EventDetails field type str  type object
 	AvgUptimeChangeDetails *AvgUptimeChangeDetails `json:"avg_uptime_change_details,omitempty"`
 
+	// Placeholder for description of property avi_cloud_crs_details of obj type EventDetails field type str  type object
+	AviCloudCrsDetails *AviCloudCRSDetails `json:"avi_cloud_crs_details,omitempty"`
+
+	// Placeholder for description of property avi_cloud_status_details of obj type EventDetails field type str  type object
+	AviCloudStatusDetails *AviCloudStatusDetails `json:"avi_cloud_status_details,omitempty"`
+
 	//  Field introduced in 17.2.10,18.1.2.
 	AwsAsgDeletionDetails *AWSASGDelete `json:"aws_asg_deletion_details,omitempty"`
 
@@ -285,6 +291,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property pool_server_delete_details of obj type EventDetails field type str  type object
 	PoolServerDeleteDetails *VinfraPoolServerDeleteDetails `json:"pool_server_delete_details,omitempty"`
+
+	// Placeholder for description of property psm_program_details of obj type EventDetails field type str  type object
+	PsmProgramDetails *PsmProgramDetails `json:"psm_program_details,omitempty"`
 
 	// Placeholder for description of property rebalance_migrate_details of obj type EventDetails field type str  type object
 	RebalanceMigrateDetails *RebalanceMigrateEventDetails `json:"rebalance_migrate_details,omitempty"`

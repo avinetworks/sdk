@@ -121,6 +121,9 @@ type OShiftK8SConfiguration struct {
 	// Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1.
 	SePodTolerations []*PodToleration `json:"se_pod_tolerations,omitempty"`
 
+	// Priority class for AVI SEs when running as pods. User is expected to have the priority class (with this name) created in Kubernetes, beforehand. If the priority class doesn't exist while assigning this field, the SE pods may not start. If empty no priority class will be used for deploying SE pods (default behaviour). Field introduced in 18.2.6.
+	SePriorityClass *string `json:"se_priority_class,omitempty"`
+
 	// Restart ServiceEngines by batch on ServiceEngineGroup updates (cpu, memory..etc). Field introduced in 17.2.15, 18.1.5, 18.2.1.
 	SeRestartBatchSize *int32 `json:"se_restart_batch_size,omitempty"`
 
@@ -171,4 +174,7 @@ type OShiftK8SConfiguration struct {
 
 	// VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.
 	VipDefaultGateway *IPAddr `json:"vip_default_gateway,omitempty"`
+
+	// VirtualService routes if the host has multiple nics in Openshift/K8s cluster. Each route is a combination of subnet and nexthop ip address or nexthop interface name. This knob should be enabled in the following cases  1. Forwarding the network packets to the same network interface from where it came from. 2. OpenShift/K8s Node connected to the Internet via multiple network interfaces on different networks/ISPs.3. Handling North-South traffic originating from with in the node when the default gateway for outgoing traffic of vs is configured. Field introduced in 18.2.6.
+	VipNextHops []*RouteInfo `json:"vip_next_hops,omitempty"`
 }
