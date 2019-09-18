@@ -82,16 +82,16 @@ type SeBootupProperties struct {
 	// Deprecated. Field deprecated in 18.2.5.
 	SePcapPktSz *int32 `json:"se_pcap_pkt_sz,omitempty"`
 
-	// when sampling for navigation timing data from the end user client. minimum time to wait on server between samples.
+	// Deprecated. Field deprecated in 18.2.6.
 	SeRumSamplingNavInterval *int32 `json:"se_rum_sampling_nav_interval,omitempty"`
 
-	// percentage of navigation timing data to sample from the end user client for client insights.
+	// Deprecated. Field deprecated in 18.2.6.
 	SeRumSamplingNavPercent *int32 `json:"se_rum_sampling_nav_percent,omitempty"`
 
-	// when sampling for resource timing data from the end user client. minimum time to wait on server between samples.
+	// Deprecated. Field deprecated in 18.2.6.
 	SeRumSamplingResInterval *int32 `json:"se_rum_sampling_res_interval,omitempty"`
 
-	// percentage of resource timing data to sample from the end user client for client insights.
+	// Deprecated. Field deprecated in 18.2.6.
 	SeRumSamplingResPercent *int32 `json:"se_rum_sampling_res_percent,omitempty"`
 
 	// Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1.

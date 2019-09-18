@@ -19,7 +19,7 @@ type TCPProxyProfile struct {
 	// Congestion window scaling factor after recovery. Allowed values are 0-8. Field introduced in 17.2.12, 18.1.3, 18.2.1.
 	CongestionRecoveryScalingFactor *int32 `json:"congestion_recovery_scaling_factor,omitempty"`
 
-	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'.
+	// The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-14400. Special values are 0 - 'infinite'.
 	IDLEConnectionTimeout *int32 `json:"idle_connection_timeout,omitempty"`
 
 	// Controls the behavior of idle connections. Enum options - KEEP_ALIVE, CLOSE_IDLE.
@@ -30,6 +30,9 @@ type TCPProxyProfile struct {
 
 	// Controls the value of the Differentiated Services Code Point field inserted in the IP header.  This has two options   Set to a specific value, or Pass Through, which uses the incoming DSCP value. Allowed values are 0-63. Special values are MAX - 'Passthrough'.
 	IPDscp *int32 `json:"ip_dscp,omitempty"`
+
+	// Controls whether to keep the connection alive with keepalive messages in the TCP half close state. The interval for sending keepalive messages is 30s. If a timeout is already configured in the network profile, this will not override it. Field introduced in 18.2.6.
+	KeepaliveInHalfcloseState *bool `json:"keepalive_in_halfclose_state,omitempty"`
 
 	// The number of attempts at retransmit before closing the connection. Allowed values are 3-8.
 	MaxRetransmissions *int32 `json:"max_retransmissions,omitempty"`

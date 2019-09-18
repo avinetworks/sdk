@@ -38,6 +38,9 @@ type Cloud struct {
 	// DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile.
 	DNSProviderRef *string `json:"dns_provider_ref,omitempty"`
 
+	// By default, pool member FQDNs are resolved on the Controller. When this is set, pool member FQDNs are instead resolved on Service Engines in this cloud. This is useful in scenarios where pool member FQDNs can only be resolved from Service Engines and not from the Controller. Field introduced in 18.2.6.
+	DNSResolutionOnSe *bool `json:"dns_resolution_on_se,omitempty"`
+
 	// Placeholder for description of property docker_configuration of obj type Cloud field type str  type object
 	DockerConfiguration *DockerConfiguration `json:"docker_configuration,omitempty"`
 

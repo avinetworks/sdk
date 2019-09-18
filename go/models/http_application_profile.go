@@ -67,6 +67,9 @@ type HTTPApplicationProfile struct {
 	// Client requests received via HTTP will be redirected to HTTPS.
 	HTTPToHTTPS *bool `json:"http_to_https,omitempty"`
 
+	// Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 18.2.6.
+	HTTPUpstreamBufferSize *int32 `json:"http_upstream_buffer_size,omitempty"`
+
 	// Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript.
 	HttponlyEnabled *bool `json:"httponly_enabled,omitempty"`
 
@@ -84,6 +87,18 @@ type HTTPApplicationProfile struct {
 
 	// Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxBadRpsURI *int32 `json:"max_bad_rps_uri,omitempty"`
+
+	// The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6.
+	MaxHttp2ConcurrentStreamsPerConnection *int32 `json:"max_http2_concurrent_streams_per_connection,omitempty"`
+
+	// The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6.
+	MaxHttp2ControlFramesPerConnection *int32 `json:"max_http2_control_frames_per_connection,omitempty"`
+
+	// The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6.
+	MaxHttp2EmptyDataFramesPerConnection *int32 `json:"max_http2_empty_data_frames_per_connection,omitempty"`
+
+	// The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6.
+	MaxHttp2QueuedFramesToClientPerConnection *int32 `json:"max_http2_queued_frames_to_client_per_connection,omitempty"`
 
 	// The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5.
 	MaxKeepaliveRequests *int32 `json:"max_keepalive_requests,omitempty"`
@@ -111,6 +126,9 @@ type HTTPApplicationProfile struct {
 
 	// The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client's HTTP request. Allowed values are 10-100000000.
 	PostAcceptTimeout *int32 `json:"post_accept_timeout,omitempty"`
+
+	// If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6.
+	ResetConnHTTPOnSslPort *bool `json:"reset_conn_http_on_ssl_port,omitempty"`
 
 	// Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8.
 	RespondWith100Continue *bool `json:"respond_with_100_continue,omitempty"`
