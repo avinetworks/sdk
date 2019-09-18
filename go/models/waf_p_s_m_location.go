@@ -7,7 +7,7 @@ package models
 // swagger:model WafPSMLocation
 type WafPSMLocation struct {
 
-	// Freetext comment about this location. Field introduced in 18.2.3.
+	// Free-text comment about this location. Field introduced in 18.2.3.
 	Description *string `json:"description,omitempty"`
 
 	// Location index, this is used to determine the order of the locations. Field introduced in 18.2.3.
