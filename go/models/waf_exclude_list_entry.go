@@ -10,6 +10,9 @@ type WafExcludeListEntry struct {
 	// Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.
 	ClientSubnet *IPAddrPrefix `json:"client_subnet,omitempty"`
 
+	// Free-text comment about this exclusion. Field introduced in 18.2.6.
+	Description *string `json:"description,omitempty"`
+
 	// The match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx', 'ARGS_NAMES xxx', 'FILES xxx', 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1.
 	MatchElement *string `json:"match_element,omitempty"`
 

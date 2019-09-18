@@ -384,6 +384,9 @@ type ServiceEngineGroup struct {
 	// UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.
 	SeIpcUDPPort *int32 `json:"se_ipc_udp_port,omitempty"`
 
+	// Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6.
+	SeKniBurstFactor *int32 `json:"se_kni_burst_factor,omitempty"`
+
 	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
 	SeLro *bool `json:"se_lro,omitempty"`
 
@@ -399,6 +402,9 @@ type ServiceEngineGroup struct {
 	// Max size of each packet in the pcap interface. Requires SE Reboot. Field introduced in 18.2.5.
 	SePcapPktSz *int32 `json:"se_pcap_pkt_sz,omitempty"`
 
+	// Bypass the kernel's traffic control layer, to deliver packets directly to the driver. Enabling this feature results in egress packets not being captured in host tcpdump. Note   brief packet reordering or loss may occur upon toggle. Field introduced in 18.2.6.
+	SePcapQdiscBypass *bool `json:"se_pcap_qdisc_bypass,omitempty"`
+
 	// Frequency in seconds at which periodically a PCAP reinit check is triggered. May be used in conjunction with the configuration pcap_reinit_threshold. (Valid range   15 mins - 12 hours, 0 - disables). Allowed values are 900-43200. Special values are 0- 'disable'. Field introduced in 17.2.13, 18.1.3, 18.2.1.
 	SePcapReinitFrequency *int32 `json:"se_pcap_reinit_frequency,omitempty"`
 
@@ -413,6 +419,18 @@ type ServiceEngineGroup struct {
 
 	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3.
 	SeRouting *bool `json:"se_routing,omitempty"`
+
+	// Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6.
+	SeRumSamplingNavInterval *int32 `json:"se_rum_sampling_nav_interval,omitempty"`
+
+	// Percentage of navigation timing data from the end user client, used for sampling to get client insights. Field introduced in 18.2.6.
+	SeRumSamplingNavPercent *int32 `json:"se_rum_sampling_nav_percent,omitempty"`
+
+	// Minimum time to wait on server between taking sampleswhen sampling the resource timing data from the end user client. Field introduced in 18.2.6.
+	SeRumSamplingResInterval *int32 `json:"se_rum_sampling_res_interval,omitempty"`
+
+	// Percentage of resource timing data from the end user client used for sampling to get client insight. Field introduced in 18.2.6.
+	SeRumSamplingResPercent *int32 `json:"se_rum_sampling_res_percent,omitempty"`
 
 	// Sideband traffic will be handled by a dedicated core.Requires SE Reboot. Field introduced in 16.5.2, 17.1.9, 17.2.3.
 	SeSbDedicatedCore *bool `json:"se_sb_dedicated_core,omitempty"`

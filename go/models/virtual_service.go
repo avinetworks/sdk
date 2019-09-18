@@ -257,6 +257,9 @@ type VirtualService struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
+	// Used for testing SE Datastore Upgrade 2.0 functionality. It is a reference to an object of type TestSeDatastoreLevel1. Field introduced in 18.2.6.
+	TestSeDatastoreLevel1Ref *string `json:"test_se_datastore_level_1_ref,omitempty"`
+
 	// Topology Policies applied on the dns traffic of the Virtual Service based onGSLB Topology algorithm. Field introduced in 18.2.3.
 	TopologyPolicies []*DNSPolicies `json:"topology_policies,omitempty"`
 
