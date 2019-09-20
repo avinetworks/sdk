@@ -43,8 +43,10 @@ class PolicyConfigConv(object):
             try:
                 LOG.debug("Conversion started for the policy %s", each_policy)
                 tenant, policy_name = conv_utils.get_tenant_ref(each_policy)
-                if tenant_ref != 'admin':
+                if tenant_ref and tenant_ref != 'admin':
                     tenant = tenant_ref
+                else:
+                    tenant = "admin"
                 if self.prefix:
                     policy_name = '%s-%s' % (self.prefix, policy_name)
                 httppolicy = dict()

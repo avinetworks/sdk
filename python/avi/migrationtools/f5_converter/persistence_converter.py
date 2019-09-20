@@ -93,8 +93,10 @@ class PersistenceConfigConv(object):
                 profile = prof_conv.update_with_default_profile(
                     persist_mode, profile, f5_persistence_dict, name)
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if tenant_ref != 'admin':
+                if tenant_ref and tenant_ref != 'admin':
                     tenant = tenant_ref
+                else:
+                    tenant = "admin"
                 if self.prefix:
                     name = '{}-{}'.format(self.prefix, name)
                 # Enabled the cookie support

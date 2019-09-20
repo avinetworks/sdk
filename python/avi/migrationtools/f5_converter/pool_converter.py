@@ -171,7 +171,9 @@ class PoolConfigConv(object):
 
         if any(server["port"] == "" for server in servers):
             pool_obj.update({"use_service_port": "true"})
-        if not tenant_ref == 'admin':
+        if tenant_ref == None:
+            tenant = "admin"
+        else:
             tenant = tenant_ref
         pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         if ramp_time:

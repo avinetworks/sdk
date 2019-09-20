@@ -83,7 +83,9 @@ class ProfileConfigConv(object):
             try:
                 profile_type, name = key.split(" ")
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if not tenant_ref == 'admin':
+                if tenant_ref == None:
+                    tenant == 'admin'
+                else:
                     tenant = tenant_ref
                 if profile_type not in self.supported_types:
                     msg = ("Skipped not supported profile: %s of type: %s"

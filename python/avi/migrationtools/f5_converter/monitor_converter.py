@@ -254,8 +254,10 @@ class MonitorConfigConv(object):
                     avi_monitor['name'] = self.prefix + '-' + m_name
                 else:
                     avi_monitor['name'] = m_name
-                if tenant != 'admin':
+                if tenant and tenant != 'admin':
                     m_tenant = tenant
+                else:
+                    m_tenant = "admin"
                 avi_monitor['tenant_ref'] = conv_utils.get_object_ref(
                     m_tenant, 'tenant')
                 avi_config["HealthMonitor"].append(avi_monitor)
@@ -367,8 +369,10 @@ class MonitorConfigConv(object):
         # Added prefix for objects
         if self.prefix:
             name = self.prefix + '-' + name
-        if tenant_ref != 'admin':
+        if tenant_ref and tenant_ref != 'admin':
             tenant = tenant_ref
+        else:
+            tenant = "admin"
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
         monitor_dict["receive_timeout"] = interval-1 if interval else 0
