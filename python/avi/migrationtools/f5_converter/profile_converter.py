@@ -84,7 +84,7 @@ class ProfileConfigConv(object):
                 profile_type, name = key.split(" ")
                 tenant, name = conv_utils.get_tenant_ref(name)
                 if tenant_ref == None:
-                    tenant == 'admin'
+                    tenant = 'admin'
                 else:
                     tenant = tenant_ref
                 if profile_type not in self.supported_types:
@@ -438,7 +438,9 @@ class ProfileConfigConvV11(ProfileConfigConv):
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
         tenant, name = conv_utils.get_tenant_ref(name)
-        if not tenant_ref == 'admin':
+        if tenant_ref == None:
+            tenant = 'admin'
+        else:
             tenant = tenant_ref
         default_profile_name = '%s %s' % (profile_type,
                                           profile_type.replace('-', ''))
@@ -1188,7 +1190,9 @@ class ProfileConfigConvV10(ProfileConfigConv):
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         tenant, name = conv_utils.get_tenant_ref(name)
-        if not tenant_ref == 'admin':
+        if tenant_ref == None:
+            tenant = 'admin'
+        else:
             tenant = tenant_ref
         old_name = name
         default_profile_name = profile_type

@@ -1273,10 +1273,11 @@ class F5Util(MigrationUtil):
         if tenants:
             avi_config_dict['Tenant'] = []
             for tenant in tenants:
-                avi_config_dict['Tenant'].append({
-                    'name': tenant,
-                    'local': True
-                })
+                if tenant:
+                    avi_config_dict['Tenant'].append({
+                        'name': tenant,
+                        'local': True
+                    })
 
     def get_cell_format(self, workbook, cell_format_info):
         format_col = cell_format_info['col']
