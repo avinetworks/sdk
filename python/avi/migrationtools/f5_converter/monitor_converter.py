@@ -407,7 +407,7 @@ class MonitorConfigConv(object):
             na_list = self.na_https
             u_ignore = user_ignore.get("https", [])
             skipped = self.convert_https(monitor_dict, f5_monitor, skipped,
-                      avi_config, tenant_ref, input_dir, cloud_name,
+                      avi_config, tenant, input_dir, cloud_name,
                       controller_version, merge_object_mapping, sys_dict)
         elif monitor_type == "dns":
             na_list = self.na_dns

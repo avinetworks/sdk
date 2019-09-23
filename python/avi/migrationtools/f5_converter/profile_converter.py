@@ -83,10 +83,10 @@ class ProfileConfigConv(object):
             try:
                 profile_type, name = key.split(" ")
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if tenant_ref == None:
-                    tenant = 'admin'
-                else:
+                if tenant_ref and tenant_ref != 'admin':
                     tenant = tenant_ref
+                else:
+                    tenant = 'admin'
                 if profile_type not in self.supported_types:
                     msg = ("Skipped not supported profile: %s of type: %s"
                             % (name, profile_type))
@@ -438,10 +438,10 @@ class ProfileConfigConvV11(ProfileConfigConv):
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
         tenant, name = conv_utils.get_tenant_ref(name)
-        if tenant_ref == None:
-            tenant = 'admin'
-        else:
+        if tenant_ref and tenant_ref != 'admin':
             tenant = tenant_ref
+        else:
+            tenant = 'admin'
         default_profile_name = '%s %s' % (profile_type,
                                           profile_type.replace('-', ''))
         default_ignore = f5_config['profile'].get(default_profile_name, {})
@@ -1190,10 +1190,10 @@ class ProfileConfigConvV10(ProfileConfigConv):
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         tenant, name = conv_utils.get_tenant_ref(name)
-        if tenant_ref == None:
-            tenant = 'admin'
-        else:
+        if tenant_ref and tenant_ref != 'admin':
             tenant = tenant_ref
+        else:
+            tenant = 'admin'
         old_name = name
         default_profile_name = profile_type
         # Added prefix for objects

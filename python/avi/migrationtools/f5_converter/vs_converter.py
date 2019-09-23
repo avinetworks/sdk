@@ -148,10 +148,10 @@ class VSConfigConv(object):
         needs_review = False
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         tenant_name = tenant
-        if tenant_ref == None:
-            tenant = 'admin'
-        else:
+        if tenant_ref and tenant_ref != 'admin':
             tenant = tenant_ref
+        else:
+            tenant = 'admin'
         # Added prefix for objects
         if self.prefix:
             vs_name = '{}-{}'.format(self.prefix, vs_name)
