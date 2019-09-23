@@ -83,7 +83,7 @@ class ProfileConfigConv(object):
             try:
                 profile_type, name = key.split(" ")
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if tenant_ref and tenant_ref != 'admin':
+                if tenant_ref:
                     tenant = tenant_ref
                 else:
                     tenant = 'admin'
@@ -1190,7 +1190,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         tenant, name = conv_utils.get_tenant_ref(name)
-        if tenant_ref and tenant_ref != 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         else:
             tenant = 'admin'

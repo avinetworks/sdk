@@ -148,7 +148,7 @@ class VSConfigConv(object):
         needs_review = False
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         tenant_name = tenant
-        if tenant_ref and tenant_ref != 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         else:
             tenant = 'admin'

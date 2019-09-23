@@ -171,7 +171,7 @@ class PoolConfigConv(object):
 
         if any(server["port"] == "" for server in servers):
             pool_obj.update({"use_service_port": "true"})
-        if tenant_ref and tenant_ref != 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         else:
             tenant = 'admin'
@@ -368,7 +368,7 @@ class PoolConfigConvV11(PoolConfigConv):
             status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         tenant_name = tenant
-        if tenant_ref and tenant_ref != 'admin' :
+        if tenant_ref:
             tenant = tenant_ref
         else:
             tenant = 'admin'
