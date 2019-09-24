@@ -34,8 +34,13 @@ class SCPUtil(object):
         """
         Copies a file from the local host to the remote host
         """
-        self._openSFTPConnection()
-        return self.sftp.listdir(remote_path)
+        file_names = list()
+        try:
+            self._openSFTPConnection()
+            file_names = self.sftp.listdir(remote_path)
+        except IOError as e:
+            LOG.error(e)
+        return file_names
 
     def get_all_files(self, remote_path, local_path=None):
         files = self.get_all_file_names(remote_path)
