@@ -93,7 +93,7 @@ class PersistenceConfigConv(object):
                 profile = prof_conv.update_with_default_profile(
                     persist_mode, profile, f5_persistence_dict, name)
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if tenant_ref != 'admin':
+                if tenant_ref:
                     tenant = tenant_ref
                 if self.prefix:
                     name = '{}-{}'.format(self.prefix, name)
