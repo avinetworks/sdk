@@ -83,7 +83,7 @@ class ProfileConfigConv(object):
             try:
                 profile_type, name = key.split(" ")
                 tenant, name = conv_utils.get_tenant_ref(name)
-                if not tenant_ref == 'admin':
+                if tenant_ref:
                     tenant = tenant_ref
                 if profile_type not in self.supported_types:
                     msg = ("Skipped not supported profile: %s of type: %s"
@@ -232,6 +232,8 @@ class ProfileConfigConv(object):
             LOG.warning('Create self cerificate and key for : %s' % name)
 
         ssl_kc_obj = None
+        if tenant == None:
+            tenant = 'admin'
         if key and cert:
             cert = {"certificate": cert}
             ssl_kc_obj = {
@@ -436,7 +438,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         parent_cls = super(ProfileConfigConvV11, self)
         profile_type, name = key.split(' ')
         tenant, name = conv_utils.get_tenant_ref(name)
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         default_profile_name = '%s %s' % (profile_type,
                                           profile_type.replace('-', ''))
@@ -1186,7 +1188,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         default_ignore = f5_config['profile'].get(default_profile_name, {})
         default_ignore.update(self.ignore_for_defaults)
         tenant, name = conv_utils.get_tenant_ref(name)
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         old_name = name
         default_profile_name = profile_type
