@@ -39,7 +39,7 @@ conv_utils = F5Util()
 
 def convert(f5_config, output_dir, vs_state, input_dir, version,
             object_merge_check, controller_version, report_name, prefix,
-            con_snatpool, user_ignore, profile_path, tenant='admin',
+            con_snatpool, user_ignore, profile_path, tenant,
             cloud_name='Default-Cloud', keypassphrase=None,
             vs_level_status=False, vrf=None, segroup=None,
             custom_mappings=None, skip_pki=False):
