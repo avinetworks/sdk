@@ -1,20 +1,23 @@
 #!/usr/bin/env python
-import logging
 import argparse
+import json
+import logging
 import os
 import sys
 import time
-import json
-import avi.migrationtools
+
 import xlsxwriter
-from avi.migrationtools.ace_converter.ace_parser import Parser
-from avi.migrationtools.vs_filter import filter_for_vs
-from avi.migrationtools.ace_converter.ace_config_converter import\
-    ConfigConverter
-from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
 from pkg_resources import resource_filename
+
+import avi.migrationtools
+from avi.migrationtools.ace_converter.ace_config_converter import \
+    ConfigConverter
+from avi.migrationtools.ace_converter.ace_parser import Parser
+from avi.migrationtools.ace_converter.ace_utils import get_excel_dict
+from avi.migrationtools.ansible.ansible_config_converter import \
+    AviAnsibleConverterMigration
 from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverterMigration
+from avi.migrationtools.avi_migration_utils import PasswordPromptAction
 
 template_loc, template_name =\
     os.path.split(resource_filename(
@@ -74,11 +77,11 @@ class AceConvertor(AviConverter):
         parsed_output = parser.parse_ace()
         # Configuration Conversion
         print "configuration conversion started ..."
-        cfgConvert = ConfigConverter(parsed_output,
-                                     version=self.controller_version, enable_vs=self.enable_vs,
-                                     input_folder_loc=self.input_folder_location,
-                                     tenant=self.tenant, cloud=self.cloud, vrf=self.vrf_name,
-                                     segroup=self.segroup)
+        cfgConvert = ConfigConverter(
+            parsed_output, version=self.controller_version,
+            enable_vs=self.enable_vs,
+            input_folder_loc=self.input_folder_location, tenant=self.tenant,
+            cloud=self.cloud, vrf=self.vrf_name, segroup=self.segroup)
         converted_output = cfgConvert.conversion()
 
         out_file = "/%s-config.json" % os.path.splitext(
@@ -153,7 +156,10 @@ class AceConvertor(AviConverter):
 
     def print_pip_and_controller_version(self):
         # Added input parameters to log file
-        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
+        params = ' '.join(sys.argv)
+        if self.password:
+            params = params.replace(self.password, '******')
+        LOG.info("Input parameters: %s" % params)
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
@@ -233,9 +239,10 @@ Optional:
                              'file auto upload will upload config to '
                              'controller', default='cli-upload')
 
-    parser.add_argument('-p', '--password',
-                        help='controller password for auto upload',
-                        default='avi123')
+    parser.add_argument('-p', '--password', action=PasswordPromptAction,
+                        nargs='?', help='controller password for auto upload. '
+                                        'Input prompt will appear if no value '
+                                        'provided')
 
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
@@ -247,8 +254,9 @@ Optional:
                         help='state of VS created', default='disable')
 
     # add segroup flag
-    parser.add_argument('-se', '--segroup', help='Update the available segroup ref with the'
-                        'custom ref')
+    parser.add_argument('-se', '--segroup',
+                        help='Update the available segroup ref with the '
+                             'custom ref')
 
     parser.add_argument('-t', '--tenant',
                         help='tenant name for auto upload',

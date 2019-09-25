@@ -3,8 +3,9 @@ import argparse
 import logging
 import os
 import sys
-import json
+
 import yaml
+
 import avi.migrationtools
 import avi.migrationtools.netscaler_converter.netscaler_config_converter \
     as ns_conf_converter
@@ -13,8 +14,9 @@ import avi.migrationtools.netscaler_converter.scp_util as scp_util
 from avi.migrationtools.ansible.ansible_config_converter import \
     AviAnsibleConverterMigration
 from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.avi_migration_utils import get_count, \
+    PasswordPromptAction
 from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
-from avi.migrationtools.avi_migration_utils import get_count
 
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -92,7 +94,12 @@ class NetscalerConverter(AviConverter):
 
         self.print_pip_and_controller_version()
         # print the arguments in input
-        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
+        params = ' '.join(sys.argv)
+        if self.ns_ssh_password:
+            params = params.replace(self.ns_ssh_password, '******')
+        if self.password:
+            params = params.replace(self.password, '******')
+        LOG.info("Input parameters: %s" % params)
 
         if is_download_from_host:
             LOG.debug("Copying files from host")
@@ -304,9 +311,11 @@ if __name__ == "__main__":
     parser.add_argument('--ns_host_ip',
                         help='host ip of Netscaler instance')
     parser.add_argument('--ns_ssh_user', help='Netscaler host ssh username')
-    parser.add_argument('--ns_ssh_password',
-                        help='Netscaler host ssh password if password based '
-                             'authentication')
+    parser.add_argument('--ns_ssh_password', action=PasswordPromptAction,
+                        nargs='?', help='Netscaler host ssh password if '
+                                        'password based authentication. '
+                                        'Input prompt will appear if no value '
+                                        'provided')
     parser.add_argument('-o', '--output_file_path',
                         help='Folder path for output files to be created in')
     parser.add_argument('-O', '--option',
@@ -314,9 +323,10 @@ if __name__ == "__main__":
                         help='Upload option cli-upload genarates Avi config '
                              'file auto upload will upload config to '
                              'controller', default='cli-upload')
-    parser.add_argument('-p', '--password',
-                        help='controller password for auto upload',
-                        default='avi123')
+    parser.add_argument('-p', '--password', action=PasswordPromptAction,
+                        nargs='?', help='controller password for auto upload. '
+                                        'Input prompt will appear if no value '
+                                        'provided')
     # Added command line args to execute config_patch file with related avi
     # json file location and patch location
     parser.add_argument('--patch', help='Run config_patch please provide '
