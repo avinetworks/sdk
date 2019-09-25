@@ -1,24 +1,24 @@
 #!/usr/bin/env python
 import argparse
-import json
 import logging
 import os
 import sys
-import avi.migrationtools
-import yaml
-import avi.migrationtools.f5_converter.converter_constants as conv_const
-from avi.migrationtools.vs_filter import filter_for_vs
-from avi.migrationtools.avi_migration_utils import get_count
-from requests.packages import urllib3
 
+import yaml
+
+import avi.migrationtools
+import avi.migrationtools.f5_converter.converter_constants as conv_const
+from avi.migrationtools import avi_rest_lib
+from avi.migrationtools.ansible.ansible_config_converter import \
+    AviAnsibleConverterMigration
+from avi.migrationtools.avi_converter import AviConverter
+from avi.migrationtools.avi_migration_utils import get_count, \
+    PasswordPromptAction
+from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.f5_converter import (f5_config_converter,
                                              f5_parser, scp_util)
-from avi.migrationtools import avi_rest_lib
-from avi.migrationtools.avi_converter import AviConverter
-from avi.migrationtools.ansible.ansible_config_converter import AviAnsibleConverterMigration
-from pkg_resources import parse_version
-from avi.migrationtools.avi_orphan_object import wipe_out_not_in_use
 from avi.migrationtools.f5_converter.conversion_util import F5Util
+
 # urllib3.disable_warnings()
 LOG = logging.getLogger(__name__)
 sdk_version = getattr(avi.migrationtools, '__version__', None)
@@ -93,8 +93,13 @@ class F5Converter(AviConverter):
         :return:
         """
         # Added input parameters to log file
-        LOG.info("Input parameters: %s" % ' '.join(sys.argv))
-        # Add logger and print avi netscaler converter version
+        params = ' '.join(sys.argv)
+        if self.f5_ssh_password:
+            params = params.replace(self.f5_ssh_password, '******')
+        if self.password:
+            params = params.replace(self.password, '******')
+        LOG.info("Input parameters: %s" % params)
+        # Add logger and print avi migrationtool version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
         print 'AVI sdk version: %s Controller Version: %s' \
@@ -482,9 +487,10 @@ if __name__ == "__main__":
     parser.add_argument('--f5_passphrase_file',
                         help='F5 key passphrase yaml file path')
     parser.add_argument('--f5_ssh_user', help='f5 host ssh username')
-    parser.add_argument('--f5_ssh_password',
-                        help='f5 host ssh password if password based ' +
-                             'authentication')
+    parser.add_argument('--f5_ssh_password', action=PasswordPromptAction,
+                        nargs='?', help='f5 host ssh password if password '
+                                        'based authentication. Input prompt '
+                                        'will appear if no value provided')
     parser.add_argument('--f5_ssh_port',
                         help='f5 host ssh port id non default port is used ',
                         default=22)
@@ -509,8 +515,8 @@ if __name__ == "__main__":
                              'file auto upload will upload config to ' +
                              'controller', default='cli-upload')
     parser.add_argument('-p', '--password',
-                        help='controller password for auto upload',
-                        default='avi123')
+                        help='controller password for auto upload. Input '
+                             'prompt will appear if no value provided')
     parser.add_argument('--partition_config',
                         help='comma separated partition config files')
     # Added command line args to execute config_patch file with related avi
