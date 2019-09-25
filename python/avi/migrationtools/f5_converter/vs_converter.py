@@ -148,7 +148,7 @@ class VSConfigConv(object):
         needs_review = False
         tenant, vs_name = conv_utils.get_tenant_ref(vs_name)
         tenant_name = tenant
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         # Added prefix for objects
         if self.prefix:
@@ -265,7 +265,7 @@ class VSConfigConv(object):
         is_pool_group = False
         if pool_ref:
             p_tenant, pool_ref = conv_utils.get_tenant_ref(pool_ref)
-            if not tenant_ref == 'admin':
+            if tenant_ref:
                 p_tenant = tenant_ref
             persist_ref = self.get_persist_ref(f5_vs)
             avi_persistence = avi_config['ApplicationPersistenceProfile']

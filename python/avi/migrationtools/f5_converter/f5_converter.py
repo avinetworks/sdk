@@ -537,7 +537,7 @@ if __name__ == "__main__":
                         help='Skip migration of PKI profile',
                         action='store_true')
     parser.add_argument('-t', '--tenant', help='tenant name for auto upload',
-                        default='admin')
+                        default=None)
     # Adding support for test vip
     parser.add_argument('--test_vip',
                         help='Enable test vip for ansible generated file '

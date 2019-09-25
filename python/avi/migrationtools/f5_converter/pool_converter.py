@@ -171,7 +171,7 @@ class PoolConfigConv(object):
 
         if any(server["port"] == "" for server in servers):
             pool_obj.update({"use_service_port": "true"})
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         if ramp_time:
@@ -366,7 +366,7 @@ class PoolConfigConvV11(PoolConfigConv):
             status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         tenant_name = tenant
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         num_retries = f5_pool.get('reselect-tries', None)
         if num_retries:

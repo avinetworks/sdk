@@ -254,7 +254,7 @@ class MonitorConfigConv(object):
                     avi_monitor['name'] = self.prefix + '-' + m_name
                 else:
                     avi_monitor['name'] = m_name
-                if tenant != 'admin':
+                if tenant:
                     m_tenant = tenant
                 avi_monitor['tenant_ref'] = conv_utils.get_object_ref(
                     m_tenant, 'tenant')
@@ -367,7 +367,7 @@ class MonitorConfigConv(object):
         # Added prefix for objects
         if self.prefix:
             name = self.prefix + '-' + name
-        if tenant_ref != 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         monitor_dict['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         monitor_dict["name"] = name
@@ -403,7 +403,7 @@ class MonitorConfigConv(object):
             na_list = self.na_https
             u_ignore = user_ignore.get("https", [])
             skipped = self.convert_https(monitor_dict, f5_monitor, skipped,
-                      avi_config, tenant_ref, input_dir, cloud_name,
+                      avi_config, tenant, input_dir, cloud_name,
                       controller_version, merge_object_mapping, sys_dict)
         elif monitor_type == "dns":
             na_list = self.na_dns
