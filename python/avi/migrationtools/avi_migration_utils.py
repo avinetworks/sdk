@@ -1,4 +1,6 @@
+import argparse
 import copy
+import getpass
 import logging
 import os
 import random
@@ -7,11 +9,12 @@ import urlparse
 from datetime import datetime
 from socket import gethostname
 
-import avi.migrationtools.f5_converter.converter_constants as conv_const
 import networkx as nx
 import pexpect
 import yaml
 from OpenSSL import crypto
+
+import avi.migrationtools.f5_converter.converter_constants as conv_const
 
 LOG = logging.getLogger(__name__)
 csv_writer_dict_list = []
@@ -40,6 +43,15 @@ def get_count(type='None'):
     elif type == 'error':
         return error_count
     return { 'warning': warning_count, 'error': error_count }
+
+
+class PasswordPromptAction(argparse.Action):
+    def __call__(self, parser, args, values, option_string=None):
+        if values:
+            setattr(args, self.dest, values)
+        else:
+            setattr(args, self.dest, getpass.getpass(prompt=self.dest))
+
 
 class MigrationUtil(object):
 
