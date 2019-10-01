@@ -107,8 +107,12 @@ type AviClient struct {
 	StringGroup                    *StringGroupClient
 	SystemConfiguration            *SystemConfigurationClient
 	Tenant                         *TenantClient
+	TestSeDatastoreLevel1          *TestSeDatastoreLevel1Client
+	TestSeDatastoreLevel2          *TestSeDatastoreLevel2Client
+	TestSeDatastoreLevel3          *TestSeDatastoreLevel3Client
 	TrafficCloneProfile            *TrafficCloneProfileClient
 	UpgradeStatusInfo              *UpgradeStatusInfoClient
+	UpgradeStatusSummary           *UpgradeStatusSummaryClient
 	UserAccountProfile             *UserAccountProfileClient
 	UserActivity                   *UserActivityClient
 	VIDCInfo                       *VIDCInfoClient
@@ -222,8 +226,12 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.StringGroup = NewStringGroupClient(aviSession)
 	aviClient.SystemConfiguration = NewSystemConfigurationClient(aviSession)
 	aviClient.Tenant = NewTenantClient(aviSession)
+	aviClient.TestSeDatastoreLevel1 = NewTestSeDatastoreLevel1Client(aviSession)
+	aviClient.TestSeDatastoreLevel2 = NewTestSeDatastoreLevel2Client(aviSession)
+	aviClient.TestSeDatastoreLevel3 = NewTestSeDatastoreLevel3Client(aviSession)
 	aviClient.TrafficCloneProfile = NewTrafficCloneProfileClient(aviSession)
 	aviClient.UpgradeStatusInfo = NewUpgradeStatusInfoClient(aviSession)
+	aviClient.UpgradeStatusSummary = NewUpgradeStatusSummaryClient(aviSession)
 	aviClient.UserAccountProfile = NewUserAccountProfileClient(aviSession)
 	aviClient.UserActivity = NewUserActivityClient(aviSession)
 	aviClient.VIDCInfo = NewVIDCInfoClient(aviSession)
