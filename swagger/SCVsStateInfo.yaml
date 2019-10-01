@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi SCVsStateInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -364,6 +364,7 @@ definitions:
             state:
                 description: " Enum options - OPER_UP, OPER_DOWN, OPER_CREATING, OPER_RESOURCES, OPER_INACTIVE, OPER_DISABLED, OPER_UNUSED, OPER_UNKNOWN, OPER_PROCESSING, OPER_INITIALIZING, OPER_ERROR_DISABLED, OPER_AWAIT_MANUAL_PLACEMENT, OPER_UPGRADING, OPER_SE_PROCESSING, OPER_PARTITIONED, OPER_DISABLING, OPER_FAILED, OPER_UNAVAIL."
                 type: string
+                default: "OPER_UNAVAIL"
     SCVsStateInfo:
         type: object
         properties:

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -384,12 +384,10 @@ definitions:
             hold_time:
                 description: "Hold time for this Peer. Allowed values are 3-7200."
                 type: integer
-                default: 180
                 format: int32
             keepalive_interval:
                 description: "Keepalive interval for this Peer. Allowed values are 0-3600."
                 type: integer
-                default: 60
                 format: int32
             local_as:
                 description: "Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2."

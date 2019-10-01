@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -540,7 +540,7 @@ definitions:
                 type: string
                 default: "hostmaster"
             authoritative_domain_names:
-                description: "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field introduced in 17.1.6,17.2.2."
+                description: "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2."
                 type: array
                 items:
                     type: string
@@ -548,6 +548,11 @@ definitions:
                 description: "Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1."
                 type: boolean
                 default: True
+            dns_zones:
+                description: "DNS zones hosted on this Virtual Service. Field introduced in 18.2.6."
+                type: array
+                items:
+                    $ref: '#/definitions/DnsZone'
             domain_names:
                 description: "Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics."
                 type: array
@@ -587,6 +592,20 @@ definitions:
                 type: integer
                 default: 30
                 format: int32
+    DnsZone:
+        type: object
+        required:
+            -   domain_name
+        properties:
+            admin_email:
+                description: "Email address of the administrator responsible for this zone. This field is used in SOA records as rname (RFC 1035). If not configured, it is inherited from the DNS service profile. Field introduced in 18.2.6."
+                type: string
+            domain_name:
+                description: "Domain name authoritatively serviced by this Virtual Service. Queries for FQDNs that are sub domains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. For domains which are present, SOA parameters are sent in answer section of response if query type is SOA. Field introduced in 18.2.6."
+                type: string
+            name_server:
+                description: "The primary name server for this zone. This field is used in SOA records as mname (RFC 1035). If not configured, it is inherited from the DNS service profile. If even that is not configured, the domain name is used instead. Field introduced in 18.2.6."
+                type: string
     DosRateLimitProfile:
         type: object
         properties:
@@ -730,6 +749,26 @@ definitions:
                 description: "Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'."
                 type: integer
                 format: int32
+            max_http2_concurrent_streams_per_connection:
+                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6."
+                type: integer
+                default: 128
+                format: int32
+            max_http2_control_frames_per_connection:
+                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                type: integer
+                default: 1000
+                format: int32
+            max_http2_empty_data_frames_per_connection:
+                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                type: integer
+                default: 1000
+                format: int32
+            max_http2_queued_frames_to_client_per_connection:
+                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                type: integer
+                default: 1000
+                format: int32
             max_keepalive_requests:
                 description: "The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5."
                 type: integer
@@ -768,6 +807,9 @@ definitions:
                 type: integer
                 default: 30000
                 format: int32
+            reset_conn_http_on_ssl_port:
+                description: "If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6."
+                type: boolean
             respond_with_100_continue:
                 description: "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 type: boolean
@@ -992,7 +1034,7 @@ definitions:
                 description: "Parameters for HTTP Redirect rate limit action."
                 $ref: '#/definitions/HTTPRedirectAction'
             status_code:
-                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                description: "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
                 type: string
                 default: "HTTP_LOCAL_RESPONSE_STATUS_CODE_429"
             type:
