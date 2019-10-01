@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.6'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -1041,11 +1041,6 @@ definitions:
                 description: "Number of secure_channel_se_token_timeout."
                 type: integer
                 default: 60
-                format: int32
-            seupgrade_copy_pool_size:
-                description: "Pool of SCP connections used in copy task during serviceenginegroup upgrade. Field introduced in 18.2.6."
-                type: integer
-                default: 5
                 format: int32
             seupgrade_fabric_pool_size:
                 description: "Pool size used for all fabric commands during se upgrade."
