@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi ErrorPageProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -376,11 +376,9 @@ definitions:
             app_name:
                 description: "Name of the Virtual Service which generated the error page. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 type: string
-                default: "VS Name"
             company_name:
                 description: "Name of the company to show in error page. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 type: string
-                default: "Avi Networks"
             error_pages:
                 description: "Defined Error Pages for HTTP status codes. Field introduced in 17.2.4."
                 type: array
@@ -389,7 +387,6 @@ definitions:
             host_name:
                 description: "Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 type: string
-                default: "Host Header"
             name:
                 description: " Field introduced in 17.2.4."
                 type: string

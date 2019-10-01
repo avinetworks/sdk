@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi NetworkProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -475,7 +475,7 @@ definitions:
                 description: "When enabled, Avi will complete the 3-way handshake with the client before forwarding any packets to the server.  This will protect the server from SYN flood and half open SYN connections."
                 type: boolean
             session_idle_timeout:
-                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-7200. Special values are 0 - 'infinite'."
+                description: "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-14400. Special values are 0 - 'infinite'."
                 type: integer
                 default: 300
                 format: int32
@@ -499,7 +499,7 @@ definitions:
                 default: 2
                 format: int32
             idle_connection_timeout:
-                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'."
+                description: "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-14400. Special values are 0 - 'infinite'."
                 type: integer
                 default: 600
                 format: int32
@@ -514,6 +514,10 @@ definitions:
                 description: "Controls the value of the Differentiated Services Code Point field inserted in the IP header.  This has two options   Set to a specific value, or Pass Through, which uses the incoming DSCP value. Allowed values are 0-63. Special values are MAX - 'Passthrough'."
                 type: integer
                 format: int32
+            keepalive_in_halfclose_state:
+                description: "Controls whether to keep the connection alive with keepalive messages in the TCP half close state. The interval for sending keepalive messages is 30s. If a timeout is already configured in the network profile, this will not override it. Field introduced in 18.2.6."
+                type: boolean
+                default: True
             max_retransmissions:
                 description: "The number of attempts at retransmit before closing the connection. Allowed values are 3-8."
                 type: integer
