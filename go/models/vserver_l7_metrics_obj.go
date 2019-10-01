@@ -202,7 +202,7 @@ type VserverL7MetricsObj struct {
 	// Avg number of HTTP requests that completed within tolerated latency.
 	AvgToleratedResponses *float64 `json:"avg_tolerated_responses,omitempty"`
 
-	// Average number of client HTTP2 requests received by the Virtual Service per second.
+	// Average number of client HTTP2 requests received by the Virtual Service per second. Field introduced in 18.2.5.
 	AvgTotalHttp2Requests *float64 `json:"avg_total_http2_requests,omitempty"`
 
 	// Average rate of client HTTP requests received by the virtual service per second.

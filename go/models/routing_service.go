@@ -28,6 +28,9 @@ type RoutingService struct {
 	// Routing Service related Flow profile information. Field introduced in 18.2.5.
 	FlowtableProfile *FlowtableProfile `json:"flowtable_profile,omitempty"`
 
+	// Enable graceful restart feature in routing service. For example, BGP. Field introduced in 18.2.6.
+	GracefulRestart *bool `json:"graceful_restart,omitempty"`
+
 	// NAT policy for outbound NAT functionality. This is done in post-routing. It is a reference to an object of type NatPolicy. Field introduced in 18.2.5.
 	NatPolicyRef *string `json:"nat_policy_ref,omitempty"`
 
