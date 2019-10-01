@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -466,7 +466,7 @@ definitions:
                 default: 50
                 format: int32
             min_confidence:
-                description: "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW. Field introduced in 18.2.3."
+                description: "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 18.2.3."
                 type: string
                 default: "CONFIDENCE_VERY_HIGH"
             regex_match_limit:

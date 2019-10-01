@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi WafPolicyPSMGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -407,7 +407,7 @@ definitions:
                 readOnly: True
                 type: string
             description:
-                description: "Freetext comment about this group. Field introduced in 18.2.3."
+                description: "Free-text comment about this group. Field introduced in 18.2.3."
                 type: string
             enable:
                 description: "Enable or disable this WAF rule group. Field introduced in 18.2.3."
@@ -462,7 +462,7 @@ definitions:
             -   name
         properties:
             description:
-                description: "Freetext comment about this location. Field introduced in 18.2.3."
+                description: "Free-text comment about this location. Field introduced in 18.2.3."
                 type: string
             index:
                 description: "Location index, this is used to determine the order of the locations. Field introduced in 18.2.3."
@@ -519,7 +519,7 @@ definitions:
             -   rule_id
         properties:
             description:
-                description: "Freetext comment about this rule. Field introduced in 18.2.3."
+                description: "Free-text comment about this rule. Field introduced in 18.2.3."
                 type: string
             enable:
                 description: "Enable or disable this rule. Field introduced in 18.2.3."
