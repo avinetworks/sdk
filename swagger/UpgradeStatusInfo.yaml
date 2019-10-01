@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.6'
     title: Avi UpgradeStatusInfo Object API
     contact:
         name: Avi Networks Inc.
@@ -11,7 +11,8 @@ info:
     description: |
         CLI
         ```
-        - show upgrade status detail
+        - show upgrade status
+        - show upgrade statusv2 detail
         ```
 
 
