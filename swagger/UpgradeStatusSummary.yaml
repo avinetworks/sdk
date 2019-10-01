@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '18.2.6'
-    title: Avi BackupConfiguration Object API
+    title: Avi UpgradeStatusSummary Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,8 +11,7 @@ info:
     description: |
         CLI
         ```
-        - show backupconfiguration <key>
-        - configure backupconfiguration <key>
+        - show upgrade statusv2
         ```
 
 
@@ -22,7 +21,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /backupconfiguration:
+    /upgradestatusinfov2:
         get:
             consumes:
                 -   application/json
@@ -86,7 +85,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/BackupConfigurationApiResponse"
+                        $ref: "#/definitions/UpgradeStatusSummaryApiResponse"
                 401:
                     description: log in failed
         post:
@@ -117,20 +116,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: BackupConfiguration object creation
+                    description: UpgradeStatusSummary object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 401:
                     description: log in failed
-    /backupconfiguration/{uuid}:
+    /upgradestatusinfov2/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -191,7 +190,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 401:
                     description: log in failed
         put:
@@ -227,10 +226,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: BackupConfiguration object creation
+                    description: UpgradeStatusSummary object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -242,7 +241,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 401:
                     description: log in failed
         patch:
@@ -278,10 +277,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: BackupConfiguration object creation
+                    description: UpgradeStatusSummary object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -293,7 +292,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/BackupConfiguration"
+                        $ref: "#/definitions/UpgradeStatusSummary"
                 401:
                     description: log in failed
         delete:
@@ -344,67 +343,94 @@ paths:
 
 
 definitions:
-    BackupConfiguration:
+    TimeStamp:
         type: object
         required:
-            -   name
+            -   secs
+            -   usecs
+        properties:
+            secs:
+                description: "Number of secs."
+                type: integer
+                format: int64
+            usecs:
+                description: "Number of usecs."
+                type: integer
+                format: int64
+    UpgradeOpsState:
+        type: object
+        properties:
+            last_changed_time:
+                description: "The last time the state changed. Field introduced in 18.2.6."
+                $ref: '#/definitions/TimeStamp'
+            reason:
+                description: "Descriptive reason for the state-chance. Field introduced in 18.2.6."
+                type: string
+            state:
+                description: "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6."
+                type: string
+    UpgradeStatusSummary:
+        type: object
         properties:
             _last_modified:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
-            aws_access_key:
-                description: "AWS Access Key ID. Field introduced in 18.2.3."
+            enable_patch_rollback:
+                description: "Check if the patch rollback is possible on this node. Field introduced in 18.2.6."
+                type: boolean
+            enable_rollback:
+                description: "Check if the rollback is possible on this node. Field introduced in 18.2.6."
+                type: boolean
+            end_time:
+                description: "End time of upgrade operations. Field introduced in 18.2.6."
                 type: string
-            aws_bucket_id:
-                description: "AWS bucket. Field introduced in 18.2.3."
+            image_ref:
+                description: "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
-            aws_secret_access:
-                description: "AWS Secret Access Key. Field introduced in 18.2.3."
-                type: string
-            backup_file_prefix:
-                description: "Prefix of the exported configuration file. Field introduced in 17.1.1."
-                type: string
-            backup_passphrase:
-                description: "Passphrase of backup configuration."
-                type: string
-            maximum_backups_stored:
-                description: "Rotate the backup files based on this count. Allowed values are 1-20."
-                type: integer
-                default: 4
-                format: int32
             name:
-                description: "Name of backup configuration."
+                description: "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
                 type: string
-            remote_directory:
-                description: "Directory at remote destination with write permission for ssh user."
+            node_type:
+                description: "Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6."
                 type: string
-            remote_hostname:
-                description: "Remote Destination."
+            obj_cloud_ref:
+                description: "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6."
                 type: string
-            save_local:
-                description: "Local Backup."
-                type: boolean
-            ssh_user_ref:
-                description: "Access Credentials for remote destination. It is a reference to an object of type CloudConnectorUser."
+            patch_image_ref:
+                description: "Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
+            start_time:
+                description: "Start time of upgrade operations. Field introduced in 18.2.6."
+                type: string
+            state:
+                description: "Current status of the upgrade operations. Field introduced in 18.2.6."
+                $ref: '#/definitions/UpgradeOpsState'
+            tasks_completed:
+                description: "Upgrade tasks completed. Field introduced in 18.2.6."
+                type: integer
+                format: int32
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6."
                 type: string
-            upload_to_remote_host:
-                description: "Remote Backup."
-                type: boolean
-            upload_to_s3:
-                description: "Cloud Backup. Field introduced in 18.2.3."
-                type: boolean
+            total_tasks:
+                description: "Total upgrade tasks. Field introduced in 18.2.6."
+                type: integer
+                format: int32
+            upgrade_ops:
+                description: "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6."
+                type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "Unique object identifier of the object."
+                description: "UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6."
                 type: string
-    BackupConfigurationApiResponse:
+            version:
+                description: "Current base image applied to this node. Field introduced in 18.2.6."
+                type: string
+    UpgradeStatusSummaryApiResponse:
         type: object
         required:
             - count
@@ -416,4 +442,4 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/BackupConfiguration"
+                    $ref: "#/definitions/UpgradeStatusSummary"

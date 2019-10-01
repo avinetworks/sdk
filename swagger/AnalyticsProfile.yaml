@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi AnalyticsProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -683,6 +683,12 @@ definitions:
                 format: double
             hs_security_tls12_score:
                 description: "Score assigned when supporting TLS1.2 encryption protocol. Allowed values are 0-5."
+                type: number
+                default: 5.0
+                format: double
+            hs_security_tls13_score:
+                description: "Score assigned when supporting TLS1.3 encryption protocol. Allowed values are 0-5. Field introduced in 18.2.6."
+                readOnly: True
                 type: number
                 default: 5.0
                 format: double

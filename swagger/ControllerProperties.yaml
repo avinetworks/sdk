@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi ControllerProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -260,6 +260,11 @@ definitions:
                 description: "Number of dead_se_detection_timer."
                 type: integer
                 default: 360
+                format: int32
+            default_minimum_api_timeout:
+                description: "Minimum api timeout value.If this value is not 60, it will be the default timeout for all APIs that do not have a specific timeout.If an API has a specific timeout but is less than this value, this value will become the new timeout. Allowed values are 60-3600. Field introduced in 18.2.6."
+                type: integer
+                default: 60
                 format: int32
             dns_refresh_period:
                 description: "Period for refresh pool and gslb DNS job."
