@@ -25,29 +25,6 @@ class SSLConverter(object):
             '''
             self.in_path = get_loc()
 
-    def upload_file(self, file_path):
-        """
-        Reads the given file and returns the UTF-8 string
-        :param file_path: Path of file to read
-        :return: UTF-8 string read from file
-        """
-
-        file_str = None
-        if '/Common/' in file_path:
-            file_path = file_path.replace('/Common/', '')
-        try:
-            with open(file_path, "r") as file_obj:
-                file_str = file_obj.read()
-                file_str = file_str.decode("utf-8")
-        except UnicodeDecodeError:
-            try:
-                file_str = file_str.decode('latin-1')
-            except:
-                LOG.error("Error to read file %s" % file_path, exc_info=True)
-        except:
-            LOG.error("Error to read file %s" % file_path, exc_info=True)
-        return file_str
-
     def get_key_cert_obj(self, name, key_file_name, cert_file_name, input_dir):
         """
         :param name:name of ssl cert.
@@ -57,8 +34,8 @@ class SSLConverter(object):
         :return: returns dict of ssl object
         """
         folder_path = input_dir + os.path.sep
-        key = self.upload_file(folder_path + key_file_name)
-        cert = self.upload_file(folder_path + cert_file_name)
+        key = self.common_utils.upload_file(folder_path + key_file_name)
+        cert = self.common_utils.upload_file(folder_path + cert_file_name)
         ssl_kc_obj = None
         if key and cert:
             cert = {"certificate": cert}
@@ -76,6 +53,7 @@ class SSLConverter(object):
             key = None
             cert = None
             key_loc = None
+            cert_loc = None
             name = ssl['name']
             key_and_cert = None
             for val in ssl['desc']:
@@ -99,7 +77,7 @@ class SSLConverter(object):
                         "certificate": cert
                     },
                     "tenant_ref": self.tenant_ref,
-                    "name": name,
+                    "name": "%s-dummy" % name,
                     "key": key
                 }
             if key_and_cert:
