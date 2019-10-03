@@ -50,9 +50,9 @@ class PoolConverter(object):
             temp_pool = dict()
             name = pool.get('host', '')
             app_persistance = self.find_app_persistance(name, data)
-            app_ref = self.common_utils.get_object_ref(app_persistance,
-                                                       'applicationpersistenceprofile',
-                                                       tenant=self.tenant)
+            app_ref = self.common_utils.get_object_ref(
+                app_persistance, 'applicationpersistenceprofile',
+                tenant=self.tenant)
             if app_persistance:
                 temp_pool.update(
                     {
@@ -60,21 +60,25 @@ class PoolConverter(object):
                     })
             skipped_list = list()
             server = []
+            server_port = []
+            lb_method = "LB_ALGORITHM_ROUND_ROBIN"
             for pools in pool['desc']:
                 farm_set = set(pools.keys())
                 skipped_list_temp = list(farm_set.intersection(set(POOL_SKIP)))
                 if skipped_list_temp:
                     skipped_list.extend(skipped_list_temp)
+                if 'predictor' in pools:
+                    ace_lb_method = pools['predictor']
+                    if ace_lb_method.strip() == 'leastconns':
+                        lb_method = 'LB_ALGORITHM_LEAST_CONNECTIONS'
                 if "rserver" in pools.keys():
                     if 'port' in pools.keys():
                         use_port = pools['port']
-                        server.extend(self.server_converter(pools['rserver'], use_port))
                     else:
                         use_port = default_port
-                        server.extend(self.server_converter(pools['rserver'], use_port))
-
-
-
+                    server_obj = self.server_converter(
+                        pools['rserver'], use_port, server_port=server_port)
+                    server.extend(server_obj)
                 if data.get('HealthMonitor'):
                     for hm in data['HealthMonitor']:
                         if pools.get('probe') == hm['name']:
@@ -85,7 +89,7 @@ class PoolConverter(object):
                     probe, 'healthmonitor', tenant=self.tenant)
             if server:
                 pool_dict = {
-                    "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+                    "lb_algorithm": lb_method,
                     "name": name,
                     "cloud_ref": self.cloud_ref,
                     "tenant_ref": self.tenant_ref,
@@ -110,56 +114,52 @@ class PoolConverter(object):
                 pool_list.append(temp_pool)
         return pool_list
 
-    def server_converter(self, name, port):
+    def server_converter(self, servers_list, use_port, server_port=[]):
         """ Server Conversion \n
             :param @name: Server name
             :param @port: Service Port
             * Get -  the server name
             * Reply - with server avi object
         """
-        position = None
-        if self.parsed.get('rserver', ''):
-            for index, elem in enumerate(self.parsed['rserver']):
-                if elem['host'] == name:
-                    position = index
-                    server_name = elem['host']
-
-        if position is None:
-            LOG.warning("rserver %s not found ..".format(name))
-            return False
-
-        details = self.parsed['rserver'][position]
         server_list = list()
         server = ''
-        desc = ''
-        enabled = False
+        for server_name in servers_list:
+            rserver, port = server_name.split(':')
+            found_server = None
+            if self.parsed.get('rserver', ''):
+                found_server = [obj for obj in self.parsed['rserver'] if
+                                obj['host'] == rserver]
+            if not found_server:
+                LOG.warning("rserver %s not found ..".format(servers_list))
+                return False
 
-        # server conversion
-        for serv in details['desc']:
-            # checking for ip address ,default port ?
-            if 'ip address' in serv.keys():
-                server = serv['ip address']
-            # checking for desc
-            if 'description' in serv.keys():
-                desc = serv['description']
-            # checking for server enabled or not ?
-            if 'type' in serv.keys():
-                enabled = (True if serv['type'] == 'inservice' else False)
+            desc = ''
+            enabled = (True if
+                       servers_list[server_name] == 'inservice' else False)
+            # server conversion
+            for serv in found_server[0]['desc']:
+                # checking for ip address ,default port ?
+                if 'ip address' in serv.keys():
+                    server = serv['ip address']
+                # checking for desc
+                if 'description' in serv.keys():
+                    desc = serv['description']
 
-        if server != '':
-            server_list.append({
-                "ip": {
-                    "addr": server,
-                    "type": "V4",
-                },
-                "enabled": enabled,
-                "description": desc,
-                "port": port
-            })
-
-        # Update Excel Sheet
-        update_excel('rserver', server_name, avi_obj=server_list)
-
+            if server != '':
+                sp_str = '%s:%s' % (server, port)
+                if sp_str not in server_port:
+                    server_port.append(sp_str)
+                    server_list.append({
+                        "ip": {
+                            "addr": server,
+                            "type": "V4",
+                        },
+                        "enabled": enabled,
+                        "description": desc,
+                        "port": port
+                    })
+            # Update Excel Sheet
+            update_excel('rserver', server_name, avi_obj=server_list)
         return server_list
 
     def find_app_persistance(self, pool_name, data):
