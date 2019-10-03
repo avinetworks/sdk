@@ -170,11 +170,9 @@ class AviAnsibleConverterBase(object):
         for skip_field in self.skip_fields:
             rsrc.pop(skip_field, None)
         for key in rsrc:
-            if key == 'key':
-                rsrc[key] = str(rsrc[key])
-            elif isinstance(rsrc[key], str):
+            if isinstance(rsrc[key], str) and key != 'key':
                 rsrc[key] = rsrc[key].encode('string-escape')
-            elif isinstance(rsrc[key], unicode):
+            elif isinstance(rsrc[key], unicode) and key == 'key':
                 rsrc[key] = rsrc[key].encode()
             elif isinstance(rsrc[key], unicode):
                 rsrc[key] = rsrc[key].encode('unicode-escape')
