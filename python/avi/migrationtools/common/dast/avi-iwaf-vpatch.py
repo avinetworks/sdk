@@ -51,6 +51,9 @@ def process_args():
                         help="Apply changes to the controller. " +
                         "When this option is not set, the script only " +
                         "prints what it would do")
+    parser.add_argument("-g", "--group", action="store",
+                        help="WAF policy PSM group name. " +
+                        "Default is scanner type e.g. zap or qualysweb.")
     args = parser.parse_args()
     return args
 
@@ -255,7 +258,9 @@ def new_psmgroup(args, handler_type, vulnerability_data):
     """ Create new PSM group with locations and rules
         matching vulnerability_data.
     """
-    psm_group_name = handler_type
+    psm_group_name = args.group
+    if not psm_group_name:
+        psm_group_name = handler_type
 
     psmgroup = {}
     psmgroup["name"] = psm_group_name  # "DAST_qualysweb"
