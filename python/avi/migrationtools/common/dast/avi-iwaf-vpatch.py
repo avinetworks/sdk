@@ -15,7 +15,7 @@ import os.path
 import xmltodict
 import requests
 import getpass
-from avi.sdk.avi_api import ApiSession
+from avi.sdk.avi_api import ApiSession, APIError
 
 
 requests.packages.urllib3.disable_warnings()
@@ -347,7 +347,7 @@ def main():
             xmldict = xmltodict.parse(infile.read(), xml_attribs=True)
     except Exception as exc:
         LOGGER.error("Failed to process input file: %s", exc)
-        exit(1)
+        sys.exit(1)
     handler = detect_input_type(xmldict)
     vulnerability_data = handler.handle(xmldict)
     if not vulnerability_data:
@@ -363,13 +363,16 @@ def main():
             else:
                 LOGGER.info(msg + "or --verbose to display config changes")
             return
-        with ApiSession.get_session(args.controller,
-                                    args.username,
-                                    args.password,
-                                    tenant=args.tenant,
-                                    api_version=AVI_API_VERSION) as api:
-            save_psmgroup(api, psmgroup)
-
+        try:
+            with ApiSession.get_session(args.controller,
+                                        args.username,
+                                        args.password,
+                                        tenant=args.tenant,
+                                        api_version=AVI_API_VERSION) as api:
+                save_psmgroup(api, psmgroup)
+        except APIError as err:
+            LOGGER.error("API error: %s/%s", err.rsp.status_code, err.rsp.reason)
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()
