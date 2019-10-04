@@ -14,6 +14,7 @@ import datetime
 import os.path
 import xmltodict
 import requests
+import getpass
 from avi.sdk.avi_api import ApiSession
 
 
@@ -40,7 +41,7 @@ def process_args():
                         default="admin",
                         help="Username to login, default is 'admin'")
     parser.add_argument("-p", "--password", action="store",
-                        required=True,
+                        required=False,
                         help='Password for controller access')
     parser.add_argument("-t", "--tenant", action="store",
                         default="admin",
@@ -55,6 +56,9 @@ def process_args():
                         help="WAF policy PSM group name. " +
                         "Default is scanner type e.g. zap or qualysweb.")
     args = parser.parse_args()
+
+    if not args.password:
+        args.password = getpass.getpass()
     return args
 
 
