@@ -158,6 +158,7 @@ class ZapXmlInputHandler:
     """ Class responsible for reading ZAP file format """
 
     input_type = "zap"
+    zap_version = 2
 
     @staticmethod
     def vtype2avi(alert):
@@ -182,20 +183,44 @@ class ZapXmlInputHandler:
             return vulnerability_data
 
         for vuln in node:
-            if not vuln.get("param"):
-                continue
             val = {}
-            val["param"] = vuln["param"]
-            val["attack_type"] = self.vtype2avi(vuln.get("alert", ""))
+            alert = vuln.get("alert", "")
+            val["attack_type"] = self.vtype2avi(alert)
             val["description"] = vuln.get("alert", "")
-            try:
-                url = urlparse(vuln["uri"]).path
-                if not url:
-                    raise ValueError("Path not found")
-                vulnerability_data.setdefault(url, []).append(val)
-            except ValueError as exc:
-                LOGGER.warning("Failed to process vulnerability for '%s': %s",
-                               vuln["param"], exc)
+            if self.version == "1":
+                if not vuln.get("param"):
+                    continue
+                val["param"] = vuln["param"]
+                try:
+                    url = urlparse(vuln["uri"]).path
+                    if not url:
+                        raise ValueError("Path not found")
+                    vulnerability_data.setdefault(url, []).append(val)
+                except ValueError as exc:
+                    LOGGER.warning("Failed to process vulnerability for '%s': %s",
+                                   vuln["param"], exc)
+            else:
+                if "SQL Injection" not in alert and "Cross Site Scripting" not in alert:
+                    continue
+                instance = vuln.get("instances", {}).get("instance", [])
+                instance_list = []
+                if type(instance) != list:
+                    instance_list.append(instance)
+                else:
+                    instance_list = instance
+                for instance_dict in instance_list:
+                    if not instance_dict.get("param"):
+                        continue
+                    val["param"] = instance_dict["param"]
+                    try:
+                        url = urlparse(instance_dict["uri"]).path
+                        if not url:
+                            raise ValueError("Path not found")
+                        vulnerability_data.setdefault(url, []).append(val)
+                    except ValueError as exc:
+                        LOGGER.warning("Failed to process vulnerability for '%s': %s",
+                                       vuln["param"], exc)
+
         return vulnerability_data
 
 
@@ -290,7 +315,11 @@ def detect_input_type(xmldict):
     if "WAS_SCAN_REPORT" in xmldict:
         return QualysWebXmlInputHandler()
     elif "OWASPZAPReport" in xmldict:
-        return ZapXmlInputHandler()
+        handler = ZapXmlInputHandler()
+        version = xmldict["OWASPZAPReport"].get("@version", "")
+        if version:
+            handler.version = version.split(".", 1)[0]
+            return handler
     raise Exception("Failed to detect input type")
 
 
@@ -306,7 +335,7 @@ def main():
     # load file into memory
     try:
         with open(args.filename) as infile:
-            xmldict = xmltodict.parse(infile.read())
+            xmldict = xmltodict.parse(infile.read(), xml_attribs=True)
     except Exception as exc:
         LOGGER.error("Failed to process input file: %s", exc)
         exit(1)
