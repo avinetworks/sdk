@@ -56,9 +56,6 @@ def process_args():
                         help="WAF policy PSM group name. " +
                         "Default is scanner type e.g. zap or qualysweb.")
     args = parser.parse_args()
-
-    if not args.password:
-        args.password = getpass.getpass()
     return args
 
 
@@ -364,6 +361,8 @@ def main():
                 LOGGER.info(msg + "or --verbose to display config changes")
             return
         try:
+            if not args.password:
+                args.password = getpass.getpass()
             with ApiSession.get_session(args.controller,
                                         args.username,
                                         args.password,
