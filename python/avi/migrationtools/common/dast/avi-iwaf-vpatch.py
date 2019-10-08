@@ -357,7 +357,7 @@ def main():
             if args.verbose is True:
                 LOGGER.info(msg)
             else:
-                LOGGER.info(msg + "or --verbose to display config changes")
+                LOGGER.info(msg + " or --verbose to display config changes")
             return
         try:
             if not args.password:
