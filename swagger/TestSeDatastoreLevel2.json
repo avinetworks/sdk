@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi TrafficCloneProfile Object API", 
+        "title": "Avi TestSeDatastoreLevel2 Object API", 
         "version": "18.2.6", 
-        "description": "CLI\n```\n- configure trafficcloneprofile <key>\n- show trafficcloneprofile <key>\n```\n", 
+        "description": "CLI\n```\n- configure testsedatastorelevel2 <key>\n- show testsedatastorelevel2 <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,7 @@
         }
     }, 
     "paths": {
-        "/trafficcloneprofile": {
+        "/testsedatastorelevel2": {
             "post": {
                 "security": [
                     {
@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     "401": {
@@ -63,10 +63,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
+                        "description": "TestSeDatastoreLevel2 object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }
                 ], 
@@ -87,7 +87,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfileApiResponse"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2ApiResponse"
                         }
                     }, 
                     "401": {
@@ -167,18 +167,6 @@
                         "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
                         "in": "header", 
                         "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
                     }
                 ], 
                 "consumes": [
@@ -186,7 +174,7 @@
                 ]
             }
         }, 
-        "/trafficcloneprofile/{uuid}": {
+        "/testsedatastorelevel2/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -200,7 +188,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     "401": {
@@ -246,10 +234,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
+                        "description": "TestSeDatastoreLevel2 object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     {
@@ -277,7 +265,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     "401": {
@@ -371,7 +359,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     "401": {
@@ -417,10 +405,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
+                        "description": "TestSeDatastoreLevel2 object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/TestSeDatastoreLevel2"
                         }
                     }, 
                     {
@@ -506,7 +494,7 @@
         }
     }, 
     "definitions": {
-        "TrafficCloneProfileApiResponse": {
+        "TestSeDatastoreLevel2ApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -519,69 +507,13 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/TrafficCloneProfile"
+                        "$ref": "#/definitions/TestSeDatastoreLevel2"
                     }, 
                     "type": "array"
                 }
             }
         }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "CloneServer": {
-            "type": "object", 
-            "properties": {
-                "subnet": {
-                    "description": "Subnet of the network to clone the traffic to. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "mac": {
-                    "type": "string", 
-                    "description": "MAC Address of the Clone Server. Field introduced in 17.1.1."
-                }, 
-                "ip_address": {
-                    "description": "IP Address of the Clone Server. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network to clone the traffic to. It is a reference to an object of type Network. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "TrafficCloneProfile": {
+        "TestSeDatastoreLevel2": {
             "required": [
                 "name"
             ], 
@@ -592,37 +524,29 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "cloud_ref": {
+                "uuid": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the Traffic Clone Profile. Field introduced in 17.1.1."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "url": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
                 }, 
-                "clone_servers": {
+                "test_se_datastore_level_3_refs": {
                     "items": {
-                        "$ref": "#/definitions/CloneServer"
+                        "type": "string"
                     }, 
                     "type": "array", 
-                    "description": " Field introduced in 17.1.1."
+                    "description": " It is a reference to an object of type TestSeDatastoreLevel3. Field introduced in 18.2.6."
                 }, 
-                "preserve_client_ip": {
-                    "type": "boolean", 
-                    "description": "Specifies if client IP needs to be preserved to clone destination. Field introduced in 17.1.1."
-                }, 
-                "uuid": {
+                "tenant_ref": {
                     "type": "string", 
-                    "description": "UUID of the Traffic Clone Profile. Field introduced in 17.1.1."
+                    "description": " It is a reference to an object of type Tenant. Field introduced in 18.2.6."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the object."
                 }
             }
         }

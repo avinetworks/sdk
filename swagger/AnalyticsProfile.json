@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AnalyticsProfile Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure analyticsprofile <key>\n- show analyticsprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1014,10 +1014,11 @@
                     "description": "Adds free performance score credits to health score. It can be used for compensating health score for known slow applications. Allowed values are 0-100.", 
                     "format": "int32"
                 }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                "hs_security_ssl30_score": {
+                    "default": 3.5, 
+                    "type": "number", 
+                    "description": "Score assigned when supporting SSL3.0 encryption protocol. Allowed values are 0-5.", 
+                    "format": "double"
                 }, 
                 "exclude_gs_down_as_error": {
                     "type": "boolean", 
@@ -1071,10 +1072,11 @@
                     "type": "string", 
                     "description": "User defined description for the object."
                 }, 
-                "hs_security_ssl30_score": {
-                    "default": 3.5, 
+                "hs_security_tls13_score": {
+                    "default": 5.0, 
+                    "readOnly": true, 
                     "type": "number", 
-                    "description": "Score assigned when supporting SSL3.0 encryption protocol. Allowed values are 0-5.", 
+                    "description": "Score assigned when supporting TLS1.3 encryption protocol. Allowed values are 0-5. Field introduced in 18.2.6.", 
                     "format": "double"
                 }, 
                 "apdex_rum_tolerated_factor": {
@@ -1117,6 +1119,11 @@
                     }, 
                     "type": "array", 
                     "description": "Block of HTTP response codes to be excluded from being classified as an error. Enum options - AP_HTTP_RSP_4XX, AP_HTTP_RSP_5XX."
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
                 "hs_security_certscore_le07d": {
                     "default": 2.0, 

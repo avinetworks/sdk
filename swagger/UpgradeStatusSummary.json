@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi TrafficCloneProfile Object API", 
+        "title": "Avi UpgradeStatusSummary Object API", 
         "version": "18.2.6", 
-        "description": "CLI\n```\n- configure trafficcloneprofile <key>\n- show trafficcloneprofile <key>\n```\n", 
+        "description": "CLI\n```\n- show upgrade statusv2\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,183 +10,7 @@
         }
     }, 
     "paths": {
-        "/trafficcloneprofile": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfileApiResponse"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.", 
-                        "name": "cloud_uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.", 
-                        "name": "cloud_ref.name"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
-        "/trafficcloneprofile/{uuid}": {
+        "/upgradestatusinfov2/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -200,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/UpgradeStatusSummary"
                         }
                     }, 
                     "401": {
@@ -246,10 +70,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
+                        "description": "UpgradeStatusSummary object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/UpgradeStatusSummary"
                         }
                     }, 
                     {
@@ -277,7 +101,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/UpgradeStatusSummary"
                         }
                     }, 
                     "401": {
@@ -371,7 +195,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/UpgradeStatusSummary"
                         }
                     }, 
                     "401": {
@@ -417,10 +241,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "TrafficCloneProfile object creation", 
+                        "description": "UpgradeStatusSummary object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/TrafficCloneProfile"
+                            "$ref": "#/definitions/UpgradeStatusSummary"
                         }
                     }, 
                     {
@@ -503,10 +327,291 @@
                     "application/json"
                 ]
             }
+        }, 
+        "/upgradestatusinfov2": {
+            "post": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusSummary"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "in": "body", 
+                        "description": "UpgradeStatusSummary object creation", 
+                        "name": "body", 
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusSummary"
+                        }
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }, 
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "$ref": "#/definitions/UpgradeStatusSummaryApiResponse"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "object name", 
+                        "in": "query", 
+                        "name": "name"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
+                        "name": "refers_to"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
+                        "name": "referred_by"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
+                        "name": "fields"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
+                        "in": "query", 
+                        "name": "include_name"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "boolean", 
+                        "description": "Default values are not set.", 
+                        "in": "query", 
+                        "name": "skip_default"
+                    }, 
+                    {
+                        "in": "query", 
+                        "type": "string", 
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
+                        "name": "join_subresources"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
         }
     }, 
     "definitions": {
-        "TrafficCloneProfileApiResponse": {
+        "UpgradeOpsState": {
+            "type": "object", 
+            "properties": {
+                "reason": {
+                    "type": "string", 
+                    "description": "Descriptive reason for the state-chance. Field introduced in 18.2.6."
+                }, 
+                "state": {
+                    "type": "string", 
+                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6."
+                }, 
+                "last_changed_time": {
+                    "description": "The last time the state changed. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/TimeStamp"
+                }
+            }
+        }, 
+        "TimeStamp": {
+            "required": [
+                "secs", 
+                "usecs"
+            ], 
+            "type": "object", 
+            "properties": {
+                "secs": {
+                    "type": "integer", 
+                    "description": "Number of secs.", 
+                    "format": "int64"
+                }, 
+                "usecs": {
+                    "type": "integer", 
+                    "description": "Number of usecs.", 
+                    "format": "int64"
+                }
+            }
+        }, 
+        "UpgradeStatusSummary": {
+            "type": "object", 
+            "properties": {
+                "enable_patch_rollback": {
+                    "type": "boolean", 
+                    "description": "Check if the patch rollback is possible on this node. Field introduced in 18.2.6."
+                }, 
+                "start_time": {
+                    "type": "string", 
+                    "description": "Start time of upgrade operations. Field introduced in 18.2.6."
+                }, 
+                "upgrade_ops": {
+                    "type": "string", 
+                    "description": "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6."
+                }, 
+                "node_type": {
+                    "type": "string", 
+                    "description": "Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6."
+                }, 
+                "obj_cloud_ref": {
+                    "type": "string", 
+                    "description": "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6."
+                }, 
+                "patch_image_ref": {
+                    "type": "string", 
+                    "description": "Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                }, 
+                "total_tasks": {
+                    "type": "integer", 
+                    "description": "Total upgrade tasks. Field introduced in 18.2.6.", 
+                    "format": "int32"
+                }, 
+                "_last_modified": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                }, 
+                "enable_rollback": {
+                    "type": "boolean", 
+                    "description": "Check if the rollback is possible on this node. Field introduced in 18.2.6."
+                }, 
+                "uuid": {
+                    "type": "string", 
+                    "description": "UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6."
+                }, 
+                "url": {
+                    "readOnly": true, 
+                    "type": "string", 
+                    "description": "url"
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6."
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
+                }, 
+                "state": {
+                    "description": "Current status of the upgrade operations. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/UpgradeOpsState"
+                }, 
+                "version": {
+                    "type": "string", 
+                    "description": "Current base image applied to this node. Field introduced in 18.2.6."
+                }, 
+                "image_ref": {
+                    "type": "string", 
+                    "description": "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                }, 
+                "end_time": {
+                    "type": "string", 
+                    "description": "End time of upgrade operations. Field introduced in 18.2.6."
+                }, 
+                "tasks_completed": {
+                    "type": "integer", 
+                    "description": "Upgrade tasks completed. Field introduced in 18.2.6.", 
+                    "format": "int32"
+                }
+            }
+        }, 
+        "UpgradeStatusSummaryApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -519,110 +624,9 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/TrafficCloneProfile"
+                        "$ref": "#/definitions/UpgradeStatusSummary"
                     }, 
                     "type": "array"
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "CloneServer": {
-            "type": "object", 
-            "properties": {
-                "subnet": {
-                    "description": "Subnet of the network to clone the traffic to. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "mac": {
-                    "type": "string", 
-                    "description": "MAC Address of the Clone Server. Field introduced in 17.1.1."
-                }, 
-                "ip_address": {
-                    "description": "IP Address of the Clone Server. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "network_ref": {
-                    "type": "string", 
-                    "description": "Network to clone the traffic to. It is a reference to an object of type Network. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "TrafficCloneProfile": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "cloud_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Cloud. Field introduced in 17.1.1."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant. Field introduced in 17.1.1."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the Traffic Clone Profile. Field introduced in 17.1.1."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "clone_servers": {
-                    "items": {
-                        "$ref": "#/definitions/CloneServer"
-                    }, 
-                    "type": "array", 
-                    "description": " Field introduced in 17.1.1."
-                }, 
-                "preserve_client_ip": {
-                    "type": "boolean", 
-                    "description": "Specifies if client IP needs to be preserved to clone destination. Field introduced in 17.1.1."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the Traffic Clone Profile. Field introduced in 17.1.1."
                 }
             }
         }
