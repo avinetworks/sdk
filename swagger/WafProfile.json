@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -532,7 +532,7 @@
                 "min_confidence": {
                     "default": "CONFIDENCE_VERY_HIGH", 
                     "type": "string", 
-                    "description": "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW. Field introduced in 18.2.3."
+                    "description": "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 18.2.3."
                 }, 
                 "restricted_headers": {
                     "items": {

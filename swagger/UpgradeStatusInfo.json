@@ -1,8 +1,8 @@
 {
     "info": {
-        "title": "Avi IpamDnsProviderProfile Object API", 
+        "title": "Avi UpgradeStatusInfo Object API", 
         "version": "18.2.6", 
-        "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
+        "description": "CLI\n```\n- show upgrade status\n- show upgrade statusv2 detail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
@@ -10,7 +10,7 @@
         }
     }, 
     "paths": {
-        "/ipamdnsproviderprofile": {
+        "/upgradestatusinfo": {
             "post": {
                 "security": [
                     {
@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     "401": {
@@ -63,10 +63,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
+                        "description": "UpgradeStatusInfo object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }
                 ], 
@@ -87,7 +87,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfileApiResponse"
+                            "$ref": "#/definitions/UpgradeStatusInfoApiResponse"
                         }
                     }, 
                     "401": {
@@ -174,7 +174,7 @@
                 ]
             }
         }, 
-        "/ipamdnsproviderprofile/{uuid}": {
+        "/upgradestatusinfo/{uuid}": {
             "put": {
                 "security": [
                     {
@@ -188,7 +188,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     "401": {
@@ -234,10 +234,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
+                        "description": "UpgradeStatusInfo object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     {
@@ -265,7 +265,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     "401": {
@@ -359,7 +359,7 @@
                     "200": {
                         "description": "OK", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     "401": {
@@ -405,10 +405,10 @@
                     {
                         "required": true, 
                         "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
+                        "description": "UpgradeStatusInfo object creation", 
                         "name": "body", 
                         "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                            "$ref": "#/definitions/UpgradeStatusInfo"
                         }
                     }, 
                     {
@@ -494,51 +494,321 @@
         }
     }, 
     "definitions": {
-        "IpamDnsOCIProfile": {
+        "UpgradeEvent": {
             "type": "object", 
             "properties": {
-                "vcn_id": {
-                    "type": "string", 
-                    "description": "Virtual Cloud network id where virtual ip will belong. Field introduced in 18.2.1,18.1.3."
+                "status": {
+                    "type": "boolean", 
+                    "description": "Upgrade event status. Field introduced in 18.2.6."
                 }, 
-                "region": {
+                "end_time": {
                     "type": "string", 
-                    "description": "Region in which Oracle cloud resource resides. Field introduced in 18.2.1,18.1.3."
+                    "description": "Task end time. Field introduced in 18.2.6."
                 }, 
-                "tenancy": {
-                    "type": "string", 
-                    "description": "Oracle Cloud Id for tenant aka root compartment. Field introduced in 18.2.1,18.1.3."
+                "duration": {
+                    "type": "integer", 
+                    "description": "Time taken to complete upgrade event in seconds. Field introduced in 18.2.6.", 
+                    "format": "int32"
                 }, 
-                "vcn_compartment_id": {
-                    "type": "string", 
-                    "description": "Oracle cloud compartment id in which VCN resides. Field introduced in 18.2.1,18.1.3."
+                "ip": {
+                    "description": "Ip of the node. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/IpAddr"
                 }, 
-                "cloud_credentials_ref": {
+                "start_time": {
                     "type": "string", 
-                    "description": "Credentials to access oracle cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1,18.1.3."
+                    "description": "Task start time. Field introduced in 18.2.6."
+                }, 
+                "message": {
+                    "type": "string", 
+                    "description": "Upgrade event message if any. Field introduced in 18.2.6."
                 }
             }
         }, 
-        "AwsZoneNetwork": {
-            "required": [
-                "availability_zone"
-            ], 
+        "SeGroupResumeOptions": {
             "type": "object", 
             "properties": {
-                "usable_network_uuids": {
+                "skip_suspended": {
+                    "type": "boolean", 
+                    "description": "Skip upgrade on suspended SE(s). Field introduced in 18.2.6."
+                }, 
+                "action_on_error": {
+                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR", 
+                    "type": "string", 
+                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6."
+                }
+            }
+        }, 
+        "SeGroupStatus": {
+            "type": "object", 
+            "properties": {
+                "se_with_vs_not_scaledout": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.3."
+                    "description": " It is a reference to an object of type ServiceEngine."
                 }, 
-                "availability_zone": {
+                "se_already_upgraded_at_start": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines are already upgraded before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "num_vs_disrupted": {
+                    "type": "integer", 
+                    "description": "Number of num_vs_disrupted.", 
+                    "format": "int32"
+                }, 
+                "duration": {
                     "type": "string", 
-                    "description": "Availability zone. Field introduced in 17.1.3."
+                    "description": "duration of SeGroupStatus."
+                }, 
+                "se_disconnected_at_start": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines in disconnected state before starting the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "se_upgrade_errors": {
+                    "items": {
+                        "$ref": "#/definitions/SeUpgradeEvents"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
+                }, 
+                "num_se": {
+                    "type": "integer", 
+                    "description": "Number of num_se.", 
+                    "format": "int32"
+                }, 
+                "se_reboot_in_progress_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "se_upgrade_in_progress": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines upgrade in progress. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "num_vs": {
+                    "type": "integer", 
+                    "description": "Number of num_vs.", 
+                    "format": "int32"
+                }, 
+                "request_time": {
+                    "type": "string", 
+                    "description": "request_time of SeGroupStatus."
+                }, 
+                "traffic_status": {
+                    "type": "string", 
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
+                }, 
+                "num_se_with_vs_scaledout": {
+                    "type": "integer", 
+                    "description": "Number of num_se_with_vs_scaledout.", 
+                    "format": "int32"
+                }, 
+                "ha_mode": {
+                    "type": "string", 
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
+                }, 
+                "enqueue_time": {
+                    "type": "string", 
+                    "description": "enqueue_time of SeGroupStatus."
+                }, 
+                "controller_version": {
+                    "type": "string", 
+                    "description": "Controller version. Field introduced in 18.2.6."
+                }, 
+                "state": {
+                    "type": "string", 
+                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED."
+                }, 
+                "vs_migrate_in_progress_ref": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VirtualService."
+                }, 
+                "progress": {
+                    "type": "integer", 
+                    "description": "Number of progress.", 
+                    "format": "int32"
+                }, 
+                "se_upgrade_skip_suspended": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine."
+                }, 
+                "se_group_uuid": {
+                    "type": "string", 
+                    "description": "Unique object identifier of se_group."
+                }, 
+                "se_ip_missing_at_start": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines local ip not present before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "start_time": {
+                    "type": "string", 
+                    "description": "start_time of SeGroupStatus."
+                }, 
+                "vs_scalein_in_progress_ref": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VirtualService."
+                }, 
+                "worker": {
+                    "type": "string", 
+                    "description": "worker of SeGroupStatus."
+                }, 
+                "se_group_name": {
+                    "type": "string", 
+                    "description": "se_group_name of SeGroupStatus."
+                }, 
+                "reason": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "reason of SeGroupStatus."
+                }, 
+                "se_upgrade_completed": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines upgrade completed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "in_progress": {
+                    "type": "boolean", 
+                    "description": "ServiceEngineGroup upgrade in progress. Field introduced in 18.2.6."
+                }, 
+                "se_upgrade_not_started": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines upgrade not started. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "se_with_vs_scaledout": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "se_with_no_vs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "se_upgrade_suspended": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine."
+                }, 
+                "thread": {
+                    "type": "string", 
+                    "description": "thread of SeGroupStatus."
+                }, 
+                "num_se_with_no_vs": {
+                    "type": "integer", 
+                    "description": "Number of num_se_with_no_vs.", 
+                    "format": "int32"
+                }, 
+                "notes": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "notes of SeGroupStatus."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "num_se_with_vs_not_scaledout": {
+                    "type": "integer", 
+                    "description": "Number of num_se_with_vs_not_scaledout.", 
+                    "format": "int32"
+                }, 
+                "vs_scaleout_in_progress_ref": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VirtualService."
+                }, 
+                "disrupted_vs_ref": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type VirtualService."
+                }, 
+                "end_time": {
+                    "type": "string", 
+                    "description": "end_time of SeGroupStatus."
+                }, 
+                "se_upgrade_failed": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines upgrade failed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "se_poweredoff_at_start": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "ServiceEngines in poweredoff state before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6."
+                }, 
+                "vs_errors": {
+                    "items": {
+                        "$ref": "#/definitions/VsError"
+                    }, 
+                    "type": "array", 
+                    "description": "VirtualService errors during the SeGroup upgrade. Field introduced in 18.2.6."
                 }
             }
         }, 
-        "IpamDnsProviderProfileApiResponse": {
+        "TimeStamp": {
+            "required": [
+                "secs", 
+                "usecs"
+            ], 
+            "type": "object", 
+            "properties": {
+                "secs": {
+                    "type": "integer", 
+                    "description": "Number of secs.", 
+                    "format": "int64"
+                }, 
+                "usecs": {
+                    "type": "integer", 
+                    "description": "Number of usecs.", 
+                    "format": "int64"
+                }
+            }
+        }, 
+        "UpgradeStatusInfoApiResponse": {
             "required": [
                 "count", 
                 "results"
@@ -551,313 +821,178 @@
                 }, 
                 "results": {
                     "items": {
-                        "$ref": "#/definitions/IpamDnsProviderProfile"
+                        "$ref": "#/definitions/UpgradeStatusInfo"
                     }, 
                     "type": "array"
                 }
             }
         }, 
-        "IpamDnsAzureProfile": {
+        "UpgradeOpsParam": {
             "type": "object", 
             "properties": {
-                "resource_group": {
+                "image_ref": {
                     "type": "string", 
-                    "description": "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
+                    "description": "Image uuid for identifying base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
-                "use_enhanced_ha": {
-                    "type": "boolean", 
-                    "description": "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Azure DNS. Field introduced in 17.2.1."
-                }, 
-                "usable_network_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1."
-                }, 
-                "egress_service_subnets": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Used for allocating egress service source IPs. Field introduced in 17.2.8."
-                }, 
-                "use_standard_alb": {
-                    "type": "boolean", 
-                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
-                }, 
-                "azure_serviceprincipal": {
-                    "description": "Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/AzureServicePrincipalCredentials"
-                }, 
-                "azure_userpass": {
-                    "description": "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/AzureUserPassCredentials"
-                }, 
-                "subscription_id": {
+                "patch_ref": {
                     "type": "string", 
-                    "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
+                    "description": "Image uuid for identifying patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
-                "virtual_network_ids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."
+                "se_group_resume_options": {
+                    "description": "Apply options while resuming SE group upgrade operations. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/SeGroupResumeOptions"
+                }, 
+                "se_group_options": {
+                    "description": "This field identifies SE group options that need to be applied during the upgrade operations. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/SeGroupOptions"
                 }
             }
         }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
+        "VsError": {
             "type": "object", 
             "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
+                "se_group_ha_mode": {
+                    "type": "string", 
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
                 }, 
-                "mask": {
+                "reason": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "reason of VsError."
+                }, 
+                "vip_id": {
+                    "type": "string", 
+                    "description": "vip_id of VsError."
+                }, 
+                "traffic_status": {
+                    "type": "string", 
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "se_group_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngineGroup."
+                }, 
+                "vs_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type VirtualService."
+                }
+            }
+        }, 
+        "UpgradeOpsState": {
+            "type": "object", 
+            "properties": {
+                "reason": {
+                    "type": "string", 
+                    "description": "Descriptive reason for the state-chance. Field introduced in 18.2.6."
+                }, 
+                "state": {
+                    "type": "string", 
+                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6."
+                }, 
+                "last_changed_time": {
+                    "description": "The last time the state changed. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/TimeStamp"
+                }
+            }
+        }, 
+        "EventMap": {
+            "type": "object", 
+            "properties": {
+                "task": {
+                    "type": "string", 
+                    "description": "Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, SE_UPGRADE_START, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
+                }, 
+                "nodes_events": {
+                    "items": {
+                        "$ref": "#/definitions/UpgradeEvent"
+                    }, 
+                    "type": "array", 
+                    "description": "List of all events node wise. Field introduced in 18.2.6."
+                }
+            }
+        }, 
+        "UpgradeStatusInfo": {
+            "type": "object", 
+            "properties": {
+                "previous_image_ref": {
+                    "type": "string", 
+                    "description": "Image uuid for identifying previous base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                }, 
+                "enable_patch_rollback": {
+                    "type": "boolean", 
+                    "description": "Check if the patch rollback is possible on this node. Field introduced in 18.2.6."
+                }, 
+                "start_time": {
+                    "type": "string", 
+                    "description": "Start time of upgrade operations. Field introduced in 18.2.6."
+                }, 
+                "patch_version": {
+                    "type": "string", 
+                    "description": "Current patch version applied to this node. Field introduced in 18.2.6."
+                }, 
+                "upgrade_ops": {
+                    "type": "string", 
+                    "description": "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6."
+                }, 
+                "node_type": {
+                    "type": "string", 
+                    "description": "Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6."
+                }, 
+                "previous_patch_image_ref": {
+                    "type": "string", 
+                    "description": "Image uuid for identifying previous patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                }, 
+                "seg_status": {
+                    "description": "Detailed SeGroup status. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/SeGroupStatus"
+                }, 
+                "obj_cloud_ref": {
+                    "type": "string", 
+                    "description": "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6."
+                }, 
+                "duration": {
                     "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "TencentZoneNetwork": {
-            "required": [
-                "availability_zone", 
-                "usable_subnet_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "usable_subnet_id": {
-                    "type": "string", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
-                }, 
-                "availability_zone": {
-                    "type": "string", 
-                    "description": "Availability zone. Field introduced in 18.2.3."
-                }
-            }
-        }, 
-        "IpamDnsAwsProfile": {
-            "required": [
-                "vpc_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "use_iam_roles": {
-                    "type": "boolean", 
-                    "description": "Use IAM roles instead of access and secret key."
-                }, 
-                "publish_vip_to_public_zone": {
-                    "type": "boolean", 
-                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1."
-                }, 
-                "egress_service_subnets": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "A list of subnets used for source IP allocation for egress services in Openshift/k8s on Aws. Field introduced in 18.2.3."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "AWS region."
-                }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
-                }, 
-                "secret_access_key": {
-                    "type": "string", 
-                    "description": "AWS secret access key."
-                }, 
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/AwsZoneNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 17.1.3."
-                }, 
-                "vpc": {
-                    "type": "string", 
-                    "description": "VPC name."
-                }, 
-                "ttl": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
+                    "description": "Duration of upgrade operations in seconds. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
-                "iam_assume_role": {
+                "patch_image_ref": {
                     "type": "string", 
-                    "description": "IAM assume role for cross-account access. Field introduced in 17.1.1."
+                    "description": "Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID."
-                }, 
-                "usable_network_uuids": {
+                "upgrade_events": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/EventMap"
                     }, 
                     "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1."
-                }
-            }
-        }, 
-        "AzureServicePrincipalCredentials": {
-            "type": "object", 
-            "properties": {
-                "tenant_id": {
-                    "type": "string", 
-                    "description": "Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1."
+                    "description": "Events performed for upgrade operations. Field introduced in 18.2.6."
                 }, 
-                "application_id": {
-                    "type": "string", 
-                    "description": "Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1."
-                }, 
-                "authentication_token": {
-                    "type": "string", 
-                    "description": "Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1."
-                }
-            }
-        }, 
-        "IpamDnsTencentProfile": {
-            "required": [
-                "region", 
-                "vpc_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/TencentZoneNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 18.2.3."
-                }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID. Field introduced in 18.2.3."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "VPC region. Field introduced in 18.2.3."
-                }, 
-                "usable_subnet_ids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
-                }, 
-                "cloud_credentials_ref": {
-                    "type": "string", 
-                    "description": "Credentials to access Tencent cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.3."
-                }
-            }
-        }, 
-        "DnsServiceDomain": {
-            "required": [
-                "domain_name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "record_ttl": {
+                "tasks_completed": {
                     "type": "integer", 
-                    "description": "TTL value for DNS records. Allowed values are 1-604800.", 
+                    "description": "Upgrade tasks completed. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
-                "num_dns_ip": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- 'Return all IP addresses'.", 
-                    "format": "int32"
-                }, 
-                "domain_name": {
-                    "type": "string", 
-                    "description": "Service domain string used for FQDN."
-                }, 
-                "pass_through": {
-                    "default": true, 
+                "enable_rollback": {
                     "type": "boolean", 
-                    "description": "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."
-                }
-            }
-        }, 
-        "IpamDnsProviderProfile": {
-            "required": [
-                "name", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "proxy_configuration": {
-                    "description": " Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/ProxyConfiguration"
-                }, 
-                "infoblox_profile": {
-                    "description": "Provider details if type is Infoblox.", 
-                    "$ref": "#/definitions/IpamDnsInfobloxProfile"
-                }, 
-                "allocate_ip_in_vrf": {
-                    "type": "boolean", 
-                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4."
-                }, 
-                "oci_profile": {
-                    "description": "Provider details for Oracle Cloud. Field introduced in 18.2.1,18.1.3.", 
-                    "$ref": "#/definitions/IpamDnsOCIProfile"
-                }, 
-                "internal_profile": {
-                    "description": "Provider details if type is Avi.", 
-                    "$ref": "#/definitions/IpamDnsInternalProfile"
-                }, 
-                "aws_profile": {
-                    "description": "Provider details if type is AWS.", 
-                    "$ref": "#/definitions/IpamDnsAwsProfile"
-                }, 
-                "tencent_profile": {
-                    "description": "Provider details for Tencent Cloud. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/IpamDnsTencentProfile"
+                    "description": "Check if the rollback is possible on this node. Field introduced in 18.2.6."
                 }, 
                 "uuid": {
                     "type": "string", 
-                    "description": "UUID of the IPAM/DNS Provider profile."
-                }, 
-                "azure_profile": {
-                    "description": "Provider details if type is Microsoft Azure. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpamDnsAzureProfile"
-                }, 
-                "openstack_profile": {
-                    "description": "Provider details if type is OpenStack.", 
-                    "$ref": "#/definitions/IpamDnsOpenstackProfile"
+                    "description": "UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6."
                 }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "gcp_profile": {
-                    "description": "Provider details if type is Google Cloud.", 
-                    "$ref": "#/definitions/IpamDnsGCPProfile"
+                "previous_version": {
+                    "type": "string", 
+                    "description": "Previous version prior to upgrade. Field introduced in 18.2.6."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -866,140 +1001,55 @@
                 }, 
                 "tenant_ref": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
+                    "description": "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6."
                 }, 
-                "custom_profile": {
-                    "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpamDnsCustomProfile"
+                "system": {
+                    "type": "boolean", 
+                    "description": "Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade. Field introduced in 18.2.6."
+                }, 
+                "enqueue_time": {
+                    "type": "string", 
+                    "description": "Enqueue time of upgrade operations. Field introduced in 18.2.6."
                 }, 
                 "name": {
                     "type": "string", 
-                    "description": "Name for the IPAM/DNS Provider profile."
+                    "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
                 }, 
-                "type": {
-                    "type": "string", 
-                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
-                }
-            }
-        }, 
-        "IpamDnsOpenstackProfile": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "The username Avi Vantage will use when authenticating to Keystone."
+                "state": {
+                    "description": "Current status of the upgrade operations. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/UpgradeOpsState"
                 }, 
-                "vip_network_name": {
+                "version": {
                     "type": "string", 
-                    "description": "Network to be used for VIP allocation."
+                    "description": "Current base image applied to this node. Field introduced in 18.2.6."
                 }, 
-                "keystone_host": {
-                    "type": "string", 
-                    "description": "Keystone's hostname or IP address."
+                "params": {
+                    "description": "Parameters associated with the current upgrade ops. Field introduced in 18.2.6.", 
+                    "$ref": "#/definitions/UpgradeOpsParam"
                 }, 
-                "region": {
-                    "type": "string", 
-                    "description": "Region name."
+                "total_tasks": {
+                    "type": "integer", 
+                    "description": "Total upgrade tasks. Field introduced in 18.2.6.", 
+                    "format": "int32"
                 }, 
-                "password": {
-                    "type": "string", 
-                    "description": "The password Avi Vantage will use when authenticating to Keystone."
-                }, 
-                "tenant": {
-                    "type": "string", 
-                    "description": "OpenStack tenant name."
-                }
-            }
-        }, 
-        "IpamDnsInfobloxProfile": {
-            "required": [
-                "ip_address", 
-                "password", 
-                "username"
-            ], 
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for API access for Infoblox appliance."
-                }, 
-                "network_view": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "Network view."
-                }, 
-                "usable_domains": {
+                "se_upgrade_events": {
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/SeUpgradeEvents"
                     }, 
                     "type": "array", 
-                    "description": "Usable domains to pick from Infoblox."
+                    "description": "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
                 }, 
-                "wapi_version": {
-                    "default": "2.0", 
+                "image_ref": {
                     "type": "string", 
-                    "description": "WAPI version."
+                    "description": "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
-                "usable_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable subnets to pick from Infoblox."
-                }, 
-                "dns_view": {
-                    "default": "default", 
+                "previous_patch_version": {
                     "type": "string", 
-                    "description": "DNS view."
+                    "description": "Previous patch version applied to this node. Field introduced in 18.2.6."
                 }, 
-                "password": {
+                "end_time": {
                     "type": "string", 
-                    "description": "Password for API access for Infoblox appliance."
-                }, 
-                "ip_address": {
-                    "description": "Address of Infoblox appliance.", 
-                    "$ref": "#/definitions/IpAddr"
-                }
-            }
-        }, 
-        "CustomParams": {
-            "required": [
-                "name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "is_dynamic": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
-                }, 
-                "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
-                "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
-                }
-            }
-        }, 
-        "AzureUserPassCredentials": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1."
-                }, 
-                "tenant_name": {
-                    "type": "string", 
-                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1."
+                    "description": "End time of upgrade operations. Field introduced in 18.2.6."
                 }
             }
         }, 
@@ -1020,124 +1070,76 @@
                 }
             }
         }, 
-        "IpamDnsGCPProfile": {
+        "SeUpgradeEvents": {
             "type": "object", 
             "properties": {
-                "vpc_network_name": {
+                "to_se_ref": {
                     "type": "string", 
-                    "description": "Google Cloud Platform VPC Network Name. Field introduced in 18.1.2."
+                    "description": " It is a reference to an object of type ServiceEngine."
                 }, 
-                "use_gcp_network": {
-                    "type": "boolean", 
-                    "description": "Use Google Cloud Platform Network for Private VIP allocation. By default Avi Vantage Network is used for Private VIP allocation. Field introduced in 18.1.2."
-                }, 
-                "match_se_group_subnet": {
-                    "type": "boolean", 
-                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
-                }, 
-                "region_name": {
+                "task": {
                     "type": "string", 
-                    "description": "Google Cloud Platform Region Name. Field introduced in 18.1.2."
+                    "description": " Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED."
                 }, 
-                "network_host_project_id": {
+                "num_vs": {
+                    "type": "integer", 
+                    "description": "Number of num_vs.", 
+                    "format": "int32"
+                }, 
+                "se_group_ref": {
                     "type": "string", 
-                    "description": "Google Cloud Platform Network Host Project ID. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2."
+                    "description": " It is a reference to an object of type ServiceEngineGroup."
                 }, 
-                "se_project_id": {
+                "se_group_ha_mode": {
                     "type": "string", 
-                    "description": "Google Cloud Platform Project ID. This is the project where service engines are hosted. This field is optional. By default it will use the value of the field network_host_project_id. Field introduced in 18.1.2."
+                    "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
                 }, 
-                "usable_network_refs": {
+                "reason": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
-                }
-            }
-        }, 
-        "ProxyConfiguration": {
-            "required": [
-                "host", 
-                "port"
-            ], 
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for proxy."
+                    "description": "reason of SeUpgradeEvents."
                 }, 
-                "host": {
+                "se_ref": {
                     "type": "string", 
-                    "description": "Proxy hostname or IP address."
+                    "description": " It is a reference to an object of type ServiceEngine."
                 }, 
-                "password": {
+                "vs_ref": {
                     "type": "string", 
-                    "description": "Password for proxy."
+                    "description": " It is a reference to an object of type VirtualService."
                 }, 
-                "port": {
+                "from_se_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngine."
+                }, 
+                "num_se": {
                     "type": "integer", 
-                    "description": "Proxy port.", 
+                    "description": "Number of num_se.", 
+                    "format": "int32"
+                }, 
+                "traffic_status": {
+                    "type": "string", 
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
+                }, 
+                "num_se_group": {
+                    "type": "integer", 
+                    "description": "Number of num_se_group.", 
                     "format": "int32"
                 }
             }
         }, 
-        "IpamDnsInternalProfile": {
+        "SeGroupOptions": {
             "type": "object", 
             "properties": {
-                "dns_service_domain": {
-                    "items": {
-                        "$ref": "#/definitions/DnsServiceDomain"
-                    }, 
-                    "type": "array", 
-                    "description": "List of service domains."
-                }, 
-                "usable_network_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
-                }, 
-                "dns_virtualservice_ref": {
+                "action_on_error": {
+                    "default": "SUSPEND_UPGRADE_OPS_ON_ERROR", 
                     "type": "string", 
-                    "description": "Avi VirtualService to be used for serving DNS records. It is a reference to an object of type VirtualService."
+                    "description": "The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6."
                 }, 
-                "ttl": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpamDnsCustomProfile": {
-            "type": "object", 
-            "properties": {
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains. Field introduced in 17.2.2."
-                }, 
-                "usable_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable subnets. Field introduced in 17.2.2."
-                }, 
-                "custom_ipam_dns_profile_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1."
-                }, 
-                "dynamic_params": {
-                    "items": {
-                        "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1."
+                "disruptive": {
+                    "type": "boolean", 
+                    "description": "Disable non-disruptive mechanism. Field introduced in 18.2.6."
                 }
             }
         }

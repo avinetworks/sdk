@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NetworkProfile Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure networkprofile <key>\n- show networkprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -629,6 +629,12 @@
                     "description": "The maximum number of attempts at retransmitting a SYN packet before giving up. Allowed values are 3-8.", 
                     "format": "int32"
                 }, 
+                "time_wait_delay": {
+                    "default": 2000, 
+                    "type": "integer", 
+                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.", 
+                    "format": "int32"
+                }, 
                 "congestion_recovery_scaling_factor": {
                     "default": 2, 
                     "type": "integer", 
@@ -651,11 +657,10 @@
                     "type": "boolean", 
                     "description": "Use the interface MTU to calculate the TCP max segment size."
                 }, 
-                "time_wait_delay": {
-                    "default": 2000, 
-                    "type": "integer", 
-                    "description": "The time (in millisec) to wait before closing a connection in the TIME_WAIT state. Allowed values are 500-2000. Special values are 0 - 'immediate'.", 
-                    "format": "int32"
+                "keepalive_in_halfclose_state": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Controls whether to keep the connection alive with keepalive messages in the TCP half close state. The interval for sending keepalive messages is 30s. If a timeout is already configured in the network profile, this will not override it. Field introduced in 18.2.6."
                 }, 
                 "nagles_algorithm": {
                     "type": "boolean", 
@@ -664,7 +669,7 @@
                 "idle_connection_timeout": {
                     "default": 600, 
                     "type": "integer", 
-                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-3600. Special values are 0 - 'infinite'.", 
+                    "description": "The duration for keepalive probes or session idle timeout. Max value is 3600 seconds, min is 5.  Set to 0 to allow infinite idle time. Allowed values are 5-14400. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }, 
                 "ignore_time_wait": {
@@ -718,7 +723,7 @@
                 "session_idle_timeout": {
                     "default": 300, 
                     "type": "integer", 
-                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-7200. Special values are 0 - 'infinite'.", 
+                    "description": "The amount of time (in sec) for which a connection needs to be idle before it is eligible to be deleted. Allowed values are 5-14400. Special values are 0 - 'infinite'.", 
                     "format": "int32"
                 }
             }

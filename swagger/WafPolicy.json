@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicy Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure wafpolicy <key>\n- show wafpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -855,13 +855,21 @@
         "WafExcludeListEntry": {
             "type": "object", 
             "properties": {
-                "match_element_criteria": {
-                    "description": "Criteria for match_element matching. Field introduced in 18.2.2.", 
-                    "$ref": "#/definitions/WafExclusionType"
-                }, 
                 "uri_path": {
                     "type": "string", 
                     "description": "URI Path to exclude for WAF rules. Field introduced in 17.2.1."
+                }, 
+                "description": {
+                    "type": "string", 
+                    "description": "Free-text comment about this exclusion. Field introduced in 18.2.6."
+                }, 
+                "uri_match_criteria": {
+                    "description": "Criteria for URI matching. Field introduced in 17.2.8.", 
+                    "$ref": "#/definitions/WafExclusionType"
+                }, 
+                "match_element_criteria": {
+                    "description": "Criteria for match_element matching. Field introduced in 18.2.2.", 
+                    "$ref": "#/definitions/WafExclusionType"
                 }, 
                 "client_subnet": {
                     "description": "Client IP Subnet to exclude for WAF rules. Field introduced in 17.2.1.", 
@@ -870,10 +878,6 @@
                 "match_element": {
                     "type": "string", 
                     "description": "The match_element can be 'ARGS xxx', 'ARGS_GET xxx', 'ARGS_POST xxx', 'ARGS_NAMES xxx', 'FILES xxx', 'QUERY_STRING', 'REQUEST_BASENAME', 'REQUEST_BODY', 'REQUEST_URI', 'REQUEST_URI_RAW', 'REQUEST_COOKIES xxx', 'REQUEST_HEADERS xxx' or 'RESPONSE_HEADERS xxx'. These match_elements in the HTTP Transaction (if present) will be excluded when executing WAF Rules. Field introduced in 17.2.1."
-                }, 
-                "uri_match_criteria": {
-                    "description": "Criteria for URI matching. Field introduced in 17.2.8.", 
-                    "$ref": "#/definitions/WafExclusionType"
                 }
             }
         }, 
