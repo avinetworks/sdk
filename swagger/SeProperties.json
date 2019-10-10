@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SeProperties Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -257,7 +257,6 @@
             "type": "object", 
             "properties": {
                 "distribute_queues": {
-                    "default": true, 
                     "type": "boolean", 
                     "description": "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
                 }, 
@@ -284,9 +283,8 @@
                     "format": "int32"
                 }, 
                 "se_rum_sampling_res_interval": {
-                    "default": 2, 
                     "type": "integer", 
-                    "description": "when sampling for resource timing data from the end user client. minimum time to wait on server between samples.", 
+                    "description": "Deprecated. Field deprecated in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "se_dp_compression": {
@@ -298,9 +296,8 @@
                     "description": "Internal flag that blocks dataplane until all application logs are flushed to log-agent process."
                 }, 
                 "se_rum_sampling_nav_percent": {
-                    "default": 1, 
                     "type": "integer", 
-                    "description": "percentage of navigation timing data to sample from the end user client for client insights.", 
+                    "description": "Deprecated. Field deprecated in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "se_use_dpdk": {
@@ -322,7 +319,6 @@
                     "description": "Internal flag that blocks dataplane until all connection logs are flushed to log-agent process."
                 }, 
                 "se_lro": {
-                    "default": 1, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5.", 
                     "format": "int32"
@@ -346,9 +342,8 @@
                     "format": "int32"
                 }, 
                 "se_rum_sampling_nav_interval": {
-                    "default": 1, 
                     "type": "integer", 
-                    "description": "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples.", 
+                    "description": "Deprecated. Field deprecated in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "se_log_buffer_events_blocking_dequeue": {
@@ -363,13 +358,11 @@
                     "format": "int32"
                 }, 
                 "se_tx_batch_size": {
-                    "default": 64, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "se_pcap_pkt_sz": {
-                    "default": 65536, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5.", 
                     "format": "int32"
@@ -405,9 +398,8 @@
                     "format": "int32"
                 }, 
                 "se_rum_sampling_res_percent": {
-                    "default": 100, 
                     "type": "integer", 
-                    "description": "percentage of resource timing data to sample from the end user client for client insights.", 
+                    "description": "Deprecated. Field deprecated in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "se_log_buffer_events_size": {
@@ -856,7 +848,6 @@
                     "format": "int32"
                 }, 
                 "se_dp_vnic_stall_se_restart_window": {
-                    "default": 3600, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
@@ -925,7 +916,6 @@
                     "description": "Internal use only. If enabled, randomly packets are dropped."
                 }, 
                 "se_dp_vnic_queue_stall_threshold": {
-                    "default": 2000, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.", 
                     "format": "int32"
@@ -1107,7 +1097,6 @@
                     "description": "Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean"
                 }, 
                 "se_dp_vnic_queue_stall_timeout": {
-                    "default": 10000, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.", 
                     "format": "int32"
@@ -1218,7 +1207,6 @@
                     "format": "int32"
                 }, 
                 "se_dp_vnic_restart_on_queue_stall_count": {
-                    "default": 3, 
                     "type": "integer", 
                     "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
                     "format": "int32"
@@ -1352,6 +1340,12 @@
         "SeAgentProperties": {
             "type": "object", 
             "properties": {
+                "vnic_rpc_retry_interval": {
+                    "default": 5, 
+                    "type": "integer", 
+                    "description": "Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6.", 
+                    "format": "int32"
+                }, 
                 "dp_enq_interval_msec": {
                     "default": 20, 
                     "type": "integer", 
