@@ -11,7 +11,7 @@ info:
     description: |
         CLI
         ```
-        - show upgrade statusv2
+        - show upgrade status
         ```
 
 
@@ -21,7 +21,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /upgradestatusinfov2:
+    /upgradestatusinfo:
         get:
             consumes:
                 -   application/json
@@ -129,7 +129,7 @@ paths:
                         $ref: "#/definitions/UpgradeStatusSummary"
                 401:
                     description: log in failed
-    /upgradestatusinfov2/{uuid}:
+    /upgradestatusinfo/{uuid}:
         get:
             consumes:
                 -   application/json

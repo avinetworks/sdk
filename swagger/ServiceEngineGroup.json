@@ -1615,9 +1615,9 @@
                     "format": "int32"
                 }, 
                 "vs_se_scaleout_ready_timeout": {
-                    "default": 25, 
+                    "default": 60, 
                     "type": "integer", 
-                    "description": "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-60. Field introduced in 18.1.5,18.2.1.", 
+                    "description": "Timeout in seconds for Service Engine to sendScaleout Ready notification of a Virtual Service. Allowed values are 0-90. Field introduced in 18.1.5,18.2.1.", 
                     "format": "int32"
                 }, 
                 "se_udp_encap_ipc": {
