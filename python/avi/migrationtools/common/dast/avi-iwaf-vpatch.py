@@ -186,13 +186,13 @@ class ZapXmlInputHandler:
             return vulnerability_data
 
         for vuln in node:
+            val = {}
             alert = vuln.get("alert", "")
+            val["attack_type"] = self.vtype2avi(alert)
+            val["description"] = vuln.get("alert", "")
             if self.version == "1":
                 if not vuln.get("param"):
                     continue
-                val = {}
-                val["attack_type"] = self.vtype2avi(alert)
-                val["description"] = vuln.get("alert", "")
                 val["param"] = vuln["param"]
                 try:
                     url = urlparse(vuln["uri"]).path
@@ -212,9 +212,6 @@ class ZapXmlInputHandler:
                 else:
                     instance_list = instance
                 for instance_dict in instance_list:
-                    val = {}
-                    val["attack_type"] = self.vtype2avi(alert)
-                    val["description"] = vuln.get("alert", "")
                     if not instance_dict.get("param"):
                         continue
                     val["param"] = instance_dict["param"]
