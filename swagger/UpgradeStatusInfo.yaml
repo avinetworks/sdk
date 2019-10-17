@@ -11,8 +11,7 @@ info:
     description: |
         CLI
         ```
-        - show upgrade status
-        - show upgrade statusv2 detail
+        - show upgrade status detail
         ```
 
 

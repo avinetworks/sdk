@@ -2,7 +2,7 @@
     "info": {
         "title": "Avi UpgradeStatusInfo Object API", 
         "version": "18.2.6", 
-        "description": "CLI\n```\n- show upgrade status\n- show upgrade statusv2 detail\n```\n", 
+        "description": "CLI\n```\n- show upgrade status detail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
             "name": "Avi Networks Inc.", 
