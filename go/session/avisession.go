@@ -795,7 +795,7 @@ func (avisess *AviSession) GetCollectionRaw(uri string, options ...ApiOptionsPar
 	if rerror != nil || res == nil {
 		return result, rerror
 	}
-	if strings.Contains(uri, "cluster?name") {
+	if strings.Contains(uri, "cluster?") {
 		result.Results = res
 		result.Count = 1
 	}
@@ -1007,7 +1007,7 @@ func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) er
 	if err != nil {
 		return err
 	}
-	if strings.Contains(uri, "cluster?name") {
+	if strings.Contains(uri, "cluster?") {
 		return json.Unmarshal(res.Results, &opts.result)
 	}
 	if res.Count == 0 {
