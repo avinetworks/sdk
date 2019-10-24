@@ -172,12 +172,6 @@ type EventDetails struct {
 	// Placeholder for description of property container_cloud_sevice of obj type EventDetails field type str  type object
 	ContainerCloudSevice *ContainerCloudService `json:"container_cloud_sevice,omitempty"`
 
-	// Placeholder for description of property crs_deployment_failure of obj type EventDetails field type str  type object
-	CrsDeploymentFailure *CRSDeploymentFailure `json:"crs_deployment_failure,omitempty"`
-
-	// Placeholder for description of property crs_deployment_success of obj type EventDetails field type str  type object
-	CrsDeploymentSuccess *CRSDeploymentSuccess `json:"crs_deployment_success,omitempty"`
-
 	// Placeholder for description of property cs_infra_details of obj type EventDetails field type str  type object
 	CsInfraDetails *CloudStackSetup `json:"cs_infra_details,omitempty"`
 
@@ -433,9 +427,6 @@ type EventDetails struct {
 	// Placeholder for description of property ssl_export_details of obj type EventDetails field type str  type object
 	SslExportDetails *SSLExportDetails `json:"ssl_export_details,omitempty"`
 
-	// Placeholder for description of property ssl_ignored_details of obj type EventDetails field type str  type object
-	SslIgnoredDetails *SSLIgnoredDetails `json:"ssl_ignored_details,omitempty"`
-
 	// Placeholder for description of property ssl_renew_details of obj type EventDetails field type str  type object
 	SslRenewDetails *SSLRenewDetails `json:"ssl_renew_details,omitempty"`
 
@@ -459,9 +450,6 @@ type EventDetails struct {
 
 	// Placeholder for description of property unbind_vs_se_details of obj type EventDetails field type str  type object
 	UnbindVsSeDetails *RmUnbindVsSeEventDetails `json:"unbind_vs_se_details,omitempty"`
-
-	//  Field introduced in 18.2.6.
-	UpgradeEntry *UpgradeOpsEntry `json:"upgrade_entry,omitempty"`
 
 	//  Field introduced in 18.2.6.
 	UpgradeStatusInfo *UpgradeStatusInfo `json:"upgrade_status_info,omitempty"`
