@@ -13722,9 +13722,9 @@
                     "description": "Average SSL Sessions with TLS version 1.0.", 
                     "format": "double"
                 }, 
-                "avg_waf_flagged_response_body_phase": {
+                "avg_ssl_ver_tls13": {
                     "type": "number", 
-                    "description": "Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. Field introduced in 17.2.2.", 
+                    "description": "Average SSL Sessions with TLS version 1.3. Field introduced in 18.2.6.", 
                     "format": "double"
                 }, 
                 "avg_ssl_ver_tls12": {
@@ -14305,6 +14305,11 @@
                 "sum_get_client_txn_latency_bucket1": {
                     "type": "number", 
                     "description": "Total number of HTTP GET requests that were responded satisfactorily within latency threshold.", 
+                    "format": "double"
+                }, 
+                "avg_waf_flagged_response_body_phase": {
+                    "type": "number", 
+                    "description": "Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. Field introduced in 17.2.2.", 
                     "format": "double"
                 }, 
                 "avg_application_response_time": {
