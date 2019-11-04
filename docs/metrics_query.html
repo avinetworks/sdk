@@ -2453,6 +2453,13 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> False </td>
 </tr>
 <tr>
+<td> l7_client.avg_ssl_ver_tls13 </td>
+<td> Average SSL Sessions with TLS version 1.3 </td>
+<td> PER_SECOND </td>
+<td> True </td>
+<td> False </td>
+</tr>
+<tr>
 <td> l7_client.avg_tolerated_responses </td>
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
@@ -7234,6 +7241,42 @@ Stats for GSLB.
 <td> METRIC_COUNT </td>
 <td> True </td>
 <td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
+<td> True </td>
+</tr>
+</table>
+</div>
+<h2 class='text-primary'> Gslb_Stats Metrics </h2>
+<div class='container-fluid'>
+<p>
+Stats for GSLB.
+</p>
+<table class='table table-bordered table-striped'>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Units</th>
+<th>Anomaly Detection</th>
+<th>Priority</th>
+</tr>
+<tr>
+<td> gslb_stats.avg_errored_queue_size </td>
+<td> Average size of the errrored  queue per site. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> gslb_stats.avg_pending_requests_size </td>
+<td> Average size of the pending request queue per site. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
+<td> True </td>
+</tr>
+<tr>
+<td> gslb_stats.avg_replication_queue_size </td>
+<td> Average size of the replication queue per site. </td>
+<td> METRIC_COUNT </td>
+<td> True </td>
 <td> True </td>
 </tr>
 </table>

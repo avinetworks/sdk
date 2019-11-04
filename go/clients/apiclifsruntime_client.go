@@ -106,7 +106,7 @@ func (client *APICLifsRuntimeClient) Patch(uuid string, patch interface{}, patch
 
 // Delete an existing APICLifsRuntime object with a given UUID
 func (client *APICLifsRuntimeClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-	if len(options) == 0 {
+    if len(options) == 0{
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
