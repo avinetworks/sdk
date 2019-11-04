@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengineproperties - show serviceengineproperties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -444,6 +444,7 @@ font-style: italic;
     "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
+    "vnic_rpc_retry_interval" : 123,
     "controller_heartbeat_miss_limit" : 123,
     "seagent_statecache_properties" : {
       "sc_state_ring_batch_dequeue_limit" : 123,
@@ -737,6 +738,7 @@ font-style: italic;
     "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
+    "vnic_rpc_retry_interval" : 123,
     "controller_heartbeat_miss_limit" : 123,
     "seagent_statecache_properties" : {
       "sc_state_ring_batch_dequeue_limit" : 123,
@@ -1030,6 +1032,7 @@ font-style: italic;
     "ns_helper_deq_interval_msec" : 123,
     "dp_deq_interval_msec" : 123,
     "dp_max_wait_rsp_time_sec" : 123,
+    "vnic_rpc_retry_interval" : 123,
     "controller_heartbeat_miss_limit" : 123,
     "seagent_statecache_properties" : {
       "sc_state_ring_batch_dequeue_limit" : 123,
@@ -1191,6 +1194,7 @@ font-style: italic;
 <div class="param">vnic_dhcp_ip_max_retries (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> DHCP ip max retries. format: int32</div>
 <div class="param">vnic_ip_delete_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> wait interval before deleting IP. format: int32</div>
 <div class="param">vnic_probe_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Probe vnic interval. format: int32</div>
+<div class="param">vnic_rpc_retry_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6. format: int32</div>
 <div class="param">vnicdb_cmd_history_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3. format: int32</div>
     </div>  <!-- field-items -->
   </div>
@@ -1246,10 +1250,10 @@ font-style: italic;
 <div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
 <div class="param">se_pcap_pkt_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
 <div class="param">se_pcap_pkt_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
-<div class="param">se_rum_sampling_nav_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> when sampling for navigation timing data from the end user client. minimum time to wait on server between samples. format: int32</div>
-<div class="param">se_rum_sampling_nav_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> percentage of navigation timing data to sample from the end user client for client insights. format: int32</div>
-<div class="param">se_rum_sampling_res_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> when sampling for resource timing data from the end user client. minimum time to wait on server between samples. format: int32</div>
-<div class="param">se_rum_sampling_res_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> percentage of resource timing data to sample from the end user client for client insights. format: int32</div>
+<div class="param">se_rum_sampling_nav_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.6. format: int32</div>
+<div class="param">se_rum_sampling_nav_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.6. format: int32</div>
+<div class="param">se_rum_sampling_res_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.6. format: int32</div>
+<div class="param">se_rum_sampling_res_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.6. format: int32</div>
 <div class="param">se_tunnel_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1. format: int32</div>
 <div class="param">se_tx_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Deprecated. Field deprecated in 18.2.5. format: int32</div>
 <div class="param">se_use_dpdk (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3. format: int32</div>
