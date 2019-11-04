@@ -2,6 +2,7 @@
 # Copyright Avi Networks
 ---
 avi_resource_types:
+  - CustomerPortalInfo
   - SeProperties
   - UserAccountProfile
   - Tenant
@@ -15,8 +16,12 @@ avi_resource_types:
   - Gslb
   - PoolGroupDeploymentPolicy
   - GslbGeoDbProfile
+  - ControllerPortalRegistration
+  - Image
+  - SecurityPolicy
   - ApplicationPersistenceProfile
   - ErrorPageBody
+  - PortalFileUpload
   - AutoScaleLaunchConfig
   - CertificateManagementProfile
   - ControllerSite
@@ -26,17 +31,20 @@ avi_resource_types:
   - PKIProfile
   - AlertEmailConfig
   - SSLProfile
-  - SecurityPolicy
+  - TestSeDatastoreLevel3
   - CustomIpamDnsProfile
   - AlertScriptConfig
   - NetworkProfile
   - IpAddrGroup
   - BackupConfiguration
   - ClusterCloudDetails
+  - UpgradeStatusInfo
+  - UpgradeStatusSummary
   - ErrorPageProfile
   - SSLKeyAndCertificate
   - AnalyticsProfile
   - MicroServiceGroup
+  - TestSeDatastoreLevel2
   - IpamDnsProviderProfile
   - ApplicationProfile
   - NatPolicy
@@ -44,6 +52,7 @@ avi_resource_types:
   - AlertSyslogConfig
   - HealthMonitor
   - NetworkSecurityPolicy
+  - TestSeDatastoreLevel1
   - Cloud
   - Backup
   - ActionGroupConfig
