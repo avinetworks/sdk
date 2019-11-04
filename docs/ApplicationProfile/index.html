@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,6 +257,11 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "dns_service_profile" : {
+      "dns_zones" : [ {
+        "domain_name" : "aeiou",
+        "name_server" : "aeiou",
+        "admin_email" : "aeiou"
+      } ],
       "aaaa_empty_response" : true,
       "edns" : true,
       "edns_client_subnet_prefix_len" : 123,
@@ -289,9 +294,7 @@ font-style: italic;
     "url" : "aeiou",
     "_last_modified" : "aeiou",
     "http_profile" : {
-      "respond_with_100_continue" : true,
       "secure_cookie_enabled" : true,
-      "server_side_redirect_to_https" : true,
       "compression_profile" : {
         "filter" : [ {
           "level" : "aeiou",
@@ -319,9 +322,8 @@ font-style: italic;
         "type" : "aeiou",
         "compressible_content_ref" : "aeiou"
       },
+      "max_http2_control_frames_per_connection" : 123,
       "allow_dots_in_header_name" : true,
-      "connection_multiplexing_enabled" : true,
-      "hsts_enabled" : true,
       "httponly_enabled" : true,
       "keepalive_header" : true,
       "cache_config" : {
@@ -349,25 +351,19 @@ font-style: italic;
         "mime_types_black_list" : [ "aeiou" ]
       },
       "post_accept_timeout" : 123,
-      "disable_keepalive_posts_msie6" : true,
       "max_bad_rps_cip_uri" : 123,
       "max_bad_rps_uri" : 123,
-      "http2_enabled" : true,
       "max_rps_unknown_cip" : 123,
       "client_max_body_size" : 123456789,
+      "reset_conn_http_on_ssl_port" : true,
       "ssl_everywhere_enabled" : true,
-      "max_rps_cip" : 123,
-      "max_response_headers_size" : 123,
       "client_header_timeout" : 123,
-      "xff_enabled" : true,
       "x_forwarded_proto_enabled" : true,
       "client_max_header_size" : 123,
       "keepalive_timeout" : 123,
       "enable_fire_and_forget" : true,
-      "enable_request_body_buffering" : true,
       "client_max_request_size" : 123,
       "fwd_close_hdr_for_bound_connections" : true,
-      "enable_request_body_metrics" : true,
       "hsts_subdomains_enabled" : true,
       "ssl_client_certificate_action" : {
         "headers" : [ {
@@ -377,21 +373,35 @@ font-style: italic;
         "close_connection" : true
       },
       "ssl_client_certificate_mode" : "aeiou",
-      "max_rps_cip_uri" : 123,
       "disable_sni_hostname_check" : true,
-      "pki_profile_ref" : "aeiou",
-      "max_bad_rps_cip" : 123,
       "http_to_https" : true,
       "spdy_enabled" : true,
       "client_body_timeout" : 123,
       "max_rps_uri" : 123,
-      "max_rps_unknown_uri" : 123,
+      "max_http2_empty_data_frames_per_connection" : 123,
       "xff_alternate_name" : "aeiou",
-      "max_keepalive_requests" : 123,
       "spdy_fwd_proxy_mode" : true,
-      "hsts_max_age" : 123456789,
       "use_app_keepalive_timeout" : true,
-      "websockets_enabled" : true
+      "websockets_enabled" : true,
+      "respond_with_100_continue" : true,
+      "server_side_redirect_to_https" : true,
+      "connection_multiplexing_enabled" : true,
+      "hsts_enabled" : true,
+      "disable_keepalive_posts_msie6" : true,
+      "http2_enabled" : true,
+      "max_http2_queued_frames_to_client_per_connection" : 123,
+      "max_http2_concurrent_streams_per_connection" : 123,
+      "max_rps_cip" : 123,
+      "max_response_headers_size" : 123,
+      "xff_enabled" : true,
+      "enable_request_body_buffering" : true,
+      "enable_request_body_metrics" : true,
+      "max_rps_cip_uri" : 123,
+      "pki_profile_ref" : "aeiou",
+      "max_bad_rps_cip" : 123,
+      "max_rps_unknown_uri" : 123,
+      "max_keepalive_requests" : 123,
+      "hsts_max_age" : 123456789
     },
     "dos_rl_profile" : {
       "rl_profile" : {
@@ -506,6 +516,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "dns_zones" : [ {
+      "domain_name" : "aeiou",
+      "name_server" : "aeiou",
+      "admin_email" : "aeiou"
+    } ],
     "aaaa_empty_response" : true,
     "edns" : true,
     "edns_client_subnet_prefix_len" : 123,
@@ -538,9 +553,7 @@ font-style: italic;
   "url" : "aeiou",
   "_last_modified" : "aeiou",
   "http_profile" : {
-    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
-    "server_side_redirect_to_https" : true,
     "compression_profile" : {
       "filter" : [ {
         "level" : "aeiou",
@@ -568,9 +581,8 @@ font-style: italic;
       "type" : "aeiou",
       "compressible_content_ref" : "aeiou"
     },
+    "max_http2_control_frames_per_connection" : 123,
     "allow_dots_in_header_name" : true,
-    "connection_multiplexing_enabled" : true,
-    "hsts_enabled" : true,
     "httponly_enabled" : true,
     "keepalive_header" : true,
     "cache_config" : {
@@ -598,25 +610,19 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
-    "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
-    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
+    "reset_conn_http_on_ssl_port" : true,
     "ssl_everywhere_enabled" : true,
-    "max_rps_cip" : 123,
-    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
-    "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
     "client_max_header_size" : 123,
     "keepalive_timeout" : 123,
     "enable_fire_and_forget" : true,
-    "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
     "fwd_close_hdr_for_bound_connections" : true,
-    "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
       "headers" : [ {
@@ -626,21 +632,35 @@ font-style: italic;
       "close_connection" : true
     },
     "ssl_client_certificate_mode" : "aeiou",
-    "max_rps_cip_uri" : 123,
     "disable_sni_hostname_check" : true,
-    "pki_profile_ref" : "aeiou",
-    "max_bad_rps_cip" : 123,
     "http_to_https" : true,
     "spdy_enabled" : true,
     "client_body_timeout" : 123,
     "max_rps_uri" : 123,
-    "max_rps_unknown_uri" : 123,
+    "max_http2_empty_data_frames_per_connection" : 123,
     "xff_alternate_name" : "aeiou",
-    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
-    "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
-    "websockets_enabled" : true
+    "websockets_enabled" : true,
+    "respond_with_100_continue" : true,
+    "server_side_redirect_to_https" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "disable_keepalive_posts_msie6" : true,
+    "http2_enabled" : true,
+    "max_http2_queued_frames_to_client_per_connection" : 123,
+    "max_http2_concurrent_streams_per_connection" : 123,
+    "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
+    "xff_enabled" : true,
+    "enable_request_body_buffering" : true,
+    "enable_request_body_metrics" : true,
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "max_rps_unknown_uri" : 123,
+    "max_keepalive_requests" : 123,
+    "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -826,6 +846,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "dns_zones" : [ {
+      "domain_name" : "aeiou",
+      "name_server" : "aeiou",
+      "admin_email" : "aeiou"
+    } ],
     "aaaa_empty_response" : true,
     "edns" : true,
     "edns_client_subnet_prefix_len" : 123,
@@ -858,9 +883,7 @@ font-style: italic;
   "url" : "aeiou",
   "_last_modified" : "aeiou",
   "http_profile" : {
-    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
-    "server_side_redirect_to_https" : true,
     "compression_profile" : {
       "filter" : [ {
         "level" : "aeiou",
@@ -888,9 +911,8 @@ font-style: italic;
       "type" : "aeiou",
       "compressible_content_ref" : "aeiou"
     },
+    "max_http2_control_frames_per_connection" : 123,
     "allow_dots_in_header_name" : true,
-    "connection_multiplexing_enabled" : true,
-    "hsts_enabled" : true,
     "httponly_enabled" : true,
     "keepalive_header" : true,
     "cache_config" : {
@@ -918,25 +940,19 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
-    "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
-    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
+    "reset_conn_http_on_ssl_port" : true,
     "ssl_everywhere_enabled" : true,
-    "max_rps_cip" : 123,
-    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
-    "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
     "client_max_header_size" : 123,
     "keepalive_timeout" : 123,
     "enable_fire_and_forget" : true,
-    "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
     "fwd_close_hdr_for_bound_connections" : true,
-    "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
       "headers" : [ {
@@ -946,21 +962,35 @@ font-style: italic;
       "close_connection" : true
     },
     "ssl_client_certificate_mode" : "aeiou",
-    "max_rps_cip_uri" : 123,
     "disable_sni_hostname_check" : true,
-    "pki_profile_ref" : "aeiou",
-    "max_bad_rps_cip" : 123,
     "http_to_https" : true,
     "spdy_enabled" : true,
     "client_body_timeout" : 123,
     "max_rps_uri" : 123,
-    "max_rps_unknown_uri" : 123,
+    "max_http2_empty_data_frames_per_connection" : 123,
     "xff_alternate_name" : "aeiou",
-    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
-    "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
-    "websockets_enabled" : true
+    "websockets_enabled" : true,
+    "respond_with_100_continue" : true,
+    "server_side_redirect_to_https" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "disable_keepalive_posts_msie6" : true,
+    "http2_enabled" : true,
+    "max_http2_queued_frames_to_client_per_connection" : 123,
+    "max_http2_concurrent_streams_per_connection" : 123,
+    "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
+    "xff_enabled" : true,
+    "enable_request_body_buffering" : true,
+    "enable_request_body_metrics" : true,
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "max_rps_unknown_uri" : 123,
+    "max_keepalive_requests" : 123,
+    "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -1086,6 +1116,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "dns_zones" : [ {
+      "domain_name" : "aeiou",
+      "name_server" : "aeiou",
+      "admin_email" : "aeiou"
+    } ],
     "aaaa_empty_response" : true,
     "edns" : true,
     "edns_client_subnet_prefix_len" : 123,
@@ -1118,9 +1153,7 @@ font-style: italic;
   "url" : "aeiou",
   "_last_modified" : "aeiou",
   "http_profile" : {
-    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
-    "server_side_redirect_to_https" : true,
     "compression_profile" : {
       "filter" : [ {
         "level" : "aeiou",
@@ -1148,9 +1181,8 @@ font-style: italic;
       "type" : "aeiou",
       "compressible_content_ref" : "aeiou"
     },
+    "max_http2_control_frames_per_connection" : 123,
     "allow_dots_in_header_name" : true,
-    "connection_multiplexing_enabled" : true,
-    "hsts_enabled" : true,
     "httponly_enabled" : true,
     "keepalive_header" : true,
     "cache_config" : {
@@ -1178,25 +1210,19 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
-    "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
-    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
+    "reset_conn_http_on_ssl_port" : true,
     "ssl_everywhere_enabled" : true,
-    "max_rps_cip" : 123,
-    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
-    "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
     "client_max_header_size" : 123,
     "keepalive_timeout" : 123,
     "enable_fire_and_forget" : true,
-    "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
     "fwd_close_hdr_for_bound_connections" : true,
-    "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
       "headers" : [ {
@@ -1206,21 +1232,35 @@ font-style: italic;
       "close_connection" : true
     },
     "ssl_client_certificate_mode" : "aeiou",
-    "max_rps_cip_uri" : 123,
     "disable_sni_hostname_check" : true,
-    "pki_profile_ref" : "aeiou",
-    "max_bad_rps_cip" : 123,
     "http_to_https" : true,
     "spdy_enabled" : true,
     "client_body_timeout" : 123,
     "max_rps_uri" : 123,
-    "max_rps_unknown_uri" : 123,
+    "max_http2_empty_data_frames_per_connection" : 123,
     "xff_alternate_name" : "aeiou",
-    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
-    "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
-    "websockets_enabled" : true
+    "websockets_enabled" : true,
+    "respond_with_100_continue" : true,
+    "server_side_redirect_to_https" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "disable_keepalive_posts_msie6" : true,
+    "http2_enabled" : true,
+    "max_http2_queued_frames_to_client_per_connection" : 123,
+    "max_http2_concurrent_streams_per_connection" : 123,
+    "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
+    "xff_enabled" : true,
+    "enable_request_body_buffering" : true,
+    "enable_request_body_metrics" : true,
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "max_rps_unknown_uri" : 123,
+    "max_keepalive_requests" : 123,
+    "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -1346,6 +1386,11 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "dns_service_profile" : {
+    "dns_zones" : [ {
+      "domain_name" : "aeiou",
+      "name_server" : "aeiou",
+      "admin_email" : "aeiou"
+    } ],
     "aaaa_empty_response" : true,
     "edns" : true,
     "edns_client_subnet_prefix_len" : 123,
@@ -1378,9 +1423,7 @@ font-style: italic;
   "url" : "aeiou",
   "_last_modified" : "aeiou",
   "http_profile" : {
-    "respond_with_100_continue" : true,
     "secure_cookie_enabled" : true,
-    "server_side_redirect_to_https" : true,
     "compression_profile" : {
       "filter" : [ {
         "level" : "aeiou",
@@ -1408,9 +1451,8 @@ font-style: italic;
       "type" : "aeiou",
       "compressible_content_ref" : "aeiou"
     },
+    "max_http2_control_frames_per_connection" : 123,
     "allow_dots_in_header_name" : true,
-    "connection_multiplexing_enabled" : true,
-    "hsts_enabled" : true,
     "httponly_enabled" : true,
     "keepalive_header" : true,
     "cache_config" : {
@@ -1438,25 +1480,19 @@ font-style: italic;
       "mime_types_black_list" : [ "aeiou" ]
     },
     "post_accept_timeout" : 123,
-    "disable_keepalive_posts_msie6" : true,
     "max_bad_rps_cip_uri" : 123,
     "max_bad_rps_uri" : 123,
-    "http2_enabled" : true,
     "max_rps_unknown_cip" : 123,
     "client_max_body_size" : 123456789,
+    "reset_conn_http_on_ssl_port" : true,
     "ssl_everywhere_enabled" : true,
-    "max_rps_cip" : 123,
-    "max_response_headers_size" : 123,
     "client_header_timeout" : 123,
-    "xff_enabled" : true,
     "x_forwarded_proto_enabled" : true,
     "client_max_header_size" : 123,
     "keepalive_timeout" : 123,
     "enable_fire_and_forget" : true,
-    "enable_request_body_buffering" : true,
     "client_max_request_size" : 123,
     "fwd_close_hdr_for_bound_connections" : true,
-    "enable_request_body_metrics" : true,
     "hsts_subdomains_enabled" : true,
     "ssl_client_certificate_action" : {
       "headers" : [ {
@@ -1466,21 +1502,35 @@ font-style: italic;
       "close_connection" : true
     },
     "ssl_client_certificate_mode" : "aeiou",
-    "max_rps_cip_uri" : 123,
     "disable_sni_hostname_check" : true,
-    "pki_profile_ref" : "aeiou",
-    "max_bad_rps_cip" : 123,
     "http_to_https" : true,
     "spdy_enabled" : true,
     "client_body_timeout" : 123,
     "max_rps_uri" : 123,
-    "max_rps_unknown_uri" : 123,
+    "max_http2_empty_data_frames_per_connection" : 123,
     "xff_alternate_name" : "aeiou",
-    "max_keepalive_requests" : 123,
     "spdy_fwd_proxy_mode" : true,
-    "hsts_max_age" : 123456789,
     "use_app_keepalive_timeout" : true,
-    "websockets_enabled" : true
+    "websockets_enabled" : true,
+    "respond_with_100_continue" : true,
+    "server_side_redirect_to_https" : true,
+    "connection_multiplexing_enabled" : true,
+    "hsts_enabled" : true,
+    "disable_keepalive_posts_msie6" : true,
+    "http2_enabled" : true,
+    "max_http2_queued_frames_to_client_per_connection" : 123,
+    "max_http2_concurrent_streams_per_connection" : 123,
+    "max_rps_cip" : 123,
+    "max_response_headers_size" : 123,
+    "xff_enabled" : true,
+    "enable_request_body_buffering" : true,
+    "enable_request_body_metrics" : true,
+    "max_rps_cip_uri" : 123,
+    "pki_profile_ref" : "aeiou",
+    "max_bad_rps_cip" : 123,
+    "max_rps_unknown_uri" : 123,
+    "max_keepalive_requests" : 123,
+    "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
     "rl_profile" : {
@@ -1622,6 +1672,7 @@ font-style: italic;
     <li><a href="#CompressionFilter"><code>CompressionFilter</code></a></li>
     <li><a href="#CompressionProfile"><code>CompressionProfile</code></a></li>
     <li><a href="#DnsServiceApplicationProfile"><code>DnsServiceApplicationProfile</code></a></li>
+    <li><a href="#DnsZone"><code>DnsZone</code></a></li>
     <li><a href="#DosRateLimitProfile"><code>DosRateLimitProfile</code></a></li>
     <li><a href="#DosThreshold"><code>DosThreshold</code></a></li>
     <li><a href="#DosThresholdProfile"><code>DosThresholdProfile</code></a></li>
@@ -1702,8 +1753,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">aaaa_empty_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Respond to AAAA queries with empty response when there are only IPV4 records. </div>
 <div class="param">admin_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the administrator responsible for this zone . This field is used in SOA records (rname) pertaining to all domain names specified as authoritative domain names. If not configured, the default value &#39;hostmaster&#39; is used in SOA responses. Field introduced in 18.2.5. </div>
-<div class="param">authoritative_domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field introduced in 17.1.6,17.2.2. </div>
+<div class="param">authoritative_domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2. </div>
 <div class="param">dns_over_tcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS query/response over TCP. This enables analytics for pass-through queries as well. Field introduced in 17.1.1. </div>
+<div class="param">dns_zones (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsZone">array[DnsZone]</a></span> DNS zones hosted on this Virtual Service. Field introduced in 18.2.6. </div>
 <div class="param">domain_names (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Subdomain names serviced by this Virtual Service. These are configured as Ends-With semantics. </div>
 <div class="param">ecs_stripping_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable stripping of EDNS client subnet (ecs) option towards client if DNS service inserts ecs option in the DNS query towards upstream servers. Field introduced in 17.1.5. </div>
 <div class="param">edns (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable DNS service to be aware of EDNS (Extension mechanism for DNS). EDNS extensions are parsed and shown in logs. For GSLB services, the EDNS client subnet option can be used to influence Load Balancing. Field introduced in 17.1.1. </div>
@@ -1713,6 +1765,14 @@ font-style: italic;
 <div class="param">negative_caching_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for SOA (Start of Authority) (corresponding to a authoritative domain owned by this DNS Virtual Service) record&#39;s minimum TTL served by the DNS Virtual Service. Allowed values are 0-86400. Field introduced in 17.2.4. format: int32</div>
 <div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of IP addresses returned by the DNS Service. Enter 0 to return all IP addresses. Allowed values are 1-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the TTL value (in seconds) for records served by DNS Service. Allowed values are 0-86400. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsZone">DnsZone</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">admin_email (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Email address of the administrator responsible for this zone. This field is used in SOA records as rname (RFC 1035). If not configured, it is inherited from the DNS service profile. Field introduced in 18.2.6. </div>
+<div class="param">domain_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Domain name authoritatively serviced by this Virtual Service. Queries for FQDNs that are sub domains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. For domains which are present, SOA parameters are sent in answer section of response if query type is SOA. Field introduced in 18.2.6. </div>
+<div class="param">name_server (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The primary name server for this zone. This field is used in SOA records as mname (RFC 1035). If not configured, it is inherited from the DNS service profile. If even that is not configured, the domain name is used instead. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1766,6 +1826,10 @@ font-style: italic;
 <div class="param">max_bad_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_cip_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per client IP and URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">max_bad_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">max_http2_concurrent_streams_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6. format: int32</div>
+<div class="param">max_http2_control_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of control frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited control frames on a client side HTTP/2 connection&#39;. Field introduced in 18.2.6. format: int32</div>
+<div class="param">max_http2_empty_data_frames_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of empty data frames that client can send over an HTTP/2 connection. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited empty data frames over a client side HTTP/2 connection&#39;. Field introduced in 18.2.6. format: int32</div>
+<div class="param">max_http2_queued_frames_to_client_per_connection (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. &#39;0&#39; means unlimited. Allowed values are 0-10000. Special values are 0- &#39;Unlimited frames can be queued on a client side HTTP/2 connection&#39;. Field introduced in 18.2.6. format: int32</div>
 <div class="param">max_keepalive_requests (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max number of HTTP requests that can be sent over a Keep-Alive connection. &#39;0&#39; means unlimited. Allowed values are 0-1000000. Special values are 0- &#39;Unlimited requests on a connection&#39;. Field introduced in 18.2.5. format: int32</div>
 <div class="param">max_response_headers_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in Kbytes of all the HTTP response headers. Allowed values are 1-256. format: int32</div>
 <div class="param">max_rps_cip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per client IP. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
@@ -1775,6 +1839,7 @@ font-style: italic;
 <div class="param">max_rps_uri (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
 <div class="param">pki_profile_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select the PKI profile to be associated with the Virtual Service. This profile defines the Certificate Authority and Revocation List. It is a reference to an object of type PKIProfile. </div>
 <div class="param">post_accept_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The max allowed length of time between a client establishing a TCP connection until Avi receives the first byte of the client&#39;s HTTP request. Allowed values are 10-100000000. format: int32</div>
+<div class="param">reset_conn_http_on_ssl_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6. </div>
 <div class="param">respond_with_100_continue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8. </div>
 <div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
 <div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
@@ -1865,7 +1930,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
 <div class="param">redirect (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPRedirectAction">HTTPRedirectAction</a></span> Parameters for HTTP Redirect rate limit action. </div>
-<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429. </div>
+<div class="param">status_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501. </div>
 <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of action to be enforced upon hitting the rate limit. Enum options - RL_ACTION_NONE, RL_ACTION_DROP_CONN, RL_ACTION_RESET_CONN, RL_ACTION_CLOSE_CONN, RL_ACTION_LOCAL_RSP, RL_ACTION_REDIRECT. </div>
     </div>  <!-- field-items -->
   </div>

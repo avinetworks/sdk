@@ -452,6 +452,9 @@ type EventDetails struct {
 	UnbindVsSeDetails *RmUnbindVsSeEventDetails `json:"unbind_vs_se_details,omitempty"`
 
 	//  Field introduced in 18.2.6.
+	UpgradeEntry *UpgradeOpsEntry `json:"upgrade_entry,omitempty"`
+
+	//  Field introduced in 18.2.6.
 	UpgradeStatusInfo *UpgradeStatusInfo `json:"upgrade_status_info,omitempty"`
 
 	// Placeholder for description of property vca_infra_details of obj type EventDetails field type str  type object

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -505,6 +505,12 @@ font-style: italic;
       "service_account_token" : "aeiou",
       "fleet_endpoint" : "aeiou",
       "client_tls_key_and_certificate_ref" : "aeiou",
+      "routes" : [ {
+        "subnet" : "",
+        "if_name" : "aeiou",
+        "nexthop" : "",
+        "network_namespace" : "aeiou"
+      } ],
       "ssh_user_ref" : "aeiou",
       "master_nodes" : [ "aeiou" ],
       "sdn_overlay" : true,
@@ -514,6 +520,7 @@ font-style: italic;
       } ],
       "override_service_ports" : true,
       "auto_assign_fqdn" : true,
+      "persistent_volume_claim" : "aeiou",
       "se_include_attributes" : [ "" ],
       "use_service_cluster_ip_as_ew_vip" : true,
       "se_deployment_method" : "aeiou",
@@ -533,10 +540,13 @@ font-style: italic;
         "operator" : "aeiou"
       } ],
       "routes_share_virtualservice" : true,
+      "se_priority_class" : "aeiou",
       "use_resource_definition_as_ssot" : true,
       "use_scheduling_disabled_nodes" : true,
       "l4_health_monitoring" : true,
+      "se_namespace" : "aeiou",
       "se_restart_force" : true,
+      "enable_route_ingress_hardening" : true,
       "node_availability_zone_label" : "aeiou",
       "service_port_match_http_service" : true,
       "http_container_ports" : [ "" ],
@@ -655,6 +665,7 @@ font-style: italic;
       "username" : "aeiou"
     },
     "se_group_template_ref" : "aeiou",
+    "dns_resolution_on_se" : true,
     "tenant_ref" : "aeiou",
     "azure_configuration" : {
       "subscription_id" : "aeiou",
@@ -1080,6 +1091,12 @@ font-style: italic;
     "service_account_token" : "aeiou",
     "fleet_endpoint" : "aeiou",
     "client_tls_key_and_certificate_ref" : "aeiou",
+    "routes" : [ {
+      "subnet" : "",
+      "if_name" : "aeiou",
+      "nexthop" : "",
+      "network_namespace" : "aeiou"
+    } ],
     "ssh_user_ref" : "aeiou",
     "master_nodes" : [ "aeiou" ],
     "sdn_overlay" : true,
@@ -1089,6 +1106,7 @@ font-style: italic;
     } ],
     "override_service_ports" : true,
     "auto_assign_fqdn" : true,
+    "persistent_volume_claim" : "aeiou",
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
     "se_deployment_method" : "aeiou",
@@ -1108,10 +1126,13 @@ font-style: italic;
       "operator" : "aeiou"
     } ],
     "routes_share_virtualservice" : true,
+    "se_priority_class" : "aeiou",
     "use_resource_definition_as_ssot" : true,
     "use_scheduling_disabled_nodes" : true,
     "l4_health_monitoring" : true,
+    "se_namespace" : "aeiou",
     "se_restart_force" : true,
+    "enable_route_ingress_hardening" : true,
     "node_availability_zone_label" : "aeiou",
     "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
@@ -1230,6 +1251,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "se_group_template_ref" : "aeiou",
+  "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
   "azure_configuration" : {
     "subscription_id" : "aeiou",
@@ -1888,6 +1910,12 @@ font-style: italic;
     "service_account_token" : "aeiou",
     "fleet_endpoint" : "aeiou",
     "client_tls_key_and_certificate_ref" : "aeiou",
+    "routes" : [ {
+      "subnet" : "",
+      "if_name" : "aeiou",
+      "nexthop" : "",
+      "network_namespace" : "aeiou"
+    } ],
     "ssh_user_ref" : "aeiou",
     "master_nodes" : [ "aeiou" ],
     "sdn_overlay" : true,
@@ -1897,6 +1925,7 @@ font-style: italic;
     } ],
     "override_service_ports" : true,
     "auto_assign_fqdn" : true,
+    "persistent_volume_claim" : "aeiou",
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
     "se_deployment_method" : "aeiou",
@@ -1916,10 +1945,13 @@ font-style: italic;
       "operator" : "aeiou"
     } ],
     "routes_share_virtualservice" : true,
+    "se_priority_class" : "aeiou",
     "use_resource_definition_as_ssot" : true,
     "use_scheduling_disabled_nodes" : true,
     "l4_health_monitoring" : true,
+    "se_namespace" : "aeiou",
     "se_restart_force" : true,
+    "enable_route_ingress_hardening" : true,
     "node_availability_zone_label" : "aeiou",
     "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
@@ -2038,6 +2070,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "se_group_template_ref" : "aeiou",
+  "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
   "azure_configuration" : {
     "subscription_id" : "aeiou",
@@ -2578,6 +2611,12 @@ font-style: italic;
     "service_account_token" : "aeiou",
     "fleet_endpoint" : "aeiou",
     "client_tls_key_and_certificate_ref" : "aeiou",
+    "routes" : [ {
+      "subnet" : "",
+      "if_name" : "aeiou",
+      "nexthop" : "",
+      "network_namespace" : "aeiou"
+    } ],
     "ssh_user_ref" : "aeiou",
     "master_nodes" : [ "aeiou" ],
     "sdn_overlay" : true,
@@ -2587,6 +2626,7 @@ font-style: italic;
     } ],
     "override_service_ports" : true,
     "auto_assign_fqdn" : true,
+    "persistent_volume_claim" : "aeiou",
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
     "se_deployment_method" : "aeiou",
@@ -2606,10 +2646,13 @@ font-style: italic;
       "operator" : "aeiou"
     } ],
     "routes_share_virtualservice" : true,
+    "se_priority_class" : "aeiou",
     "use_resource_definition_as_ssot" : true,
     "use_scheduling_disabled_nodes" : true,
     "l4_health_monitoring" : true,
+    "se_namespace" : "aeiou",
     "se_restart_force" : true,
+    "enable_route_ingress_hardening" : true,
     "node_availability_zone_label" : "aeiou",
     "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
@@ -2728,6 +2771,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "se_group_template_ref" : "aeiou",
+  "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
   "azure_configuration" : {
     "subscription_id" : "aeiou",
@@ -3112,6 +3156,12 @@ font-style: italic;
     "service_account_token" : "aeiou",
     "fleet_endpoint" : "aeiou",
     "client_tls_key_and_certificate_ref" : "aeiou",
+    "routes" : [ {
+      "subnet" : "",
+      "if_name" : "aeiou",
+      "nexthop" : "",
+      "network_namespace" : "aeiou"
+    } ],
     "ssh_user_ref" : "aeiou",
     "master_nodes" : [ "aeiou" ],
     "sdn_overlay" : true,
@@ -3121,6 +3171,7 @@ font-style: italic;
     } ],
     "override_service_ports" : true,
     "auto_assign_fqdn" : true,
+    "persistent_volume_claim" : "aeiou",
     "se_include_attributes" : [ "" ],
     "use_service_cluster_ip_as_ew_vip" : true,
     "se_deployment_method" : "aeiou",
@@ -3140,10 +3191,13 @@ font-style: italic;
       "operator" : "aeiou"
     } ],
     "routes_share_virtualservice" : true,
+    "se_priority_class" : "aeiou",
     "use_resource_definition_as_ssot" : true,
     "use_scheduling_disabled_nodes" : true,
     "l4_health_monitoring" : true,
+    "se_namespace" : "aeiou",
     "se_restart_force" : true,
+    "enable_route_ingress_hardening" : true,
     "node_availability_zone_label" : "aeiou",
     "service_port_match_http_service" : true,
     "http_container_ports" : [ "" ],
@@ -3262,6 +3316,7 @@ font-style: italic;
     "username" : "aeiou"
   },
   "se_group_template_ref" : "aeiou",
+  "dns_resolution_on_se" : true,
   "tenant_ref" : "aeiou",
   "azure_configuration" : {
     "subscription_id" : "aeiou",
@@ -3460,6 +3515,7 @@ font-style: italic;
     <li><a href="#Property"><code>Property</code></a></li>
     <li><a href="#ProxyConfiguration"><code>ProxyConfiguration</code></a></li>
     <li><a href="#RancherConfiguration"><code>RancherConfiguration</code></a></li>
+    <li><a href="#RouteInfo"><code>RouteInfo</code></a></li>
     <li><a href="#SSHSeDeployment"><code>SSHSeDeployment</code></a></li>
     <li><a href="#vCenterConfiguration"><code>vCenterConfiguration</code></a></li>
     <li><a href="#vCloudAirConfiguration"><code>vCloudAirConfiguration</code></a></li>
@@ -3559,6 +3615,7 @@ font-style: italic;
 <div class="param">custom_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomTag">array[CustomTag]</a></span> Custom tags for all Avi created resources in the cloud infrastructure. Field introduced in 17.1.5. </div>
 <div class="param">dhcp_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Select the IP address management scheme. </div>
 <div class="param">dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for the cloud. It is a reference to an object of type IpamDnsProviderProfile. </div>
+<div class="param">dns_resolution_on_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, pool member FQDNs are resolved on the Controller. When this is set, pool member FQDNs are instead resolved on Service Engines in this cloud. This is useful in scenarios where pool member FQDNs can only be resolved from Service Engines and not from the Controller. Field introduced in 18.2.6. </div>
 <div class="param">docker_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerConfiguration">DockerConfiguration</a></span> Placeholder for description of property docker_configuration of obj type Cloud field type str  type object </div>
 <div class="param">east_west_dns_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS Profile for East-West services. It is a reference to an object of type IpamDnsProviderProfile. </div>
 <div class="param">east_west_ipam_provider_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile. </div>
@@ -3653,7 +3710,7 @@ font-style: italic;
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for docker registry. Authorized &#39;regular user&#39; password if registry is Openshift integrated registry. </div>
 <div class="param">private (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Set if docker registry is private. Avi controller will not attempt to push SE image to the registry, unless se_repository_push is set. </div>
 <div class="param">registry (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi ServiceEngine repository name. For private registry, it&#39;s registry port/repository, for public registry, it&#39;s registry/repository, for openshift registry, it&#39;s registry port/namespace/repo. </div>
-<div class="param">se_repository_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi Controller will push ServiceEngine image to docker repository. </div>
+<div class="param">se_repository_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi Controller will push ServiceEngine image to docker repository. Field deprecated in 18.2.6. </div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for docker registry. Authorized &#39;regular user&#39; if registry is Openshift integrated registry. </div>
     </div>  <!-- field-items -->
   </div>
@@ -3897,6 +3954,7 @@ font-style: italic;
 <div class="param">docker_registry_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#DockerRegistry">DockerRegistry</a></span> Docker registry for ServiceEngine image. </div>
 <div class="param">east_west_placement_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Match against this prefix when placing east-west VSs on SEs . </div>
 <div class="param">enable_event_subscription (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Kubernetes event subscription. </div>
+<div class="param">enable_route_ingress_hardening (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Knob to turn on adding of HTTP drop rules for host and path combinations in incoming request header, specified as part of Ingress/Route spec. The default state is to enable this behavior. Note  Toggling this knob only affects any new routes/ingresses, existing routes/ingresses present in Avi will continue to function as-is. Field introduced in 18.2.6. </div>
 <div class="param">feproxy_vips_enable_proxy_arp (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable proxy ARP from Host interface for Front End  proxies. </div>
 <div class="param">fleet_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Optional fleet remote endpoint if fleet is used for SE deployment. Field deprecated in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">http_container_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">array[Integer]</a></span> List of container ports that create a HTTP Virtualservice instead of a TCP/UDP VirtualService. Defaults to 80, 8080, 443 and 8443. </div>
@@ -3910,13 +3968,17 @@ font-style: italic;
 <div class="param">nuage_controller (optional)</div><div class="param-desc"><span class="param-type"><a href="#NuageSDNController">NuageSDNController</a></span> Nuage Overlay SDN Controller information. Field deprecated in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">num_shards (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Enables sharding of Routes and Ingresses to this number (if non zero) of virtual services in the admin tenant per SEGroup. Sharding is done by hashing on the namespace of the Ingress/Route object. This knob is valid only if shared_virtualservice_namespace flag is set. Field introduced in 18.2.5. format: int32</div>
 <div class="param">override_service_ports (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3. </div>
+<div class="param">persistent_volume_claim (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Persistent Volume Claim name to be used for persistent storage for Avi service engines. This could be used in scenarios where host based volumes are ephemeral. Refer https //kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims for more details on the usage of this field. Field introduced in 18.2.6. </div>
+<div class="param">routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#RouteInfo">array[RouteInfo]</a></span> Routes support adding routes to a particular namespace routing table in Openshift/K8s cluster. Each route is a combination of subnet and nexthop ip address or nexthop interface name, and a enum type is used to distinguish an entry in the host (default behaviour) or in the container/pod or in other namespace. This knob should be enabled in the following cases  1. Forwarding the network packets to the same network interface from where it came from in the OpenShift/K8s node. 2. OpenShift/K8s Node connected to the Internet via multiple network interfaces on different networks/ISPs.3. Handling North-South traffic originating from with in the node when the default gateway for outgoing traffic of vs is configured.4. Handling the container/pod traffic by adding the routes in the container/pod. Field introduced in 18.2.6. </div>
 <div class="param">routes_share_virtualservice (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1. </div>
 <div class="param">sdn_overlay (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Cluster uses overlay based SDN. Enable this flag if cluster uses a overlay based SDN for OpenShift, Flannel, Weave, Nuage. Disable for routed mode. </div>
 <div class="param">se_deployment_method (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Use SSH/Pod for SE deployment. Enum options - SE_CREATE_FLEET, SE_CREATE_SSH, SE_CREATE_POD. </div>
 <div class="param">se_exclude_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Exclude hosts with attributes for SE creation. </div>
 <div class="param">se_image_pull_secret (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> OpenShift/K8S secret name to be used for private docker repos when deploying SE as a Pod. Reference Link  https //kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/. Field introduced in 17.2.13,18.1.3,18.2.1. </div>
 <div class="param">se_include_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#MesosAttribute">array[MesosAttribute]</a></span> Create SEs just on hosts with include attributes. </div>
+<div class="param">se_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Kubernetes namespace to be used for deploying Avi service engines. This namespace is used to create daemonsets, service accounts, etc. for Avi only use. Setting this value is a disruptive operation and assumes the namespace exists in kubernetes. &#39;default&#39; namespace is picked if this field is unset. Field introduced in 18.2.6. </div>
 <div class="param">se_pod_tolerations (optional)</div><div class="param-desc"><span class="param-type"><a href="#PodToleration">array[PodToleration]</a></span> Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
+<div class="param">se_priority_class (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Priority class for AVI SEs when running as pods. User is expected to have the priority class (with this name) created in Kubernetes, beforehand. If the priority class doesn&#39;t exist while assigning this field, the SE pods may not start. If empty no priority class will be used for deploying SE pods (default behaviour). Field introduced in 18.2.6. </div>
 <div class="param">se_restart_batch_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Restart ServiceEngines by batch on ServiceEngineGroup updates (cpu, memory..etc). Field introduced in 17.2.15, 18.1.5, 18.2.1. format: int32</div>
 <div class="param">se_restart_force (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Restart ServiceEngines forcely if VirtualServices failed to migrate to another SE. Field introduced in 17.2.15, 18.1.5, 18.2.1. </div>
 <div class="param">se_spawn_rate (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> New SE spawn rate per minute. Field deprecated in 17.2.13,18.1.5,18.2.1. format: int32</div>
@@ -4085,6 +4147,15 @@ font-style: italic;
 <div class="param">ssh_user_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud connector user uuid for SSH to hosts. It is a reference to an object of type CloudConnectorUser. Field introduced in 17.1.1. </div>
 <div class="param">use_container_ip_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use container IP address port for pool instead of host IP address hostport. This mode is applicable if the container IP is reachable (not a private NATed IP) from other hosts in a routed environment for containers. </div>
 <div class="param">use_controller_image (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If true, use controller generated SE docker image via fileservice, else use docker repository image as defined by docker_registry_se. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RouteInfo">RouteInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Host interface name. Field introduced in 18.2.6. </div>
+<div class="param">network_namespace (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network Namespace type and is used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6. </div>
+<div class="param">nexthop (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Host nexthop ip address. Field introduced in 18.2.6. </div>
+<div class="param">subnet </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Host subnet address. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
