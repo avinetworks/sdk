@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure analyticsprofile <key> - show analyticsprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -340,6 +340,7 @@ font-style: italic;
     "hs_max_resources_penalty" : 123,
     "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_max_anomaly_penalty" : 123,
+    "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
     "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
     "sensitive_log_profile" : {
@@ -510,6 +511,7 @@ font-style: italic;
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
+  "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
@@ -751,6 +753,7 @@ font-style: italic;
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
+  "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
@@ -932,6 +935,7 @@ font-style: italic;
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
+  "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
@@ -1113,6 +1117,7 @@ font-style: italic;
   "hs_max_resources_penalty" : 123,
   "hs_pscore_traffic_threshold_l4_client" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_max_anomaly_penalty" : 123,
+  "hs_security_tls13_score" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_certscore_expired" : 1.3579000000000001069366817318950779736042022705078125,
   "hs_security_nonpfs_penalty" : 1.3579000000000001069366817318950779736042022705078125,
   "sensitive_log_profile" : {
@@ -1305,6 +1310,7 @@ font-style: italic;
 <div class="param">hs_security_tls10_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.0 encryption protocol. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_tls11_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.1 encryption protocol. Allowed values are 0-5. format: double</div>
 <div class="param">hs_security_tls12_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.2 encryption protocol. Allowed values are 0-5. format: double</div>
+<div class="param">hs_security_tls13_score (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Score assigned when supporting TLS1.3 encryption protocol. Allowed values are 0-5. Field introduced in 18.2.6. format: double</div>
 <div class="param">hs_security_weak_signature_algo_penalty (optional)</div><div class="param-desc"><span class="param-type"><a href="#double">Double</a></span> Penalty for allowing weak signature algorithm(s). Allowed values are 0-5. format: double</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the analytics profile. </div>
 <div class="param">ondemand_metrics_idle_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> This flag sets the time duration of no live data traffic after which Virtual Service metrics processing is suspended. It is applicable only when disable_ondemand_metrics is set to false. Field introduced in 18.1.1. format: int32</div>
