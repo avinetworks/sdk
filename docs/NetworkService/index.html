@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure networkservice <key> - show networkservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -276,6 +276,7 @@ font-style: italic;
       "routing_by_linux_ipstack" : true,
       "floating_intf_ip_se_2" : [ "" ],
       "enable_vip_on_all_interfaces" : true,
+      "graceful_restart" : true,
       "floating_intf_ip" : [ {
         "addr" : "aeiou",
         "type" : "aeiou"
@@ -360,6 +361,7 @@ font-style: italic;
     "routing_by_linux_ipstack" : true,
     "floating_intf_ip_se_2" : [ "" ],
     "enable_vip_on_all_interfaces" : true,
+    "graceful_restart" : true,
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -515,6 +517,7 @@ font-style: italic;
     "routing_by_linux_ipstack" : true,
     "floating_intf_ip_se_2" : [ "" ],
     "enable_vip_on_all_interfaces" : true,
+    "graceful_restart" : true,
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -610,6 +613,7 @@ font-style: italic;
     "routing_by_linux_ipstack" : true,
     "floating_intf_ip_se_2" : [ "" ],
     "enable_vip_on_all_interfaces" : true,
+    "graceful_restart" : true,
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -705,6 +709,7 @@ font-style: italic;
     "routing_by_linux_ipstack" : true,
     "floating_intf_ip_se_2" : [ "" ],
     "enable_vip_on_all_interfaces" : true,
+    "graceful_restart" : true,
     "floating_intf_ip" : [ {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -800,6 +805,7 @@ font-style: italic;
 <div class="param">floating_intf_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> Floating Interface IPs for the RoutingService. Field introduced in 18.2.5. </div>
 <div class="param">floating_intf_ip_se_2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">array[IpAddr]</a></span> If ServiceEngineGroup is configured for Legacy 1+1 Active Standby HA Mode, Floating IP&#39;s will be advertised only by the Active SE in the Pair. Virtual Services in this group must be disabled/enabled for any changes to the Floating IP&#39;s to take effect. Only active SE hosting VS tagged with Active Standby SE 2 Tag will advertise this floating IP when manual load distribution is enabled. Field introduced in 18.2.5. </div>
 <div class="param">flowtable_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#FlowtableProfile">FlowtableProfile</a></span> Routing Service related Flow profile information. Field introduced in 18.2.5. </div>
+<div class="param">graceful_restart (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable graceful restart feature in routing service. For example, BGP. Field introduced in 18.2.6. </div>
 <div class="param">nat_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> NAT policy for outbound NAT functionality. This is done in post-routing. It is a reference to an object of type NatPolicy. Field introduced in 18.2.5. </div>
 <div class="param">routing_by_linux_ipstack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> For IP Routing feature, enabling this knob will fallback to routing through Linux, by default routing is done via Service Engine data-path. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->

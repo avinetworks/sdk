@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure wafpolicypsmgroup <key> - show wafpolicypsmgroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.5</div>
+    <div class="app-desc">Version: 18.2.6</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -877,7 +877,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="WafPSMLocation">WafPSMLocation</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this location. Field introduced in 18.2.3. </div>
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Free-text comment about this location. Field introduced in 18.2.3. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Location index, this is used to determine the order of the locations. Field introduced in 18.2.3. format: int32</div>
 <div class="param">match (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafPSMLocationMatch">WafPSMLocationMatch</a></span> Apply these rules only if the request is matching this description. Field introduced in 18.2.3. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined name for this location, it must be unique in the group. Field introduced in 18.2.3. </div>
@@ -904,7 +904,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="WafPSMRule">WafPSMRule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this rule. Field introduced in 18.2.3. </div>
+      <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Free-text comment about this rule. Field introduced in 18.2.3. </div>
 <div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable this rule. Field introduced in 18.2.3. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rule index, this is used to determine the order of the rules. Field introduced in 18.2.3. format: int32</div>
 <div class="param">match_case (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The field match_value_pattern regular expression is case sensitive. Enum options - SENSITIVE, INSENSITIVE. Field introduced in 18.2.3. </div>
@@ -921,7 +921,7 @@ font-style: italic;
     <h3 class="field-label"><a name="WafPolicyPSMGroup">WafPolicyPSMGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Freetext comment about this group. Field introduced in 18.2.3. </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Free-text comment about this group. Field introduced in 18.2.3. </div>
 <div class="param">enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable this WAF rule group. Field introduced in 18.2.3. </div>
 <div class="param">hit_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If a rule in this group matches the match_value pattern, this action will be executed. Allowed actions are WAF_ACTION_NO_OP and WAF_ACTION_ALLOW_PARAMETER. Enum options - WAF_ACTION_NO_OP, WAF_ACTION_BLOCK, WAF_ACTION_ALLOW_PARAMETER. Field introduced in 18.2.3. </div>
 <div class="param">is_learning_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates that this group is used for learning. Field introduced in 18.2.3. </div>

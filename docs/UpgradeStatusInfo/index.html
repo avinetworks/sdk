@@ -1,0 +1,1426 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Avi UpgradeStatusInfo Object API</title>
+    <style type="text/css">
+      body { 
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+	display: none;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+    </style>
+  </head>
+  <body>
+  <h1>Avi UpgradeStatusInfo Object API</h1>
+    <div class="app-desc">CLI ``` - show upgrade status detail ``` </div>
+    <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
+    <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
+    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+    <ol>
+      <li>HTTP Basic Authentication</li>
+    </ol>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h2>Table of Contents </h2>
+  <div class="method-summary"></div>
+  <ol>
+  <li><a href="#upgradestatusinfoGet"><code><span class="http-method">get</span> /upgradestatusinfo</code></a></li>
+  <li><a href="#upgradestatusinfoPost"><code><span class="http-method">post</span> /upgradestatusinfo</code></a></li>
+  <li><a href="#upgradestatusinfoUuidDelete"><code><span class="http-method">delete</span> /upgradestatusinfo/{uuid}</code></a></li>
+  <li><a href="#upgradestatusinfoUuidGet"><code><span class="http-method">get</span> /upgradestatusinfo/{uuid}</code></a></li>
+  <li><a href="#upgradestatusinfoUuidPatch"><code><span class="http-method">patch</span> /upgradestatusinfo/{uuid}</code></a></li>
+  <li><a href="#upgradestatusinfoUuidPut"><code><span class="http-method">put</span> /upgradestatusinfo/{uuid}</code></a></li>
+  </ol>
+
+  <div class="method"><a name="upgradestatusinfoGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /upgradestatusinfo</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoGet</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">refers_to (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that refers to another Avi resource. Its syntax is refers_to&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all virtual services referring to pool p1 will be refers_to&#x3D;pool:pool_p1_uuid </div><div class="param">referred_by (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by&#x3D;&lt;obj_type&gt;:&lt;obj_uuid&gt;. Eg. get all pools referred_by virtual service vs1 - referred_by&#x3D;virtualservice:vs_vs1_uuid </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UpgradeStatusInfoApiResponse">UpgradeStatusInfoApiResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "count" : 123,
+  "results" : [ {
+    "image_ref" : "aeiou",
+    "upgrade_events" : [ {
+      "task" : "aeiou",
+      "nodes_events" : [ {
+        "duration" : 123,
+        "start_time" : "aeiou",
+        "ip" : {
+          "addr" : "aeiou",
+          "type" : "aeiou"
+        },
+        "end_time" : "aeiou",
+        "message" : "aeiou",
+        "status" : true
+      } ]
+    } ],
+    "enable_rollback" : true,
+    "enqueue_time" : "aeiou",
+    "patch_image_ref" : "aeiou",
+    "seg_status" : {
+      "disrupted_vs_ref" : [ "aeiou" ],
+      "num_se_with_no_vs" : 123,
+      "reason" : [ "aeiou" ],
+      "enqueue_time" : "aeiou",
+      "notes" : [ "aeiou" ],
+      "se_upgrade_suspended" : [ "aeiou" ],
+      "se_upgrade_in_progress" : [ "aeiou" ],
+      "vs_scalein_in_progress_ref" : [ "aeiou" ],
+      "se_already_upgraded_at_start" : [ "aeiou" ],
+      "se_group_uuid" : "aeiou",
+      "se_reboot_in_progress_ref" : "aeiou",
+      "num_vs" : 123,
+      "vs_migrate_in_progress_ref" : [ "aeiou" ],
+      "se_upgrade_completed" : [ "aeiou" ],
+      "se_upgrade_errors" : [ "" ],
+      "duration" : "aeiou",
+      "in_progress" : true,
+      "request_time" : "aeiou",
+      "ha_mode" : "aeiou",
+      "se_ip_missing_at_start" : [ "aeiou" ],
+      "controller_version" : "aeiou",
+      "num_se_with_vs_not_scaledout" : 123,
+      "vs_scaleout_in_progress_ref" : [ "aeiou" ],
+      "num_vs_disrupted" : 123,
+      "traffic_status" : "aeiou",
+      "se_poweredoff_at_start" : [ "aeiou" ],
+      "vs_errors" : [ {
+        "reason" : [ "aeiou" ],
+        "se_group_ha_mode" : "aeiou",
+        "tenant_ref" : "aeiou",
+        "traffic_status" : "aeiou",
+        "vip_id" : "aeiou",
+        "vs_ref" : "aeiou",
+        "se_group_ref" : "aeiou"
+      } ],
+      "state" : "aeiou",
+      "worker" : "aeiou",
+      "se_group_name" : "aeiou",
+      "end_time" : "aeiou",
+      "se_with_vs_scaledout" : [ "aeiou" ],
+      "thread" : "aeiou",
+      "se_disconnected_at_start" : [ "aeiou" ],
+      "start_time" : "aeiou",
+      "num_se" : 123,
+      "se_upgrade_not_started" : [ "aeiou" ],
+      "se_upgrade_skip_suspended" : [ "aeiou" ],
+      "num_se_with_vs_scaledout" : 123,
+      "tenant_ref" : "aeiou",
+      "se_upgrade_failed" : [ "aeiou" ],
+      "se_with_vs_not_scaledout" : [ "aeiou" ],
+      "progress" : 123,
+      "se_with_no_vs" : [ "aeiou" ]
+    },
+    "total_tasks" : 123,
+    "uuid" : "aeiou",
+    "_last_modified" : "aeiou",
+    "se_upgrade_events" : [ {
+      "reason" : [ "aeiou" ],
+      "from_se_ref" : "aeiou",
+      "num_se" : 123,
+      "se_group_ha_mode" : "aeiou",
+      "task" : "aeiou",
+      "to_se_ref" : "aeiou",
+      "num_se_group" : 123,
+      "traffic_status" : "aeiou",
+      "vs_ref" : "aeiou",
+      "num_vs" : 123,
+      "se_group_ref" : "aeiou",
+      "se_ref" : "aeiou"
+    } ],
+    "duration" : 123,
+    "node_type" : "aeiou",
+    "previous_version" : "aeiou",
+    "previous_patch_version" : "aeiou",
+    "state" : {
+      "reason" : "aeiou",
+      "last_changed_time" : {
+        "usecs" : 123456789,
+        "secs" : 123456789
+      },
+      "state" : "aeiou"
+    },
+    "upgrade_ops" : "aeiou",
+    "patch_version" : "aeiou",
+    "obj_cloud_ref" : "aeiou",
+    "previous_patch_image_ref" : "aeiou",
+    "end_time" : "aeiou",
+    "params" : {
+      "image_ref" : "aeiou",
+      "patch_ref" : "aeiou",
+      "se_group_resume_options" : {
+        "action_on_error" : "aeiou",
+        "skip_suspended" : true
+      },
+      "se_group_options" : {
+        "action_on_error" : "aeiou",
+        "disruptive" : true
+      }
+    },
+    "previous_image_ref" : "aeiou",
+    "version" : "aeiou",
+    "url" : "aeiou",
+    "start_time" : "aeiou",
+    "system" : true,
+    "tasks_completed" : 123,
+    "tenant_ref" : "aeiou",
+    "name" : "aeiou",
+    "enable_patch_rollback" : true
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UpgradeStatusInfoApiResponse">UpgradeStatusInfoApiResponse</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="upgradestatusinfoPost"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /upgradestatusinfo</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoPost</span>)</div>
+    <div class="method-notes"></div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; UpgradeStatusInfo object creation </div>
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "image_ref" : "aeiou",
+  "upgrade_events" : [ {
+    "task" : "aeiou",
+    "nodes_events" : [ {
+      "duration" : 123,
+      "start_time" : "aeiou",
+      "ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "end_time" : "aeiou",
+      "message" : "aeiou",
+      "status" : true
+    } ]
+  } ],
+  "enable_rollback" : true,
+  "enqueue_time" : "aeiou",
+  "patch_image_ref" : "aeiou",
+  "seg_status" : {
+    "disrupted_vs_ref" : [ "aeiou" ],
+    "num_se_with_no_vs" : 123,
+    "reason" : [ "aeiou" ],
+    "enqueue_time" : "aeiou",
+    "notes" : [ "aeiou" ],
+    "se_upgrade_suspended" : [ "aeiou" ],
+    "se_upgrade_in_progress" : [ "aeiou" ],
+    "vs_scalein_in_progress_ref" : [ "aeiou" ],
+    "se_already_upgraded_at_start" : [ "aeiou" ],
+    "se_group_uuid" : "aeiou",
+    "se_reboot_in_progress_ref" : "aeiou",
+    "num_vs" : 123,
+    "vs_migrate_in_progress_ref" : [ "aeiou" ],
+    "se_upgrade_completed" : [ "aeiou" ],
+    "se_upgrade_errors" : [ "" ],
+    "duration" : "aeiou",
+    "in_progress" : true,
+    "request_time" : "aeiou",
+    "ha_mode" : "aeiou",
+    "se_ip_missing_at_start" : [ "aeiou" ],
+    "controller_version" : "aeiou",
+    "num_se_with_vs_not_scaledout" : 123,
+    "vs_scaleout_in_progress_ref" : [ "aeiou" ],
+    "num_vs_disrupted" : 123,
+    "traffic_status" : "aeiou",
+    "se_poweredoff_at_start" : [ "aeiou" ],
+    "vs_errors" : [ {
+      "reason" : [ "aeiou" ],
+      "se_group_ha_mode" : "aeiou",
+      "tenant_ref" : "aeiou",
+      "traffic_status" : "aeiou",
+      "vip_id" : "aeiou",
+      "vs_ref" : "aeiou",
+      "se_group_ref" : "aeiou"
+    } ],
+    "state" : "aeiou",
+    "worker" : "aeiou",
+    "se_group_name" : "aeiou",
+    "end_time" : "aeiou",
+    "se_with_vs_scaledout" : [ "aeiou" ],
+    "thread" : "aeiou",
+    "se_disconnected_at_start" : [ "aeiou" ],
+    "start_time" : "aeiou",
+    "num_se" : 123,
+    "se_upgrade_not_started" : [ "aeiou" ],
+    "se_upgrade_skip_suspended" : [ "aeiou" ],
+    "num_se_with_vs_scaledout" : 123,
+    "tenant_ref" : "aeiou",
+    "se_upgrade_failed" : [ "aeiou" ],
+    "se_with_vs_not_scaledout" : [ "aeiou" ],
+    "progress" : 123,
+    "se_with_no_vs" : [ "aeiou" ]
+  },
+  "total_tasks" : 123,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_upgrade_events" : [ {
+    "reason" : [ "aeiou" ],
+    "from_se_ref" : "aeiou",
+    "num_se" : 123,
+    "se_group_ha_mode" : "aeiou",
+    "task" : "aeiou",
+    "to_se_ref" : "aeiou",
+    "num_se_group" : 123,
+    "traffic_status" : "aeiou",
+    "vs_ref" : "aeiou",
+    "num_vs" : 123,
+    "se_group_ref" : "aeiou",
+    "se_ref" : "aeiou"
+  } ],
+  "duration" : 123,
+  "node_type" : "aeiou",
+  "previous_version" : "aeiou",
+  "previous_patch_version" : "aeiou",
+  "state" : {
+    "reason" : "aeiou",
+    "last_changed_time" : {
+      "usecs" : 123456789,
+      "secs" : 123456789
+    },
+    "state" : "aeiou"
+  },
+  "upgrade_ops" : "aeiou",
+  "patch_version" : "aeiou",
+  "obj_cloud_ref" : "aeiou",
+  "previous_patch_image_ref" : "aeiou",
+  "end_time" : "aeiou",
+  "params" : {
+    "image_ref" : "aeiou",
+    "patch_ref" : "aeiou",
+    "se_group_resume_options" : {
+      "action_on_error" : "aeiou",
+      "skip_suspended" : true
+    },
+    "se_group_options" : {
+      "action_on_error" : "aeiou",
+      "disruptive" : true
+    }
+  },
+  "previous_image_ref" : "aeiou",
+  "version" : "aeiou",
+  "url" : "aeiou",
+  "start_time" : "aeiou",
+  "system" : true,
+  "tasks_completed" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "enable_patch_rollback" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="upgradestatusinfoUuidDelete"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /upgradestatusinfo/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoUuidDelete</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    object deleted
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    not found
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="upgradestatusinfoUuidGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /upgradestatusinfo/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoUuidGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div><div class="param">fields (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned. </div><div class="param">include_name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object. </div><div class="param">skip_default (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Default values are not set. </div><div class="param">join_subresources (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; It automatically returns additional dependent resources like runtime. Eg. join_subresources&#x3D;runtime. </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "image_ref" : "aeiou",
+  "upgrade_events" : [ {
+    "task" : "aeiou",
+    "nodes_events" : [ {
+      "duration" : 123,
+      "start_time" : "aeiou",
+      "ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "end_time" : "aeiou",
+      "message" : "aeiou",
+      "status" : true
+    } ]
+  } ],
+  "enable_rollback" : true,
+  "enqueue_time" : "aeiou",
+  "patch_image_ref" : "aeiou",
+  "seg_status" : {
+    "disrupted_vs_ref" : [ "aeiou" ],
+    "num_se_with_no_vs" : 123,
+    "reason" : [ "aeiou" ],
+    "enqueue_time" : "aeiou",
+    "notes" : [ "aeiou" ],
+    "se_upgrade_suspended" : [ "aeiou" ],
+    "se_upgrade_in_progress" : [ "aeiou" ],
+    "vs_scalein_in_progress_ref" : [ "aeiou" ],
+    "se_already_upgraded_at_start" : [ "aeiou" ],
+    "se_group_uuid" : "aeiou",
+    "se_reboot_in_progress_ref" : "aeiou",
+    "num_vs" : 123,
+    "vs_migrate_in_progress_ref" : [ "aeiou" ],
+    "se_upgrade_completed" : [ "aeiou" ],
+    "se_upgrade_errors" : [ "" ],
+    "duration" : "aeiou",
+    "in_progress" : true,
+    "request_time" : "aeiou",
+    "ha_mode" : "aeiou",
+    "se_ip_missing_at_start" : [ "aeiou" ],
+    "controller_version" : "aeiou",
+    "num_se_with_vs_not_scaledout" : 123,
+    "vs_scaleout_in_progress_ref" : [ "aeiou" ],
+    "num_vs_disrupted" : 123,
+    "traffic_status" : "aeiou",
+    "se_poweredoff_at_start" : [ "aeiou" ],
+    "vs_errors" : [ {
+      "reason" : [ "aeiou" ],
+      "se_group_ha_mode" : "aeiou",
+      "tenant_ref" : "aeiou",
+      "traffic_status" : "aeiou",
+      "vip_id" : "aeiou",
+      "vs_ref" : "aeiou",
+      "se_group_ref" : "aeiou"
+    } ],
+    "state" : "aeiou",
+    "worker" : "aeiou",
+    "se_group_name" : "aeiou",
+    "end_time" : "aeiou",
+    "se_with_vs_scaledout" : [ "aeiou" ],
+    "thread" : "aeiou",
+    "se_disconnected_at_start" : [ "aeiou" ],
+    "start_time" : "aeiou",
+    "num_se" : 123,
+    "se_upgrade_not_started" : [ "aeiou" ],
+    "se_upgrade_skip_suspended" : [ "aeiou" ],
+    "num_se_with_vs_scaledout" : 123,
+    "tenant_ref" : "aeiou",
+    "se_upgrade_failed" : [ "aeiou" ],
+    "se_with_vs_not_scaledout" : [ "aeiou" ],
+    "progress" : 123,
+    "se_with_no_vs" : [ "aeiou" ]
+  },
+  "total_tasks" : 123,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_upgrade_events" : [ {
+    "reason" : [ "aeiou" ],
+    "from_se_ref" : "aeiou",
+    "num_se" : 123,
+    "se_group_ha_mode" : "aeiou",
+    "task" : "aeiou",
+    "to_se_ref" : "aeiou",
+    "num_se_group" : 123,
+    "traffic_status" : "aeiou",
+    "vs_ref" : "aeiou",
+    "num_vs" : 123,
+    "se_group_ref" : "aeiou",
+    "se_ref" : "aeiou"
+  } ],
+  "duration" : 123,
+  "node_type" : "aeiou",
+  "previous_version" : "aeiou",
+  "previous_patch_version" : "aeiou",
+  "state" : {
+    "reason" : "aeiou",
+    "last_changed_time" : {
+      "usecs" : 123456789,
+      "secs" : 123456789
+    },
+    "state" : "aeiou"
+  },
+  "upgrade_ops" : "aeiou",
+  "patch_version" : "aeiou",
+  "obj_cloud_ref" : "aeiou",
+  "previous_patch_image_ref" : "aeiou",
+  "end_time" : "aeiou",
+  "params" : {
+    "image_ref" : "aeiou",
+    "patch_ref" : "aeiou",
+    "se_group_resume_options" : {
+      "action_on_error" : "aeiou",
+      "skip_suspended" : true
+    },
+    "se_group_options" : {
+      "action_on_error" : "aeiou",
+      "disruptive" : true
+    }
+  },
+  "previous_image_ref" : "aeiou",
+  "version" : "aeiou",
+  "url" : "aeiou",
+  "start_time" : "aeiou",
+  "system" : true,
+  "tasks_completed" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "enable_patch_rollback" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="upgradestatusinfoUuidPatch"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="patch"><code class="huge"><span class="http-method">patch</span> /upgradestatusinfo/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoUuidPatch</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; UpgradeStatusInfo object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "image_ref" : "aeiou",
+  "upgrade_events" : [ {
+    "task" : "aeiou",
+    "nodes_events" : [ {
+      "duration" : 123,
+      "start_time" : "aeiou",
+      "ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "end_time" : "aeiou",
+      "message" : "aeiou",
+      "status" : true
+    } ]
+  } ],
+  "enable_rollback" : true,
+  "enqueue_time" : "aeiou",
+  "patch_image_ref" : "aeiou",
+  "seg_status" : {
+    "disrupted_vs_ref" : [ "aeiou" ],
+    "num_se_with_no_vs" : 123,
+    "reason" : [ "aeiou" ],
+    "enqueue_time" : "aeiou",
+    "notes" : [ "aeiou" ],
+    "se_upgrade_suspended" : [ "aeiou" ],
+    "se_upgrade_in_progress" : [ "aeiou" ],
+    "vs_scalein_in_progress_ref" : [ "aeiou" ],
+    "se_already_upgraded_at_start" : [ "aeiou" ],
+    "se_group_uuid" : "aeiou",
+    "se_reboot_in_progress_ref" : "aeiou",
+    "num_vs" : 123,
+    "vs_migrate_in_progress_ref" : [ "aeiou" ],
+    "se_upgrade_completed" : [ "aeiou" ],
+    "se_upgrade_errors" : [ "" ],
+    "duration" : "aeiou",
+    "in_progress" : true,
+    "request_time" : "aeiou",
+    "ha_mode" : "aeiou",
+    "se_ip_missing_at_start" : [ "aeiou" ],
+    "controller_version" : "aeiou",
+    "num_se_with_vs_not_scaledout" : 123,
+    "vs_scaleout_in_progress_ref" : [ "aeiou" ],
+    "num_vs_disrupted" : 123,
+    "traffic_status" : "aeiou",
+    "se_poweredoff_at_start" : [ "aeiou" ],
+    "vs_errors" : [ {
+      "reason" : [ "aeiou" ],
+      "se_group_ha_mode" : "aeiou",
+      "tenant_ref" : "aeiou",
+      "traffic_status" : "aeiou",
+      "vip_id" : "aeiou",
+      "vs_ref" : "aeiou",
+      "se_group_ref" : "aeiou"
+    } ],
+    "state" : "aeiou",
+    "worker" : "aeiou",
+    "se_group_name" : "aeiou",
+    "end_time" : "aeiou",
+    "se_with_vs_scaledout" : [ "aeiou" ],
+    "thread" : "aeiou",
+    "se_disconnected_at_start" : [ "aeiou" ],
+    "start_time" : "aeiou",
+    "num_se" : 123,
+    "se_upgrade_not_started" : [ "aeiou" ],
+    "se_upgrade_skip_suspended" : [ "aeiou" ],
+    "num_se_with_vs_scaledout" : 123,
+    "tenant_ref" : "aeiou",
+    "se_upgrade_failed" : [ "aeiou" ],
+    "se_with_vs_not_scaledout" : [ "aeiou" ],
+    "progress" : 123,
+    "se_with_no_vs" : [ "aeiou" ]
+  },
+  "total_tasks" : 123,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_upgrade_events" : [ {
+    "reason" : [ "aeiou" ],
+    "from_se_ref" : "aeiou",
+    "num_se" : 123,
+    "se_group_ha_mode" : "aeiou",
+    "task" : "aeiou",
+    "to_se_ref" : "aeiou",
+    "num_se_group" : 123,
+    "traffic_status" : "aeiou",
+    "vs_ref" : "aeiou",
+    "num_vs" : 123,
+    "se_group_ref" : "aeiou",
+    "se_ref" : "aeiou"
+  } ],
+  "duration" : 123,
+  "node_type" : "aeiou",
+  "previous_version" : "aeiou",
+  "previous_patch_version" : "aeiou",
+  "state" : {
+    "reason" : "aeiou",
+    "last_changed_time" : {
+      "usecs" : 123456789,
+      "secs" : 123456789
+    },
+    "state" : "aeiou"
+  },
+  "upgrade_ops" : "aeiou",
+  "patch_version" : "aeiou",
+  "obj_cloud_ref" : "aeiou",
+  "previous_patch_image_ref" : "aeiou",
+  "end_time" : "aeiou",
+  "params" : {
+    "image_ref" : "aeiou",
+    "patch_ref" : "aeiou",
+    "se_group_resume_options" : {
+      "action_on_error" : "aeiou",
+      "skip_suspended" : true
+    },
+    "se_group_options" : {
+      "action_on_error" : "aeiou",
+      "disruptive" : true
+    }
+  },
+  "previous_image_ref" : "aeiou",
+  "version" : "aeiou",
+  "url" : "aeiou",
+  "start_time" : "aeiou",
+  "system" : true,
+  "tasks_completed" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "enable_patch_rollback" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="upgradestatusinfoUuidPut"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /upgradestatusinfo/{uuid}</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">upgradestatusinfoUuidPut</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">body (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash; UpgradeStatusInfo object creation </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">name (optional)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; object name </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "image_ref" : "aeiou",
+  "upgrade_events" : [ {
+    "task" : "aeiou",
+    "nodes_events" : [ {
+      "duration" : 123,
+      "start_time" : "aeiou",
+      "ip" : {
+        "addr" : "aeiou",
+        "type" : "aeiou"
+      },
+      "end_time" : "aeiou",
+      "message" : "aeiou",
+      "status" : true
+    } ]
+  } ],
+  "enable_rollback" : true,
+  "enqueue_time" : "aeiou",
+  "patch_image_ref" : "aeiou",
+  "seg_status" : {
+    "disrupted_vs_ref" : [ "aeiou" ],
+    "num_se_with_no_vs" : 123,
+    "reason" : [ "aeiou" ],
+    "enqueue_time" : "aeiou",
+    "notes" : [ "aeiou" ],
+    "se_upgrade_suspended" : [ "aeiou" ],
+    "se_upgrade_in_progress" : [ "aeiou" ],
+    "vs_scalein_in_progress_ref" : [ "aeiou" ],
+    "se_already_upgraded_at_start" : [ "aeiou" ],
+    "se_group_uuid" : "aeiou",
+    "se_reboot_in_progress_ref" : "aeiou",
+    "num_vs" : 123,
+    "vs_migrate_in_progress_ref" : [ "aeiou" ],
+    "se_upgrade_completed" : [ "aeiou" ],
+    "se_upgrade_errors" : [ "" ],
+    "duration" : "aeiou",
+    "in_progress" : true,
+    "request_time" : "aeiou",
+    "ha_mode" : "aeiou",
+    "se_ip_missing_at_start" : [ "aeiou" ],
+    "controller_version" : "aeiou",
+    "num_se_with_vs_not_scaledout" : 123,
+    "vs_scaleout_in_progress_ref" : [ "aeiou" ],
+    "num_vs_disrupted" : 123,
+    "traffic_status" : "aeiou",
+    "se_poweredoff_at_start" : [ "aeiou" ],
+    "vs_errors" : [ {
+      "reason" : [ "aeiou" ],
+      "se_group_ha_mode" : "aeiou",
+      "tenant_ref" : "aeiou",
+      "traffic_status" : "aeiou",
+      "vip_id" : "aeiou",
+      "vs_ref" : "aeiou",
+      "se_group_ref" : "aeiou"
+    } ],
+    "state" : "aeiou",
+    "worker" : "aeiou",
+    "se_group_name" : "aeiou",
+    "end_time" : "aeiou",
+    "se_with_vs_scaledout" : [ "aeiou" ],
+    "thread" : "aeiou",
+    "se_disconnected_at_start" : [ "aeiou" ],
+    "start_time" : "aeiou",
+    "num_se" : 123,
+    "se_upgrade_not_started" : [ "aeiou" ],
+    "se_upgrade_skip_suspended" : [ "aeiou" ],
+    "num_se_with_vs_scaledout" : 123,
+    "tenant_ref" : "aeiou",
+    "se_upgrade_failed" : [ "aeiou" ],
+    "se_with_vs_not_scaledout" : [ "aeiou" ],
+    "progress" : 123,
+    "se_with_no_vs" : [ "aeiou" ]
+  },
+  "total_tasks" : 123,
+  "uuid" : "aeiou",
+  "_last_modified" : "aeiou",
+  "se_upgrade_events" : [ {
+    "reason" : [ "aeiou" ],
+    "from_se_ref" : "aeiou",
+    "num_se" : 123,
+    "se_group_ha_mode" : "aeiou",
+    "task" : "aeiou",
+    "to_se_ref" : "aeiou",
+    "num_se_group" : 123,
+    "traffic_status" : "aeiou",
+    "vs_ref" : "aeiou",
+    "num_vs" : 123,
+    "se_group_ref" : "aeiou",
+    "se_ref" : "aeiou"
+  } ],
+  "duration" : 123,
+  "node_type" : "aeiou",
+  "previous_version" : "aeiou",
+  "previous_patch_version" : "aeiou",
+  "state" : {
+    "reason" : "aeiou",
+    "last_changed_time" : {
+      "usecs" : 123456789,
+      "secs" : 123456789
+    },
+    "state" : "aeiou"
+  },
+  "upgrade_ops" : "aeiou",
+  "patch_version" : "aeiou",
+  "obj_cloud_ref" : "aeiou",
+  "previous_patch_image_ref" : "aeiou",
+  "end_time" : "aeiou",
+  "params" : {
+    "image_ref" : "aeiou",
+    "patch_ref" : "aeiou",
+    "se_group_resume_options" : {
+      "action_on_error" : "aeiou",
+      "skip_suspended" : true
+    },
+    "se_group_options" : {
+      "action_on_error" : "aeiou",
+      "disruptive" : true
+    }
+  },
+  "previous_image_ref" : "aeiou",
+  "version" : "aeiou",
+  "url" : "aeiou",
+  "start_time" : "aeiou",
+  "system" : true,
+  "tasks_completed" : 123,
+  "tenant_ref" : "aeiou",
+  "name" : "aeiou",
+  "enable_patch_rollback" : true
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#UpgradeStatusInfo">UpgradeStatusInfo</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#EventMap"><code>EventMap</code></a></li>
+    <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#SeGroupOptions"><code>SeGroupOptions</code></a></li>
+    <li><a href="#SeGroupResumeOptions"><code>SeGroupResumeOptions</code></a></li>
+    <li><a href="#SeGroupStatus"><code>SeGroupStatus</code></a></li>
+    <li><a href="#SeUpgradeEvents"><code>SeUpgradeEvents</code></a></li>
+    <li><a href="#TimeStamp"><code>TimeStamp</code></a></li>
+    <li><a href="#UpgradeEvent"><code>UpgradeEvent</code></a></li>
+    <li><a href="#UpgradeOpsParam"><code>UpgradeOpsParam</code></a></li>
+    <li><a href="#UpgradeOpsState"><code>UpgradeOpsState</code></a></li>
+    <li><a href="#UpgradeStatusInfo"><code>UpgradeStatusInfo</code></a></li>
+    <li><a href="#UpgradeStatusInfoApiResponse"><code>UpgradeStatusInfoApiResponse</code></a></li>
+    <li><a href="#VsError"><code>VsError</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="EventMap">EventMap</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">nodes_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeEvent">array[UpgradeEvent]</a></span> List of all events node wise. Field introduced in 18.2.6. </div>
+<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, SE_UPGRADE_START, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="IpAddr">IpAddr</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
+<div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeGroupOptions">SeGroupOptions</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action_on_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6. </div>
+<div class="param">disruptive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable non-disruptive mechanism. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeGroupResumeOptions">SeGroupResumeOptions</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action_on_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6. </div>
+<div class="param">skip_suspended (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Skip upgrade on suspended SE(s). Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeGroupStatus">SeGroupStatus</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">controller_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Controller version. Field introduced in 18.2.6. </div>
+<div class="param">disrupted_vs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VirtualService. </div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> duration of SeGroupStatus. </div>
+<div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> end_time of SeGroupStatus. </div>
+<div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> enqueue_time of SeGroupStatus. </div>
+<div class="param">ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
+<div class="param">in_progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> ServiceEngineGroup upgrade in progress. Field introduced in 18.2.6. </div>
+<div class="param">notes (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> notes of SeGroupStatus. </div>
+<div class="param">num_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se. format: int32</div>
+<div class="param">num_se_with_no_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se_with_no_vs. format: int32</div>
+<div class="param">num_se_with_vs_not_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se_with_vs_not_scaledout. format: int32</div>
+<div class="param">num_se_with_vs_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se_with_vs_scaledout. format: int32</div>
+<div class="param">num_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_vs. format: int32</div>
+<div class="param">num_vs_disrupted (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_vs_disrupted. format: int32</div>
+<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of progress. format: int32</div>
+<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> reason of SeGroupStatus. </div>
+<div class="param">request_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> request_time of SeGroupStatus. </div>
+<div class="param">se_already_upgraded_at_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines are already upgraded before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_disconnected_at_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines in disconnected state before starting the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_group_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> se_group_name of SeGroupStatus. </div>
+<div class="param">se_group_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of se_group. </div>
+<div class="param">se_ip_missing_at_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines local ip not present before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_poweredoff_at_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines in poweredoff state before the upgrade. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_reboot_in_progress_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">se_upgrade_completed (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines upgrade completed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_errors (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeUpgradeEvents">array[SeUpgradeEvents]</a></span> ServiceEngineGroup upgrade errors. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_failed (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines upgrade failed. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_in_progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines upgrade in progress. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_not_started (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> ServiceEngines upgrade not started. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_skip_suspended (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Service Engines that were in suspended state and were skipped upon Service Engine Group ugprade resumption. It is a reference to an object of type ServiceEngine. </div>
+<div class="param">se_upgrade_suspended (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Service Engines which triggered Service Engine Group to be in suspended state. It is a reference to an object of type ServiceEngine. </div>
+<div class="param">se_with_no_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">se_with_vs_not_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">se_with_vs_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> start_time of SeGroupStatus. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">thread (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> thread of SeGroupStatus. </div>
+<div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
+<div class="param">vs_errors (optional)</div><div class="param-desc"><span class="param-type"><a href="#VsError">array[VsError]</a></span> VirtualService errors during the SeGroup upgrade. Field introduced in 18.2.6. </div>
+<div class="param">vs_migrate_in_progress_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VirtualService. </div>
+<div class="param">vs_scalein_in_progress_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VirtualService. </div>
+<div class="param">vs_scaleout_in_progress_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type VirtualService. </div>
+<div class="param">worker (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> worker of SeGroupStatus. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeUpgradeEvents">SeUpgradeEvents</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">from_se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">num_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se. format: int32</div>
+<div class="param">num_se_group (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_se_group. format: int32</div>
+<div class="param">num_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of num_vs. format: int32</div>
+<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> reason of SeUpgradeEvents. </div>
+<div class="param">se_group_ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
+<div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
+<div class="param">se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED. </div>
+<div class="param">to_se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
+<div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
+<div class="param">vs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type VirtualService. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="TimeStamp">TimeStamp</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">secs </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of secs. format: int64</div>
+<div class="param">usecs </div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of usecs. format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UpgradeEvent">UpgradeEvent</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time taken to complete upgrade event in seconds. Field introduced in 18.2.6. format: int32</div>
+<div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Task end time. Field introduced in 18.2.6. </div>
+<div class="param">ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ip of the node. Field introduced in 18.2.6. </div>
+<div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade event message if any. Field introduced in 18.2.6. </div>
+<div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Task start time. Field introduced in 18.2.6. </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Upgrade event status. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UpgradeOpsParam">UpgradeOpsParam</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">patch_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying patch. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">se_group_options (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeGroupOptions">SeGroupOptions</a></span> This field identifies SE group options that need to be applied during the upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">se_group_resume_options (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeGroupResumeOptions">SeGroupResumeOptions</a></span> Apply options while resuming SE group upgrade operations. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UpgradeOpsState">UpgradeOpsState</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">last_changed_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time the state changed. Field introduced in 18.2.6. </div>
+<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Descriptive reason for the state-chance. Field introduced in 18.2.6. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UpgradeStatusInfo">UpgradeStatusInfo</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration of upgrade operations in seconds. Field introduced in 18.2.6. format: int32</div>
+<div class="param">enable_patch_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the patch rollback is possible on this node. Field introduced in 18.2.6. </div>
+<div class="param">enable_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the rollback is possible on this node. Field introduced in 18.2.6. </div>
+<div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> End time of upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enqueue time of upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6. </div>
+<div class="param">node_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6. </div>
+<div class="param">obj_cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6. </div>
+<div class="param">params (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsParam">UpgradeOpsParam</a></span> Parameters associated with the current upgrade ops. Field introduced in 18.2.6. </div>
+<div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Current patch version applied to this node. Field introduced in 18.2.6. </div>
+<div class="param">previous_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">previous_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous patch. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">previous_patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous patch version applied to this node. Field introduced in 18.2.6. </div>
+<div class="param">previous_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous version prior to upgrade. Field introduced in 18.2.6. </div>
+<div class="param">se_upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeUpgradeEvents">array[SeUpgradeEvents]</a></span> ServiceEngineGroup upgrade errors. Field introduced in 18.2.6. </div>
+<div class="param">seg_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeGroupStatus">SeGroupStatus</a></span> Detailed SeGroup status. Field introduced in 18.2.6. </div>
+<div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Start time of upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsState">UpgradeOpsState</a></span> Current status of the upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">system (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade. Field introduced in 18.2.6. </div>
+<div class="param">tasks_completed (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade tasks completed. Field introduced in 18.2.6. format: int32</div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6. </div>
+<div class="param">total_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total upgrade tasks. Field introduced in 18.2.6. format: int32</div>
+<div class="param">upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#EventMap">array[EventMap]</a></span> Events performed for upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">upgrade_ops (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6. </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
+<div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6. </div>
+<div class="param">version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Current base image applied to this node. Field introduced in 18.2.6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="UpgradeStatusInfoApiResponse">UpgradeStatusInfoApiResponse</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#UpgradeStatusInfo">array[UpgradeStatusInfo]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="VsError">VsError</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> reason of VsError. </div>
+<div class="param">se_group_ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
+<div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
+<div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
+<div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
+<div class="param">vip_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> vip_id of VsError. </div>
+<div class="param">vs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type VirtualService. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
