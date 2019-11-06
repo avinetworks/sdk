@@ -4,7 +4,12 @@ import copy
 import json
 import logging
 import time
-import urlparse
+
+if sys.version_info < (3, 5):
+    import urlparse
+else:
+    from urllib.parse import urlparse
+
 from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
