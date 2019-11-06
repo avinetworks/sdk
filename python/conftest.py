@@ -27,14 +27,14 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="session",autouse=True)
 def dashboardv2_delete_old_logs(request):
-    print "session level"
+    print("session level")
     os.system("rm -rf %s"%(os.environ.get('WORKSPACE','.')+"/*dashboardv2_tc.log")) #removing all dashboardv2_tc.log before running the tests.
 
 @pytest.mark.hookwrapper
 def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
-    if os.environ.has_key('WORKSPACE'):
+    if 'WORKSPACE' in os.environ:
         workspace = os.environ['WORKSPACE']
         try:
             file_location = ''
