@@ -61,6 +61,9 @@ type OShiftK8SConfiguration struct {
 	// Enable Kubernetes event subscription.
 	EnableEventSubscription *bool `json:"enable_event_subscription,omitempty"`
 
+	// Knob to turn on adding of HTTP drop rules for host and path combinations in incoming request header, specified as part of Ingress/Route spec. The default state is to enable this behavior. Note  Toggling this knob only affects any new routes/ingresses, existing routes/ingresses present in Avi will continue to function as-is. Field introduced in 18.2.6.
+	EnableRouteIngressHardening *bool `json:"enable_route_ingress_hardening,omitempty"`
+
 	// Enable proxy ARP from Host interface for Front End  proxies.
 	FeproxyVipsEnableProxyArp *bool `json:"feproxy_vips_enable_proxy_arp,omitempty"`
 
@@ -100,6 +103,12 @@ type OShiftK8SConfiguration struct {
 	// Override Service Ports with well known ports (80/443) for http/https Route/Ingress VirtualServices. Field introduced in 17.2.12,18.1.3.
 	OverrideServicePorts *bool `json:"override_service_ports,omitempty"`
 
+	// Persistent Volume Claim name to be used for persistent storage for Avi service engines. This could be used in scenarios where host based volumes are ephemeral. Refer https //kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims for more details on the usage of this field. Field introduced in 18.2.6.
+	PersistentVolumeClaim *string `json:"persistent_volume_claim,omitempty"`
+
+	// Routes support adding routes to a particular namespace routing table in Openshift/K8s cluster. Each route is a combination of subnet and nexthop ip address or nexthop interface name, and a enum type is used to distinguish an entry in the host (default behaviour) or in the container/pod or in other namespace. This knob should be enabled in the following cases  1. Forwarding the network packets to the same network interface from where it came from in the OpenShift/K8s node. 2. OpenShift/K8s Node connected to the Internet via multiple network interfaces on different networks/ISPs.3. Handling North-South traffic originating from with in the node when the default gateway for outgoing traffic of vs is configured.4. Handling the container/pod traffic by adding the routes in the container/pod. Field introduced in 18.2.6.
+	Routes []*RouteInfo `json:"routes,omitempty"`
+
 	// Deprecated. Field deprecated in 17.1.9. Field introduced in 17.1.1.
 	RoutesShareVirtualservice *bool `json:"routes_share_virtualservice,omitempty"`
 
@@ -117,6 +126,9 @@ type OShiftK8SConfiguration struct {
 
 	// Create SEs just on hosts with include attributes.
 	SeIncludeAttributes []*MesosAttribute `json:"se_include_attributes,omitempty"`
+
+	// Kubernetes namespace to be used for deploying Avi service engines. This namespace is used to create daemonsets, service accounts, etc. for Avi only use. Setting this value is a disruptive operation and assumes the namespace exists in kubernetes. 'default' namespace is picked if this field is unset. Field introduced in 18.2.6.
+	SeNamespace *string `json:"se_namespace,omitempty"`
 
 	// Match SE Pod tolerations against taints of OpenShift/K8S nodes https //kubernetes.io/docs/concepts/configuration/taint-and-toleration/. Field introduced in 17.2.14, 18.1.5, 18.2.1.
 	SePodTolerations []*PodToleration `json:"se_pod_tolerations,omitempty"`
@@ -174,7 +186,4 @@ type OShiftK8SConfiguration struct {
 
 	// VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.
 	VipDefaultGateway *IPAddr `json:"vip_default_gateway,omitempty"`
-
-	// VirtualService routes if the host has multiple nics in Openshift/K8s cluster. Each route is a combination of subnet and nexthop ip address or nexthop interface name. This knob should be enabled in the following cases  1. Forwarding the network packets to the same network interface from where it came from. 2. OpenShift/K8s Node connected to the Internet via multiple network interfaces on different networks/ISPs.3. Handling North-South traffic originating from with in the node when the default gateway for outgoing traffic of vs is configured. Field introduced in 18.2.6.
-	VipNextHops []*RouteInfo `json:"vip_next_hops,omitempty"`
 }
