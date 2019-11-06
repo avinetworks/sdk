@@ -20,7 +20,10 @@ with open(dummy_file, 'r') as reader:
 ssl_name = 'test_ssl_noname'
 sticky_name = "test_sticky"
 pool_name = "test_farm"
-server_name = "test_server"
+server_name = {
+    "test_server:80": "inservice",
+    "test_server1:80": "inservice"
+}
 health_moniter_name = "test_monitor"
 persistance_moniter_name = "test_persistance"
 port = "test_port"
@@ -51,29 +54,43 @@ class TestModulesAce(unittest2.TestCase):
         }
         self.vrf_ref_data = "/api/vrfcontext/?tenant=admin&name=testvrf1&cloud=Default-Cloud"
         self.pool_obj_app = PoolConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
         self.pool_obj_app_vrf = PoolConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=self.vrf_ref_data)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            cloud_ref=cloud_ref, tenant=tenant, vrf_ref=self.vrf_ref_data)
         self.pool_obj_app_empty = PoolConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
         self.MonitorConvertor_obj_app = MonitorConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, tenant=tenant)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            tenant=tenant)
         self.MonitorConvertor_empty = MonitorConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, tenant=tenant)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            tenant=tenant)
         self.PersistanceConvertor_obj_app = PersistanceConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, tenant=tenant)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            tenant=tenant)
         self.PersistanceConvertor_empty = PersistanceConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, tenant=tenant)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            tenant=tenant)
         self.sslConvertor_obj_app = SSLConverter(
-            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils, in_path=None, tenant=tenant)
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            in_path=None, tenant=tenant)
         self.sslConvertor_empty = SSLConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, in_path=None, tenant=tenant)
-        self.vs = VSConverter(parsed=data, tenant_ref=tenant_ref,
-                              common_utils=self.common_utils, enable_vs=True, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
-        self.vs_vrf = VSConverter(parsed=data, tenant_ref=tenant_ref,
-                                  common_utils=self.common_utils, enable_vs=True, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=self.vrf_ref_data)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            in_path=None, tenant=tenant)
+        self.vs = VSConverter(
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            enable_vs=True, cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+        self.vs_vrf = VSConverter(
+            parsed=data, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            enable_vs=True, cloud_ref=cloud_ref, tenant=tenant,
+            vrf_ref=self.vrf_ref_data)
         self.vs_empty = VSConverter(
-            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils, enable_vs=True,  cloud_ref=cloud_ref, tenant=tenant, vrf_ref=vrf_ref)
+            parsed={}, tenant_ref=tenant_ref, common_utils=self.common_utils,
+            enable_vs=True,  cloud_ref=cloud_ref, tenant=tenant,
+            vrf_ref=vrf_ref)
 
     """ POOL CONVERTERS"""
 
@@ -88,13 +105,15 @@ class TestModulesAce(unittest2.TestCase):
     @pytest.mark.TCID1_48_1551_12_0
     def test_pool_persistance_failure(self):
         self.assertNotEquals("invalid",
-                             self.pool_obj_app.find_app_persistance("invalid", self.data))
+                             self.pool_obj_app.find_app_persistance(
+                                 "invalid", self.data))
 
 
     @pytest.mark.TCID1_48_1551_11_0
     def test_pool_persistance_empty(self):
         self.assertFalse(
-            self.pool_obj_app_empty.find_app_persistance(pool_name, self.empty_data))
+            self.pool_obj_app_empty.find_app_persistance(
+                pool_name, self.empty_data))
 
 
     @pytest.mark.TCID1_48_1551_8_0
@@ -117,7 +136,8 @@ class TestModulesAce(unittest2.TestCase):
 
     @pytest.mark.TCID1_48_1551_9_0
     def test_pool_conversion_with_mutiple_servers(self):
-        self.assertEquals(len(self.pool_obj_app.pool_conversion(self.data)[0]['servers']), 2)
+        self.assertEquals(len(self.pool_obj_app.pool_conversion(
+            self.data)[0]['servers']), 2)
 
 
 
@@ -128,13 +148,15 @@ class TestModulesAce(unittest2.TestCase):
 
     @pytest.mark.TCID1_48_1551_16_0
     def test_server_converter_invalid(self):
-        self.assertFalse(self.pool_obj_app.server_converter("invalid","invalid"))
+        self.assertFalse(self.pool_obj_app.server_converter(
+            {"invalid:80": False,}, "invalid"))
 
 
     @pytest.mark.TCID1_48_1551_15_0
     def test_server_converter_empty(self):
         self.assertNotEquals(
-            self.pool_obj_app_empty.server_converter(server_name, port), server_name, port)
+            self.pool_obj_app_empty.server_converter(
+                server_name, port), server_name, port)
 
 
     @pytest.mark.TCID1_48_1551_14_0
@@ -148,7 +170,8 @@ class TestModulesAce(unittest2.TestCase):
     @pytest.mark.TCID1_48_1551_2_0
     def test_monitor_convertor_true(self):
         """ Giving data and asserting with the expected output """
-        self.assertTrue(self.MonitorConvertor_obj_app.healthmonitor_conversion()[
+        self.assertTrue(
+            self.MonitorConvertor_obj_app.healthmonitor_conversion()[
                         0]['name'], health_moniter_name)
 
 
@@ -160,22 +183,25 @@ class TestModulesAce(unittest2.TestCase):
 
     @pytest.mark.TCID1_48_1551_3_0
     def test_monitor_https_support(self):
-        self.assertEquals(self.MonitorConvertor_obj_app.healthmonitor_conversion()[0]['type'],
-                          'HEALTH_MONITOR_HTTPS')
+        self.assertEquals(
+            self.MonitorConvertor_obj_app.healthmonitor_conversion()[0]['type'],
+            'HEALTH_MONITOR_HTTPS')
 
 
     @pytest.mark.TCID1_48_1551_4_0
     def test_monitor_port_support(self):
-        self.assertTrue('monitor_port' in
-                        self.MonitorConvertor_obj_app.healthmonitor_conversion()[1])
+        self.assertTrue(
+            'monitor_port' in
+            self.MonitorConvertor_obj_app.healthmonitor_conversion()[1])
 
     """ Persistance Converter"""
 
 
     @pytest.mark.TCID1_48_1551_6_0
     def test_persistance_convertor_true(self):
-        self.assertTrue(self.PersistanceConvertor_obj_app.app_persistance_conversion()[
-                        0]['name'], persistance_moniter_name)
+        self.assertTrue(
+            self.PersistanceConvertor_obj_app.app_persistance_conversion()
+            [0]['name'], persistance_moniter_name)
 
 
     @pytest.mark.TCID1_48_1551_5_0
