@@ -34,7 +34,7 @@ def dashboardv2_delete_old_logs(request):
 def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
-    if os.environ.has_key('WORKSPACE'):
+    if 'WORKSPACE' in os.environ:
         workspace = os.environ['WORKSPACE']
         try:
             file_location = ''

@@ -6,7 +6,7 @@ import logging
 import time
 
 if sys.version_info < (3, 5):
-    import urlparse
+    from urlparse import urlparse
 else:
     from urllib.parse import urlparse
 
@@ -1016,7 +1016,7 @@ class ApiSession(Session):
         """return uuid/slug from URI"""
         if not uri or '/' not in uri:
             return uri
-        parsed = urlparse.urlparse(uri)
+        parsed = urlparse(uri)
         path = parsed.path
         uuid = os.path.basename(path)
         if '#' in uuid:
