@@ -131,6 +131,9 @@ type ControllerProperties struct {
 	// Number of secure_channel_se_token_timeout.
 	SecureChannelSeTokenTimeout *int32 `json:"secure_channel_se_token_timeout,omitempty"`
 
+	// Pool of SCP connections used in copy task during serviceenginegroup upgrade. Field introduced in 18.2.6.
+	SeupgradeCopyPoolSize *int32 `json:"seupgrade_copy_pool_size,omitempty"`
+
 	// Pool size used for all fabric commands during se upgrade.
 	SeupgradeFabricPoolSize *int32 `json:"seupgrade_fabric_pool_size,omitempty"`
 

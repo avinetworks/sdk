@@ -67,9 +67,6 @@ type HTTPApplicationProfile struct {
 	// Client requests received via HTTP will be redirected to HTTPS.
 	HTTPToHTTPS *bool `json:"http_to_https,omitempty"`
 
-	// Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 18.2.6.
-	HTTPUpstreamBufferSize *int32 `json:"http_upstream_buffer_size,omitempty"`
-
 	// Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript.
 	HttponlyEnabled *bool `json:"httponly_enabled,omitempty"`
 
