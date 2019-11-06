@@ -320,7 +320,7 @@ class Test(unittest.TestCase):
         for index in range(16):
             shared_sessions.append(index)
         results = p.map(shared_session_check, shared_sessions)
-        print "results :",results
+        print("results :",results)
         for result in results:
              assert result == 200
 
