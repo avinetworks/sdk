@@ -45,6 +45,15 @@ matrix:
       - pytest ./python/avi/sdk/test/test_saml_api.py -m travis --config ./python/avi/sdk/test/test_saml_api.cfg
       - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=70
 
+    - language: python
+      python: "3.5"
+      install:
+      - pip3.5 install pytest==4.4.0 pyyaml requests==2.22.0 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0
+      - export PYTHONPATH=$PWD/python/
+      - echo $PYTHONPATH
+      script:
+      - pytest --cov=./python/avi/sdk/test ./python/avi/sdk/test/test_avi_api.py -m travis --config ./python/avi/sdk/test/test_api.cfg --cov-fail-under=70
+
     - language: go
       go: "1.9"
       python: "2.7"
