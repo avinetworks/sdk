@@ -11,6 +11,9 @@ type CustomerPortalInfo struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Placeholder to decide if user has opted in for auto deployment of CRS data on controller. Field introduced in 20.1.1.
+	CrsAutoDeploy *bool `json:"crs_auto_deploy,omitempty"`
+
 	// Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6.
 	PollingInterval *int32 `json:"polling_interval,omitempty"`
 
