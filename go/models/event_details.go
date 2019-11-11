@@ -172,6 +172,12 @@ type EventDetails struct {
 	// Placeholder for description of property container_cloud_sevice of obj type EventDetails field type str  type object
 	ContainerCloudSevice *ContainerCloudService `json:"container_cloud_sevice,omitempty"`
 
+	// Placeholder for description of property crs_deployment_failure of obj type EventDetails field type str  type object
+	CrsDeploymentFailure *CRSDeploymentFailure `json:"crs_deployment_failure,omitempty"`
+
+	// Placeholder for description of property crs_deployment_success of obj type EventDetails field type str  type object
+	CrsDeploymentSuccess *CRSDeploymentSuccess `json:"crs_deployment_success,omitempty"`
+
 	// Placeholder for description of property cs_infra_details of obj type EventDetails field type str  type object
 	CsInfraDetails *CloudStackSetup `json:"cs_infra_details,omitempty"`
 
