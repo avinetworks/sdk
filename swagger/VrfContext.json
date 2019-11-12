@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -670,13 +670,11 @@
                     "description": "Shutdown the BGP peer. Field introduced in 17.2.4."
                 }, 
                 "hold_time": {
-                    "default": 180, 
                     "type": "integer", 
                     "description": "Hold time for this Peer. Allowed values are 3-7200.", 
                     "format": "int32"
                 }, 
                 "keepalive_interval": {
-                    "default": 60, 
                     "type": "integer", 
                     "description": "Keepalive interval for this Peer. Allowed values are 0-3600.", 
                     "format": "int32"

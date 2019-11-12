@@ -43,7 +43,7 @@ class PolicyConfigConv(object):
             try:
                 LOG.debug("Conversion started for the policy %s", each_policy)
                 tenant, policy_name = conv_utils.get_tenant_ref(each_policy)
-                if tenant_ref != 'admin':
+                if tenant_ref:
                     tenant = tenant_ref
                 if self.prefix:
                     policy_name = '%s-%s' % (self.prefix, policy_name)

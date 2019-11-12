@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ErrorPageProfile Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure errorpageprofile <key>\n- show errorpageprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -526,17 +526,14 @@
                     "description": "url"
                 }, 
                 "company_name": {
-                    "default": "Avi Networks", 
                     "type": "string", 
                     "description": "Name of the company to show in error page. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 }, 
                 "host_name": {
-                    "default": "Host Header", 
                     "type": "string", 
                     "description": "Fully qualified domain name for which the error page is generated. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 }, 
                 "app_name": {
-                    "default": "VS Name", 
                     "type": "string", 
                     "description": "Name of the Virtual Service which generated the error page. Field deprecated in 18.1.1. Field introduced in 17.2.4."
                 }, 

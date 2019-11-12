@@ -76,13 +76,15 @@ def create_ace_grammer():
     # grammer_3_6 = Group(Keyword('passdetect') + Keyword('interval') + num)
     #grammer_3_7 = Group(Keyword('open') + num)
     grammer_3_6 = Group(Keyword('ssl') + Keyword('version') + Keyword('all'))
-    grammer_3_7 = Group(Keyword('request') + Keyword('method') + Keyword('get') + Keyword('url') + Word(printables))
-    grammer_3_8 = Group(Keyword('request') + Keyword('method') + Word(printables))
-    grammer_3_9 = Group(Keyword('header') + Keyword('Host') + Keyword('header-value') + Word(printables))
-    grammer_3 = Group(grammer_3_1 + ZeroOrMore(grammer_3_2 | grammer_3_3 |
-                                               grammer_3_4 | grammer_3_5 |
-                                               grammer_3_6 | grammer_3_7 |
-                                               grammer_3_8 | grammer_3_9 ))
+    grammer_3_7 = Group(Keyword('request') + Keyword('method') + Keyword('get')
+                        + Keyword('url') + Word(printables))
+    grammer_3_8 = Group(Keyword('request') + Keyword('method') +
+                        Word(printables))
+    grammer_3_9 = Group(Keyword('header') + Keyword('Host') +
+                        Keyword('header-value') + Word(printables))
+    grammer_3 = Group(grammer_3_1 + ZeroOrMore(
+        grammer_3_2 | grammer_3_3 | grammer_3_4 | grammer_3_5 | grammer_3_6 |
+        grammer_3_7 | grammer_3_8 | grammer_3_9 ))
 
 
     # grammer 4:
@@ -140,8 +142,8 @@ def create_ace_grammer():
     grammer_5_2 = Group(tcp_key + tcp_type + allow)
     grammer_5_3 = Group(
         Keyword('persistence-rebalance') + Keyword('strict'))
-    grammer_5_4 = Group(Keyword('set') + Keyword('timeout') + Keyword('inactivity') +
-                        Word(nums))
+    grammer_5_4 = Group(Keyword('set') + Keyword('timeout') +
+                        Keyword('inactivity') + Word(nums))
     grammer_5_5 = Group(set + length + num)
     grammer_5_6 = Group(sess_queue + timeout + num)
     grammer_5_7 = Group(Keyword('cipher') + name)
@@ -174,8 +176,8 @@ def create_ace_grammer():
     cookie_val = Keyword('cookie-value')
 
     grammer_6_1 = Group(sticky + ipnetmask + ipaddress +
-                        address + source + sticky_name) | Group(sticky +
-                                                                http_cookie + name + name)
+                        address + source + sticky_name) | Group(
+        sticky + http_cookie + name + name)
     grammer_6_2 = Group(Keyword('serverfarm') + Word(printables))
     grammer_6_3 = Group(Keyword('timeout') + Word(nums))
     grammer_6_4 = Group(Keyword('replicate') + sticky)
@@ -199,11 +201,12 @@ def create_ace_grammer():
     #     2 match virtual-address 127.0.0.1 tcp eq 1234
     #     2 match virtual-address 127.0.0.1 tcp any
     #     2 match http url .*
-
+    description = Keyword('description')
     classmap = Keyword('class-map')
+    ipaddress = Combine(Word(nums) + ('.' + Word(nums)) * 3)
     classmap_type = Keyword('type')
     mgmt = Keyword('management') | (
-        Keyword('http') + Keyword('loadbalance'))
+            Keyword('http') + Keyword('loadbalance'))
     type_key_att = classmap_type + mgmt
     match_key = Keyword('match-any') | Keyword('match-all')
 
@@ -220,16 +223,22 @@ def create_ace_grammer():
         'source-address') | Keyword('destination-address')
     virtual_add = Keyword('virtual-address')
     eq_key = Keyword('eq')
-    eq_val = Keyword('https') | Keyword('www') | Keyword('http') | num
+    eq_val = (Keyword('ftp-data') | Keyword('https') | Keyword('www') |
+              Keyword('http') | Keyword('ftp') | num)
     any_key = Keyword('any')
+    range_key = Keyword('range')
     add_att = Optional(proto) + source_dest + ipaddress + ipaddress
     virt_att = virtual_add + ipaddress + \
-        proto_type + ((eq_key + eq_val) | any_key)
+               proto_type + ((eq_key + eq_val) | any_key |
+                             (range_key + num + num))
+
+    grammer7_3 = Group(description + restOfLine)
 
     grammer7_2 = Group(num + match_key +
                        (add_att | virt_att)) | grammer_url
 
-    grammer_7 = Group(grammer7_1 + ZeroOrMore(grammer7_2))
+    grammer_7 = Group(
+        grammer7_1 + Optional(grammer7_3) + ZeroOrMore(grammer7_2))
 
     # grammer8:
     # policy-map type loadbalance first-match LB_TEST_MAP_1235
@@ -249,10 +258,13 @@ def create_ace_grammer():
 
     policy_key = Keyword('policy-map')
     lb_key = Keyword('loadbalance')
+    http_kw = Keyword('http')
     match = Keyword('first-match') | Keyword('multi-match')
 
     grammer_8_1 = Group(
-        policy_key + Optional(type_key + lb_key) + match + name)
+        policy_key + Optional(
+            type_key + lb_key + Optional(http_kw).ignore(http_kw)) + match +
+        name)
 
     grammer_8_2_1 = Group(Keyword('class') + name)
 
@@ -314,10 +326,9 @@ def create_ace_grammer():
     grammer_9_8 = Group(Keyword('nat-pool') + num + ipaddress + ipaddress +
                         Keyword('netmask') + ipaddress + Keyword('pat'))
 
-    grammer_9 = Group(grammer_9_1 + ZeroOrMore(grammer_9_2 | grammer_9_3 |
-                                               grammer_9_4 | grammer_9_5 |
-                                               grammer_9_6 | grammer_9_7 |
-                                               grammer_9_8))
+    grammer_9 = Group(grammer_9_1 + ZeroOrMore(
+        grammer_9_2 | grammer_9_3 | grammer_9_4 | grammer_9_5 | grammer_9_6 |
+        grammer_9_7 | grammer_9_8))
 
     # grammer 10:
     # ip route 0.0.0.0 0.0.0.0 127.0.0.1
@@ -385,10 +396,9 @@ def create_ace_grammer():
     grammer_ssl_opt = Group(Keyword('ssl') + Keyword('advanced-options') +
                             name)
 
-    grammer_ssl_comp = Group(grammer_ssl + ZeroOrMore(grammer_ssl_key |
-                                                      grammer_ssl_cert |
-                                                      grammer_ssl_chaingroup |
-                                                      grammer_ssl_opt))
+    grammer_ssl_comp = Group(grammer_ssl + ZeroOrMore(
+        grammer_ssl_key | grammer_ssl_cert | grammer_ssl_chaingroup |
+        grammer_ssl_opt))
 
     # Grammer crypto:
     # eg: crypto chaingroup ACME-PROD-CA_CHAINGROUP
@@ -424,9 +434,9 @@ def create_ace_grammer():
     grammer_crypto_7 = Group(Keyword('organization-name') + restOfLine)
     grammer_crypto_8 = Group(Keyword('organization-unit') + name)
     grammer_crypto_9 = Group(Keyword('common-name') + name)
-    grammer_crypto_10 = Group(grammer_crypto_4 + ZeroOrMore(grammer_crypto_5 |
-                                                            grammer_crypto_6 | grammer_crypto_7 | grammer_crypto_8 |
-                                                            grammer_crypto_9))
+    grammer_crypto_10 = Group(grammer_crypto_4 + ZeroOrMore(
+        grammer_crypto_5 | grammer_crypto_6 | grammer_crypto_7 |
+        grammer_crypto_8 | grammer_crypto_9))
 
 
     # aaa authentication login default group TAC_PLUS local
@@ -582,33 +592,34 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 matched[0][1]: matched[0][2],   # getting serverfarm name
                 'desc': []
             }
+            temp_dict = dict()
             for match in matched[1:]:
-                temp_dict = dict()
-                if len(match) < 3:
-                    temp_dict = {
-                        match[0]: match[1]
-                    }
                 # Handled object such as ['rserver', 'ACMENPMOS01', '9217', 'inservice'] or #For Object such as
                 # ['rserver', 'ACMENPMOS02', 'inservice']. Taken care of port is present or not in input
                 # configuration file.
-                elif 'rserver' in match:
+                if 'rserver' == match[0]:
                     if len(match) >= 4:
-                        temp_dict = {
-                            match[0]: match[1],
-                            # if port no is present in configuration.
-                            'port': match[2],
-                            # inservice status
-                            'enabled': match[4] if len(match) > 4 else match[3]
-                        }
+                        enabled = match[4] if len(match) > 4 else match[3]
+                        port = match[2]
+                        if 'rserver' in temp_dict:
+                            temp_dict['rserver'].update({'%s:%s' % (match[1], port): enabled})
+                        else:
+                            temp_dict['rserver'] = {'%s:%s' % (match[1], port): enabled}
                     else:
-                        temp_dict = {
-                            match[0]: match[1],
-                            'enabled': match[2] if len(match)>2 else 'false'
-                        }
-                # Atleast 2 keys must be presents. i.e. rserver keyword and rserver name. If both present then only add
-                # that filed into serverfarm otherwise just ignore.
-                if len(temp_dict.keys()) > 1:
-                    extra_dict['desc'].append(temp_dict)
+                        if len(match) >= 3:
+                            port = match[2]
+                        else:
+                            port = 80
+                        enabled = False
+                        if 'rserver' in temp_dict:
+                            temp_dict['rserver'].update({'%s:%s' % (match[1], port): enabled})
+                        else:
+                            temp_dict['rserver'] = {'%s:%s' % (match[1], port): enabled}
+
+                elif len(match) < 3:
+                    temp_dict[match[0]] = match[1]
+            if len(temp_dict.keys()) > 0:
+                extra_dict['desc'].append(temp_dict)
             LOG.info('parsing: server farm for value : {}'.format(name_to_log))
         if key == 'parameter-map':
             matched = matched[0][0]
@@ -642,7 +653,13 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
             }
             for match in matched[1:]:
                 temp_dict = dict()
-                if len(match) == 7:
+                if len(match) == 8:
+                    temp_dict = {
+                        match[1]: match[0],
+                        match[2]: match[3],
+                        match[4]: '%s-%s' % (match[6], match[7])
+                    }
+                elif len(match) == 7:
                     temp_dict = {
                         match[1]: match[0],
                         match[2]: match[3],
@@ -674,7 +691,7 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
                 name_to_log = matched[0][4]
             else:
                 extra_dict = {
-                    matched[0][0]: matched[0][2],
+                    'name': matched[0][2],
                     'match': matched[0][1],
                     'desc': []
                 }
@@ -866,23 +883,26 @@ class Parser():
             file_size = input_config.tell()
 
         overall_grammer = create_ace_grammer()
-        parsed_ace_config = parse_ace_grammer(overall_grammer, input_data, file_size, out_dict, final_excel, total_parse_count)
+        parsed_ace_config = parse_ace_grammer(overall_grammer, input_data,
+                                              file_size, out_dict, final_excel,
+                                              total_parse_count)
         return parsed_ace_config
 
 
 if __name__ == '__main__':
     s = """
-serverfarm host sfarm_IDST-EXTADRESSBUCH-HTTPS
-  probe probe_L7_IDST-EXTADRESSBUCH-HTTPS
-  fail-on-all
-  rserver rserver_L0550022 443
-    inservice
-  rserver rserver_L0551022 443
+serverfarm host SF-ADFS-HTTPS
+  description ** ADFS Bluecoat HTTPS Server Farm **
+  probe PROBE_TCP:443
+  rserver EU2XAPW030 443
+  rserver EU2XAPW031 443
+  rserver EUHUB02-SG001 443
     inservice
         """
 
     name = Word(printables)
     num = Word(nums)
+    type_key = Word('type')
     serverfarm = Keyword('serverfarm')
     host = Keyword('host')
     grammer_12_1 = Group(serverfarm + host + name)
@@ -892,7 +912,7 @@ serverfarm host sfarm_IDST-EXTADRESSBUCH-HTTPS
     grammer_12_4_1 = Keyword('rserver') + ~Word(
         'host') + name + ZeroOrMore(num)
     grammer_12_4_2 = Keyword('inservice') + Optional(Keyword('standby'))
-    grammer_12_4_3 = Group(Keyword('probe')+ restOfLine)
+    grammer_12_4_3 = Group(Keyword('probe') + restOfLine)
     grammer_12_4_4 = Group(Keyword('backup-rserver') + restOfLine)
 
     grammer_12_4 = Group(grammer_12_4_1 + ZeroOrMore(grammer_12_4_3) +
@@ -900,17 +920,16 @@ serverfarm host sfarm_IDST-EXTADRESSBUCH-HTTPS
                          ZeroOrMore(grammer_12_4_2))
     grammer_12_5 = Group(Keyword('predictor') + Keyword('leastconns') +
                          Keyword('slowstart') + num)
-    # grammer_12_6 = Group(Keyword('description') + printables)
-    # grammer_12_7 = Group(Keyword('predictor') + printables)
     grammer_12_6 = Group(Keyword('description') + restOfLine)
     grammer_12_7 = Group(Keyword('predictor') + restOfLine)
     grammer_12_8 = Group(Keyword('retcode') + restOfLine)
-    grammer_12_9 = Keyword('fail-on-all')
+    grammer_12_9 = Group(Keyword('failaction') + restOfLine)
+    grammer_12_10 = Keyword('fail-on-all')
 
     grammer_12 = Group(grammer_12_1 + ZeroOrMore(
-        grammer_12_2 | grammer_12_2 | grammer_12_3 | grammer_12_4 |
-        grammer_12_5 | grammer_12_6 | grammer_12_7 | grammer_12_8 |
-        grammer_12_9))
+        grammer_12_2 | grammer_12_3 | grammer_12_4 | grammer_12_5 |
+        grammer_12_6 | grammer_12_7 | grammer_12_8 | grammer_12_9 |
+        grammer_12_10))
 
     for match, start, end in grammer_12.scanString(s):
         print match

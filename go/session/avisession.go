@@ -7,6 +7,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/golang/glog"
 	"io"
 	"io/ioutil"
 	"math"
@@ -17,8 +18,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
-	"github.com/golang/glog"
 )
 
 type AviResult struct {
@@ -415,7 +414,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		debug(dump, err)
 		return result, errorResult
 	}
-
 	glog.Infof("Req for uri %v RespCode %v", url, resp.StatusCode)
 
 	errorResult.HttpStatusCode = resp.StatusCode
@@ -797,6 +795,10 @@ func (avisess *AviSession) GetCollectionRaw(uri string, options ...ApiOptionsPar
 	if rerror != nil || res == nil {
 		return result, rerror
 	}
+	if strings.Contains(uri, "cluster?") {
+		result.Results = res
+		result.Count = 1
+	}
 	err = json.Unmarshal(res, &result)
 	return result, err
 }
@@ -1004,6 +1006,9 @@ func (avisess *AviSession) GetObject(obj string, options ...ApiOptionsParams) er
 	res, err := avisess.GetCollectionRaw(uri, options...)
 	if err != nil {
 		return err
+	}
+	if strings.Contains(uri, "cluster?") {
+		return json.Unmarshal(res.Results, &opts.result)
 	}
 	if res.Count == 0 {
 		return errors.New("No object of type " + obj + " with name " + opts.name + "is found")
