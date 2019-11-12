@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NatPolicy Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure natpolicy <key>\n- show natpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -758,11 +758,11 @@
                         "$ref": "#/definitions/NatAddrInfo"
                     }, 
                     "type": "array", 
-                    "description": "Pool of IP Addresses used for Nat. Field introduced in 18.2.3."
+                    "description": "Pool of IP Addresses used for Nat. Field introduced in 18.2.5."
                 }, 
                 "type": {
                     "type": "string", 
-                    "description": "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.3."
+                    "description": "Nat Action Type. Enum options - NAT_POLICY_ACTION_TYPE_DYNAMIC_IP_PORT. Field introduced in 18.2.5."
                 }
             }
         }

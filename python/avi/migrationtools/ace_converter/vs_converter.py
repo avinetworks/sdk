@@ -46,7 +46,6 @@ class VSConverter(object):
                 protocol = 'HTTPS'
                 port = 443
         httppolicyset = {
-            "http_security_policy": [],
             "http_request_policy": {
                 "rules": [
                     {
@@ -97,7 +96,6 @@ class VSConverter(object):
                         type = 'header'
         if type == 'ssl':
             httppolicyset = {
-                "http_security_policy": [],
                 "http_request_policy": {
                     "rules": [
                         {
@@ -119,17 +117,22 @@ class VSConverter(object):
 
     def check_persistance(self, pool_name, data, l4_type=None):
         for index, pool in enumerate(data['Pool']):
-            if pool['name'] == pool_name and (pool.get('application_persistence_profile_ref', '') or l4_type):
+            if pool['name'] == pool_name and (pool.get(
+                    'application_persistence_profile_ref', '') or l4_type):
                 if l4_type:
                     ref_name = pool.get(
                         'application_persistence_profile_ref', '').split(
                         '=')[-1]
                     for app_name in data['ApplicationPersistenceProfile']:
-                        if app_name.get('name') == ref_name:
-                            if app_name.get('persistence_type') != 'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS':
-                                data['Pool'][index]['application_persistence_profile_ref'] = ''
-                                LOG.warning("Removing persistance in Pool because of l4 type"
-                                            "cannot other than client based ip address persistance")
+                        if (app_name.get('name') == ref_name and
+                            app_name.get('persistence_type') !=
+                                'PERSISTENCE_TYPE_CLIENT_IP_ADDRESS'):
+                            data['Pool'][index][
+                                'application_persistence_profile_ref'] = ''
+                            LOG.warning(
+                                "Removing persistance in Pool because of l4 "
+                                "type cannot other than client based ip "
+                                "address persistance")
                 return True
         return False
 
@@ -143,9 +146,10 @@ class VSConverter(object):
                 return cloned_pool
         return False
 
-    def virtual_service_conversion_policy(self, name, data, ssl_profile=None, ssl_cert=None):
+    def virtual_service_conversion_policy(self, name, data, ssl_profile=None,
+                                          ssl_cert=None):
         global USED_POOLS
-        port = None
+        ports = None
         vs_ref = None
         port_end = None
         l4_type = None
@@ -157,20 +161,22 @@ class VSConverter(object):
             temp_vs = dict()
             if policy_map.get('name') == name:
                 name = policy_map['name']
+                LOG.debug("Converting Policy %s" % name)
                 pool = None
                 original_pool_name = None
                 pool_ref = None
                 action = None
-                vs_ref, port, ip, l4_type = self.get_vsref_and_port_from_class(
+                vs_ref, ports, ip, l4_type = self.get_vsref_and_port_from_class(
                     name)
-                if not vs_ref or port is None or not ip:
+                if not vs_ref or not ports or not ip:
                     msg = 'No vsvip, ip-port for policy-map {}'.format(name)
+                    LOG.warn('Skipping VS %s as no vsvip or ip-port found for '
+                             'policy-map' % name)
                     continue
                 # Excel Sheet Update for class
                 update_excel('class-map', name,
                              avi_obj="Refer Policy-map {}".format(name))
 
-                enable_ssl = (True if port == '443' else False)
                 for class_dec in policy_map['desc']:
                     for vsobj in class_dec['class_desc']:
                         if 'action' in vsobj.keys():
@@ -178,11 +184,14 @@ class VSConverter(object):
                         if 'sticky-serverfarm' in vsobj.keys() or\
                                 'serverfarm' in vsobj.keys():
                             if 'sticky-serverfarm' in vsobj.keys():
+                                l4_type = None
                                 stick_farm = vsobj['sticky-serverfarm']
                                 for farm in self.parsed['sticky']:
                                     for farm_desc in farm['desc']:
-                                        if farm_desc.get('serverfarm'):
+                                        if (farm['name'] == stick_farm and
+                                                farm_desc.get('serverfarm')):
                                             pool = farm_desc['serverfarm']
+                                            original_pool_name = pool
                                             break
                             if 'serverfarm' in vsobj.keys():
                                 pool = vsobj['serverfarm']
@@ -203,10 +212,9 @@ class VSConverter(object):
                                         pool = pool_obj['name']
                                 USED_POOLS.append(pool)
 
-                            update_excel('class-map',
-                                         pool,
-                                         avi_obj="Refer "
-                                                 "Class Map : {}".format(name))
+                            update_excel('class-map', pool,
+                                         avi_obj="Refer Class Map : {}".format(
+                                             name))
 
                 # finding the ips for vip
                 ip_list = [ip]
@@ -223,62 +231,109 @@ class VSConverter(object):
                     pool_ref = self.common_utils.get_object_ref(
                         pool, 'pool', tenant=self.tenant,
                         cloud_name=self.cloud)
-                if not pool:
-                    msg = 'No Pool configured for VS {}'.format(name)
-                    # continue
+
                 if action:
+                    l4_type = None
                     http_policy_set = self.create_http_policy(action, name)
-                    http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set.get('name'),
-                                                                       object_type='httppolicyset', tenant=self.tenant)
+                    http_policy_ref = self.common_utils.get_object_ref(
+                        object_name=http_policy_set.get('name'),
+                        object_type='httppolicyset', tenant=self.tenant)
                 else:
-                    for sfarm in self.parsed.get('serverfarm'):
-                        if sfarm['host'] == original_pool_name:
-                            for pools in sfarm['desc']:
-                                temp_pool_name = pools.get('rserver', [])
-                                for servers in self.parsed.get('rserver', []):
-                                    if servers.get('host', []) == temp_pool_name:
-                                        if len(servers) > 0 and len(servers['desc']) > 0 and \
-                                                "code" in servers.get('desc', [])[0].keys():
-                                            http_policy_set = self.create_redirect_http_policy(
-                                                original_pool_name, servers['desc'][0])
-                                            http_policy_ref = self.common_utils.get_object_ref(object_name=http_policy_set['name'],
-                                                                                               object_type='httppolicyset', tenant=self.tenant)
+                    sfarm_o = [sfarm for sfarm in self.parsed.get('serverfarm')
+                               if sfarm['host'] == original_pool_name]
+                    for sfarm in sfarm_o:
+                        for pools in sfarm['desc']:
+                            temp_pool_name = pools.get('rserver', [])
+                            for servers in self.parsed.get('rserver', []):
+                                if (servers.get('host', []) == temp_pool_name
+                                        and len(servers) > 0 and
+                                        len(servers['desc']) > 0 and "code" in
+                                        servers.get('desc', [])[0].keys()):
+                                    http_policy_set = self.create_redirect_http_policy(
+                                        original_pool_name, servers['desc'][0])
+                                    http_policy_ref = self.common_utils.get_object_ref(
+                                        object_name=http_policy_set['name'],
+                                        object_type='httppolicyset', tenant=self.tenant)
+
+                # rules for finding VS is l4 or l7
+                enable_ssl = (True if ssl_profile else False)
+                if 443 in ports and not ssl_cert:
+                    l4_type = 'tcp'
+                    if http_policy_ref:
+                        http_policy_ref = None
+
+                if not pool and not http_policy_ref:
+                    msg = 'No Pool or http policy configured for VS {}'.format(
+                        name)
+                    LOG.warn('Skipped VS %s as no pool or http policy found' %
+                             name)
+                    continue
 
                 temp_vs = {
                     "vsvip_ref": vs_ref,
                     "enabled": False,
                     "vs_datascripts": [],
-                    "vip": vip,
-                    "services": [{
-                        "enable_ssl": enable_ssl,
-                        "port": port,
-                    }],
+                    "services": [],
                     "description": None,
                     "name": name,
                     "cloud_ref": self.cloud_ref,
                     "tenant_ref": self.tenant_ref,
                     "type": "VS_TYPE_NORMAL"
                 }
+
+                for port in ports:
+                    ssl_service = enable_ssl
+                    if enable_ssl and port == 80:
+                        ssl_service = False
+                    if isinstance(port, str) and '-' in port:
+                        service = {
+                            "enable_ssl": ssl_service,
+                            "port": port.split('-')[0],
+                            'port_range_end': port.split('-')[1]
+                        }
+                    else:
+                        service = {
+                            "enable_ssl": ssl_service,
+                            "port": port,
+                        }
+                    temp_vs["services"].append(service)
+
                 if self.segroup:
-                    segroup_ref = self.common_utils.get_object_ref(self.segroup,
-                                                                   'serviceenginegroup',
-                                                                   tenant=self.tenant,
-                                                                   cloud_name=self.cloud)
+                    segroup_ref = self.common_utils.get_object_ref(
+                        self.segroup, 'serviceenginegroup', tenant=self.tenant,
+                        cloud_name=self.cloud)
                     temp_vs['se_group_ref'] = segroup_ref
                 if pool_ref:
                     temp_vs['pool_ref'] = pool_ref
+                nw_ref = None
                 if l4_type:
                     app_ref = self.common_utils.get_object_ref(
-                        'System-L4-Application', 'applicationprofile', tenant='admin')
+                        'System-L4-Application', 'applicationprofile',
+                        tenant='admin')
                     nw_ref = None
                     if l4_type == 'tcp':
                         nw_ref = self.common_utils.get_object_ref(
-                            'System-TCP-Proxy', 'networkprofile', tenant='admin')
+                            'System-TCP-Proxy', 'networkprofile',
+                            tenant='admin')
                     elif l4_type == 'udp':
                         nw_ref = self.common_utils.get_object_ref(
-                            'System-UDP-Fast-Path', 'networkprofile', tenant='admin')
-                    temp_vs['application_profile_ref'] = app_ref
-                    temp_vs['network_profile_ref'] = nw_ref
+                            'System-UDP-Fast-Path', 'networkprofile',
+                            tenant='admin')
+                elif enable_ssl:
+                    app_ref = self.common_utils.get_object_ref(
+                        'System-Secure-HTTP', 'applicationprofile',
+                        tenant='admin')
+                else:
+                    app_ref = self.common_utils.get_object_ref(
+                        'System-HTTP', 'applicationprofile',
+                        tenant='admin')
+                if not nw_ref:
+                    nw_ref = self.common_utils.get_object_ref(
+                        'System-TCP-Proxy', 'networkprofile',
+                        tenant='admin')
+
+                temp_vs['application_profile_ref'] = app_ref
+                temp_vs['network_profile_ref'] = nw_ref
                 if ssl_profile:
                     temp_vs['ssl_profile_ref'] = ssl_profile
                 if ssl_cert:
@@ -286,7 +341,17 @@ class VSConverter(object):
                 if self.vrf_ref:
                     temp_vs['vrf_context_ref'] = self.vrf_ref
                 if http_policy_ref:
-                    temp_vs['http_policy_set_ref'] = http_policy_ref
+                    pol = {
+                        'index': 11,
+                        'http_policy_set_ref': http_policy_ref
+                    }
+                    if not temp_vs.get('http_policies'):
+                        temp_vs['http_policies'] = []
+                    else:
+                        ind = max([pol_index['index'] for pol_index in temp_vs[
+                            'http_policies']])
+                        pol['index'] = ind + 1
+                    temp_vs['http_policies'].append(pol)
                 return temp_vs, pool_obj, http_policy_set, msg
         return False, False, False, msg
 
@@ -298,18 +363,16 @@ class VSConverter(object):
 
         # get the number of vips available
         for class_map in self.parsed.get('class-map', ''):
-            if 'match-all' not in class_map.values() and 'match-any' not in class_map.values():
-                LOG.warning('This type of class map not supported : %s' %
-                            class_map['class-map'])
-                update_excel(
-                    'class-map', class_map['class-map'], status='Skipped', avi_obj='This type of class map not supported')
-                continue
             for address in class_map['desc']:
-                if "source-address" in address or "destination-address" in address:
+                if ("source-address" in address or "destination-address"
+                        in address):
                     LOG.warning(
-                        'source-address or destination-address in class map not supported :%s' % class_map['class-map'])
-                    update_excel('class-map', class_map['class-map'], status='Skipped',
-                                 avi_obj='source-address or destination-address in class map not supported')
+                        'source-address or destination-address in class map not'
+                        ' supported :%s' % class_map['class-map'])
+                    update_excel('class-map', class_map['class-map'],
+                                 status='Skipped',
+                                 avi_obj='source-address or destination-address'
+                                         ' in class map not supported')
                     break
                 if "virtual-address" in address:
                     vip = address['virtual-address']
@@ -338,40 +401,87 @@ class VSConverter(object):
     def get_vsref_and_port_from_class(self, class_name):
         vs_ref = None
         port = None
+        port_list = []
         vs_ip = None
         port_end = None
         l4_type = None
         lb_policy = None
 
         for policy in self.parsed['policy-map']:
-            if policy.get('match') == 'multi-match':
-                for multi in policy['desc']:
-                    for classdesc in multi['class_desc']:
-                        if classdesc.get('loadbalance') == 'policy' and \
-                                classdesc.get('type') == class_name:
-                            lb_policy = multi['class']
+            # if policy.get('match') == 'multi-match':
+            for multi in policy['desc']:
+                for classdesc in multi['class_desc']:
+                    if classdesc.get('loadbalance') == 'policy' and \
+                            classdesc.get('type') == class_name:
+                        lb_policy = multi['class']
 
         if lb_policy:
             for class_map in self.parsed['class-map']:
                 if 'match' in class_map['type'] and class_map[
                         'class-map'] == lb_policy and class_map['desc']:
-                    port = class_map['desc'][0].get(
-                        'tcp', class_map['desc'][0].get('udp', ''))
-                    if 'tcp' in class_map['desc'][0].keys():
-                        l4_type = 'tcp'
-                    if 'udp' in class_map['desc'][0].keys():
-                        l4_type = 'udp'
-                    if port == 'www':
-                        port = 80
-                    if port == 'https':
-                        port = 443
-                    vs_ip = class_map['desc'][0].get('virtual-address', [])
-                    if vs_ip:
-                        vs_ip_temp = '{}-vip'.format(vs_ip)
-                        vs_ref = self.common_utils.get_object_ref(
-                            vs_ip_temp, 'vsvip', tenant=self.tenant,
-                            cloud_name=self.cloud)
-        return vs_ref, port, vs_ip, l4_type
+                    for cmap in class_map['desc']:
+                        port = cmap.get('tcp', cmap.get('udp', 80))
+                        if 'tcp' in cmap.keys():
+                            l4_type = 'tcp'
+                        if 'udp' in cmap.keys():
+                            l4_type = 'udp'
+                        if port == 'ftp':
+                            l4_type = 'tcp'
+                            port = 21
+                        if port == 'ftp-data':
+                            l4_type = 'tcp'
+                            port = 20
+                        if port == 'www':
+                            l4_type = None
+                            port = 80
+                        if port == 'https':
+                            port = 443
+                            l4_type = None
+                        if port not in port_list:
+                            port_list.append(port)
+                        vs_ip = cmap.get('virtual-address', [])
+                        if vs_ip:
+                            vs_ip_temp = '{}-vip'.format(vs_ip)
+                            vs_ref = self.common_utils.get_object_ref(
+                                vs_ip_temp, 'vsvip', tenant=self.tenant,
+                                cloud_name=self.cloud)
+        return vs_ref, port_list, vs_ip, l4_type
+
+    def get_ssl_refs(self, data, cls):
+        policy_name = None
+        ssl = []
+        ssl_cert = []
+        for obj in cls['class_desc']:
+            if obj.get('loadbalance', '') == 'policy':
+                policy_name = obj['type']
+            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if
+                       ssl1.get('name') == obj.get('type') and "ssl-proxy"
+                       in obj.keys()]
+            if ssl_ref:
+                ssl = self.common_utils.get_object_ref(ssl_ref[0], 'sslprofile',
+                                                       tenant=self.tenant)
+                if [cert for cert in data['SSLKeyAndCertificate'] if
+                    cert['name'] == ssl_ref[0]]:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        ssl_ref[0], 'sslkeyandcertificate', tenant=self.tenant)
+                elif [cert for cert in data['SSLKeyAndCertificate'] if
+                      cert['name'] == '%s-dummy' % ssl_ref[0]]:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        '%s-dummy' % ssl_ref[0], 'sslkeyandcertificate',
+                        tenant=self.tenant)
+                else:
+                    ssl_cert = self.common_utils.get_object_ref(
+                        'System-Default-Cert', 'sslkeyandcertificate',
+                        tenant=self.tenant)
+        return policy_name, ssl, ssl_cert
+
+    def get_vs_state(self, cls):
+        state = False
+        for class_dec in cls['class_desc']:
+            if "loadbalance" in class_dec.keys() and (class_dec.get(
+                    'type', []) == 'inservice' and self.enable_vs):
+                state = True
+        return state
 
     def virtual_service_conversion(self, data):
         self.data = data
@@ -380,56 +490,39 @@ class VSConverter(object):
         http_list = list()
 
         for policy_map in self.parsed.get('policy-map', ''):
-            if policy_map.get('match', '') == 'multi-match':
-                update_excel(
-                    'policy-map', policy_map['policy-map'], status='Indirect')
-                for cls in policy_map['desc']:
-                    if cls.get('class', []):
-                        policy_name = None
-                        ssl = []
-                        ssl_cert = []
-                        for obj in cls['class_desc']:
-                            if obj.get('loadbalance', '') == 'policy':
-                                policy_name = obj['type']
-                            ssl_ref = [obj['type'] for ssl1 in data['SSLProfile'] if ssl1.get(
-                                'name') == obj.get('type') and "ssl-proxy" in obj.keys()]
-                            if ssl_ref:
-                                ssl = self.common_utils.get_object_ref(ssl_ref[0],
-                                                                       'sslprofile',
-                                                                       tenant=self.tenant)
-                                ssl_cert = self.common_utils.get_object_ref(ssl_ref[0],
-                                                                            'sslkeyandcertificate',
-                                                                            tenant=self.tenant)
-                        if policy_name:
-                            vs, cloned_pool, http_policy_set, msg = \
-                                self.virtual_service_conversion_policy(
-                                    policy_name, data, ssl_profile=ssl,
-                                    ssl_cert=ssl_cert)
-                            if vs:
-                                vs['enabled'] = False
-                                for class_dec in cls['class_desc']:
-                                    if "loadbalance" in class_dec.keys():
-                                        if class_dec.get('type', []) == 'inservice' and\
-                                           self.enable_vs:
-                                            vs['enabled'] = True
+            LOG.debug("Conversion started for policy-map: %s" %
+                      policy_map.get('name', policy_map.get('policy-map', '')))
+            # if policy_map.get('match', '') == 'multi-match':
+            #     update_excel(
+            #         'policy-map', policy_map['policy-map'], status='Indirect')
+            p_map_class = [cls for cls in policy_map['desc'] if
+                           cls.get('class', [])]
+            for cls in p_map_class:
+                policy_name, ssl, ssl_cert = self.get_ssl_refs(data, cls)
+                if policy_name:
+                    vs, cloned_pool, http_policy_set, msg = \
+                        self.virtual_service_conversion_policy(
+                            policy_name, data, ssl_profile=ssl,
+                            ssl_cert=ssl_cert)
+                    if vs:
+                        vs['enabled'] = self.get_vs_state(cls)
+                        # updating excel sheet
+                        update_excel('policy-map', vs['name'], avi_obj=vs)
 
-                                # updating excel sheet
-                                update_excel(
-                                    'policy-map', vs['name'], avi_obj=vs)
-
-                                # updating object
-                                vs_list.append(vs)
-                                self.port_fix(vs_list)
-                                if cloned_pool:
-                                    cloned_pool_list.append(cloned_pool)
-                                if http_policy_set:
-                                    http_list.append(http_policy_set)
-                            else:
-                                update_excel('policy-map', cls['class'],
-                                             status='Skipped', avi_obj=msg)
-                        else:
-                            update_excel(
-                                'policy-map', cls['class'], status='Skipped', avi_obj='Policy is not in policy\'s class map')
+                        # updating object
+                        vs_list.append(vs)
+                        self.port_fix(vs_list)
+                        if cloned_pool:
+                            cloned_pool_list.append(cloned_pool)
+                        if http_policy_set:
+                            http_list.append(http_policy_set)
+                    else:
+                        update_excel('policy-map', cls['class'],
+                                     status='Skipped', avi_obj=msg)
+                else:
+                    update_excel(
+                        'policy-map', cls['class'], status='Skipped',
+                        avi_obj='Policy is not in policy\'s class map')
         return vs_list, cloned_pool_list, http_list
 
     def port_fix(self, vs_list):

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -613,7 +613,7 @@
                 "status_code": {
                     "default": "HTTP_LOCAL_RESPONSE_STATUS_CODE_429", 
                     "type": "string", 
-                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429."
+                    "description": "HTTP status code for Local Response rate limit action. Enum options - HTTP_LOCAL_RESPONSE_STATUS_CODE_200, HTTP_LOCAL_RESPONSE_STATUS_CODE_204, HTTP_LOCAL_RESPONSE_STATUS_CODE_403, HTTP_LOCAL_RESPONSE_STATUS_CODE_404, HTTP_LOCAL_RESPONSE_STATUS_CODE_429, HTTP_LOCAL_RESPONSE_STATUS_CODE_501."
                 }, 
                 "type": {
                     "default": "RL_ACTION_NONE", 
@@ -671,7 +671,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field introduced in 17.1.6,17.2.2."
+                    "description": "Domain names authoritatively serviced by this Virtual Service. These are configured as Ends-With semantics. Queries for FQDNs that are subdomains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. . Field deprecated in 18.2.6. Field introduced in 17.1.6,17.2.2."
                 }, 
                 "domain_names": {
                     "items": {
@@ -717,6 +717,13 @@
                     "default": "hostmaster", 
                     "type": "string", 
                     "description": "Email address of the administrator responsible for this zone . This field is used in SOA records (rname) pertaining to all domain names specified as authoritative domain names. If not configured, the default value 'hostmaster' is used in SOA responses. Field introduced in 18.2.5."
+                }, 
+                "dns_zones": {
+                    "items": {
+                        "$ref": "#/definitions/DnsZone"
+                    }, 
+                    "type": "array", 
+                    "description": "DNS zones hosted on this Virtual Service. Field introduced in 18.2.6."
                 }
             }
         }, 
@@ -1091,14 +1098,23 @@
                 }
             }
         }, 
-        "SipServiceApplicationProfile": {
+        "DnsZone": {
+            "required": [
+                "domain_name"
+            ], 
             "type": "object", 
             "properties": {
-                "transaction_timeout": {
-                    "default": 32, 
-                    "type": "integer", 
-                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
-                    "format": "int32"
+                "admin_email": {
+                    "type": "string", 
+                    "description": "Email address of the administrator responsible for this zone. This field is used in SOA records as rname (RFC 1035). If not configured, it is inherited from the DNS service profile. Field introduced in 18.2.6."
+                }, 
+                "domain_name": {
+                    "type": "string", 
+                    "description": "Domain name authoritatively serviced by this Virtual Service. Queries for FQDNs that are sub domains of this domain and do not have any DNS record in Avi are dropped or NXDomain response sent. For domains which are present, SOA parameters are sent in answer section of response if query type is SOA. Field introduced in 18.2.6."
+                }, 
+                "name_server": {
+                    "type": "string", 
+                    "description": "The primary name server for this zone. This field is used in SOA records as mname (RFC 1035). If not configured, it is inherited from the DNS service profile. If even that is not configured, the domain name is used instead. Field introduced in 18.2.6."
                 }
             }
         }, 
@@ -1215,6 +1231,17 @@
                 }
             }
         }, 
+        "SipServiceApplicationProfile": {
+            "type": "object", 
+            "properties": {
+                "transaction_timeout": {
+                    "default": 32, 
+                    "type": "integer", 
+                    "description": "SIP transaction timeout in seconds. Allowed values are 2-512. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "ApplicationProfile": {
             "required": [
                 "name", 
@@ -1327,6 +1354,12 @@
                     "description": "Maximum requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.", 
                     "format": "int32"
                 }, 
+                "client_header_timeout": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.", 
+                    "format": "int32"
+                }, 
                 "fwd_close_hdr_for_bound_connections": {
                     "default": true, 
                     "type": "boolean", 
@@ -1350,6 +1383,10 @@
                     "type": "boolean", 
                     "description": "Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP."
                 }, 
+                "compression_profile": {
+                    "description": "HTTP Compression settings to use with this HTTP Profile.", 
+                    "$ref": "#/definitions/CompressionProfile"
+                }, 
                 "websockets_enabled": {
                     "default": true, 
                     "type": "boolean", 
@@ -1358,6 +1395,12 @@
                 "enable_request_body_metrics": {
                     "type": "boolean", 
                     "description": "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1."
+                }, 
+                "max_http2_empty_data_frames_per_connection": {
+                    "default": 1000, 
+                    "type": "integer", 
+                    "description": "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
+                    "format": "int32"
                 }, 
                 "http2_enabled": {
                     "type": "boolean", 
@@ -1383,6 +1426,10 @@
                 "allow_dots_in_header_name": {
                     "type": "boolean", 
                     "description": "Allow use of dot (.) in HTTP header names, for instance Header.app.special  PickAppVersionX."
+                }, 
+                "reset_conn_http_on_ssl_port": {
+                    "type": "boolean", 
+                    "description": "If enabled, an HTTP request on an SSL port will result in connection close instead of a 400 response. Field introduced in 18.2.6."
                 }, 
                 "disable_keepalive_posts_msie6": {
                     "default": true, 
@@ -1448,9 +1495,17 @@
                     "type": "boolean", 
                     "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
                 }, 
-                "compression_profile": {
-                    "description": "HTTP Compression settings to use with this HTTP Profile.", 
-                    "$ref": "#/definitions/CompressionProfile"
+                "max_http2_control_frames_per_connection": {
+                    "default": 1000, 
+                    "type": "integer", 
+                    "description": "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
+                    "format": "int32"
+                }, 
+                "max_http2_concurrent_streams_per_connection": {
+                    "default": 128, 
+                    "type": "integer", 
+                    "description": "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6.", 
+                    "format": "int32"
                 }, 
                 "max_rps_unknown_uri": {
                     "type": "integer", 
@@ -1472,10 +1527,10 @@
                     "type": "boolean", 
                     "description": "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 }, 
-                "client_header_timeout": {
-                    "default": 10000, 
+                "max_http2_queued_frames_to_client_per_connection": {
+                    "default": 1000, 
                     "type": "integer", 
-                    "description": "The maximum length of time allowed for a client to transmit an entire request header. This helps mitigate various forms of SlowLoris attacks. Allowed values are 10-100000000.", 
+                    "description": "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "post_accept_timeout": {

@@ -99,7 +99,7 @@ class DataGroupConfigConv(object):
                 # name = name.split('/')[-1]
                 LOG.debug("Converting datagroup: %s" % name)
                 dg_config = f5_datagroup_dict[key]
-                if tenant_ref != 'admin':
+                if tenant_ref:
                     tenant = tenant_ref
                 if self.prefix:
                     name = '{}-{}'.format(self.prefix, name)

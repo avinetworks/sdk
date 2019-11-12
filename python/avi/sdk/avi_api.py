@@ -4,7 +4,12 @@ import copy
 import json
 import logging
 import time
-import urlparse
+
+if sys.version_info < (3, 5):
+    from urlparse import urlparse
+else:
+    from urllib.parse import urlparse
+
 from datetime import datetime, timedelta
 from requests import ConnectionError
 from requests import Response
@@ -1011,7 +1016,7 @@ class ApiSession(Session):
         """return uuid/slug from URI"""
         if not uri or '/' not in uri:
             return uri
-        parsed = urlparse.urlparse(uri)
+        parsed = urlparse(uri)
         path = parsed.path
         uuid = os.path.basename(path)
         if '#' in uuid:

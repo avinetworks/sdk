@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.5'
+    version: '18.2.6'
     title: Avi SeProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -428,6 +428,11 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
+            vnic_rpc_retry_interval:
+                description: "Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6."
+                type: integer
+                default: 5
+                format: int32
             vnicdb_cmd_history_size:
                 description: "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3."
                 type: integer
@@ -515,7 +520,6 @@ definitions:
             distribute_queues:
                 description: "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
                 type: boolean
-                default: True
             distribute_vnics:
                 description: "Deprecated. Field deprecated in 18.2.5."
                 type: boolean
@@ -606,7 +610,6 @@ definitions:
             se_lro:
                 description: "Deprecated. Field deprecated in 18.2.5."
                 type: integer
-                default: 1
                 format: int32
             se_pcap_pkt_count:
                 description: "Deprecated. Field deprecated in 18.2.5."
@@ -615,27 +618,22 @@ definitions:
             se_pcap_pkt_sz:
                 description: "Deprecated. Field deprecated in 18.2.5."
                 type: integer
-                default: 65536
                 format: int32
             se_rum_sampling_nav_interval:
-                description: "when sampling for navigation timing data from the end user client. minimum time to wait on server between samples."
+                description: "Deprecated. Field deprecated in 18.2.6."
                 type: integer
-                default: 1
                 format: int32
             se_rum_sampling_nav_percent:
-                description: "percentage of navigation timing data to sample from the end user client for client insights."
+                description: "Deprecated. Field deprecated in 18.2.6."
                 type: integer
-                default: 1
                 format: int32
             se_rum_sampling_res_interval:
-                description: "when sampling for resource timing data from the end user client. minimum time to wait on server between samples."
+                description: "Deprecated. Field deprecated in 18.2.6."
                 type: integer
-                default: 2
                 format: int32
             se_rum_sampling_res_percent:
-                description: "percentage of resource timing data to sample from the end user client for client insights."
+                description: "Deprecated. Field deprecated in 18.2.6."
                 type: integer
-                default: 100
                 format: int32
             se_tunnel_mode:
                 description: "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1."
@@ -644,7 +642,6 @@ definitions:
             se_tx_batch_size:
                 description: "Deprecated. Field deprecated in 18.2.5."
                 type: integer
-                default: 64
                 format: int32
             se_use_dpdk:
                 description: "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3."
@@ -1087,22 +1084,18 @@ definitions:
             se_dp_vnic_queue_stall_threshold:
                 description: "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1."
                 type: integer
-                default: 2000
                 format: int32
             se_dp_vnic_queue_stall_timeout:
                 description: "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1."
                 type: integer
-                default: 10000
                 format: int32
             se_dp_vnic_restart_on_queue_stall_count:
                 description: "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1."
                 type: integer
-                default: 3
                 format: int32
             se_dp_vnic_stall_se_restart_window:
                 description: "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1."
                 type: integer
-                default: 3600
                 format: int32
             se_dump_core_on_assert:
                 description: "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1."

@@ -186,4 +186,7 @@ type OShiftK8SConfiguration struct {
 
 	// VirtualService default gateway if multiple nics are present in the host. Field introduced in 18.2.2.
 	VipDefaultGateway *IPAddr `json:"vip_default_gateway,omitempty"`
+
+	// VirtualService routes if the host has multiple nics in Openshift/K8s cluster. Each route is a combination of subnet and nexthop ip address or nexthop interface name. This knob should be enabled in the following cases  1. Forwarding the network packets to the same network interface from where it came from. 2. OpenShift/K8s Node connected to the Internet via multiple network interfaces on different networks/ISPs.3. Handling North-South traffic originating from with in the node when the default gateway for outgoing traffic of vs is configured. Field introduced in 18.2.6.
+	VipNextHops []*RouteInfo `json:"vip_next_hops,omitempty"`
 }

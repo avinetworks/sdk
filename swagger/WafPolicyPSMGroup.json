@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafPolicyPSMGroup Object API", 
-        "version": "18.2.5", 
+        "version": "18.2.6", 
         "description": "CLI\n```\n- configure wafpolicypsmgroup <key>\n- show wafpolicypsmgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -595,7 +595,7 @@
                 }, 
                 "description": {
                     "type": "string", 
-                    "description": "Freetext comment about this group. Field introduced in 18.2.3."
+                    "description": "Free-text comment about this group. Field introduced in 18.2.3."
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -680,7 +680,7 @@
                 }, 
                 "description": {
                     "type": "string", 
-                    "description": "Freetext comment about this rule. Field introduced in 18.2.3."
+                    "description": "Free-text comment about this rule. Field introduced in 18.2.3."
                 }, 
                 "match_value_pattern": {
                     "type": "string", 
@@ -775,7 +775,7 @@
                 }, 
                 "description": {
                     "type": "string", 
-                    "description": "Freetext comment about this location. Field introduced in 18.2.3."
+                    "description": "Free-text comment about this location. Field introduced in 18.2.3."
                 }, 
                 "match": {
                     "description": "Apply these rules only if the request is matching this description. Field introduced in 18.2.3.", 

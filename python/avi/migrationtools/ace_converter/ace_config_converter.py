@@ -21,6 +21,7 @@ class ConfigConverter(object):
     def __init__(self, parsed_output, enable_vs=False, version='17.1.1',
                  input_folder_loc=None, tenant=None, cloud=None, vrf=None, segroup=None):
         """ Create Some common Objects over here """
+        LOG.debug("Config conversion started")
         self.aviobj = AviConverter()
         self.parsed = parsed_output
         self.common_utils = MigrationUtil()

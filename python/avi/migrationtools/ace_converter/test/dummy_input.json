@@ -2,21 +2,12 @@
     "serverfarm": [{
         "host": "test_farm",
         "desc": [{
-                "probe": "test_probe"
-            },
-            {
-                "type": "count",
-                "inband-health": "check"
-            },
-            {
-                "type": "inservice",
-                "rserver": "test_server"
-            },
-
-            {
-                "type": "inservice",
-                "rserver": "test_server1"
-            }
+                "probe": "test_probe",
+                "rserver": {
+                    "test_server:80": "inservice",
+                    "test_server1:80": "inservice"
+                }
+        }
         ]
     }],
     "sticky": [{

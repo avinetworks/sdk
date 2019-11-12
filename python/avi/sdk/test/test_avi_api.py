@@ -193,7 +193,7 @@ class Test(unittest.TestCase):
     def test_avi_json(self):
         rsp = Response()
         rsp.status_code = 404
-        rsp._content = 'Not found'
+        rsp._content = b'Not found'
         try:
             avi_rsp = ApiResponse(rsp)
             avi_rsp.json()
@@ -214,7 +214,7 @@ class Test(unittest.TestCase):
             assert False
 
         rsp.status_code = 200
-        rsp._content = json.dumps({'count': 3, 'results': ['a', 'b', 'c']})
+        rsp._content = b'{"count": 3, "results": ["a", "b", "c"]}'
         try:
             avi_rsp = ApiResponse(rsp)
             obj = avi_rsp.json()
@@ -320,7 +320,7 @@ class Test(unittest.TestCase):
         for index in range(16):
             shared_sessions.append(index)
         results = p.map(shared_session_check, shared_sessions)
-        print "results :",results
+        print("results :",results)
         for result in results:
              assert result == 200
 

@@ -171,7 +171,7 @@ class PoolConfigConv(object):
 
         if any(server["port"] == "" for server in servers):
             pool_obj.update({"use_service_port": "true"})
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         pool_obj['tenant_ref'] = conv_utils.get_object_ref(tenant, 'tenant')
         if ramp_time:
@@ -366,7 +366,7 @@ class PoolConfigConvV11(PoolConfigConv):
             status_flag = True
         tenant, name = conv_utils.get_tenant_ref(pool_name)
         tenant_name = tenant
-        if not tenant_ref == 'admin':
+        if tenant_ref:
             tenant = tenant_ref
         num_retries = f5_pool.get('reselect-tries', None)
         if num_retries:
@@ -470,10 +470,12 @@ class PoolConfigConvV11(PoolConfigConv):
         connection_limit = []
         server_skipped = []
         for server_name in servers_config.keys():
+            hostname = None
             server = servers_config[server_name]
             parts = server_name.split(':')
             node = nodes.get(parts[0], None)
             if node and node.get("address"):
+                hostname = parts[0].split('/')[-1]
                 if '%' in node["address"]:
                     ip_addr, vrf = node["address"].split('%')
                     conv_utils.add_vrf(avi_config, vrf, cloud_ref)
@@ -522,6 +524,9 @@ class PoolConfigConvV11(PoolConfigConv):
                 'description': description,
                 'port': port
             }
+
+            if hostname:
+                server_obj['hostname'] = hostname
 
             if priority:
                 server_obj['priority'] = priority
