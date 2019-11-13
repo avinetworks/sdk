@@ -433,6 +433,9 @@ type EventDetails struct {
 	// Placeholder for description of property ssl_export_details of obj type EventDetails field type str  type object
 	SslExportDetails *SSLExportDetails `json:"ssl_export_details,omitempty"`
 
+	// Placeholder for description of property ssl_ignored_details of obj type EventDetails field type str  type object
+	SslIgnoredDetails *SSLIgnoredDetails `json:"ssl_ignored_details,omitempty"`
+
 	// Placeholder for description of property ssl_renew_details of obj type EventDetails field type str  type object
 	SslRenewDetails *SSLRenewDetails `json:"ssl_renew_details,omitempty"`
 
