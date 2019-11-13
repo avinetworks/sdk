@@ -45,7 +45,8 @@ def ansible_return(module, rsp, changed, req=None, existing_obj=None,
     Returns: specific ansible module exit function
     """
 
-    if rsp is not None and rsp.status_code > 299:
+    if rsp is not None and rsp.status_code > 299 and not \
+            any(error in rsp.text for error in SKIP_DELETE_ERROR):
         return module.fail_json(
             msg='Error %d Msg %s req: %s api_context:%s ' % (
                 rsp.status_code, rsp.text, req, api_context))
@@ -329,6 +330,9 @@ def get_api_context(module, api_creds):
         return None
 
 
+NO_UUID_OBJ = ['cluster', 'systemconfiguration']
+SKIP_DELETE_ERROR = ["Cannot delete system default object", "Method \'DELETE\' not allowed"]
+
 def avi_ansible_api(module, obj_type, sensitive_fields):
     """
     This converts the Ansible module into AVI object and invokes APIs
@@ -340,7 +344,6 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         success: module.exit_json with obj=avi object
         faliure: module.fail_json
     """
-
     api_creds = AviCredentials()
     api_creds.update_from_ansible_module(module)
     api_context = get_api_context(module, api_creds)
@@ -376,7 +379,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     # Added Support to get uuid
     uuid = module.params.get('uuid', None)
     check_mode = module.check_mode
-    if uuid and obj_type != 'cluster':
+    if uuid and obj_type not in NO_UUID_OBJ:
         obj_path = '%s/%s' % (obj_type, uuid)
     else:
         obj_path = '%s/' % obj_type
@@ -467,8 +470,9 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
         if rsp:
             if rsp.status_code == 204:
                 changed = True
-            else:
+            elif not any(error in str(rsp.text) for error in SKIP_DELETE_ERROR):
                 err = True
+
         if not err:
             return ansible_return(
                 module, rsp, changed, existing_obj=existing_obj,
@@ -481,7 +485,7 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
     if existing_obj:
         # this is case of modify as object exists. should find out
         # if changed is true or not
-        if name is not None and obj_type != 'cluster':
+        if name is not None and obj_type not in NO_UUID_OBJ:
             obj_uuid = existing_obj['uuid']
             obj_path = '%s/%s' % (obj_type, obj_uuid)
         if avi_update_method == 'put':
