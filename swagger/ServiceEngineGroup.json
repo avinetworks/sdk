@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.6", 
+        "version": "20.1.1", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -962,6 +962,23 @@
                 }
             }
         }, 
+        "RateLimiterProperties": {
+            "type": "object", 
+            "properties": {
+                "msf_num_stages": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of stages in msf rate limiter. Allowed values are 1-8. Field introduced in 20.1.1.", 
+                    "format": "int32"
+                }, 
+                "msf_stage_size": {
+                    "default": 16384, 
+                    "type": "integer", 
+                    "description": "Each stage size in msf rate limiter. Allowed values are 1-10485760. Field introduced in 20.1.1.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "VcenterClusters": {
             "type": "object", 
             "properties": {
@@ -1063,6 +1080,12 @@
                     "default": 30, 
                     "type": "integer", 
                     "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
+                    "format": "int32"
+                }, 
+                "se_dp_max_hb_version": {
+                    "default": 2, 
+                    "type": "integer", 
+                    "description": "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.", 
                     "format": "int32"
                 }, 
                 "enable_pcap_tx_ring": {
@@ -1765,6 +1788,10 @@
                     "type": "integer", 
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
                     "format": "int32"
+                }, 
+                "se_rl_prop": {
+                    "description": "Rate limiter properties. Field introduced in 20.1.1.", 
+                    "$ref": "#/definitions/RateLimiterProperties"
                 }, 
                 "se_flow_probe_retry_timer": {
                     "default": 40, 

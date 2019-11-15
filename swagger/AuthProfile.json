@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi AuthProfile Object API", 
-        "version": "18.2.6", 
+        "version": "20.1.1", 
         "description": "CLI\n```\n- configure authprofile <key>\n- show authprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -617,7 +617,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "TACACS+ server IP address."
+                    "description": "TACACS+ server IP address or FQDN."
                 }
             }
         }, 

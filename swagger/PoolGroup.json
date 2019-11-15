@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi PoolGroup Object API", 
-        "version": "18.2.6", 
+        "version": "20.1.1", 
         "description": "CLI\n```\n- configure poolgroup <key>\n- show poolgroup <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -591,6 +591,10 @@
                     "type": "integer", 
                     "description": "The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'.", 
                     "format": "int32"
+                }, 
+                "http2": {
+                    "type": "boolean", 
+                    "description": "Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1."
                 }, 
                 "deployment_policy_ref": {
                     "type": "string", 

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '20.1.1'
     title: Avi Pool Object API
     contact:
         name: Avi Networks Inc.
@@ -1758,6 +1758,9 @@ definitions:
                     type: string
             host_check_enabled:
                 description: "Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match."
+                type: boolean
+            http2:
+                description: "Enable HTTP/2 for traffic from VirtualService to all backend servers in this pool. Field introduced in 20.1.1."
                 type: boolean
             inline_health_monitor:
                 description: "The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin."
