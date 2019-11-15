@@ -2404,7 +2404,7 @@ definitions:
                 description: "Host interface name. Field introduced in 18.2.6."
                 type: string
             network_namespace:
-                description: "Network Namespace type and is used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6."
+                description: "Network Namespace type used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6."
                 type: string
                 default: "HOST_NAMESPACE"
             nexthop:

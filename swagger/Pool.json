@@ -2847,6 +2847,10 @@
                     "description": "Minimum number of health monitors in UP state to mark server UP. Field introduced in 18.2.1, 17.2.12.", 
                     "format": "int32"
                 }, 
+                "http2": {
+                    "type": "boolean", 
+                    "description": "Enable HTTP/2 for traffic from VirtualService to all backend servers in this pool. Field introduced in 20.1.1."
+                }, 
                 "external_autoscale_groups": {
                     "items": {
                         "type": "string"

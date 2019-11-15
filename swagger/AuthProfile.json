@@ -617,7 +617,7 @@
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": "TACACS+ server IP address."
+                    "description": "TACACS+ server IP address or FQDN."
                 }
             }
         }, 
