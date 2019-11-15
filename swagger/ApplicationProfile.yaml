@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '20.1.1'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -648,6 +648,44 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
+    HTTP2ApplicationProfile:
+        type: object
+        properties:
+            http2_initial_window_size:
+                description: "The initial flow control window size in KB for HTTP/2 streams. Allowed values are 64-32768. Field introduced in 20.1.1."
+                type: integer
+                default: 64
+                format: int32
+            max_http2_concurrent_streams_per_connection:
+                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 20.1.1."
+                type: integer
+                default: 128
+                format: int32
+            max_http2_control_frames_per_connection:
+                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
+            max_http2_empty_data_frames_per_connection:
+                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
+            max_http2_header_field_size:
+                description: "The maximum size in bytes of the compressed request header field. The limit applies equally to both name and value. Allowed values are 1-8192. Field introduced in 20.1.1."
+                type: integer
+                default: 4096
+                format: int32
+            max_http2_queued_frames_to_client_per_connection:
+                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
+            max_http2_requests_per_connection:
+                description: "The maximum number of requests over a client side HTTP/2 connection. Allowed values are 0-10000. Special values are 0- 'Unlimited requests on a client side HTTP/2 connection'. Field introduced in 20.1.1."
+                type: integer
+                default: 1000
+                format: int32
     HTTPApplicationProfile:
         type: object
         properties:
@@ -688,6 +726,9 @@ definitions:
                 description: "Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP."
                 type: boolean
                 default: True
+            disable_chunk_merge:
+                description: "Disable chunk body merge for chunked transfer encoding response. Field introduced in 20.1.1."
+                type: boolean
             disable_keepalive_posts_msie6:
                 description: "Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections."
                 type: boolean
@@ -721,11 +762,18 @@ definitions:
                 type: boolean
                 default: True
             http2_enabled:
-                description: "Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1."
+                description: "Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1."
                 type: boolean
+            http2_profile:
+                description: "Specifies the HTTP/2 specific application profile parameters. Field introduced in 20.1.1."
+                $ref: '#/definitions/HTTP2ApplicationProfile'
             http_to_https:
                 description: "Client requests received via HTTP will be redirected to HTTPS."
                 type: boolean
+            http_upstream_buffer_size:
+                description: "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             httponly_enabled:
                 description: "Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript."
                 type: boolean
@@ -750,24 +798,20 @@ definitions:
                 type: integer
                 format: int32
             max_http2_concurrent_streams_per_connection:
-                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6."
+                description: "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 20.1.1. Field introduced in 18.2.6."
                 type: integer
-                default: 128
                 format: int32
             max_http2_control_frames_per_connection:
-                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                description: "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6."
                 type: integer
-                default: 1000
                 format: int32
             max_http2_empty_data_frames_per_connection:
-                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                description: "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6."
                 type: integer
-                default: 1000
                 format: int32
             max_http2_queued_frames_to_client_per_connection:
-                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6."
+                description: "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6."
                 type: integer
-                default: 1000
                 format: int32
             max_keepalive_requests:
                 description: "The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5."

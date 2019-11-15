@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '20.1.1'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -652,6 +652,19 @@ definitions:
                 description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
+    RateLimiterProperties:
+        type: object
+        properties:
+            msf_num_stages:
+                description: "Number of stages in msf rate limiter. Allowed values are 1-8. Field introduced in 20.1.1."
+                type: integer
+                default: 1
+                format: int32
+            msf_stage_size:
+                description: "Each stage size in msf rate limiter. Allowed values are 1-10485760. Field introduced in 20.1.1."
+                type: integer
+                default: 16384
+                format: int32
     ServiceEngineGroup:
         type: object
         required:
@@ -1110,6 +1123,11 @@ definitions:
             se_dos_profile:
                 description: "Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object"
                 $ref: '#/definitions/DosThresholdProfile'
+            se_dp_max_hb_version:
+                description: "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1."
+                type: integer
+                default: 2
+                format: int32
             se_dp_vnic_queue_stall_event_sleep:
                 description: "Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5."
                 type: integer
@@ -1203,6 +1221,9 @@ definitions:
                 type: integer
                 default: 1501
                 format: int32
+            se_rl_prop:
+                description: "Rate limiter properties. Field introduced in 20.1.1."
+                $ref: '#/definitions/RateLimiterProperties'
             se_routing:
                 description: "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3."
                 type: boolean

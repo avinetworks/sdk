@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '20.1.1'
     title: Avi AuthProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -619,7 +619,7 @@ definitions:
                 default: 49
                 format: int32
             server:
-                description: "TACACS+ server IP address."
+                description: "TACACS+ server IP address or FQDN."
                 type: array
                 items:
                     type: string
