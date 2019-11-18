@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
 import sys
-if sys.version_info < (3, 5):
-    sys.stderr.write("python 3.5 or newer is required\n")
-    sys.exit(1)
-
 import argparse
 import json
-from urllib.parse import urlparse
+if sys.version_info[0] < 3:
+    from urlparse import urlparse
+else:
+    from urllib.parse import urlparse
 from enum import Enum
 import logging
 import datetime
@@ -323,7 +322,7 @@ def main():
             if args.verbose is True:
                 LOGGER.info(msg)
             else:
-                LOGGER.info(msg + "or --verbose to display config changes")
+                LOGGER.info(msg + " or --verbose to display config changes")
             return
         with ApiSession.get_session(args.controller,
                                     args.username,

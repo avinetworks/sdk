@@ -172,7 +172,7 @@ class AviAnsibleConverterBase(object):
         for key in rsrc:
             if isinstance(rsrc[key], str) and key != 'key':
                 rsrc[key] = rsrc[key].encode('string-escape')
-            elif isinstance(rsrc[key], unicode) and key == 'key':
+            elif isinstance(rsrc[key], unicode):
                 rsrc[key] = rsrc[key].encode()
             elif isinstance(rsrc[key], unicode):
                 rsrc[key] = rsrc[key].encode('unicode-escape')
