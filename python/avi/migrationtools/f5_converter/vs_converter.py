@@ -367,10 +367,10 @@ class VSConfigConv(object):
                 random.randint(0, 255) for _ in range(4))))
 
         if app_prof_obj:
-            used_app_profiles.append(app_prof[0])
             if self.distinct_app_profile and app_prof[0] in used_app_profiles:
                 app_prof[0] = conv_utils.clone_app_profile_for_vs(
                     app_prof[0], app_prof_obj[0], vs_name, tenant, avi_config)
+            used_app_profiles.append(app_prof[0])
 
         # VIP object for virtual service
         vip = {

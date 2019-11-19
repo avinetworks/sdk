@@ -626,8 +626,9 @@ class MigrationUtil(object):
         # in form of dictionary.
         return dict(zip(data_lower_case, yml_data['avi_resource_types']))
 
-    def clone_app_profile_for_vs(self, app_prof_name, app_prof_obj, vs_name,
+    def clone_app_profile_for_vs(self, app_prof_ref, app_prof_obj, vs_name,
                                  tenant, avi_config):
+        app_prof_name = self.get_name(app_prof_ref)
         new_app_profile = copy.deepcopy(app_prof_obj)
         new_profile_name = '%s-%s' % (app_prof_name, vs_name)
         new_app_profile['name'] = new_profile_name
