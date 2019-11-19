@@ -42,7 +42,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             con_snatpool, user_ignore, profile_path, tenant,
             cloud_name='Default-Cloud', keypassphrase=None,
             vs_level_status=False, vrf=None, segroup=None,
-            custom_mappings=None, skip_pki=False, distinct_app_profile=True):
+            custom_mappings=None, skip_pki=False, distinct_app_profile=False):
 
     """
     Converts f5 config to avi config pops the config lists for conversion of
@@ -95,7 +95,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         profile_conv = ProfileConfigConv.get_instance(
             version, f5_attributes, object_merge_check, prefix, keypassphrase,
-            skip_pki)
+            skip_pki, distinct_app_profile)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant, cloud_name, merge_object_mapping, sys_dict)
 
