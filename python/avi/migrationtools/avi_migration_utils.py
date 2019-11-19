@@ -625,3 +625,13 @@ class MigrationUtil(object):
         # Generates AVI resource types to avi object type mapping
         # in form of dictionary.
         return dict(zip(data_lower_case, yml_data['avi_resource_types']))
+
+    def clone_app_profile_for_vs(self, app_prof_name, app_prof_obj, vs_name,
+                                 tenant, avi_config):
+        new_app_profile = copy.deepcopy(app_prof_obj)
+        new_profile_name = '%s-%s' % (app_prof_name, vs_name)
+        new_app_profile['name'] = new_profile_name
+        avi_config['ApplicationProfile'].append(new_app_profile)
+        new_ref = self.get_object_ref(new_profile_name, 'applicationprofile',
+                                      tenant)
+        return new_ref

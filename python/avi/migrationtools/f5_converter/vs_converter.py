@@ -11,12 +11,13 @@ from pkg_resources import parse_version
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
-used_policy=[]
+used_policy = list()
+used_app_profiles = list()
 
 class VSConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_virtualservice_attributes, prefix,
-                     con_snatpool, custom_mappings):
+                     con_snatpool, custom_mappings, distinct_app_profile):
         """
 
         :param version:  version of f5 instance
@@ -28,10 +29,12 @@ class VSConfigConv(object):
         """
         if version == '10':
             return VSConfigConvV10(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, custom_mappings)
+                                   con_snatpool, custom_mappings,
+                                   distinct_app_profile)
         if version in ['11', '12']:
             return VSConfigConvV11(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, custom_mappings)
+                                   con_snatpool, custom_mappings,
+                                   distinct_app_profile)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -56,7 +59,6 @@ class VSConfigConv(object):
             }
         }
         return p_mapping
-
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict,
@@ -364,6 +366,12 @@ class VSConfigConv(object):
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
 
+        if app_prof_obj:
+            used_app_profiles.append(app_prof[0])
+            if self.distinct_app_profile and app_prof[0] in used_app_profiles:
+                app_prof[0] = conv_utils.clone_app_profile_for_vs(
+                    app_prof[0], app_prof_obj[0], vs_name, tenant, avi_config)
+
         # VIP object for virtual service
         vip = {
             'ip_address': {
@@ -385,6 +393,7 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
@@ -699,7 +708,7 @@ class VSConfigConv(object):
 
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 custom_mappings):
+                 custom_mappings, distinct_app_profile):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -722,6 +731,7 @@ class VSConfigConvV11(VSConfigConv):
         self.rule_config = custom_mappings.get(
             final.RULE_CUSTOM_KEY, dict()
         ) if custom_mappings else dict()
+        self.distinct_app_profile = distinct_app_profile
 
     def get_persist_ref(self, f5_vs):
         """
@@ -757,7 +767,7 @@ class VSConfigConvV11(VSConfigConv):
 
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 custom_mappings):
+                 custom_mappings, distinct_app_profile):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -780,6 +790,7 @@ class VSConfigConvV10(VSConfigConv):
         self.rule_config = custom_mappings.get(
             final.RULE_CUSTOM_KEY, dict()
         ) if custom_mappings else dict()
+        self.distinct_app_profile = distinct_app_profile
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)
