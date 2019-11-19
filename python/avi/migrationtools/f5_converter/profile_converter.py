@@ -707,8 +707,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 if host:
                     app_profile['fallback_host'] = host
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -733,8 +732,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             app_profile['description'] = profile.get('description', None)
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -789,8 +787,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -848,8 +845,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile["compression_profile"] = compression_profile
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -910,8 +906,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             }
             app_profile['dos_rl_profile'] = l4_profile
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -954,8 +949,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1329,8 +1323,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             na_list = self.na_http
             indirect = self.indirect_http
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1351,8 +1344,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 tenant, 'tenant')
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1417,8 +1409,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1450,8 +1441,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            # TODO: Add idstinct flag check
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates\
                     (app_profile, avi_config['ApplicationProfile'],
                      'app_profile',converted_objs, name, default_profile_name,
