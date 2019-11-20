@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '20.1.1'
+    version: '18.2.7'
     title: Avi PoolGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -449,9 +449,6 @@ definitions:
             fail_action:
                 description: "Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure."
                 $ref: '#/definitions/FailAction'
-            http2:
-                description: "Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1."
-                type: boolean
             implicit_priority_labels:
                 description: "Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3."
                 type: boolean
