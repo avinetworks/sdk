@@ -93,7 +93,8 @@ setup = dict(
     output_file_path=output_file,
     vrf='test_vrf',
     segroup='test_se',
-    custom_config_file = input_role_config_file
+    custom_config_file = input_role_config_file,
+    distinct_app_profile=True
 )
 
 if not os.path.exists(setup.get("output_file_path")):
@@ -126,7 +127,8 @@ def f5_conv(
         ansible_skip_types=None, ansible_filter_types=None, ansible=None,
         prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
-        vrf=None, segroup=None, custom_config=None, skip_pki=False):
+        vrf=None, segroup=None, custom_config=None, skip_pki=False,
+        distinct_app_profile=False):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -150,7 +152,8 @@ def f5_conv(
                      vs_level_status=vs_level_status, test_vip=test_vip,
                      vrf=vrf, segroup=segroup,
                      custom_config=custom_config,
-                     skip_pki=skip_pki)
+                     skip_pki=skip_pki,
+                     distinct_app_profile=distinct_app_profile)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -1430,6 +1433,26 @@ class TestF5Converter:
             if isinstance(data[key], list):
                 for i in data[key]:
                     assert 'dup_of' not in i.keys()
+
+    @pytest.mark.travis
+    def test_distinct_app_profile(self):
+        f5_conv(
+            bigip_config_file=setup.get('config_file_name_v11'),
+            f5_config_version=setup.get('file_version_v11'),
+            controller_version=setup.get('controller_version_v17'),
+            tenant=file_attribute['tenant'],
+            cloud_name=file_attribute['cloud_name'],
+            output_file_path=setup.get('output_file_path'),
+            distinct_app_profile=setup.get('distinct_app_profile'))
+
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+
+        assert len(data['ApplicationProfile']) > 34
+        vs = [vs for vs in data['VirtualService']
+              if vs['name'] == 'F5-VIP-443-002']
+        assert 'F5-VIP-443-002' in vs[0]['application_profile_ref']
 
 
 def teardown():
