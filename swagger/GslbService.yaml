@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '20.1.1'
     title: Avi GslbService Object API
     contact:
         name: Avi Networks Inc.
@@ -458,6 +458,10 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/GslbPoolMember'
+            min_health_monitors_up:
+                description: "Minimum number of health monitors in UP state to mark the member UP. Field introduced in 20.1.1."
+                type: integer
+                format: int32
             name:
                 description: "Name of the GSLB service pool."
                 type: string

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi GslbService Object API", 
-        "version": "18.2.6", 
+        "version": "20.1.1", 
         "description": "CLI\n```\n- configure gslbservice <key>\n- show gslbservice <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -624,6 +624,11 @@
                     "default": 10, 
                     "type": "integer", 
                     "description": "Priority of this pool of Members. The higher the number, the higher is the priority of the pool. The DNS Service chooses the pool with the highest priority that is operationally up. Allowed values are 0-100. Special values are 0 - 'Do not choose members from this pool.A priority of 0 is equivalent to disabling the pool.'.", 
+                    "format": "int32"
+                }, 
+                "min_health_monitors_up": {
+                    "type": "integer", 
+                    "description": "Minimum number of health monitors in UP state to mark the member UP. Field introduced in 20.1.1.", 
                     "format": "int32"
                 }, 
                 "members": {
