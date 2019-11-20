@@ -591,6 +591,10 @@ class ApiSession(Session):
         :param headers: dictionary of headers that override the session
             headers.
         """
+        from requests_toolbelt import MultipartEncoder
+        if isinstance(data, MultipartEncoder):
+            ApiSession.reset_session(self)
+
         if self.pid != os.getpid():
             logger.info('pid %d change detected new %d. Closing session',
                         self.pid, os.getpid())
