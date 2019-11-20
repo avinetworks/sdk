@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "20.1.1", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1317,53 +1317,6 @@
                 }
             }
         }, 
-        "HTTP2ApplicationProfile": {
-            "type": "object", 
-            "properties": {
-                "max_http2_requests_per_connection": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The maximum number of requests over a client side HTTP/2 connection. Allowed values are 0-10000. Special values are 0- 'Unlimited requests on a client side HTTP/2 connection'. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "max_http2_control_frames_per_connection": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "max_http2_concurrent_streams_per_connection": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "max_http2_queued_frames_to_client_per_connection": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "max_http2_empty_data_frames_per_connection": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "max_http2_header_field_size": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "The maximum size in bytes of the compressed request header field. The limit applies equally to both name and value. Allowed values are 1-8192. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "http2_initial_window_size": {
-                    "default": 64, 
-                    "type": "integer", 
-                    "description": "The initial flow control window size in KB for HTTP/2 streams. Allowed values are 64-32768. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }
-            }
-        }, 
         "TCPApplicationProfile": {
             "type": "object", 
             "properties": {
@@ -1390,15 +1343,16 @@
         "HTTPApplicationProfile": {
             "type": "object", 
             "properties": {
+                "enable_chunk_merge": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7."
+                }, 
                 "max_keepalive_requests": {
                     "default": 100, 
                     "type": "integer", 
                     "description": "The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5.", 
                     "format": "int32"
-                }, 
-                "compression_profile": {
-                    "description": "HTTP Compression settings to use with this HTTP Profile.", 
-                    "$ref": "#/definitions/CompressionProfile"
                 }, 
                 "max_rps_uri": {
                     "type": "integer", 
@@ -1434,9 +1388,9 @@
                     "type": "boolean", 
                     "description": "Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP."
                 }, 
-                "disable_chunk_merge": {
-                    "type": "boolean", 
-                    "description": "Disable chunk body merge for chunked transfer encoding response. Field introduced in 20.1.1."
+                "compression_profile": {
+                    "description": "HTTP Compression settings to use with this HTTP Profile.", 
+                    "$ref": "#/definitions/CompressionProfile"
                 }, 
                 "websockets_enabled": {
                     "default": true, 
@@ -1448,13 +1402,14 @@
                     "description": "Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1."
                 }, 
                 "max_http2_empty_data_frames_per_connection": {
+                    "default": 1000, 
                     "type": "integer", 
-                    "description": "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.", 
+                    "description": "The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "http2_enabled": {
                     "type": "boolean", 
-                    "description": "Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1."
+                    "description": "Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1."
                 }, 
                 "enable_request_body_buffering": {
                     "type": "boolean", 
@@ -1546,13 +1501,15 @@
                     "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
                 }, 
                 "max_http2_control_frames_per_connection": {
+                    "default": 1000, 
                     "type": "integer", 
-                    "description": "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.", 
+                    "description": "The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "max_http2_concurrent_streams_per_connection": {
+                    "default": 128, 
                     "type": "integer", 
-                    "description": "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 20.1.1. Field introduced in 18.2.6.", 
+                    "description": "The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "max_rps_unknown_uri": {
@@ -1570,23 +1527,15 @@
                     "type": "boolean", 
                     "description": "Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI."
                 }, 
-                "http_upstream_buffer_size": {
-                    "type": "integer", 
-                    "description": "Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "http2_profile": {
-                    "description": "Specifies the HTTP/2 specific application profile parameters. Field introduced in 20.1.1.", 
-                    "$ref": "#/definitions/HTTP2ApplicationProfile"
-                }, 
                 "respond_with_100_continue": {
                     "default": true, 
                     "type": "boolean", 
                     "description": "Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8."
                 }, 
                 "max_http2_queued_frames_to_client_per_connection": {
+                    "default": 1000, 
                     "type": "integer", 
-                    "description": "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.", 
+                    "description": "The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "post_accept_timeout": {
