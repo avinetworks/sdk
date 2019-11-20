@@ -4088,33 +4088,6 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/UpgradeTask'
-    CRSDeploymentFailure:
-        type: object
-        properties:
-            message:
-                description: "Error message to be conveyed to controller UI. Field introduced in 20.1.1."
-                type: string
-            name:
-                description: "Name of the CRS release. Field introduced in 20.1.1."
-                type: string
-            release_date:
-                description: "CRS data release date. Field introduced in 20.1.1."
-                type: string
-            version:
-                description: "Version of the CRS release. Field introduced in 20.1.1."
-                type: string
-    CRSDeploymentSuccess:
-        type: object
-        properties:
-            name:
-                description: "Name of the CRS release. Field introduced in 20.1.1."
-                type: string
-            release_date:
-                description: "CRS data release date. Field introduced in 20.1.1."
-                type: string
-            version:
-                description: "Version of the CRS release. Field introduced in 20.1.1."
-                type: string
     DataScriptErrorTrace:
         type: object
         properties:
@@ -4951,12 +4924,6 @@ definitions:
             container_cloud_sevice:
                 description: "Placeholder for description of property container_cloud_sevice of obj type EventDetails field type str  type object"
                 $ref: '#/definitions/ContainerCloudService'
-            crs_deployment_failure:
-                description: "Placeholder for description of property crs_deployment_failure of obj type EventDetails field type str  type object"
-                $ref: '#/definitions/CRSDeploymentFailure'
-            crs_deployment_success:
-                description: "Placeholder for description of property crs_deployment_success of obj type EventDetails field type str  type object"
-                $ref: '#/definitions/CRSDeploymentSuccess'
             cs_infra_details:
                 description: "Placeholder for description of property cs_infra_details of obj type EventDetails field type str  type object"
                 $ref: '#/definitions/CloudStackSetup'
@@ -5212,9 +5179,6 @@ definitions:
             ssl_export_details:
                 description: "Placeholder for description of property ssl_export_details of obj type EventDetails field type str  type object"
                 $ref: '#/definitions/SSLExportDetails'
-            ssl_ignored_details:
-                description: "Placeholder for description of property ssl_ignored_details of obj type EventDetails field type str  type object"
-                $ref: '#/definitions/SSLIgnoredDetails'
             ssl_renew_details:
                 description: "Placeholder for description of property ssl_renew_details of obj type EventDetails field type str  type object"
                 $ref: '#/definitions/SSLRenewDetails'
@@ -9204,9 +9168,6 @@ definitions:
             enable_ssl:
                 description: "Enable SSL termination and offload for traffic from clients."
                 type: boolean
-            http2:
-                description: "Enable HTTP2 on this port. Field introduced in 20.1.1."
-                type: boolean
             override_application_profile_ref:
                 description: "Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4."
                 type: string
@@ -9706,15 +9667,6 @@ definitions:
         properties:
             user:
                 description: "Request user."
-                type: string
-    SSLIgnoredDetails:
-        type: object
-        properties:
-            name:
-                description: "Name of SSL Certificate."
-                type: string
-            reason:
-                description: "Reason for ignoring certificate."
                 type: string
     SSLProfileSelector:
         type: object
@@ -11948,7 +11900,7 @@ definitions:
                 type: number
                 format: double
             avg_ssl_ver_tls13:
-                description: "Average SSL Sessions with TLS version 1.3."
+                description: "Average SSL Sessions with TLS version 1.3. Field introduced in 18.2.6."
                 type: number
                 format: double
             avg_tolerated_responses:

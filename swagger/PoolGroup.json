@@ -592,10 +592,6 @@
                     "description": "The minimum number of servers to distribute traffic to. Allowed values are 1-65535. Special values are 0 - 'Disable'.", 
                     "format": "int32"
                 }, 
-                "http2": {
-                    "type": "boolean", 
-                    "description": "Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1."
-                }, 
                 "deployment_policy_ref": {
                     "type": "string", 
                     "description": "When setup autoscale manager will automatically promote new pools into production when deployment goals are met. It is a reference to an object of type PoolGroupDeploymentPolicy."

@@ -962,23 +962,6 @@
                 }
             }
         }, 
-        "RateLimiterProperties": {
-            "type": "object", 
-            "properties": {
-                "msf_num_stages": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of stages in msf rate limiter. Allowed values are 1-8. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }, 
-                "msf_stage_size": {
-                    "default": 16384, 
-                    "type": "integer", 
-                    "description": "Each stage size in msf rate limiter. Allowed values are 1-10485760. Field introduced in 20.1.1.", 
-                    "format": "int32"
-                }
-            }
-        }, 
         "VcenterClusters": {
             "type": "object", 
             "properties": {
@@ -1090,12 +1073,6 @@
                     "default": 30, 
                     "type": "integer", 
                     "description": "Time to wait for the scaled in SE to drain existing flows before marking the scalein done.", 
-                    "format": "int32"
-                }, 
-                "se_dp_max_hb_version": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.", 
                     "format": "int32"
                 }, 
                 "enable_pcap_tx_ring": {
@@ -1816,10 +1793,6 @@
                     "type": "integer", 
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
                     "format": "int32"
-                }, 
-                "se_rl_prop": {
-                    "description": "Rate limiter properties. Field introduced in 20.1.1.", 
-                    "$ref": "#/definitions/RateLimiterProperties"
                 }, 
                 "se_flow_probe_retry_timer": {
                     "default": 40, 
