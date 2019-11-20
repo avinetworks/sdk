@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.2.6", 
+        "version": "20.1.1", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1559,7 +1559,7 @@
                 "network_namespace": {
                     "default": "HOST_NAMESPACE", 
                     "type": "string", 
-                    "description": "Network Namespace type and is used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6."
+                    "description": "Network Namespace type used to add an route entry in a specific namespace. Enum options - LOCAL_NAMESPACE, HOST_NAMESPACE, OTHER_NAMESPACE. Field introduced in 18.2.6."
                 }, 
                 "if_name": {
                     "type": "string", 
