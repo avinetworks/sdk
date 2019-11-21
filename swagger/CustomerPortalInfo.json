@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi CustomerPortalInfo Object API", 
-        "version": "20.1.1", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- show customerportalinfo\n- configure customerportalinfo\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -494,38 +494,16 @@
         }
     }, 
     "definitions": {
-        "AssetContactInfo": {
-            "type": "object", 
-            "properties": {
-                "name": {
-                    "type": "string", 
-                    "description": "Name of the point of contact for this asset. Field introduced in 20.1.1."
-                }, 
-                "contact_id": {
-                    "type": "string", 
-                    "description": "Contact ID of the point of contact for this asset. Field introduced in 20.1.1."
-                }
-            }
-        }, 
         "CustomerPortalInfo": {
             "required": [
-                "feature_opt_in_status", 
                 "portal_url"
             ], 
             "type": "object", 
             "properties": {
-                "feature_opt_in_status": {
-                    "description": "Information about the portal features opted in for controller. Field introduced in 20.1.1.", 
-                    "$ref": "#/definitions/PortalFeatureOptIn"
-                }, 
-                "asset_contact": {
-                    "description": "Information about the default contact for this asset. Field introduced in 20.1.1.", 
-                    "$ref": "#/definitions/AssetContactInfo"
-                }, 
-                "_last_modified": {
+                "url": {
                     "readOnly": true, 
                     "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
+                    "description": "url"
                 }, 
                 "polling_interval": {
                     "default": 10, 
@@ -533,18 +511,18 @@
                     "description": "Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
-                "url": {
-                    "readOnly": true, 
+                "uuid": {
                     "type": "string", 
-                    "description": "url"
+                    "description": " Field introduced in 18.2.6."
                 }, 
                 "portal_url": {
                     "type": "string", 
                     "description": "The FQDN or IP address of the customer portal. Field introduced in 18.2.6."
                 }, 
-                "uuid": {
+                "_last_modified": {
+                    "readOnly": true, 
                     "type": "string", 
-                    "description": " Field introduced in 18.2.6."
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }
             }
         }, 
@@ -564,19 +542,6 @@
                         "$ref": "#/definitions/CustomerPortalInfo"
                     }, 
                     "type": "array"
-                }
-            }
-        }, 
-        "PortalFeatureOptIn": {
-            "type": "object", 
-            "properties": {
-                "case_auto_create": {
-                    "type": "boolean", 
-                    "description": "Flag to check if the user has opted in for proactive case creation in abnormal scenarios. Field introduced in 20.1.1."
-                }, 
-                "crs_auto_deploy": {
-                    "type": "boolean", 
-                    "description": "Flag to check if the user has opted in for auto deployment of CRS data on controller. Field introduced in 20.1.1."
                 }
             }
         }

@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NatPolicy Object API", 
-        "version": "20.1.1", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure natpolicy <key>\n- show natpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -695,10 +695,6 @@
                 "destination_port": {
                     "description": "Destination Port of the packet. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/PortMatch"
-                }, 
-                "protocol": {
-                    "description": "Protocol to match. Field introduced in 20.1.1.", 
-                    "$ref": "#/definitions/L4RuleProtocolMatch"
                 }
             }
         }, 
@@ -716,23 +712,6 @@
                 "source_ip": {
                     "description": "Source IP of the packet. Field introduced in 18.2.3.", 
                     "$ref": "#/definitions/IpAddrMatch"
-                }
-            }
-        }, 
-        "L4RuleProtocolMatch": {
-            "required": [
-                "match_criteria", 
-                "protocol"
-            ], 
-            "type": "object", 
-            "properties": {
-                "protocol": {
-                    "type": "string", 
-                    "description": "Transport protocol to match. Enum options - PROTOCOL_ICMP, PROTOCOL_TCP, PROTOCOL_UDP. Field introduced in 17.2.7."
-                }, 
-                "match_criteria": {
-                    "type": "string", 
-                    "description": "Criterion to use for transport protocol matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
                 }
             }
         }, 
