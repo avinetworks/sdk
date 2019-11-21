@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "20.1.1", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
