@@ -510,5 +510,43 @@ class TestNetscalerConverter:
                     assert each_member['priority_label'] == '2'
 
 
+    @pytest.mark.travis
+    def test_http_request_policy_patsets(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'))
+
+        output_file = '%s/ns-Output.json' % setup.get('output_file_path')
+        http_policy_name = "infomanager-stage_80_default_polinfomanager-" \
+                           "stage_80_csvs-infomanager-stage_80_csvs-clone"
+        vs_name = "infomanager-stage_80_csvs"
+
+        with open(output_file, 'r') as file_strem:
+            avi_config = json.load(file_strem)
+            vs_config = avi_config['VirtualService']
+            http_policy_set =avi_config['HTTPPolicySet']
+            for vs in vs_config:
+                if vs['name'] == vs_name:
+                    assert vs['http_policies'][0]['http_policy_set_ref'].\
+                    split("=")[-1] == http_policy_name
+                    break
+            else:
+                print("NO Virtual service with name %s found" % vs_name)
+                assert 0
+
+            for http_policy in http_policy_set:
+                if http_policy['name'] == http_policy_name:
+                    patset_match_str_list = http_policy['http_request_policy'] \
+                    ['rules'][0]['match']['path']['match_str']
+                    assert len(patset_match_str_list) == 24
+                    assert patset_match_str_list[0] == '/admin/'
+                    assert patset_match_str_list[9] == '/sports/'
+                    assert patset_match_str_list[23] == '/blue/'
+                    break
+            else:
+                print("NO HTTP Policy Set with name %s found" % http_policy_name)
+                assert 0
+
 def teardown():
     pass
