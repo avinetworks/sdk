@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '18.2.7'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -695,6 +695,10 @@ definitions:
             disable_sni_hostname_check:
                 description: "Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5."
                 type: boolean
+            enable_chunk_merge:
+                description: "Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7."
+                type: boolean
+                default: True
             enable_fire_and_forget:
                 description: "Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4."
                 type: boolean
