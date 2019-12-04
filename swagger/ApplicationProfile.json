@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "18.2.6", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1343,6 +1343,11 @@
         "HTTPApplicationProfile": {
             "type": "object", 
             "properties": {
+                "enable_chunk_merge": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7."
+                }, 
                 "max_keepalive_requests": {
                     "default": 100, 
                     "type": "integer", 

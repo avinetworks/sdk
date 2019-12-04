@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerLicense Object API", 
-        "version": "18.2.6", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure license\n- show license\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -505,6 +505,10 @@
                 "valid_until": {
                     "type": "string", 
                     "description": "valid_until of SingleLicense."
+                }, 
+                "serial_key": {
+                    "type": "string", 
+                    "description": "Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7,20.1.1."
                 }, 
                 "license_string": {
                     "type": "string", 

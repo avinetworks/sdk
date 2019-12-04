@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.6'
+    version: '18.2.7'
     title: Avi ControllerSite Object API
     contact:
         name: Avi Networks Inc.

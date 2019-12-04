@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi SSOPolicy Object API", 
-        "version": "18.2.6", 
+        "version": "18.2.7", 
         "description": "CLI\n```\n- configure ssopolicy <key>\n- show ssopolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
