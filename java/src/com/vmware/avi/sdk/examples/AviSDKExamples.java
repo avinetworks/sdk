@@ -13,11 +13,11 @@ import com.vmware.avi.sdk.AviCredentials;
 
 public class AviSDKExamples {
 
-	private static final String CONTROLLER = "10.10.28.15";
-	private static final String USERNAME = "admin";
-	private static final String PASSWORD = "avi123$%";
-	private static final String VERSION = "18.2.6";
-	private static final String TENANT = "admin";
+	private static final String CONTROLLER = System.getenv("AVI_CONTROLLER");
+	private static final String USERNAME = System.getenv("AVI_USERNAME");
+	private static final String PASSWORD = System.getenv("AVI_PASSWORD");
+	private static final String VERSION = System.getenv("AVI_VERSION");
+	private static final String TENANT = System.getenv("AVI_TENANT");
 	private static AviCredentials creds = null;
 
 	static AviCredentials getCreds() {
