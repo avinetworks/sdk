@@ -1265,6 +1265,9 @@ definitions:
             cloud_credentials_ref:
                 description: "Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1."
                 type: string
+            encryption_key_id:
+                description: "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7."
+                type: string
             firewall_target_tags:
                 description: "Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1."
                 type: array
