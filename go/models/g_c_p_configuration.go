@@ -10,6 +10,9 @@ type GCPConfiguration struct {
 	// Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1.
 	CloudCredentialsRef *string `json:"cloud_credentials_ref,omitempty"`
 
+	// Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7.
+	EncryptionKeyID *string `json:"encryption_key_id,omitempty"`
+
 	// Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1.
 	FirewallTargetTags []string `json:"firewall_target_tags,omitempty"`
 
