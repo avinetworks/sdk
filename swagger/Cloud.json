@@ -2628,6 +2628,10 @@
                     "type": "boolean", 
                     "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1."
                 }, 
+                "encryption_key_id": {
+                    "type": "string", 
+                    "description": "Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7."
+                }, 
                 "se_project_id": {
                     "type": "string", 
                     "description": "Google Cloud Platform Project ID where Service Engines will be spawned. Field introduced in 18.2.1."
