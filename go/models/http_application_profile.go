@@ -40,6 +40,9 @@ type HTTPApplicationProfile struct {
 	// Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5.
 	DisableSniHostnameCheck *bool `json:"disable_sni_hostname_check,omitempty"`
 
+	// Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7.
+	EnableChunkMerge *bool `json:"enable_chunk_merge,omitempty"`
+
 	// Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4.
 	EnableFireAndForget *bool `json:"enable_fire_and_forget,omitempty"`
 
@@ -148,7 +151,7 @@ type HTTPApplicationProfile struct {
 	// Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE.
 	SslClientCertificateMode *string `json:"ssl_client_certificate_mode,omitempty"`
 
-	// Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect.
+	// Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7.
 	SslEverywhereEnabled *bool `json:"ssl_everywhere_enabled,omitempty"`
 
 	// Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout.

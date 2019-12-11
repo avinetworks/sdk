@@ -26,9 +26,6 @@ type GslbPool struct {
 	// Select list of VIPs belonging to this GSLB service.
 	Members []*GslbPoolMember `json:"members,omitempty"`
 
-	// Minimum number of health monitors in UP state to mark the member UP. Field introduced in 20.1.1.
-	MinHealthMonitorsUp *int32 `json:"min_health_monitors_up,omitempty"`
-
 	// Name of the GSLB service pool.
 	// Required: true
 	Name *string `json:"name"`
