@@ -102,9 +102,6 @@ type Pool struct {
 	// Enable common name check for server certificate. If enabled and no explicit domain name is specified, Avi will use the incoming host header to do the match.
 	HostCheckEnabled *bool `json:"host_check_enabled,omitempty"`
 
-	// Enable HTTP/2 for traffic from VirtualService to all backend servers in this pool. Field introduced in 20.1.1.
-	Http2 *bool `json:"http2,omitempty"`
-
 	// The Passive monitor will monitor client to server connections and requests and adjust traffic load to servers based on successful responses.  This may alter the expected behavior of the LB method, such as Round Robin.
 	InlineHealthMonitor *bool `json:"inline_health_monitor,omitempty"`
 

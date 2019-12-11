@@ -29,9 +29,6 @@ type PoolGroup struct {
 	// Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure.
 	FailAction *FailAction `json:"fail_action,omitempty"`
 
-	// Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1.
-	Http2 *bool `json:"http2,omitempty"`
-
 	// Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3.
 	ImplicitPriorityLabels *bool `json:"implicit_priority_labels,omitempty"`
 

@@ -354,9 +354,6 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
 	SeDosProfile *DosThresholdProfile `json:"se_dos_profile,omitempty"`
 
-	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.
-	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
-
 	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
 	SeDpVnicQueueStallEventSleep *int32 `json:"se_dp_vnic_queue_stall_event_sleep,omitempty"`
 
@@ -419,9 +416,6 @@ type ServiceEngineGroup struct {
 
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort *int32 `json:"se_remote_punt_udp_port,omitempty"`
-
-	// Rate limiter properties. Field introduced in 20.1.1.
-	SeRlProp *RateLimiterProperties `json:"se_rl_prop,omitempty"`
 
 	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3.
 	SeRouting *bool `json:"se_routing,omitempty"`
