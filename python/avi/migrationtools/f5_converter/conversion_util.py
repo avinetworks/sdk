@@ -2280,7 +2280,7 @@ class F5Util(MigrationUtil):
             LOG.debug("No more predecessor")
 
     def convert_irules(self, vs_ds_rules, rule_config, avi_config, prefix,
-                       vs_name, tenant):
+                       vs_name, tenant, reuse_http_policy):
         vs_ds = list()
         req_policies = list()
         nw_policy = None
@@ -2355,14 +2355,22 @@ class F5Util(MigrationUtil):
                   'HTTPToHTTPSRedirect') or rule == '_sys_https_redirect':
                 # Added prefix for objects
                 if prefix:
-                    policy_name = '%s-%s-%s' % (prefix, rule, vs_name)
+                    policy_name = '%s-%s' % (prefix, rule)
                 else:
-                    policy_name = '%s-%s' % (rule, vs_name)
+                    policy_name = '%s' % (rule)
+                if not reuse_http_policy:
+                    policy_name = '%s-%s' % (policy_name, vs_name)
                 policy = copy.deepcopy(conv_const.HTTP_TO_HTTPS_REDIRECT_POL)
                 policy["name"] = policy_name
                 policy['tenant_ref'] = self.get_object_ref(tenant, 'tenant')
                 req_policies.append(policy_name)
-                avi_config['HTTPPolicySet'].append(policy)
+                if reuse_http_policy:
+                    policy_obj = [ob for ob in avi_config['HTTPPolicySet'] if ob[
+                        'name'] == policy_name]
+                    if not policy_obj:
+                        avi_config['HTTPPolicySet'].append(policy)
+                else:
+                    avi_config['HTTPPolicySet'].append(policy)
                 converted_rules.append(rule)
                 LOG.debug(
                     "iRule %s successfully mapped to %s HTTPPolicySet" %

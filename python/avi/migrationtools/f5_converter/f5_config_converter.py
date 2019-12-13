@@ -42,7 +42,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             con_snatpool, user_ignore, profile_path, tenant,
             cloud_name='Default-Cloud', keypassphrase=None,
             vs_level_status=False, vrf=None, segroup=None,
-            custom_mappings=None, skip_pki=False, distinct_app_profile=False):
+            custom_mappings=None, skip_pki=False, distinct_app_profile=False,
+            reuse_http_policy=False):
 
     """
     Converts f5 config to avi config pops the config lists for conversion of
@@ -125,7 +126,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup,
-                        partition_vs_mapping)
+                        partition_vs_mapping, reuse_http_policy)
         dg_conv = DataGroupConfigConv.get_instance(
             version, prefix, merge_object_mapping, f5_attributes)
         dg_conv.convert(f5_config, avi_config_dict, user_ignore,
