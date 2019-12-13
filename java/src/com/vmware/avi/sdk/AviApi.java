@@ -58,7 +58,7 @@ public class AviApi
     /**
      * Sets the logger for get all logs.
      */
-    static final Logger logger = Logger.getLogger(AviApi.class.getName());
+    static final Logger LOGGER = Logger.getLogger(AviApi.class.getName());
 
     /**
      * Constructor for AviApi Class.
@@ -172,7 +172,7 @@ public class AviApi
         {
             body.put("token", this.aviCredentials.getToken());
         }
-        logger.info("Authentication session for " + this.aviCredentials.getUsername());
+        LOGGER.info("Authentication session for " + this.aviCredentials.getUsername());
         CloseableHttpClient httpClient = this.buildHttpClient();
         try
         {
@@ -188,7 +188,7 @@ public class AviApi
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode > 299)
             {
-                logger.severe("Login faild with status code " + statusCode);
+                LOGGER.severe("Login faild with status code " + statusCode);
                 throw new IOException("Failed : HTTP error code : "
                         + response.getStatusLine().getStatusCode());
             }
@@ -288,7 +288,7 @@ public class AviApi
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.severe("Exception in GET : " + e.getMessage() + sw.toString());
+            LOGGER.severe("Exception in GET : " + e.getMessage() + sw.toString());
             throw new AviApiException(e);
         }
         finally
@@ -348,7 +348,7 @@ public class AviApi
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.severe("Exception in PUT : " + e.getMessage() + sw.toString());
+            LOGGER.severe("Exception in PUT : " + e.getMessage() + sw.toString());
             throw new AviApiException(e);
         }
         finally
@@ -408,7 +408,7 @@ public class AviApi
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.severe("Exception in POST : " + e.getMessage() + sw.toString());
+            LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
             throw new AviApiException(e);
         }
         finally
@@ -465,7 +465,7 @@ public class AviApi
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.severe("Exception in DELETE : " + e.getMessage() + sw.toString());
+            LOGGER.severe("Exception in DELETE : " + e.getMessage() + sw.toString());
             throw new AviApiException(e);
         }
         finally
@@ -556,7 +556,7 @@ public class AviApi
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
-            logger.severe("Exception in parsing response : " + e.getMessage() + sw.toString());
+            LOGGER.severe("Exception in parsing response : " + e.getMessage() + sw.toString());
             throw new AviApiException(e);
         }
     }

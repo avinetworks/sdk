@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.junit.Rule;
 
 public class AviSDKTest {
-	static final Logger logger = Logger.getLogger(AviSDKTest.class.getName());
+	static final Logger LOGGER = Logger.getLogger(AviSDKTest.class.getName());
 	
 	private static final String CONTROLLER = System.getenv("AVI_CONTROLLER");
 	private static final String USERNAME = System.getenv("AVI_USERNAME");
@@ -55,7 +55,7 @@ public class AviSDKTest {
 
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			
-			String pool_str = "{\n" + 
+			String poolStr = "{\n" + 
 					"	\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\",\n" + 
 					"	\"default_server_port\": 80,\n" + 
 					"	\"enabled\": true,\n" + 
@@ -70,7 +70,7 @@ public class AviSDKTest {
 					"}";
 
 			JSONParser parser = new JSONParser();
-			JSONObject body = (JSONObject) parser.parse(pool_str);
+			JSONObject body = (JSONObject) parser.parse(poolStr);
 			JSONObject response = serv.post("pool", body);
 			String objectName = response.get("name").toString();
 			
