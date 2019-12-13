@@ -1,27 +1,30 @@
-package com.vmware.avi.sdk.test;
+package com.vmware.avi.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Properties;
+import java.util.logging.Logger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.junit.FixMethodOrder;
 
 import com.vmware.avi.sdk.AviApi;
 import com.vmware.avi.sdk.AviApiException;
 import com.vmware.avi.sdk.AviCredentials;
 
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.Rule;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AviSDKTest {
 	static final Logger logger = Logger.getLogger(AviSDKTest.class.getName());
 	
@@ -32,7 +35,7 @@ public class AviSDKTest {
 	private static final String TENANT = System.getenv("AVI_TENANT");
 	
 	private static AviCredentials creds = null;
-	
+		
 	static AviCredentials getCreds() {
 		if (null == AviSDKTest.creds) {
 			AviSDKTest.creds = new AviCredentials(
@@ -47,10 +50,11 @@ public class AviSDKTest {
 	}
 	
 	@Test
-	public void testAviSdk() throws ParseException, AviApiException, IOException {
+	public void testExample() throws ParseException, AviApiException{
 		try {
-			// Test Post
-			AviApi serv = AviApi.getSession(AviSDKTest.getCreds());
+
+			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			
 			String pool_str = "{\n" + 
 					"	\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\",\n" + 
 					"	\"default_server_port\": 80,\n" + 
@@ -67,33 +71,42 @@ public class AviSDKTest {
 
 			JSONParser parser = new JSONParser();
 			JSONObject body = (JSONObject) parser.parse(pool_str);
-			JSONObject postResponse = serv.post("pool", body);
-			String objectName = postResponse.get("name").toString();
-			assertEquals("test-example", objectName);
+			JSONObject response = serv.post("pool", body);
+			String objectName = response.get("name").toString();
 			
-			// Test get
+			assertEquals("test-example", objectName);
+
+			// GET rest call
 			Map<String, String> val = new HashMap<String, String>();
 			val.put("name", objectName);
 			JSONObject pools = serv.get("pool",val);
-			JSONArray getResponse = (JSONArray) pools.get("results");
-            JSONObject result = (JSONObject)getResponse.get(0);
+			JSONArray resp = (JSONArray) pools.get("results");
+            JSONObject result = (JSONObject)resp.get(0);
 			String name = (String)result.get("name");
-			assertEquals(objectName, name);
+			String uuid = (String)result.get("uuid");
 			
-			// Test put
-			result.replace("name", "test-pool");
-			JSONObject putResponse = serv.put("pool", result);
-            String nameUpdated  = (String)putResponse.get("name");
-            assertNotSame(objectName, nameUpdated);
+			assertEquals(objectName, name);
+
+			// PUT test case
+			Map<String, String> value = new HashMap<String, String>();
+			val.put("name", objectName);
+			JSONObject request = serv.get("pool",value);
+			JSONArray res = (JSONArray) request.get("results");
+            JSONObject putResult= (JSONObject)res.get(0);
+            putResult.replace("name", "test-pool");
             
-            // Test delete
-            String uuid = (String)result.get("uuid");
-			JSONObject response = serv.delete("pool", uuid);
-			String msg = response.get("Message").toString();
+			JSONObject updateRes = serv.put("pool", result);
+            String updatedName  = (String)updateRes.get("name");
+            
+            assertNotSame(objectName, updatedName);
+
+            // DELETE test case
+            JSONObject deleteRes = serv.delete("pool", uuid);
+			String msg = deleteRes.get("Message").toString();
 			assertEquals("Object deleted successfully", "Object deleted successfully", msg);
 
 		} catch (AviApiException | ParseException e) {
 			e.printStackTrace(System.err);
 		}
-	}	
+	}		
 }
