@@ -128,7 +128,7 @@ def f5_conv(
         prefix=None, convertsnat=None, not_in_use=None, baseline_profile=None,
         f5_passphrase_file=None, vs_level_status=False, test_vip=None,
         vrf=None, segroup=None, custom_config=None, skip_pki=False,
-        distinct_app_profile=False):
+        distinct_app_profile=False, reuse_http_policy=False):
 
     args = Namespace(bigip_config_file=bigip_config_file,
                      skip_default_file=skip_default_file,
@@ -153,7 +153,8 @@ def f5_conv(
                      vrf=vrf, segroup=segroup,
                      custom_config=custom_config,
                      skip_pki=skip_pki,
-                     distinct_app_profile=distinct_app_profile)
+                     distinct_app_profile=distinct_app_profile,
+                     reuse_http_policy = reuse_http_policy)
 
     f5_converter = F5Converter(args)
     avi_config = f5_converter.convert()
@@ -1454,6 +1455,71 @@ class TestF5Converter:
               if vs['name'] == 'F5-VIP-443-002']
         assert 'F5-VIP-443-002' in vs[0]['application_profile_ref']
 
+
+    @pytest.mark.travis
+    def test_http_policy_sharing_on_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
+                reuse_http_policy=True
+                )
+
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            vs_object = data['VirtualService']
+            first_vs = [vs for vs in vs_object if vs['name']
+                        == "vs_http_policy_share_1"][0]
+            second_vs = [vs for vs in vs_object if vs['name']
+                         == "vs_http_policy_share_2"][0]
+            vs1_http_policy = first_vs['http_policies'][0]\
+                ['http_policy_set_ref'].split("=")[-1]
+            vs2_http_policy = second_vs['http_policies'][0] \
+                ['http_policy_set_ref'].split("=")[-1]
+            assert vs1_http_policy == vs2_http_policy == \
+                   'sharedHttpPolicy-HTTP-Policy-Set'
+            http_policies = data['HTTPPolicySet']
+            shared_http_policy = [policy for policy in http_policies
+                                  if policy['name'] ==
+                                  "sharedHttpPolicy-HTTP-Policy-Set"]
+            assert len(shared_http_policy) == 1
+
+    @pytest.mark.travis
+    def test_http_policy_sharing_on_v10(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v10'),
+                f5_config_version=setup.get('file_version_v10'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'),
+                f5_ssh_port=setup.get('f5_ssh_port'),
+                reuse_http_policy=True)
+
+        o_file = "%s/%s" % (output_file, "bigip_v10-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            vs_object = data['VirtualService']
+            first_vs = [vs for vs in vs_object if vs['name']
+                        == "vs_http_policy_share_1"][0]
+            second_vs = [vs for vs in vs_object if vs['name']
+                         == "vs_http_policy_share_2"][0]
+            vs1_http_policy = first_vs['http_policies'][0] \
+                ['http_policy_set_ref'].split("=")[-1]
+            vs2_http_policy = second_vs['http_policies'][0] \
+                ['http_policy_set_ref'].split("=")[-1]
+            assert vs1_http_policy == vs2_http_policy == \
+                   '_sys_https_redirect'
+            http_policies = data['HTTPPolicySet']
+            shared_http_policy = [policy for policy in http_policies
+                                  if policy['name'] ==
+                                  "_sys_https_redirect"]
+            assert len(shared_http_policy) == 1
 
 def teardown():
     pass
