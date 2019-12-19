@@ -104,7 +104,7 @@ type ServiceEngineGroup struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
-	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1.
+	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is supported for AWS and OpenStack cloud types. Field introduced in 17.2.13,18.1.4,18.2.1.
 	DisableAviSecuritygroups *bool `json:"disable_avi_securitygroups,omitempty"`
 
 	// Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1.
@@ -238,6 +238,9 @@ type ServiceEngineGroup struct {
 
 	// Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxPublicIpsPerLb *int32 `json:"max_public_ips_per_lb,omitempty"`
+
+	// Maximum number of queues per vnic Setting to '0' utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7.
+	MaxQueuesPerVnic *int32 `json:"max_queues_per_vnic,omitempty"`
 
 	// Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxRulesPerLb *int32 `json:"max_rules_per_lb,omitempty"`
