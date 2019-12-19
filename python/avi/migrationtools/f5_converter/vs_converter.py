@@ -62,7 +62,8 @@ class VSConfigConv(object):
 
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict,
-                vrf=None, segroup=None, partition_mapping=None):
+                vrf=None, segroup=None, partition_mapping=None,
+                reuse_http_policy=False):
         """
 
         :param f5_config: Parsed f5 config dict
@@ -108,7 +109,8 @@ class VSConfigConv(object):
                 vs_obj = self.convert_vs(
                     vs_name, f5_vs, vs_state, avi_config, f5_snat_pools,
                     user_ignore, tenant, cloud_name, controller_version,
-                    merge_object_mapping, sys_dict, f5_config, vrf)
+                    merge_object_mapping, sys_dict, f5_config, vrf, 
+                    reuse_http_policy)
                 if vs_obj:
                     if segroup:
                         segroup_ref = conv_utils.get_object_ref(
@@ -130,7 +132,8 @@ class VSConfigConv(object):
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name, controller_version,
-                   merge_object_mapping, sys_dict, f5_config, vrf=None):
+                   merge_object_mapping, sys_dict, f5_config, vrf=None,
+                   reuse_http_policy=False):
         """
 
         :param vs_name: name of virtual service.
@@ -434,7 +437,7 @@ class VSConfigConv(object):
             vs_ds, req_policies, nw_policy, converted_rules = (
                 conv_utils.convert_irules(
                     vs_ds_rules, self.rule_config, avi_config, self.prefix,
-                    vs_name, tenant))
+                    vs_name, tenant, reuse_http_policy))
             vs_policies = vs_policies + req_policies
         if vs_ds:
             vs_datascripts = []
@@ -466,7 +469,7 @@ class VSConfigConv(object):
             vs_policies.append(app_prof_obj[0]['HTTPPolicySet'])
         if vs_policies:
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
-                               cloud_name, vs_obj)
+                               cloud_name, vs_obj, reuse_http_policy)
         p_ref = None
         if is_pool_group:
             p_ref = conv_utils.get_object_ref(
@@ -656,7 +659,7 @@ class VSConfigConv(object):
         return vs_obj
 
     def get_policy_vs(self, vs_policies, avi_config, vs_name, tenant,
-                      cloud_name, vs_obj):
+                      cloud_name, vs_obj, reuse_http_policy=False):
         """
         This method gets all the policy attached to vs, also clone it if
         required
@@ -672,7 +675,9 @@ class VSConfigConv(object):
             policy_obj = [ob for ob in avi_config['HTTPPolicySet'] if ob[
                 'name'] == pol_name]
             if policy_obj:
-                if pol_name in used_policy:
+                if reuse_http_policy:
+                    pass
+                elif pol_name in used_policy:
                     LOG.debug('Cloning the policy %s for vs %s',
                               pol_name, vs_name)
                     clone_policy = conv_utils.clone_http_policy_set(
@@ -688,7 +693,8 @@ class VSConfigConv(object):
                                    'supported  %s for vs %s', pol_name,
                                   vs_name)
                         continue
-                used_policy.append(pol_name)
+                if pol_name not in used_policy:
+                    used_policy.append(pol_name)
                 pol = {
                     'index': 11,
                     'http_policy_set_ref':
