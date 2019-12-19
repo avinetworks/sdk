@@ -593,6 +593,13 @@
                     "type": "string", 
                     "description": " It is a reference to an object of type Cloud."
                 }, 
+                "labels": {
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }, 
+                    "type": "array", 
+                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
+                }, 
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
@@ -855,6 +862,22 @@
                         "$ref": "#/definitions/VrfContext"
                     }, 
                     "type": "array"
+                }
+            }
+        }, 
+        "KeyValue": {
+            "required": [
+                "key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key": {
+                    "type": "string", 
+                    "description": "Key."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "Value."
                 }
             }
         }, 

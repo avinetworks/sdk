@@ -673,6 +673,13 @@
                     "type": "string", 
                     "description": "role_attribute_name of AuthMappingRule."
                 }, 
+                "tenant_refs": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
                 "assign_tenant": {
                     "type": "string", 
                     "description": " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
@@ -692,16 +699,24 @@
                     "description": "Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object", 
                     "$ref": "#/definitions/AuthMatchGroupMembership"
                 }, 
-                "tenant_attribute_name": {
+                "assign_policy": {
                     "type": "string", 
-                    "description": "tenant_attribute_name of AuthMappingRule."
+                    "description": "Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7."
                 }, 
-                "tenant_refs": {
+                "object_access_policy_refs": {
                     "items": {
                         "type": "string"
                     }, 
                     "type": "array", 
-                    "description": " It is a reference to an object of type Tenant."
+                    "description": "Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7."
+                }, 
+                "policy_attribute_name": {
+                    "type": "string", 
+                    "description": "Attribute name for Object Access Policy assignment. Field introduced in 18.2.7."
+                }, 
+                "tenant_attribute_name": {
+                    "type": "string", 
+                    "description": "tenant_attribute_name of AuthMappingRule."
                 }, 
                 "attribute_match": {
                     "description": "Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object", 

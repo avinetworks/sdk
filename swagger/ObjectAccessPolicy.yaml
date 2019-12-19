@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
     version: '18.2.7'
-    title: Avi Network Object API
+    title: Avi ObjectAccessPolicy Object API
     contact:
         name: Avi Networks Inc.
         url: https://avinetworks.com/contact-us
@@ -11,8 +11,8 @@ info:
     description: |
         CLI
         ```
-        - configure network <key>
-        - show network <key>
+        - configure objectaccesspolicy <key>
+        - show objectaccesspolicy <key>
         ```
 
 
@@ -22,7 +22,7 @@ securityDefinitions:
         description: basic authentication
 basePath: /api
 paths:
-    /network:
+    /objectaccesspolicy:
         get:
             consumes:
                 -   application/json
@@ -80,21 +80,13 @@ paths:
                     type: string
                     required: false
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
-                -   name: cloud_uuid
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud using its uuid. Eg. cloud_uuid=cloud-xyz.
-                    type: string
-                -   name: cloud_ref.name
-                    in: query
-                    description: Filter to get objects that belongs to a specific cloud usings its name. This uses cloud name rather than uuid. Eg. cloud_ref.name=Default-Cloud.
-                    type: string
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/NetworkApiResponse"
+                        $ref: "#/definitions/ObjectAccessPolicyApiResponse"
                 401:
                     description: log in failed
         post:
@@ -125,20 +117,20 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: Network object creation
+                    description: ObjectAccessPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
             security:
                 - basicAuth: []
             responses:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 401:
                     description: log in failed
-    /network/{uuid}:
+    /objectaccesspolicy/{uuid}:
         get:
             consumes:
                 -   application/json
@@ -199,7 +191,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 401:
                     description: log in failed
         put:
@@ -235,10 +227,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: Network object creation
+                    description: ObjectAccessPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -250,7 +242,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 401:
                     description: log in failed
         patch:
@@ -286,10 +278,10 @@ paths:
                     description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
                 -   in: body
                     name: body
-                    description: Network object creation
+                    description: ObjectAccessPolicy object creation
                     required: true
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 -   in: path
                     name: uuid
                     description: UUID of the object to fetch
@@ -301,7 +293,7 @@ paths:
                 200:
                     description: OK
                     schema:
-                        $ref: "#/definitions/Network"
+                        $ref: "#/definitions/ObjectAccessPolicy"
                 401:
                     description: log in failed
         delete:
@@ -352,115 +344,49 @@ paths:
 
 
 definitions:
-    IpAddr:
+    ObjectAccessMatchTarget:
         type: object
         required:
-            -   addr
-            -   type
+            -   label_key
+            -   label_values
         properties:
-            addr:
-                description: "IP address."
+            label_key:
+                description: "Key of the label to be matched. Field introduced in 18.2.7."
                 type: string
-            type:
-                description: " Enum options - V4, DNS, V6."
-                type: string
-    IpAddrPrefix:
-        type: object
-        required:
-            -   ip_addr
-            -   mask
-        properties:
-            ip_addr:
-                description: "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object"
-                $ref: '#/definitions/IpAddr'
-            mask:
-                description: "Number of mask."
-                type: integer
-                format: int32
-    IpAddrRange:
-        type: object
-        required:
-            -   begin
-            -   end
-        properties:
-            begin:
-                description: "Starting IP address of the range."
-                $ref: '#/definitions/IpAddr'
-            end:
-                description: "Ending IP address of the range."
-                $ref: '#/definitions/IpAddr'
-    KeyValue:
-        type: object
-        required:
-            -   key
-        properties:
-            key:
-                description: "Key."
-                type: string
-            value:
-                description: "Value."
-                type: string
-    Network:
+            label_values:
+                description: "Label values that result in a successful match. Field introduced in 18.2.7."
+                type: array
+                items:
+                    type: string
+    ObjectAccessPolicy:
         type: object
         required:
             -   name
+            -   rules
         properties:
             _last_modified:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
-            cloud_ref:
-                description: " It is a reference to an object of type Cloud."
-                type: string
-            configured_subnets:
-                description: "Placeholder for description of property configured_subnets of obj type Network field type str  type object"
-                type: array
-                items:
-                    $ref: '#/definitions/Subnet'
-            dhcp_enabled:
-                description: "Select the IP address management scheme for this Network."
-                type: boolean
-                default: True
-            exclude_discovered_subnets:
-                description: "When selected, excludes all discovered subnets in this network from consideration for virtual service placement."
-                type: boolean
-            ip6_autocfg_enabled:
-                description: "Enable IPv6 auto configuration. Field introduced in 18.1.1."
-                type: boolean
-                default: True
-            labels:
-                description: "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
-                type: array
-                items:
-                    $ref: '#/definitions/KeyValue'
             name:
-                description: "Name of the object."
+                description: "Name of the Object Access Policy. Field introduced in 18.2.7."
                 type: string
-            synced_from_se:
-                description: "Placeholder for description of property synced_from_se of obj type Network field type str  type boolean"
-                type: boolean
+            rules:
+                description: "Rules which grant access to specific objects. Field introduced in 18.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/ObjectAccessPolicyRule'
             tenant_ref:
-                description: " It is a reference to an object of type Tenant."
+                description: "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.7."
                 type: string
             url:
                 description: "url"
                 readOnly: True
                 type: string
             uuid:
-                description: "Unique object identifier of the object."
+                description: "Uuid of the Object Access Policy. Field introduced in 18.2.7."
                 type: string
-            vcenter_dvs:
-                description: "Placeholder for description of property vcenter_dvs of obj type Network field type str  type boolean"
-                type: boolean
-                default: True
-            vimgrnw_ref:
-                description: " It is a reference to an object of type VIMgrNWRuntime."
-                readOnly: True
-                type: string
-            vrf_context_ref:
-                description: " It is a reference to an object of type VrfContext."
-                type: string
-    NetworkApiResponse:
+    ObjectAccessPolicyApiResponse:
         type: object
         required:
             - count
@@ -472,22 +398,25 @@ definitions:
             results:
                 type: array
                 items:
-                    $ref: "#/definitions/Network"
-    Subnet:
+                    $ref: "#/definitions/ObjectAccessPolicy"
+    ObjectAccessPolicyRule:
         type: object
         required:
-            -   prefix
+            -   obj_types
         properties:
-            prefix:
-                description: "Specify an IP subnet prefix for this Network."
-                $ref: '#/definitions/IpAddrPrefix'
-            static_ips:
-                description: "Specify a pool of IP addresses for use in Service Engines."
+            matches:
+                description: "Match criteria for the rule. Field introduced in 18.2.7."
                 type: array
                 items:
-                    $ref: '#/definitions/IpAddr'
-            static_ranges:
-                description: "Placeholder for description of property static_ranges of obj type Subnet field type str  type object"
+                    $ref: '#/definitions/ObjectAccessMatchTarget'
+            name:
+                description: "Name of the rule. Field introduced in 18.2.7."
+                type: string
+            obj_types:
+                description: "Object types that this rule applies to. Enum options - VIRTUALSERVICE, POOL, HEALTHMONITOR, NETWORKPROFILE, APPLICATIONPROFILE, HTTPPOLICYSET, DNSPOLICY, SECURITYPOLICY, IPADDRGROUP, STRINGGROUP, SSLPROFILE, SSLKEYANDCERTIFICATE, NETWORKSECURITYPOLICY, APPLICATIONPERSISTENCEPROFILE, ANALYTICSPROFILE, VSDATASCRIPTSET, TENANT, PKIPROFILE, AUTHPROFILE, CLOUD, SERVERAUTOSCALEPOLICY, AUTOSCALELAUNCHCONFIG, MICROSERVICEGROUP, IPAMPROFILE, HARDWARESECURITYMODULEGROUP, POOLGROUP, PRIORITYLABELS, POOLGROUPDEPLOYMENTPOLICY, GSLBSERVICE, GSLBSERVICERUNTIME, SCHEDULER, GSLBGEODBPROFILE, GSLBAPPLICATIONPERSISTENCEPROFILE, TRAFFICCLONEPROFILE, VSVIP, WAFPOLICY, WAFPROFILE, ERRORPAGEPROFILE, ERRORPAGEBODY, L4POLICYSET, GSLBSERVICERUNTIMEBATCH, WAFPOLICYPSMGROUP, PINGACCESSAGENT, NETWORKSERVICE, NATPOLICY, SSOPOLICY, PROTOCOLPARSER, EXAMPLECHILD, TESTSEDATASTORELEVEL1, TESTSEDATASTORELEVEL2, TESTSEDATASTORELEVEL3, SERVICEENGINE, DEBUGSERVICEENGINE, DEBUGCONTROLLER, DEBUGVIRTUALSERVICE, SERVICEENGINEGROUP, SEPROPERTIES, NETWORK, CONTROLLERNODE, CONTROLLERPROPERTIES, SYSTEMCONFIGURATION, VRFCONTEXT, USER, ALERTCONFIG, ALERTSYSLOGCONFIG, ALERTEMAILCONFIG, ALERTTYPECONFIG, APPLICATION, ROLE, CLOUDPROPERTIES, SNMPTRAPPROFILE, ACTIONGROUPPROFILE, MICROSERVICE, ALERTPARAMS, ACTIONGROUPCONFIG, CLOUDCONNECTORUSER, GSLB, GSLBDNSUPDATE, GSLBSITEOPS, GLBMGRWARMSTART, IPAMDNSRECORD, GSLBDNSGSSTATUS, GSLBDNSGEOFILEOPS, GSLBDNSGEOUPDATE, GSLBDNSGEOCLUSTEROPS, GSLBDNSCLEANUP, GSLBSITEOPSRESYNC, IPAMDNSPROVIDERPROFILE, CUSTOMERPORTALINFO, TCPSTATRUNTIME, UDPSTATRUNTIME, IPSTATRUNTIME, ARPSTATRUNTIME, MBSTATRUNTIME, IPSTKQSTATSRUNTIME, MALLOCSTATRUNTIME, SHMALLOCSTATRUNTIME, CPUUSAGERUNTIME, L7GLOBALSTATSRUNTIME, L7VIRTUALSERVICESTATSRUNTIME, SEAGENTVNICDBRUNTIME, SEAGENTGRAPHDBRUNTIME, SEAGENTSTATERUNTIME, INTERFACERUNTIME, ARPTABLERUNTIME, DISPATCHERSTATRUNTIME, DISPATCHERSTATCLEARRUNTIME, DISPATCHERTABLEDUMPRUNTIME, DISPATCHERREMOTETIMERLISTDUMPRUNTIME, METRICSAGENTMESSAGE, HEALTHMONITORSTATRUNTIME, METRICSENTITYRUNTIME, PERSISTENCEINTERNAL, HTTPPOLICYSETINTERNAL, DNSPOLICYINTERNAL, CONNECTIONDUMPRUNTIME, SHAREDDBSTATS, SHAREDDBSTATSCLEAR, ICMPSTATRUNTIME, ROUTETABLERUNTIME, VIRTUALMACHINE, POOLSERVER, SEVSLIST, MEMINFORUNTIME, RTERINGSTATRUNTIME, ALGOSTATRUNTIME, HEALTHMONITORRUNTIME, CPUSTATRUNTIME, SEVM, HOST, PORTGROUP, CLUSTER, DATACENTER, VCENTER, HTTPPOLICYSETSTATS, DNSPOLICYSTATS, METRICSSESTATS, RATELIMITERSTATRUNTIME, NETWORKSECURITYPOLICYSTATS, TCPCONNRUNTIME, POOLSTATS, CONNPOOLINTERNAL, CONNPOOLSTATS, VSHASHSHOWRUNTIME, SELOGSTATSRUNTIME, NETWORKSECURITYPOLICYDETAIL, LICENSERUNTIME, SERVERRUNTIME, METRICSRUNTIMESUMMARY, METRICSRUNTIMEDETAIL, DISPATCHERSEHMPROBETEMPDISABLERUNTIME, POOLDEBUG, VSLOGMGRMAP, SERUMINSERTIONSTATS, HTTPCACHE, HTTPCACHESTATS, SEDOSSTATRUNTIME, VSDOSSTATRUNTIME, SERVERUPDATEREQ, VSSCALEOUTLIST, SEMEMDISTRUNTIME, TCPCONNRUNTIMEDETAIL, SEUPGRADESTATUS, SEUPGRADEPREVIEW, SEFAULTINJECTEXHAUSTM, SEFAULTINJECTEXHAUSTMCL, SEFAULTINJECTEXHAUSTMCLSMALL, SEFAULTINJECTEXHAUSTCONN, SEHEADLESSONLINEREQ, SEUPGRADE, SEUPGRADESTATUSDETAIL, SERESERVEDVS, SERESERVEDVSCLEAR, VSCANDIDATESEHOSTLIST, SEGROUPUPGRADE, REBALANCE, SEGROUPREBALANCE, SEAUTHSTATSRUNTIME, AUTOSCALESTATE, VIRTUALSERVICEAUTHSTATS, NETWORKSECURITYPOLICYDOS, KEYVALINTERNAL, KEYVALSUMMARYINTERNAL, SERVERSTATEUPDATEINFO, CLTRACKINTERNAL, CLTRACKSUMMARYINTERNAL, MICROSERVICERUNTIME, SEMICROSERVICE, VIRTUALSERVICEANALYSIS, CLIENTINTERNAL, CLIENTSUMMARYINTERNAL, MICROSERVICEGROUPRUNTIME, BGPRUNTIME, REQUESTQUEUERUNTIME, MIGRATEALL, MIGRATEALLSTATUSSUMMARY, MIGRATEALLSTATUSDETAIL, INTERFACESUMMARYRUNTIME, INTERFACELACPRUNTIME, DNSTABLE, GSLBSERVICEDETAIL, GSLBSERVICEINTERNAL, GSLBSERVICEHMONSTAT, SETROLESREQUEST, TRAFFICCLONERUNTIME, GEOLOCATIONINFO, SEVSHBSTATRUNTIME, GEODBINTERNAL, GSLBSITEINTERNAL, WAFSTATS, USERDEFINEDDATASCRIPTCOUNTERS, LLDPRUNTIME, VSESSHARINGPOOL, NDTABLERUNTIME, IP6STATRUNTIME, ICMP6STATRUNTIME, SEVSSPLACEMENT, L4POLICYSETSTATS, L4POLICYSETINTERNAL, BGPDEBUGINFO, SHARD, CPUSTATRUNTIMEDETAIL, SEASSERTSTATRUNTIME, SEFAULTINJECTINFRA, SEAGENTASSERTSTATRUNTIME, SEDATASTORESTATUS, DIFFQUEUESTATUS, IP6ROUTETABLERUNTIME, SECURITYMGRSTATE, VIRTUALSERVICESESCALEOUTSTATUS, SHARDSERVERSTATUS, SEAGENTSHARDCLIENTRESOURCEMAP, SEAGENTCONSISTENTHASH, SEAGENTVNICDBHISTORY, SEAGENTSHARDCLIENTAPPMAP, SEAGENTSHARDCLIENTEVENTHISTORY, NATSTATRUNTIME, NATFLOWRUNTIME, SECUTIRYMGRRUNTIME, SSOPOLICYSTATS, SENETWORKSERVICERUNTIME, SEGEORUNTIME, NATPOLICYSTATS, SECURITYMGRLEARN, SECURITYMGRTOPN, SEFAULTRUNTIME, SERESOURCEPROTO, SECONSUMERPROTO, SECREATEPENDINGPROTO, PLACEMENTSTATS, SEVIPPROTO, RMVRFPROTO, VCENTERMAP, VIMGRVCENTERRUNTIME, INTERESTEDVMS, INTERESTEDHOSTS, VCENTERSUPPORTEDCOUNTERS, ENTITYCOUNTERS, TRANSACTIONSTATS, SEVMCREATEPROGRESS, PLACEMENTSTATUS, VISUBFOLDERS, VIDATASTORE, VIHOSTRESOURCES, CLOUDCONNECTOR, VINETWORKSUBNETVMS, VIDATASTORECONTENTS, VIMGRVCENTERCLOUDRUNTIME, VIVCENTERPORTGROUPS, VIVCENTERDATACENTERS, VIMGRHOSTRUNTIME, PLACEMENTGLOBALS, PORTALCONNECTOR, APICCONFIGURATION, CIFTABLE, APICTRANSACTION, VIRTUALSERVICESTATEDBCACHESUMMARY, POOLSTATEDBCACHESUMMARY, SERVERSTATEDBCACHESUMMARY, APICAGENTINTERNAL, APICTRANSACTIONFLAP, APICGRAPHINSTANCES, APICEPGS, APICEPGEPS, APICDEVICEPKGVER, APICTENANTS, APICVMMDOMAINS, NSXCONFIGURATION, NSXSGTABLE, NSXAGENTINTERNAL, NSXSGINFO, NSXSGIPS, NSXAGENTINTERNALCLI, MAXOBJECTS. Field introduced in 18.2.7."
                 type: array
                 items:
-                    $ref: '#/definitions/IpAddrRange'
+                    type: string
+            privilege:
+                description: "Privilege granted for objects matched by the rule. Enum options - NO_ACCESS, READ_ACCESS, WRITE_ACCESS. Field introduced in 18.2.7."
+                type: string
