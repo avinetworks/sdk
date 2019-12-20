@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 import sys
 import argparse
@@ -13,7 +13,8 @@ import datetime
 import os.path
 import xmltodict
 import requests
-from avi.sdk.avi_api import ApiSession
+import getpass
+from avi.sdk.avi_api import ApiSession, APIError
 
 
 requests.packages.urllib3.disable_warnings()
@@ -39,7 +40,7 @@ def process_args():
                         default="admin",
                         help="Username to login, default is 'admin'")
     parser.add_argument("-p", "--password", action="store",
-                        required=True,
+                        required=False,
                         help='Password for controller access')
     parser.add_argument("-t", "--tenant", action="store",
                         default="admin",
@@ -50,6 +51,9 @@ def process_args():
                         help="Apply changes to the controller. " +
                         "When this option is not set, the script only " +
                         "prints what it would do")
+    parser.add_argument("-g", "--group", action="store",
+                        help="WAF policy PSM group name. " +
+                        "Default is scanner type e.g. zap or qualysweb.")
     args = parser.parse_args()
     return args
 
@@ -157,6 +161,7 @@ class ZapXmlInputHandler:
     """ Class responsible for reading ZAP file format """
 
     input_type = "zap"
+    zap_version = 2
 
     @staticmethod
     def vtype2avi(alert):
@@ -181,20 +186,44 @@ class ZapXmlInputHandler:
             return vulnerability_data
 
         for vuln in node:
-            if not vuln.get("param"):
-                continue
             val = {}
-            val["param"] = vuln["param"]
-            val["attack_type"] = self.vtype2avi(vuln.get("alert", ""))
+            alert = vuln.get("alert", "")
+            val["attack_type"] = self.vtype2avi(alert)
             val["description"] = vuln.get("alert", "")
-            try:
-                url = urlparse(vuln["uri"]).path
-                if not url:
-                    raise ValueError("Path not found")
-                vulnerability_data.setdefault(url, []).append(val)
-            except ValueError as exc:
-                LOGGER.warning("Failed to process vulnerability for '%s': %s",
-                               vuln["param"], exc)
+            if self.version == "1":
+                if not vuln.get("param"):
+                    continue
+                val["param"] = vuln["param"]
+                try:
+                    url = urlparse(vuln["uri"]).path
+                    if not url:
+                        raise ValueError("Path not found")
+                    vulnerability_data.setdefault(url, []).append(val)
+                except ValueError as exc:
+                    LOGGER.warning("Failed to process vulnerability for '%s': %s",
+                                   vuln["param"], exc)
+            else:
+                if "SQL Injection" not in alert and "Cross Site Scripting" not in alert:
+                    continue
+                instance = vuln.get("instances", {}).get("instance", [])
+                instance_list = []
+                if type(instance) != list:
+                    instance_list.append(instance)
+                else:
+                    instance_list = instance
+                for instance_dict in instance_list:
+                    if not instance_dict.get("param"):
+                        continue
+                    val["param"] = instance_dict["param"]
+                    try:
+                        url = urlparse(instance_dict["uri"]).path
+                        if not url:
+                            raise ValueError("Path not found")
+                        vulnerability_data.setdefault(url, []).append(val)
+                    except ValueError as exc:
+                        LOGGER.warning("Failed to process vulnerability for '%s': %s",
+                                       vuln["param"], exc)
+
         return vulnerability_data
 
 
@@ -229,7 +258,9 @@ def new_psmgroup(args, handler_type, vulnerability_data):
     """ Create new PSM group with locations and rules
         matching vulnerability_data.
     """
-    psm_group_name = handler_type
+    psm_group_name = args.group
+    if not psm_group_name:
+        psm_group_name = handler_type
 
     psmgroup = {}
     psmgroup["name"] = psm_group_name  # "DAST_qualysweb"
@@ -289,7 +320,11 @@ def detect_input_type(xmldict):
     if "WAS_SCAN_REPORT" in xmldict:
         return QualysWebXmlInputHandler()
     elif "OWASPZAPReport" in xmldict:
-        return ZapXmlInputHandler()
+        handler = ZapXmlInputHandler()
+        version = xmldict["OWASPZAPReport"].get("@version", "")
+        if version:
+            handler.version = version.split(".", 1)[0]
+            return handler
     raise Exception("Failed to detect input type")
 
 
@@ -305,10 +340,10 @@ def main():
     # load file into memory
     try:
         with open(args.filename) as infile:
-            xmldict = xmltodict.parse(infile.read())
+            xmldict = xmltodict.parse(infile.read(), xml_attribs=True)
     except Exception as exc:
         LOGGER.error("Failed to process input file: %s", exc)
-        exit(1)
+        sys.exit(1)
     handler = detect_input_type(xmldict)
     vulnerability_data = handler.handle(xmldict)
     if not vulnerability_data:
@@ -324,13 +359,18 @@ def main():
             else:
                 LOGGER.info(msg + " or --verbose to display config changes")
             return
-        with ApiSession.get_session(args.controller,
-                                    args.username,
-                                    args.password,
-                                    tenant=args.tenant,
-                                    api_version=AVI_API_VERSION) as api:
-            save_psmgroup(api, psmgroup)
-
+        try:
+            if not args.password:
+                args.password = getpass.getpass()
+            with ApiSession.get_session(args.controller,
+                                        args.username,
+                                        args.password,
+                                        tenant=args.tenant,
+                                        api_version=AVI_API_VERSION) as api:
+                save_psmgroup(api, psmgroup)
+        except APIError as err:
+            LOGGER.error("API error: %s/%s", err.rsp.status_code, err.rsp.reason)
+            sys.exit(1)
 
 if __name__ == "__main__":
     main()
