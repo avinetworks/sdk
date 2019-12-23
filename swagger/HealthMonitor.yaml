@@ -404,6 +404,9 @@ definitions:
             description:
                 description: "User defined description for the object."
                 type: string
+            disable_quickstart:
+                description: "During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7."
+                type: boolean
             dns_monitor:
                 description: "Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object"
                 $ref: '#/definitions/HealthMonitorDNS'

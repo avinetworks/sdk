@@ -952,6 +952,13 @@
                     "type": "string", 
                     "description": "DNS view."
                 }, 
+                "extensible_attributes": {
+                    "items": {
+                        "$ref": "#/definitions/CustomParams"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7."
+                }, 
                 "password": {
                     "type": "string", 
                     "description": "Password for API access for Infoblox appliance."

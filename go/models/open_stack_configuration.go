@@ -35,6 +35,9 @@ type OpenStackConfiguration struct {
 	// Enable Contrail plugin mode. (deprecated).
 	ContrailPlugin *bool `json:"contrail_plugin,omitempty"`
 
+	// Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7.
+	CustomSeImageProperties []*Property `json:"custom_se_image_properties,omitempty"`
+
 	// If True, allow selection of networks marked as 'external' for management,  vip or data networks.
 	ExternalNetworks *bool `json:"external_networks,omitempty"`
 

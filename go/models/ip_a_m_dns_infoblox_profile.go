@@ -10,6 +10,9 @@ type IPAMDNSInfobloxProfile struct {
 	// DNS view.
 	DNSView *string `json:"dns_view,omitempty"`
 
+	// Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7.
+	ExtensibleAttributes []*CustomParams `json:"extensible_attributes,omitempty"`
+
 	// Address of Infoblox appliance.
 	// Required: true
 	IPAddress *IPAddr `json:"ip_address"`
