@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -401,6 +401,7 @@ font-style: italic;
       "max_bad_rps_cip" : 123,
       "max_rps_unknown_uri" : 123,
       "max_keepalive_requests" : 123,
+      "enable_chunk_merge" : true,
       "hsts_max_age" : 123456789
     },
     "dos_rl_profile" : {
@@ -660,6 +661,7 @@ font-style: italic;
     "max_bad_rps_cip" : 123,
     "max_rps_unknown_uri" : 123,
     "max_keepalive_requests" : 123,
+    "enable_chunk_merge" : true,
     "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
@@ -990,6 +992,7 @@ font-style: italic;
     "max_bad_rps_cip" : 123,
     "max_rps_unknown_uri" : 123,
     "max_keepalive_requests" : 123,
+    "enable_chunk_merge" : true,
     "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
@@ -1260,6 +1263,7 @@ font-style: italic;
     "max_bad_rps_cip" : 123,
     "max_rps_unknown_uri" : 123,
     "max_keepalive_requests" : 123,
+    "enable_chunk_merge" : true,
     "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
@@ -1530,6 +1534,7 @@ font-style: italic;
     "max_bad_rps_cip" : 123,
     "max_rps_unknown_uri" : 123,
     "max_keepalive_requests" : 123,
+    "enable_chunk_merge" : true,
     "hsts_max_age" : 123456789
   },
   "dos_rl_profile" : {
@@ -1811,6 +1816,7 @@ font-style: italic;
 <div class="param">connection_multiplexing_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP. </div>
 <div class="param">disable_keepalive_posts_msie6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections. </div>
 <div class="param">disable_sni_hostname_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5. </div>
+<div class="param">enable_chunk_merge (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7. </div>
 <div class="param">enable_fire_and_forget (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4. </div>
 <div class="param">enable_request_body_buffering (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable request body buffering for POST requests. If enabled, max buffer size is set to lower of 32M or the value (non-zero) configured in client_max_body_size. </div>
 <div class="param">enable_request_body_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP request body metrics. If enabled, requests from clients are parsed and relevant statistics about them are gathered. Currently, it processes HTTP POST requests with Content-Type application/x-www-form-urlencoded or multipart/form-data, and adds the number of detected parameters to the l7_client.http_params_count. This is an experimental feature and it may have performance impact. Use it when detailed information about the number of HTTP POST parameters is needed, e.g. for WAF sizing. Field introduced in 18.1.5, 18.2.1. </div>
@@ -1847,7 +1853,7 @@ font-style: italic;
 <div class="param">spdy_fwd_proxy_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI. </div>
 <div class="param">ssl_client_certificate_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLClientCertificateAction">SSLClientCertificateAction</a></span> Set of match/action rules that govern what happens when the client certificate request is enabled. </div>
 <div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. </div>
-<div class="param">ssl_everywhere_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect. </div>
+<div class="param">ssl_everywhere_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7. </div>
 <div class="param">use_app_keepalive_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use &#39;Keep-Alive&#39; header timeout sent by application instead of sending the HTTP Keep-Alive Timeout. </div>
 <div class="param">websockets_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Websockets proxy for traffic from clients to the virtual service. Connections to this VS start in HTTP mode. If the client requests an Upgrade to Websockets, and the server responds back with success, then the connection is upgraded to WebSockets mode. . </div>
 <div class="param">x_forwarded_proto_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Insert an X-Forwarded-Proto header in the request sent to the server.  When the client connects via SSL, Avi terminates the SSL, and then forwards the requests to the servers via HTTP, so the servers can determine the original protocol via this header.  In this example, the value will be &#39;https&#39;. </div>

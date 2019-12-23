@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationpersistenceprofile <key> - show applicationpersistenceprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,6 +257,7 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "ip_persistence_profile" : {
+      "ip_mask" : 123,
       "ip_persistent_timeout" : 123
     },
     "description" : "aeiou",
@@ -342,6 +343,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ip_persistence_profile" : {
+    "ip_mask" : 123,
     "ip_persistent_timeout" : 123
   },
   "description" : "aeiou",
@@ -550,6 +552,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ip_persistence_profile" : {
+    "ip_mask" : 123,
     "ip_persistent_timeout" : 123
   },
   "description" : "aeiou",
@@ -646,6 +649,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ip_persistence_profile" : {
+    "ip_mask" : 123,
     "ip_persistent_timeout" : 123
   },
   "description" : "aeiou",
@@ -742,6 +746,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "ip_persistence_profile" : {
+    "ip_mask" : 123,
     "ip_persistent_timeout" : 123
   },
   "description" : "aeiou",
@@ -866,7 +871,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="IPPersistenceProfile">IPPersistenceProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
+      <div class="param">ip_mask (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask to be applied on client IP. This may be used to persist clients from a subnet to the same server. When set to 0, all requests are sent to the same server. Allowed values are 0-128. Field introduced in 18.2.7. format: int32</div>
+<div class="param">ip_persistent_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The length of time after a client&#39;s connections have closed before expiring the client&#39;s persistence to a server. Allowed values are 1-720. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

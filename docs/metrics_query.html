@@ -305,6 +305,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -312,6 +313,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> apdex for server based on connections </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -319,6 +321,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Maximum available capacity of server in connections/s. It is difference between the max_capacity  and averaged load on the server </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -326,6 +329,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average transmit and receive network bandwidth between client and virtual service. </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -333,6 +337,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average of max capacity of a server in connections/sacross all micro service engines. Pool level metric reflects averaged max capacity across all the servers in the pool. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -340,6 +345,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Rate of total connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -347,6 +353,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Rate of dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -354,6 +361,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Rate of total errored connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -361,6 +369,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Avg of estimated capacity of a server in connections/ssummed across all micro service engines. Pool level metric reflects summed estimated capacity across all the servers in the pool. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -368,6 +377,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Actual application data goodput as bytes per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -375,6 +385,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Status of the server. 0 is down 100 is up </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -382,6 +393,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Rate of lossy connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -389,6 +401,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate new pool server connections established as per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -396,6 +409,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Avg number of open connections </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -403,6 +417,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average transmit and receive network bandwidth between client and virtual service across all servers in a Pool. </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -410,6 +425,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Avg. Rate of total connections per second across  all servers </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -417,6 +433,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of total errored connections per second averaged across all servers in a Pool </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -424,6 +441,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of new pool server connections established as per second across all servers </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -431,6 +449,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average per server open connections in the pool </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -438,6 +457,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of bytes received per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -445,6 +465,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Actual application receive data goodput as bytes per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -452,6 +473,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of packets received per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -459,6 +481,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Server Count </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -466,6 +489,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Server Uptime in % </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -473,6 +497,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total syncs sent across all connections </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -480,6 +505,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Averaged RTT across all connections closed </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -487,6 +513,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of bytes transmitted per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -494,6 +521,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Actual application transmit data goodput as bytes per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -501,6 +529,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Average rate of packets transmitted per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -508,6 +537,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Averaged server Uptime as percent of time it was up </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -515,6 +545,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Maximum available capacity of server in connections/s. It is difference between the max_capacity  and averaged load on the server </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -522,6 +553,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Maximum capacity of a server in connections/sacross all micro service engines. Pool level metric reflects maximum capacity across all the servers in the pool. This metric's 1 day value would represent maximum capacity over any .real time window over that 1 day window </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -529,6 +561,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Max number of open connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -536,6 +569,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of received bytes </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -543,6 +577,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of received frames </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -550,6 +585,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of transmitted bytes </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -557,6 +593,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of transmitted frames </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -564,6 +601,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Percent of l4 connection dropped and lossy for server </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -571,6 +609,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Saturation percent of server in percent </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -578,6 +617,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total duration across all connections </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -585,6 +625,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of client network connections that were lossy or dropped. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -592,6 +633,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total connection setup time across all connections </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -599,6 +641,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total connections dropped including failed </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -606,6 +649,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total duplicate ACK retransmits across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -613,6 +657,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of finished connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -620,6 +665,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> total number of times this server was marked down </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -627,6 +673,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Number of times load balancing failed </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -634,6 +681,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total connections that were lossy due to high packet retransmissions. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -641,6 +689,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total requests that were lossy due to high packet retransmissions. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -648,6 +697,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Number of server up/down state changes in the previous period </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -655,6 +705,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total out of order packets across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -662,6 +713,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total RTT across all connections </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -669,6 +721,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number connections used for rtt </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -676,6 +729,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of RCP resets sent across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -683,6 +737,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of receive zero window size events across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -690,6 +745,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total SACK retransmits across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -697,6 +753,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total connection timeouts in the interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -704,6 +761,7 @@ Virtualservice, Pool and Backend Network (Layer 4) Metrics
 <td> Total number of transmit zero window size events across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -719,6 +777,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -726,6 +785,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> apdex measuring quality of network connections to servers </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -733,6 +793,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> apdex measuring network connection quality based on RTT </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -740,6 +801,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Number of Application DDOS attacks occurring </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -747,6 +809,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average transmit and receive network bandwidth between client and virtual service. </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -754,6 +817,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Averaged rate bytes dropped per second. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -761,6 +825,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Rate of total connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -768,6 +833,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Rate of dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -775,6 +841,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of HTTP App Errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -782,6 +849,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Number DDOS attacks occurring </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -789,6 +857,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Bad Rst Floods </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -796,6 +865,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average transmit and receive network bandwidth between client and virtual service related to DDoS attack. </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -803,6 +873,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Number of connections considered as DoS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -810,6 +881,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Connections dropped due to IP rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -817,6 +889,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Connections dropped due to VS rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -824,6 +897,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Fake Sessions </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -831,6 +905,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of HTTP Aborts </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -838,6 +913,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of HTTP Errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -845,6 +921,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of HTTP Timeouts </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -852,6 +929,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Malformed Packet Floods </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -859,6 +937,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Non SYN packet flood </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -866,6 +945,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Number of request considered as DoS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -873,6 +953,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to Cookie rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -880,6 +961,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to Custom rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -887,6 +969,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to Header rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -894,6 +977,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to IP rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -901,6 +985,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to IP rate limit for bad requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -908,6 +993,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to bad IP rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -915,6 +1001,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to unknown IP rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -922,6 +1009,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to IP+URL rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -929,6 +1017,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to IP+URL rate limit for bad requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -936,6 +1025,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to VS rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -943,6 +1033,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to URL rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -950,6 +1041,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to URL rate limit for bad requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -957,6 +1049,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to bad URL rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -964,6 +1057,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Requests dropped due to unknown URL rate limit </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -971,6 +1065,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes received per second related to DDoS attack </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -978,6 +1073,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Slow Uri </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -985,6 +1081,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Small Window Stresses </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -992,6 +1089,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of HTTP SSL Errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -999,6 +1097,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Syn Floods </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1006,6 +1105,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of request used for L7 dos requests normalization </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1013,6 +1113,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes transmitted per second related to DDoS attack </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1020,6 +1121,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS attack: Rate of Zero Window Stresses </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1027,6 +1129,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Rate of total errored connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1034,6 +1137,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average L4 connection duration which does not include client RTT </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1041,6 +1145,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Rate of lossy connections per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1048,6 +1153,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Averaged rate of lossy request per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1055,6 +1161,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Number of Network DDOS attacks occurring </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1062,6 +1169,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Averaged rate of new client connections per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1069,6 +1177,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Averaged rate of dropped packets per second due to policy </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1076,6 +1185,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Rate of total connections dropped due to VS policy per second. It includes drops due to rate limits, security policy drops, connection limits etc. </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1083,6 +1193,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes received per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1090,6 +1201,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of received bytes dropped per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1097,6 +1209,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of packets received per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1104,6 +1217,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of received packets dropped per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1111,6 +1225,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total syncs sent across all connections </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1118,6 +1233,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Averaged rate bytes dropped per second. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1125,6 +1241,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average network round trip time between client and virtual service </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1132,6 +1249,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of bytes transmitted per second </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1139,6 +1257,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Average rate of packets transmitted per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1146,6 +1265,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Max number of SEs. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1153,6 +1273,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Max number of open connections </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1160,6 +1281,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of received bytes </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1167,6 +1289,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of received frames </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1174,6 +1297,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of transmitted bytes </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1181,6 +1305,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of transmitted frames </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1188,6 +1313,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Fraction of L7 requests owing to DoS. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1195,6 +1321,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Percent of l4 connection dropped and lossy for virtual service </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1202,6 +1329,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Fraction of L4 connections owing to DoS. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1209,6 +1337,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> DoS bandwidth percentage. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1216,6 +1345,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Percentage of received bytes as part of a DoS attack. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1223,6 +1353,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Deprecated </td>
 <td>  </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1230,6 +1361,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Fraction of packets owing to DoS. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1237,6 +1369,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Fraction of L4 requests dropped owing to policy. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1244,6 +1377,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total duration across all connections </td>
 <td> SECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1251,6 +1385,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of connection dropped due to vserver connection limit </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1258,6 +1393,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of client network connections that were lossy or dropped. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1265,6 +1401,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total connections dropped including failed </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1272,6 +1409,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total duplicate ACK retransmits across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1279,6 +1417,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Sum of end to end network RTT experienced by end clients. Higher value would increase response times experienced by clients. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1286,6 +1425,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total connections that have RTT values from 0 to RTT threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1293,6 +1433,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total connections that have RTT values RTT threshold and above </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1300,6 +1441,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of finished connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1307,6 +1449,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total connections that were lossy due to high packet retransmissions. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1314,6 +1457,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total requests that were lossy due to high packet retransmissions. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1321,6 +1465,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total out of order packets across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1328,6 +1473,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of packets dropped due to vserver bandwidth limit </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1335,6 +1481,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number connections used for rtt </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1342,6 +1489,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total SACK retransmits across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1349,6 +1497,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of connections with server flow control condition </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1356,6 +1505,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total connection timeouts in the interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1363,6 +1513,7 @@ Virtualservice frontend Network (Layer 4) Metrics
 <td> Total number of zero window size events across all connections </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -1378,6 +1529,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -1385,6 +1537,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> apdex measuring response quality of server </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1392,6 +1545,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1399,6 +1553,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1406,6 +1561,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of HTTP error responses sent per second. It does not include errors excluded in analytics profile. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1413,6 +1569,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of HTTP responses excluded as errors based on analytics profile </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1420,6 +1577,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within frustrated latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1427,6 +1585,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Avg rate of HTTP responses sent per second across all servers in a pool </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1434,6 +1593,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average rate of HTTP responses sent per second across all servers in a pool </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1441,6 +1601,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average number of requests per sessions closed in the interval </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1448,6 +1609,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 1xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1455,6 +1617,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 2xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1462,6 +1625,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 3xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1469,6 +1633,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1476,6 +1641,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses as errors sent per second. It does not include any error codes excluded in the analytics profile </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1483,6 +1649,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses excluded as errors based on analytics profile </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1490,6 +1657,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 5xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1497,6 +1665,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 5xx HTTP responses as errors sent per second. It does not include any error codes excluded in the analytics profile </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1504,6 +1673,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses excluded as errors based on analytics profile </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1511,6 +1681,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1518,6 +1689,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within satisfactory latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1525,6 +1697,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Server count </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1532,6 +1705,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average number of requests that timeouted out. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1539,6 +1713,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1546,6 +1721,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average rate of HTTP requests received by a pool's server per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1553,6 +1729,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Maximum number of concurrent HTTP sessions </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1560,6 +1737,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Percent of HTTP 4xx and 5xx responses </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1567,6 +1745,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Average latency measured for pool server </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1574,6 +1753,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Number of server sessions closed in this interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1581,6 +1761,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP GET requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1588,6 +1769,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total latency from responses to all the GET requests </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1595,6 +1777,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP GET requests that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1602,6 +1785,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP GET requests that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1609,6 +1793,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Number of times load balancing failed </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1616,6 +1801,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP requests that are not GET or POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1623,6 +1809,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total latency from responses to all the requests other than GET or POST </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1630,6 +1817,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP requests other than GET or POST that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1637,6 +1825,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP requests other than GET or POST that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1644,6 +1833,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1651,6 +1841,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total latency from responses to all the POST requests </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1658,6 +1849,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP POST requests that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1665,6 +1857,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP POST requests that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1672,6 +1865,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of requests served across server sessions closed in the interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1679,6 +1873,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP 1XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1686,6 +1881,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP 2XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1693,6 +1889,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP 3XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1700,6 +1897,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP 4XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1707,6 +1905,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP 5XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1714,6 +1913,7 @@ Virtualservice, Pool and Backend Application (Layer 7) Metrics
 <td> Total number of HTTP responses sent </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 </table>
@@ -1729,6 +1929,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -1736,6 +1937,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Client Apdex measures quality of server response based on latency </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1743,6 +1945,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average server/application response latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1750,6 +1953,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average time client was blocked as reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1757,6 +1961,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average browser rendering latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1764,6 +1969,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average cache bytes </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1771,6 +1977,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average cache hit of requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1778,6 +1985,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average cacheable bytes </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1785,6 +1993,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average cacheable hit of requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1792,6 +2001,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average client data transfer time that represents latency of sending response to the client excluding the RTT time . Higher client data transfer time signifies lower bandwidth  between client and Avi Service Engine </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1799,6 +2009,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average client Round Trip Time </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1806,6 +2017,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average client transaction latency computed by adding response latencies across all HTTP requests. </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1813,6 +2025,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1820,6 +2033,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average client connection latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1827,6 +2041,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average domain lookup latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1834,6 +2049,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average Dom content Load Time reported by clients </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1841,6 +2057,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of HTTP error responses sent per second. It does not include errors excluded in analytics profile. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1848,6 +2065,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of HTTP responses excluded as errors based on analytics profile </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1855,6 +2073,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within frustrated latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1862,6 +2081,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average size of HTTP headers per request. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1869,6 +2089,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of HTTP headers per request. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1876,6 +2097,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of HTTP request parameters per request. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1883,6 +2105,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average Page Load time reported by clients </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1890,6 +2113,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average Page Load Time reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1897,6 +2121,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of HTTP request parameters per request, taking into account only requests with parameters. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1904,6 +2129,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average size of HTTP POST request. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1911,6 +2137,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average post compression bytes </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1918,6 +2145,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average pre compression bytes </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1925,6 +2153,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average redirect latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1932,6 +2161,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average requests per session measured for closed sessions </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -1939,6 +2169,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 1xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1946,6 +2177,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 2xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1953,6 +2185,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 3xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1960,6 +2193,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1967,6 +2201,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 4xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1974,6 +2209,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 5xx HTTP responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1981,6 +2217,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Rate of 5xx HTTP responses as errors sent by avi. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1988,6 +2225,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total client data transfer time by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -1995,6 +2233,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within satisfactory latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2002,6 +2241,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average server Round Trip Time </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2009,6 +2249,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average latency from receipt of request to start of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2016,6 +2257,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions using DSA certificate </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2023,6 +2265,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions using Elliptic Curve DSA (ECDSA) certificates </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2030,6 +2273,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions using RSA certificate </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2037,6 +2281,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2044,6 +2289,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using EC Cerificates without PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2051,6 +2297,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using EC Cerificates and PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2058,6 +2305,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL errors due to clients, protocol errors,network errors and handshake timeouts </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2065,6 +2313,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL connections failed due to protocol , network or timeout reasons </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2072,6 +2321,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL handshakes failed due to network errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2079,6 +2329,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL handshake failed due to clients or protocol errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2086,6 +2337,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average new successful SSL sessions </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2093,6 +2345,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using Non-PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2100,6 +2353,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2107,6 +2361,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average new successful resumed SSL sessions </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2114,6 +2369,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL handshakes timed out </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2121,6 +2377,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using Diffie-Hellman </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2128,6 +2385,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using RSA </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2135,6 +2393,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using RSA </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2142,6 +2401,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using RSA Cerificates without PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2149,6 +2409,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Exchanges using RSA Cerificates and PFS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2156,6 +2417,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions with version 3.0 </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2163,6 +2425,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions with TLS version 1.0 </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2170,6 +2433,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions with TLS version 1.1 </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2177,6 +2441,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions with TLS version 1.2 </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2184,6 +2449,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average SSL Sessions with TLS version 1.3 </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2191,6 +2457,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Avg number of HTTP requests that completed within tolerated latency </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2198,6 +2465,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of client HTTP2 requests received by the Virtual Service per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2205,6 +2473,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average rate of client HTTP requests received by the virtual service per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2212,6 +2481,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average length of HTTP URI per request. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2219,6 +2489,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second identified by WAF as attacks. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2226,6 +2497,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second bypassing WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2233,6 +2505,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second evaluated by WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2240,6 +2513,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second evaluated by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2247,6 +2521,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second evaluated by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2254,6 +2529,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second evaluated by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2261,6 +2537,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responsess per second evaluated by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2268,6 +2545,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second flagged by WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2275,6 +2553,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second flagged (but not rejected) by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2282,6 +2561,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second flagged (but not rejected) by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2289,6 +2569,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second flagged (but not rejected) by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2296,6 +2577,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second flagged (but not rejected) by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2303,6 +2585,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average waf latency seen due to WAF Request Body processing. </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2310,6 +2593,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average waf latency seen due to WAF Request Header processing. </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2317,6 +2601,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average waf latency seen due to WAF Response Body processing. </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2324,6 +2609,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average waf latency seen due to WAF Response Header processing. </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2331,6 +2617,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second matched by WAF rule/rules. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2338,6 +2625,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second matched by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2345,6 +2633,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second matched by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2352,6 +2641,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second matched by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2359,6 +2649,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second matched by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2366,6 +2657,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of transactions per second rejected by WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2373,6 +2665,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second rejected by WAF in Request Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2380,6 +2673,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of requests per second rejected by WAF in Request Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2387,6 +2681,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second rejected by WAF in Response Body Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2394,6 +2689,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average number of responses per second rejected by WAF in Response Header Phase. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2401,6 +2697,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average Waiting Time reported by client </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2408,6 +2705,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Maximum number of concurrent HTTP sessions </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2415,6 +2713,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Maximum number of open SSL sessions </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2422,6 +2721,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Percentage cache hit of requests </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2429,6 +2729,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Percentage cacheable hit of requests </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2436,6 +2737,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Number of HTTP GET requests as a percentage of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2443,6 +2745,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Number of HTTP POST requests as a percentage of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2450,6 +2753,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Percent of 4xx and 5xx responses </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2457,6 +2761,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Percent of SSL connections failured due to protocol , network or timeout reasons </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2464,6 +2769,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Malicious transactions (Attacks) identified by WAF as the pecentage  of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2471,6 +2777,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Transactions bypassing WAF as the percentage of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2478,6 +2785,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> WAF evaluated transactions as the pecentage of total requests received. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2485,6 +2793,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> WAF flagged transactions as the percentage of total WAF evaluated transactions. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2492,6 +2801,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> WAF matched requests as the percentage of total WAF evaluated requests. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2499,6 +2809,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> WAF rejected transactions as the percentage of total WAF evaluated transactions. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2506,6 +2817,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Apdex measures quality of server response based on Real User Metric </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2513,6 +2825,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Protocol strength of SSL ciphers used. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2520,6 +2833,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total time taken by server to respond to requesti </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2527,6 +2841,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total time client was blocked </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2534,6 +2849,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total browser rendering latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2541,6 +2857,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Average client data transfer time computed by adding response latencies across all HTTP requests. </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2548,6 +2865,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Sum of all client Round Trip Times for all samples </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2555,6 +2873,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total client connection latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2562,6 +2881,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total domain lookup latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2569,6 +2889,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total dom content latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2576,6 +2897,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Count of HTTP 400 and 500 errors for a virtual service in a time interval. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2583,6 +2905,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Number of server sessions closed in this interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2590,6 +2913,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency from responses to all the GET requests </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2597,6 +2921,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP GET requests that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2604,6 +2929,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP GET requests that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2611,6 +2937,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP GET requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2618,6 +2945,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total size of HTTP request headers. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2625,6 +2953,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP headers across all requests in a given metrics interval. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2632,6 +2961,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP request parameters. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2639,6 +2969,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total samples that had satisfactory page load time </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2646,6 +2977,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total samples that had tolerated page load time </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2653,6 +2985,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total samples used for rum metrics </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2660,6 +2993,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency from responses to all the requests other than GET or POST </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2667,6 +3001,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP requests other than GET or POST that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2674,6 +3009,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP requests other than GET or POST that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2681,6 +3017,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP requests that are not GET or POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2688,6 +3025,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total time to transfer response to client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2695,6 +3033,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total Page Load Time reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2702,6 +3041,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total size of HTTP POST requests. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2709,6 +3049,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency from responses to all the POST requests </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2716,6 +3057,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP POST requests that were responded satisfactorily within latency threshold </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2723,6 +3065,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP POST requests that were responded beyond latency threshold but within tolerated limits </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2730,6 +3073,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2737,6 +3081,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total redirect latency reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2744,6 +3089,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests served across server sessions closed in the interval </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2751,6 +3097,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP requests containing at least one parameter. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2758,6 +3105,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP 1XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2765,6 +3113,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP 2XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2772,6 +3121,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP 3XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2779,6 +3129,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP 4XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2786,6 +3137,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP 5XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2793,6 +3145,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total client data transfer time by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2800,6 +3153,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Sum of all server Round Trip Times for all samples </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2807,6 +3161,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total time from receipt of request to start of response </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2814,6 +3169,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of HTTP responses sent </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2821,6 +3177,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total length of HTTP request URIs. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -2828,6 +3185,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of transactions identified by WAF as attacks. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2835,6 +3193,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests bypassing WAF. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2842,6 +3201,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests evaluated by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2849,6 +3209,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests evaluated by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2856,6 +3217,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses evaluated by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2863,6 +3225,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses evaluated by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2870,6 +3233,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of transactions (requests or responses) flagged as attack by WAF. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2877,6 +3241,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests flagged (but not rejected) by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2884,6 +3249,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests flagged (but not rejected) by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2891,6 +3257,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses flagged (but not rejected) by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2898,6 +3265,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses flagged (but not rejected) by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2905,6 +3273,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency seen by all evaluated requests in Request Body Phase </td>
 <td> MICROSECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2912,6 +3281,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency seen by all transactions evaluated by WAF in Request Header Phase </td>
 <td> MICROSECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2919,6 +3289,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency seen by all evaluated responses in Response Body Phase </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2926,6 +3297,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total latency seen by all evaluated responsess in WAF Response Header Phase </td>
 <td> MICROSECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2933,6 +3305,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests matched by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2940,6 +3313,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests matched by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2947,6 +3321,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses matched by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2954,6 +3329,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses matched by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2961,6 +3337,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of transactions (requests or responses) rejected by WAF. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2968,6 +3345,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests rejected by WAF in Request Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2975,6 +3353,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of requests rejected by WAF in Request Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2982,6 +3361,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses rejected by WAF in Response Body Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2989,6 +3369,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total number of responses rejected by WAF in Response Header Phase. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -2996,6 +3377,7 @@ Virtualservice frontend application (Layer 7) Metrics
 <td> Total waiting reported by client </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -3011,6 +3393,7 @@ Virtualmachine Infrastructure Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -3018,6 +3401,7 @@ Virtualmachine Infrastructure Metrics
 <td> Percent of time virtual machine was ready to run but had to wait due to CPU limits. This indicates potential configuration issue of not enough CPU assigned to the virtual machine. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3025,6 +3409,7 @@ Virtualmachine Infrastructure Metrics
 <td> Percent of time virtual machine was ready to run but had to wait as it could not be scheduled on physical CPU. This indicates CPU starvation for the virtual machine. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3032,6 +3417,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average CPU usage as a percentage of CPU available to the server. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3039,6 +3425,7 @@ Virtualmachine Infrastructure Metrics
 <td> Percent of time virtual machine was ready to run either due to other VMs stealing CPU or hitting CPU limits configured in vCenter. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3046,6 +3433,7 @@ Virtualmachine Infrastructure Metrics
 <td> CPU time consumed in kernel land </td>
 <td> SECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3053,6 +3441,7 @@ Virtualmachine Infrastructure Metrics
 <td> CPU time consumed in user land </td>
 <td> SECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3060,6 +3449,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual disk1 capacity usage. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3067,6 +3457,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual disk2 capacity usage. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3074,6 +3465,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual disk3 capacity usage. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3081,6 +3473,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual disk4 capacity usage. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3088,6 +3481,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average rate of disk commands aborted </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3095,6 +3489,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of disk reads and writes </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3102,6 +3497,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average max latency observed across all disks </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3109,6 +3505,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of times data was read from each virtual disk on the virtual machine </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3116,6 +3513,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of times data was written to each virtual disk on the virtual machine </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3123,6 +3521,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of reading data from the disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3130,6 +3529,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of writing data from the disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3137,6 +3537,7 @@ Virtualmachine Infrastructure Metrics
 <td> Total amount of data that has been read into machine memory from the swap file since the virtual machine was powered on </td>
 <td> KILO_BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3144,6 +3545,7 @@ Virtualmachine Infrastructure Metrics
 <td> Total amount of data that the VMkernel has written to the virtual machine swap file from machine memory. This statistic refers to VMkernel swapping and not to guest OS swapping </td>
 <td> KILO_BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3151,6 +3553,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average memory usage as percentage of memory available to the server. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3158,6 +3561,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual machine: Amount of guest physical memory that is currently reclaimed from the virtual machine through ballooning. This is the amount of guest physical memory that has been allocated and pinned by the balloon driver </td>
 <td> KILO_BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3165,6 +3569,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of dropped network packets in both receive and transmit direction. This may be indication of potential network congestion. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3172,6 +3577,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of receive packets dropped </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3179,6 +3585,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of transmit packets dropped </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3186,6 +3593,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of packets with errors received </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3193,6 +3601,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average number of packets with errors transmitted </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3200,6 +3609,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average network traffic received by the virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3207,6 +3617,7 @@ Virtualmachine Infrastructure Metrics
 <td> Average network traffic transmitted by the virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3214,6 +3625,7 @@ Virtualmachine Infrastructure Metrics
 <td> Combined transmit and receive bandwidth for virtual machine </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3221,6 +3633,7 @@ Virtualmachine Infrastructure Metrics
 <td> Percentage of high ports used </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3228,6 +3641,7 @@ Virtualmachine Infrastructure Metrics
 <td> Total % time VM was up during an interval. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3235,6 +3649,7 @@ Virtualmachine Infrastructure Metrics
 <td> Number of SCSI commands aborted  </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3242,6 +3657,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of read data from the virtual disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3249,6 +3665,7 @@ Virtualmachine Infrastructure Metrics
 <td> Virtual disk I/O rate. </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3256,6 +3673,7 @@ Virtualmachine Infrastructure Metrics
 <td> Rate of read data from the virtual disk. </td>
 <td> KILO_BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 </table>
@@ -3271,6 +3689,7 @@ ServiceEngine Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -3278,6 +3697,7 @@ ServiceEngine Metrics
 <td> Connection memory usage as percentage of total allowed for connections </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3285,6 +3705,7 @@ ServiceEngine Metrics
 <td> Total number of connections dropped at SE due to  policies configured in VS eg. security policy, rate limits connection limit, bandwidth limit etc. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3292,6 +3713,7 @@ ServiceEngine Metrics
 <td> Average number of connections including the  dropped connections and ones due to policy drops. This would be same as number of SYNS seen by SE on any VS </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3299,6 +3721,7 @@ ServiceEngine Metrics
 <td> Total number of connections dropped excluding the  dropped connections and ones due to policy drops. This would be same as number of SYNS seen by SE on any VS. It include both connections that failed to establish </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3306,6 +3729,7 @@ ServiceEngine Metrics
 <td> This is the host's view of the CPU usage as amount of actively used virtual CPU, as a percentage of total available CPU </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3313,6 +3737,7 @@ ServiceEngine Metrics
 <td> SE disk 1 capacity usage. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3320,6 +3745,7 @@ ServiceEngine Metrics
 <td> DoS attack: Icmp Ping Flood </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3327,6 +3753,7 @@ ServiceEngine Metrics
 <td> DoS attack: Ip Fragmentation Full </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3334,6 +3761,7 @@ ServiceEngine Metrics
 <td> DoS attack: Ip Fragmentation Incomplete </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3341,6 +3769,7 @@ ServiceEngine Metrics
 <td> DoS attack: Ip Fragmentation Overrun </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3348,6 +3777,7 @@ ServiceEngine Metrics
 <td> DoS attack: Ip Fragmentation Too Small </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3355,6 +3785,7 @@ ServiceEngine Metrics
 <td> DoS attack: Land </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3362,6 +3793,7 @@ ServiceEngine Metrics
 <td> DoS attack: Port Scan </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3369,6 +3801,7 @@ ServiceEngine Metrics
 <td> DoS attack: Smurf </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3376,6 +3809,7 @@ ServiceEngine Metrics
 <td> DoS attack: Non Syn Flood (Deprecated) </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3383,6 +3817,7 @@ ServiceEngine Metrics
 <td> DoS attack: Teardrop </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3390,6 +3825,7 @@ ServiceEngine Metrics
 <td> DoS attack: Unknown Protocol </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3397,6 +3833,7 @@ ServiceEngine Metrics
 <td> Percentage of SE's dynamic memory usage. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3404,6 +3841,7 @@ ServiceEngine Metrics
 <td> Memory usage as percentage of total configured or available memory </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3411,6 +3849,7 @@ ServiceEngine Metrics
 <td> Packet Buffer usage as percentage of total packet buffer headers </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3418,6 +3857,7 @@ ServiceEngine Metrics
 <td> Packet Buffer usage as percentage of total large packet buffers </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3425,6 +3865,7 @@ ServiceEngine Metrics
 <td> Total packet buffer size </td>
 <td> MEGA_BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3432,6 +3873,7 @@ ServiceEngine Metrics
 <td> Packet Buffer usage as percentage of total small packet buffers </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3439,6 +3881,7 @@ ServiceEngine Metrics
 <td> Packet Buffer usage as percentage of total configured packet buffers </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3446,6 +3889,7 @@ ServiceEngine Metrics
 <td> session persistent table entries size </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3453,6 +3897,7 @@ ServiceEngine Metrics
 <td> session persistent table entries usage percent </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3460,6 +3905,7 @@ ServiceEngine Metrics
 <td> Avg. number of bytes per sec of received packets dropped. It includes packets across all VS and non VS </td>
 <td> BYTES_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3467,6 +3913,7 @@ ServiceEngine Metrics
 <td> Avg. number of received packets dropped per sec. It includes packets across all VS and non VS </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3474,6 +3921,7 @@ ServiceEngine Metrics
 <td> Shared memory usage as percentage of total available shared memory </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3481,6 +3929,7 @@ ServiceEngine Metrics
 <td> ssl session cache </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3488,6 +3937,7 @@ ServiceEngine Metrics
 <td> ssl session cache usage in percent </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3495,6 +3945,7 @@ ServiceEngine Metrics
 <td> Total memory available for connections on the Service Engine </td>
 <td> MEGA_BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3502,6 +3953,7 @@ ServiceEngine Metrics
 <td> Number of connection/flow table entries </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3509,6 +3961,7 @@ ServiceEngine Metrics
 <td> Max number of vs </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3516,6 +3969,7 @@ ServiceEngine Metrics
 <td> Max size of synseen entries </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3523,6 +3977,7 @@ ServiceEngine Metrics
 <td> Total memory present on the Service Engine </td>
 <td> MEGA_BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3530,6 +3985,7 @@ ServiceEngine Metrics
 <td> Fraction of SE connections dropped. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3537,6 +3993,7 @@ ServiceEngine Metrics
 <td> Fraction of SE bytes dropped. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3544,6 +4001,7 @@ ServiceEngine Metrics
 <td> Fraction of SE packets dropped. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3551,6 +4009,7 @@ ServiceEngine Metrics
 <td> Percentage of SYN cache usage. Higher usage indicates too many connection attempts and open at service engine </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3558,6 +4017,7 @@ ServiceEngine Metrics
 <td> Number of times cacheable objects were dropped due to memory allocation failure </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3565,6 +4025,7 @@ ServiceEngine Metrics
 <td> Number of times connection memory limit is reached </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3572,6 +4033,7 @@ ServiceEngine Metrics
 <td> Number of times connection is dropped because packet buffer limit is reached </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3579,6 +4041,7 @@ ServiceEngine Metrics
 <td> Number of times persistent table allocaction fails </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3586,6 +4049,7 @@ ServiceEngine Metrics
 <td> Number of times packet buffer allocation failed </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -3593,6 +4057,7 @@ ServiceEngine Metrics
 <td> Number of times packet is dropped because packet buffer limit is reached </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 </table>
@@ -3608,6 +4073,7 @@ Controller Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -3615,6 +4081,7 @@ Controller Metrics
 <td> This is the host's view of the CPU usage as amount of actively used virtual CPU, as a percentage of total available CPU </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3622,6 +4089,7 @@ Controller Metrics
 <td> Average number of bytes per second read from disk. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3629,6 +4097,7 @@ Controller Metrics
 <td> Average disk usage </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3636,6 +4105,7 @@ Controller Metrics
 <td> Average number of bytes per second written to disk. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3643,6 +4113,7 @@ Controller Metrics
 <td> Memory usage as percentage of total configured or available memory </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3650,6 +4121,7 @@ Controller Metrics
 <td> Current number of VS for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3657,6 +4129,7 @@ Controller Metrics
 <td> Current number of unique IP:port servers in use as observed by the controller </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3664,6 +4137,7 @@ Controller Metrics
 <td> Current number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3671,6 +4145,7 @@ Controller Metrics
 <td> Current number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3678,6 +4153,7 @@ Controller Metrics
 <td> Average number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3685,6 +4161,7 @@ Controller Metrics
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3692,6 +4169,7 @@ Controller Metrics
 <td> Maximum backend servers usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3699,6 +4177,7 @@ Controller Metrics
 <td> Max number of VS for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3706,6 +4185,7 @@ Controller Metrics
 <td> Maximum number of active VS usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3713,6 +4193,7 @@ Controller Metrics
 <td> Number of unique IP:port servers in use as observed by the controller </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3720,6 +4201,7 @@ Controller Metrics
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3727,6 +4209,7 @@ Controller Metrics
 <td> Max number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3734,6 +4217,7 @@ Controller Metrics
 <td> Maximum number of SEs usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3741,6 +4225,7 @@ Controller Metrics
 <td> Max number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3748,6 +4233,7 @@ Controller Metrics
 <td> Maximum number of SE sockets usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3755,6 +4241,7 @@ Controller Metrics
 <td> Maximum number of SE cores usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3762,6 +4249,7 @@ Controller Metrics
 <td> Maximum throughput usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3769,6 +4257,7 @@ Controller Metrics
 <td> Total throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3776,6 +4265,7 @@ Controller Metrics
 <td> Total bytes including ingress and egress traffic seen by the SE </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3783,6 +4273,7 @@ Controller Metrics
 <td> Sum of bytes including traffic from client and to backend servers, across all VS. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3790,6 +4281,7 @@ Controller Metrics
 <td> Sum of bytes including traffic from client, across all VS. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3797,6 +4289,7 @@ Controller Metrics
 <td> Number of hours of Virtual Service usage </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 </table>
@@ -3812,6 +4305,7 @@ Navigation Timing Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -3819,6 +4313,7 @@ Navigation Timing Metrics
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3826,6 +4321,7 @@ Navigation Timing Metrics
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3833,6 +4329,7 @@ Navigation Timing Metrics
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3840,6 +4337,7 @@ Navigation Timing Metrics
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3847,6 +4345,7 @@ Navigation Timing Metrics
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3854,6 +4353,7 @@ Navigation Timing Metrics
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3861,6 +4361,7 @@ Navigation Timing Metrics
 <td> Total time browser waited to load document content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3868,6 +4369,7 @@ Navigation Timing Metrics
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3875,6 +4377,7 @@ Navigation Timing Metrics
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3882,6 +4385,7 @@ Navigation Timing Metrics
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3889,6 +4393,7 @@ Navigation Timing Metrics
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3896,6 +4401,7 @@ Navigation Timing Metrics
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3903,6 +4409,7 @@ Navigation Timing Metrics
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3910,6 +4417,7 @@ Navigation Timing Metrics
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -3925,6 +4433,7 @@ Navigation Timings aggregated over dimension Browser
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -3932,6 +4441,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3939,6 +4449,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3946,6 +4457,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3953,6 +4465,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3960,6 +4473,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3967,6 +4481,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3974,6 +4489,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3981,6 +4497,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3988,6 +4505,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -3995,6 +4513,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4002,6 +4521,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4009,6 +4529,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4016,6 +4537,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4023,6 +4545,7 @@ Navigation Timings aggregated over dimension Browser
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4038,6 +4561,7 @@ Navigation Timings aggregated over dimension URL
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4045,6 +4569,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4052,6 +4577,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4059,6 +4585,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4066,6 +4593,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4073,6 +4601,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4080,6 +4609,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4087,6 +4617,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4094,6 +4625,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4101,6 +4633,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4108,6 +4641,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4115,6 +4649,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4122,6 +4657,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4129,6 +4665,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4136,6 +4673,7 @@ Navigation Timings aggregated over dimension URL
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4151,6 +4689,7 @@ Navigation Timings aggregated over dimension Operating System
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4158,6 +4697,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4165,6 +4705,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4172,6 +4713,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4179,6 +4721,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4186,6 +4729,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4193,6 +4737,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4200,6 +4745,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4207,6 +4753,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4214,6 +4761,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4221,6 +4769,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4228,6 +4777,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4235,6 +4785,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4242,6 +4793,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4249,6 +4801,7 @@ Navigation Timings aggregated over dimension Operating System
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4264,6 +4817,7 @@ Navigation Timings aggregated over dimension Language
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4271,6 +4825,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4278,6 +4833,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4285,6 +4841,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4292,6 +4849,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4299,6 +4857,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4306,6 +4865,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4313,6 +4873,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4320,6 +4881,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4327,6 +4889,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4334,6 +4897,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4341,6 +4905,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4348,6 +4913,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4355,6 +4921,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4362,6 +4929,7 @@ Navigation Timings aggregated over dimension Language
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4377,6 +4945,7 @@ Navigation Timings aggregated over dimension Device Type
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4384,6 +4953,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4391,6 +4961,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4398,6 +4969,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4405,6 +4977,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4412,6 +4985,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4419,6 +4993,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4426,6 +5001,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4433,6 +5009,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4440,6 +5017,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4447,6 +5025,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4454,6 +5033,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4461,6 +5041,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4468,6 +5049,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4475,6 +5057,7 @@ Navigation Timings aggregated over dimension Device Type
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4490,6 +5073,7 @@ Navigation Timings aggregated over dimension Country
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4497,6 +5081,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4504,6 +5089,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4511,6 +5097,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4518,6 +5105,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4525,6 +5113,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4532,6 +5121,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4539,6 +5129,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4546,6 +5137,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4553,6 +5145,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4560,6 +5153,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4567,6 +5161,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4574,6 +5169,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4581,6 +5177,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4588,6 +5185,7 @@ Navigation Timings aggregated over dimension Country
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4603,6 +5201,7 @@ Navigation Timings aggregated over dimension IPGroup
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4610,6 +5209,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited due to application (Avi to server) latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4617,6 +5217,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser was blocked from loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4624,6 +5225,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for rendering content </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4631,6 +5233,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited due to client network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4638,6 +5241,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for connection setup </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4645,6 +5249,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for DNS resolution </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4652,6 +5257,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for loading document cotent </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4659,6 +5265,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited receiving data </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4666,6 +5273,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for loading page </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4673,6 +5281,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited for redirecting </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4680,6 +5289,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time to send data from start of response to the end </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4687,6 +5297,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited due to application (Avi to server) network latency </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4694,6 +5305,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time for Avi response. It measures time spent from the first packet of client  request received by Avi until the first packet of Avi's response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4701,6 +5313,7 @@ Navigation Timings aggregated over dimension IPGroup
 <td> Total time browser waited get first byte of response </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4716,6 +5329,7 @@ Dos Attack Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4723,6 +5337,7 @@ Dos Attack Metrics
 <td> Rate of DOS attack per sec </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4730,6 +5345,7 @@ Dos Attack Metrics
 <td> Duration of the Attack </td>
 <td> SECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -4745,6 +5361,7 @@ VSERVER DNS metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -4752,6 +5369,7 @@ VSERVER DNS metrics
 <td> Rate of avi errors per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4759,6 +5377,7 @@ VSERVER DNS metrics
 <td> Rate of DNS responses per second. it includes errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4766,6 +5385,7 @@ VSERVER DNS metrics
 <td> Rate of domain lookup DNS Requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4773,6 +5393,7 @@ VSERVER DNS metrics
 <td> Rate of errored DNS responses per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4780,6 +5401,7 @@ VSERVER DNS metrics
 <td> Rate of GSLB pool member not available per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4787,6 +5409,7 @@ VSERVER DNS metrics
 <td> Rate of invalid queries </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4794,6 +5417,7 @@ VSERVER DNS metrics
 <td> Rate of nxdomains per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4801,6 +5425,7 @@ VSERVER DNS metrics
 <td> Rate of local responses from Avi (GSLB) per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4808,6 +5433,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4815,6 +5441,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4822,6 +5449,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type ANY per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4829,6 +5457,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type DNSKEY per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4836,6 +5465,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4843,6 +5473,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4850,6 +5481,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4857,6 +5489,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type RRSIG per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4864,6 +5497,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4871,6 +5505,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type TXT per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4878,6 +5513,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Responses of type A per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4885,6 +5521,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4892,6 +5529,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type CNAME per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4899,6 +5537,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4906,6 +5545,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4913,6 +5553,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type OTHER per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4920,6 +5561,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4927,6 +5569,7 @@ VSERVER DNS metrics
 <td> Rate of DNS Response without a request per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4934,6 +5577,7 @@ VSERVER DNS metrics
 <td> Rate of TCP passthrough DNS errored requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4941,6 +5585,7 @@ VSERVER DNS metrics
 <td> Rate of TCP passthrough DNS Requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4948,6 +5593,7 @@ VSERVER DNS metrics
 <td> Rate of tcp queries per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4955,6 +5601,7 @@ VSERVER DNS metrics
 <td> Rate of UDP passthrough DNS errored requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4962,6 +5609,7 @@ VSERVER DNS metrics
 <td> Rate of UDP passthrough DNS Requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4969,6 +5617,7 @@ VSERVER DNS metrics
 <td> Average query response time for UDP passthrough queries </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4976,6 +5625,7 @@ VSERVER DNS metrics
 <td> Rate of udp queries per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4983,6 +5633,7 @@ VSERVER DNS metrics
 <td> Rate of unsupported DNS Requests per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4990,6 +5641,7 @@ VSERVER DNS metrics
 <td> Percentage of errored DNS responses </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -4997,6 +5649,7 @@ VSERVER DNS metrics
 <td> Total duration across all connections </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -5012,6 +5665,7 @@ SERVER DNS metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5019,6 +5673,7 @@ SERVER DNS metrics
 <td> Rate of DNS responses per second. it includes errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5026,6 +5681,7 @@ SERVER DNS metrics
 <td> Rate of errored DNS responses per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5033,6 +5689,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type A per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5040,6 +5697,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5047,6 +5705,7 @@ SERVER DNS metrics
 <td> Rate of DNS Responses of type A per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5054,6 +5713,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type AAAA per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5061,6 +5721,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type CNAME per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5068,6 +5729,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type MX per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5075,6 +5737,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type NS per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5082,6 +5745,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type OTHER per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5089,6 +5753,7 @@ SERVER DNS metrics
 <td> Rate of DNS Requests of type SRV per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5096,6 +5761,7 @@ SERVER DNS metrics
 <td> Rate of tcp queries per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5103,6 +5769,7 @@ SERVER DNS metrics
 <td> Rate of udp queries per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5110,6 +5777,7 @@ SERVER DNS metrics
 <td> Percentage of errored DNS responses </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5125,6 +5793,7 @@ Metrics for destination traffic from a VS
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5132,6 +5801,7 @@ Metrics for destination traffic from a VS
 <td> Rate of Bandwidth </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5139,6 +5809,7 @@ Metrics for destination traffic from a VS
 <td> Avg. client end2end latency seen by clients excluding failed responses </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5146,6 +5817,7 @@ Metrics for destination traffic from a VS
 <td> Average rate of connetions per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5153,6 +5825,7 @@ Metrics for destination traffic from a VS
 <td> Rate of complete responses including errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5160,6 +5833,7 @@ Metrics for destination traffic from a VS
 <td> Average rate of dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5167,6 +5841,7 @@ Metrics for destination traffic from a VS
 <td> Rate of errors requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5174,6 +5849,7 @@ Metrics for destination traffic from a VS
 <td> Rate of HTTP timeouts </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5181,6 +5857,7 @@ Metrics for destination traffic from a VS
 <td> Average rate of policy-dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5188,6 +5865,7 @@ Metrics for destination traffic from a VS
 <td> Rate of requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5195,6 +5873,7 @@ Metrics for destination traffic from a VS
 <td> Maximum number of concurrent open connections </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5202,6 +5881,7 @@ Metrics for destination traffic from a VS
 <td> Sum of end to end latency seen by client for URL excluding the failed responses </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -5217,6 +5897,7 @@ Metrics for source of traffic to a VS
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5224,6 +5905,7 @@ Metrics for source of traffic to a VS
 <td> Rate of Bandwidth </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5231,6 +5913,7 @@ Metrics for source of traffic to a VS
 <td> Avg. client end2end latency seen by clients excluding failed responses </td>
 <td> MILLISECONDS </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5238,6 +5921,7 @@ Metrics for source of traffic to a VS
 <td> Average rate of connetions per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5245,6 +5929,7 @@ Metrics for source of traffic to a VS
 <td> Rate of complete responses including errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5252,6 +5937,7 @@ Metrics for source of traffic to a VS
 <td> Average rate of dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5259,6 +5945,7 @@ Metrics for source of traffic to a VS
 <td> Rate of errors requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5266,6 +5953,7 @@ Metrics for source of traffic to a VS
 <td> Rate of HTTP timeouts </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5273,6 +5961,7 @@ Metrics for source of traffic to a VS
 <td> Average rate of policy-dropped connections per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5280,6 +5969,7 @@ Metrics for source of traffic to a VS
 <td> Rate of requests </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5287,6 +5977,7 @@ Metrics for source of traffic to a VS
 <td> Average number of transactions per second identified by WAF as attacks. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5294,6 +5985,7 @@ Metrics for source of traffic to a VS
 <td> Average number of transactions per second flagged by WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5301,6 +5993,7 @@ Metrics for source of traffic to a VS
 <td> Average number of transactions per second rejected by WAF. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5308,6 +6001,7 @@ Metrics for source of traffic to a VS
 <td> Maximum number of concurrent open connections </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5315,6 +6009,7 @@ Metrics for source of traffic to a VS
 <td> Sum of end to end latency seen by client for URL excluding the failed responses </td>
 <td> MILLISECONDS </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -5330,6 +6025,7 @@ Tenant Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5337,6 +6033,7 @@ Tenant Metrics
 <td> Current number of VS for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5344,6 +6041,7 @@ Tenant Metrics
 <td> Current number of unique IP:port servers in use as observed by the controller </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5351,6 +6049,7 @@ Tenant Metrics
 <td> Current number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5358,6 +6057,7 @@ Tenant Metrics
 <td> Current number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5365,6 +6065,7 @@ Tenant Metrics
 <td> Average number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5372,6 +6073,7 @@ Tenant Metrics
 <td> Current throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5379,6 +6081,7 @@ Tenant Metrics
 <td> Maximum backend servers usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5386,6 +6089,7 @@ Tenant Metrics
 <td> Max number of VS for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5393,6 +6097,7 @@ Tenant Metrics
 <td> Maximum number of active VS usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5400,6 +6105,7 @@ Tenant Metrics
 <td> Number of unique IP:port servers in use as observed by the controller </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5407,6 +6113,7 @@ Tenant Metrics
 <td> Number of CPU cores across all Service Engines </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5414,6 +6121,7 @@ Tenant Metrics
 <td> Max number of SEs for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5421,6 +6129,7 @@ Tenant Metrics
 <td> Maximum number of SEs usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5428,6 +6137,7 @@ Tenant Metrics
 <td> Max number of SE sockets for the tenant </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5435,6 +6145,7 @@ Tenant Metrics
 <td> Maximum number of SE sockets usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5442,6 +6153,7 @@ Tenant Metrics
 <td> Maximum number of SE cores usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5449,6 +6161,7 @@ Tenant Metrics
 <td> Maximum throughput usage fraction </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5456,6 +6169,7 @@ Tenant Metrics
 <td> Total throughput across all Service Engines </td>
 <td> BITS_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5463,6 +6177,7 @@ Tenant Metrics
 <td> Total bytes including ingress and egress traffic seen by the SE </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5470,6 +6185,7 @@ Tenant Metrics
 <td> Sum of bytes including traffic from client and to backend servers, across all VS. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5477,6 +6193,7 @@ Tenant Metrics
 <td> Sum of bytes including traffic from client, across all VS. </td>
 <td> BYTES </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5484,6 +6201,7 @@ Tenant Metrics
 <td> Number of hours of Virtual Service usage </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 </table>
@@ -5499,6 +6217,7 @@ SE Interface Metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5506,6 +6225,7 @@ SE Interface Metrics
 <td> Average transmit and receive network bandwidth for an interface. </td>
 <td> BITS_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5513,6 +6233,7 @@ SE Interface Metrics
 <td> Connection table usage percentage. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5520,6 +6241,7 @@ SE Interface Metrics
 <td> Average rate of received bytes on an interface. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5527,6 +6249,7 @@ SE Interface Metrics
 <td> Average rate of received bytes dropped per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5534,6 +6257,7 @@ SE Interface Metrics
 <td> Average rate of received packets per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5541,6 +6265,7 @@ SE Interface Metrics
 <td> Average rate of received packets dropped per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5548,6 +6273,7 @@ SE Interface Metrics
 <td> Percentage of syn seen entries currently used for an interface. </td>
 <td> PERCENT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5555,6 +6281,7 @@ SE Interface Metrics
 <td> Average rate of transmitted bytes on an interface </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5562,6 +6289,7 @@ SE Interface Metrics
 <td> Average rate of transmit packets per second. </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5569,6 +6297,7 @@ SE Interface Metrics
 <td> Maximum bandwidth observed on an interface. </td>
 <td> BYTES_PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5576,6 +6305,7 @@ SE Interface Metrics
 <td> Total number of received bytes. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5583,6 +6313,7 @@ SE Interface Metrics
 <td> Total number of transmitted bytes. </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5590,6 +6321,7 @@ SE Interface Metrics
 <td> Number of times flowtable syn seen entry limit is reached. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5597,6 +6329,7 @@ SE Interface Metrics
 <td> Number of times flowtable entries limit is reached. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5612,6 +6345,7 @@ User defined custom metrics using data-script
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5619,6 +6353,7 @@ User defined custom metrics using data-script
 <td> Time averaged value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5626,6 +6361,7 @@ User defined custom metrics using data-script
 <td> Average of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.avg_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5633,6 +6369,7 @@ User defined custom metrics using data-script
 <td> Maximum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5640,6 +6377,7 @@ User defined custom metrics using data-script
 <td> Maximum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.max_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5647,6 +6385,7 @@ User defined custom metrics using data-script
 <td> Minimum 'per second' reported value of counter over given period. For example, fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_counter&limit=1&step=300&obj_id=foo. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5654,6 +6393,7 @@ User defined custom metrics using data-script
 <td> Minimum raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.min_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5661,6 +6401,7 @@ User defined custom metrics using data-script
 <td> Sum of raw counter value reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_counter&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5668,6 +6409,7 @@ User defined custom metrics using data-script
 <td> (Deprecated) Sum of raw counter value of type gauge reported over given period. For example,  fetch counter 'foo' via API /api/analytics/metrics/virtualservice/?metric_id=user_metrics.sum_gauge&limit=1&step=300&obj_id=foo. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5683,6 +6425,7 @@ WAF group specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5690,6 +6433,7 @@ WAF group specific metrics
 <td> Time averaged value of connections per second evaluated by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5697,6 +6441,7 @@ WAF group specific metrics
 <td> Time averaged value of connections per second flagged by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5704,6 +6449,7 @@ WAF group specific metrics
 <td> Time averaged value of connections per second matched WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5711,6 +6457,7 @@ WAF group specific metrics
 <td> Time averaged value of connections per second rejected by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5718,6 +6465,7 @@ WAF group specific metrics
 <td> Maximum value of connections per second evaluated by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5725,6 +6473,7 @@ WAF group specific metrics
 <td> Maximum value of connections per second flagged by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5732,6 +6481,7 @@ WAF group specific metrics
 <td> Maximum value of connections per second matched  WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5739,6 +6489,7 @@ WAF group specific metrics
 <td> Maximum value of connections per second rejected by WAF Rule-Group. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5746,6 +6497,7 @@ WAF group specific metrics
 <td> Total number of connections evaluated by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5753,6 +6505,7 @@ WAF group specific metrics
 <td> Total number of connections flagged by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5760,6 +6513,7 @@ WAF group specific metrics
 <td> Total number of connections matched by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5767,6 +6521,7 @@ WAF group specific metrics
 <td> Total number of connections rejected by WAF Rule-Group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5782,6 +6537,7 @@ WAF tag specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5789,6 +6545,7 @@ WAF tag specific metrics
 <td> Time averaged value of connections per second flagged as attack by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5796,6 +6553,7 @@ WAF tag specific metrics
 <td> Time averaged value of connections per second matched any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5803,6 +6561,7 @@ WAF tag specific metrics
 <td> Time averaged value of connections per second rejected by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5810,6 +6569,7 @@ WAF tag specific metrics
 <td> Maximum value of connections per second flagged as attach by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5817,6 +6577,7 @@ WAF tag specific metrics
 <td> Maximum value of connections per second matched any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5824,6 +6585,7 @@ WAF tag specific metrics
 <td> Maximum value of connections per second rejected by any rule with WAF Tag. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5831,6 +6593,7 @@ WAF tag specific metrics
 <td> Total number of connections flagged as attack by any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5838,6 +6601,7 @@ WAF tag specific metrics
 <td> Total number of connections matched any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5845,6 +6609,7 @@ WAF tag specific metrics
 <td> Total number of connections rejected by any rule with WAF Tag. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5860,6 +6625,7 @@ WAF rule specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5867,6 +6633,7 @@ WAF rule specific metrics
 <td> Time averaged value of connections per second evaluated by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5874,6 +6641,7 @@ WAF rule specific metrics
 <td> Time averaged value of connections per second flagged as attack by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5881,6 +6649,7 @@ WAF rule specific metrics
 <td> Time averaged value of connections per second matched WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5888,6 +6657,7 @@ WAF rule specific metrics
 <td> Time averaged value of connections per second rejected by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5895,6 +6665,7 @@ WAF rule specific metrics
 <td> Maximum value of connections per second evaluated by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5902,6 +6673,7 @@ WAF rule specific metrics
 <td> Maximum value of connections per second flagged as attack by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5909,6 +6681,7 @@ WAF rule specific metrics
 <td> Max value of connections per second matched WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5916,6 +6689,7 @@ WAF rule specific metrics
 <td> Maximum value of connections per second rejected by WAF Rule. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5923,6 +6697,7 @@ WAF rule specific metrics
 <td> Total number of connections evaluated by WAF Rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5930,6 +6705,7 @@ WAF rule specific metrics
 <td> Total number of connections flagged as attack by WAF Rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5937,6 +6713,7 @@ WAF rule specific metrics
 <td> Total number of connections matched by WAF Rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5944,6 +6721,7 @@ WAF rule specific metrics
 <td> Total number of connections rejected by WAF Rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -5959,6 +6737,7 @@ stats for processes running on controller
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -5966,6 +6745,7 @@ stats for processes running on controller
 <td> Average number of involuntary context switches per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5973,6 +6753,7 @@ stats for processes running on controller
 <td> Average number of voluntary  context switches per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5980,6 +6761,7 @@ stats for processes running on controller
 <td> number of file descriptors currently opened by this process. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5987,6 +6769,7 @@ stats for processes running on controller
 <td> Average per second number of io bytes read by process. </td>
 <td> BYTES_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -5994,6 +6777,7 @@ stats for processes running on controller
 <td> Average number of io reads by process per second. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6001,6 +6785,7 @@ stats for processes running on controller
 <td> Average per second io bytes writes by process. </td>
 <td> BYTES_PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6008,6 +6793,7 @@ stats for processes running on controller
 <td> Average per second number of io writes by process. </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6015,6 +6801,7 @@ stats for processes running on controller
 <td> Average number of threads currently used by this process. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6022,6 +6809,7 @@ stats for processes running on controller
 <td> Average memory (in bytes) shared with other processes. </td>
 <td> BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6029,6 +6817,7 @@ stats for processes running on controller
 <td> Average Resident Set Size (aka non-swapped physical memory which process is using). </td>
 <td> BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6036,6 +6825,7 @@ stats for processes running on controller
 <td> Average Amount of memory that has been swapped out to disk. </td>
 <td> BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6043,6 +6833,7 @@ stats for processes running on controller
 <td> Average Virtual Memory Size (aka total virtual memory which process is using). </td>
 <td> BYTES </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6050,6 +6841,7 @@ stats for processes running on controller
 <td> Maximum cpu usage by this process. </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -6065,6 +6857,7 @@ Http Ver 2 Client metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6072,6 +6865,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG, HOLTWINTERS_AT_AS </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6079,6 +6873,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 error responses sent per second. It does not include errors excluded in analytics profile </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6086,6 +6881,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 responses excluded as errors based on analytics profile </td>
 <td> PER_SECOND </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6093,6 +6889,7 @@ Http Ver 2 Client metrics
 <td> Rate of 1xx HTTP2 responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6100,6 +6897,7 @@ Http Ver 2 Client metrics
 <td> Rate of 2xx HTTP2 responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6107,6 +6905,7 @@ Http Ver 2 Client metrics
 <td> Rate of 3xx HTTP2 responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6114,6 +6913,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 4xx responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6121,6 +6921,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 4xx responses as errors sent by Avi Vantage. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6128,6 +6929,7 @@ Http Ver 2 Client metrics
 <td> Rate of 5xx HTTP2 responses sent per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6135,6 +6937,7 @@ Http Ver 2 Client metrics
 <td> Rate of HTTP2 5xx responses as errors sent by Avi Vantage. It does not include any error codes excluded in the analytics profile and pool server errors </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6142,6 +6945,7 @@ Http Ver 2 Client metrics
 <td> Average rate of client HTTP2 requests received by the virtual service per second </td>
 <td> PER_SECOND </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6149,6 +6953,7 @@ Http Ver 2 Client metrics
 <td> Percent of HTTP2 4xx and 5xx responses. It doesn't include errors excluded in analytics profile </td>
 <td> PERCENT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6156,6 +6961,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 GET requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6163,6 +6969,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 requests that are not GET or POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6170,6 +6977,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 POST requests </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6177,6 +6985,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 1XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6184,6 +6993,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 2XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6191,6 +7001,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 3XX responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6198,6 +7009,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 4XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 <tr>
@@ -6205,6 +7017,7 @@ Http Ver 2 Client metrics
 <td> Total number of HTTP2 5XX error responses </td>
 <td> METRIC_COUNT </td>
 <td> False </td>
+<td>  </td>
 <td> False </td>
 </tr>
 </table>
@@ -6220,6 +7033,7 @@ WAF whitelist rule specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6227,6 +7041,7 @@ WAF whitelist rule specific metrics
 <td> Total number of requests where WAF whitelist allow action got executed. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6234,6 +7049,7 @@ WAF whitelist rule specific metrics
 <td> Total number of requests where WAF whitelist continue action got executed. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6241,6 +7057,7 @@ WAF whitelist rule specific metrics
 <td> Total number of requests where WAF whitelist detection mode action got executed. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6248,6 +7065,7 @@ WAF whitelist rule specific metrics
 <td> Total number of requests evaluated by a WAF whitelist rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6255,6 +7073,7 @@ WAF whitelist rule specific metrics
 <td> Total number of requests matched by a WAF whitelist rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -6270,6 +7089,7 @@ WAF PSM group specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6277,6 +7097,7 @@ WAF PSM group specific metrics
 <td> Total number of requests with matched_elements marked as valid by a WAF PSM group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6284,6 +7105,7 @@ WAF PSM group specific metrics
 <td> Total number of requests evaluated by a WAF PSM group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6291,6 +7113,7 @@ WAF PSM group specific metrics
 <td> Total number of requests flagged by a WAF PSM group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6298,6 +7121,7 @@ WAF PSM group specific metrics
 <td> Total number of requests rejected by a WAF PSM group. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -6313,6 +7137,7 @@ WAF PSM location specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6320,6 +7145,7 @@ WAF PSM location specific metrics
 <td> Total number of requests matched by a WAF PSM location. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -6335,6 +7161,7 @@ WAF PSM rule specific metrics
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6342,6 +7169,7 @@ WAF PSM rule specific metrics
 <td> Total number of requests evaluated by a WAF PSM rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6349,6 +7177,7 @@ WAF PSM rule specific metrics
 <td> Total number of requests where at least one WAF PSM rule match_element matched the value. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6356,6 +7185,7 @@ WAF PSM rule specific metrics
 <td> Total number of requests with at least one present match_element a WAF PSM rule. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6363,6 +7193,7 @@ WAF PSM rule specific metrics
 <td> Total number of requests where at least one WAF PSM rule match_element did not match the value. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
@@ -6378,6 +7209,7 @@ Stats for GSLB.
 <th>Description</th>
 <th>Units</th>
 <th>Anomaly Detection</th>
+<th>Anomaly Models</th>
 <th>Priority</th>
 </tr>
 <tr>
@@ -6385,6 +7217,7 @@ Stats for GSLB.
 <td> Average size of the errrored  queue per site. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6392,6 +7225,7 @@ Stats for GSLB.
 <td> Average size of the pending request queue per site. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 <tr>
@@ -6399,6 +7233,7 @@ Stats for GSLB.
 <td> Average size of the replication queue per site. </td>
 <td> METRIC_COUNT </td>
 <td> True </td>
+<td> EXPONENTIAL_WEIGHTED_MOVING_AVG </td>
 <td> True </td>
 </tr>
 </table>
