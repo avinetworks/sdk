@@ -2408,6 +2408,13 @@
                     "type": "array", 
                     "description": "Custom properties per hypervisor type. Field introduced in 17.2.1."
                 }, 
+                "custom_se_image_properties": {
+                    "items": {
+                        "$ref": "#/definitions/Property"
+                    }, 
+                    "type": "array", 
+                    "description": "Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7."
+                }, 
                 "auth_url": {
                     "type": "string", 
                     "description": "Auth URL for connecting to keystone. If this is specified, any value provided for keystone_host is ignored."

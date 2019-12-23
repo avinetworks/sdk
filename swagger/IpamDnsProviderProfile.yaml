@@ -597,6 +597,11 @@ definitions:
                 description: "DNS view."
                 type: string
                 default: "default"
+            extensible_attributes:
+                description: "Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/CustomParams'
             ip_address:
                 description: "Address of Infoblox appliance."
                 $ref: '#/definitions/IpAddr'

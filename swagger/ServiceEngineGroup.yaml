@@ -939,6 +939,10 @@ definitions:
                 type: integer
                 default: 10000
                 format: int32
+            max_concurrent_external_hm:
+                description: "Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7."
+                type: integer
+                format: int32
             max_cpu_usage:
                 description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
                 type: integer

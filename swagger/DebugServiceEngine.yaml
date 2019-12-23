@@ -389,42 +389,40 @@ definitions:
         type: object
         properties:
             capture_ip:
-                description: "IP filter for SE pcap. Field introduced in 18.2.5."
+                description: "Per packet IP filter. Matches with source and destination address. Curently not applicable for DebugServiceEngine. Field introduced in 18.2.5."
                 $ref: '#/definitions/DebugIpAddr'
             capture_ipc:
-                description: "Capture filter for SE ipc. Field introduced in 18.2.5."
+                description: "Capture filter for SE IPC. Not applicable for Debug Virtual Service. Field introduced in 18.2.5."
                 $ref: '#/definitions/CaptureIPC'
             dst_port_end:
-                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                description: "Destination Port range filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             dst_port_start:
-                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                description: "Destination Port range filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             eth_proto:
-                description: "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                description: "Ethernet Proto filter. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
                 type: string
-                default: "ETH_TYPE_IPV4"
             ip_proto:
-                description: "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                description: "IP Proto filter. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
                 type: string
-                default: "IP_TYPE_TCP"
             src_port:
-                description: "Source Port filter for SE pcap. Field introduced in 18.2.5."
+                description: "Source Port filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             tcp_ack:
-                description: "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP ACK flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_fin:
-                description: "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP FIN flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_push:
-                description: "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP PUSH flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_syn:
-                description: "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP SYN flag filter. Field introduced in 18.2.5."
                 type: boolean
     CaptureIPC:
         type: object
@@ -571,7 +569,7 @@ definitions:
                 description: "Enable/disable packet capture. Field introduced in 18.2.2."
                 type: boolean
             capture_filters:
-                description: "Capture filter for SE pcap. Field introduced in 18.2.5."
+                description: "Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5."
                 $ref: '#/definitions/CaptureFilters'
             capture_params:
                 description: "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
@@ -582,7 +580,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DebugSeCpuShares'
             debug_ip:
-                description: "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
+                description: "Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1."
                 $ref: '#/definitions/DebugIpAddr'
             fault:
                 description: "Params for SE fault injection. Field introduced in 18.1.2."

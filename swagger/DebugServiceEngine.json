@@ -562,52 +562,50 @@
             "properties": {
                 "tcp_fin": {
                     "type": "boolean", 
-                    "description": "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP FIN flag filter. Field introduced in 18.2.5."
                 }, 
                 "dst_port_start": {
                     "type": "integer", 
-                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Destination Port range filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "dst_port_end": {
                     "type": "integer", 
-                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Destination Port range filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "src_port": {
                     "type": "integer", 
-                    "description": "Source Port filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Source Port filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "capture_ipc": {
-                    "description": "Capture filter for SE ipc. Field introduced in 18.2.5.", 
+                    "description": "Capture filter for SE IPC. Not applicable for Debug Virtual Service. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/CaptureIPC"
                 }, 
                 "tcp_push": {
                     "type": "boolean", 
-                    "description": "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP PUSH flag filter. Field introduced in 18.2.5."
                 }, 
                 "capture_ip": {
-                    "description": "IP filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Per packet IP filter. Matches with source and destination address. Curently not applicable for DebugServiceEngine. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/DebugIpAddr"
                 }, 
                 "tcp_syn": {
                     "type": "boolean", 
-                    "description": "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP SYN flag filter. Field introduced in 18.2.5."
                 }, 
                 "ip_proto": {
-                    "default": "IP_TYPE_TCP", 
                     "type": "string", 
-                    "description": "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                    "description": "IP Proto filter. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
                 }, 
                 "tcp_ack": {
                     "type": "boolean", 
-                    "description": "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP ACK flag filter. Field introduced in 18.2.5."
                 }, 
                 "eth_proto": {
-                    "default": "ETH_TYPE_IPV4", 
                     "type": "string", 
-                    "description": "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                    "description": "Ethernet Proto filter. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -887,7 +885,7 @@
                     "$ref": "#/definitions/DebugVirtualServiceCapture"
                 }, 
                 "debug_ip": {
-                    "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "description": "Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1.", 
                     "$ref": "#/definitions/DebugIpAddr"
                 }, 
                 "tenant_ref": {
@@ -895,7 +893,7 @@
                     "description": " It is a reference to an object of type Tenant."
                 }, 
                 "capture_filters": {
-                    "description": "Capture filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/CaptureFilters"
                 }, 
                 "name": {
