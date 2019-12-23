@@ -1806,6 +1806,11 @@ definitions:
             contrail_plugin:
                 description: "Enable Contrail plugin mode. (deprecated)."
                 type: boolean
+            custom_se_image_properties:
+                description: "Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/Property'
             external_networks:
                 description: "If True, allow selection of networks marked as 'external' for management,  vip or data networks."
                 type: boolean
