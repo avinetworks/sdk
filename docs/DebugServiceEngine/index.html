@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -201,6 +201,7 @@ font-style: italic;
   <li><a href="#debugserviceengineGet"><code><span class="http-method">get</span> /debugserviceengine</code></a></li>
   <li><a href="#debugserviceenginePost"><code><span class="http-method">post</span> /debugserviceengine</code></a></li>
   <li><a href="#debugserviceengineUuidDelete"><code><span class="http-method">delete</span> /debugserviceengine/{uuid}</code></a></li>
+  <li><a href="#debugserviceengineUuidFaultruntimeGet"><code><span class="http-method">get</span> /debugserviceengine/{uuid}/faultruntime/</code></a></li>
   <li><a href="#debugserviceengineUuidGet"><code><span class="http-method">get</span> /debugserviceengine/{uuid}</code></a></li>
   <li><a href="#debugserviceengineUuidPatch"><code><span class="http-method">patch</span> /debugserviceengine/{uuid}</code></a></li>
   <li><a href="#debugserviceengineUuidPut"><code><span class="http-method">put</span> /debugserviceengine/{uuid}</code></a></li>
@@ -279,7 +280,13 @@ font-style: italic;
       "se_mbuf_cl_sanity" : true,
       "se_waf_alloc_fail_frequency" : 123,
       "se_shm_malloc_fail_type" : 123,
-      "se_shm_malloc_fail_frequency" : 123
+      "se_shm_malloc_fail_frequency" : 123,
+      "faults" : [ {
+        "fault_name" : "aeiou",
+        "arg" : 123456789,
+        "function_name" : "aeiou",
+        "num_executions" : 123
+      } ]
     },
     "capture_filters" : {
       "src_port" : 123,
@@ -408,7 +415,13 @@ font-style: italic;
     "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
-    "se_shm_malloc_fail_frequency" : 123
+    "se_shm_malloc_fail_frequency" : 123,
+    "faults" : [ {
+      "fault_name" : "aeiou",
+      "arg" : 123456789,
+      "function_name" : "aeiou",
+      "num_executions" : 123
+    } ]
   },
   "capture_filters" : {
     "src_port" : 123,
@@ -535,6 +548,58 @@ font-style: italic;
         <a href="#"></a>
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="debugserviceengineUuidFaultruntimeGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /debugserviceengine/{uuid}/faultruntime/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">debugserviceengineUuidFaultruntimeGet</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">uuid (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; UUID of the object to fetch </div>
+    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="heaader">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      String
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>"aeiou"</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    OK
+        <a href="#String">String</a>
+    <h4 class="field-label">401</h4>
+    log in failed
+        <a href="#"></a>
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="debugserviceengineUuidGet"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -608,7 +673,13 @@ font-style: italic;
     "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
-    "se_shm_malloc_fail_frequency" : 123
+    "se_shm_malloc_fail_frequency" : 123,
+    "faults" : [ {
+      "fault_name" : "aeiou",
+      "arg" : 123456789,
+      "function_name" : "aeiou",
+      "num_executions" : 123
+    } ]
   },
   "capture_filters" : {
     "src_port" : 123,
@@ -748,7 +819,13 @@ font-style: italic;
     "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
-    "se_shm_malloc_fail_frequency" : 123
+    "se_shm_malloc_fail_frequency" : 123,
+    "faults" : [ {
+      "fault_name" : "aeiou",
+      "arg" : 123456789,
+      "function_name" : "aeiou",
+      "num_executions" : 123
+    } ]
   },
   "capture_filters" : {
     "src_port" : 123,
@@ -888,7 +965,13 @@ font-style: italic;
     "se_mbuf_cl_sanity" : true,
     "se_waf_alloc_fail_frequency" : 123,
     "se_shm_malloc_fail_type" : 123,
-    "se_shm_malloc_fail_frequency" : 123
+    "se_shm_malloc_fail_frequency" : 123,
+    "faults" : [ {
+      "fault_name" : "aeiou",
+      "arg" : 123456789,
+      "function_name" : "aeiou",
+      "num_executions" : 123
+    } ]
   },
   "capture_filters" : {
     "src_port" : 123,
@@ -977,22 +1060,23 @@ font-style: italic;
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#SeFault"><code>SeFault</code></a></li>
   </ol>
 
   <div class="model">
     <h3 class="field-label"><a name="CaptureFilters">CaptureFilters</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">capture_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 18.2.5. </div>
-<div class="param">capture_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureIPC">CaptureIPC</a></span> Capture filter for SE ipc. Field introduced in 18.2.5. </div>
-<div class="param">dst_port_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
-<div class="param">dst_port_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
-<div class="param">eth_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5. </div>
-<div class="param">ip_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5. </div>
-<div class="param">src_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Source Port filter for SE pcap. Field introduced in 18.2.5. format: int32</div>
-<div class="param">tcp_ack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5. </div>
-<div class="param">tcp_fin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5. </div>
-<div class="param">tcp_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Push flag filter for SE pcap. Field introduced in 18.2.5. </div>
-<div class="param">tcp_syn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5. </div>
+      <div class="param">capture_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> Per packet IP filter. Matches with source and destination address. Curently not applicable for DebugServiceEngine. Field introduced in 18.2.5. </div>
+<div class="param">capture_ipc (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureIPC">CaptureIPC</a></span> Capture filter for SE IPC. Not applicable for Debug Virtual Service. Field introduced in 18.2.5. </div>
+<div class="param">dst_port_end (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter. Field introduced in 18.2.5. format: int32</div>
+<div class="param">dst_port_start (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Destination Port range filter. Field introduced in 18.2.5. format: int32</div>
+<div class="param">eth_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Ethernet Proto filter. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5. </div>
+<div class="param">ip_proto (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP Proto filter. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5. </div>
+<div class="param">src_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Source Port filter. Field introduced in 18.2.5. format: int32</div>
+<div class="param">tcp_ack (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> TCP ACK flag filter. Field introduced in 18.2.5. </div>
+<div class="param">tcp_fin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> TCP FIN flag filter. Field introduced in 18.2.5. </div>
+<div class="param">tcp_push (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> TCP PUSH flag filter. Field introduced in 18.2.5. </div>
+<div class="param">tcp_syn (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> TCP SYN flag filter. Field introduced in 18.2.5. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1025,7 +1109,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">log_every_n (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Log every nth message. Field introduced in 17.2.7. format: int32</div>
 <div class="param">log_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR. </div>
-<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG. </div>
+<div class="param">sub_module </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG, RES_MGR_READ_DEBUG, LICENSE_VMWSRVR_DEBUG. </div>
 <div class="param">trace_level </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1045,7 +1129,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeFault">DebugSeFault</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">se_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
+      <div class="param">faults (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeFault">array[SeFault]</a></span> Set of faults to enable/disable. Field introduced in 18.2.7. </div>
+<div class="param">se_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE malloc type. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_mbuf_cl_sanity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1. </div>
 <div class="param">se_shm_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE SHM malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
@@ -1059,10 +1144,10 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable/disable packet capture. Field introduced in 18.2.2. </div>
-<div class="param">capture_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFilters">CaptureFilters</a></span> Capture filter for SE pcap. Field introduced in 18.2.5. </div>
+<div class="param">capture_filters (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFilters">CaptureFilters</a></span> Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5. </div>
 <div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
-<div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
+<div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">fault (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeFault">DebugSeFault</a></span> Params for SE fault injection. Field introduced in 18.1.2. </div>
 <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeDataplane">array[DebugSeDataplane]</a></span> Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
@@ -1108,6 +1193,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
 <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="SeFault">SeFault</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">arg (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Optional 64 bit unsigned integer that can be used within the enabled fault. Field introduced in 18.2.7. format: int64</div>
+<div class="param">fault_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the target fault. Field introduced in 18.2.7. </div>
+<div class="param">function_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the function that contains the target fault. Field introduced in 18.2.7. </div>
+<div class="param">num_executions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>
