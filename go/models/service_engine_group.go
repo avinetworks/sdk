@@ -230,6 +230,9 @@ type ServiceEngineGroup struct {
 	// Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.
 	LogDisksz *int32 `json:"log_disksz,omitempty"`
 
+	// Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7.
+	MaxConcurrentExternalHm *int32 `json:"max_concurrent_external_hm,omitempty"`
+
 	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.
 	MaxCPUUsage *int32 `json:"max_cpu_usage,omitempty"`
 
