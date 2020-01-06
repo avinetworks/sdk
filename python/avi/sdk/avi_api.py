@@ -76,6 +76,10 @@ class AviServerError(APIError):
     def __init__(self, arg, rsp=None):
         super(AviServerError, self).__init__(arg, rsp)
 
+class AviMultipartUploadError(Exception):
+    def __init__(self, arg, rsp=None):
+        self.args = [arg]
+        self.rsp = rsp
 
 class APINotImplemented(Exception):
     pass
@@ -636,6 +640,13 @@ class ApiSession(Session):
                          api_hdrs, kwargs, data,
                          (resp.text if self.data_log else 'None'))
         if connection_error or resp.status_code in (401, 419):
+            if 'multipart/form-data' in api_hdrs['Content-Type']:
+                if connection_error:
+                    raise AviMultipartUploadError("Connection failed or aborted")
+                else:
+                    raise AviMultipartUploadError('Received error,: %d Error '
+                                                  'Msg %s' % (resp.status_code,
+                                                              resp.text), resp)
             if connection_error:
                 try:
                     self.close()
