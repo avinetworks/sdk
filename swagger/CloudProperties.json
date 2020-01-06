@@ -1017,6 +1017,10 @@
                     "description": "Period for rotate VS keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.", 
                     "format": "int32"
                 }, 
+                "allow_admin_network_updates": {
+                    "type": "boolean", 
+                    "description": "Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7."
+                }, 
                 "vs_se_bootup_fail": {
                     "default": 480, 
                     "type": "integer", 
@@ -1050,6 +1054,10 @@
                     "type": "integer", 
                     "description": "Number of upgrade_lease_time.", 
                     "format": "int32"
+                }, 
+                "permission_scoped_shared_admin_networks": {
+                    "type": "boolean", 
+                    "description": "Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7."
                 }, 
                 "warmstart_vs_resync_wait_time": {
                     "default": 300, 

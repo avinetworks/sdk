@@ -10,9 +10,13 @@ dpkg-buildpackage -b -us -uc >> /tmp/sdk_release.txt
 mv ../python-avisdk_*.deb dist/
 rm -rf ../avisdk_*amd64.changes
 echo "CREATING RPM PKG version $AVI_PIP_VERSION" >> /tmp/sdk_release.txt
+cp avi/sdk/setup.cfg .
+echo "[install]" >> setup.cfg
+echo "install-lib=/usr/lib/python2.7/site-packages" >> setup.cfg
 python setup.py bdist_rpm >> /tmp/sdk_release.txt
 rm -rf avisdk.egg-info
 rm -rf build/
 rm -f setup.py
+rm -f setup.cfg
 rm -f MANIFEST.in
 sed -i s/"__version__ =.*$"/"__version__ = \'\'"/g avi/sdk/__init__.py

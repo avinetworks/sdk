@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure license - show license ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -277,6 +277,7 @@ font-style: italic;
     "licenses" : [ {
       "start_on" : "aeiou",
       "burst_cores" : 123,
+      "serial_key" : "aeiou",
       "enforced_params" : [ "aeiou" ],
       "license_type" : "aeiou",
       "se_bandwidth_limits" : [ "" ],
@@ -386,6 +387,7 @@ font-style: italic;
   "licenses" : [ {
     "start_on" : "aeiou",
     "burst_cores" : 123,
+    "serial_key" : "aeiou",
     "enforced_params" : [ "aeiou" ],
     "license_type" : "aeiou",
     "se_bandwidth_limits" : [ "" ],
@@ -566,6 +568,7 @@ font-style: italic;
   "licenses" : [ {
     "start_on" : "aeiou",
     "burst_cores" : 123,
+    "serial_key" : "aeiou",
     "enforced_params" : [ "aeiou" ],
     "license_type" : "aeiou",
     "se_bandwidth_limits" : [ "" ],
@@ -686,6 +689,7 @@ font-style: italic;
   "licenses" : [ {
     "start_on" : "aeiou",
     "burst_cores" : 123,
+    "serial_key" : "aeiou",
     "enforced_params" : [ "aeiou" ],
     "license_type" : "aeiou",
     "se_bandwidth_limits" : [ "" ],
@@ -806,6 +810,7 @@ font-style: italic;
   "licenses" : [ {
     "start_on" : "aeiou",
     "burst_cores" : 123,
+    "serial_key" : "aeiou",
     "enforced_params" : [ "aeiou" ],
     "license_type" : "aeiou",
     "se_bandwidth_limits" : [ "" ],
@@ -948,6 +953,7 @@ font-style: italic;
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> license_type of SingleLicense. </div>
 <div class="param">max_ses (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of Service Engines hosts in container clouds. format: int32</div>
 <div class="param">se_bandwidth_limits (optional)</div><div class="param-desc"><span class="param-type"><a href="#SEBandwidthLimit">array[SEBandwidthLimit]</a></span> Service Engine bandwidth limits for bandwidth based licenses. Field introduced in 17.2.5. </div>
+<div class="param">serial_key (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 18.2.7,20.1.1. </div>
 <div class="param">sockets (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of physical cpu sockets across Service Engines in no access and linux server clouds. format: int32</div>
 <div class="param">start_on (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> start_on of SingleLicense. </div>
 <div class="param">tier_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>

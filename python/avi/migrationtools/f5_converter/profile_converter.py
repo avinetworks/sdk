@@ -15,7 +15,8 @@ conv_utils = F5Util()
 class ProfileConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_profile_attributes,
-                     object_merge_check, prefix, keypassphrase, skip_pki=False):
+                     object_merge_check, prefix, keypassphrase, skip_pki=False,
+                     distinct_app_profile=False):
         """
 
         :param version:  version of f5 instance
@@ -23,17 +24,19 @@ class ProfileConfigConv(object):
         :param object_merge_check: Flag for object merge
         :param prefix: prefix for objects
         :param keypassphrase: path of keypassphrase
+        :param skip_pki: PKI profile migration needs to be skipped
+        :param distinct_app_profile: Merge duplicates needs to be slipped
         :return: object of respective f5 version object.
         """
         f5_profile_attributes = f5_profile_attributes
         if version == '10':
             return ProfileConfigConvV10(
                 f5_profile_attributes, object_merge_check, prefix,
-                keypassphrase, skip_pki)
+                keypassphrase, skip_pki, distinct_app_profile)
         if version in ['11', '12']:
             return ProfileConfigConvV11(
                 f5_profile_attributes, object_merge_check, prefix,
-                keypassphrase, skip_pki)
+                keypassphrase, skip_pki, distinct_app_profile)
 
     default_key = None
 
@@ -353,13 +356,15 @@ class ProfileConfigConv(object):
 
 class ProfileConfigConvV11(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
-                 keypassphrase, skip_pki):
+                 keypassphrase, skip_pki, distinct_app_profile):
         """
 
         :param f5_profile_attributes: f5 profile attributes from yaml file.
         :param object_merge_check: flag for merging objects
         :param prefix: prefix for objects
         :param keypassphrase: keypassphrase yaml file location
+        :param skip_pki: PKI profile migration needs to be skipped
+        :param distinct_app_profile: Merge duplicates needs to be slipped
         """
         self.supported_types = \
             f5_profile_attributes['Profile_supported_types']
@@ -410,6 +415,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
         # Added prefix for objects
         self.prefix = prefix
         self.skip_pki = skip_pki
+        self.distinct_app_profile = distinct_app_profile
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -701,7 +707,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 if host:
                     app_profile['fallback_host'] = host
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -726,7 +732,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             app_profile['description'] = profile.get('description', None)
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -781,7 +787,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile["cache_config"] = cache_config
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -839,7 +845,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             http_profile["compression_profile"] = compression_profile
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -900,7 +906,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             }
             app_profile['dos_rl_profile'] = l4_profile
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -943,7 +949,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1114,13 +1120,15 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
 class ProfileConfigConvV10(ProfileConfigConv):
     def __init__(self, f5_profile_attributes, object_merge_check, prefix,
-                 keypassphrase, skip_pki):
+                 keypassphrase, skip_pki, distinct_app_profile):
         """
 
         :param f5_profile_attributes: f5 profile attributes from yaml file.
         :param object_merge_check: flag for merging objects
         :param prefix: prefix for objects
         :param keypassphrase: keypassphrase yaml file location
+        :param skip_pki: PKI profile migration needs to be skipped
+        :param distinct_app_profile: Merge duplicates needs to be slipped
         """
         self.supported_types = f5_profile_attributes['Profile_supported_types']
         self.default_key = "defaults from"
@@ -1157,6 +1165,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
         # Added prefix for objects
         self.prefix = prefix
         self.skip_pki = skip_pki
+        self.distinct_app_profile = distinct_app_profile
 
     def convert_profile(self, profile, key, f5_config, profile_config,
                         avi_config, input_dir, user_ignore, tenant_ref,
@@ -1314,7 +1323,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             na_list = self.na_http
             indirect = self.indirect_http
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1335,7 +1344,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 tenant, 'tenant')
             app_profile['type'] = 'APPLICATION_PROFILE_TYPE_DNS'
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1400,7 +1409,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 converted_objs.append({'network_profile': ntwk_profile})
                 avi_config['NetworkProfile'].append(ntwk_profile)
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates(
                     app_profile, avi_config['ApplicationProfile'],
                     'app_profile', converted_objs, name, default_profile_name,
@@ -1432,7 +1441,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
                 int(header_size)/final.BYTES_IN_KB
             app_profile["http_profile"] = http_profile
             # code to merge application profile count.
-            if self.object_merge_check:
+            if self.object_merge_check and not self.distinct_app_profile:
                 conv_utils.update_skip_duplicates\
                     (app_profile, avi_config['ApplicationProfile'],
                      'app_profile',converted_objs, name, default_profile_name,

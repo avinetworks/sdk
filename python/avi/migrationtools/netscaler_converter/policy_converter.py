@@ -846,6 +846,23 @@ class PolicyConverter(object):
         elif 'HTTP.REQ.IS_VALID' in query.upper():
             match = {'any': 'any'}
 
+        elif ('HTTP.REQ.URL.SET_TEXT_MODE' in query.upper() and 'STARTSWITH_ANY' in query.upper()):
+            match = {"path": path_query}
+            match["path"]["match_criteria"] = "BEGINS_WITH"
+            match["path"]["match_case"] = "INSENSITIVE"
+            matches = re.findall('\\\\"(.+?)\\\\', query)
+            if len(matches) == 0:
+                LOG.warning('No Matches found for %s' % query)
+                return None
+            patsets = []
+            for element in matches:
+                element = re.sub('[\\\/]', '', element)
+                patset = self.get_patset_collection(element, bind_patset,
+                                                    patset_config)
+                if patset:
+                    patsets += patset
+            match["path"]["match_str"] = patsets
+
         else:
             LOG.warning("%s Rule is not supported" % query)
             return None
@@ -895,14 +912,29 @@ class PolicyConverter(object):
         :param patset_config: dict patset config
         :return: patset attributes
         """
+        netscalar_command = 'bind policy patset'
+
 
         if match in patset_config and match in bind_patset:
             patsets = bind_patset[match]
             patset_attrs = []
+            patsets = sorted(patsets, key = lambda patset: int(patset['index']))
             for patset in patsets:
-                attrs = [x for x in patset['attrs'] if x != match]
+                ns_policy_complete_cmd = \
+                    ns_util.get_netscalar_full_command(netscalar_command, patset)
+                attrs = [re.sub(r'^"|"$', '', x) for x in patset['attrs'] if x != match]
                 patset_attrs += attrs
+                ns_util.add_status_row(
+                    patset['line_no'], netscalar_command, match,
+                    ns_policy_complete_cmd, STATUS_SUCCESSFUL, attrs)
             if patset_attrs:
+                netscalar_command = 'add policy patset'
+                ns_policy_complete_cmd = \
+                    ns_util.get_netscalar_full_command(netscalar_command, patset_config[match])
+                ns_util.add_status_row(
+                    patset_config[match]['line_no'], netscalar_command, match,
+                    ns_policy_complete_cmd, STATUS_SUCCESSFUL, patset_attrs)
+
                 return patset_attrs
 
         LOG.warning("%s Patset policy is not supported" % match)

@@ -343,47 +343,86 @@ paths:
                     description: not found
 
 
+    /debugserviceengine/{uuid}/faultruntime/:
+        get:
+            consumes:
+                -   application/json
+            produces:
+                -   application/json
+            parameters:
+                -   in: header
+                    name: X-Avi-Tenant
+                    type: string
+                    required: false
+                    description: Avi Tenant Header
+                -   name: X-Avi-Tenant-UUID
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Tenant Header UUID
+                -   name: X-CSRFToken
+                    in: header
+                    type: string
+                    required: false
+                    description: Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.
+                -   name: X-Avi-Version
+                    in: header
+                    type: string
+                    required: true
+                    description: The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.
+                -   in: path
+                    name: uuid
+                    description: UUID of the object to fetch
+                    required: true
+                    type: string
+            security:
+                - basicAuth: []
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        type: string
+                401:
+                    description: log in failed
 definitions:
     CaptureFilters:
         type: object
         properties:
             capture_ip:
-                description: "IP filter for SE pcap. Field introduced in 18.2.5."
+                description: "Per packet IP filter. Matches with source and destination address. Curently not applicable for DebugServiceEngine. Field introduced in 18.2.5."
                 $ref: '#/definitions/DebugIpAddr'
             capture_ipc:
-                description: "Capture filter for SE ipc. Field introduced in 18.2.5."
+                description: "Capture filter for SE IPC. Not applicable for Debug Virtual Service. Field introduced in 18.2.5."
                 $ref: '#/definitions/CaptureIPC'
             dst_port_end:
-                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                description: "Destination Port range filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             dst_port_start:
-                description: "Destination Port range filter for SE pcap. Field introduced in 18.2.5."
+                description: "Destination Port range filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             eth_proto:
-                description: "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                description: "Ethernet Proto filter. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
                 type: string
-                default: "ETH_TYPE_IPV4"
             ip_proto:
-                description: "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                description: "IP Proto filter. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
                 type: string
-                default: "IP_TYPE_TCP"
             src_port:
-                description: "Source Port filter for SE pcap. Field introduced in 18.2.5."
+                description: "Source Port filter. Field introduced in 18.2.5."
                 type: integer
                 format: int32
             tcp_ack:
-                description: "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP ACK flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_fin:
-                description: "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP FIN flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_push:
-                description: "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP PUSH flag filter. Field introduced in 18.2.5."
                 type: boolean
             tcp_syn:
-                description: "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                description: "TCP SYN flag filter. Field introduced in 18.2.5."
                 type: boolean
     CaptureIPC:
         type: object
@@ -457,7 +496,7 @@ definitions:
                 description: " Enum options - LOG_LEVEL_DISABLED, LOG_LEVEL_INFO, LOG_LEVEL_WARNING, LOG_LEVEL_ERROR."
                 type: string
             sub_module:
-                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG, RES_MGR_READ_DEBUG."
+                description: " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG, RES_MGR_READ_DEBUG, LICENSE_VMWSRVR_DEBUG."
                 type: string
             trace_level:
                 description: " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
@@ -487,6 +526,11 @@ definitions:
     DebugSeFault:
         type: object
         properties:
+            faults:
+                description: "Set of faults to enable/disable. Field introduced in 18.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/SeFault'
             se_malloc_fail_frequency:
                 description: "Fail SE malloc type at this frequency. Field introduced in 18.1.2."
                 type: integer
@@ -525,7 +569,7 @@ definitions:
                 description: "Enable/disable packet capture. Field introduced in 18.2.2."
                 type: boolean
             capture_filters:
-                description: "Capture filter for SE pcap. Field introduced in 18.2.5."
+                description: "Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5."
                 $ref: '#/definitions/CaptureFilters'
             capture_params:
                 description: "Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
@@ -536,7 +580,7 @@ definitions:
                 items:
                     $ref: '#/definitions/DebugSeCpuShares'
             debug_ip:
-                description: "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1."
+                description: "Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1."
                 $ref: '#/definitions/DebugIpAddr'
             fault:
                 description: "Params for SE fault injection. Field introduced in 18.1.2."
@@ -638,3 +682,23 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    SeFault:
+        type: object
+        required:
+            -   fault_name
+        properties:
+            arg:
+                description: "Optional 64 bit unsigned integer that can be used within the enabled fault. Field introduced in 18.2.7."
+                type: integer
+                format: int64
+            fault_name:
+                description: "The name of the target fault. Field introduced in 18.2.7."
+                type: string
+            function_name:
+                description: "The name of the function that contains the target fault. Field introduced in 18.2.7."
+                type: string
+            num_executions:
+                description: "Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7."
+                type: integer
+                default: 1
+                format: int32

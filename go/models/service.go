@@ -10,9 +10,6 @@ type Service struct {
 	// Enable SSL termination and offload for traffic from clients.
 	EnableSsl *bool `json:"enable_ssl,omitempty"`
 
-	// Enable HTTP2 on this port. Field introduced in 20.1.1.
-	Http2 *bool `json:"http2,omitempty"`
-
 	// Enable application layer specific features for the this specific service. It is a reference to an object of type ApplicationProfile. Field introduced in 17.2.4.
 	OverrideApplicationProfileRef *string `json:"override_application_profile_ref,omitempty"`
 

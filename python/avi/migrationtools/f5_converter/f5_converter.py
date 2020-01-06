@@ -47,6 +47,7 @@ class F5Converter(AviConverter):
         self.cloud_name = args.cloud_name
         self.vs_state = args.vs_state
         self.controller_version = args.controller_version
+        self.distinct_app_profile = args.distinct_app_profile
         self.f5_host_ip = args.f5_host_ip
         self.f5_ssh_user = args.f5_ssh_user
         self.f5_ssh_password = args.f5_ssh_password
@@ -83,6 +84,7 @@ class F5Converter(AviConverter):
         # Support for vrf ref and segroup ref
         self.vrf = args.vrf
         self.segroup = args.segroup
+        self.reuse_http_policy = args.reuse_http_policy
 
         # Created f5 util object.
         self.conversion_util = F5Util()
@@ -218,7 +220,7 @@ class F5Converter(AviConverter):
             self.con_snatpool, user_ignore, self.profile_path,
             self.tenant, self.cloud_name, self.f5_passphrase_file,
             self.vs_level_status, self.vrf, self.segroup, custom_mappings,
-            self.skip_pki)
+            self.skip_pki, self.distinct_app_profile, self.reuse_http_policy)
 
         avi_config = self.process_for_utils(avi_config_dict)
         # Check if flag true then skip not in use object
@@ -478,6 +480,9 @@ if __name__ == "__main__":
                         action="store_true")
     parser.add_argument('--custom_config',
                         help='iRule/monitor custom mapping yml file path')
+    parser.add_argument('--distinct_app_profile',  action="store_true",
+                        help="Option to create distinct application profile for"
+                             " each VS even though it is shared in F5 config")
     parser.add_argument('-f', '--bigip_config_file',
                         help='absolute path for F5 config file')
     parser.add_argument('--f5_host_ip', help='host ip of f5 instance')
@@ -564,6 +569,10 @@ if __name__ == "__main__":
     parser.add_argument('--vs_level_status', action='store_true',
                         help='Add columns of vs reference and overall skipped '
                              'settings in status excel sheet')
+    parser.add_argument('--reuse_http_policy', action='store_true',
+                        help='Detect and reuse the HTTP policy that are '
+                             'shared across multiple VS')
+
 
 
 

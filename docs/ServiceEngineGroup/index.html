@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -350,6 +350,7 @@ font-style: italic;
     "vcenter_datastore_mode" : "aeiou",
     "license_type" : "aeiou",
     "flow_table_new_syn_max_entries" : 123,
+    "max_queues_per_vnic" : 123,
     "waf_learning_memory" : 123,
     "auto_rebalance_criteria" : [ "aeiou" ],
     "max_memory_per_mempool" : 123,
@@ -377,6 +378,7 @@ font-style: italic;
     "heap_minimum_config_memory" : 123,
     "openstack_availability_zones" : [ "aeiou" ],
     "se_tunnel_mode" : 123,
+    "max_concurrent_external_hm" : 123,
     "shm_minimum_config_memory" : 123,
     "config_debugs_on_all_cores" : true,
     "se_vs_hb_max_vs_in_pkt" : 123,
@@ -650,6 +652,7 @@ font-style: italic;
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
+  "max_queues_per_vnic" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "max_memory_per_mempool" : 123,
@@ -677,6 +680,7 @@ font-style: italic;
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
+  "max_concurrent_external_hm" : 123,
   "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
@@ -1079,6 +1083,7 @@ font-style: italic;
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
+  "max_queues_per_vnic" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "max_memory_per_mempool" : 123,
@@ -1106,6 +1111,7 @@ font-style: italic;
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
+  "max_concurrent_external_hm" : 123,
   "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
@@ -1390,6 +1396,7 @@ font-style: italic;
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
+  "max_queues_per_vnic" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "max_memory_per_mempool" : 123,
@@ -1417,6 +1424,7 @@ font-style: italic;
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
+  "max_concurrent_external_hm" : 123,
   "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
@@ -1701,6 +1709,7 @@ font-style: italic;
   "vcenter_datastore_mode" : "aeiou",
   "license_type" : "aeiou",
   "flow_table_new_syn_max_entries" : 123,
+  "max_queues_per_vnic" : 123,
   "waf_learning_memory" : 123,
   "auto_rebalance_criteria" : [ "aeiou" ],
   "max_memory_per_mempool" : 123,
@@ -1728,6 +1737,7 @@ font-style: italic;
   "heap_minimum_config_memory" : 123,
   "openstack_availability_zones" : [ "aeiou" ],
   "se_tunnel_mode" : 123,
+  "max_concurrent_external_hm" : 123,
   "shm_minimum_config_memory" : 123,
   "config_debugs_on_all_cores" : true,
   "se_vs_hb_max_vs_in_pkt" : 123,
@@ -2123,7 +2133,7 @@ font-style: italic;
 <div class="param">datascript_timeout (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Number of instructions before datascript times out. Allowed values are 0-100000000. Field introduced in 18.2.3. format: int64</div>
 <div class="param">dedicated_dispatcher_core (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don&#39;t use it for TCP/IP and SSL functions. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
-<div class="param">disable_avi_securitygroups (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1. </div>
+<div class="param">disable_avi_securitygroups (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is supported for AWS and OpenStack cloud types. Field introduced in 17.2.13,18.1.4,18.2.1. </div>
 <div class="param">disable_csum_offloads (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1. </div>
 <div class="param">disable_gro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable Generic Receive Offload (GRO) in DPDK poll-mode driver packet receive path.  GRO is on by default on NICs that do not support LRO (Large Receive Offload) or do not gain performance boost from LRO. Field introduced in 17.2.5, 18.1.1. </div>
 <div class="param">disable_se_memory_check (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If set, disable the config memory check done in service engine. Field introduced in 18.1.2. </div>
@@ -2165,9 +2175,11 @@ font-style: italic;
 <div class="param">license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the license tier which would be used. This field by default inherits the value from cloud. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
 <div class="param">license_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If no license type is specified then default license enforcement for the cloud type is chosen. Enum options - LIC_BACKEND_SERVERS, LIC_SOCKETS, LIC_CORES, LIC_HOSTS, LIC_SE_BANDWIDTH, LIC_METERED_SE_BANDWIDTH. Field introduced in 17.2.5. </div>
 <div class="param">log_disksz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data. format: int32</div>
+<div class="param">max_concurrent_external_hm (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- &#39;Value will be internally calculated based on cpu and memory&#39;. Field introduced in 18.2.7. format: int32</div>
 <div class="param">max_cpu_usage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90. format: int32</div>
 <div class="param">max_memory_per_mempool (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5. format: int32</div>
 <div class="param">max_public_ips_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
+<div class="param">max_queues_per_vnic (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of queues per vnic Setting to &#39;0&#39; utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7. format: int32</div>
 <div class="param">max_rules_per_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2. format: int32</div>
 <div class="param">max_scaleout_per_vs (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of active Service Engines for the Virtual Service. Allowed values are 1-64. format: int32</div>
 <div class="param">max_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of Services Engines in this group. Allowed values are 0-1000. format: int32</div>

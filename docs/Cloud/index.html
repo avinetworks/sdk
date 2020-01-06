@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure cloud <key> - show cloud <key> - show cloud internals ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -315,6 +315,7 @@ font-style: italic;
     "east_west_ipam_provider_ref" : "aeiou",
     "gcp_configuration" : {
       "gcs_bucket_name" : "aeiou",
+      "encryption_key_id" : "aeiou",
       "match_se_group_subnet" : true,
       "firewall_target_tags" : [ "aeiou" ],
       "network_config" : {
@@ -614,14 +615,15 @@ font-style: italic;
       "wildcard_access" : true,
       "allowed_address_pairs" : true,
       "hypervisor_properties" : [ {
-        "image_properties" : [ {
-          "name" : "aeiou",
-          "value" : "aeiou"
-        } ],
+        "image_properties" : [ "" ],
         "hypervisor" : "aeiou"
       } ],
       "nuage_password" : "aeiou",
       "privilege" : "aeiou",
+      "custom_se_image_properties" : [ {
+        "name" : "aeiou",
+        "value" : "aeiou"
+      } ],
       "mgmt_network_uuid" : "aeiou",
       "contrail_plugin" : true,
       "port_security" : true,
@@ -901,6 +903,7 @@ font-style: italic;
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
     "gcs_bucket_name" : "aeiou",
+    "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
@@ -1200,14 +1203,15 @@ font-style: italic;
     "wildcard_access" : true,
     "allowed_address_pairs" : true,
     "hypervisor_properties" : [ {
-      "image_properties" : [ {
-        "name" : "aeiou",
-        "value" : "aeiou"
-      } ],
+      "image_properties" : [ "" ],
       "hypervisor" : "aeiou"
     } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
+    "custom_se_image_properties" : [ {
+      "name" : "aeiou",
+      "value" : "aeiou"
+    } ],
     "mgmt_network_uuid" : "aeiou",
     "contrail_plugin" : true,
     "port_security" : true,
@@ -1720,6 +1724,7 @@ font-style: italic;
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
     "gcs_bucket_name" : "aeiou",
+    "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
@@ -2019,14 +2024,15 @@ font-style: italic;
     "wildcard_access" : true,
     "allowed_address_pairs" : true,
     "hypervisor_properties" : [ {
-      "image_properties" : [ {
-        "name" : "aeiou",
-        "value" : "aeiou"
-      } ],
+      "image_properties" : [ "" ],
       "hypervisor" : "aeiou"
     } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
+    "custom_se_image_properties" : [ {
+      "name" : "aeiou",
+      "value" : "aeiou"
+    } ],
     "mgmt_network_uuid" : "aeiou",
     "contrail_plugin" : true,
     "port_security" : true,
@@ -2421,6 +2427,7 @@ font-style: italic;
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
     "gcs_bucket_name" : "aeiou",
+    "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
@@ -2720,14 +2727,15 @@ font-style: italic;
     "wildcard_access" : true,
     "allowed_address_pairs" : true,
     "hypervisor_properties" : [ {
-      "image_properties" : [ {
-        "name" : "aeiou",
-        "value" : "aeiou"
-      } ],
+      "image_properties" : [ "" ],
       "hypervisor" : "aeiou"
     } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
+    "custom_se_image_properties" : [ {
+      "name" : "aeiou",
+      "value" : "aeiou"
+    } ],
     "mgmt_network_uuid" : "aeiou",
     "contrail_plugin" : true,
     "port_security" : true,
@@ -2966,6 +2974,7 @@ font-style: italic;
   "east_west_ipam_provider_ref" : "aeiou",
   "gcp_configuration" : {
     "gcs_bucket_name" : "aeiou",
+    "encryption_key_id" : "aeiou",
     "match_se_group_subnet" : true,
     "firewall_target_tags" : [ "aeiou" ],
     "network_config" : {
@@ -3265,14 +3274,15 @@ font-style: italic;
     "wildcard_access" : true,
     "allowed_address_pairs" : true,
     "hypervisor_properties" : [ {
-      "image_properties" : [ {
-        "name" : "aeiou",
-        "value" : "aeiou"
-      } ],
+      "image_properties" : [ "" ],
       "hypervisor" : "aeiou"
     } ],
     "nuage_password" : "aeiou",
     "privilege" : "aeiou",
+    "custom_se_image_properties" : [ {
+      "name" : "aeiou",
+      "value" : "aeiou"
+    } ],
     "mgmt_network_uuid" : "aeiou",
     "contrail_plugin" : true,
     "port_security" : true,
@@ -3727,6 +3737,7 @@ font-style: italic;
     <h3 class="field-label"><a name="GCPConfiguration">GCPConfiguration</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">cloud_credentials_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Credentials to access Google Cloud Platform APIs. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1. </div>
+<div class="param">encryption_key_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Key Resource ID of Customer-Managed Encryption Key (CMEK) used to encrypt Service Engine disks and images. Field introduced in 18.2.7. </div>
 <div class="param">firewall_target_tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Firewall rule network target tags which will be applied on Service Engines to allow ingress and egress traffic for Service Engines. Field introduced in 18.2.1. </div>
 <div class="param">gcs_bucket_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Bucket Name where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, a bucket will be created if this field is not specified. Field introduced in 18.2.1. </div>
 <div class="param">gcs_project_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Google Cloud Storage Project ID where Service Engine image will be uploaded. This image will be deleted once the image is created in Google compute images. By default, Service Engine Project ID will be used. Field introduced in 18.2.1. </div>
@@ -4010,6 +4021,7 @@ font-style: italic;
 <div class="param">contrail_disable_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to True, the VIP and Data ports will be programmed to set virtual machine interface disable-policy. Please refer Contrail documentation for more on disable-policy. Field introduced in 18.1.2. </div>
 <div class="param">contrail_endpoint (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Contrail VNC endpoint url (example http //10.10.10.100 8082). By default, &#39;http //&#39; scheme and 8082 port will be used if not provided in the url. </div>
 <div class="param">contrail_plugin (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable Contrail plugin mode. (deprecated). </div>
+<div class="param">custom_se_image_properties (optional)</div><div class="param-desc"><span class="param-type"><a href="#Property">array[Property]</a></span> Custom image properties to be set on a Service Engine image. Only hw_vif_multiqueue_enabled property is supported. Other properties will be ignored. Field introduced in 18.2.7. </div>
 <div class="param">external_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> If True, allow selection of networks marked as &#39;external&#39; for management,  vip or data networks. </div>
 <div class="param">free_floatingips (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Free unused floating IPs. </div>
 <div class="param">hypervisor (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default hypervisor type. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN. </div>

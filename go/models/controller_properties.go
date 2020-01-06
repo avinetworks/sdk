@@ -11,6 +11,9 @@ type ControllerProperties struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7.
+	AllowAdminNetworkUpdates *bool `json:"allow_admin_network_updates,omitempty"`
+
 	//  Field introduced in 17.1.1.
 	AllowIPForwarding *bool `json:"allow_ip_forwarding,omitempty"`
 
@@ -88,6 +91,9 @@ type ControllerProperties struct {
 
 	// Number of max_seq_vnic_failures.
 	MaxSeqVnicFailures *int32 `json:"max_seq_vnic_failures,omitempty"`
+
+	// Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7.
+	PermissionScopedSharedAdminNetworks *bool `json:"permission_scoped_shared_admin_networks,omitempty"`
 
 	// Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'.
 	PersistenceKeyRotatePeriod *int32 `json:"persistence_key_rotate_period,omitempty"`

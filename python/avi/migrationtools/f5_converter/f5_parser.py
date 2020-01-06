@@ -17,7 +17,7 @@ def generate_grammar_v11():
     net = Keyword("net")
     sys = Keyword("sys")
     and_kw = Keyword("and")
-    monitor_kw = Keyword("monitor")
+    monitor_kw = Keyword("monitor ")
     empty_object = Keyword("{ }")
 
     # common = Suppress("/Common/")

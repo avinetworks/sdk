@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure controller properties - show controller properties ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -293,6 +293,8 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
+  "permission_scoped_shared_admin_networks" : true,
+  "allow_admin_network_updates" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
@@ -416,6 +418,8 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
+  "permission_scoped_shared_admin_networks" : true,
+  "allow_admin_network_updates" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
@@ -539,6 +543,8 @@ font-style: italic;
   "attach_ip_retry_interval" : 123,
   "cloud_reconcile" : true,
   "se_from_marketplace" : "aeiou",
+  "permission_scoped_shared_admin_networks" : true,
+  "allow_admin_network_updates" : true,
   "warmstart_se_reconnect_wait_time" : 123,
   "vnic_op_fail_time" : 123,
   "_last_modified" : "aeiou",
@@ -593,6 +599,7 @@ font-style: italic;
     <h3 class="field-label"><a name="ControllerProperties">ControllerProperties</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">allow_admin_network_updates (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7. </div>
 <div class="param">allow_ip_forwarding (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span>  Field introduced in 17.1.1. </div>
 <div class="param">allow_unauthenticated_apis (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow unauthenticated access for special APIs. </div>
 <div class="param">allow_unauthenticated_nodes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property allow_unauthenticated_nodes of obj type ControllerProperties field type str  type boolean </div>
@@ -619,6 +626,7 @@ font-style: italic;
 <div class="param">max_pcap_per_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of pcap files stored per tenant. format: int32</div>
 <div class="param">max_seq_attach_ip_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of consecutive attach IP failures that halts VS placement. Field introduced in 17.2.2. format: int32</div>
 <div class="param">max_seq_vnic_failures (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of max_seq_vnic_failures. format: int32</div>
+<div class="param">permission_scoped_shared_admin_networks (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7. </div>
 <div class="param">persistence_key_rotate_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - &#39;Disabled&#39;. format: int32</div>
 <div class="param">portal_token (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Token used for uploading tech-support to portal. Field introduced in 16.4.6,17.1.2. </div>
 <div class="param">process_locked_useraccounts_timeout_period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Period for process locked user accounts job. Field introduced in 18.1.1. format: int32</div>
