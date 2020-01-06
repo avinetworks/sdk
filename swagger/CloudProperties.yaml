@@ -861,6 +861,9 @@ definitions:
                 description: "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 readOnly: True
                 type: string
+            allow_admin_network_updates:
+                description: "Allow non-admin tenants to update admin VrfContext and Network objects. Field introduced in 18.2.7."
+                type: boolean
             allow_ip_forwarding:
                 description: " Field introduced in 17.1.1."
                 type: boolean
@@ -978,6 +981,9 @@ definitions:
                 type: integer
                 default: 3
                 format: int32
+            permission_scoped_shared_admin_networks:
+                description: "Network and VrfContext objects from the admin tenant will not be shared to non-admin tenants unless admin permissions are granted. Field introduced in 18.2.7."
+                type: boolean
             persistence_key_rotate_period:
                 description: "Period for rotate app persistence keys job. Allowed values are 1-1051200. Special values are 0 - 'Disabled'."
                 type: integer

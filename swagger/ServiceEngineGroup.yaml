@@ -784,7 +784,7 @@ definitions:
                 description: "User defined description for the object."
                 type: string
             disable_avi_securitygroups:
-                description: "By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1."
+                description: "By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is supported for AWS and OpenStack cloud types. Field introduced in 17.2.13,18.1.4,18.2.1."
                 type: boolean
             disable_csum_offloads:
                 description: "Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1."
@@ -939,6 +939,10 @@ definitions:
                 type: integer
                 default: 10000
                 format: int32
+            max_concurrent_external_hm:
+                description: "Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7."
+                type: integer
+                format: int32
             max_cpu_usage:
                 description: "When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90."
                 type: integer
@@ -953,6 +957,11 @@ definitions:
                 description: "Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2."
                 type: integer
                 default: 30
+                format: int32
+            max_queues_per_vnic:
+                description: "Maximum number of queues per vnic Setting to '0' utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7."
+                type: integer
+                default: 1
                 format: int32
             max_rules_per_lb:
                 description: "Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2."

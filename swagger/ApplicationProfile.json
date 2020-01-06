@@ -1498,7 +1498,7 @@
                 }, 
                 "ssl_everywhere_enabled": {
                     "type": "boolean", 
-                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
+                    "description": "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7."
                 }, 
                 "max_http2_control_frames_per_connection": {
                     "default": 1000, 

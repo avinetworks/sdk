@@ -11,12 +11,13 @@ from pkg_resources import parse_version
 LOG = logging.getLogger(__name__)
 # Creating f5 object for util library.
 conv_utils = F5Util()
-used_policy=[]
+used_policy = list()
+used_app_profiles = list()
 
 class VSConfigConv(object):
     @classmethod
     def get_instance(cls, version, f5_virtualservice_attributes, prefix,
-                     con_snatpool, custom_mappings):
+                     con_snatpool, custom_mappings, distinct_app_profile):
         """
 
         :param version:  version of f5 instance
@@ -28,10 +29,12 @@ class VSConfigConv(object):
         """
         if version == '10':
             return VSConfigConvV10(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, custom_mappings)
+                                   con_snatpool, custom_mappings,
+                                   distinct_app_profile)
         if version in ['11', '12']:
             return VSConfigConvV11(f5_virtualservice_attributes, prefix,
-                                   con_snatpool, custom_mappings)
+                                   con_snatpool, custom_mappings,
+                                   distinct_app_profile)
 
     def get_persist_ref(self, f5_vs):
         pass
@@ -57,10 +60,10 @@ class VSConfigConv(object):
         }
         return p_mapping
 
-
     def convert(self, f5_config, avi_config, vs_state, user_ignore, tenant,
                 cloud_name, controller_version, merge_object_mapping, sys_dict,
-                vrf=None, segroup=None, partition_mapping=None):
+                vrf=None, segroup=None, partition_mapping=None,
+                reuse_http_policy=False):
         """
 
         :param f5_config: Parsed f5 config dict
@@ -106,7 +109,8 @@ class VSConfigConv(object):
                 vs_obj = self.convert_vs(
                     vs_name, f5_vs, vs_state, avi_config, f5_snat_pools,
                     user_ignore, tenant, cloud_name, controller_version,
-                    merge_object_mapping, sys_dict, f5_config, vrf)
+                    merge_object_mapping, sys_dict, f5_config, vrf, 
+                    reuse_http_policy)
                 if vs_obj:
                     if segroup:
                         segroup_ref = conv_utils.get_object_ref(
@@ -128,7 +132,8 @@ class VSConfigConv(object):
 
     def convert_vs(self, vs_name, f5_vs, vs_state, avi_config, snat_config,
                    user_ignore, tenant_ref, cloud_name, controller_version,
-                   merge_object_mapping, sys_dict, f5_config, vrf=None):
+                   merge_object_mapping, sys_dict, f5_config, vrf=None,
+                   reuse_http_policy=False):
         """
 
         :param vs_name: name of virtual service.
@@ -364,6 +369,12 @@ class VSConfigConv(object):
             ip_addr = ".".join(map(str, (
                 random.randint(0, 255) for _ in range(4))))
 
+        if app_prof_obj:
+            if self.distinct_app_profile and app_prof[0] in used_app_profiles:
+                app_prof[0] = conv_utils.clone_app_profile_for_vs(
+                    app_prof[0], app_prof_obj[0], vs_name, tenant, avi_config)
+            used_app_profiles.append(app_prof[0])
+
         # VIP object for virtual service
         vip = {
             'ip_address': {
@@ -385,6 +396,7 @@ class VSConfigConv(object):
             'vs_datascripts': [],
             'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant')
         }
+
         if vrf:
             vrf_ref = conv_utils.get_object_ref(vrf, 'vrfcontext',
                                                 tenant=tenant_name,
@@ -425,7 +437,7 @@ class VSConfigConv(object):
             vs_ds, req_policies, nw_policy, converted_rules = (
                 conv_utils.convert_irules(
                     vs_ds_rules, self.rule_config, avi_config, self.prefix,
-                    vs_name, tenant))
+                    vs_name, tenant, reuse_http_policy))
             vs_policies = vs_policies + req_policies
         if vs_ds:
             vs_datascripts = []
@@ -457,7 +469,7 @@ class VSConfigConv(object):
             vs_policies.append(app_prof_obj[0]['HTTPPolicySet'])
         if vs_policies:
             self.get_policy_vs(vs_policies, avi_config, vs_name, tenant,
-                               cloud_name, vs_obj)
+                               cloud_name, vs_obj, reuse_http_policy)
         p_ref = None
         if is_pool_group:
             p_ref = conv_utils.get_object_ref(
@@ -647,7 +659,7 @@ class VSConfigConv(object):
         return vs_obj
 
     def get_policy_vs(self, vs_policies, avi_config, vs_name, tenant,
-                      cloud_name, vs_obj):
+                      cloud_name, vs_obj, reuse_http_policy=False):
         """
         This method gets all the policy attached to vs, also clone it if
         required
@@ -663,7 +675,9 @@ class VSConfigConv(object):
             policy_obj = [ob for ob in avi_config['HTTPPolicySet'] if ob[
                 'name'] == pol_name]
             if policy_obj:
-                if pol_name in used_policy:
+                if reuse_http_policy:
+                    pass
+                elif pol_name in used_policy:
                     LOG.debug('Cloning the policy %s for vs %s',
                               pol_name, vs_name)
                     clone_policy = conv_utils.clone_http_policy_set(
@@ -679,7 +693,8 @@ class VSConfigConv(object):
                                    'supported  %s for vs %s', pol_name,
                                   vs_name)
                         continue
-                used_policy.append(pol_name)
+                if pol_name not in used_policy:
+                    used_policy.append(pol_name)
                 pol = {
                     'index': 11,
                     'http_policy_set_ref':
@@ -699,7 +714,7 @@ class VSConfigConv(object):
 
 class VSConfigConvV11(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 custom_mappings):
+                 custom_mappings, distinct_app_profile):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -722,6 +737,7 @@ class VSConfigConvV11(VSConfigConv):
         self.rule_config = custom_mappings.get(
             final.RULE_CUSTOM_KEY, dict()
         ) if custom_mappings else dict()
+        self.distinct_app_profile = distinct_app_profile
 
     def get_persist_ref(self, f5_vs):
         """
@@ -757,7 +773,7 @@ class VSConfigConvV11(VSConfigConv):
 
 class VSConfigConvV10(VSConfigConv):
     def __init__(self, f5_virtualservice_attributes, prefix, con_snatpool,
-                 custom_mappings):
+                 custom_mappings, distinct_app_profile):
         """
 
         :param f5_virtualservice_attributes: yaml attribute file for object
@@ -780,6 +796,7 @@ class VSConfigConvV10(VSConfigConv):
         self.rule_config = custom_mappings.get(
             final.RULE_CUSTOM_KEY, dict()
         ) if custom_mappings else dict()
+        self.distinct_app_profile = distinct_app_profile
 
     def get_persist_ref(self, f5_vs):
         persist_ref = f5_vs.get("persist", None)

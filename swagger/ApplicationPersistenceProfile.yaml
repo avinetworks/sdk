@@ -505,6 +505,10 @@ definitions:
     IPPersistenceProfile:
         type: object
         properties:
+            ip_mask:
+                description: "Mask to be applied on client IP. This may be used to persist clients from a subnet to the same server. When set to 0, all requests are sent to the same server. Allowed values are 0-128. Field introduced in 18.2.7."
+                type: integer
+                format: int32
             ip_persistent_timeout:
                 description: "The length of time after a client's connections have closed before expiring the client's persistence to a server. Allowed values are 1-720."
                 type: integer

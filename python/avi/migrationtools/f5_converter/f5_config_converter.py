@@ -42,7 +42,8 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
             con_snatpool, user_ignore, profile_path, tenant,
             cloud_name='Default-Cloud', keypassphrase=None,
             vs_level_status=False, vrf=None, segroup=None,
-            custom_mappings=None, skip_pki=False):
+            custom_mappings=None, skip_pki=False, distinct_app_profile=False,
+            reuse_http_policy=False):
 
     """
     Converts f5 config to avi config pops the config lists for conversion of
@@ -68,6 +69,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
     :param segroup: segroup ref value for VS
     :param custom_mappings: custom mappings to overwrite monitor or map irules
     :param skip_pki: Skip PKI profile in migration
+    :param distinct_app_profile: create distinct application profile for each VS
     :return: Converted avi objects
     """
 
@@ -94,7 +96,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
 
         profile_conv = ProfileConfigConv.get_instance(
             version, f5_attributes, object_merge_check, prefix, keypassphrase,
-            skip_pki)
+            skip_pki, distinct_app_profile)
         profile_conv.convert(f5_config, avi_config_dict, input_dir, user_ignore,
                              tenant, cloud_name, merge_object_mapping, sys_dict)
 
@@ -118,13 +120,13 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
         policy_conv = PolicyConfigConv.get_instance(version, prefix)
         policy_conv.convert(f5_config, avi_config_dict, tenant)
 
-        vs_conv = VSConfigConv.get_instance(version, f5_attributes, prefix,
-                                            con_snatpool, custom_mappings)
-        vs_conv.convert(f5_config, avi_config_dict,
-                                          vs_state, user_ignore,
+        vs_conv = VSConfigConv.get_instance(
+            version, f5_attributes, prefix, con_snatpool, custom_mappings,
+            distinct_app_profile)
+        vs_conv.convert(f5_config, avi_config_dict, vs_state, user_ignore,
                         tenant, cloud_name, controller_version,
                         merge_object_mapping, sys_dict, vrf, segroup,
-                                            partition_vs_mapping)
+                        partition_vs_mapping, reuse_http_policy)
         dg_conv = DataGroupConfigConv.get_instance(
             version, prefix, merge_object_mapping, f5_attributes)
         dg_conv.convert(f5_config, avi_config_dict, user_ignore,

@@ -328,6 +328,69 @@
                 ]
             }
         }, 
+        "/debugserviceengine/{uuid}/faultruntime/": {
+            "get": {
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ], 
+                "produces": [
+                    "application/json"
+                ], 
+                "responses": {
+                    "200": {
+                        "description": "OK", 
+                        "schema": {
+                            "type": "string"
+                        }
+                    }, 
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }, 
+                "parameters": [
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Tenant Header UUID", 
+                        "in": "header", 
+                        "name": "X-Avi-Tenant-UUID"
+                    }, 
+                    {
+                        "required": false, 
+                        "type": "string", 
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
+                        "in": "header", 
+                        "name": "X-CSRFToken"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
+                        "in": "header", 
+                        "name": "X-Avi-Version"
+                    }, 
+                    {
+                        "required": true, 
+                        "type": "string", 
+                        "description": "UUID of the object to fetch", 
+                        "in": "path", 
+                        "name": "uuid"
+                    }
+                ], 
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }, 
         "/debugserviceengine": {
             "post": {
                 "security": [
@@ -499,52 +562,50 @@
             "properties": {
                 "tcp_fin": {
                     "type": "boolean", 
-                    "description": "Tcp Fin flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP FIN flag filter. Field introduced in 18.2.5."
                 }, 
                 "dst_port_start": {
                     "type": "integer", 
-                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Destination Port range filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "dst_port_end": {
                     "type": "integer", 
-                    "description": "Destination Port range filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Destination Port range filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "src_port": {
                     "type": "integer", 
-                    "description": "Source Port filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Source Port filter. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "capture_ipc": {
-                    "description": "Capture filter for SE ipc. Field introduced in 18.2.5.", 
+                    "description": "Capture filter for SE IPC. Not applicable for Debug Virtual Service. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/CaptureIPC"
                 }, 
                 "tcp_push": {
                     "type": "boolean", 
-                    "description": "Tcp Push flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP PUSH flag filter. Field introduced in 18.2.5."
                 }, 
                 "capture_ip": {
-                    "description": "IP filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Per packet IP filter. Matches with source and destination address. Curently not applicable for DebugServiceEngine. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/DebugIpAddr"
                 }, 
                 "tcp_syn": {
                     "type": "boolean", 
-                    "description": "Tcp Syn flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP SYN flag filter. Field introduced in 18.2.5."
                 }, 
                 "ip_proto": {
-                    "default": "IP_TYPE_TCP", 
                     "type": "string", 
-                    "description": "IP Proto filter for SE pcap. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
+                    "description": "IP Proto filter. Support for TCP only for now. Enum options - IP_TYPE_TCP. Field introduced in 18.2.5."
                 }, 
                 "tcp_ack": {
                     "type": "boolean", 
-                    "description": "Tcp Ack flag filter for SE pcap. Field introduced in 18.2.5."
+                    "description": "TCP ACK flag filter. Field introduced in 18.2.5."
                 }, 
                 "eth_proto": {
-                    "default": "ETH_TYPE_IPV4", 
                     "type": "string", 
-                    "description": "Ethernet Proto filter for SE pcap. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
+                    "description": "Ethernet Proto filter. Enum options - ETH_TYPE_IPV4. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -587,11 +648,6 @@
                     "description": "Fail this SE SHM malloc type. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
-                "se_waf_alloc_fail_frequency": {
-                    "type": "integer", 
-                    "description": "Fail SE WAF allocation at this frequency. Field introduced in 18.1.2.", 
-                    "format": "int32"
-                }, 
                 "se_malloc_fail_frequency": {
                     "type": "integer", 
                     "description": "Fail SE malloc type at this frequency. Field introduced in 18.1.2.", 
@@ -600,6 +656,18 @@
                 "se_waf_learning_alloc_fail_frequency": {
                     "type": "integer", 
                     "description": "Fail SE WAF learning allocation at this frequency. Field introduced in 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "faults": {
+                    "items": {
+                        "$ref": "#/definitions/SeFault"
+                    }, 
+                    "type": "array", 
+                    "description": "Set of faults to enable/disable. Field introduced in 18.2.7."
+                }, 
+                "se_waf_alloc_fail_frequency": {
+                    "type": "integer", 
+                    "description": "Fail SE WAF allocation at this frequency. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }
             }
@@ -619,7 +687,7 @@
                 }, 
                 "sub_module": {
                     "type": "string", 
-                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG, RES_MGR_READ_DEBUG."
+                    "description": " Enum options - TASK_QUEUE_DEBUG, RPC_INFRA_DEBUG, JOB_MGR_DEBUG, TRANSACTION_DEBUG, SE_AGENT_DEBUG, SE_AGENT_METRICS_DEBUG, VIRTUALSERVICE_DEBUG, RES_MGR_DEBUG, SE_MGR_DEBUG, VI_MGR_DEBUG, METRICS_MANAGER_DEBUG, METRICS_MGR_DEBUG, EVENT_API_DEBUG, HS_MGR_DEBUG, ALERT_MGR_DEBUG, AUTOSCALE_MGR_DEBUG, APIC_AGENT_DEBUG, REDIS_INFRA_DEBUG, CLOUD_CONNECTOR_DEBUG, MESOS_METRICS_DEBUG, STATECACHE_MGR_DEBUG, NSX_AGENT_DEBUG, SE_AGENT_CPU_UTIL_DEBUG, SE_AGENT_MEM_UTIL_DEBUG, SE_RPC_PROXY_DEBUG, SE_AGENT_GSLB_DEBUG, METRICSAPI_SRV_DEBUG, SECURITYMGR_DEBUG, RES_MGR_READ_DEBUG, LICENSE_VMWSRVR_DEBUG."
                 }, 
                 "log_level": {
                     "type": "string", 
@@ -628,6 +696,33 @@
                 "trace_level": {
                     "type": "string", 
                     "description": " Enum options - TRACE_LEVEL_DISABLED, TRACE_LEVEL_ERROR, TRACE_LEVEL_DEBUG, TRACE_LEVEL_DEBUG_DETAIL."
+                }
+            }
+        }, 
+        "SeFault": {
+            "required": [
+                "fault_name"
+            ], 
+            "type": "object", 
+            "properties": {
+                "num_executions": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7.", 
+                    "format": "int32"
+                }, 
+                "arg": {
+                    "type": "integer", 
+                    "description": "Optional 64 bit unsigned integer that can be used within the enabled fault. Field introduced in 18.2.7.", 
+                    "format": "int64"
+                }, 
+                "fault_name": {
+                    "type": "string", 
+                    "description": "The name of the target fault. Field introduced in 18.2.7."
+                }, 
+                "function_name": {
+                    "type": "string", 
+                    "description": "The name of the function that contains the target fault. Field introduced in 18.2.7."
                 }
             }
         }, 
@@ -790,7 +885,7 @@
                     "$ref": "#/definitions/DebugVirtualServiceCapture"
                 }, 
                 "debug_ip": {
-                    "description": "IP filter for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1.", 
+                    "description": "Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1.", 
                     "$ref": "#/definitions/DebugIpAddr"
                 }, 
                 "tenant_ref": {
@@ -798,7 +893,7 @@
                     "description": " It is a reference to an object of type Tenant."
                 }, 
                 "capture_filters": {
-                    "description": "Capture filter for SE pcap. Field introduced in 18.2.5.", 
+                    "description": "Per packet capture filters for Debug Service Engine. Not applicable for DOS pcap capture. . Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/CaptureFilters"
                 }, 
                 "name": {

@@ -838,7 +838,7 @@ definitions:
                 type: string
                 default: "SSL_CLIENT_CERTIFICATE_NONE"
             ssl_everywhere_enabled:
-                description: "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect."
+                description: "Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7."
                 type: boolean
             use_app_keepalive_timeout:
                 description: "Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout."

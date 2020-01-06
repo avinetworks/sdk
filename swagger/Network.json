@@ -549,6 +549,22 @@
                 }
             }
         }, 
+        "KeyValue": {
+            "required": [
+                "key"
+            ], 
+            "type": "object", 
+            "properties": {
+                "key": {
+                    "type": "string", 
+                    "description": "Key."
+                }, 
+                "value": {
+                    "type": "string", 
+                    "description": "Value."
+                }
+            }
+        }, 
         "NetworkApiResponse": {
             "required": [
                 "count", 
@@ -642,6 +658,13 @@
                     "default": true, 
                     "type": "boolean", 
                     "description": "Enable IPv6 auto configuration. Field introduced in 18.1.1."
+                }, 
+                "labels": {
+                    "items": {
+                        "$ref": "#/definitions/KeyValue"
+                    }, 
+                    "type": "array", 
+                    "description": "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
                 }, 
                 "tenant_ref": {
                     "type": "string", 

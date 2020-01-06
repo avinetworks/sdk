@@ -389,6 +389,17 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    KeyValue:
+        type: object
+        required:
+            -   key
+        properties:
+            key:
+                description: "Key."
+                type: string
+            value:
+                description: "Value."
+                type: string
     Network:
         type: object
         required:
@@ -417,6 +428,11 @@ definitions:
                 description: "Enable IPv6 auto configuration. Field introduced in 18.1.1."
                 type: boolean
                 default: True
+            labels:
+                description: "Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7."
+                type: array
+                items:
+                    $ref: '#/definitions/KeyValue'
             name:
                 description: "Name of the object."
                 type: string

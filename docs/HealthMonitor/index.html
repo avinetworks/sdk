@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure healthmonitor <key> - show healthmonitor <key> ```  Examples - **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive   ```json     {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.6</div>
+    <div class="app-desc">Version: 18.2.7</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,7 @@ font-style: italic;
     <pre class="example"><code>{
   "count" : 123,
   "results" : [ {
+    "disable_quickstart" : true,
     "tcp_monitor" : {
       "tcp_response" : "aeiou",
       "tcp_half_open" : true,
@@ -372,6 +373,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "disable_quickstart" : true,
   "tcp_monitor" : {
     "tcp_response" : "aeiou",
     "tcp_half_open" : true,
@@ -611,6 +613,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "disable_quickstart" : true,
   "tcp_monitor" : {
     "tcp_response" : "aeiou",
     "tcp_half_open" : true,
@@ -738,6 +741,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "disable_quickstart" : true,
   "tcp_monitor" : {
     "tcp_response" : "aeiou",
     "tcp_half_open" : true,
@@ -865,6 +869,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "disable_quickstart" : true,
   "tcp_monitor" : {
     "tcp_response" : "aeiou",
     "tcp_half_open" : true,
@@ -969,6 +974,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
+<div class="param">disable_quickstart (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7. </div>
 <div class="param">dns_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorDNS">HealthMonitorDNS</a></span> Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">external_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#HealthMonitorExternal">HealthMonitorExternal</a></span> Placeholder for description of property external_monitor of obj type HealthMonitor field type str  type object </div>
 <div class="param">failed_checks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of continuous failed health checks before the server is marked down. Allowed values are 1-50. format: int32</div>

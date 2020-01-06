@@ -14,6 +14,9 @@ type HealthMonitor struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
+	// During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7.
+	DisableQuickstart *bool `json:"disable_quickstart,omitempty"`
+
 	// Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object
 	DNSMonitor *HealthMonitorDNS `json:"dns_monitor,omitempty"`
 

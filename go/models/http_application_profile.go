@@ -34,14 +34,14 @@ type HTTPApplicationProfile struct {
 	// Allows HTTP requests, not just TCP connections, to be load balanced across servers.  Proxied TCP connections to servers may be reused by multiple clients to improve performance. Not compatible with Preserve Client IP.
 	ConnectionMultiplexingEnabled *bool `json:"connection_multiplexing_enabled,omitempty"`
 
-	// Disable chunk body merge for chunked transfer encoding response. Field introduced in 20.1.1.
-	DisableChunkMerge *bool `json:"disable_chunk_merge,omitempty"`
-
 	// Disable keep-alive client side connections for older browsers based off MS Internet Explorer 6.0 (MSIE6). For some applications, this might break NTLM authentication for older clients based off MSIE6. For such applications, set this option to false to allow keep-alive connections.
 	DisableKeepalivePostsMsie6 *bool `json:"disable_keepalive_posts_msie6,omitempty"`
 
 	// Disable strict check between TLS servername and HTTP Host name. Field introduced in 18.2.5.
 	DisableSniHostnameCheck *bool `json:"disable_sni_hostname_check,omitempty"`
+
+	// Enable chunk body merge for chunked transfer encoding response. Field introduced in 18.2.7.
+	EnableChunkMerge *bool `json:"enable_chunk_merge,omitempty"`
 
 	// Enable support for fire and forget feature. If enabled, request from client is forwarded to server even if client prematurely closes the connection. Field introduced in 17.2.4.
 	EnableFireAndForget *bool `json:"enable_fire_and_forget,omitempty"`
@@ -64,17 +64,11 @@ type HTTPApplicationProfile struct {
 	// Insert the 'includeSubdomains' directive in the HTTP Strict-Transport-Security header. Adding the includeSubdomains directive signals the User-Agent that the HSTS Policy applies to this HSTS Host as well as any subdomains of the host's domain name. Field introduced in 17.2.13, 18.1.4, 18.2.1.
 	HstsSubdomainsEnabled *bool `json:"hsts_subdomains_enabled,omitempty"`
 
-	// Enable HTTP2 for traffic from clients to the virtual service. Field deprecated in 20.1.1. Field introduced in 18.1.1.
+	// Enable HTTP2 for traffic from clients to the virtual service.  . Field introduced in 18.1.1.
 	Http2Enabled *bool `json:"http2_enabled,omitempty"`
-
-	// Specifies the HTTP/2 specific application profile parameters. Field introduced in 20.1.1.
-	Http2Profile *Http2ApplicationProfile `json:"http2_profile,omitempty"`
 
 	// Client requests received via HTTP will be redirected to HTTPS.
 	HTTPToHTTPS *bool `json:"http_to_https,omitempty"`
-
-	// Size of HTTP buffer in kB. Allowed values are 1-256. Special values are 0- 'Auto compute the size of buffer'. Field introduced in 20.1.1.
-	HTTPUpstreamBufferSize *int32 `json:"http_upstream_buffer_size,omitempty"`
 
 	// Mark HTTP cookies as HTTPonly.  This helps mitigate cross site scripting attacks as browsers will not allow these cookies to be read by third parties, such as javascript.
 	HttponlyEnabled *bool `json:"httponly_enabled,omitempty"`
@@ -94,16 +88,16 @@ type HTTPApplicationProfile struct {
 	// Maximum bad requests per second per URI. Allowed values are 10-1000. Special values are 0- 'unlimited'.
 	MaxBadRpsURI *int32 `json:"max_bad_rps_uri,omitempty"`
 
-	// The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field deprecated in 20.1.1. Field introduced in 18.2.6.
+	// The max number of concurrent streams over a client side HTTP/2 connection. Allowed values are 1-256. Field introduced in 18.2.6.
 	MaxHttp2ConcurrentStreamsPerConnection *int32 `json:"max_http2_concurrent_streams_per_connection,omitempty"`
 
-	// The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.
+	// The max number of control frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited control frames on a client side HTTP/2 connection'. Field introduced in 18.2.6.
 	MaxHttp2ControlFramesPerConnection *int32 `json:"max_http2_control_frames_per_connection,omitempty"`
 
-	// The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.
+	// The max number of empty data frames that client can send over an HTTP/2 connection. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited empty data frames over a client side HTTP/2 connection'. Field introduced in 18.2.6.
 	MaxHttp2EmptyDataFramesPerConnection *int32 `json:"max_http2_empty_data_frames_per_connection,omitempty"`
 
-	// The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field deprecated in 20.1.1. Field introduced in 18.2.6.
+	// The max number of frames that can be queued waiting to be sent over a client side HTTP/2 connection at any given time. '0' means unlimited. Allowed values are 0-10000. Special values are 0- 'Unlimited frames can be queued on a client side HTTP/2 connection'. Field introduced in 18.2.6.
 	MaxHttp2QueuedFramesToClientPerConnection *int32 `json:"max_http2_queued_frames_to_client_per_connection,omitempty"`
 
 	// The max number of HTTP requests that can be sent over a Keep-Alive connection. '0' means unlimited. Allowed values are 0-1000000. Special values are 0- 'Unlimited requests on a connection'. Field introduced in 18.2.5.
@@ -157,7 +151,7 @@ type HTTPApplicationProfile struct {
 	// Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE.
 	SslClientCertificateMode *string `json:"ssl_client_certificate_mode,omitempty"`
 
-	// Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS.  For sites that are  HTTP only, these settings will have no effect.
+	// Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7.
 	SslEverywhereEnabled *bool `json:"ssl_everywhere_enabled,omitempty"`
 
 	// Use 'Keep-Alive' header timeout sent by application instead of sending the HTTP Keep-Alive Timeout.

@@ -104,7 +104,7 @@ type ServiceEngineGroup struct {
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 
-	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is only supported for AWS cloud type. Field introduced in 17.2.13,18.1.4,18.2.1.
+	// By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is supported for AWS and OpenStack cloud types. Field introduced in 17.2.13,18.1.4,18.2.1.
 	DisableAviSecuritygroups *bool `json:"disable_avi_securitygroups,omitempty"`
 
 	// Stop using TCP/UDP and IP checksum offload features of NICs. Field introduced in 17.1.14, 17.2.5, 18.1.1.
@@ -230,6 +230,9 @@ type ServiceEngineGroup struct {
 	// Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.
 	LogDisksz *int32 `json:"log_disksz,omitempty"`
 
+	// Maximum number of external health monitors that can run concurrently in a service engine. This helps control the CPU and memory use by external health monitors. Special values are 0- 'Value will be internally calculated based on cpu and memory'. Field introduced in 18.2.7.
+	MaxConcurrentExternalHm *int32 `json:"max_concurrent_external_hm,omitempty"`
+
 	// When CPU usage on an SE exceeds this threshold, Virtual Services hosted on this SE may be rebalanced to other SEs to reduce load. A new SE may be created as part of this process. Allowed values are 40-90.
 	MaxCPUUsage *int32 `json:"max_cpu_usage,omitempty"`
 
@@ -238,6 +241,9 @@ type ServiceEngineGroup struct {
 
 	// Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxPublicIpsPerLb *int32 `json:"max_public_ips_per_lb,omitempty"`
+
+	// Maximum number of queues per vnic Setting to '0' utilises all queues that are distributed across dispatcher cores. Allowed values are 0,1,2,4,8,16. Field introduced in 18.2.7.
+	MaxQueuesPerVnic *int32 `json:"max_queues_per_vnic,omitempty"`
 
 	// Applicable to Azure platform only. Maximum number of rules per Azure LB. . Field introduced in 17.2.12, 18.1.2.
 	MaxRulesPerLb *int32 `json:"max_rules_per_lb,omitempty"`
@@ -354,9 +360,6 @@ type ServiceEngineGroup struct {
 	// Placeholder for description of property se_dos_profile of obj type ServiceEngineGroup field type str  type object
 	SeDosProfile *DosThresholdProfile `json:"se_dos_profile,omitempty"`
 
-	// The highest supported SE-SE Heartbeat protocol version. This version is reported by Secondary SE to Primary SE in Heartbeat response messages. Allowed values are 1-2. Field introduced in 20.1.1.
-	SeDpMaxHbVersion *int32 `json:"se_dp_max_hb_version,omitempty"`
-
 	// Time (in seconds) service engine waits for after generating a Vnic transmit queue stall event before resetting theNIC. Field introduced in 18.2.5.
 	SeDpVnicQueueStallEventSleep *int32 `json:"se_dp_vnic_queue_stall_event_sleep,omitempty"`
 
@@ -419,9 +422,6 @@ type ServiceEngineGroup struct {
 
 	// UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2.
 	SeRemotePuntUDPPort *int32 `json:"se_remote_punt_udp_port,omitempty"`
-
-	// Rate limiter properties. Field introduced in 20.1.1.
-	SeRlProp *RateLimiterProperties `json:"se_rl_prop,omitempty"`
 
 	// Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3.
 	SeRouting *bool `json:"se_routing,omitempty"`
