@@ -50,7 +50,7 @@ public class AviSDKTest {
 	}
 	
 	@Test
-	public void testExample() throws ParseException, AviApiException{
+	public void testExample() throws Exception{
 		try {
 
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
