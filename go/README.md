@@ -194,7 +194,7 @@ Following is an example entry of vendor.json file in Terraform provider
             }]
 ```
 
-Following is an example to import Go SDK packages in third party Go code
+Following is an example to import Go SDK packages in third party Go code.
 ```go
 import (
 	"github.com/avinetworks/sdk/go/clients"
