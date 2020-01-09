@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi UpgradeStatusSummary Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- show upgrade status\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -499,7 +499,7 @@
             "properties": {
                 "reason": {
                     "type": "string", 
-                    "description": "Descriptive reason for the state-chance. Field introduced in 18.2.6."
+                    "description": "Descriptive reason for the state-change. Field introduced in 18.2.6."
                 }, 
                 "state": {
                     "type": "string", 
