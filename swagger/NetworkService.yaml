@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi NetworkService Object API
     contact:
         name: Avi Networks Inc.
