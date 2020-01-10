@@ -5214,7 +5214,7 @@
             "properties": {
                 "previous_image_ref": {
                     "type": "string", 
-                    "description": "Image uuid for identifying previous base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                    "description": "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
                 "enable_patch_rollback": {
                     "type": "boolean", 
@@ -5222,11 +5222,11 @@
                 }, 
                 "start_time": {
                     "type": "string", 
-                    "description": "Start time of upgrade operations. Field introduced in 18.2.6."
+                    "description": "Start time of Upgrade operation. Field introduced in 18.2.6."
                 }, 
                 "patch_version": {
                     "type": "string", 
-                    "description": "Current patch version applied to this node. Field introduced in 18.2.6."
+                    "description": "Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6."
                 }, 
                 "upgrade_ops": {
                     "type": "string", 
@@ -5238,7 +5238,7 @@
                 }, 
                 "previous_patch_image_ref": {
                     "type": "string", 
-                    "description": "Image uuid for identifying previous patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                    "description": "Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
                 "seg_status": {
                     "description": "Detailed SeGroup status. Field introduced in 18.2.6.", 
@@ -5250,23 +5250,23 @@
                 }, 
                 "duration": {
                     "type": "integer", 
-                    "description": "Duration of upgrade operations in seconds. Field introduced in 18.2.6.", 
+                    "description": "Duration of Upgrade operation in seconds. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "patch_image_ref": {
                     "type": "string", 
-                    "description": "Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                    "description": "Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 }, 
                 "upgrade_events": {
                     "items": {
                         "$ref": "#/definitions/EventMap"
                     }, 
                     "type": "array", 
-                    "description": "Events performed for upgrade operations. Field introduced in 18.2.6."
+                    "description": "Events performed for Upgrade operation. Field introduced in 18.2.6."
                 }, 
                 "tasks_completed": {
                     "type": "integer", 
-                    "description": "Upgrade tasks completed. Field introduced in 18.2.6.", 
+                    "description": "Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "enable_rollback": {
@@ -5284,7 +5284,7 @@
                 }, 
                 "previous_version": {
                     "type": "string", 
-                    "description": "Previous version prior to upgrade. Field introduced in 18.2.6."
+                    "description": "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
                 }, 
                 "url": {
                     "readOnly": true, 
@@ -5297,18 +5297,18 @@
                 }, 
                 "system": {
                     "type": "boolean", 
-                    "description": "Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade. Field introduced in 18.2.6."
+                    "description": "Flag is set only in the cluster if the upgrade is initiated as a system-upgrade. . Field introduced in 18.2.6."
                 }, 
                 "enqueue_time": {
                     "type": "string", 
-                    "description": "Enqueue time of upgrade operations. Field introduced in 18.2.6."
+                    "description": "Enqueue time of Upgrade operation. Field introduced in 18.2.6."
                 }, 
                 "name": {
                     "type": "string", 
                     "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
                 }, 
                 "state": {
-                    "description": "Current status of the upgrade operations. Field introduced in 18.2.6.", 
+                    "description": "Current status of the Upgrade operation. Field introduced in 18.2.6.", 
                     "$ref": "#/definitions/UpgradeOpsState"
                 }, 
                 "version": {
@@ -5316,12 +5316,12 @@
                     "description": "Current base image applied to this node. Field introduced in 18.2.6."
                 }, 
                 "params": {
-                    "description": "Parameters associated with the current upgrade ops. Field introduced in 18.2.6.", 
+                    "description": "Parameters associated with the Upgrade operation. Field introduced in 18.2.6.", 
                     "$ref": "#/definitions/UpgradeOpsParam"
                 }, 
                 "total_tasks": {
                     "type": "integer", 
-                    "description": "Total upgrade tasks. Field introduced in 18.2.6.", 
+                    "description": "Total number of tasks in the Upgrade operation. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "se_upgrade_events": {
@@ -5337,11 +5337,11 @@
                 }, 
                 "previous_patch_version": {
                     "type": "string", 
-                    "description": "Previous patch version applied to this node. Field introduced in 18.2.6."
+                    "description": "Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6."
                 }, 
                 "end_time": {
                     "type": "string", 
-                    "description": "End time of upgrade operations. Field introduced in 18.2.6."
+                    "description": "End time of Upgrade operation. Field introduced in 18.2.6."
                 }
             }
         }, 
@@ -7316,7 +7316,7 @@
                 }, 
                 "state": {
                     "type": "string", 
-                    "description": " Enum options - UPGRADE_STARTED, UPGRADE_WAITING, UPGRADE_IN_PROGRESS, UPGRADE_CONTROLLER_COMPLETED, UPGRADE_COMPLETED, UPGRADE_ABORT_IN_PROGRESS, UPGRADE_ABORTED, UPGRADE_REQUESTED, UPGRADE_FSM_GREENFIELD."
+                    "description": " Enum options - UPGRADE_STARTED, UPGRADE_WAITING, UPGRADE_IN_PROGRESS, UPGRADE_CONTROLLER_COMPLETED, UPGRADE_COMPLETED, UPGRADE_ABORT_IN_PROGRESS, UPGRADE_ABORTED."
                 }, 
                 "rollback": {
                     "type": "boolean", 
