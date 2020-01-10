@@ -685,7 +685,7 @@ definitions:
                 readOnly: True
                 type: string
             duration:
-                description: "Duration of upgrade operations in seconds. Field introduced in 18.2.6."
+                description: "Duration of Upgrade operation in seconds. Field introduced in 18.2.6."
                 type: integer
                 format: int32
             enable_patch_rollback:
@@ -695,10 +695,10 @@ definitions:
                 description: "Check if the rollback is possible on this node. Field introduced in 18.2.6."
                 type: boolean
             end_time:
-                description: "End time of upgrade operations. Field introduced in 18.2.6."
+                description: "End time of Upgrade operation. Field introduced in 18.2.6."
                 type: string
             enqueue_time:
-                description: "Enqueue time of upgrade operations. Field introduced in 18.2.6."
+                description: "Enqueue time of Upgrade operation. Field introduced in 18.2.6."
                 type: string
             image_ref:
                 description: "Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
@@ -713,25 +713,25 @@ definitions:
                 description: "Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6."
                 type: string
             params:
-                description: "Parameters associated with the current upgrade ops. Field introduced in 18.2.6."
+                description: "Parameters associated with the Upgrade operation. Field introduced in 18.2.6."
                 $ref: '#/definitions/UpgradeOpsParam'
             patch_image_ref:
-                description: "Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                description: "Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
             patch_version:
-                description: "Current patch version applied to this node. Field introduced in 18.2.6."
+                description: "Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6."
                 type: string
             previous_image_ref:
-                description: "Image uuid for identifying previous base image. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                description: "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
             previous_patch_image_ref:
-                description: "Image uuid for identifying previous patch. It is a reference to an object of type Image. Field introduced in 18.2.6."
+                description: "Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
                 type: string
             previous_patch_version:
-                description: "Previous patch version applied to this node. Field introduced in 18.2.6."
+                description: "Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6."
                 type: string
             previous_version:
-                description: "Previous version prior to upgrade. Field introduced in 18.2.6."
+                description: "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
                 type: string
             se_upgrade_events:
                 description: "ServiceEngineGroup upgrade errors. Field introduced in 18.2.6."
@@ -742,27 +742,27 @@ definitions:
                 description: "Detailed SeGroup status. Field introduced in 18.2.6."
                 $ref: '#/definitions/SeGroupStatus'
             start_time:
-                description: "Start time of upgrade operations. Field introduced in 18.2.6."
+                description: "Start time of Upgrade operation. Field introduced in 18.2.6."
                 type: string
             state:
-                description: "Current status of the upgrade operations. Field introduced in 18.2.6."
+                description: "Current status of the Upgrade operation. Field introduced in 18.2.6."
                 $ref: '#/definitions/UpgradeOpsState'
             system:
-                description: "Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade. Field introduced in 18.2.6."
+                description: "Flag is set only in the cluster if the upgrade is initiated as a system-upgrade. . Field introduced in 18.2.6."
                 type: boolean
             tasks_completed:
-                description: "Upgrade tasks completed. Field introduced in 18.2.6."
+                description: "Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6."
                 type: integer
                 format: int32
             tenant_ref:
                 description: "Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6."
                 type: string
             total_tasks:
-                description: "Total upgrade tasks. Field introduced in 18.2.6."
+                description: "Total number of tasks in the Upgrade operation. Field introduced in 18.2.6."
                 type: integer
                 format: int32
             upgrade_events:
-                description: "Events performed for upgrade operations. Field introduced in 18.2.6."
+                description: "Events performed for Upgrade operation. Field introduced in 18.2.6."
                 type: array
                 items:
                     $ref: '#/definitions/EventMap'
