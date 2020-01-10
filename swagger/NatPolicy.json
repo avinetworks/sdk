@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi NatPolicy Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure natpolicy <key>\n- show natpolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
