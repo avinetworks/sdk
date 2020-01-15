@@ -106,7 +106,7 @@ func (client *CustomerPortalInfoClient) Patch(uuid string, patch interface{}, pa
 
 // Delete an existing CustomerPortalInfo object with a given UUID
 func (client *CustomerPortalInfoClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-    if len(options) == 0{
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
