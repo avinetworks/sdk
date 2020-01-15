@@ -1,5 +1,5 @@
 import xmltodict
-dast=__import__("avi-iwaf-vpatch")
+import avi_iwaf_vpatch as dast
 
 
 
