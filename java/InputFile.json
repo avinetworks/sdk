@@ -1,0 +1,139 @@
+{
+"postInput":
+{
+"lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+"default_server_port": 80,
+"enabled": true,
+"servers": [{
+     "enabled": false, 
+	 "ip": {
+		"addr": "192.0.0.1", 
+		"type": "V4"
+      }} ], 
+	"name": "test-example"
+},
+"postOutput":
+{
+    "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+    "use_service_port": false,
+    "rewrite_host_header_to_server_name": false,
+    "host_check_enabled": false,
+    "rewrite_host_header_to_sni": false,
+    "capacity_estimation": false,
+    "servers": [
+        {
+            "ratio": 1,
+            "ip": {
+                "type": "V4",
+                "addr": "192.0.0.1"
+            },
+            "hostname": "192.0.0.1",
+            "enabled": false,
+            "verify_network": false,
+            "static": false,
+            "resolve_server_by_dns": false,
+            "rewrite_host_header": false
+        }
+    ],
+    "fewest_tasks_feedback_delay": 10,
+    "capacity_estimation_ttfb_thresh": 0,
+    "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS",
+    "_last_modified": "1579520628817584",
+    "inline_health_monitor": true,
+    "default_server_port": 80,
+    "request_queue_depth": 128,
+    "graceful_disable_timeout": 1,
+    "sni_enabled": true,
+    "server_count": 1,
+    "uuid": "pool-f959a97c-4b2d-4ec3-8b79-40eed5029014",
+    "request_queue_enabled": false,
+    "name": "test-example",
+    "max_concurrent_connections_per_server": 0,
+    "enabled": true,
+    "connection_ramp_duration": 10
+},
+"getOutput":{
+    "count": 1,
+    "results": [
+        {
+            "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+            "use_service_port": false,
+            "rewrite_host_header_to_server_name": false,
+            "host_check_enabled": false,
+            "rewrite_host_header_to_sni": false,
+            "capacity_estimation": false,
+            "servers": [
+                {
+                    "ratio": 1,
+                    "ip": {
+                        "type": "V4",
+                        "addr": "192.0.0.1"
+                    },
+                    "hostname": "192.0.0.1",
+                    "enabled": false,
+                    "verify_network": false,
+                    "static": false,
+                    "resolve_server_by_dns": false,
+                    "rewrite_host_header": false
+                }
+            ],
+            "fewest_tasks_feedback_delay": 10,
+            "capacity_estimation_ttfb_thresh": 0,
+            "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS",
+            "_last_modified": "1579588025982391",
+            "inline_health_monitor": true,
+            "default_server_port": 80,
+            "request_queue_depth": 128,
+            "graceful_disable_timeout": 1,
+            "server_count": 1,
+            "sni_enabled": true,
+            "request_queue_enabled": false,
+            "name": "test-example",
+            "max_concurrent_connections_per_server": 0,
+            "enabled": true,
+            "uuid": "pool-c16c0aec-7ca5-4668-9e52-a2d4514b9949",
+            "connection_ramp_duration": 10
+        }
+    ]
+},
+"putOutput":
+{
+    "lb_algorithm": "LB_ALGORITHM_LEAST_CONNECTIONS",
+    "use_service_port": false,
+    "rewrite_host_header_to_server_name": false,
+    "host_check_enabled": false,
+    "rewrite_host_header_to_sni": false,
+    "capacity_estimation": false,
+    "servers": [
+        {
+            "ratio": 1,
+            "ip": {
+                "type": "V4",
+                "addr": "192.0.0.1"
+            },
+            "hostname": "192.0.0.1",
+            "enabled": false,
+            "verify_network": false,
+            "static": false,
+            "resolve_server_by_dns": false,
+            "rewrite_host_header": false
+        }
+    ],
+    "fewest_tasks_feedback_delay": 10,
+    "capacity_estimation_ttfb_thresh": 0,
+    "lb_algorithm_hash": "LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS",
+    "_last_modified": "1579588248001766",
+    "inline_health_monitor": true,
+    "default_server_port": 80,
+    "request_queue_depth": 128,
+    "graceful_disable_timeout": 1,
+    "sni_enabled": true,
+    "server_count": 1,
+    "uuid": "pool-c16c0aec-7ca5-4668-9e52-a2d4514b9949",
+    "request_queue_enabled": false,
+    "name": "test-pool",
+    "max_concurrent_connections_per_server": 0,
+    "enabled": true,
+    "connection_ramp_duration": 10
+}
+}
