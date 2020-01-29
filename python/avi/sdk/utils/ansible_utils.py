@@ -295,8 +295,8 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
                         return False
                 elif not v:
                     d_x_absent_ks.append(k)
-            elif isinstance(v, list) and not v:
-                d_x_absent_ks.append(k)
+            elif isinstance(v, list) and not v and k not in y:
+                    d_x_absent_ks.append(k)
             # Added condition to check key in dict.
             elif isinstance(v, str) or (k in y and isinstance(y[k], str)):
                 # this is the case when ansible converts the dictionary into a
@@ -578,4 +578,5 @@ def avi_common_argument_spec():
                              options=credentials_spec),
         api_context=dict(type='dict'),
         avi_disable_session_cache_as_fact=dict(default=False, type='bool'))
+
 
