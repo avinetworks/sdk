@@ -157,6 +157,9 @@ Example:
 To export configuration with passphrase add data with passphrase in POST call as:
        {"passphrase": "XXXX"}
 
+To export configuration with passphrase using GET:
+    api/configuration/export?passphrase=admin
+
 Example to export a single virtualservice:
     api/configuration/export/virtualservice/<vs-uuid>?include_name=true&uuid_refs=true
 
