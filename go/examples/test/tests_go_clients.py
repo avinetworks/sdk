@@ -94,6 +94,7 @@ def test_avi_client_error():
     out = subprocess.check_output(shlex.split(cmd))
     LOG.info("playbook out %s ", out)
 
+@pytest.mark.TCID1_48_1606_9_0
 def test_fileupload():
     cmd = PLAYBOOK_TEMPLATE.substitute(test_file='fileupload_test.go')
     LOG.info("executing command %s ", cmd)
