@@ -55,6 +55,9 @@ type VNIC struct {
 	// Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean
 	IsPortchannel *bool `json:"is_portchannel,omitempty"`
 
+	// The link is operationally up. Field introduced in 18.2.8.
+	LinkUp *bool `json:"link_up,omitempty"`
+
 	// linux_name of vNIC.
 	LinuxName *string `json:"linux_name,omitempty"`
 
