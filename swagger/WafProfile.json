@@ -717,9 +717,9 @@
                     "description": "Learn the params per URI path. Field introduced in 18.2.3."
                 }, 
                 "max_uris": {
-                    "default": 100, 
+                    "default": 500, 
                     "type": "integer", 
-                    "description": "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3.", 
+                    "description": "Maximum number of URI paths to learn for an application. Allowed values are 10-10000. Field introduced in 18.2.3.", 
                     "format": "int32"
                 }, 
                 "min_hits_to_learn": {
