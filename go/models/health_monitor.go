@@ -11,6 +11,9 @@ type HealthMonitor struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
+	// By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently. In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not desired. Use this knob to allow duplicates. Field introduced in 18.2.8.
+	AllowDuplicateMonitors *bool `json:"allow_duplicate_monitors,omitempty"`
+
 	// User defined description for the object.
 	Description *string `json:"description,omitempty"`
 

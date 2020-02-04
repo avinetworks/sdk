@@ -137,7 +137,7 @@ type ControllerProperties struct {
 	// Number of secure_channel_se_token_timeout.
 	SecureChannelSeTokenTimeout *int32 `json:"secure_channel_se_token_timeout,omitempty"`
 
-	// Pool of SCP connections used in copy task during serviceenginegroup upgrade. Field introduced in 18.2.6.
+	// This parameter defines the number of simultaneous SE image downloads in a SeGroup. It is used to pace the SE downloads so that controller network/CPU bandwidth is a bounded operation. A value of 0 will disable the pacing scheme and all the SE(s) in the SeGroup will attempt to download the image. . Field introduced in 18.2.6.
 	SeupgradeCopyPoolSize *int32 `json:"seupgrade_copy_pool_size,omitempty"`
 
 	// Pool size used for all fabric commands during se upgrade.
