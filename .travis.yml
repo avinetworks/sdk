@@ -92,5 +92,6 @@ notifications:
       - chaitanya.deshpande@avinetworks.com
       - shrikant.patil@avinetworks.com
       - ashwini.bodke@avinetworks.com
+      - rohan.suryawanshi@avinetworks.com
     on_failure: always
 
