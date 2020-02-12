@@ -29,7 +29,7 @@ Here are list of important SDK directories:
 
 **[Avi API SDK and Utilities](./python/avi/sdk/README.md)**
 
-**[Avi Migration Tools](./python/avi/sdk/README.md)**
+**[Avi Migration Tools](./python/avi/migrationtools/README.md)**
 
 **[Avi Go SDK and Utilities](./go/README.md)**
 
