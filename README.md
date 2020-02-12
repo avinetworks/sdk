@@ -27,12 +27,12 @@ Here are list of important SDK directories:
 
 # AVI SDK includes following tools and utilities:
 
-**[Avi API SDK and Utilities](https://github.com/avinetworks/sdk/blob/master/python/avi/sdk/README.rst)**
+**[Avi API SDK and Utilities](./python/avi/sdk/README.rst)**
 
-**[Avi Migration Tools](https://github.com/avinetworks/sdk/blob/master/python/avi/sdk/README.rst)**
+**[Avi Migration Tools](./python/avi/sdk/README.rst)**
 
-**[Avi Go SDK and Utilities](https://github.com/avinetworks/sdk/blob/master/go/README.md)**
+**[Avi Go SDK and Utilities](./go/README.md)**
 
-**[SNMP MIBs](https://github.com/avinetworks/sdk/blob/master/mibs/README.txt)**
+**[SNMP MIBs](./mibs/README.txt)**
 
-**[Swagger UI Dist](https://github.com/avinetworks/sdk/blob/master/swagger/README.md)**
+**[Swagger UI Dist](./swagger/README.md)**
