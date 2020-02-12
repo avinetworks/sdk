@@ -27,9 +27,9 @@ Here are list of important SDK directories:
 
 # AVI SDK includes following tools and utilities:
 
-**[Avi API SDK and Utilities](./python/avi/sdk/README.rst)**
+**[Avi API SDK and Utilities](./python/avi/sdk/README.md)**
 
-**[Avi Migration Tools](./python/avi/sdk/README.rst)**
+**[Avi Migration Tools](./python/avi/sdk/README.md)**
 
 **[Avi Go SDK and Utilities](./go/README.md)**
 
