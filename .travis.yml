@@ -83,6 +83,7 @@ matrix:
       script:
       - cd java
       - mvn -Dtest=MockAviSDKTest test
+      - mvn -Dtest=AviSDKMockTest test
 
 notifications:
   email:

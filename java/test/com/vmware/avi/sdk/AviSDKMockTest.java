@@ -1,5 +1,23 @@
 package com.vmware.avi.sdk;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.containing;
+import static com.github.tomakehurst.wiremock.client.WireMock.delete;
+import static com.github.tomakehurst.wiremock.client.WireMock.deleteRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.matching;
+import static com.github.tomakehurst.wiremock.client.WireMock.ok;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.put;
+import static com.github.tomakehurst.wiremock.client.WireMock.putRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
@@ -8,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 import java.util.logging.Logger;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
@@ -18,7 +37,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -26,16 +44,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-
-public class TestAviSDKMock {
+public class AviSDKMockTest {
 	
 	AviCredentials avicredentials;
-    static final Logger LOGGER = Logger.getLogger(TestAviSDKMock.class.getName());
+    static final Logger LOGGER = Logger.getLogger(AviSDKMockTest.class.getName());
 
 	@Before
 	public void setUp(){
@@ -103,7 +117,7 @@ public class TestAviSDKMock {
 	}
 	
 	@Test
-	public void testPostCall_200() throws ClientProtocolException, IOException, ParseException, NoSuchMethodException, SecurityException, AviApiException {
+	public void testPostCall200() throws ClientProtocolException, IOException, ParseException, NoSuchMethodException, SecurityException, AviApiException {
 		Object obj = new JSONParser().parse(new FileReader("InputFile.json"));
 		JSONObject jo = (JSONObject) obj; 
 		JSONObject postInput = (JSONObject)jo.get("postInput");	
@@ -136,7 +150,7 @@ public class TestAviSDKMock {
 	}
 	
 	@Test
-	public void testPostCall_503() throws ClientProtocolException, IOException, ParseException, NoSuchMethodException, SecurityException, AviApiException {
+	public void testPostCall503() throws ClientProtocolException, IOException, ParseException, NoSuchMethodException, SecurityException, AviApiException {
 		Object obj = new JSONParser().parse(new FileReader("InputFile.json"));
 		JSONObject jo = (JSONObject) obj; 
 		JSONObject postInput = (JSONObject)jo.get("postInput");	
@@ -159,7 +173,7 @@ public class TestAviSDKMock {
 	}
 	
 	@Test
-	public void testGetCall_200() throws ClientProtocolException, IOException, AviApiException {
+	public void testGetCall200() throws ClientProtocolException, IOException, AviApiException {
 		stubFor(get(urlPathMatching("/api/pool/([a-z0-9-]*)"))
 			  .willReturn(aResponse()
 			  .withStatus(200)
@@ -184,7 +198,7 @@ public class TestAviSDKMock {
 		
 	}
 	@Test
-	public void testGetCall_503() throws ClientProtocolException, IOException {
+	public void testGetCall503() throws ClientProtocolException, IOException {
 		stubFor(get(urlPathMatching("/api/pool/([a-z0-9-]*)"))
 				  .withHeader("Accept", matching("text/.*"))
 				  .willReturn(aResponse()
