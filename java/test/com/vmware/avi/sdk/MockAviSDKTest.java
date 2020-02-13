@@ -2,6 +2,7 @@ package com.vmware.avi.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.mock;
 
 import java.io.FileReader;
 import java.util.HashMap;
@@ -14,11 +15,6 @@ import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.vmware.avi.sdk.AviApi;
-import com.vmware.avi.sdk.AviApiException;
-import com.vmware.avi.sdk.AviCredentials;
-import static org.mockito.Mockito.mock;
 
 
 public class MockAviSDKTest {
@@ -73,7 +69,6 @@ public class MockAviSDKTest {
 			// GET test case
 			Object obj = new JSONParser().parse(new FileReader("InputFile.json"));
 			JSONObject jo = (JSONObject) obj; 
-			JSONObject postInput = (JSONObject)jo.get("postInput"); 
 			JSONObject postOutput = (JSONObject)jo.get("postOutput");
 			JSONObject getOutput = (JSONObject)jo.get("getOutput");
 			String objectName = postOutput.get("name").toString();
@@ -89,6 +84,7 @@ public class MockAviSDKTest {
 		e.printStackTrace(System.err);
 	}
 }
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testPut() throws Exception{
 		try {

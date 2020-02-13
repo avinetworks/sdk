@@ -3,27 +3,16 @@ package com.vmware.avi.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Properties;
-import java.util.logging.Logger;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import com.vmware.avi.sdk.AviApi;
-import com.vmware.avi.sdk.AviApiException;
-import com.vmware.avi.sdk.AviCredentials;
-
 import org.junit.Test;
-import org.junit.Rule;
 
 public class AviSDKTest {
 	static final Logger LOGGER = Logger.getLogger(AviSDKTest.class.getName());
@@ -49,29 +38,17 @@ public class AviSDKTest {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	public void testExample() throws ParseException, AviApiException{
+	public void testExample() throws Exception{
 		try {
 
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			Object obj = new JSONParser().parse(new FileReader("InputFile.json"));
+			JSONObject jo = (JSONObject) obj; 
+			JSONObject postInput = (JSONObject)jo.get("postInput");	
 			
-			String poolStr = "{\n" + 
-					"	\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\",\n" + 
-					"	\"default_server_port\": 80,\n" + 
-					"	\"enabled\": true,\n" + 
-					"	\"servers\": [{\n" + 
-					"		\"enabled\": false,\n" + 
-					"		\"ip\": {\n" + 
-					"			\"addr\": \"1.2.3.4\",\n" + 
-					"			\"type\": \"V4\"\n" + 
-					"		}\n" + 
-					"	}],\n" + 
-					"	\"name\": \"test-example\"\n" + 
-					"}";
-
-			JSONParser parser = new JSONParser();
-			JSONObject body = (JSONObject) parser.parse(poolStr);
-			JSONObject response = serv.post("pool", body);
+			JSONObject response = serv.post("pool", postInput);
 			String objectName = response.get("name").toString();
 			
 			assertEquals("test-example", objectName);
@@ -108,5 +85,14 @@ public class AviSDKTest {
 		} catch (AviApiException | ParseException e) {
 			e.printStackTrace(System.err);
 		}
-	}		
+	}	
+	@Test
+	public void testPostFileUpload() throws Exception{
+		try {
+			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			serv.postFileUpload("fileservice/hsmpackages?hsmtype=safenet", "/mnt/files/hsmpackages/safenet.tar", "controller://hsmpackages");
+		} catch (AviApiException | ParseException e) {
+			e.printStackTrace(System.err);
+		}
+	}
 }
