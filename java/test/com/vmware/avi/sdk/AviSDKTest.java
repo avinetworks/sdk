@@ -97,7 +97,7 @@ public class AviSDKTest {
 	}
 
 	@Test
-	public void exportConfigurationFileWithFull() throws Exception {
+	public void testExportConfigurationFileWithFull() throws Exception {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			serv.exportConfigurationFile("full", "abc1234");
@@ -107,7 +107,7 @@ public class AviSDKTest {
 	}
 
 	@Test
-	public void exportConfigurationFileWithPassphraseFull() throws Exception {
+	public void testExportConfigurationFileWithPassphraseFull() throws Exception {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			serv.exportConfigurationFile("passphrase-full", "abc1234");
