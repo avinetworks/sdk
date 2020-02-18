@@ -2,6 +2,7 @@ package com.vmware.avi.sdk;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
@@ -467,7 +468,13 @@ public class AviApi {
 		}
 	}
 
-	
+	/**
+	 * 
+	 * @param uri           is the api which upload a file
+	 * @param filePath      is file which we want to upload
+	 * @param fileUploadUri is uri where we have to upload file
+	 * @throws Exception
+	 */
 	public void postFileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
 		CloseableHttpClient httpClient = null;
 		try {
@@ -478,15 +485,10 @@ public class AviApi {
 			request.removeHeaders("Content-Type");
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.addTextBody("uri", fileUploadUri, ContentType.TEXT_PLAIN);
-			
+
 			// This attaches the file to the POST:
 			File f = new File(filePath);
-			builder.addBinaryBody(
-					"file",
-					new FileInputStream(f),
-					ContentType.APPLICATION_OCTET_STREAM,
-					f.getName()
-					);
+			builder.addBinaryBody("file", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM, f.getName());
 			HttpEntity multipart = builder.build();
 			request.setEntity(multipart);
 			CloseableHttpResponse response = httpClient.execute(request);
@@ -501,7 +503,7 @@ public class AviApi {
 				}
 				throw new AviApiException(errMessage.toString());
 			}
-			
+
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -518,6 +520,105 @@ public class AviApi {
 			}
 		}
 	}
+
+	/**
+	 * 
+	 * @param exportType is a export type
+	 * @param passphrase is a key that used for gain the access
+	 * @return JSONObeject representing response.
+	 * @throws AviApiException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
+	public JSONObject exportConfiguration(String exportType, String passphrase) throws AviApiException, IOException {
+		CloseableHttpClient httpClient = null;
+		HttpResponse response = null;
+		JSONObject jsonObject = null;
+		try {
+			httpClient = this.buildHttpClient();
+			String path = "/configuration/export";
+			JSONObject json_data = new JSONObject();
+			json_data.put("passphrase", passphrase);
+			if (("full".equals(exportType)) || ("passphrase-full".equals(exportType))) {
+				path = path + "?full_system=true";
+			}
+			String postUrl = this.getControllerURL() + "/api" + path;
+			HttpPost request = new HttpPost(postUrl);
+			StringEntity json_input = new StringEntity(json_data.toString());
+			request.setEntity(json_input);
+			this.buildHeaders(request, null);
+			response = httpClient.execute(request);
+			int responseCode = response.getStatusLine().getStatusCode();
+			if (responseCode > 299) {
+				StringBuffer errMessage = new StringBuffer();
+				errMessage.append("Failed : HTTP error code : ");
+				errMessage.append(responseCode);
+				if (null != response.getEntity()) {
+					errMessage.append(" Error Message :");
+					errMessage.append(EntityUtils.toString(response.getEntity()));
+				}
+				throw new AviApiException(errMessage.toString());
+			}
+			if (null != response.getEntity()) {
+				String output = EntityUtils.toString(response.getEntity());
+				JSONParser parser = new JSONParser();
+				jsonObject = (JSONObject) parser.parse(output);
+			}
+			return jsonObject;
+		} catch (Exception e) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
+			throw new AviApiException(e);
+		} finally {
+
+			if (null != httpClient) {
+				try {
+					httpClient.close();
+				} catch (IOException e) {
+					// ignore
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param exportType is a export type
+	 * @param passphrase is a key that used for gain the access
+	 * @return name of the file.
+	 * @throws AviApiException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
+	public String exportConfigurationFile(String exportType, String passphrase) throws AviApiException, IOException {
+
+		FileWriter fileWriter = null;
+		File tempFile = null;
+		try {
+			JSONObject result = this.exportConfiguration(exportType, passphrase);
+			tempFile = File.createTempFile("temp", ".json");
+			fileWriter = new FileWriter(tempFile);
+			fileWriter.write(result.toJSONString());
+			LOGGER.info("Path of file :" + tempFile.getAbsolutePath());
+			return tempFile.getName();
+		} catch (
+
+		Exception e) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			LOGGER.severe("Exception in POST : " + e.getMessage() + sw.toString());
+			throw new AviApiException(e);
+		} finally {
+			fileWriter.close();
+		}
+
+	}
+
 	/**
 	 * This method gets the response and convert it into JSONObject.
 	 * 
@@ -637,7 +738,7 @@ public class AviApi {
 				request.addHeader(key, propertyMap.get(key));
 			}
 		}
-		 
+
 	}
 
 	/**

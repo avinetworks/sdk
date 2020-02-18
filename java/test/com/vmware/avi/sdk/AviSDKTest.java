@@ -16,82 +16,102 @@ import org.junit.Test;
 
 public class AviSDKTest {
 	static final Logger LOGGER = Logger.getLogger(AviSDKTest.class.getName());
-	
+
 	private static final String CONTROLLER = System.getenv("AVI_CONTROLLER");
 	private static final String USERNAME = System.getenv("AVI_USERNAME");
 	private static final String PASSWORD = System.getenv("AVI_PASSWORD");
 	private static final String VERSION = System.getenv("AVI_VERSION");
 	private static final String TENANT = System.getenv("AVI_TENANT");
-	
+
 	private static AviCredentials creds = null;
-		
+
 	static AviCredentials getCreds() {
 		if (null == AviSDKTest.creds) {
-			AviSDKTest.creds = new AviCredentials(
-					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, 
-					AviSDKTest.PASSWORD);
+			AviSDKTest.creds = new AviCredentials(AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, AviSDKTest.PASSWORD);
 			creds.setVersion(AviSDKTest.VERSION);
 			creds.setTenant(AviSDKTest.TENANT);
 			return creds;
 		} else {
-			return AviSDKTest.creds; 
+			return AviSDKTest.creds;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testExample() throws Exception{
+	public void testExample() throws Exception {
 		try {
 
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			Object obj = new JSONParser().parse(new FileReader("InputFile.json"));
-			JSONObject jo = (JSONObject) obj; 
-			JSONObject postInput = (JSONObject)jo.get("postInput");	
-			
+			JSONObject jo = (JSONObject) obj;
+			JSONObject postInput = (JSONObject) jo.get("postInput");
+
 			JSONObject response = serv.post("pool", postInput);
 			String objectName = response.get("name").toString();
-			
+
 			assertEquals("test-example", objectName);
 
 			// GET rest call
 			Map<String, String> val = new HashMap<String, String>();
 			val.put("name", objectName);
-			JSONObject pools = serv.get("pool",val);
+			JSONObject pools = serv.get("pool", val);
 			JSONArray resp = (JSONArray) pools.get("results");
-            JSONObject result = (JSONObject)resp.get(0);
-			String name = (String)result.get("name");
-			String uuid = (String)result.get("uuid");
-			
+			JSONObject result = (JSONObject) resp.get(0);
+			String name = (String) result.get("name");
+			String uuid = (String) result.get("uuid");
+
 			assertEquals(objectName, name);
 
 			// PUT test case
 			Map<String, String> value = new HashMap<String, String>();
 			val.put("name", objectName);
-			JSONObject request = serv.get("pool",value);
+			JSONObject request = serv.get("pool", value);
 			JSONArray res = (JSONArray) request.get("results");
-            JSONObject putResult= (JSONObject)res.get(0);
-            putResult.replace("name", "test-pool");
-            
-			JSONObject updateRes = serv.put("pool", result);
-            String updatedName  = (String)updateRes.get("name");
-            
-            assertNotSame(objectName, updatedName);
+			JSONObject putResult = (JSONObject) res.get(0);
+			putResult.replace("name", "test-pool");
 
-            // DELETE test case
-            JSONObject deleteRes = serv.delete("pool", uuid);
+			JSONObject updateRes = serv.put("pool", result);
+			String updatedName = (String) updateRes.get("name");
+
+			assertNotSame(objectName, updatedName);
+
+			// DELETE test case
+			JSONObject deleteRes = serv.delete("pool", uuid);
 			String msg = deleteRes.get("Message").toString();
 			assertEquals("Object deleted successfully", "Object deleted successfully", msg);
 
 		} catch (AviApiException | ParseException e) {
 			e.printStackTrace(System.err);
 		}
-	}	
+	}
+
 	@Test
-	public void testPostFileUpload() throws Exception{
+	public void testPostFileUpload() throws Exception {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
-			serv.postFileUpload("fileservice/hsmpackages?hsmtype=safenet", "/mnt/files/hsmpackages/safenet.tar", "controller://hsmpackages");
+			serv.postFileUpload("fileservice/hsmpackages?hsmtype=safenet", "/mnt/files/hsmpackages/safenet.tar",
+					"controller://hsmpackages");
 		} catch (AviApiException | ParseException e) {
+			e.printStackTrace(System.err);
+		}
+	}
+
+	@Test
+	public void exportConfigurationFileWithFull() throws Exception {
+		try {
+			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			serv.exportConfigurationFile("full", "abc1234");
+		} catch (AviApiException e) {
+			e.printStackTrace(System.err);
+		}
+	}
+
+	@Test
+	public void exportConfigurationFileWithPassphraseFull() throws Exception {
+		try {
+			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			serv.exportConfigurationFile("passphrase-full", "abc1234");
+		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
 	}
