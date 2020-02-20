@@ -88,7 +88,6 @@ public class AviSDKMockTest {
 		return httpClient.execute(request);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testAuthenticateSession() throws ClientProtocolException, IOException {
 		JSONObject body = new JSONObject();
@@ -199,7 +198,6 @@ public class AviSDKMockTest {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testPutCall()
 			throws ClientProtocolException, IOException, NoSuchMethodException, SecurityException, AviApiException {
@@ -287,7 +285,6 @@ public class AviSDKMockTest {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testExportConfiguration() throws org.apache.http.ParseException, IOException, AviApiException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();

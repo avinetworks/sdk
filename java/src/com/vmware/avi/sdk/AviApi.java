@@ -146,7 +146,6 @@ public class AviApi {
 	 * This method authenticates user based on the credentials and update the
 	 * csrftoken and session id for this session.
 	 */
-	@SuppressWarnings("unchecked")
 	private void authenticateSession() {
 		JSONObject body = new JSONObject();
 		body.put("username", this.aviCredentials.getUsername());
@@ -518,7 +517,6 @@ public class AviApi {
 	 * @throws AviApiException
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unchecked")
 	public JSONObject exportConfiguration(String exportType, String passphrase) throws AviApiException, IOException {
 		CloseableHttpClient httpClient = null;
 		HttpResponse response = null;
@@ -583,7 +581,6 @@ public class AviApi {
 	 * @throws AviApiException
 	 * @throws IOException
 	 */
-	@SuppressWarnings("unchecked")
 	public String exportConfigurationFile(String exportType, String passphrase) throws AviApiException, IOException {
 
 		FileWriter fileWriter = null;
@@ -621,7 +618,6 @@ public class AviApi {
 	 * @throws AviApiException if any issue when set the REST call and if there is
 	 *                         any issue when convert HttpResponse to JSONObject.
 	 */
-	@SuppressWarnings("unchecked")
 	private JSONObject parseResponse(HttpResponse response, Method m, Object[] args) throws AviApiException {
 		try {
 			int responseCode = response.getStatusLine().getStatusCode();
