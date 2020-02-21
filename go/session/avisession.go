@@ -406,7 +406,6 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	retryNum ...int) ([]byte, error) {
 	var result []byte
 	url := avisess.prefix + uri
-	glog.Infof("Req for uri %v ", url)
 
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
