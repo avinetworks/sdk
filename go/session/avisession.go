@@ -113,6 +113,10 @@ type AviSession struct {
 
 	// internal: reusable client
 	client *http.Client
+
+	// optional lazy authentication flag. This will trigger login when the first API call is made.
+	// The authentication is not performed when the Session object is created.
+	lazyAuthentication bool
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -165,8 +169,12 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 		Transport: avisess.transport,
 		Timeout:   avisess.timeout,
 	}
-	err := avisess.initiateSession()
-	return avisess, err
+
+	if !avisess.lazyAuthentication {
+		err := avisess.initiateSession()
+		return avisess, err
+	}
+	return avisess, nil
 }
 
 func (avisess *AviSession) initiateSession() error {
@@ -184,7 +192,7 @@ func (avisess *AviSession) initiateSession() error {
 	// initiate http session here
 	// first set the csrf token
 	var res interface{}
-	rerror := avisess.Get("", res)
+	//rerror := avisess.Get("", res)
 
 	// now login to get session_id, csrfToken
 	cred := make(map[string]string)
@@ -199,8 +207,9 @@ func (avisess *AviSession) initiateSession() error {
 	avisess.csrfToken = ""
 	avisess.sessionid = ""
 
-	rerror = avisess.Post("login", cred, res)
+	rerror := avisess.Post("login", cred, res)
 	if rerror != nil {
+		glog.Errorf("response error: %v ", rerror)
 		return rerror
 	}
 
@@ -306,6 +315,18 @@ func (avisess *AviSession) isTokenAuth() bool {
 	return avisess.authToken != "" || avisess.refreshAuthToken != nil
 }
 
+// SetTimeout -
+func SetLazyAuthentication(lazyAuthentication bool) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.setLazyAuthentication(lazyAuthentication)
+	}
+}
+
+func (avisess *AviSession) setLazyAuthentication(lazyAuthentication bool) error {
+	avisess.lazyAuthentication = lazyAuthentication
+	return nil
+}
+
 func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string, lastErr error) error {
 	if retry == 0 {
 		return nil
@@ -385,6 +406,8 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	retryNum ...int) ([]byte, error) {
 	var result []byte
 	url := avisess.prefix + uri
+	glog.Infof("Req for uri %v ", url)
+
 	// If optional retryNum arg is provided, then count which retry number this is
 	retry := 0
 	if len(retryNum) > 0 {
@@ -393,6 +416,11 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if errorResult := avisess.checkRetryForSleep(retry, verb, url, lastError); errorResult != nil {
 		return nil, errorResult
 	}
+
+	if avisess.lazyAuthentication && avisess.sessionid == "" && !(uri == "" || uri == "login") {
+		avisess.initiateSession()
+	}
+
 	var payloadIO io.Reader
 	if payload != nil {
 		jsonStr, err := json.Marshal(payload)
@@ -422,6 +450,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	retryReq := false
 	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
 		resp.Body.Close()
+		glog.Infof("Retrying url %s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
 		err := avisess.initiateSession()
 		if err != nil {
 			return nil, err
@@ -430,7 +459,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
 		resp.Body.Close()
 		retryReq = true
-		glog.Infof("Retrying %d due to Status Code %d", retry, resp.StatusCode)
+		glog.Infof("Retrying url%s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
 	}
 
 	if retryReq {
@@ -482,6 +511,10 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 
 	if errorResult := avisess.checkRetryForSleep(retry, verb, url, lastErr); errorResult != nil {
 		return errorResult
+	}
+
+	if avisess.lazyAuthentication && avisess.sessionid == "" && !(uri == "" || uri == "login") {
+		avisess.initiateSession()
 	}
 
 	errorResult := AviError{Verb: verb, Url: url}
