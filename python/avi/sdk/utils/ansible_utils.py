@@ -179,6 +179,10 @@ def ref_n_str_cmp(x, y):
     if not ((isinstance(x, str) or isinstance(x, unicode)) and
             (isinstance(y, str) or isinstance(y, unicode))):
         return False
+    if type(y) == unicode:
+        y = y.encode('utf-8')
+    if type(x) == unicode:
+        x = x.encode('utf-8')
     y_uuid = y_name = str(y)
     x = str(x)
     if RE_REF_MATCH.match(x):
@@ -241,7 +245,7 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
     """
     if not sensitive_fields:
         sensitive_fields = set()
-    if isinstance(x, str) or isinstance(x, str):
+    if isinstance(x, str) or isinstance(x, unicode):
         # Special handling for strings as they can be references.
         return ref_n_str_cmp(x, y)
     if type(x) not in [list, dict]:
