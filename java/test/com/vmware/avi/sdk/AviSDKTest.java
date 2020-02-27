@@ -108,7 +108,7 @@ public class AviSDKTest {
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("full_system", "true");
 			param.put("passphrase", "abc1234");
-			serv.fileDownload("/configuration/export", "/home/file.txt", param);
+			serv.fileDownload("/configuration/export", "/tmp/file.txt", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
@@ -120,7 +120,7 @@ public class AviSDKTest {
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("passphrase", "abc1234");
-			serv.fileDownload("/configuration/export", "/home/file.json", param);
+			serv.fileDownload("/configuration/export", "/tmp/file.json", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
@@ -131,7 +131,7 @@ public class AviSDKTest {
 			AviApi serv = new AviApi(AviSDKTest.getCreds());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("uri", "controller://tech_support/portal.20200225-082451.tar.gz");
-			serv.fileDownload("/fileservice", "/home/file.tar", param);
+			serv.fileDownload("/fileservice", "/tmp/file.tar", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}

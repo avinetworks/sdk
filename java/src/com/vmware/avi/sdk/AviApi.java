@@ -593,8 +593,12 @@ public class AviApi {
 					// ignore
 				}
 			}
-			inputStream.close();
-			fileOutputStream.close();
+			if (null != inputStream) {
+				inputStream.close();
+			}
+			if (null != fileOutputStream) {
+				fileOutputStream.close();
+			}
 		}
 
 	}
