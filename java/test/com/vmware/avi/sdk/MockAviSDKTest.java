@@ -61,7 +61,7 @@ public class MockAviSDKTest {
 			String objectName = (String) postOutput.get("name").toString();
 			assertEquals("test-example", objectName);
 
-		} catch (AviApiException | NullPointerException e) {
+		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
 	}
@@ -82,7 +82,7 @@ public class MockAviSDKTest {
 			JSONObject result = (JSONObject) resp.get(0);
 			String name = (String) result.get("name");
 			assertEquals(objectName, name);
-		} catch (AviApiException | NullPointerException e) {
+		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
 	}
@@ -104,7 +104,7 @@ public class MockAviSDKTest {
 			String updatedName = (String) putOutput.get("name");
 			assertNotEquals(objectName, updatedName);
 
-		} catch (AviApiException | NullPointerException e) {
+		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
 	}
@@ -127,7 +127,7 @@ public class MockAviSDKTest {
 			String msg = delRes.get("error").toString();
 			assertEquals("Pool object not found!", msg);
 
-		} catch (AviApiException | NullPointerException e) {
+		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
 		}
 	}
