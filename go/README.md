@@ -118,6 +118,14 @@ aviClient.VirtualService.Delete(nvsobj.UUID)
 ```go
 aviClient.Pool.Delete(npobj.UUID)
 ```
+
+- Creating a session with Lazy Authentication:
+
+```go
+avisess, err := NewAviSession(AVI_CONTROLLER, "admin",
+		SetPassword(AVI_PASSWORD), SetLazyAuthentication(true))
+```
+
 - create_vs.go Usage - Create a basic virtualservice named my-test-vs: 
 
 ```sh

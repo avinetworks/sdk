@@ -57,10 +57,11 @@ matrix:
 
     - language: go
       go: "1.9"
-      python: "2.7"
       env: controller="localhost:8080//"
+      python: "2.7"
       install:
       - sudo pip install Jinja2==2.11.1 MarkupSafe==1.1.1 Werkzeug==0.16.1 click==7.0 flask==1.1.1 itsdangerous==1.1.0
+      - export FLASK_ENV=development
       - export GOPATH=/home/travis/gopath
       - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
       - go env
