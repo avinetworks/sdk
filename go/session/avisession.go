@@ -1095,6 +1095,12 @@ func (avisess *AviSession) Logout() error {
 	return nil
 }
 
+func (avisess *AviSession) ResetPassword(password string) error {
+	avisess.Logout()
+	avisess.password = password
+	return nil
+}
+
 func updateUri(uri string, opts *ApiOptions) string {
 	if strings.Contains(uri, "?") {
 		uri += "&"
