@@ -61,7 +61,6 @@ matrix:
       python: "2.7"
       install:
       - sudo pip install Jinja2==2.11.1 MarkupSafe==1.1.1 Werkzeug==0.16.1 click==7.0 flask==1.1.1 itsdangerous==1.1.0
-      - export FLASK_ENV=development
       - export GOPATH=/home/travis/gopath
       - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
       - go env
@@ -69,10 +68,27 @@ matrix:
       - nohup python ./go/examples/web_service.py &
       - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go ./go/examples/test/api_filters_test.go -v
 
+    - language: java
+      java: "1.8"
+      env: controller="localhost:8080//"
+      install:
+      - sudo apt-get install openjdk-8-jdk
+      - java --version
+      - sudo apt install maven
+      - mvn --version
+      - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - echo $JAVA_HOME
+      script:
+      - cd java
+      - mvn -Dtest=MockAviSDKTest test
+      - mvn -Dtest=AviSDKMockTest test
+
 notifications:
   email:
     recipients:
       - grastogi@avinetworks.com
       - chaitanya.deshpande@avinetworks.com
       - shrikant.patil@avinetworks.com
+      - ashwini.bodke@avinetworks.com
     on_failure: always
