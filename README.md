@@ -27,6 +27,8 @@ as a dependency-free npm module.
 
 **[Avi Go SDK and Utilities](./go/README.md)**
 
+**[Avi Java API SDK](./java/README.md)**
+
 **[SNMP MIBs](./mibs/README.txt)**
 
 **[Swagger UI Dist](./swagger/README.md)**
