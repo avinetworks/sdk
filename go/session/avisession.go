@@ -438,15 +438,14 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 	if err != nil {
 		// Wait untill controller is in ready state
 		if strings.Contains(err.Error(), "connection refused") {
-			check, err := avisess.CheckControllerStatus()
-			if check == false {
-				return nil, err
-			} else if err == nil {
+			if check, err := avisess.CheckControllerStatus(); err == nil && check {
 				if uri == "login" {
 					avisess.initiateSession()
 				} else {
 					return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 				}
+			} else {
+				return nil, err;
 			}
 		}
 		errorResult.err = fmt.Errorf("client.Do uri %v failed: %v", uri, err)
