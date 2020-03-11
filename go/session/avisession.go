@@ -440,7 +440,8 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		if strings.Contains(err.Error(), "connection refused") {
 			if check, err := avisess.CheckControllerStatus(); err == nil && check {
 				if uri == "login" {
-					avisess.initiateSession()
+					s_err := avisess.initiateSession()
+					return nil, s_err
 				} else {
 					return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 				}

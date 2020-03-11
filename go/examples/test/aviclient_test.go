@@ -21,7 +21,7 @@ func TestAviClientWithInvalidController(t *testing.T) {
 	if hmData == nil || err != nil {
 		fmt.Println("Got expected error for invalid controller IP. [ERROR]:", err.Error())
 	} else {
-		fmt.Println("Didn't got the error for invalid controller IP.")
+		fmt.Println("Didn't get the error for invalid controller IP.")
 		t.Fail()
 	}
 }
