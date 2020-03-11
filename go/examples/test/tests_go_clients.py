@@ -63,6 +63,12 @@ def test_custom_transport():
     LOG.info("playbook out %s ", out)
 
 
+def test_reset_password():
+    cmd = PLAYBOOK_TEMPLATE.substitute(test_file='avi_client_change_password_test.go')
+    LOG.info("executing command %s ", cmd)
+    out = subprocess.check_output(shlex.split(cmd))
+    LOG.info("playbook out %s ", out)
+
 @pytest.mark.TCID1_48_1606_7_0
 def test_delete_configuration():
     cmd = PLAYBOOK_TEMPLATE.substitute(test_file='delete_configuration_test.go')
@@ -77,3 +83,5 @@ def test_avi_error():
     LOG.info("executing command %s ", cmd)
     out = subprocess.check_output(shlex.split(cmd))
     LOG.info("playbook out %s ", out)
+
+
