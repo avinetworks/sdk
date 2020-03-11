@@ -548,5 +548,23 @@ class TestNetscalerConverter:
                 print("NO HTTP Policy Set with name %s found" % http_policy_name)
                 assert 0
 
+    @pytest.mark.travis
+    def test_api_version_check(self):
+        netscaler_conv(config_file_name=setup.get('config_file_name'),
+                       tenant=file_attribute['tenant'],
+                       output_file_path=setup.get('output_file_path'),
+                       controller_version=setup.get('controller_version_v17'),
+                       ansible=True)
+
+        output_file = '%s/avi_config_create_object.yml' % setup.get('output_file_path')
+        with open(output_file, 'r') as stream:
+            ymldata = yaml.safe_load(stream)
+            for each_data in ymldata[0].get('tasks'):
+              each_data.pop('tags')
+              each_data.pop('name')
+              for key, val in each_data.items():
+                  assert val['api_version'] != None
+
+
 def teardown():
     pass
