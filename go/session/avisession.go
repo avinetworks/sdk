@@ -434,46 +434,39 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		return result, errorResult
 	}
 
+	retryReq := false
 	resp, err := avisess.client.Do(req)
 	if err != nil {
 		// Wait untill controller is in ready state
 		if strings.Contains(err.Error(), "connection refused") {
-			if check, err := avisess.CheckControllerStatus(); err == nil && check {
-				if uri == "login" {
-					s_err := avisess.initiateSession()
-					return nil, s_err
-				} else {
-					return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
-				}
-			} else {
-				return nil, err;
+			retryReq = true
+		} else {
+			errorResult.err = fmt.Errorf("client.Do uri %v failed: %v", uri, err)
+			dump, err := httputil.DumpRequestOut(req, true)
+			debug(dump, err)
+			return result, errorResult
+		}
+	}
+
+	if !retryReq {
+		glog.Infof("Req for uri %v RespCode %v", url, resp.StatusCode)
+		errorResult.HttpStatusCode = resp.StatusCode
+		avisess.collectCookiesFromResp(resp)
+
+		if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
+			resp.Body.Close()
+			glog.Infof("Retrying url %s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
+			err := avisess.initiateSession()
+			if err != nil {
+				return nil, err
 			}
+			retryReq = true
+		} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
+			resp.Body.Close()
+			retryReq = true
+			glog.Infof("Retrying url%s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
 		}
-		errorResult.err = fmt.Errorf("client.Do uri %v failed: %v", uri, err)
-		dump, err := httputil.DumpRequestOut(req, true)
-		debug(dump, err)
-		return result, errorResult
 	}
-	glog.Infof("Req for uri %v RespCode %v", url, resp.StatusCode)
-
-	errorResult.HttpStatusCode = resp.StatusCode
-	avisess.collectCookiesFromResp(resp)
-
-	retryReq := false
-	if resp.StatusCode == 401 && len(avisess.sessionid) != 0 && uri != "login" {
-		resp.Body.Close()
-		glog.Infof("Retrying url %s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
-		err := avisess.initiateSession()
-		if err != nil {
-			return nil, err
-		}
-		retryReq = true
-	} else if resp.StatusCode == 419 || (resp.StatusCode >= 500 && resp.StatusCode < 599) {
-		resp.Body.Close()
-		retryReq = true
-		glog.Infof("Retrying url%s; retry %d due to Status Code %d", url, retry, resp.StatusCode)
-	}
-
 	if retryReq {
 		check, err := avisess.CheckControllerStatus()
 		if check == false {
