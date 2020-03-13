@@ -5,6 +5,7 @@ Created on Aug 16, 2016
 """
 import os
 import re
+import sys
 import logging
 from copy import deepcopy
 from avi.sdk.avi_api import ApiSession, ObjectNotFound, avi_sdk_syslog_logger, \
@@ -143,6 +144,11 @@ def cleanup_absent_fields(obj):
         del obj[k]
     return obj
 
+def get_unicode_type():
+    if sys.version_info < (3, 3):
+        return unicode
+    else:
+        return str
 
 RE_REF_MATCH = re.compile('^/api/[\w/]+\?name\=[\w]+[^#<>]*$')
 
@@ -176,9 +182,14 @@ def ref_n_str_cmp(x, y):
     if type(y) in (int, float, bool, int, complex):
         y = str(y)
         x = str(x)
-    if not ((isinstance(x, str) or isinstance(x, unicode)) and
-            (isinstance(y, str) or isinstance(y, unicode))):
+    unicode_type = get_unicode_type()
+    if not ((isinstance(x, str) or isinstance(x, unicode_type)) and
+            (isinstance(y, str) or isinstance(y, unicode_type))):
         return False
+    if str(type(y)) == "<type 'unicode'>":
+        y = y.encode('utf-8')
+    if str(type(x)) == "<type 'unicode'>":
+        x = x.encode('utf-8')
     y_uuid = y_name = str(y)
     x = str(x)
     if RE_REF_MATCH.match(x):
@@ -202,7 +213,6 @@ def ref_n_str_cmp(x, y):
         log.debug('x: %s y: %s y_name %s y_uuid %s',
                   x, y, y_name, y_uuid)
     return result
-
 
 def avi_obj_cmp(x, y, sensitive_fields=None):
     """
@@ -241,7 +251,9 @@ def avi_obj_cmp(x, y, sensitive_fields=None):
     """
     if not sensitive_fields:
         sensitive_fields = set()
-    if isinstance(x, str) or isinstance(x, str):
+
+    unicode_type = get_unicode_type()
+    if isinstance(x, str) or isinstance(x, unicode_type):
         # Special handling for strings as they can be references.
         return ref_n_str_cmp(x, y)
     if type(x) not in [list, dict]:
