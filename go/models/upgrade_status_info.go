@@ -44,6 +44,9 @@ type UpgradeStatusInfo struct {
 	// Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.
 	PatchImageRef *string `json:"patch_image_ref,omitempty"`
 
+	// List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8.
+	PatchList []*PatchData `json:"patch_list,omitempty"`
+
 	// Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6.
 	PatchVersion *string `json:"patch_version,omitempty"`
 
@@ -53,11 +56,17 @@ type UpgradeStatusInfo struct {
 	// Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.
 	PreviousPatchImageRef *string `json:"previous_patch_image_ref,omitempty"`
 
+	// List of patches applied to this node on previous major version. Field introduced in 18.2.8.
+	PreviousPatchList []*PatchData `json:"previous_patch_list,omitempty"`
+
 	// Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6.
 	PreviousPatchVersion *string `json:"previous_patch_version,omitempty"`
 
 	// Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6.
 	PreviousVersion *string `json:"previous_version,omitempty"`
+
+	// Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8.
+	Progress *int32 `json:"progress,omitempty"`
 
 	// ServiceEngineGroup upgrade errors. Field introduced in 18.2.6.
 	SeUpgradeEvents []*SeUpgradeEvents `json:"se_upgrade_events,omitempty"`
@@ -98,4 +107,214 @@ type UpgradeStatusInfo struct {
 
 	// Current base image applied to this node. Field introduced in 18.2.6.
 	Version *string `json:"version,omitempty"`
+}
+
+// Validate validates this upgrade status info
+func (m *UpgradeStatusInfo) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateParams(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validatePatchList(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validatePreviousPatchList(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateSeUpgradeEvents(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateSegStatus(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateState(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if err := m.validateUpgradeEvents(formats); err != nil {
+		// prop
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validateParams(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Params) { // not required
+		return nil
+	}
+
+	if m.Params != nil {
+
+		if err := m.Params.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("params")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validatePatchList(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PatchList) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.PatchList); i++ {
+
+		if swag.IsZero(m.PatchList[i]) { // not required
+			continue
+		}
+
+		if m.PatchList[i] != nil {
+
+			if err := m.PatchList[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("patch_list" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validatePreviousPatchList(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.PreviousPatchList) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.PreviousPatchList); i++ {
+
+		if swag.IsZero(m.PreviousPatchList[i]) { // not required
+			continue
+		}
+
+		if m.PreviousPatchList[i] != nil {
+
+			if err := m.PreviousPatchList[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("previous_patch_list" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validateSeUpgradeEvents(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SeUpgradeEvents) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.SeUpgradeEvents); i++ {
+
+		if swag.IsZero(m.SeUpgradeEvents[i]) { // not required
+			continue
+		}
+
+		if m.SeUpgradeEvents[i] != nil {
+
+			if err := m.SeUpgradeEvents[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("se_upgrade_events" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validateSegStatus(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.SegStatus) { // not required
+		return nil
+	}
+
+	if m.SegStatus != nil {
+
+		if err := m.SegStatus.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("seg_status")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validateState(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.State) { // not required
+		return nil
+	}
+
+	if m.State != nil {
+
+		if err := m.State.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("state")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *UpgradeStatusInfo) validateUpgradeEvents(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.UpgradeEvents) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.UpgradeEvents); i++ {
+
+		if swag.IsZero(m.UpgradeEvents[i]) { // not required
+			continue
+		}
+
+		if m.UpgradeEvents[i] != nil {
+
+			if err := m.UpgradeEvents[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("upgrade_events" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
 }
