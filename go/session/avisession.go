@@ -353,6 +353,7 @@ func (avisess *AviSession) setMaxApiRetries(max_api_retries int) error {
 	avisess.max_api_retries = max_api_retries
 	return nil
 }
+
 func SetApiRetryInterval(api_retry_interval int) func(*AviSession) error {
 	return func(sess *AviSession) error {
 		return sess.setApiRetryInterval(api_retry_interval)
@@ -369,7 +370,6 @@ func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string
 		return nil
 	} else if retry < avisess.max_api_retries {
 		time.Sleep(time.Duration(avisess.api_retry_interval) * time.Millisecond)
-		return nil
 	} else {
 		if lastErr != nil {
 			glog.Errorf("Aborting after %v times. Last error %v", retry, lastErr)
@@ -379,7 +379,7 @@ func (avisess *AviSession) checkRetryForSleep(retry int, verb string, url string
 		errorResult.err = fmt.Errorf("tried %v times and failed", retry)
 		return errorResult
 	}
-
+	return nil
 }
 
 func (avisess *AviSession) newAviRequest(verb string, url string, payload io.Reader, tenant string) (*http.Request, AviError) {
