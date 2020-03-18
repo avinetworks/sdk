@@ -23,7 +23,7 @@ sed -i s/"__version__ =.*$"/"__version__ = \'$AVI_PIP_VERSION\'"/g avi/$PACKAGES
 sed -i s/"AVI_PIP_VERSION =.*$"/"AVI_PIP_VERSION = \'$AVI_PIP_VERSION\'"/g setup.py
 sed -i s/"__version__ =.*$"/"__version__ = \'$AVI_PIP_VERSION\'"/g avi/$1/__init__.py
 echo "uploading to the pypi version $AVI_PIP_VERSION"
-twine upload dist/*
+twine upload --verbose dist/*
 if [ $1 == "sdk" ]; then
     rm -rf avisdk.egg-info
 elif [ $1 == "migrationtools" ]; then
