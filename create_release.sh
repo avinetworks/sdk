@@ -72,6 +72,7 @@ cd ../
 # avinetworks/avitools release handling
 git clone https://github.com/avinetworks/avitools
 cd avitools
+git remote set-url origin git@github.com:avinetworks/avitools.git
 git tag $REL
 git push -f origin $REL
 cd ..
