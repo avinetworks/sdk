@@ -486,3 +486,21 @@ func testApiReLogin(t *testing.T, avisess *AviSession) {
 		t.Fail()
 	}
 }
+
+func TestApiLazyAuthentication(t *testing.T) {
+	avisess, err := NewAviSession(AVI_CONTROLLER, "admin",
+		SetPassword(AVI_PASSWORD), SetLazyAuthentication(true),
+		SetInsecure)
+	if !avisess.lazyAuthentication {
+		t.Fail()
+	}
+	if avisess.sessionid != "" {
+		glog.Errorf("%v", err)
+		t.Fail()
+	}
+	var res interface{}
+	if err := avisess.Get("api/pool", &res); err != nil {
+		glog.Infof("Error: %v", err)
+		t.Fail()
+	}
+}
