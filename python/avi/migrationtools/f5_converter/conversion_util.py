@@ -643,6 +643,9 @@ class F5Util(MigrationUtil):
         if input_vrf:
             vrf_ref = self.get_object_ref(input_vrf, 'vrfcontext',
                                           cloud_name=cloud_name)
+        if not vrf_ref:
+            vrf_ref = self.get_object_ref('global', 'vrfcontext',
+                                          cloud_name=cloud_name)
 
         updated_vsvip_ref = None
         if parse_version(controller_version) >= parse_version('17.1'):
