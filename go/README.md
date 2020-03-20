@@ -26,7 +26,7 @@ Go Lang ([Click here](https://golang.org/doc/install) for more information)
 
 # Installation
 They can be installed simply as:
-### Avi Go SDK Install
+### AVI Go SDK Install
 ```sh
 $ mkdir -p src/github.com/avinetworks/
 $ cd src/github.com/avinetworks/
