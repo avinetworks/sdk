@@ -472,7 +472,8 @@ class ApiSession(Session):
         elif self.avi_credentials.token:
             body["token"] = self.avi_credentials.token
         else:
-            raise APIError("Neither user password or token provided")
+            raise APIError("Neither user password or token provided for "
+                           "controller %s" % self.controller_ip)
         logger.debug('authenticating user %s prefix %s',
                      self.avi_credentials.username, self.prefix)
         self.cookies.clear()
@@ -507,14 +508,14 @@ class ApiSession(Session):
             elif rsp.status_code in [401, 403]:
                 logger.error('Status Code %s msg %s' % (
                     rsp.status_code, rsp.text))
-                err = APIError('Status Code %s msg %s' % (
-                    rsp.status_code, rsp.text), rsp)
+                err = APIError('Failed: %s Status Code %s msg %s' % (
+                    rsp.url, rsp.status_code, rsp.text), rsp)
                 raise err
             else:
                 logger.error("Error status code %s msg %s", rsp.status_code,
                              rsp.text)
-                err = APIError('Status Code %s msg %s' % (
-                    rsp.status_code, rsp.text), rsp)
+                err = APIError('Failed: %s Status Code %s msg %s' % (
+                    rsp.url, rsp.status_code, rsp.text), rsp)
                 raise err
         except (ConnectionError, SSLError, ChunkedEncodingError) as e:
             if not self.retry_conxn_errors:
@@ -655,8 +656,8 @@ class ApiSession(Session):
                 # eventually.
                 self.num_api_retries = 0
                 if not connection_error:
-                    err = APIError('Status Code %s msg %s' % (
-                        resp.status_code, resp.text), resp)
+                    err = APIError('Failed: %s Status Code %s msg %s' % (
+                        resp.url, resp.status_code, resp.text), resp)
                 logger.error(
                     "giving up after %d retries conn failure %s err %s" % (
                         self.max_session_retries, connection_error, err))

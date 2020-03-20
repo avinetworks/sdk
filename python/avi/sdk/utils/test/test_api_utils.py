@@ -385,7 +385,7 @@ class Test(unittest.TestCase):
         cleanup_absent_fields(obj)
         assert 'scalar_field' not in obj
         for elem in obj['list_fields']:
-            print elem
+            print(elem)
             assert 'y' not in elem
 
     def testGSLB(self):
@@ -444,6 +444,19 @@ class Test(unittest.TestCase):
                'list_fields': {'z': 'zz'}}
 
         result = avi_obj_cmp(objwnone, obj)
+        assert result
+
+    def test_unicode_refs(self):
+        '''
+        This test case should work with both python 2.7 and python 3+
+        '''
+        obj = {
+            u'waf_profile_ref': u'/api/wafprofile?name=System-WAF-Profile'
+            }
+        existing_obj = {
+            u'waf_profile_ref': u'https://10.79.171.43/api/wafprofile/wafprofile-uuid#System-WAF-Profile'
+        }
+        result = avi_obj_cmp(obj, existing_obj)
         assert result
 
 
