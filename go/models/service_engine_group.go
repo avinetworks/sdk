@@ -77,6 +77,12 @@ type ServiceEngineGroup struct {
 	// Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90.
 	ConnectionMemoryPercentage *int32 `json:"connection_memory_percentage,omitempty"`
 
+	// Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8.
+	CoreShmAppCache *bool `json:"core_shm_app_cache,omitempty"`
+
+	// Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8.
+	CoreShmAppLearning *bool `json:"core_shm_app_learning,omitempty"`
+
 	// Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean
 	CPUReserve *bool `json:"cpu_reserve,omitempty"`
 
@@ -125,7 +131,7 @@ type ServiceEngineGroup struct {
 	// Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode.
 	DistributeLoadActiveStandby *bool `json:"distribute_load_active_standby,omitempty"`
 
-	// Distributes queue ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 17.2.8.
+	// Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8.
 	DistributeQueues *bool `json:"distribute_queues,omitempty"`
 
 	// Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5.
@@ -140,7 +146,7 @@ type ServiceEngineGroup struct {
 	// Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2.
 	EnableMultiLb *bool `json:"enable_multi_lb,omitempty"`
 
-	// Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled.Requires SE Reboot. Field introduced in 18.2.5.
+	// Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5.
 	EnablePcapTxRing *bool `json:"enable_pcap_tx_ring,omitempty"`
 
 	// Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5.
@@ -336,6 +342,9 @@ type ServiceEngineGroup struct {
 	// Amount of extra memory to be reserved for use by the Operating System on a Service Engine.
 	OsReservedMemory *int32 `json:"os_reserved_memory,omitempty"`
 
+	// Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8.
+	PcapTxMode *string `json:"pcap_tx_mode,omitempty"`
+
 	// Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate.
 	PerApp *bool `json:"per_app,omitempty"`
 
@@ -395,6 +404,9 @@ type ServiceEngineGroup struct {
 
 	// Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5.
 	SeLro *bool `json:"se_lro,omitempty"`
+
+	// MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8.
+	SeMtu *int32 `json:"se_mtu,omitempty"`
 
 	// Prefix to use for virtual machine name of Service Engines.
 	SeNamePrefix *string `json:"se_name_prefix,omitempty"`
