@@ -12,4 +12,7 @@ type PatchInfo struct {
 
 	// This variable tells whether reboot has to be performed. Field introduced in 18.2.6.
 	Reboot *bool `json:"reboot,omitempty"`
+
+	// This variable is for full list of patch reboot details. Field introduced in 18.2.8.
+	RebootList []*RebootData `json:"reboot_list,omitempty"`
 }
