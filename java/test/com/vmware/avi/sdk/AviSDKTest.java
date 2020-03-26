@@ -28,24 +28,54 @@ public class AviSDKTest {
 	
 	private static AviCredentials creds = null;
 		
-	static AviCredentials getCreds() {
+	static AviCredentials getCredsToken() {
 		if (null == AviSDKTest.creds) {
+			String token = AviSDKTest.getToken(); 
 			AviSDKTest.creds = new AviCredentials(
-					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, 
-					AviSDKTest.PASSWORD);
+					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME);
 			creds.setVersion(AviSDKTest.VERSION);
 			creds.setTenant(AviSDKTest.TENANT);
-			return creds;
+			creds.setToken(token);
+			return creds;	
 		} else {
 			return AviSDKTest.creds; 
 		}
 	}
 	
+	static AviCredentials getCredsPassword() {
+		if (null == AviSDKTest.creds) {
+			AviSDKTest.creds = new AviCredentials(
+					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, AviSDKTest.PASSWORD);
+			creds.setVersion(AviSDKTest.VERSION);
+			creds.setTenant(AviSDKTest.TENANT);
+			return creds;	
+		} else {
+			return AviSDKTest.creds; 
+		}
+	}
+	
+	private static String getToken() {
+		AviCredentials aviCreds = new AviCredentials(CONTROLLER, USERNAME, PASSWORD);
+		aviCreds.setVersion(AviSDKTest.VERSION);
+		aviCreds.setTenant(AviSDKTest.TENANT);
+		AviApi aviApi = new AviApi(aviCreds);
+		JSONObject obj = new JSONObject();
+		obj.put("hours", 1);
+		try {
+			JSONObject result = aviApi.post("user-token", obj);
+			return result.getString("token");
+		} catch (AviApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	@Test
 	public void testExample() throws  Exception{
 		try {
-
-			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			AviApi serv = new AviApi(AviSDKTest.getCredsToken());
 			String content = readFile("InputFile.json", StandardCharsets.UTF_8);
 			JSONObject obj = new JSONObject(content);
 			JSONObject postInput = (JSONObject) obj.get("postInput");
@@ -93,7 +123,7 @@ public class AviSDKTest {
 	@Test
 	public void testPostFileUpload() throws Exception {
 		try {
-			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			serv.fileUpload("fileservice/hsmpackages?hsmtype=safenet", "/mnt/files/hsmpackages/safenet.tar",
 					"controller://hsmpackages");
 		} catch (AviApiException e) {
@@ -104,7 +134,7 @@ public class AviSDKTest {
 	@Test
 	public void downloadTextFile() throws Exception {
 		try {
-			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("full_system", "true");
 			param.put("passphrase", "abc1234");
@@ -117,7 +147,7 @@ public class AviSDKTest {
 	@Test
 	public void downloadJsonFile() throws Exception {
 		try {
-			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("passphrase", "abc1234");
 			serv.fileDownload("/configuration/export", "/tmp/file.json", param);
@@ -128,7 +158,7 @@ public class AviSDKTest {
 	@Test
 	public void downloadTarFile() throws Exception {
 		try {
-			AviApi serv = new AviApi(AviSDKTest.getCreds());
+			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("uri", "controller://tech_support/portal.20200225-082451.tar.gz");
 			serv.fileDownload("/fileservice", "/tmp/file.tar", param);
@@ -136,7 +166,7 @@ public class AviSDKTest {
 			e.printStackTrace(System.err);
 		}
 	}
-	
+
 	public static String readFile(String path, Charset encoding) throws IOException {
 		List<String> lines = Files.readAllLines(Paths.get(path), encoding);
 		return String.join(System.lineSeparator(), lines);
