@@ -1521,5 +1521,34 @@ class TestF5Converter:
                                   "_sys_https_redirect"]
             assert len(shared_http_policy) == 1
 
+    @pytest.mark.travis
+    def test_pool_vrf_on_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path')
+                )
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        custom_vrf_pools = {"Peer_test": "vrf-101"}
+        custom_vrf_vs = {"vs_custome_vrf": "vrf-101"}
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            pool_objects = data['Pool']
+            vs_objects = data['VirtualService']
+            for pool in pool_objects:
+                if pool["name"] in custom_vrf_pools:
+                    assert custom_vrf_pools[pool["name"]] in pool["vrf_ref"]
+                else:
+                    assert "global" in pool["vrf_ref"]
+            for vs in vs_objects:
+                if vs["name"] in custom_vrf_vs:
+                    assert custom_vrf_vs[vs["name"]] in vs["vrf_context_ref"]
+                else:
+                    assert "global" in vs["vrf_context_ref"]
+
+
 def teardown():
     pass
