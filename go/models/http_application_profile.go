@@ -139,10 +139,10 @@ type HTTPApplicationProfile struct {
 	// When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server's redirect responses for this virtual service from HTTP to HTTPS.
 	ServerSideRedirectToHTTPS *bool `json:"server_side_redirect_to_https,omitempty"`
 
-	// Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. .
+	// This field is deprecated. Field deprecated in 18.2.8.
 	SpdyEnabled *bool `json:"spdy_enabled,omitempty"`
 
-	// Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI.
+	// This field is deprecated. Field deprecated in 18.2.8.
 	SpdyFwdProxyMode *bool `json:"spdy_fwd_proxy_mode,omitempty"`
 
 	// Set of match/action rules that govern what happens when the client certificate request is enabled.
