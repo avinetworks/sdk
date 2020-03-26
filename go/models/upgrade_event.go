@@ -24,4 +24,7 @@ type UpgradeEvent struct {
 
 	// Upgrade event status. Field introduced in 18.2.6.
 	Status *bool `json:"status,omitempty"`
+
+	// Sub tasks executed on each node. Field introduced in 18.2.8.
+	SubTasks []string `json:"sub_tasks,omitempty"`
 }
