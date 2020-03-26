@@ -24,10 +24,13 @@ type IPAMDNSInfobloxProfile struct {
 	// Required: true
 	Password *string `json:"password"`
 
+	// Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8.
+	UsableAllocSubnets []*InfobloxSubnet `json:"usable_alloc_subnets,omitempty"`
+
 	// Usable domains to pick from Infoblox.
 	UsableDomains []string `json:"usable_domains,omitempty"`
 
-	// Usable subnets to pick from Infoblox.
+	// This field is deprecated, use usable_alloc_subnets instead. Field deprecated in 18.2.8.
 	UsableSubnets []*IPAddrPrefix `json:"usable_subnets,omitempty"`
 
 	// Username for API access for Infoblox appliance.
