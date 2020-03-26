@@ -29,6 +29,12 @@ public class AviCredentials
         this.username = username;
         this.password = password;
     }
+    
+    public AviCredentials(String controller, String username)
+    {
+        this.controller = controller;
+        this.username = username;
+    }
 
     /**
      * Constructor to instantiate class with all parameters

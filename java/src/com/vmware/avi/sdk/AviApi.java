@@ -160,16 +160,15 @@ public class AviApi {
 	private void authenticateSession() {
 		JSONObject body = new JSONObject();
 		body.put("username", this.aviCredentials.getUsername());
-		if (this.aviCredentials.getPassword() != "" || this.aviCredentials.getPassword() != null) {
+		if (this.aviCredentials.getPassword() != null && !this.aviCredentials.getPassword().isEmpty()) {
 			body.put("password", this.aviCredentials.getPassword());
-		} else if (this.aviCredentials.getToken() != "" || this.aviCredentials.getToken() != null) {
+		} else if (this.aviCredentials.getToken() != null && !this.aviCredentials.getToken().isEmpty()) {
 			body.put("token", this.aviCredentials.getToken());
 		}
 		LOGGER.info("Authentication session for " + this.aviCredentials.getUsername());
 		CloseableHttpClient httpClient = this.buildHttpClient();
 		try {
 			String postUrl = this.getControllerURL() + "/login";
-
 			HttpPost postRequest = new HttpPost(postUrl);
 			StringEntity input = new StringEntity(body.toString());
 			input.setContentType("application/json");
