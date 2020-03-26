@@ -402,7 +402,10 @@ class PoolConfigConvV11(PoolConfigConv):
         else:
             vrf_ref = conv_utils.get_vrf_context_ref(address, vrf_config, 'pool',
                                                  pool_name, cloud_ref)
-        
+        if not vrf_ref:
+            vrf_ref = conv_utils.get_object_ref("global", 'vrfcontext',
+                                                tenant=tenant_name,
+                                                cloud_name=cloud_ref)
         if vrf_ref:
             pool_obj["vrf_ref"] = vrf_ref
 
