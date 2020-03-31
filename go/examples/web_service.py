@@ -7,7 +7,7 @@ from flask import jsonify
 app = Flask(__name__)
 
 def healthmonitor_filter_response():
-    responce = {
+    response = {
         "count": 10,
         "results": [
             {
@@ -62,7 +62,7 @@ def healthmonitor_filter_response():
         ],
         "next": "https://10.10.28.71/api/healthmonitor/?tenant=admin&page_size=3&page=2"
     }
-    return responce
+    return response
 
 @app.route("/", methods=['POST','GET'])
 def main():
@@ -350,37 +350,36 @@ def get_tenant():
 
 @app.route("/api/healthmonitor", methods=['GET'])
 def get_healthmonitor():
-    if 'page' and 'page_size' and 'page' in request.args and 'name' not in request.args:
+    if 'page' and 'page_size' in request.args and 'name' not in request.args:
         resp = healthmonitor_filter_response()
         return jsonify(resp)
-        exit
-    elif 'name' in request.args:
-        res = {
-            "count": 1,
-            "results": [
-                {
-                    "uuid": "healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
-                    "receive_timeout": 2,
-                    "_last_modified": "1523889827791133",
-                    "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
-                    "tenant_ref": "https://10.10.28.91/api/tenant/admin",
-                    "is_federated": False,
-                    "failed_checks": 2,
-                    "send_interval": 3,
-                    "http_monitor": {
-                    "exact_http_request": False,
-                    "http_request": "HEAD / HTTP/1.0",
-                    "http_response_code": [
-                    "HTTP_3XX"
-                    ]
-                    },
-                    "successful_checks": 10,
-                    "type": "HEALTH_MONITOR_HTTP",
-                    "name": "Test-Hm"
-                }
-            ]
-        }
-        return json.dumps(res)
+    
+    res = {
+        "count": 1,
+        "results": [
+            {
+                "uuid": "healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                "receive_timeout": 2,
+                "_last_modified": "1523889827791133",
+                "url": "https://10.10.28.91/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2",
+                "tenant_ref": "https://10.10.28.91/api/tenant/admin",
+                "is_federated": False,
+                "failed_checks": 2,
+                "send_interval": 3,
+                "http_monitor": {
+                "exact_http_request": False,
+                "http_request": "HEAD / HTTP/1.0",
+                "http_response_code": [
+                "HTTP_3XX"
+                ]
+                },
+                "successful_checks": 10,
+                "type": "HEALTH_MONITOR_HTTP",
+                "name": "Test-Hm"
+            }
+        ]
+    }
+    return json.dumps(res)
 
 @app.route("/api/healthmonitor/healthmonitor-2f9f1fed-2ef4-4b0d-a422-dee1b75e34d2", methods=['PUT'])
 def get_name():
