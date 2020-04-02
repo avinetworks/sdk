@@ -4,7 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vmware.avi.sdk</groupId>
 	<artifactId>avisdk</artifactId>
-	<version>18.2.8-SNAPSHOT</version>
+	<version>18.2.8-beta-1</version>
+	<name>avisdk</name>
+	<description>Avi SDK is a java API which creates a session with controller and perform CRUD operations.</description>
+	<url>https://github.com/avinetworks/sdk/tree/master/java</url>
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
