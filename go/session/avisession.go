@@ -755,6 +755,7 @@ func convertAviResponseToMapInterface(resbytes []byte) (interface{}, error) {
 type AviCollectionResult struct {
 	Count   int
 	Results json.RawMessage
+	Next	string
 }
 
 func debug(data []byte, err error) {
