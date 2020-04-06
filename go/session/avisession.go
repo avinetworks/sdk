@@ -84,7 +84,7 @@ type AviSession struct {
 	authToken string
 
 	// optional callback function passed in by the client which generates django auth token
-	refreshAuthToken func() string
+	refreshAuthToken func() (string, error)
 
 	// insecure specifies whether we should perform strict certificate validation
 	// for connections to the Avi Controller.
@@ -201,7 +201,11 @@ func (avisess *AviSession) initiateSession() error {
 	// If refresh auth token is provided, use callback function provided
 	if avisess.isTokenAuth() {
 		if avisess.refreshAuthToken != nil {
-			avisess.setAuthToken(avisess.refreshAuthToken())
+			token, err := avisess.refreshAuthToken()
+			if err != nil {
+				return err
+			}
+			avisess.setAuthToken(token)
 		}
 	}
 
@@ -213,7 +217,6 @@ func (avisess *AviSession) initiateSession() error {
 	// now login to get session_id, csrfToken
 	cred := make(map[string]string)
 	cred["username"] = avisess.username
-
 	if avisess.isTokenAuth() {
 		cred["token"] = avisess.authToken
 	} else {
@@ -274,13 +277,13 @@ func (avisess *AviSession) setAuthToken(authToken string) error {
 }
 
 // SetAuthToken - Use this for NewAviSession option argument for setting authToken
-func SetRefreshAuthTokenCallback(f func() string) func(*AviSession) error {
+func SetRefreshAuthTokenCallback(f func() (string, error)) func(*AviSession) error {
 	return func(sess *AviSession) error {
 		return sess.setRefreshAuthTokenCallback(f)
 	}
 }
 
-func (avisess *AviSession) setRefreshAuthTokenCallback(f func() string) error {
+func (avisess *AviSession) setRefreshAuthTokenCallback(f func() (string, error)) error {
 	avisess.refreshAuthToken = f
 	return nil
 }
