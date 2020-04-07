@@ -14,7 +14,7 @@ type GslbPool struct {
 	// Mask to be applied on client IP for consistent hash algorithm. Allowed values are 1-31.
 	ConsistentHashMask *int32 `json:"consistent_hash_mask,omitempty"`
 
-	// Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-128. Field introduced in 18.2.8.
+	// Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8.
 	ConsistentHashMask6 *int32 `json:"consistent_hash_mask6,omitempty"`
 
 	// User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3.
