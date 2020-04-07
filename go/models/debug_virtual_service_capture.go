@@ -7,6 +7,9 @@ package models
 // swagger:model DebugVirtualServiceCapture
 type DebugVirtualServiceCapture struct {
 
+	// Maximum allowed size of PCAP Capture File per SE. Max(absolute_size, percentage_size) will be final value. Set both to 0 for avi default size. DOS, IPC and DROP pcaps not applicaple. Field introduced in 18.2.8.
+	CaptureFileSize *CaptureFileSize `json:"capture_file_size,omitempty"`
+
 	// Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - 'infinite'.
 	Duration *int32 `json:"duration,omitempty"`
 
