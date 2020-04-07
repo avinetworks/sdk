@@ -3,14 +3,16 @@ import logging
 import unittest
 from multiprocessing.pool import ThreadPool
 import pytest
+from requests_toolbelt import MultipartEncoder
 from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
-                             avi_timedelta, sessionDict)
+                             avi_timedelta, sessionDict,
+                             AviMultipartUploadError)
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
 from requests.packages import urllib3
 from requests import Response
 from multiprocessing import Pool, Process
-import os
+import os, sys
 import vcr
 import copy
 from datetime import timedelta
@@ -742,6 +744,53 @@ class Test(unittest.TestCase):
         assert api.get_slug_from_uri(input) == expected
 
 
+    @pytest.mark.skip_travis
+    def test_avi_file_upload(self):
+        file_path = sys.argv[0]
+        file_uri = "controller://hsmpackages"
+        controller_ip = login_info["controller_ip"]
+        username = login_info.get("username", "admin")
+        uri = "fileservice/hsmpackages?hsmtype=safenet"
+
+        log.info("Creating ne session")
+        api_session = ApiSession.get_session(controller_ip, username,
+                        login_info.get("password", "fr3sca$%^"),
+                        tenant=login_info.get("tenant", "admin"),
+                        tenant_uuid=login_info.get("tenant_uuid", None),
+                        api_version=login_info.get("api_version", gapi_version),
+                        verify=False)
+        api_session.timeout = 1000
+        api_session.retry_wait_time = 1
+        filename = os.path.basename(file_path)
+
+        with open(file_path, 'rb') as fd:
+            file_dict = {
+                "file" : (filename, fd, 'application/octet-stream'),
+                "uri"  : file_uri
+            }
+            #Invalidate the session by removing CSRF token
+            sessionDict['%s:%s:443' % (controller_ip, username)]['csrftoken'] = ""
+            data = MultipartEncoder(file_dict)
+            headers = {}
+            headers['Content-Type'] = data.content_type
+            headers['Connection'] = 'keep-alive'
+            try:
+                log.info('Upload file with invalid session')
+                api_session.post(uri, headers=headers, data=data)
+                assert 0
+            except AviMultipartUploadError as e:
+                log.info("Exception: %s" % e)
+                #re-encode the data
+                data = MultipartEncoder(file_dict)
+                #create valid session
+            log.info('Upload file with valid session')
+            api_session.reset_session()
+            resp = api_session.post(uri, headers=headers, data=data)
+            assert resp.status_code < 300
+            log.info("File upload successfull")
+
 
 if __name__ == "__main__":
     unittest.main()
+
+
