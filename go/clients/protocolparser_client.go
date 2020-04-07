@@ -106,7 +106,7 @@ func (client *ProtocolParserClient) Patch(uuid string, patch interface{}, patchO
 
 // Delete an existing ProtocolParser object with a given UUID
 func (client *ProtocolParserClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-    if len(options) == 0{
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)
