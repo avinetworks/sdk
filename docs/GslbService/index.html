@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure gslbservice <key> - show gslbservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -263,6 +263,7 @@ font-style: italic;
     "enabled" : true,
     "_last_modified" : "aeiou",
     "down_response" : {
+      "fallback_ip6" : "",
       "fallback_ip" : {
         "addr" : "aeiou",
         "type" : "aeiou"
@@ -280,16 +281,22 @@ font-style: italic;
     "groups" : [ {
       "consistent_hash_mask" : 123,
       "members" : [ {
-        "cloud_uuid" : "aeiou",
-        "hostname" : "aeiou",
         "public_ip" : {
           "ip" : ""
         },
-        "vs_uuid" : "aeiou",
-        "cluster_uuid" : "aeiou",
         "fqdn" : "aeiou",
         "ip" : "",
         "description" : "aeiou",
+        "hm_proxies" : [ {
+          "site_uuid" : "aeiou",
+          "proxy_type" : "aeiou"
+        } ],
+        "enabled" : true,
+        "resolve_fqdn_to_v6" : true,
+        "cloud_uuid" : "aeiou",
+        "hostname" : "aeiou",
+        "vs_uuid" : "aeiou",
+        "cluster_uuid" : "aeiou",
         "location" : {
           "location" : {
             "latitude" : 1.3579000000000001069366817318950779736042022705078125,
@@ -299,17 +306,13 @@ font-style: italic;
           },
           "source" : "aeiou"
         },
-        "hm_proxies" : [ {
-          "site_uuid" : "aeiou",
-          "proxy_type" : "aeiou"
-        } ],
-        "enabled" : true,
         "ratio" : 123
       } ],
       "name" : "aeiou",
       "description" : "aeiou",
       "priority" : 123,
       "fallback_algorithm" : "aeiou",
+      "consistent_hash_mask6" : 123,
       "enabled" : true,
       "algorithm" : "aeiou"
     } ],
@@ -383,6 +386,7 @@ font-style: italic;
   "enabled" : true,
   "_last_modified" : "aeiou",
   "down_response" : {
+    "fallback_ip6" : "",
     "fallback_ip" : {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -400,16 +404,22 @@ font-style: italic;
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
-      "cloud_uuid" : "aeiou",
-      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
-      "vs_uuid" : "aeiou",
-      "cluster_uuid" : "aeiou",
       "fqdn" : "aeiou",
       "ip" : "",
       "description" : "aeiou",
+      "hm_proxies" : [ {
+        "site_uuid" : "aeiou",
+        "proxy_type" : "aeiou"
+      } ],
+      "enabled" : true,
+      "resolve_fqdn_to_v6" : true,
+      "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
+      "vs_uuid" : "aeiou",
+      "cluster_uuid" : "aeiou",
       "location" : {
         "location" : {
           "latitude" : 1.3579000000000001069366817318950779736042022705078125,
@@ -419,17 +429,13 @@ font-style: italic;
         },
         "source" : "aeiou"
       },
-      "hm_proxies" : [ {
-        "site_uuid" : "aeiou",
-        "proxy_type" : "aeiou"
-      } ],
-      "enabled" : true,
       "ratio" : 123
     } ],
     "name" : "aeiou",
     "description" : "aeiou",
     "priority" : 123,
     "fallback_algorithm" : "aeiou",
+    "consistent_hash_mask6" : 123,
     "enabled" : true,
     "algorithm" : "aeiou"
   } ],
@@ -574,6 +580,7 @@ font-style: italic;
   "enabled" : true,
   "_last_modified" : "aeiou",
   "down_response" : {
+    "fallback_ip6" : "",
     "fallback_ip" : {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -591,16 +598,22 @@ font-style: italic;
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
-      "cloud_uuid" : "aeiou",
-      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
-      "vs_uuid" : "aeiou",
-      "cluster_uuid" : "aeiou",
       "fqdn" : "aeiou",
       "ip" : "",
       "description" : "aeiou",
+      "hm_proxies" : [ {
+        "site_uuid" : "aeiou",
+        "proxy_type" : "aeiou"
+      } ],
+      "enabled" : true,
+      "resolve_fqdn_to_v6" : true,
+      "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
+      "vs_uuid" : "aeiou",
+      "cluster_uuid" : "aeiou",
       "location" : {
         "location" : {
           "latitude" : 1.3579000000000001069366817318950779736042022705078125,
@@ -610,17 +623,13 @@ font-style: italic;
         },
         "source" : "aeiou"
       },
-      "hm_proxies" : [ {
-        "site_uuid" : "aeiou",
-        "proxy_type" : "aeiou"
-      } ],
-      "enabled" : true,
       "ratio" : 123
     } ],
     "name" : "aeiou",
     "description" : "aeiou",
     "priority" : 123,
     "fallback_algorithm" : "aeiou",
+    "consistent_hash_mask6" : 123,
     "enabled" : true,
     "algorithm" : "aeiou"
   } ],
@@ -705,6 +714,7 @@ font-style: italic;
   "enabled" : true,
   "_last_modified" : "aeiou",
   "down_response" : {
+    "fallback_ip6" : "",
     "fallback_ip" : {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -722,16 +732,22 @@ font-style: italic;
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
-      "cloud_uuid" : "aeiou",
-      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
-      "vs_uuid" : "aeiou",
-      "cluster_uuid" : "aeiou",
       "fqdn" : "aeiou",
       "ip" : "",
       "description" : "aeiou",
+      "hm_proxies" : [ {
+        "site_uuid" : "aeiou",
+        "proxy_type" : "aeiou"
+      } ],
+      "enabled" : true,
+      "resolve_fqdn_to_v6" : true,
+      "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
+      "vs_uuid" : "aeiou",
+      "cluster_uuid" : "aeiou",
       "location" : {
         "location" : {
           "latitude" : 1.3579000000000001069366817318950779736042022705078125,
@@ -741,17 +757,13 @@ font-style: italic;
         },
         "source" : "aeiou"
       },
-      "hm_proxies" : [ {
-        "site_uuid" : "aeiou",
-        "proxy_type" : "aeiou"
-      } ],
-      "enabled" : true,
       "ratio" : 123
     } ],
     "name" : "aeiou",
     "description" : "aeiou",
     "priority" : 123,
     "fallback_algorithm" : "aeiou",
+    "consistent_hash_mask6" : 123,
     "enabled" : true,
     "algorithm" : "aeiou"
   } ],
@@ -836,6 +848,7 @@ font-style: italic;
   "enabled" : true,
   "_last_modified" : "aeiou",
   "down_response" : {
+    "fallback_ip6" : "",
     "fallback_ip" : {
       "addr" : "aeiou",
       "type" : "aeiou"
@@ -853,16 +866,22 @@ font-style: italic;
   "groups" : [ {
     "consistent_hash_mask" : 123,
     "members" : [ {
-      "cloud_uuid" : "aeiou",
-      "hostname" : "aeiou",
       "public_ip" : {
         "ip" : ""
       },
-      "vs_uuid" : "aeiou",
-      "cluster_uuid" : "aeiou",
       "fqdn" : "aeiou",
       "ip" : "",
       "description" : "aeiou",
+      "hm_proxies" : [ {
+        "site_uuid" : "aeiou",
+        "proxy_type" : "aeiou"
+      } ],
+      "enabled" : true,
+      "resolve_fqdn_to_v6" : true,
+      "cloud_uuid" : "aeiou",
+      "hostname" : "aeiou",
+      "vs_uuid" : "aeiou",
+      "cluster_uuid" : "aeiou",
       "location" : {
         "location" : {
           "latitude" : 1.3579000000000001069366817318950779736042022705078125,
@@ -872,17 +891,13 @@ font-style: italic;
         },
         "source" : "aeiou"
       },
-      "hm_proxies" : [ {
-        "site_uuid" : "aeiou",
-        "proxy_type" : "aeiou"
-      } ],
-      "enabled" : true,
       "ratio" : 123
     } ],
     "name" : "aeiou",
     "description" : "aeiou",
     "priority" : 123,
     "fallback_algorithm" : "aeiou",
+    "consistent_hash_mask6" : 123,
     "enabled" : true,
     "algorithm" : "aeiou"
   } ],
@@ -1018,6 +1033,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">algorithm </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The load balancing algorithm will pick a local member within the GSLB service list of available Members. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. </div>
 <div class="param">consistent_hash_mask (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask to be applied on client IP for consistent hash algorithm. Allowed values are 1-31. format: int32</div>
+<div class="param">consistent_hash_mask6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8. format: int32</div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User provided information that records member details such as application owner name, contact, etc. Field introduced in 17.1.3. </div>
 <div class="param">enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable a GSLB service pool. Field introduced in 17.2.14, 18.1.5, 18.2.1. </div>
 <div class="param">fallback_algorithm (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3. </div>
@@ -1040,6 +1056,7 @@ font-style: italic;
 <div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbGeoLocation">GslbGeoLocation</a></span> Geographic location of the pool member. Field introduced in 17.1.1. </div>
 <div class="param">public_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#GslbIpAddr">GslbIpAddr</a></span> Alternate IP addresses of the pool member. In usual deployments, the VIP in the virtual service is a private IP address. This gets configured in the &#39;ip&#39; field of the GSLB service. This field is used to host the public IP address for the VIP, which gets NATed to the private IP by a firewall. Client DNS requests coming in from within the intranet should have the private IP served in the A record, and requests from outside this should be served the public IP address. Field introduced in 17.1.2. </div>
 <div class="param">ratio (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Overrides the default ratio of 1.  Reduces the percentage the LB algorithm would pick the server in relation to its peers.  Range is 1-20. Allowed values are 1-20. format: int32</div>
+<div class="param">resolve_fqdn_to_v6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8. </div>
 <div class="param">vs_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Select local virtual service in the specified controller cluster belonging to this GSLB service. The virtual service may have multiple IP addresses and FQDNs.  User will have to choose IP address or FQDN and configure it in the respective field. . </div>
     </div>  <!-- field-items -->
   </div>
@@ -1083,7 +1100,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="GslbServiceDownResponse">GslbServiceDownResponse</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">fallback_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Fallback IP address to use in response to the client query when the GSLB service is DOWN. </div>
+      <div class="param">fallback_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Fallback IP address to use in A response to the client query when the GSLB service is DOWN. </div>
+<div class="param">fallback_ip6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Fallback IPV6 address to use in AAAA response to the client query when the GSLB service is DOWN. Field introduced in 18.2.8. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Response from DNS service towards the client when the GSLB service is DOWN. Enum options - GSLB_SERVICE_DOWN_RESPONSE_NONE, GSLB_SERVICE_DOWN_RESPONSE_ALL_RECORDS, GSLB_SERVICE_DOWN_RESPONSE_FALLBACK_IP, GSLB_SERVICE_DOWN_RESPONSE_EMPTY. </div>
     </div>  <!-- field-items -->
   </div>
