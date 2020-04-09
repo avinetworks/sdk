@@ -748,6 +748,12 @@ definitions:
                 type: integer
                 default: 50
                 format: int32
+            core_shm_app_cache:
+                description: "Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8."
+                type: boolean
+            core_shm_app_learning:
+                description: "Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8."
+                type: boolean
             cpu_reserve:
                 description: "Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 type: boolean
@@ -808,7 +814,7 @@ definitions:
                 description: "Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode."
                 type: boolean
             distribute_queues:
-                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 17.2.8."
+                description: "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8."
                 type: boolean
             distribute_vnics:
                 description: "Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5."
@@ -823,9 +829,8 @@ definitions:
                 description: "Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2."
                 type: boolean
             enable_pcap_tx_ring:
-                description: "Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled.Requires SE Reboot. Field introduced in 18.2.5."
+                description: "Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5."
                 type: boolean
-                default: True
             enable_routing:
                 description: "Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5."
                 type: boolean
@@ -1091,6 +1096,10 @@ definitions:
                 description: "Amount of extra memory to be reserved for use by the Operating System on a Service Engine."
                 type: integer
                 format: int32
+            pcap_tx_mode:
+                description: "Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8."
+                type: string
+                default: "PCAP_TX_AUTO"
             per_app:
                 description: "Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate."
                 type: boolean
@@ -1174,6 +1183,10 @@ definitions:
                 description: "Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5."
                 type: boolean
                 default: True
+            se_mtu:
+                description: "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8."
+                type: integer
+                format: int32
             se_name_prefix:
                 description: "Prefix to use for virtual machine name of Service Engines."
                 type: string

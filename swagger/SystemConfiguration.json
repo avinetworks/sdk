@@ -574,7 +574,7 @@
             "properties": {
                 "bypass_secure_channel_must_checks": {
                     "type": "boolean", 
-                    "description": "Boolean that allows force update of secure channel certificate. Field introduced in 18.2.5."
+                    "description": "Boolean which allowed force update of secure channel certificate. Forced updating has been disallowed. Field deprecated in 18.2.8. Field introduced in 18.2.5."
                 }, 
                 "sslkeyandcertificate_refs": {
                     "items": {

@@ -530,6 +530,10 @@
                     "type": "array", 
                     "description": "Configure Key Value in the string group."
                 }, 
+                "longest_match": {
+                    "type": "boolean", 
+                    "description": "Enable the longest match, default is the shortest match. Field introduced in 18.2.8."
+                }, 
                 "type": {
                     "default": "SG_TYPE_STRING", 
                     "type": "string", 

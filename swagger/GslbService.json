@@ -633,6 +633,11 @@
                     "type": "array", 
                     "description": "Select list of VIPs belonging to this GSLB service."
                 }, 
+                "consistent_hash_mask6": {
+                    "type": "integer", 
+                    "description": "Mask to be applied on client IPV6 address for consistent hash algorithm. Allowed values are 1-127. Field introduced in 18.2.8.", 
+                    "format": "int32"
+                }, 
                 "fallback_algorithm": {
                     "type": "string", 
                     "description": "The fallback load balancing algorithm used to pick a member when the pool algorithm fails to find a valid member. For instance when algorithm is Geo and client/server do not have valid geo location. Enum options - GSLB_ALGORITHM_ROUND_ROBIN, GSLB_ALGORITHM_CONSISTENT_HASH, GSLB_ALGORITHM_GEO, GSLB_ALGORITHM_TOPOLOGY. Field introduced in 18.2.3."
@@ -716,6 +721,10 @@
                 "cloud_uuid": {
                     "type": "string", 
                     "description": "The Cloud UUID of the Site. Field introduced in 17.1.2."
+                }, 
+                "resolve_fqdn_to_v6": {
+                    "type": "boolean", 
+                    "description": "This field indicates if the fqdn should be resolved to a v6 or a v4 address family. . Field introduced in 18.2.8."
                 }
             }
         }, 
@@ -881,13 +890,17 @@
             ], 
             "type": "object", 
             "properties": {
+                "fallback_ip6": {
+                    "description": "Fallback IPV6 address to use in AAAA response to the client query when the GSLB service is DOWN. Field introduced in 18.2.8.", 
+                    "$ref": "#/definitions/IpAddr"
+                }, 
                 "type": {
                     "default": "GSLB_SERVICE_DOWN_RESPONSE_NONE", 
                     "type": "string", 
                     "description": "Response from DNS service towards the client when the GSLB service is DOWN. Enum options - GSLB_SERVICE_DOWN_RESPONSE_NONE, GSLB_SERVICE_DOWN_RESPONSE_ALL_RECORDS, GSLB_SERVICE_DOWN_RESPONSE_FALLBACK_IP, GSLB_SERVICE_DOWN_RESPONSE_EMPTY."
                 }, 
                 "fallback_ip": {
-                    "description": "Fallback IP address to use in response to the client query when the GSLB service is DOWN.", 
+                    "description": "Fallback IP address to use in A response to the client query when the GSLB service is DOWN.", 
                     "$ref": "#/definitions/IpAddr"
                 }
             }
