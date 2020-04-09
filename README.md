@@ -1,5 +1,6 @@
 # Avi SDK and Utilities
 
+Please do not commit
 [![Build Status](https://travis-ci.org/avinetworks/sdk.svg?branch=17.1.4_pytest)](https://travis-ci.org/avinetworks/sdk)
 
 This repository includes API documentation, SDK and sample source to integrate
