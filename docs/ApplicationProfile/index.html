@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure applicationprofile <key> - show applicationprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -1849,8 +1849,8 @@ font-style: italic;
 <div class="param">respond_with_100_continue (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Avi will respond with 100-Continue response if Expect  100-Continue header received from client. Field introduced in 17.2.8. </div>
 <div class="param">secure_cookie_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Mark server cookies with the &#39;Secure&#39; attribute.  Client browsers will not send a cookie marked as secure over an unencrypted connection.  If Avi is terminating SSL from clients and passing it as HTTP to the server, the server may return cookies without the secure flag set. </div>
 <div class="param">server_side_redirect_to_https (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server&#39;s redirect responses for this virtual service from HTTP to HTTPS. </div>
-<div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. . </div>
-<div class="param">spdy_fwd_proxy_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI. </div>
+<div class="param">spdy_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is deprecated. Field deprecated in 18.2.8. </div>
+<div class="param">spdy_fwd_proxy_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> This field is deprecated. Field deprecated in 18.2.8. </div>
 <div class="param">ssl_client_certificate_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#SSLClientCertificateAction">SSLClientCertificateAction</a></span> Set of match/action rules that govern what happens when the client certificate request is enabled. </div>
 <div class="param">ssl_client_certificate_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies whether the client side verification is set to none, request or require. Enum options - SSL_CLIENT_CERTIFICATE_NONE, SSL_CLIENT_CERTIFICATE_REQUEST, SSL_CLIENT_CERTIFICATE_REQUIRE. </div>
 <div class="param">ssl_everywhere_enabled (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable common settings to increase the level of security for  virtual services running HTTP and HTTPS. For sites that are  HTTP only, these settings will have no effect. Field deprecated in 18.2.7. </div>

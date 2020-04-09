@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceengine <key> - show serviceengine <key> - reboot serviceengine <key> - delete serviceengine <key> - forcedelete serviceengine <key> - switchover serviceengine <key> - clear serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -367,6 +367,7 @@ font-style: italic;
       "aggregator_chgd" : true,
       "linux_name" : "aeiou",
       "enabled" : true,
+      "link_up" : true,
       "vnic_networks" : [ "" ],
       "is_avi_internal_network" : true,
       "mac_address" : "aeiou",
@@ -500,6 +501,7 @@ font-style: italic;
     "aggregator_chgd" : true,
     "linux_name" : "aeiou",
     "enabled" : true,
+    "link_up" : true,
     "vnic_networks" : [ "" ],
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
@@ -1838,6 +1840,7 @@ font-style: italic;
     "aggregator_chgd" : true,
     "linux_name" : "aeiou",
     "enabled" : true,
+    "link_up" : true,
     "vnic_networks" : [ "" ],
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
@@ -3230,6 +3233,7 @@ font-style: italic;
     "aggregator_chgd" : true,
     "linux_name" : "aeiou",
     "enabled" : true,
+    "link_up" : true,
     "vnic_networks" : [ "" ],
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
@@ -3426,6 +3430,7 @@ font-style: italic;
     "aggregator_chgd" : true,
     "linux_name" : "aeiou",
     "enabled" : true,
+    "link_up" : true,
     "vnic_networks" : [ "" ],
     "is_avi_internal_network" : true,
     "mac_address" : "aeiou",
@@ -4878,6 +4883,7 @@ font-style: italic;
 <div class="param">is_hsm (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_hsm of obj type vNIC field type str  type boolean </div>
 <div class="param">is_mgmt (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_mgmt of obj type vNIC field type str  type boolean </div>
 <div class="param">is_portchannel (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean </div>
+<div class="param">link_up (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The link is operationally up. Field introduced in 18.2.8. </div>
 <div class="param">linux_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> linux_name of vNIC. </div>
 <div class="param">mac_address </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> mac_address of vNIC. </div>
 <div class="param">members (optional)</div><div class="param-desc"><span class="param-type"><a href="#MemberInterface">array[MemberInterface]</a></span> Placeholder for description of property members of obj type vNIC field type str  type object </div>

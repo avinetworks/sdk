@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show upgrade status detail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -256,6 +256,7 @@ font-style: italic;
   "count" : 123,
   "results" : [ {
     "image_ref" : "aeiou",
+    "previous_patch_list" : [ "" ],
     "upgrade_events" : [ {
       "task" : "aeiou",
       "nodes_events" : [ {
@@ -266,6 +267,7 @@ font-style: italic;
           "type" : "aeiou"
         },
         "end_time" : "aeiou",
+        "sub_tasks" : [ "aeiou" ],
         "message" : "aeiou",
         "status" : true
       } ]
@@ -366,6 +368,7 @@ font-style: italic;
       "patch_ref" : "aeiou",
       "se_group_resume_options" : {
         "action_on_error" : "aeiou",
+        "disruptive" : true,
         "skip_suspended" : true
       },
       "se_group_options" : {
@@ -377,10 +380,15 @@ font-style: italic;
     "version" : "aeiou",
     "url" : "aeiou",
     "start_time" : "aeiou",
+    "patch_list" : [ {
+      "patch_image_ref" : "aeiou",
+      "patch_version" : "aeiou"
+    } ],
     "system" : true,
     "tasks_completed" : 123,
     "tenant_ref" : "aeiou",
     "name" : "aeiou",
+    "progress" : 123,
     "enable_patch_rollback" : true
   } ]
 }</code></pre>
@@ -437,6 +445,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "image_ref" : "aeiou",
+  "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
     "task" : "aeiou",
     "nodes_events" : [ {
@@ -447,6 +456,7 @@ font-style: italic;
         "type" : "aeiou"
       },
       "end_time" : "aeiou",
+      "sub_tasks" : [ "aeiou" ],
       "message" : "aeiou",
       "status" : true
     } ]
@@ -547,6 +557,7 @@ font-style: italic;
     "patch_ref" : "aeiou",
     "se_group_resume_options" : {
       "action_on_error" : "aeiou",
+      "disruptive" : true,
       "skip_suspended" : true
     },
     "se_group_options" : {
@@ -558,10 +569,15 @@ font-style: italic;
   "version" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_list" : [ {
+    "patch_image_ref" : "aeiou",
+    "patch_version" : "aeiou"
+  } ],
   "system" : true,
   "tasks_completed" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "progress" : 123,
   "enable_patch_rollback" : true
 }</code></pre>
 
@@ -689,6 +705,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "image_ref" : "aeiou",
+  "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
     "task" : "aeiou",
     "nodes_events" : [ {
@@ -699,6 +716,7 @@ font-style: italic;
         "type" : "aeiou"
       },
       "end_time" : "aeiou",
+      "sub_tasks" : [ "aeiou" ],
       "message" : "aeiou",
       "status" : true
     } ]
@@ -799,6 +817,7 @@ font-style: italic;
     "patch_ref" : "aeiou",
     "se_group_resume_options" : {
       "action_on_error" : "aeiou",
+      "disruptive" : true,
       "skip_suspended" : true
     },
     "se_group_options" : {
@@ -810,10 +829,15 @@ font-style: italic;
   "version" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_list" : [ {
+    "patch_image_ref" : "aeiou",
+    "patch_version" : "aeiou"
+  } ],
   "system" : true,
   "tasks_completed" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "progress" : 123,
   "enable_patch_rollback" : true
 }</code></pre>
 
@@ -881,6 +905,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "image_ref" : "aeiou",
+  "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
     "task" : "aeiou",
     "nodes_events" : [ {
@@ -891,6 +916,7 @@ font-style: italic;
         "type" : "aeiou"
       },
       "end_time" : "aeiou",
+      "sub_tasks" : [ "aeiou" ],
       "message" : "aeiou",
       "status" : true
     } ]
@@ -991,6 +1017,7 @@ font-style: italic;
     "patch_ref" : "aeiou",
     "se_group_resume_options" : {
       "action_on_error" : "aeiou",
+      "disruptive" : true,
       "skip_suspended" : true
     },
     "se_group_options" : {
@@ -1002,10 +1029,15 @@ font-style: italic;
   "version" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_list" : [ {
+    "patch_image_ref" : "aeiou",
+    "patch_version" : "aeiou"
+  } ],
   "system" : true,
   "tasks_completed" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "progress" : 123,
   "enable_patch_rollback" : true
 }</code></pre>
 
@@ -1073,6 +1105,7 @@ font-style: italic;
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
   "image_ref" : "aeiou",
+  "previous_patch_list" : [ "" ],
   "upgrade_events" : [ {
     "task" : "aeiou",
     "nodes_events" : [ {
@@ -1083,6 +1116,7 @@ font-style: italic;
         "type" : "aeiou"
       },
       "end_time" : "aeiou",
+      "sub_tasks" : [ "aeiou" ],
       "message" : "aeiou",
       "status" : true
     } ]
@@ -1183,6 +1217,7 @@ font-style: italic;
     "patch_ref" : "aeiou",
     "se_group_resume_options" : {
       "action_on_error" : "aeiou",
+      "disruptive" : true,
       "skip_suspended" : true
     },
     "se_group_options" : {
@@ -1194,10 +1229,15 @@ font-style: italic;
   "version" : "aeiou",
   "url" : "aeiou",
   "start_time" : "aeiou",
+  "patch_list" : [ {
+    "patch_image_ref" : "aeiou",
+    "patch_version" : "aeiou"
+  } ],
   "system" : true,
   "tasks_completed" : 123,
   "tenant_ref" : "aeiou",
   "name" : "aeiou",
+  "progress" : 123,
   "enable_patch_rollback" : true
 }</code></pre>
 
@@ -1226,6 +1266,7 @@ font-style: italic;
   <ol>
     <li><a href="#EventMap"><code>EventMap</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
+    <li><a href="#PatchData"><code>PatchData</code></a></li>
     <li><a href="#SeGroupOptions"><code>SeGroupOptions</code></a></li>
     <li><a href="#SeGroupResumeOptions"><code>SeGroupResumeOptions</code></a></li>
     <li><a href="#SeGroupStatus"><code>SeGroupStatus</code></a></li>
@@ -1243,7 +1284,7 @@ font-style: italic;
     <h3 class="field-label"><a name="EventMap">EventMap</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">nodes_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeEvent">array[UpgradeEvent]</a></span> List of all events node wise. Field introduced in 18.2.6. </div>
-<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, SE_UPGRADE_START, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6. </div>
+<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1251,6 +1292,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">addr </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> IP address. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - V4, DNS, V6. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PatchData">PatchData</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8. </div>
+<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Patch version. Field introduced in 18.2.8. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1264,6 +1312,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SeGroupResumeOptions">SeGroupResumeOptions</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action_on_error (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The error recovery action configured for a SE Group. Enum options - ROLLBACK_UPGRADE_OPS_ON_ERROR, SUSPEND_UPGRADE_OPS_ON_ERROR, CONTINUE_UPGRADE_OPS_ON_ERROR. Field introduced in 18.2.6. </div>
+<div class="param">disruptive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allow disruptive mechanism. Field introduced in 18.2.8. </div>
 <div class="param">skip_suspended (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Skip upgrade on suspended SE(s). Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
@@ -1305,7 +1354,7 @@ font-style: italic;
 <div class="param">se_with_vs_not_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
 <div class="param">se_with_vs_scaledout (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type ServiceEngine. </div>
 <div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> start_time of SeGroupStatus. </div>
-<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">thread (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> thread of SeGroupStatus. </div>
 <div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
@@ -1327,7 +1376,7 @@ font-style: italic;
 <div class="param">se_group_ha_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY. </div>
 <div class="param">se_group_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngineGroup. </div>
 <div class="param">se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
-<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED. </div>
+<div class="param">task (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - SE_UPGRADE_PREVIEW, SE_UPGRADE_IN_PROGRESS, SE_UPGRADE_COMPLETE, SE_UPGRADE_ERROR, SE_UPGRADE_PRE_CHECKS, SE_IMAGE_INSTALL, SE_UPGRADE_IMAGE_NOT_FOUND, SE_ALREADY_UPGRADED, SE_REBOOT, SE_CONNECT_AFTER_REBOOT, SE_PRE_UPGRADE_TASKS, SE_POST_UPGRADE_TASKS, SE_WAIT_FOR_SWITCHOVER, SE_CHECK_SCALEDOUT_VS_EXISTS, SE_UPGRADE_SEMGR_REQUEST, SE_UPGRADE_SEMGR_SE_UNREACHABLE, SE_PRE_UPGRADE_SCALE_IN_OPS, SE_POST_UPGRADE_SCALE_OUT_OPS, SE_UPGRADE_SUSPENDED, SE_UPGRADE_START, SE_UPGRADE_PAUSED, SE_UPGRADE_FAILED, SE_UPGRADE_VERSION_CHECKS, SE_UPGRADE_CONNECTIVITY_CHECKS, SE_UPGRADE_VERIFY_VERSION, SE_UPGRADE_SKIP_RESUME_OPS, SE_UPGRADE_SEMGR_DONE, SEGROUP_UPGRADE_NOT_STARTED, SEGROUP_UPGRADE_ENQUEUED, SEGROUP_UPGRADE_ENQUEUE_FAILED, SEGROUP_UPGRADE_IN_PROGRESS, SEGROUP_UPGRADE_COMPLETE, SEGROUP_UPGRADE_ERROR, SEGROUP_UPGRADE_SUSPENDED, VS_DISRUPTED, VS_SCALEIN, VS_SCALEIN_ERROR, VS_SCALEIN_ERROR_RPC_FAILED, VS_SCALEOUT, VS_SCALEOUT_ERROR, VS_SCALEOUT_ERROR_RPC_FAILED, VS_SCALEOUT_ERROR_SE_NOT_READY, VS_MIGRATE, VS_MIGRATE_ERROR, VS_MIGRATE_BACK, VS_MIGRATE_BACK_ERROR, VS_MIGRATE_BACK_NOT_NEEDED, VS_MIGRATE_ERROR_NO_CANDIDATE_SE, VS_MIGRATE_ERROR_RPC_FAILED, VS_MIGRATE_BACK_ERROR_SE_NOT_READY, VS_MIGRATE_BACK_ERROR_RPC_FAILED, SEGROUP_PAUSE_PLACEMENT, SEGROUP_RESUME_PLACEMENT, SEGROUP_CLOUD_DISCOVERY, SEGROUP_IMAGE_GENERATION, SEGROUP_IMAGE_COPY_INSTALL_TO_SES, SEGROUP_SERIAL_SE_UPGRADE, SEGROUP_PARALLEL_SE_UPGRADE, SEGROUP_V2_TO_V1_ROLLBACK, SEGROUP_FAILED_SE_ERROR_RECOVERY, SEGROUP_SE_CONNECTIVITY_CHECKS, SEGROUP_UPGRADE_START, SEGROUP_WAIT_FOR_WARM_START_DONE. </div>
 <div class="param">to_se_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type ServiceEngine. </div>
 <div class="param">traffic_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED. </div>
 <div class="param">vs_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type VirtualService. </div>
@@ -1349,6 +1398,7 @@ font-style: italic;
 <div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade event message if any. Field introduced in 18.2.6. </div>
 <div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Task start time. Field introduced in 18.2.6. </div>
 <div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Upgrade event status. Field introduced in 18.2.6. </div>
+<div class="param">sub_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Sub tasks executed on each node. Field introduced in 18.2.8. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1364,39 +1414,42 @@ font-style: italic;
     <h3 class="field-label"><a name="UpgradeOpsState">UpgradeOpsState</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">last_changed_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#TimeStamp">TimeStamp</a></span> The last time the state changed. Field introduced in 18.2.6. </div>
-<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Descriptive reason for the state-chance. Field introduced in 18.2.6. </div>
-<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6. </div>
+<div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Descriptive reason for the state-change. Field introduced in 18.2.6. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
     <h3 class="field-label"><a name="UpgradeStatusInfo">UpgradeStatusInfo</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
-<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration of upgrade operations in seconds. Field introduced in 18.2.6. format: int32</div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Duration of Upgrade operation in seconds. Field introduced in 18.2.6. format: int32</div>
 <div class="param">enable_patch_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the patch rollback is possible on this node. Field introduced in 18.2.6. </div>
 <div class="param">enable_rollback (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Check if the rollback is possible on this node. Field introduced in 18.2.6. </div>
-<div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> End time of upgrade operations. Field introduced in 18.2.6. </div>
-<div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enqueue time of upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">end_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> End time of Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">enqueue_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Enqueue time of Upgrade operation. Field introduced in 18.2.6. </div>
 <div class="param">image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6. </div>
 <div class="param">node_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Type of the system such as controller_cluster, se_group or se. Enum options - NODE_CONTROLLER_CLUSTER, NODE_SE_GROUP, NODE_SE_TYPE. Field introduced in 18.2.6. </div>
 <div class="param">obj_cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Cloud that this object belongs to. It is a reference to an object of type Cloud. Field introduced in 18.2.6. </div>
-<div class="param">params (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsParam">UpgradeOpsParam</a></span> Parameters associated with the current upgrade ops. Field introduced in 18.2.6. </div>
-<div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current patch. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
-<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Current patch version applied to this node. Field introduced in 18.2.6. </div>
-<div class="param">previous_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous base image. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
-<div class="param">previous_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous patch. It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
-<div class="param">previous_patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous patch version applied to this node. Field introduced in 18.2.6. </div>
-<div class="param">previous_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous version prior to upgrade. Field introduced in 18.2.6. </div>
+<div class="param">params (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsParam">UpgradeOpsParam</a></span> Parameters associated with the Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{&#39;6p1&#39;, &#39;6p1_image_uuid&#39;}, {&#39;6p5&#39;, &#39;6p5_image_uuid&#39;}] value. Field introduced in 18.2.8. </div>
+<div class="param">patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6. </div>
+<div class="param">previous_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">previous_patch_image_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6. </div>
+<div class="param">previous_patch_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#PatchData">array[PatchData]</a></span> List of patches applied to this node on previous major version. Field introduced in 18.2.8. </div>
+<div class="param">previous_patch_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6. </div>
+<div class="param">previous_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6. </div>
+<div class="param">progress (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8. format: int32</div>
 <div class="param">se_upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeUpgradeEvents">array[SeUpgradeEvents]</a></span> ServiceEngineGroup upgrade errors. Field introduced in 18.2.6. </div>
 <div class="param">seg_status (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeGroupStatus">SeGroupStatus</a></span> Detailed SeGroup status. Field introduced in 18.2.6. </div>
-<div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Start time of upgrade operations. Field introduced in 18.2.6. </div>
-<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsState">UpgradeOpsState</a></span> Current status of the upgrade operations. Field introduced in 18.2.6. </div>
-<div class="param">system (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag is set only in the cluster node entry if the upgrade is initiated as a system-upgrade. Field introduced in 18.2.6. </div>
-<div class="param">tasks_completed (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Upgrade tasks completed. Field introduced in 18.2.6. format: int32</div>
+<div class="param">start_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Start time of Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#UpgradeOpsState">UpgradeOpsState</a></span> Current status of the Upgrade operation. Field introduced in 18.2.6. </div>
+<div class="param">system (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Flag is set only in the cluster if the upgrade is initiated as a system-upgrade. . Field introduced in 18.2.6. </div>
+<div class="param">tasks_completed (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6. format: int32</div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Tenant that this object belongs to. It is a reference to an object of type Tenant. Field introduced in 18.2.6. </div>
-<div class="param">total_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total upgrade tasks. Field introduced in 18.2.6. format: int32</div>
-<div class="param">upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#EventMap">array[EventMap]</a></span> Events performed for upgrade operations. Field introduced in 18.2.6. </div>
+<div class="param">total_tasks (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of tasks in the Upgrade operation. Field introduced in 18.2.6. format: int32</div>
+<div class="param">upgrade_events (optional)</div><div class="param-desc"><span class="param-type"><a href="#EventMap">array[EventMap]</a></span> Events performed for Upgrade operation. Field introduced in 18.2.6. </div>
 <div class="param">upgrade_ops (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UUID Identifier for the system such as cluster, se group and se. Field introduced in 18.2.6. </div>

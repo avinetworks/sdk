@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -267,6 +267,7 @@ font-style: italic;
     "se_rum_sampling_res_interval" : 123,
     "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
     "extra_shared_config_memory" : 123,
+    "core_shm_app_cache" : true,
     "host_gateway_monitor" : true,
     "se_dos_profile" : {
       "thresh_period" : 123,
@@ -366,6 +367,7 @@ font-style: italic;
     "num_flow_cores_sum_changes_to_ignore" : 123,
     "openstack_mgmt_network_uuid" : "aeiou",
     "num_dispatcher_cores" : 123,
+    "core_shm_app_learning" : true,
     "per_app" : true,
     "vcenter_folder" : "aeiou",
     "algo" : "aeiou",
@@ -399,6 +401,7 @@ font-style: italic;
     "use_standard_alb" : true,
     "custom_securitygroups_mgmt" : [ "aeiou" ],
     "disable_gro" : true,
+    "pcap_tx_mode" : "aeiou",
     "min_se" : 123,
     "openstack_availability_zone" : "aeiou",
     "se_pcap_pkt_count" : 123,
@@ -414,6 +417,7 @@ font-style: italic;
     "auto_redistribute_active_standby_load" : true,
     "enable_pcap_tx_ring" : true,
     "name" : "aeiou",
+    "se_mtu" : 123,
     "se_rum_sampling_nav_percent" : 123,
     "se_tx_batch_size" : 123,
     "custom_securitygroups_data" : [ "aeiou" ],
@@ -569,6 +573,7 @@ font-style: italic;
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
@@ -668,6 +673,7 @@ font-style: italic;
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
   "num_dispatcher_cores" : 123,
+  "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -701,6 +707,7 @@ font-style: italic;
   "use_standard_alb" : true,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "pcap_tx_mode" : "aeiou",
   "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_pcap_pkt_count" : 123,
@@ -716,6 +723,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
   "name" : "aeiou",
+  "se_mtu" : 123,
   "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
@@ -1000,6 +1008,7 @@ font-style: italic;
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
@@ -1099,6 +1108,7 @@ font-style: italic;
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
   "num_dispatcher_cores" : 123,
+  "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -1132,6 +1142,7 @@ font-style: italic;
   "use_standard_alb" : true,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "pcap_tx_mode" : "aeiou",
   "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_pcap_pkt_count" : 123,
@@ -1147,6 +1158,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
   "name" : "aeiou",
+  "se_mtu" : 123,
   "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
@@ -1313,6 +1325,7 @@ font-style: italic;
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
@@ -1412,6 +1425,7 @@ font-style: italic;
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
   "num_dispatcher_cores" : 123,
+  "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -1445,6 +1459,7 @@ font-style: italic;
   "use_standard_alb" : true,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "pcap_tx_mode" : "aeiou",
   "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_pcap_pkt_count" : 123,
@@ -1460,6 +1475,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
   "name" : "aeiou",
+  "se_mtu" : 123,
   "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
@@ -1626,6 +1642,7 @@ font-style: italic;
   "se_rum_sampling_res_interval" : 123,
   "extra_config_multiplier" : 1.3579000000000001069366817318950779736042022705078125,
   "extra_shared_config_memory" : 123,
+  "core_shm_app_cache" : true,
   "host_gateway_monitor" : true,
   "se_dos_profile" : {
     "thresh_period" : 123,
@@ -1725,6 +1742,7 @@ font-style: italic;
   "num_flow_cores_sum_changes_to_ignore" : 123,
   "openstack_mgmt_network_uuid" : "aeiou",
   "num_dispatcher_cores" : 123,
+  "core_shm_app_learning" : true,
   "per_app" : true,
   "vcenter_folder" : "aeiou",
   "algo" : "aeiou",
@@ -1758,6 +1776,7 @@ font-style: italic;
   "use_standard_alb" : true,
   "custom_securitygroups_mgmt" : [ "aeiou" ],
   "disable_gro" : true,
+  "pcap_tx_mode" : "aeiou",
   "min_se" : 123,
   "openstack_availability_zone" : "aeiou",
   "se_pcap_pkt_count" : 123,
@@ -1773,6 +1792,7 @@ font-style: italic;
   "auto_redistribute_active_standby_load" : true,
   "enable_pcap_tx_ring" : true,
   "name" : "aeiou",
+  "se_mtu" : 123,
   "se_rum_sampling_nav_percent" : 123,
   "se_tx_batch_size" : 123,
   "custom_securitygroups_data" : [ "aeiou" ],
@@ -2124,6 +2144,8 @@ font-style: italic;
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">config_debugs_on_all_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. format: int32</div>
+<div class="param">core_shm_app_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8. </div>
+<div class="param">core_shm_app_learning (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8. </div>
 <div class="param">cpu_reserve (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property cpu_reserve of obj type ServiceEngineGroup field type str  type boolean </div>
 <div class="param">cpu_socket_affinity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Allocate all the CPU cores for the Service Engine Virtual Machines  on the same CPU socket. Applicable only for vCenter Cloud. </div>
 <div class="param">custom_securitygroups_data (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Custom Security Groups to be associated with data vNics for SE instances in OpenStack and AWS Clouds. Field introduced in 17.1.3. </div>
@@ -2140,12 +2162,12 @@ font-style: italic;
 <div class="param">disable_tso (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path. TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1. </div>
 <div class="param">disk_per_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of disk space for each of the Service Engine virtual machines. format: int32</div>
 <div class="param">distribute_load_active_standby (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use both the active and standby Service Engines for Virtual Service placement in the legacy active standby HA mode. </div>
-<div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 17.2.8. </div>
+<div class="param">distribute_queues (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8. </div>
 <div class="param">distribute_vnics (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Distributes vnic ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 18.2.5. </div>
 <div class="param">enable_gratarp_permanent (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable GratArp for VIP_IP. Field introduced in 18.2.3. </div>
 <div class="param">enable_hsm_priming (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> (This is a beta feature). Enable HSM key priming. If enabled, key handles on the hsm will be synced to SE before processing client connections. Field introduced in 17.2.7, 18.1.1. </div>
 <div class="param">enable_multi_lb (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Applicable only for Azure cloud with Basic SKU LB. If set, additional Azure LBs will be automatically created if resources in existing LB are exhausted. Field introduced in 17.2.10, 18.1.2. </div>
-<div class="param">enable_pcap_tx_ring (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled.Requires SE Reboot. Field introduced in 18.2.5. </div>
+<div class="param">enable_pcap_tx_ring (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5. </div>
 <div class="param">enable_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing for this ServiceEngineGroup . Field deprecated in 18.2.5. </div>
 <div class="param">enable_vip_on_all_interfaces (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable VIP on all interfaces of SE. Field deprecated in 18.2.5. Field introduced in 17.1.1. </div>
 <div class="param">enable_vmac (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Use Virtual MAC address for interfaces on which floating interface IPs are placed. Field deprecated in 18.2.5. </div>
@@ -2210,6 +2232,7 @@ font-style: italic;
 <div class="param">openstack_mgmt_network_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Avi Management network name. </div>
 <div class="param">openstack_mgmt_network_uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Management network UUID. </div>
 <div class="param">os_reserved_memory (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Amount of extra memory to be reserved for use by the Operating System on a Service Engine. format: int32</div>
+<div class="param">pcap_tx_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8. </div>
 <div class="param">per_app (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Per-app SE mode is designed for deploying dedicated load balancers per app (VS). In this mode, each SE is limited to a max of 2 VSs. vCPUs in per-app SEs count towards licensing usage at 25% rate. </div>
 <div class="param">placement_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> If placement mode is &#39;Auto&#39;, Virtual Services are automatically placed on Service Engines. Enum options - PLACEMENT_MODE_AUTO. </div>
 <div class="param">realtime_se_metrics (optional)</div><div class="param-desc"><span class="param-type"><a href="#MetricsRealTimeUpdate">MetricsRealTimeUpdate</a></span> Enable or disable real time SE metrics. </div>
@@ -2230,6 +2253,7 @@ font-style: italic;
 <div class="param">se_ipc_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
 <div class="param">se_kni_burst_factor (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Knob to control burst size used in polling KNI interfaces for traffic sent from KNI towards DPDK application Also controls burst size used by KNI module to read pkts punted from DPDK application towards KNI Helps minimize drops in non-VIP traffic in either pathFactor of (0-2) multiplies/divides burst size by 2^N. Allowed values are 0-2. Field introduced in 18.2.6. format: int32</div>
 <div class="param">se_lro (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable or disable Large Receive Optimization for vnics. Requires SE Reboot. Field introduced in 18.2.5. </div>
+<div class="param">se_mtu (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8. format: int32</div>
 <div class="param">se_name_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix to use for virtual machine name of Service Engines. </div>
 <div class="param">se_pcap_lookahead (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel&#39;s view of the receive rings are consistent. Field introduced in 18.2.3. </div>
 <div class="param">se_pcap_pkt_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Max number of packets the pcap interface can hold and if the value is 0 the optimum value will be chosen. The optimum value will be chosen based on SE-memory, Cloud Type and Number of Interfaces.Requires SE Reboot. Field introduced in 18.2.5. format: int32</div>
