@@ -3,7 +3,6 @@ package com.vmware.avi.sdk;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -475,7 +474,7 @@ public class AviApi {
 	 * @param fileUploadUri is uri where we have to upload file
 	 * @throws Exception
 	 */
-	public void fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
+	public int fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
 		CloseableHttpClient httpClient = null;
 		try {
 			httpClient = this.buildHttpClient();
@@ -503,6 +502,7 @@ public class AviApi {
 				}
 				throw new AviApiException(errMessage.toString());
 			}
+			return responseCode;
 
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
@@ -519,6 +519,7 @@ public class AviApi {
 				}
 			}
 		}
+
 	}
 
 	/***
@@ -532,7 +533,7 @@ public class AviApi {
 	 * @throws AviApiException
 	 * @throws IOException
 	 */
-	public String fileDownload(String path, String localFilePath, Map<String, String> params)
+	public int fileDownload(String path, String localFilePath, Map<String, String> params)
 			throws AviApiException, IOException {
 		CloseableHttpClient httpClient = null;
 		InputStream inputStream = null;
@@ -559,6 +560,7 @@ public class AviApi {
 			this.buildHeaders(request);
 			request.removeHeaders("Content-Type");
 			response = httpClient.execute(request);
+			int responseCode = response.getStatusLine().getStatusCode();
 			if (null != response.getEntity()) {
 				inputStream = response.getEntity().getContent();
 				File file = new File(localFilePath);
@@ -570,7 +572,7 @@ public class AviApi {
 				filePath = file.getAbsolutePath();
 			}
 			LOGGER.info("Path of downloaded file :" + filePath);
-			return filePath;
+			return responseCode;
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
