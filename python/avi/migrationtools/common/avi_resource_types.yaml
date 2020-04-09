@@ -66,13 +66,13 @@ avi_resource_types:
   - ServerAutoScalePolicy
   - Network
   - TrafficCloneProfile
-  - Pool
   - VsVip
   - ServiceEngineGroup
-  - PoolGroup
-  - PingAccessAgent
+  - Pool
   - NetworkService
   - ServiceEngine
+  - PoolGroup
+  - PingAccessAgent
   - DnsPolicy
   - HTTPPolicySet
   - VSDataScriptSet
