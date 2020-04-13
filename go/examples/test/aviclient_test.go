@@ -100,7 +100,6 @@ func get_valid_token() string {
 	}
 	token := fmt.Sprintf("%v", robj.(map[string]interface{})["token"])
 	return token
-	//fmt.Println(robj.(map[string]interface{})["token"])
 }
 
 
@@ -124,7 +123,6 @@ func get_valid_token_V2() (string, error) {
 	}
 	token := fmt.Sprintf("%v", robj.(map[string]interface{})["token"])
 	return token, nil
-	//fmt.Println(robj.(map[string]interface{})["token"])
 }
 
 
@@ -145,7 +143,8 @@ func TestValidAuthToken(t *testing.T) {
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	err := aviClientSetAuthToken.AviSession.Get(hm_path, &robj)
 	if err != nil {
-		fmt.Println("Didn't get expected error for wrong password")
+		fmt.Println("Error while getting avi objects by using SetRefreshAuthTokenCallback functionality. [Error]",
+			err)
 		t.Fail()
 	}
 
@@ -157,15 +156,11 @@ func TestValidAuthToken(t *testing.T) {
 		session.SetInsecure); err != nil {
 		fmt.Println("Error while creating a sdk client with SetRefreshAuthTokenCallback method")
 		t.Fail()
-	} else {
-		err := aviClient.AviSession.Get(hm_path, &robj)
-		if err != nil {
-			fmt.Println("Didn't get expected error for wrong password")
-			t.Fail()
+	} else if err := aviClient.AviSession.Get(hm_path, &robj); err != nil {
+		fmt.Println("Error while getting avi objects by using SetRefreshAuthTokenCallback functionality. [Error]",
+			err)
+		t.Fail()
 		}
-
-	}
-
 }
 
 
@@ -179,9 +174,10 @@ func TestValidAuthToken_V2(t *testing.T) {
 		session.SetTenant("admin"),
 		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
-	err := aviClientSetAuthToken.AviSession.Get(hm_path, &robj)
-	if err != nil {
-		fmt.Println("Didn't get expected error for wrong password")
+
+	if err := aviClientSetAuthToken.AviSession.Get(hm_path, &robj); err != nil {
+		fmt.Println("Error while getting avi objects by using SetRefreshAuthTokenCallback functionality. [Error]",
+			err)
 		t.Fail()
 	}
 
@@ -193,12 +189,10 @@ func TestValidAuthToken_V2(t *testing.T) {
 		session.SetInsecure); err != nil {
 		fmt.Println("Error while creating a sdk client with SetRefreshAuthTokenCallback V2 method")
 		t.Fail()
-	} else {
-		err := aviClient.AviSession.Get(hm_path, &robj)
-		if err != nil {
-			fmt.Println("Didn't get expected error for wrong password")
-			t.Fail()
-		}
+	} else if err := aviClient.AviSession.Get(hm_path, &robj); err != nil {
+		fmt.Println("Error while getting avi objects by using SetRefreshAuthTokenCallback V2 functionality. " +
+			"[Error]", err)
+		t.Fail()
 	}
 }
 
@@ -213,10 +207,10 @@ func TestInvalidAuthToken_V2(t *testing.T) {
 		session.SetVersion(os.Getenv("version")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	if err := aviClientSetAuthToken.AviSession.Get(hm_path, &robj); err == nil {
-		fmt.Println("Didn't get expected error for wrong token")
+		fmt.Println("Didn't get expected error for wrong token using SetRefreshAuthTokenCallback V2 functionality")
 		t.Fail()
 	} else if err.Error() != "Invalid token from callback method" {
-		fmt.Println("Didn't get expected error from calback method")
+		fmt.Println("Didn't get expected error from callback method")
 		t.Fail()
 	}
 
