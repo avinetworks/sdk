@@ -222,6 +222,7 @@ func (avisess *AviSession) initiateSession() error {
 	// now login to get session_id, csrfToken
 	cred := make(map[string]string)
 	cred["username"] = avisess.username
+
 	if avisess.isTokenAuth() {
 		cred["token"] = avisess.authToken
 	} else {
@@ -288,7 +289,7 @@ func SetRefreshAuthTokenCallback(f func() string) func(*AviSession) error {
 	}
 }
 
-func (avisess *AviSession) setRefreshAuthTokenCallback(f func() (string)) error {
+func (avisess *AviSession) setRefreshAuthTokenCallback(f func() string) error {
 	avisess.refreshAuthToken = f
 	return nil
 }
@@ -300,6 +301,7 @@ func SetRefreshAuthTokenCallback_V2(f func() (string, error)) func(*AviSession) 
 		return sess.setRefreshAuthTokenCallback_V2(f)
 	}
 }
+
 func (avisess *AviSession) setRefreshAuthTokenCallback_V2(f func() (string, error)) error {
 	avisess.refreshAuthToken_V2 = f
 	return nil
