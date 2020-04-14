@@ -168,8 +168,8 @@ public class AviSDKTest {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
-			param.put("uri", "controller://hsmpackages/safenet.tar");
-			int status = serv.fileDownload("/fileservice", "/tmp/file.tar", param);
+			param.put("passphrase", "abc1234");
+			int status = serv.fileDownload("/configuration/export", "/tmp/file.tar", param);
 			assertTrue("file download failed", status < 299);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
