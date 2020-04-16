@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi UpgradeStatusSummary Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- show upgrade status\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -499,11 +499,11 @@
             "properties": {
                 "reason": {
                     "type": "string", 
-                    "description": "Descriptive reason for the state-chance. Field introduced in 18.2.6."
+                    "description": "Descriptive reason for the state-change. Field introduced in 18.2.6."
                 }, 
                 "state": {
                     "type": "string", 
-                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_CONTROLLER_COMPLETED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED. Field introduced in 18.2.6."
+                    "description": "The upgrade operations current fsm-state. Enum options - UPGRADE_FSM_INIT, UPGRADE_FSM_STARTED, UPGRADE_FSM_WAITING, UPGRADE_FSM_IN_PROGRESS, UPGRADE_FSM_ENQUEUED, UPGRADE_FSM_ERROR, UPGRADE_FSM_SUSPENDED, UPGRADE_FSM_ENQUEUE_FAILED, UPGRADE_FSM_PAUSED, UPGRADE_FSM_COMPLETED, UPGRADE_FSM_ABORT_IN_PROGRESS, UPGRADE_FSM_ABORTED, UPGRADE_FSM_DUMMY_1, UPGRADE_FSM_DUMMY_2, UPGRADE_FSM_DUMMY_3, UPGRADE_FSM_DUMMY_4, UPGRADE_FSM_DUMMY_5. Field introduced in 18.2.6."
                 }, 
                 "last_changed_time": {
                     "description": "The last time the state changed. Field introduced in 18.2.6.", 

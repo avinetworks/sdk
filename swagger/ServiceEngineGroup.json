@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1006,6 +1006,11 @@
                     "description": "Idle timeout in seconds for nat tcp flows in closed state. Allowed values are 1-3600. Field deprecated in 18.2.5. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
+                "pcap_tx_mode": {
+                    "default": "PCAP_TX_AUTO", 
+                    "type": "string", 
+                    "description": "Determines the PCAP transmit mode of operation. Requires SE Reboot. Enum options - PCAP_TX_AUTO, PCAP_TX_SOCKET, PCAP_TX_RING. Field introduced in 18.2.8."
+                }, 
                 "disable_tso": {
                     "type": "boolean", 
                     "description": "Disable TCP Segmentation Offload (TSO) in DPDK poll-mode driver packet transmit path. TSO is on by default on NICs that support it. Field introduced in 17.2.5, 18.1.1."
@@ -1034,9 +1039,9 @@
                     "type": "boolean", 
                     "description": "By default, Avi creates and manages security groups along with custom sg provided by user. Set this to True to disallow Avi to create and manage new security groups. Avi will only make use of custom security groups provided by user. This option is supported for AWS and OpenStack cloud types. Field introduced in 17.2.13,18.1.4,18.2.1."
                 }, 
-                "self_se_election": {
+                "vcenter_datastores_include": {
                     "type": "boolean", 
-                    "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2."
+                    "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
                 }, 
                 "nat_flow_udp_noresponse_timeout": {
                     "type": "integer", 
@@ -1047,6 +1052,11 @@
                     "default": 1024, 
                     "type": "integer", 
                     "description": "Number of entries in the free list. Field introduced in 17.2.10, 18.1.2.", 
+                    "format": "int32"
+                }, 
+                "se_mtu": {
+                    "type": "integer", 
+                    "description": "MTU for the VNICs of SEs in the SE group. Allowed values are 512-9000. Field introduced in 18.2.8.", 
                     "format": "int32"
                 }, 
                 "bgp_state_update_interval": {
@@ -1066,9 +1076,8 @@
                     "format": "int32"
                 }, 
                 "enable_pcap_tx_ring": {
-                    "default": true, 
                     "type": "boolean", 
-                    "description": "Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled.Requires SE Reboot. Field introduced in 18.2.5."
+                    "description": "Enable TX ring support in pcap mode of operation. TSO feature is not supported with TX Ring enabled. Deprecated from 18.2.8, instead use pcap_tx_mode. Requires SE Reboot. Field introduced in 18.2.5."
                 }, 
                 "se_dp_vnic_stall_se_restart_window": {
                     "default": 3600, 
@@ -1174,9 +1183,9 @@
                     "type": "boolean", 
                     "description": "Enables lookahead mode of packet receive in PCAP mode. Introduced to overcome an issue with hv_netvsc driver. Lookahead mode attempts to ensure that application and kernel's view of the receive rings are consistent. Field introduced in 18.2.3."
                 }, 
-                "vcenter_datastores_include": {
+                "self_se_election": {
                     "type": "boolean", 
-                    "description": "Placeholder for description of property vcenter_datastores_include of obj type ServiceEngineGroup field type str  type boolean"
+                    "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2."
                 }, 
                 "se_name_prefix": {
                     "default": "Avi", 
@@ -1661,6 +1670,10 @@
                     "description": "Number of threads to use for log streaming. Allowed values are 1-100. Field introduced in 17.2.12, 18.1.2.", 
                     "format": "int32"
                 }, 
+                "core_shm_app_cache": {
+                    "type": "boolean", 
+                    "description": "Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8."
+                }, 
                 "use_standard_alb": {
                     "type": "boolean", 
                     "description": "Use Standard SKU Azure Load Balancer. By default cloud level flag is set. If not set, it inherits/uses the use_standard_alb flag from the cloud. Field introduced in 18.2.3."
@@ -1742,7 +1755,7 @@
                 }, 
                 "distribute_queues": {
                     "type": "boolean", 
-                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties.Requires SE Reboot. Field introduced in 17.2.8."
+                    "description": "Distributes queue ownership among cores so multiple cores handle dispatcher duties. Requires SE Reboot. Deprecated from 18.2.8, instead use max_queues_per_vnic. Field introduced in 17.2.8."
                 }, 
                 "se_rum_sampling_res_percent": {
                     "default": 100, 
@@ -1946,6 +1959,10 @@
                 "dedicated_dispatcher_core": {
                     "type": "boolean", 
                     "description": "Dedicate the core that handles packet receive/transmit from the network to just the dispatching function. Don't use it for TCP/IP and SSL functions."
+                }, 
+                "core_shm_app_learning": {
+                    "type": "boolean", 
+                    "description": "Include shared memory for app learning in core file.Requires SE Reboot. Field introduced in 18.2.8."
                 }, 
                 "vs_host_redundancy": {
                     "default": true, 

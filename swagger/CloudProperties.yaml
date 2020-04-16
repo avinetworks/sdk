@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -1049,7 +1049,7 @@ definitions:
                 default: 60
                 format: int32
             seupgrade_copy_pool_size:
-                description: "Pool of SCP connections used in copy task during serviceenginegroup upgrade. Field introduced in 18.2.6."
+                description: "This parameter defines the number of simultaneous SE image downloads in a SeGroup. It is used to pace the SE downloads so that controller network/CPU bandwidth is a bounded operation. A value of 0 will disable the pacing scheme and all the SE(s) in the SeGroup will attempt to download the image. . Field introduced in 18.2.6."
                 type: integer
                 default: 5
                 format: int32

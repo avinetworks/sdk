@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi StringGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -373,6 +373,9 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
+            longest_match:
+                description: "Enable the longest match, default is the shortest match. Field introduced in 18.2.8."
+                type: boolean
             name:
                 description: "Name of the string group."
                 type: string

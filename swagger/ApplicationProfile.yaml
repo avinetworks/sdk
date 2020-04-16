@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi ApplicationProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -825,10 +825,10 @@ definitions:
                 description: "When terminating client SSL sessions at Avi, servers may incorrectly send redirect to clients as HTTP.  This option will rewrite the server's redirect responses for this virtual service from HTTP to HTTPS."
                 type: boolean
             spdy_enabled:
-                description: "Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. ."
+                description: "This field is deprecated. Field deprecated in 18.2.8."
                 type: boolean
             spdy_fwd_proxy_mode:
-                description: "Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI."
+                description: "This field is deprecated. Field deprecated in 18.2.8."
                 type: boolean
             ssl_client_certificate_action:
                 description: "Set of match/action rules that govern what happens when the client certificate request is enabled."

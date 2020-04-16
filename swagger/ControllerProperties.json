@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ControllerProperties Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure controller properties\n- show controller properties\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -408,7 +408,7 @@
                 "seupgrade_copy_pool_size": {
                     "default": 5, 
                     "type": "integer", 
-                    "description": "Pool of SCP connections used in copy task during serviceenginegroup upgrade. Field introduced in 18.2.6.", 
+                    "description": "This parameter defines the number of simultaneous SE image downloads in a SeGroup. It is used to pace the SE downloads so that controller network/CPU bandwidth is a bounded operation. A value of 0 will disable the pacing scheme and all the SE(s) in the SeGroup will attempt to download the image. . Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
                 "max_seq_attach_ip_failures": {

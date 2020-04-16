@@ -1,10 +1,10 @@
 ---
-controller_version_v17: 18.2.1
+controller_version_v17: 18.2.8
 version: True
 option: auto-upload
 controller_ip_17_1_1: 10.10.25.56
 controller_user_17_1_1: admin
-controller_password_17_1_1: Avi123$%
+controller_password_17_1_1: password
 f5_host_ip_v11: 10.90.117.120
 f5_host_ip_v10: 10.90.117.121
 f5_ssh_user: admin
