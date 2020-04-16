@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi ServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -3573,6 +3573,10 @@ definitions:
             is_portchannel:
                 description: "Placeholder for description of property is_portchannel of obj type vNIC field type str  type boolean"
                 type: boolean
+            link_up:
+                description: "The link is operationally up. Field introduced in 18.2.8."
+                type: boolean
+                default: True
             linux_name:
                 description: "linux_name of vNIC."
                 type: string

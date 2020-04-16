@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.7'
+    version: '18.2.8'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -380,9 +380,9 @@ definitions:
                 default: 100
                 format: int32
             max_uris:
-                description: "Maximum number of URI paths to learn for an application. Allowed values are 10-1000. Field introduced in 18.2.3."
+                description: "Maximum number of URI paths to learn for an application. Allowed values are 10-10000. Field introduced in 18.2.3."
                 type: integer
-                default: 100
+                default: 500
                 format: int32
             min_hits_to_learn:
                 description: "Minimum number of occurances required for a Param to qualify for learning. Field introduced in 18.2.5."

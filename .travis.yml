@@ -27,13 +27,14 @@ branches:
   - 18.2.5
   - 18.2.6
   - 18.2.7
+  - 18.2.8
 
 matrix:
   include:
     - language: python
       python: "2.7"
       install:
-      - pip install pytest==4.4.0 pyyaml requests==2.8.1 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0
+      - pip install pytest==4.4.0 pyyaml requests==2.8.1 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy==3.0.0 pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0
       - sudo pip install flask
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
@@ -49,7 +50,7 @@ matrix:
     - language: python
       python: "3.5"
       install:
-      - pip3.5 install pytest==4.4.0 pyyaml requests==2.22.0 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0
+      - pip3.5 install pytest==4.4.0 pyyaml requests==2.22.0 pyparsing paramiko==1.18.2 avisdk pycrypto==2.6.1 ecdsa==0.13 pyOpenssl==17.4.0 nose-html-reporting nose-testconfig ConfigParser xlsxwriter jinja2 pandas openpyxl appdirs pexpect xlrd unittest2 networkx==2.2 vcrpy==3.0.0 pytest-mock==1.10.3 pytest-cov pytest-xdist==1.28.0 parameterized==0.7.0 requests_toolbelt==0.8.0
       - export PYTHONPATH=$PWD/python/
       - echo $PYTHONPATH
       script:
@@ -61,6 +62,7 @@ matrix:
       python: "2.7"
       install:
       - sudo pip install Jinja2==2.11.1 MarkupSafe==1.1.1 Werkzeug==0.16.1 click==7.0 flask==1.1.1 itsdangerous==1.1.0
+      - export FLASK_ENV=development
       - export GOPATH=/home/travis/gopath
       - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
       - go env
@@ -91,5 +93,6 @@ notifications:
       - chaitanya.deshpande@avinetworks.com
       - shrikant.patil@avinetworks.com
       - ashwini.bodke@avinetworks.com
+      - rohan.suryawanshi@avinetworks.com
     on_failure: always
 

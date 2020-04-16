@@ -135,6 +135,10 @@ class Test(unittest.TestCase):
             }
         diff = avi_obj_cmp(obj, existing_obj)
         assert diff
+        obj['health_monitor_refs'] = []
+        existing_obj['health_monitor_refs'] = ['ref1', 'ref2', 'ref3']
+        diff = not avi_obj_cmp(obj, existing_obj)
+        assert diff
 
     def test_avi_obj_cmp_w_refs_n_name(self):
         existing_obj = {
@@ -463,3 +467,4 @@ class Test(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
+

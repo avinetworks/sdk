@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -343,6 +343,10 @@ font-style: italic;
     "infoblox_profile" : {
       "extensible_attributes" : [ "" ],
       "network_view" : "aeiou",
+      "usable_alloc_subnets" : [ {
+        "subnet" : "",
+        "subnet6" : ""
+      } ],
       "password" : "aeiou",
       "usable_subnets" : [ "" ],
       "dns_view" : "aeiou",
@@ -521,6 +525,10 @@ font-style: italic;
   "infoblox_profile" : {
     "extensible_attributes" : [ "" ],
     "network_view" : "aeiou",
+    "usable_alloc_subnets" : [ {
+      "subnet" : "",
+      "subnet6" : ""
+    } ],
     "password" : "aeiou",
     "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
@@ -770,6 +778,10 @@ font-style: italic;
   "infoblox_profile" : {
     "extensible_attributes" : [ "" ],
     "network_view" : "aeiou",
+    "usable_alloc_subnets" : [ {
+      "subnet" : "",
+      "subnet6" : ""
+    } ],
     "password" : "aeiou",
     "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
@@ -959,6 +971,10 @@ font-style: italic;
   "infoblox_profile" : {
     "extensible_attributes" : [ "" ],
     "network_view" : "aeiou",
+    "usable_alloc_subnets" : [ {
+      "subnet" : "",
+      "subnet6" : ""
+    } ],
     "password" : "aeiou",
     "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
@@ -1148,6 +1164,10 @@ font-style: italic;
   "infoblox_profile" : {
     "extensible_attributes" : [ "" ],
     "network_view" : "aeiou",
+    "usable_alloc_subnets" : [ {
+      "subnet" : "",
+      "subnet6" : ""
+    } ],
     "password" : "aeiou",
     "usable_subnets" : [ "" ],
     "dns_view" : "aeiou",
@@ -1214,6 +1234,7 @@ font-style: italic;
     <li><a href="#AzureUserPassCredentials"><code>AzureUserPassCredentials</code></a></li>
     <li><a href="#CustomParams"><code>CustomParams</code></a></li>
     <li><a href="#DnsServiceDomain"><code>DnsServiceDomain</code></a></li>
+    <li><a href="#InfobloxSubnet"><code>InfobloxSubnet</code></a></li>
     <li><a href="#IpAddr"><code>IpAddr</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpamDnsAwsProfile"><code>IpamDnsAwsProfile</code></a></li>
@@ -1270,6 +1291,13 @@ font-style: italic;
 <div class="param">num_dns_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- &#39;Return all IP addresses&#39;. format: int32</div>
 <div class="param">pass_through (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Third-party Authoritative domain requests are delegated toDNS VirtualService&#39;s pool of nameservers. </div>
 <div class="param">record_ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TTL value for DNS records. Allowed values are 1-604800. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="InfobloxSubnet">InfobloxSubnet</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv4 subnet to use for Infoblox allocation. Field introduced in 18.2.8. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet to use for Infoblox allocation. Field introduced in 18.2.8. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1348,8 +1376,9 @@ font-style: italic;
 <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Address of Infoblox appliance. </div>
 <div class="param">network_view (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network view. </div>
 <div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for API access for Infoblox appliance. </div>
+<div class="param">usable_alloc_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#InfobloxSubnet">array[InfobloxSubnet]</a></span> Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8. </div>
 <div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Infoblox. </div>
-<div class="param">usable_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> Usable subnets to pick from Infoblox. </div>
+<div class="param">usable_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> This field is deprecated, use usable_alloc_subnets instead. Field deprecated in 18.2.8. </div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for API access for Infoblox appliance. </div>
 <div class="param">wapi_version (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAPI version. </div>
     </div>  <!-- field-items -->

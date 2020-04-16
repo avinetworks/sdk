@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi TestSeDatastoreLevel1 Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure testsedatastorelevel1 <key>\n- show testsedatastorelevel1 <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug virtualservice <key> - show debug virtualservice <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.7</div>
+    <div class="app-desc">Version: 18.2.8</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -264,7 +264,11 @@ font-style: italic;
       "pcap_ng" : true,
       "enable_ssl_session_key_capture" : true,
       "pkt_size" : 123,
-      "num_pkts" : 123
+      "num_pkts" : 123,
+      "capture_file_size" : {
+        "percentage_size" : 123,
+        "absolute_size" : 123
+      }
     },
     "flags" : [ {
       "flag" : "aeiou"
@@ -384,7 +388,11 @@ font-style: italic;
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
-    "num_pkts" : 123
+    "num_pkts" : 123,
+    "capture_file_size" : {
+      "percentage_size" : 123,
+      "absolute_size" : 123
+    }
   },
   "flags" : [ {
     "flag" : "aeiou"
@@ -575,7 +583,11 @@ font-style: italic;
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
-    "num_pkts" : 123
+    "num_pkts" : 123,
+    "capture_file_size" : {
+      "percentage_size" : 123,
+      "absolute_size" : 123
+    }
   },
   "flags" : [ {
     "flag" : "aeiou"
@@ -706,7 +718,11 @@ font-style: italic;
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
-    "num_pkts" : 123
+    "num_pkts" : 123,
+    "capture_file_size" : {
+      "percentage_size" : 123,
+      "absolute_size" : 123
+    }
   },
   "flags" : [ {
     "flag" : "aeiou"
@@ -837,7 +853,11 @@ font-style: italic;
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
-    "num_pkts" : 123
+    "num_pkts" : 123,
+    "capture_file_size" : {
+      "percentage_size" : 123,
+      "absolute_size" : 123
+    }
   },
   "flags" : [ {
     "flag" : "aeiou"
@@ -923,6 +943,7 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#CaptureFileSize"><code>CaptureFileSize</code></a></li>
     <li><a href="#CaptureFilters"><code>CaptureFilters</code></a></li>
     <li><a href="#CaptureIPC"><code>CaptureIPC</code></a></li>
     <li><a href="#DebugDnsOptions"><code>DebugDnsOptions</code></a></li>
@@ -937,6 +958,13 @@ font-style: italic;
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
   </ol>
 
+  <div class="model">
+    <h3 class="field-label"><a name="CaptureFileSize">CaptureFileSize</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">absolute_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum size in MB. Set 0 for avi default size. Allowed values are 100-512000. Special values are 0 - &#39;AVI_DEFAULT&#39;. Field introduced in 18.2.8. format: int32</div>
+<div class="param">percentage_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Limits capture to percentage of free disk space. Set 0 for avi default size. Allowed values are 0-75. Field introduced in 18.2.8. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
   <div class="model">
     <h3 class="field-label"><a name="CaptureFilters">CaptureFilters</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
@@ -1015,7 +1043,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugVirtualServiceCapture">DebugVirtualServiceCapture</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
+      <div class="param">capture_file_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFileSize">CaptureFileSize</a></span> Maximum allowed size of PCAP Capture File per SE. Max(absolute_size, percentage_size) will be final value. Set both to 0 for avi default size. DOS, IPC and DROP pcaps not applicaple. Field introduced in 18.2.8. </div>
+<div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enable_ssl_session_key_capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session key capture. Field introduced in 18.2.3. </div>
 <div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
 <div class="param">pcap_ng (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable PcapNg for packet capture. Field introduced in 18.2.5. </div>

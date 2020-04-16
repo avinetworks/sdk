@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ApplicationProfile Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure applicationprofile <key>\n- show applicationprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1462,7 +1462,7 @@
                 }, 
                 "spdy_enabled": {
                     "type": "boolean", 
-                    "description": "Enable SPDY proxy for traffic from clients to the virtual service.  SPDY requires SSL from the clients to Avi.  Avi ADC will proxy the SPDY protocol, and forward requests to servers as HTTP 1.1. ."
+                    "description": "This field is deprecated. Field deprecated in 18.2.8."
                 }, 
                 "pki_profile_ref": {
                     "type": "string", 
@@ -1525,7 +1525,7 @@
                 }, 
                 "spdy_fwd_proxy_mode": {
                     "type": "boolean", 
-                    "description": "Enable fwd proxy mode with SPDY. This makes the Proxy combine the  host and  uri spdy headers to create a fwd-proxy style request URI."
+                    "description": "This field is deprecated. Field deprecated in 18.2.8."
                 }, 
                 "respond_with_100_continue": {
                     "default": true, 

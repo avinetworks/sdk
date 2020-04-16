@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngine Object API", 
-        "version": "18.2.7", 
+        "version": "18.2.8", 
         "description": "CLI\n```\n- configure serviceengine <key>\n- show serviceengine <key>\n- reboot serviceengine <key>\n- delete serviceengine <key>\n- forcedelete serviceengine <key>\n- switchover serviceengine <key>\n- clear serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -5108,10 +5108,11 @@
                     "type": "boolean", 
                     "description": " Field introduced in 17.2.7."
                 }, 
-                "dhcp_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean"
+                "mtu": {
+                    "default": 1500, 
+                    "type": "integer", 
+                    "description": "Number of mtu.", 
+                    "format": "int32"
                 }, 
                 "network_name": {
                     "type": "string", 
@@ -5126,6 +5127,11 @@
                     "type": "integer", 
                     "description": "Number of vlan_id.", 
                     "format": "int32"
+                }, 
+                "link_up": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "The link is operationally up. Field introduced in 18.2.8."
                 }, 
                 "delete_vnic": {
                     "type": "boolean", 
@@ -5159,11 +5165,10 @@
                     "type": "string", 
                     "description": "pci_id of vNIC."
                 }, 
-                "mtu": {
-                    "default": 1500, 
-                    "type": "integer", 
-                    "description": "Number of mtu.", 
-                    "format": "int32"
+                "dhcp_enabled": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property dhcp_enabled of obj type vNIC field type str  type boolean"
                 }, 
                 "is_mgmt": {
                     "type": "boolean", 
