@@ -1,11 +1,11 @@
 package test
 
 import (
-	"fmt"
-	"github.com/avinetworks/sdk/go/clients"
-	"github.com/avinetworks/sdk/go/session"
-	"os"
-	"testing"
+"fmt"
+"github.com/avinetworks/sdk/go/clients"
+"github.com/avinetworks/sdk/go/session"
+"os"
+"testing"
 )
 func TestAviClientWithInvalidController(t *testing.T) {
 	aviClient, err := clients.NewAviClient("1.1.1.1", "admin",
