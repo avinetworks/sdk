@@ -87,7 +87,7 @@ type AviSession struct {
 	refreshAuthToken func() string
 
 	// optional callback function V2 passed in by the client which generates django auth token with error handling
-	refreshAuthToken_V2 func() (string, error)
+	refreshAuthTokenV2 func() (string, error)
 
 	// insecure specifies whether we should perform strict certificate validation
 	// for connections to the Avi Controller.
@@ -203,10 +203,11 @@ func (avisess *AviSession) initiateSession() error {
 
 	// If refresh auth token is provided, use callback function provided
 	if avisess.isTokenAuth() {
-		if avisess.refreshAuthToken != nil {
+		switch {
+		case avisess.refreshAuthToken != nil:
 			avisess.setAuthToken(avisess.refreshAuthToken())
-		} else if avisess.refreshAuthToken_V2 != nil {
-			if token, err := avisess.refreshAuthToken_V2(); err != nil {
+		case avisess.refreshAuthTokenV2 != nil:
+			if token, err := avisess.refreshAuthTokenV2(); err != nil {
 				return err
 			} else {
 				avisess.setAuthToken(token)
@@ -296,14 +297,14 @@ func (avisess *AviSession) setRefreshAuthTokenCallback(f func() string) error {
 
 // SetAuthToken V2 - Use this for NewAviSession option argument for setting authToken with option to return error found
 // during token generation
-func SetRefreshAuthTokenCallback_V2(f func() (string, error)) func(*AviSession) error {
+func SetRefreshAuthTokenCallbackV2(f func() (string, error)) func(*AviSession) error {
 	return func(sess *AviSession) error {
-		return sess.setRefreshAuthTokenCallback_V2(f)
+		return sess.setRefreshAuthTokenCallbackV2(f)
 	}
 }
 
-func (avisess *AviSession) setRefreshAuthTokenCallback_V2(f func() (string, error)) error {
-	avisess.refreshAuthToken_V2 = f
+func (avisess *AviSession) setRefreshAuthTokenCallbackV2(f func() (string, error)) error {
+	avisess.refreshAuthTokenV2 = f
 	return nil
 }
 
@@ -350,7 +351,7 @@ func (avisess *AviSession) setTimeout(timeout time.Duration) error {
 }
 
 func (avisess *AviSession) isTokenAuth() bool {
-	return avisess.authToken != "" || avisess.refreshAuthToken != nil || avisess.refreshAuthToken_V2 != nil
+	return avisess.authToken != "" || avisess.refreshAuthToken != nil || avisess.refreshAuthTokenV2 != nil
 }
 
 // SetTimeout -
