@@ -63,7 +63,7 @@ func getAuthToken() string {
 }
 
 func getValidTokenV2() (string, error) {
-	token_path := "api/user-token"
+	tokenPath := "api/user-token"
 	aviVersion, ok := os.LookupEnv("AVI_VERSION")
 	if !ok {
 		aviVersion = "18.1.3"
@@ -83,7 +83,7 @@ func getValidTokenV2() (string, error) {
 			SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetTenant(AVI_TENANT),
 			SetVersion(aviVersion))
 	}
-	err = aviAuthSessionV2.Post(token_path, data, &robj)
+	err = aviAuthSessionV2.Post(tokenPath, data, &robj)
 	if err != nil {
 		glog.Infof("Error while getting auth token. [ERROR]: %s", err.Error())
 		return "", err
