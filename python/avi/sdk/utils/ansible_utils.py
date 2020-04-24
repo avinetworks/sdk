@@ -521,18 +521,17 @@ def avi_ansible_api(module, obj_type, sensitive_fields):
                 changed = True
             else:
                 obj.pop('name', None)
-                changed = False
-                rsp = AviCheckModeResponse(obj=existing_obj)
-                if avi_patch_op == 'delete':
-                    changed = avi_obj_cmp(obj, existing_obj,
-                                              sensitive_fields)
-                if changed:
-                    patch_data = {avi_patch_op: obj}
+                patch_data = {avi_patch_op: obj}
+                try:
                     rsp = api.patch(
                         obj_path, data=patch_data, tenant=tenant,
                         tenant_uuid=tenant_uuid, api_version=api_version)
                     obj = rsp.json()
                     changed = not avi_obj_cmp(obj, existing_obj)
+                except ObjectNotFound:
+                    changed = False
+                    if avi_patch_op == 'delete':
+                        rsp = None
         if changed:
             log.debug('EXISTING OBJ %s', existing_obj)
             log.debug('NEW OBJ %s', obj)
