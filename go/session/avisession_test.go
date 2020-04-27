@@ -2,6 +2,8 @@ package session
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"os"
 	"os/exec"
 	"reflect"
@@ -60,6 +62,36 @@ func getAuthToken() string {
 	return authToken
 }
 
+func getValidTokenV2() (string, error) {
+	tokenPath := "api/user-token"
+	aviVersion, ok := os.LookupEnv("AVI_VERSION")
+	if !ok {
+		aviVersion = "18.1.3"
+	}
+	var robj interface{}
+	data := make(map[string]string)
+	data["hours"] = "2"
+
+	var aviAuthSessionV2 *AviSession
+	var err error
+	if AVI_PASSWORD != "" {
+		aviAuthSessionV2, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetPassword(AVI_PASSWORD), SetInsecure, SetTenant(AVI_TENANT),
+			SetVersion(aviVersion))
+	} else {
+		aviAuthSessionV2, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetTenant(AVI_TENANT),
+			SetVersion(aviVersion))
+	}
+	err = aviAuthSessionV2.Post(tokenPath, data, &robj)
+	if err != nil {
+		glog.Infof("Error while getting auth token. [ERROR]: %s", err.Error())
+		return "", err
+	}
+	token := fmt.Sprintf("%v", robj.(map[string]interface{})["token"])
+	return token, nil
+}
+
 func getSessions(t *testing.T) []*AviSession {
 	/* Test username/password authentication */
 
@@ -79,8 +111,17 @@ func getSessions(t *testing.T) []*AviSession {
 			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetVersion(aviVersion))
 	}
 
+
+	var sessionSetAuthTokenV2 *AviSession
+	sessionSetAuthTokenV2, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+		SetRefreshAuthTokenCallbackV2(getValidTokenV2), SetInsecure, SetTenant(AVI_TENANT),
+		SetVersion(aviVersion))
+	if err != nil {
+		t.Errorf("Session Creation failed: %s", err)
+	}
+
 	if AVI_CONTROLLER != "localhost" {
-		return []*AviSession{credentialsSession}
+		return []*AviSession{credentialsSession, sessionSetAuthTokenV2}
 	}
 
 	/* Test token authentication */
@@ -101,7 +142,7 @@ func getSessions(t *testing.T) []*AviSession {
 		t.Errorf("Session Creation failed: %s", err)
 	}
 
-	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback}
+	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback, sessionSetAuthTokenV2}
 }
 
 func testAviSession(t *testing.T, avisess *AviSession) {
@@ -304,6 +345,10 @@ func bogusAuthTokenFunction() string {
 	return "incorrect-auth-token"
 }
 
+func bogusAuthTokenFunctionV2() (string, error) {
+	return "", errors.New("Invalid token from callback method")
+}
+
 func TestTokenAuthRobustness(t *testing.T) {
 	if AVI_CONTROLLER != "localhost" {
 		t.Skip("SKIPPING as test not running in controller.")
@@ -325,6 +370,18 @@ func TestTokenAuthRobustness(t *testing.T) {
 	err = authTokenSession.Get("api/tenant", &res)
 	if err == nil {
 		t.Errorf("ERROR: Expected an error from incorrect token auth")
+	}
+}
+
+func TestTokenAuthRobustnessV2(t *testing.T) {
+	/* Test token authentication V2 with provided callback function */
+	authTokenSessionCallback, err := NewAviSession(AVI_CONTROLLER, "admin",
+		SetRefreshAuthTokenCallbackV2(bogusAuthTokenFunctionV2),
+		SetInsecure)
+	var res interface{}
+	err = authTokenSessionCallback.Get("api/tenant", &res)
+	if err.Error() !=  "Invalid token from callback method" {
+		t.Errorf("Didn't get expected error for wrong token using SetRefreshAuthTokenCallback V2 functionality")
 	}
 }
 
@@ -488,9 +545,17 @@ func testApiReLogin(t *testing.T, avisess *AviSession) {
 }
 
 func TestApiLazyAuthentication(t *testing.T) {
-	avisess, err := NewAviSession(AVI_CONTROLLER, "admin",
-		SetPassword(AVI_PASSWORD), SetLazyAuthentication(true),
-		SetInsecure)
+	var avisess *AviSession
+	var err error
+	if AVI_PASSWORD != "" {
+		avisess, err = NewAviSession(AVI_CONTROLLER, "admin",
+			SetPassword(AVI_PASSWORD), SetLazyAuthentication(true),
+			SetInsecure)
+	} else {
+		avisess, err = NewAviSession(AVI_CONTROLLER, "admin",
+			SetAuthToken(AVI_AUTH_TOKEN), SetLazyAuthentication(true),
+			SetInsecure)
+	}
 	if !avisess.lazyAuthentication {
 		t.Fail()
 	}
