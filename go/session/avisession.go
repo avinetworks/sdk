@@ -86,6 +86,9 @@ type AviSession struct {
 	// optional callback function passed in by the client which generates django auth token
 	refreshAuthToken func() string
 
+	// optional callback function V2 passed in by the client which generates django auth token with error handling
+	refreshAuthTokenV2 func() (string, error)
+
 	// insecure specifies whether we should perform strict certificate validation
 	// for connections to the Avi Controller.
 	insecure bool
@@ -200,8 +203,15 @@ func (avisess *AviSession) initiateSession() error {
 
 	// If refresh auth token is provided, use callback function provided
 	if avisess.isTokenAuth() {
-		if avisess.refreshAuthToken != nil {
+		switch {
+		case avisess.refreshAuthToken != nil:
 			avisess.setAuthToken(avisess.refreshAuthToken())
+		case avisess.refreshAuthTokenV2 != nil:
+			if token, err := avisess.refreshAuthTokenV2(); err != nil {
+				return err
+			} else {
+				avisess.setAuthToken(token)
+			}
 		}
 	}
 
@@ -285,6 +295,19 @@ func (avisess *AviSession) setRefreshAuthTokenCallback(f func() string) error {
 	return nil
 }
 
+// SetAuthToken V2 - Use this for NewAviSession option argument for setting authToken with option to return error found
+// during token generation
+func SetRefreshAuthTokenCallbackV2(f func() (string, error)) func(*AviSession) error {
+	return func(sess *AviSession) error {
+		return sess.setRefreshAuthTokenCallbackV2(f)
+	}
+}
+
+func (avisess *AviSession) setRefreshAuthTokenCallbackV2(f func() (string, error)) error {
+	avisess.refreshAuthTokenV2 = f
+	return nil
+}
+
 // SetTenant - Use this for NewAviSession option argument for setting tenant
 func SetTenant(tenant string) func(*AviSession) error {
 	return func(sess *AviSession) error {
@@ -328,7 +351,7 @@ func (avisess *AviSession) setTimeout(timeout time.Duration) error {
 }
 
 func (avisess *AviSession) isTokenAuth() bool {
-	return avisess.authToken != "" || avisess.refreshAuthToken != nil
+	return avisess.authToken != "" || avisess.refreshAuthToken != nil || avisess.refreshAuthTokenV2 != nil
 }
 
 // SetTimeout -
