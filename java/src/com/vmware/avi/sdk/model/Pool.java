@@ -34,7 +34,7 @@ import java.util.List;
  */
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-12T12:27:26.755+05:30[Asia/Kolkata]")
-public class Pool {
+public class Pool extends AviRestResource{
   @JsonProperty("_last_modified")
   private String _lastModified = null;
 

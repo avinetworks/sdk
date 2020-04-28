@@ -1,0 +1,5 @@
+package com.vmware.avi.sdk.model;
+
+public abstract class AviRestResource {
+
+}

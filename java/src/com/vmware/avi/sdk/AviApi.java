@@ -25,7 +25,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
 
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
@@ -51,7 +50,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.hamcrest.core.IsInstanceOf;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vmware.avi.sdk.model.AviRestResource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.RequestEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * This class creates a session with controller and facilitates CRUD operations.
@@ -65,6 +77,11 @@ public class AviApi {
 	 * Sets the logger for get all logs.
 	 */
 	static final Logger LOGGER = Logger.getLogger(AviApi.class.getName());
+	
+	@Autowired
+	private static RestTemplate restTemplate;
+	
+ 
 
 	/**
 	 * Constructor for AviApi Class.
@@ -224,6 +241,25 @@ public class AviApi {
 	public JSONObject get(String path, Map<String, String> params) throws Exception {
 		return this.get(path, params, null);
 	}
+	
+	public Object get(Class objClass, Map<String, String> params) throws Exception {
+		String path = objClass.getSimpleName().toLowerCase();
+		JSONObject response = this.get(path, params, null);
+		Object responseVal = response.get("results");
+		ObjectMapper objectMapper = new ObjectMapper();
+		if (responseVal instanceof JSONObject) {
+			Object aviObj = objectMapper.readValue(responseVal.toString(), objClass); 
+			return aviObj;
+		}else if (responseVal instanceof JSONArray) {
+			ArrayList<Object> aviObjs = new ArrayList<Object>();
+			for (Object obj: (JSONArray) responseVal) {
+				Object aviObj = objectMapper.readValue(obj.toString(), objClass);
+				aviObjs.add(aviObj);
+			}
+			return aviObjs;
+		}
+		return null;
+	}
 
 	/**
 	 * This method calls the GET REST API.
@@ -294,6 +330,24 @@ public class AviApi {
 	public JSONObject put(String path, JSONObject body) throws AviApiException {
 		return this.put(path, body, null);
 	}
+	
+	public <T extends AviRestResource> T put(T aviObj) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		
+		
+		final HttpHeaders headers = new HttpHeaders();
+        headers.set("User-Agent", "eltabo");
+
+        //Create a new HttpEntity
+        final HttpEntity<T> entity = new HttpEntity<T>(headers);
+		
+		RequestEntity<T> reqEntity = RequestEntity<T>(aviObj);
+		restTemplate.put(path, entity);
+		if (null != responseVal) {
+			resObj = (T) objectMapper.readValue(responseVal.toString(), aviObj.getClass()); 
+		}
+		return resObj;
+	}
 
 	/**
 	 * This method calls the PUT REST API.
@@ -356,6 +410,19 @@ public class AviApi {
 	 */
 	public JSONObject post(String path, JSONObject body) throws AviApiException {
 		return this.post(path, body, null);
+	}
+	
+	public Object post(Object aviObj) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		JSONObject objPut = new JSONObject(objectMapper.writeValueAsString(aviObj));
+		JSONObject responseVal = this.post(path, objPut);
+		Object resObj = null;
+		if (null != responseVal) {
+			resObj = objectMapper.readValue(responseVal.toString(), aviObj.getClass()); 
+		}
+		return resObj;
 	}
 
 	/**
@@ -747,7 +814,7 @@ public class AviApi {
 	 * 
 	 * @return The CloseableHttpClient representing HttpClient.
 	 */
-	private CloseableHttpClient buildHttpClient() {
+	public CloseableHttpClient buildHttpClient() {
 		CloseableHttpClient httpClient = null;
 		if (!this.aviCredentials.getVerify()) {
 			SSLContext sslcontext = null;
