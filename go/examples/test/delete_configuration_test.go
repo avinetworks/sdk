@@ -55,5 +55,9 @@ func TestDeleteConfigurations(t *testing.T) {
 
 	// Delete cloud
 	cloudRes := aviClient1.Cloud.DeleteByName("Test-vcenter-cloud")
-	fmt.Printf("\n Cloud deleted successfully : %-v", cloudRes)
+	fmt.Printf("\n Cloud Test-vcenter-cloud deleted successfully : %-v", cloudRes)
+
+	// Delete cloud
+	cloudRes2 := aviClient1.Cloud.DeleteByName("Test-vcenter-cloud2")
+	fmt.Printf("\n Cloud Test-vcenter-cloud2 deleted successfully : %-v", cloudRes2)
 }
