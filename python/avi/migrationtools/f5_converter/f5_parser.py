@@ -12,6 +12,7 @@ def generate_grammar_v11():
     unquoted_string = Word(alphanums+"!#$%&'()*+,-./:;<=>?@[\]^_`|~")
     quoted_string = quotedString.setParseAction(removeQuotes)
     ltm = Keyword("ltm")
+    gtm = Keyword("gtm")
     apm = Keyword("apm")
     auth = Keyword("auth")
     net = Keyword("net")
@@ -25,7 +26,7 @@ def generate_grammar_v11():
     BS, LBRACE, RBRACE = map(Suppress, " {}")
     SOL = LineStart().suppress()
     EOL = LineEnd().suppress()
-    reserved_words = (ltm | apm | auth | net | sys).suppress()
+    reserved_words = (ltm | apm | auth | net | sys | gtm).suppress()
 
     ignore = comment
 
@@ -226,5 +227,3 @@ def convert_to_dict(result):
                     else:
                         result_dict[key] = dict_val
     return result_dict
-
-
