@@ -9,10 +9,10 @@ import (
 )
 
 func TestApiFilters(t *testing.T) {
-	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword(os.Getenv("password")),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+	aviClient, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure)
 
 	if err != nil {
@@ -31,6 +31,7 @@ func TestApiFilters(t *testing.T) {
 	hmData, err := aviClient.HealthMonitor.GetAll(session.SetParams(params))
 	if err != nil {
 		fmt.Println("\n [ERROR] : ", err)
+		t.Fail()
 	} else {
 		fmt.Println("\n Health monitors : ", hmData)
 		if len(hmData) != 3 {
@@ -42,19 +43,20 @@ func TestApiFilters(t *testing.T) {
 		"page":   "1",
 		"tenant": "admin",
 	}
-	data, err := aviClient.HealthMonitor.GetObject(session.SetParams(params1), session.SetName("Test-Hm"))
+	data, err := aviClient.HealthMonitor.GetObject(session.SetParams(params1), session.SetName("Test-Healthmonitor"))
 	if err != nil {
 		fmt.Println("\n [ERROR] : ", err)
+		t.Fail()
 	} else {
 		fmt.Println("\n Health monitor object  : ", *data)
 	}
 }
 
 func TestApiCollections(t *testing.T) {
-	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword(os.Getenv("password")),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+	aviClient, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure)
 
 	if err != nil {
