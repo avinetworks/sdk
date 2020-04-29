@@ -8,10 +8,10 @@ import (
 "testing"
 )
 func TestAviClientWithInvalidController(t *testing.T) {
-	aviClient, err := clients.NewAviClient("1.1.1.1", "admin",
-		session.SetPassword(os.Getenv("password")),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+	aviClient, err := clients.NewAviClient("1.1.1.1", os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	if err != nil {
 		fmt.Println("Issue with lazyauthentication")
@@ -27,15 +27,15 @@ func TestAviClientWithInvalidController(t *testing.T) {
 }
 
 func TestUpdatePassword(t *testing.T) {
-	password := os.Getenv("password")
+	password := os.Getenv("AVI_PASSWORD")
 	new_password := password + "1"
 	path := "api/useraccount"
 	hm_path := "api/healthmonitor"
 	var robj interface{}
-	aviClientNewPassword, _ := clients.NewAviClient(os.Getenv("controller"), "admin",
+	aviClientNewPassword, _ := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
 		session.SetPassword(new_password),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	err := aviClientNewPassword.AviSession.Get(hm_path, &robj)
 	if err == nil {
@@ -43,10 +43,10 @@ func TestUpdatePassword(t *testing.T) {
 		t.Fail()
 	}
 
-	aviClientOldPassword, _ := clients.NewAviClient(os.Getenv("controller"), "admin",
+	aviClientOldPassword, _ := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
 		session.SetPassword(password),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 	data := make(map[string]string)
 	data["username"] = "admin"
