@@ -106,7 +106,7 @@ func (client *NatPolicyClient) Patch(uuid string, patch interface{}, patchOp str
 
 // Delete an existing NatPolicy object with a given UUID
 func (client *NatPolicyClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-    if len(options) == 0{
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)

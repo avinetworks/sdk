@@ -2,11 +2,11 @@ package test
 
 import (
 	"fmt"
-	"os"
-	"testing"
 	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
 	"github.com/avinetworks/sdk/go/session"
+	"os"
+	"testing"
 )
 
 func TestCreateHealthmonitor(t *testing.T) {
