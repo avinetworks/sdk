@@ -58,7 +58,6 @@ matrix:
 
     - language: go
       go: "1.9"
-      env: controller="localhost:8080//"
       python: "2.7"
       install:
       - sudo pip install Jinja2==2.11.1 MarkupSafe==1.1.1 Werkzeug==0.16.1 click==7.0 flask==1.1.1 itsdangerous==1.1.0
@@ -67,8 +66,7 @@ matrix:
       - export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
       - go env
       script:
-      - nohup python ./go/examples/web_service.py &
-      - go test ./go/examples/test/create_cloud_test.go ./go/examples/test/create_tenant_test.go ./go/examples/test/create_profiles_test.go ./go/examples/test/create_healthmonitor_test.go ./go/examples/test/create_virtualservice_test.go ./go/examples/test/delete_configuration_test.go ./go/examples/test/api_filters_test.go -v
+        - make compile test_clients
 
     - language: java
       java: "1.8"
