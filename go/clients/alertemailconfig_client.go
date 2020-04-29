@@ -106,7 +106,7 @@ func (client *AlertEmailConfigClient) Patch(uuid string, patch interface{}, patc
 
 // Delete an existing AlertEmailConfig object with a given UUID
 func (client *AlertEmailConfigClient) Delete(uuid string, options ...session.ApiOptionsParams) error {
-    if len(options) == 0{
+	if len(options) == 0 {
 		return client.aviSession.Delete(client.getAPIPath(uuid))
 	} else {
 		return client.aviSession.DeleteObject(client.getAPIPath(uuid), options...)

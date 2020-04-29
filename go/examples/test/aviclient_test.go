@@ -1,12 +1,13 @@
 package test
 
 import (
-"fmt"
-"github.com/avinetworks/sdk/go/clients"
-"github.com/avinetworks/sdk/go/session"
-"os"
-"testing"
+	"fmt"
+	"github.com/avinetworks/sdk/go/clients"
+	"github.com/avinetworks/sdk/go/session"
+	"os"
+	"testing"
 )
+
 func TestAviClientWithInvalidController(t *testing.T) {
 	aviClient, err := clients.NewAviClient("1.1.1.1", os.Getenv("AVI_USERNAME"),
 		session.SetPassword(os.Getenv("AVI_PASSWORD")),
