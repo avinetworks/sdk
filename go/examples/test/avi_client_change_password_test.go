@@ -7,6 +7,7 @@ import (
 	"os"
 	"testing"
 )
+
 func TestResetPassword(t *testing.T) {
 	password := os.Getenv("AVI_PASSWORD")
 	invalid_password := password + "1"
@@ -26,7 +27,7 @@ func TestResetPassword(t *testing.T) {
 	aviClient.AviSession.ResetPassword(password)
 	err = aviClient.AviSession.Get(path, &robj)
 	if err != nil {
-			fmt.Printf("[ERROR] in get after password update %v\n", err)
-			t.Fail()
+		fmt.Printf("[ERROR] in get after password update %v\n", err)
+		t.Fail()
 	}
 }

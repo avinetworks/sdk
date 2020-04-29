@@ -23,3 +23,6 @@ endif
 
 test_avisession:
 	go test ./go/session/. -v
+
+fmt:
+	go fmt ./go/clients ./go/models ./go/examples
