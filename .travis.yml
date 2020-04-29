@@ -28,6 +28,7 @@ branches:
   - 18.2.6
   - 18.2.7
   - 18.2.8
+  - 18.2.9
 
 matrix:
   include:
