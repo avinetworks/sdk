@@ -1549,6 +1549,26 @@ class TestF5Converter:
                 else:
                     assert "global" in vs["vrf_context_ref"]
 
+    def test_monitor_config(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path')
+                )
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+            data = json.load(json_file)
+            ssl_cert_objects = data['SSLKeyAndCertificate']
+            ssl_profile_objects = data['SSLProfile']
+            expected_cert = [ssl_cert for ssl_cert in ssl_cert_objects
+                             if ssl_cert['name'] == 'monitor.fmr.com.crt-dummy']
+            expected_ssl_profile = [ssl_profile for ssl_profile in ssl_profile_objects
+                                    if ssl_profile['name'] == 'monitor.fmr.com']
+            assert expected_cert, "Expected cert monitor.fmr.com.crt-dummy not found"
+            assert expected_ssl_profile, "Expected ssl profile monitor.fmr.com not found"
 
 def teardown():
     pass
