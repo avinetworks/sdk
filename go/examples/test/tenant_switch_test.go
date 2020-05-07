@@ -2,18 +2,18 @@ package test
 
 import (
 	"fmt"
+	"github.com/avinetworks/sdk/go/clients"
 	"github.com/avinetworks/sdk/go/models"
+	"github.com/avinetworks/sdk/go/session"
 	"os"
 	"testing"
-	"github.com/avinetworks/sdk/go/clients"
-	"github.com/avinetworks/sdk/go/session"
 )
 
 func TestCreateObjectInDiffTenant(t *testing.T) {
-	aviClient, err := clients.NewAviClient(os.Getenv("controller"), "admin",
-		session.SetPassword(os.Getenv("password")),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+	aviClient, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
+		session.SetPassword(os.Getenv("AVI_PASSWORD")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure)
 
 	if err != nil {
@@ -36,13 +36,13 @@ func TestCreateObjectInDiffTenant(t *testing.T) {
 		fmt.Println("\n[ERROR] : ", err)
 		t.Fail()
 	} else {
-		fmt.Println("\nTenant", *tres.Name ,"Created successfully.")
+		fmt.Println("\nTenant", *tres.Name, "Created successfully.")
 	}
 	// Use a pool client to create a pool with one server with IP 10.90.20.12, port 80
 	pobj := models.Pool{}
 	pname := "Test-pool"
 	pobj.Name = &pname
-       serverobj := models.Server{}
+	serverobj := models.Server{}
 	serverobj1 := models.Server{}
 	enabled := true
 	enabled1 := false
@@ -81,7 +81,7 @@ func TestCreateObjectInDiffTenant(t *testing.T) {
 		fmt.Printf("\n[ERROR] : %s", err)
 		t.Fail()
 	} else {
-		fmt.Println("\nUpdated Pool ", *nobj.Name ," in tenant ", tenant ," successfully.")
+		fmt.Println("\nUpdated Pool ", *nobj.Name, " in tenant ", tenant, " successfully.")
 	}
 
 	obj, err := aviClient.Pool.Get(*nobj.UUID, session.SetOptTenant(tenant))
@@ -89,7 +89,7 @@ func TestCreateObjectInDiffTenant(t *testing.T) {
 		fmt.Println("\n[ERROR] :", err)
 		t.Fail()
 	} else {
-		fmt.Println("Get Pool Object of name", *obj.Name ,"from tenant", tenant)
+		fmt.Println("Get Pool Object of name", *obj.Name, "from tenant", tenant)
 	}
 
 	//vservice := models.Pool{}
@@ -98,7 +98,7 @@ func TestCreateObjectInDiffTenant(t *testing.T) {
 		fmt.Println("\n[ERROR] is : ", err)
 		t.Fail()
 	} else {
-		fmt.Println("Get Pool", *pool.Name ,"from tenant", tenant ,"by GetObjectByName.")
+		fmt.Println("Get Pool", *pool.Name, "from tenant", tenant, "by GetObjectByName.")
 	}
 
 	// Delete Pool object of other tenant.
@@ -117,7 +117,6 @@ func TestCreateObjectInDiffTenant(t *testing.T) {
 	//	fmt.Printf("\n [ERROR] : %s", err)
 	//	t.Fail()
 	//}
-
 
 	// Delete Pool Object by UUID from other tenant
 	err = aviClient.Pool.Delete(*plObj1.UUID, session.SetOptTenant(tenant))
