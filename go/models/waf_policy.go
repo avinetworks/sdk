@@ -14,9 +14,6 @@ type WafPolicy struct {
 	// Allow Rules to overwrite the policy mode. This must be set if the policy mode is set to enforcement. Field introduced in 18.1.5, 18.2.1.
 	AllowModeDelegation *bool `json:"allow_mode_delegation,omitempty"`
 
-	// Application Specific Signatures. Field introduced in 20.1.1.
-	ApplicationSignatures *WafApplicationSignatures `json:"application_signatures,omitempty"`
-
 	// Creator name. Field introduced in 17.2.4.
 	CreatedBy *string `json:"created_by,omitempty"`
 

@@ -11,9 +11,6 @@ type WafCRSAPIResponse struct {
 	// Required: true
 	Count *int32 `json:"count"`
 
-	// next
-	Next *string `json:"next,omitempty"`
-
 	// results
 	// Required: true
 	Results []*WafCRS `json:"results,omitempty"`

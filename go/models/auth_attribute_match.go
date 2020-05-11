@@ -8,10 +8,8 @@ package models
 type AuthAttributeMatch struct {
 
 	// Attribute name whose values will be looked up in the access lists. Field introduced in 18.2.5.
-	// Required: true
-	AttributeName *string `json:"attribute_name"`
+	AttributeName *string `json:"attribute_name,omitempty"`
 
 	// Attribute Values used to determine access when authentication applies. Field introduced in 18.2.5.
-	// Required: true
-	AttributeValueList *StringMatch `json:"attribute_value_list"`
+	AttributeValueList *StringMatch `json:"attribute_value_list,omitempty"`
 }

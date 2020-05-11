@@ -44,7 +44,7 @@ type UpgradeStatusInfo struct {
 	// Image uuid for identifying the current patch.Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.
 	PatchImageRef *string `json:"patch_image_ref,omitempty"`
 
-	// List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8, 20.1.1.
+	// List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8.
 	PatchList []*PatchData `json:"patch_list,omitempty"`
 
 	// Current patch version applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then this field will indicate the 6p1 value. . Field introduced in 18.2.6.
@@ -56,7 +56,7 @@ type UpgradeStatusInfo struct {
 	// Image uuid for identifying previous patch.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . It is a reference to an object of type Image. Field introduced in 18.2.6.
 	PreviousPatchImageRef *string `json:"previous_patch_image_ref,omitempty"`
 
-	// List of patches applied to this node on previous major version. Field introduced in 18.2.8, 20.1.1.
+	// List of patches applied to this node on previous major version. Field introduced in 18.2.8.
 	PreviousPatchList []*PatchData `json:"previous_patch_list,omitempty"`
 
 	// Previous patch version applied to this node.Example  Base-image was 18.2.6 with a patch 6p1. Upgrade was initiated to 18.2.8 with patch 8p1. The previous_image field will contain 18.2.6 and this field will indicate the 6p1 value. . Field introduced in 18.2.6.
@@ -65,7 +65,7 @@ type UpgradeStatusInfo struct {
 	// Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6.
 	PreviousVersion *string `json:"previous_version,omitempty"`
 
-	// Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8, 20.1.1.
+	// Upgrade operations progress which holds value between 0-100. Allowed values are 0-100. Field introduced in 18.2.8.
 	Progress *int32 `json:"progress,omitempty"`
 
 	// ServiceEngineGroup upgrade errors. Field introduced in 18.2.6.
