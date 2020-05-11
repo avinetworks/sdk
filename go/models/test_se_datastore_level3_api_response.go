@@ -11,9 +11,6 @@ type TestSeDatastoreLevel3APIResponse struct {
 	// Required: true
 	Count *int32 `json:"count"`
 
-	// next
-	Next *string `json:"next,omitempty"`
-
 	// results
 	// Required: true
 	Results []*TestSeDatastoreLevel3 `json:"results,omitempty"`

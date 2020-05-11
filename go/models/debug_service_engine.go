@@ -38,9 +38,6 @@ type DebugServiceEngine struct {
 	// Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object
 	SeagentDebug []*DebugSeAgent `json:"seagent_debug,omitempty"`
 
-	// Debug knob for se_log_agent process. Field introduced in 20.1.1.
-	SelogagentDebug *DebugSeAgent `json:"selogagent_debug,omitempty"`
-
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 

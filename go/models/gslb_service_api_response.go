@@ -11,9 +11,6 @@ type GslbServiceAPIResponse struct {
 	// Required: true
 	Count *int32 `json:"count"`
 
-	// next
-	Next *string `json:"next,omitempty"`
-
 	// results
 	// Required: true
 	Results []*GslbService `json:"results,omitempty"`
