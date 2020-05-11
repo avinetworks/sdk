@@ -23,7 +23,7 @@ type BackupConfiguration struct {
 	// Prefix of the exported configuration file. Field introduced in 17.1.1.
 	BackupFilePrefix *string `json:"backup_file_prefix,omitempty"`
 
-	// Default passphrase for configuration export and periodic backup.
+	// Passphrase of backup configuration.
 	BackupPassphrase *string `json:"backup_passphrase,omitempty"`
 
 	// Rotate the backup files based on this count. Allowed values are 1-20.

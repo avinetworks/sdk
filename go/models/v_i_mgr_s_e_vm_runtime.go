@@ -100,7 +100,7 @@ type VIMgrSEVMRuntime struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
-	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
+	//  Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
 	// Required: true
 	Type *string `json:"type"`
 
@@ -122,9 +122,6 @@ type VIMgrSEVMRuntime struct {
 
 	// Placeholder for description of property vcenter_template_vm of obj type VIMgrSEVMRuntime field type str  type boolean
 	VcenterTemplateVM *bool `json:"vcenter_template_vm,omitempty"`
-
-	// Service Engine deployed in vcenter. Field introduced in 20.1.1.
-	VcenterURL *string `json:"vcenter_url,omitempty"`
 
 	// vcenter_vAppName of VIMgrSEVMRuntime.
 	VcenterVAppName *string `json:"vcenter_vAppName,omitempty"`
