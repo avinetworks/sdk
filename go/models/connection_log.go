@@ -99,9 +99,15 @@ type ConnectionLog struct {
 	// Number of num_window_shrink.
 	NumWindowShrink *int32 `json:"num_window_shrink,omitempty"`
 
+	// OCSP Response sent in the SSL/TLS connection Handshake. Field introduced in 20.1.1.
+	OcspStatusRespSent *bool `json:"ocsp_status_resp_sent,omitempty"`
+
 	// Number of out_of_orders.
 	// Required: true
 	OutOfOrders *int32 `json:"out_of_orders"`
+
+	// Persistence applied. Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS, PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE. Field introduced in 20.1.1.
+	PersistenceUsed *string `json:"persistence_used,omitempty"`
 
 	// pool of ConnectionLog.
 	Pool *string `json:"pool,omitempty"`

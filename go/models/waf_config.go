@@ -40,6 +40,9 @@ type WafConfig struct {
 	// Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 18.2.3.
 	EnableAutoRuleUpdates *bool `json:"enable_auto_rule_updates,omitempty"`
 
+	// Enable dynamic regex generation for positive security model rules. Field introduced in 20.1.1.
+	EnableRegexLearning *bool `json:"enable_regex_learning,omitempty"`
+
 	// Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1.
 	IgnoreIncompleteRequestBodyError *bool `json:"ignore_incomplete_request_body_error,omitempty"`
 
@@ -54,6 +57,9 @@ type WafConfig struct {
 
 	// Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.
 	RegexMatchLimit *int32 `json:"regex_match_limit,omitempty"`
+
+	// Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9.
+	RegexRecursionLimit *int32 `json:"regex_recursion_limit,omitempty"`
 
 	// WAF default action for Request Body Phase. Field introduced in 17.2.1.
 	// Required: true
@@ -85,4 +91,7 @@ type WafConfig struct {
 
 	// HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402.... Field introduced in 18.2.3.
 	StatusCodeForRejectedRequests *string `json:"status_code_for_rejected_requests,omitempty"`
+
+	// Block or flag XML requests referring to External Entities. Field introduced in 20.1.1.
+	XMLXxeProtection *bool `json:"xml_xxe_protection,omitempty"`
 }

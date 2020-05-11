@@ -23,6 +23,9 @@ type ApplicationLog struct {
 	//  Enum options - NOT_UPDATED, BY_CONTENT_REWRITE_PROFILE, BY_DATA_SCRIPT. Field introduced in 17.1.1.
 	BodyUpdated *string `json:"body_updated,omitempty"`
 
+	// Cache fetch and store is disabled by the Datascript policies. Field introduced in 20.1.1.
+	CacheDisabledByDs *bool `json:"cache_disabled_by_ds,omitempty"`
+
 	// Placeholder for description of property cache_hit of obj type ApplicationLog field type str  type boolean
 	CacheHit *bool `json:"cache_hit,omitempty"`
 
@@ -93,6 +96,18 @@ type ApplicationLog struct {
 	// etag of ApplicationLog.
 	Etag *string `json:"etag,omitempty"`
 
+	// The method called by the gRPC request. Field introduced in 20.1.1.
+	GrpcMethodName *string `json:"grpc_method_name,omitempty"`
+
+	// The service called by the gRPC request. Field introduced in 20.1.1.
+	GrpcServiceName *string `json:"grpc_service_name,omitempty"`
+
+	// GRPC response status sent in the GRPC trailer. Special values are -1- 'No GRPC status recevied even though client sent content-type as application/grpc.'. Field introduced in 20.1.1.
+	GrpcStatus *int32 `json:"grpc_status,omitempty"`
+
+	// The reason phrase corresponding to the gRPC status code. Enum options - GRPC_STATUS_CODE_OK, GRPC_STATUS_CODE_CANCELLED, GRPC_STATUS_CODE_UNKNOWN, GRPC_STATUS_CODE_INVALID_ARGUMENT, GRPC_STATUS_CODE_DEADLINE_EXCEEDED, GRPC_STATUS_CODE_NOT_FOUND, GRPC_STATUS_CODE_ALREADY_EXISTS, GRPC_STATUS_CODE_PERMISSION_DENIED, GRPC_STATUS_CODE_UNAUTHENTICATED, GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_ABORTED, GRPC_STATUS_CODE_OUT_OF_RANGE, GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE, GRPC_STATUS_CODE_DATA_LOSS. Field introduced in 20.1.1.
+	GrpcStatusReasonPhrase *string `json:"grpc_status_reason_phrase,omitempty"`
+
 	// Response headers received from backend server.
 	HeadersReceivedFromServer *string `json:"headers_received_from_server,omitempty"`
 
@@ -110,6 +125,12 @@ type ApplicationLog struct {
 
 	// http_response_policy_rule_name of ApplicationLog.
 	HTTPResponsePolicyRuleName *string `json:"http_response_policy_rule_name,omitempty"`
+
+	// SAML Authentication rule matched. Field introduced in 20.1.1.
+	HTTPSamlAuthnRuleName *string `json:"http_saml_authn_rule_name,omitempty"`
+
+	// SAML Authorization rule matched. Field introduced in 20.1.1.
+	HTTPSamlAuthzRuleName *string `json:"http_saml_authz_rule_name,omitempty"`
 
 	// http_security_policy_rule_name of ApplicationLog.
 	HTTPSecurityPolicyRuleName *string `json:"http_security_policy_rule_name,omitempty"`
@@ -132,6 +153,9 @@ type ApplicationLog struct {
 
 	// network_security_policy_rule_name of ApplicationLog.
 	NetworkSecurityPolicyRuleName *string `json:"network_security_policy_rule_name,omitempty"`
+
+	// OCSP Certificate Status response sent in the SSL/TLS connection handshake. Field introduced in 20.1.1.
+	OcspStatusRespSent *bool `json:"ocsp_status_resp_sent,omitempty"`
 
 	// Logs for the PingAccess authentication process. Field introduced in 18.2.3.
 	PaaLog *PaaLog `json:"paa_log,omitempty"`
@@ -173,7 +197,7 @@ type ApplicationLog struct {
 	// Flag to indicate if request was served locally because the remote site was down. Field introduced in 17.2.5.
 	RequestServedLocallyRemoteSiteDown *bool `json:"request_served_locally_remote_site_down,omitempty"`
 
-	//  Enum options - AVI_HTTP_REQUEST_STATE_CONN_ACCEPT, AVI_HTTP_REQUEST_STATE_WAITING_FOR_REQUEST, AVI_HTTP_REQUEST_STATE_SSL_HANDSHAKING, AVI_HTTP_REQUEST_STATE_PROCESSING_SPDY, AVI_HTTP_REQUEST_STATE_READ_CLIENT_REQ_LINE, AVI_HTTP_REQUEST_STATE_READ_CLIENT_REQ_HDR, AVI_HTTP_REQUEST_STATE_CONNECT_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_SEND_REQ_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_READ_RESP_HDR_FROM_UPSTREAM, AVI_HTTP_REQUEST_STATE_SEND_TO_CLIENT, AVI_HTTP_REQUEST_STATE_KEEPALIVE, AVI_HTTP_REQUEST_STATE_PROXY_UPGRADED_CONN, AVI_HTTP_REQUEST_STATE_CLOSING_REQUEST, AVI_HTTP_REQUEST_STATE_READ_FROM_UPSTREAM, AVI_HTTP_REQUEST_STATE_READ_PROXY_PROTOCOL, AVI_HTTP_REQUEST_STATE_READ_CLIENT_PIPELINE_REQ_LINE, AVI_HTTP_REQUEST_STATE_SSL_HANDSHAKE_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_WAITING_IN_CONNPOOL_CACHE.
+	//  Enum options - AVI_HTTP_REQUEST_STATE_CONN_ACCEPT, AVI_HTTP_REQUEST_STATE_WAITING_FOR_REQUEST, AVI_HTTP_REQUEST_STATE_SSL_HANDSHAKING, AVI_HTTP_REQUEST_STATE_PROCESSING_SPDY, AVI_HTTP_REQUEST_STATE_READ_CLIENT_REQ_LINE, AVI_HTTP_REQUEST_STATE_READ_CLIENT_REQ_HDR, AVI_HTTP_REQUEST_STATE_CONNECT_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_SEND_REQ_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_READ_RESP_HDR_FROM_UPSTREAM, AVI_HTTP_REQUEST_STATE_SEND_TO_CLIENT, AVI_HTTP_REQUEST_STATE_KEEPALIVE, AVI_HTTP_REQUEST_STATE_PROXY_UPGRADED_CONN, AVI_HTTP_REQUEST_STATE_CLOSING_REQUEST, AVI_HTTP_REQUEST_STATE_READ_FROM_UPSTREAM, AVI_HTTP_REQUEST_STATE_READ_PROXY_PROTOCOL, AVI_HTTP_REQUEST_STATE_READ_CLIENT_PIPELINE_REQ_LINE, AVI_HTTP_REQUEST_STATE_SSL_HANDSHAKE_TO_UPSTREAM, AVI_HTTP_REQUEST_STATE_WAITING_IN_CONNPOOL_CACHE, AVI_HTTP_REQUEST_STATE_SEND_RESPONSE_HEADER_TO_CLIENT, AVI_HTTP_REQUEST_STATE_SEND_RESPONSE_BODY_TO_CLIENT.
 	RequestState *string `json:"request_state,omitempty"`
 
 	// Number of response_code.
