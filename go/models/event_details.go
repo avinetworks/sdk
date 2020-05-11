@@ -295,6 +295,9 @@ type EventDetails struct {
 	// Placeholder for description of property psm_program_details of obj type EventDetails field type str  type object
 	PsmProgramDetails *PsmProgramDetails `json:"psm_program_details,omitempty"`
 
+	//  Field introduced in 18.2.9.
+	RateLimiterEventDetails *RateLimiterEventDetails `json:"rate_limiter_event_details,omitempty"`
+
 	// Placeholder for description of property rebalance_migrate_details of obj type EventDetails field type str  type object
 	RebalanceMigrateDetails *RebalanceMigrateEventDetails `json:"rebalance_migrate_details,omitempty"`
 
