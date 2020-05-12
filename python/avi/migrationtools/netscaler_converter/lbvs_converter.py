@@ -309,8 +309,6 @@ class LbvsConverter(object):
                                         ser_cmd, ser_conf) if ser_conf else ''
                                     if 'x-forwarded-for' in command:
                                         addition_attr['xff_enabled'] = True
-                                        addition_attr[
-                                            'ssl_everywhere_enabled'] = True
                         clttimeout = lb_vs.get('cltTimeout', None)
                         if clttimeout:
                             addition_attr['clttimeout'] = clttimeout
