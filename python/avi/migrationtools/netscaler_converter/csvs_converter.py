@@ -249,8 +249,6 @@ class CsvsConverter(object):
                                             ser_cmd, ser_conf)
                                     if 'x-forwarded-for' in command:
                                         addition_attr['xff_enabled'] = True
-                                        addition_attr[
-                                            'ssl_everywhere_enabled'] = True
                         clttimeout = cs_vs.get('cltTimeout', None)
                         if clttimeout:
                             addition_attr['clttimeout'] = clttimeout
