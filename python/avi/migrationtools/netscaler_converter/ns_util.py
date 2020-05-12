@@ -501,33 +501,30 @@ class NsUtil(MigrationUtil):
                             'xff_alternate_name': 'X-Forwarded-For'
                         }
                     })
-            if prop_dict.get('ssl_everywhere_enabled'):
-                if profile[0].get('http_profile'):
-                    profile[0]['http_profile'].update(
-                        {
-                            'ssl_everywhere_enabled': True,
-                            'x_forwarded_proto_enabled': True,
-                            'hsts_enabled': True,
-                            'http_to_https': True,
-                            'httponly_enabled': True,
-                            'hsts_max_age': 365,
-                            'server_side_redirect_to_https': True,
-                            'secure_cookie_enabled': True
-                        }
-                    )
-                else:
-                    profile[0].update({'http_profile':
-                        {
-                            'ssl_everywhere_enabled': True,
-                            'x_forwarded_proto_enabled': True,
-                            'hsts_enabled': True,
-                            'http_to_https': True,
-                            'httponly_enabled': True,
-                            'hsts_max_age': 365,
-                            'server_side_redirect_to_https': True,
-                            'secure_cookie_enabled': True
-                        }
-                    })
+            if profile[0].get('http_profile'):
+                profile[0]['http_profile'].update(
+                    {
+                        'x_forwarded_proto_enabled': True,
+                        'hsts_enabled': True,
+                        'http_to_https': True,
+                        'httponly_enabled': True,
+                        'hsts_max_age': 365,
+                        'server_side_redirect_to_https': True,
+                        'secure_cookie_enabled': True
+                    }
+                )
+            else:
+                profile[0].update({'http_profile':
+                    {
+                        'x_forwarded_proto_enabled': True,
+                        'hsts_enabled': True,
+                        'http_to_https': True,
+                        'httponly_enabled': True,
+                        'hsts_max_age': 365,
+                        'server_side_redirect_to_https': True,
+                        'secure_cookie_enabled': True
+                    }
+                })
 
     def object_exist(self, object_type, name, avi_config):
         '''
@@ -1804,7 +1801,6 @@ class NsUtil(MigrationUtil):
                 'keepalive_timeout': 30000,
                 'ssl_client_certificate_mode': "SSL_CLIENT_CERTIFICATE_NONE",
                 'http_to_https': True,
-                'spdy_enabled': False,
                 'max_bad_rps_cip_uri': 0,
                 'client_body_timeout': 30000,
                 'httponly_enabled': False,
@@ -1814,8 +1810,6 @@ class NsUtil(MigrationUtil):
                 'client_max_header_size': 12,
                 'client_max_request_size': 48,
                 'max_rps_unknown_uri': 0,
-                'ssl_everywhere_enabled': False,
-                'spdy_fwd_proxy_mode': False,
                 'post_accept_timeout': 30000,
                 'client_header_timeout': 10000,
                 'secure_cookie_enabled': False,
@@ -1830,14 +1824,11 @@ class NsUtil(MigrationUtil):
             'dos_rl_profile': {
                 'rl_profile': {
                     'client_ip_connections_rate_limit': {
-                        'count': 0,
                         'explicit_tracking': False,
-                        'period': 1,
                         'action': {
                             'status_code': "HTTP_LOCAL_RESPONSE_STATUS_CODE_429",
                             'type': "RL_ACTION_NONE"
                         },
-                        'burst_sz': 0,
                         'fine_grain': False
                     }
                 },
