@@ -50,6 +50,9 @@ type Cloud struct {
 	// Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile.
 	EastWestIPAMProviderRef *string `json:"east_west_ipam_provider_ref,omitempty"`
 
+	// Enable VIP on all data interfaces for the Cloud. Field introduced in 20.1.1.
+	EnableVipOnAllInterfaces *bool `json:"enable_vip_on_all_interfaces,omitempty"`
+
 	// Use static routes for VIP side network resolution during VirtualService placement.
 	EnableVipStaticRoutes *bool `json:"enable_vip_static_routes,omitempty"`
 
@@ -83,6 +86,9 @@ type Cloud struct {
 
 	// Configuration parameters for NSX Manager. Field introduced in 17.1.1.
 	NsxConfiguration *NsxConfiguration `json:"nsx_configuration,omitempty"`
+
+	// NSX-T Cloud Platform Configuration. Field introduced in 20.1.1.
+	NsxtConfiguration *NsxtConfiguration `json:"nsxt_configuration,omitempty"`
 
 	// Default prefix for all automatically created objects in this cloud. This prefix can be overridden by the SE-Group template.
 	ObjNamePrefix *string `json:"obj_name_prefix,omitempty"`
@@ -124,7 +130,7 @@ type Cloud struct {
 	// Placeholder for description of property vcenter_configuration of obj type Cloud field type str  type object
 	VcenterConfiguration *VCenterConfiguration `json:"vcenter_configuration,omitempty"`
 
-	// Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP.
+	// Cloud type. Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT.
 	// Required: true
 	Vtype *string `json:"vtype"`
 }
