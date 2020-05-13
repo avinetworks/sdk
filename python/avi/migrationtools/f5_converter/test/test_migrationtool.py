@@ -1570,5 +1570,30 @@ class TestF5Converter:
             assert expected_cert, "Expected cert monitor.fmr.com.crt-dummy not found"
             assert expected_ssl_profile, "Expected ssl profile monitor.fmr.com not found"
 
+    @pytest.mark.travis
+    def test_monitor_ref_on_v11(self):
+        f5_conv(bigip_config_file=setup.get('config_file_name_v11'),
+                f5_config_version=setup.get('file_version_v11'),
+                controller_version=setup.get('controller_version_v17'),
+                tenant=file_attribute['tenant'],
+                cloud_name=file_attribute['cloud_name'],
+                no_profile_merge=file_attribute['no_profile_merge'],
+                output_file_path=setup.get('output_file_path'),
+                vs_filter="vs_http_policy_share_1"
+                )
+        o_file = "%s/%s" % (output_file, "bigip_v11-Output.json")
+        with open(o_file) as json_file:
+          data = json.load(json_file)
+          pool_object = data['Pool'][0]
+          vs_object = data['VirtualService'][0]
+          poolRef = vs_object.get('pool_ref')
+          vsPoolRef = poolRef.split('name=')[1].split('&')[0]
+          pNmae = pool_object.get('name')
+          hMonitor = pool_object.get('health_monitor_refs')[0]
+          mName = hMonitor.split('name=')[1]
+          assert vsPoolRef == pNmae
+          assert mName == "tcp"
+
+
 def teardown():
     pass

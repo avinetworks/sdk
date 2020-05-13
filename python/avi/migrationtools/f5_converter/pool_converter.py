@@ -367,7 +367,7 @@ class PoolConfigConvV11(PoolConfigConv):
                 "enabled": True
             }
             pool_obj['server_reselect'] = server_reselect
-        monitor_names = f5_pool.get("monitor", None)
+        monitor_names = f5_pool.get("monitor ", None)
         skipped_monitors = []
         if monitor_names:
             skipped_monitors, monitor_refs = super(
