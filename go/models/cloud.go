@@ -50,7 +50,7 @@ type Cloud struct {
 	// Ipam Profile for East-West services. Warning - Please use virtual subnets in this IPAM profile that do not conflict with the underlay networks or any overlay networks in the cluster. For example in AWS and GCP, 169.254.0.0/16 is used for storing instance metadata. Hence, it should not be used in this profile. It is a reference to an object of type IpamDnsProviderProfile.
 	EastWestIPAMProviderRef *string `json:"east_west_ipam_provider_ref,omitempty"`
 
-	// Enable VIP on all data interfaces for the Cloud. Field introduced in 20.1.1.
+	// Enable VIP on all data interfaces for the Cloud. Field introduced in 18.2.9, 20.1.1.
 	EnableVipOnAllInterfaces *bool `json:"enable_vip_on_all_interfaces,omitempty"`
 
 	// Use static routes for VIP side network resolution during VirtualService placement.
