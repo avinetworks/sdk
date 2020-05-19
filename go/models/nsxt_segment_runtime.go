@@ -20,9 +20,6 @@ type NsxtSegmentRuntime struct {
 	// DHCP ranges configured in Nsxt. Field introduced in 20.1.1.
 	DhcpRanges []string `json:"dhcp_ranges,omitempty"`
 
-	// Segment Id. Field introduced in 20.1.1.
-	ID *string `json:"id,omitempty"`
-
 	// Segment object name. Field introduced in 20.1.1.
 	Name *string `json:"name,omitempty"`
 
@@ -37,6 +34,9 @@ type NsxtSegmentRuntime struct {
 
 	// Segment Gateway. Field introduced in 20.1.1.
 	SegmentGw *string `json:"segment_gw,omitempty"`
+
+	// Segment Id. Field introduced in 20.1.1.
+	SegmentID *string `json:"segment_id,omitempty"`
 
 	// Segment name. Field introduced in 20.1.1.
 	Segname *string `json:"segname,omitempty"`

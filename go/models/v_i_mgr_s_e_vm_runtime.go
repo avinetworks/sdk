@@ -114,6 +114,9 @@ type VIMgrSEVMRuntime struct {
 	// Unique object identifier of vcenter_datacenter.
 	VcenterDatacenterUUID *string `json:"vcenter_datacenter_uuid,omitempty"`
 
+	// ServiceEngine belongs to VCenter. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1.
+	VcenterRef *string `json:"vcenter_ref,omitempty"`
+
 	// vcenter_rm_cookie of VIMgrSEVMRuntime.
 	VcenterRmCookie *string `json:"vcenter_rm_cookie,omitempty"`
 
