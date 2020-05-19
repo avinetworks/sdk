@@ -126,17 +126,14 @@ type ApplicationLog struct {
 	// http_response_policy_rule_name of ApplicationLog.
 	HTTPResponsePolicyRuleName *string `json:"http_response_policy_rule_name,omitempty"`
 
-	// SAML Authentication rule matched. Field introduced in 20.1.1.
-	HTTPSamlAuthnRuleName *string `json:"http_saml_authn_rule_name,omitempty"`
-
-	// SAML Authorization rule matched. Field introduced in 20.1.1.
-	HTTPSamlAuthzRuleName *string `json:"http_saml_authz_rule_name,omitempty"`
-
 	// http_security_policy_rule_name of ApplicationLog.
 	HTTPSecurityPolicyRuleName *string `json:"http_security_policy_rule_name,omitempty"`
 
 	// http_version of ApplicationLog.
 	HTTPVersion *string `json:"http_version,omitempty"`
+
+	// Log for the ICAP processing. Field introduced in 20.1.1.
+	IcapLog *IcapLog `json:"icap_log,omitempty"`
 
 	// Number of log_id.
 	// Required: true
@@ -235,6 +232,9 @@ type ApplicationLog struct {
 
 	// SAML authentication is used. Field introduced in 18.2.1.
 	SamlAuthenticationUsed *bool `json:"saml_authentication_used,omitempty"`
+
+	// Logs for the SAML authentication/authorization process. Field introduced in 20.1.1.
+	SamlLog *SamlLog `json:"saml_log,omitempty"`
 
 	// SAML authentication session cookie is valid. Field introduced in 18.2.1.
 	SamlSessionCookieValid *bool `json:"saml_session_cookie_valid,omitempty"`
