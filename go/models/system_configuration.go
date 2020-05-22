@@ -29,6 +29,9 @@ type SystemConfiguration struct {
 	// Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object
 	EmailConfiguration *EmailConfiguration `json:"email_configuration,omitempty"`
 
+	// Enable FIPS mode. Field introduced in 20.1.1.
+	FipsMode *bool `json:"fips_mode,omitempty"`
+
 	// Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object
 	GlobalTenantConfig *TenantConfiguration `json:"global_tenant_config,omitempty"`
 
