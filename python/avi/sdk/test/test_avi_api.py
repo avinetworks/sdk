@@ -9,6 +9,7 @@ from avi.sdk.avi_api import (ApiSession, ObjectNotFound, APIError, ApiResponse,
                              AviMultipartUploadError)
 from avi.sdk.utils.api_utils import ApiUtils
 from avi.sdk.samples.common import get_sample_ssl_params
+from avi.sdk.samples.clone_vs import AviClone
 from requests.packages import urllib3
 from requests import Response
 from multiprocessing import Pool, Process
@@ -742,6 +743,24 @@ class Test(unittest.TestCase):
     @pytest.mark.travis
     def test_get_slug_from_uri(self, input, expected):
         assert api.get_slug_from_uri(input) == expected
+
+    @pytest.mark.travis
+    @my_vcr.use_cassette()
+
+    def test_clone_vs(self):
+        api1 = ApiSession.get_session('10.206.112.60', 'admin', 'avi123',
+                                      api_version='18.2.8')
+        avi_clone = AviClone(api1)
+
+        (new_vs,
+         created_objs,
+         warnings) = avi_clone.clone_vs('basic_vs_to_clone',
+                                        'basic_vs_cloned',
+                                        new_vs_vips=['*'],
+                                        new_vs_fips=[None],
+                                        new_vs_v6vips=[None])
+
+        assert new_vs is not None
 
 
     @pytest.mark.skip_travis
