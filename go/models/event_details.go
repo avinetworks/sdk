@@ -97,6 +97,12 @@ type EventDetails struct {
 	// Placeholder for description of property cc_vnic_details of obj type EventDetails field type str  type object
 	CcVnicDetails *CloudVnicChange `json:"cc_vnic_details,omitempty"`
 
+	// Placeholder for description of property cloud_asg_notif_details of obj type EventDetails field type str  type object
+	CloudAsgNotifDetails *CloudASGNotifDetails `json:"cloud_asg_notif_details,omitempty"`
+
+	// Placeholder for description of property cloud_autoscaling_config_failure_details of obj type EventDetails field type str  type object
+	CloudAutoscalingConfigFailureDetails *CloudAutoscalingConfigFailureDetails `json:"cloud_autoscaling_config_failure_details,omitempty"`
+
 	// Placeholder for description of property cluster_config_failed_details of obj type EventDetails field type str  type object
 	ClusterConfigFailedDetails *ClusterConfigFailedEvent `json:"cluster_config_failed_details,omitempty"`
 
