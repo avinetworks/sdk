@@ -7,7 +7,7 @@ package models
 // swagger:model DnsTxtRdata
 type DNSTxtRdata struct {
 
-	// Text data associated with the FQDN. Field introduced in 20.1.1.
+	// Text data associated with the FQDN. Field introduced in 18.2.9, 20.1.1.
 	// Required: true
 	TextStr *string `json:"text_str"`
 }
