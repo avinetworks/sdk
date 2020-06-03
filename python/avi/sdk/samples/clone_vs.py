@@ -1964,11 +1964,6 @@ class AviClone:
                                  (' in cloud "%s"' % oc_obj['name'])
                                   if oc_obj else '')]
                 logger.debug('Created virtual service "%s"', new_vs['url'])
-                if new_vsvip_obj:
-                    # No need to track new vsvip object for deletion if VS was
-                    # created successfully; in dryrun, vsvip will be deleted
-                    # automatically when virtualservice is deleted
-                    created_objs.remove(new_vsvip_obj)
                 if v_obj_old_url:
                     self.clone_track[v_obj_old_url] = new_vs['url']
                 return new_vs, created_objs, warnings
@@ -2498,6 +2493,30 @@ if __name__ == '__main__':
                              use_internal_ipam=args.internalipam,
                              server_map=server_map,
                              new_parent=args.newparent)
+                    # Get VsVip object if present
+                    if 'vsvip_ref' in new_vs:
+                        for cloned_obj in cloned_objs:
+                            if cloned_obj['url'] == new_vs['vsvip_ref']:
+                                new_vsvip = cloned_obj
+
+                                # Pre-20.1.1 we can remove the VsVip object from
+                                # the cloned object list as it will be deleted
+                                # by WebApp when the VS is deleted
+                                if 'vip' in new_vs:
+                                    cloned_objs.remove(cloned_obj)
+                                break
+                        else:
+                            new_vsvip = {'vip': []}
+                    else:
+                        # Old VS structure - populate VIP data
+                        vip_data = {}
+                        for k in ('ip_address', 'ip6_address',
+                                  'floating_ip', 'floating_ip6'):
+                            if k in new_vs:
+                                vip_data[k] = new_vs[k]
+                        new_vsvip = {'vip': [vip_data]}
+                        if 'dns_info' in new_vs:
+                            new_vsvip['dns_info'] = new_vs['dns_info']
                     all_created_objs.append(new_vs)
                     all_created_objs.extend(cloned_objs)
                     if warnings:
@@ -2514,29 +2533,34 @@ if __name__ == '__main__':
                     print('%10s: %s' % ('Name', new_vs['name']))
                     try:
                         v4_vips = ([ipa['ip_address']['addr']
-                                    for ipa in new_vs['vip']]
-                                   if 'vip' in new_vs
-                                   else [new_vs['ip_address']['addr']])
+                                    for ipa in new_vsvip['vip']
+                                    if 'ip_address' in ipa])
                     except KeyError:
                         v4_vips = []
                     try:
                         v6_vips = ([ipa['ip6_address']['addr']
-                                    for ipa in new_vs['vip']]
-                                   if 'vip' in new_vs
-                                   else [new_vs['ip6_address']['addr']])
+                                    for ipa in new_vsvip['vip']
+                                    if 'ip6_address' in ipa])
                     except KeyError:
                         v6_vips = []
+                    try:
+                        v4_fips = ([ipa['floating_ip']['addr']
+                                    for ipa in new_vsvip['vip']
+                                    if 'floating_ip' in ipa])
+                    except KeyError:
+                        v4_fips = []
+                    try:
+                        v6_fips = ([ipa['floating_ip6']['addr']
+                                    for ipa in new_vsvip['vip']
+                                    if 'floating_ip6' in ipa])
+                    except KeyError:
+                        v6_fips = []
 
                     print('%10s: %s' % ('VIP(s)', ','.join(v4_vips + v6_vips)))
-                    print('%10s: %s' % ('FIP(s)', ','.join([(ipa['floating_ip'][
-                                        'addr'] if 'floating_ip' in ipa else
-                                        'N/A') for ipa in new_vs['vip']]) if
-                                        'vip' in new_vs else (new_vs[
-                                        'floating_ip']['addr'] if
-                                        'floating_ip' in new_vs else 'N/A')))
-                    if 'dns_info' in new_vs:
-                        print('%10s: %s' % ('FQDN(s)',
-                         ','.join([dns['fqdn'] for dns in new_vs['dns_info']])))
+                    print('%10s: %s' % ('FIP(s)', ','.join(v4_fips + v6_fips)))
+                    if 'dns_info' in new_vsvip:
+                        print('%10s: %s' % ('FQDN(s)', ','.join([dns['fqdn']
+                                            for dns in new_vsvip['dns_info']])))
                     print('%10s: %s' % ('State', 'Enabled' if new_vs['enabled']
                                                                else 'Disabled'))
                     if args.totenant:
