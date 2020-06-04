@@ -12,28 +12,22 @@
 
 package com.vmware.avi.sdk.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.vmware.avi.sdk.model.AbPool;
-import com.vmware.avi.sdk.model.ConnPoolProperties;
-import com.vmware.avi.sdk.model.FailAction;
-import com.vmware.avi.sdk.model.HTTPServerReselect;
-import com.vmware.avi.sdk.model.NetworkFilter;
-import com.vmware.avi.sdk.model.PlacementNetwork;
-import com.vmware.avi.sdk.model.PoolAnalyticsPolicy;
-import com.vmware.avi.sdk.model.RateProfile;
-import com.vmware.avi.sdk.model.Server;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.WritableTypeId.Inclusion;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Pool
  */
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.JavaClientCodegen", date = "2020-03-12T12:27:26.755+05:30[Asia/Kolkata]")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pool extends AviRestResource{
   @JsonProperty("_last_modified")
   private String _lastModified = null;
