@@ -14,6 +14,7 @@ func main() {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("password"),
 		session.SetTenant("admin"),
+		session.SetVersion("20.1.1"),
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
@@ -40,14 +41,28 @@ func main() {
 		return
 	}
 
+	vipAddr := "10.90.20.51"
+	vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
+	vipId := "1"
+	vipObj := models.Vip{VipID: &vipId, IPAddress: &vipip}
+
+	vsVip := models.VsVip{}
+	vipName := "test-vip"
+	vsVip.Name = &vipName
+	vsVip.Vip = append(vsVip.Vip, &vipObj)
+
+	vsVipObj, err := aviClient.VsVip.Create(&vsVip)
+
+	if err != nil {
+		fmt.Println("VIP creation failed: ", err)
+	}
+
 	// Create a virtual service and use the pool created above
 	vsobj := models.VirtualService{}
 	vname := "my-test-vs"
 	vsobj.Name = &vname
-	vipAddr := "10.90.20.51"
-	vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
-	vipId := "myvip"
-	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: &vipId, IPAddress: &vipip})
+	vsobj.VsvipRef = vsVipObj.UUID
+
 	vsobj.PoolRef = npobj.UUID
 	port := int32(80)
 	vsobj.Services = append(vsobj.Services, &models.Service{Port: &port})

@@ -88,10 +88,28 @@ func TestCreateVirtualservice(t *testing.T) {
 
 	npobj, err := aviClient.Pool.Create(&pobj)
 	if err == nil {
-		fmt.Println("\n POOL Created sussfully : ", npobj)
+		fmt.Println("\n POOL Created successfully : ", npobj)
 	} else {
 		fmt.Printf("\n [ERROR] : %s", err)
 		t.Fail()
+	}
+
+	vipAddr := "10.90.20.61"
+	vipip := models.IPAddr{Type: &Type, Addr: &vipAddr}
+	vipId := "1"
+	vipObj := models.Vip{VipID: &vipId, IPAddress: &vipip}
+
+	vsVip := models.VsVip{}
+	vipName := "test_VIP_2"
+	vsVip.Name = &vipName
+	vsVip.Vip = append(vsVip.Vip, &vipObj)
+
+	vsVipObj, err := aviClient.VsVip.Create(&vsVip)
+
+	if err != nil {
+		fmt.Println("VIP creation failed: ", err)
+	} else {
+		fmt.Println("VsVip created successfully.")
 	}
 
 	// Create a virtual service and use the pool created above
@@ -100,9 +118,10 @@ func TestCreateVirtualservice(t *testing.T) {
 	vsobj.Name = &vsname
 	Type = "V4"
 	addr = "10.10.18.67"
-	vipip := models.IPAddr{Type: &Type, Addr: &addr}
-	vid := "myvip"
-	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: &vid, IPAddress: &vipip})
+	//vipip := models.IPAddr{Type: &Type, Addr: &addr}
+	//vid := "myvip"
+	//vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: &vid, IPAddress: &vipip})
+	vsobj.VsvipRef = vsVipObj.UUID
 	vsobj.TenantRef = &tr
 	vsobj.PoolRef = npobj.UUID
 	vsobj.CloudRef = &cuuid
