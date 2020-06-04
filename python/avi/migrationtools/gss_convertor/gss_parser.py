@@ -19,7 +19,7 @@ def parse(val):
         and 2nd value to "value" in a dictionary '''
     config_dict = dict()
     if len(val) % 2 == 0:
-        for index in xrange(0, len(val), 2):
+        for index in range(0, len(val), 2):
             config_dict[str(val[index])] = str(val[index+1])
         config_dict.update({'hang': 'y'})
         return config_dict
@@ -222,7 +222,7 @@ def parser(file_name):
 
     ref = ''
 
-    print "Parsing the File ..."
+    print("Parsing the File ...")
 
     total_parse_count = 0
     c = 0

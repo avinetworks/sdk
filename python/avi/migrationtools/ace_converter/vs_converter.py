@@ -535,7 +535,7 @@ class VSConverter(object):
                 addr = vs['vip'][0]['ip_address']['addr']
                 port_list = list()
                 for vs1 in vs_list:
-                    if name <> vs1['name']:
+                    if name != vs1['name']:
                         port_list.append(int(vs1['services'][0]['port']))
 
                 port_list = list(set(port_list))

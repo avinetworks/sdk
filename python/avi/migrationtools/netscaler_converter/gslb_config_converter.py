@@ -28,8 +28,8 @@ def create_map_for_vs(vs, vip_map, site):
     services = vs['services']
     for vip in vips:
         for service in services:
-            port_range = xrange(int(service['port']),
-                                int(service['port_range_end'])+1)
+            port_range = range(int(service['port']),
+                               int(service['port_range_end'])+1)
             for port in port_range:
                 vip_map['%s:%s' % (vip['ip_address']['addr'], port)] = {
                     'cluster_uuid': site['cluster_uuid'], 'vs_uuid': vs['uuid']}

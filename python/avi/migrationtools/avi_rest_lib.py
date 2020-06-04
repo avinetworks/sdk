@@ -23,7 +23,7 @@ def upload_config_to_controller(avi_config_dict, controller_ip, username,
             raise Exception("Upload error response:" + resp.text)
     except Exception as e:
         LOG.error("Failed config upload", exc_info=True)
-        print "Error"
+        print("Error")
         raise Exception(e)
 
 
@@ -38,7 +38,7 @@ def download_gslb_from_controller(controller_ip, username, password, tenant='adm
         return resp.text
     except Exception as e:
         LOG.error("Failed gslb config download", exec_info=True)
-        print "Error in Downloading gslb config"
+        print("Error in Downloading gslb config")
         raise Exception(e)
 
 def get_object_from_controller(object_type, object_name, controller_ip, username, password, tenant):

@@ -185,11 +185,11 @@ class GssConvertor(AviConverter):
 
         # printing  stats
         stats = get_total_stats()
-        print "==========================="
-        print "==========Report =========="
-        print "==========================="
+        print("===========================")
+        print("==========Report ==========")
+        print("===========================")
         for key in stats:
-            print "%s: %s" % (key, stats[key])
+            print("%s: %s" % (key, stats[key]))
 
     def gss_converter(self):  # (self, in_file, out_loc, tenant):
         """ Call the main converter class """
@@ -241,13 +241,13 @@ Optional:
         LOG.info(' Gss Convertor Started ')
         # print "Gss Convertor v" + str(sdk_version) # version needs to be added
         time.sleep(1.5)
-        print "Gss Conversion Initializing ...."
+        print("Gss Conversion Initializing ....")
         gss_converter = GssConvertor(pargs)
 
         # creating output directory if not present
         if not os.path.exists(pargs.output_loc):
-            print "Folder not found " + pargs.output_loc
-            print "Creating ..."
+            print("Folder not found " + pargs.output_loc)
+            print("Creating ...")
             os.makedirs(pargs.output_loc)
 
         # initiate logging
@@ -260,11 +260,11 @@ Optional:
             elapsed_time = str(elapsed)[:3] + " Seconds"
         else:
             elapsed_time = str(elapsed/60)[:4] + " Minutes"
-        print "\n(Elapsed Time: " + elapsed_time + ")"
+        print("\n(Elapsed Time: " + elapsed_time + ")")
 
     elif pargs.input_file is None:
-        print "Fatal: Enter a input file"
+        print("Fatal: Enter a input file")
         sys.exit()
     elif pargs.output_loc is None:
-        print "Fatal: Enter a output location"
+        print("Fatal: Enter a output location")
         sys.exit()

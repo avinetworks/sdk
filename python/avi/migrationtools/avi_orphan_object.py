@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import urlparse
+from urllib.parse import urlparse, parse_qs
 
 # global vs reference object
 global vs_ref_dict_g
@@ -102,8 +102,8 @@ def get_name_and_entity(url):
     :param url: reference url to be parsed
     :return: entity and object name
     """
-    parsed = urlparse.urlparse(url)
-    return parsed.path.split('/')[2], urlparse.parse_qs(parsed.query)['name'][0]
+    parsed = urlparse(url)
+    return parsed.path.split('/')[2], parse_qs(parsed.query)['name'][0]
 
 
 def search_obj(entity, name, new_config, avi_config, vs_ref_dict):

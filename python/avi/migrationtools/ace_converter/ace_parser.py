@@ -74,7 +74,7 @@ def create_ace_grammer():
                         (Keyword('expect') +
                         Keyword('regex') + Word(printables)))
     # grammer_3_6 = Group(Keyword('passdetect') + Keyword('interval') + num)
-    #grammer_3_7 = Group(Keyword('open') + num)
+    # grammer_3_7 = Group(Keyword('open') + num)
     grammer_3_6 = Group(Keyword('ssl') + Keyword('version') + Keyword('all'))
     grammer_3_7 = Group(Keyword('request') + Keyword('method') + Keyword('get')
                         + Keyword('url') + Word(printables))
@@ -418,15 +418,14 @@ def create_ace_grammer():
     #   organization-unit ACME Input Management
     #   common-name acmenpap.prod.acmeintern.dk
 
-    #grammer for crypto chaingroup test_group
+    # grammer for crypto chaingroup test_group
     #   cert Test_cert.crt
     grammer_crypto_1 = Group(
         Keyword('crypto') + Keyword('chaingroup') + name)
     grammer_crypto_2 = Group(Keyword('cert') + name)
     grammer_crypto_3 = Group(grammer_crypto_1 + ZeroOrMore(grammer_crypto_2))
 
-
-    #grammer for crypto csr-params
+    # grammer for crypto csr-params
     grammer_crypto_4 = Group(
         Keyword('crypto') + Keyword('csr-params') + name)
     grammer_crypto_5 = Group(Keyword('country') + name)
@@ -437,7 +436,6 @@ def create_ace_grammer():
     grammer_crypto_10 = Group(grammer_crypto_4 + ZeroOrMore(
         grammer_crypto_5 | grammer_crypto_6 | grammer_crypto_7 |
         grammer_crypto_8 | grammer_crypto_9))
-
 
     # aaa authentication login default group TAC_PLUS local
     # aaa accounting default group TAC_PLUS
@@ -483,7 +481,7 @@ def create_ace_grammer():
                     grammer_9 | grammer_10 | grammer_11 | grammer_12 |
                     grammer_ssl_comp | grammer_aaa | grammer_crypto_3  | grammer_crypto_10 | grammer_al)
 
-    print "Grammer created for ace config parser."
+    print("Grammer created for ace config parser.")
     LOG.info("Grammer created for ace config parser.")
     return grammer
 
@@ -496,6 +494,7 @@ def parse_ace_grammer(grammer, data, file_size, out_dict, final_excel, total_par
     
     LOG.info("Started ace grammer parsing.")
     final_dict = dict()
+    msg = ""
     for match, start, end in grammer.scanString(data):
         key = ''
         extra_dict = {}
@@ -932,5 +931,5 @@ serverfarm host SF-ADFS-HTTPS
         grammer_12_10))
 
     for match, start, end in grammer_12.scanString(s):
-        print match
+        print(match)
 

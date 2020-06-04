@@ -85,7 +85,7 @@ class VSConfigConv(object):
         avi_config['VSDataScriptSet'] = []
         avi_config['NetworkSecurityPolicy'] = []
         avi_config['VsVip'] = []
-        print "Converting VirtualServices ..."
+        print("Converting VirtualServices ...")
         # Added variable to get total object count.
         total_size = len(vs_config.keys())
         progressbar_count = 0
@@ -376,13 +376,13 @@ class VSConfigConv(object):
             used_app_profiles.append(app_prof[0])
 
         # VIP object for virtual service
-        vip = {
-            'ip_address': {
-                'addr': ip_addr,
-                'type': 'V4'
-            },
-            'vip_id': '1'
-        }
+        # vip = {
+        #     'ip_address': {
+        #         'addr': ip_addr,
+        #         'type': 'V4'
+        #     },
+        #     'vip_id': '1'
+        # }
         vs_obj = {
             'name': vs_name,
             'description': description,
@@ -416,11 +416,17 @@ class VSConfigConv(object):
                 conv_utils.remove_pool_group_vrf(pool_ref, avi_config)
             elif pool_ref:
                 conv_utils.remove_pool_vrf(pool_ref, avi_config)
+
+        vsvip_addr = {
+                'addr': ip_addr,
+                'type': 'V4'
+            }
         if parse_version(controller_version) >= parse_version('17.1'):
-            vs_obj['vip'] = [vip]
+            # vs_obj['vip'] = [vip]
             vs_obj['vsvip_ref'] = vsvip_ref
+            # vs_obj['ip_address'] = vsvip_addr
         else:
-            vs_obj['ip_address'] = vip['ip_address']
+            vs_obj['ip_address'] = vsvip_addr
         # Policy tracking starts from here
         vs_policies = [app_pol_name] if app_pol_name else []
         vs_ds_rules = None
@@ -428,7 +434,7 @@ class VSConfigConv(object):
         nw_policy = None
         converted_rules = list()
         if 'rules' in f5_vs:
-            if isinstance(f5_vs['rules'], basestring):
+            if isinstance(f5_vs['rules'], str):
                 vs_ds_rules = [conv_utils.get_tenant_ref(f5_vs['rules'])[1]]
             else:
                 vs_ds_rules = [conv_utils.get_tenant_ref(name)[1] for name in
@@ -454,7 +460,7 @@ class VSConfigConv(object):
             vs_obj['vs_datascripts'] = vs_datascripts
 
         if 'policies' in f5_vs:
-            if isinstance(f5_vs['policies'], basestring):
+            if isinstance(f5_vs['policies'], str):
                 vs_policies.extend(['%s-%s' % (
                     self.prefix, conv_utils.get_tenant_ref(
                         f5_vs['policies'])[1]) if self.prefix else
@@ -734,7 +740,7 @@ class VSConfigConvV11(VSConfigConv):
         """
         persist_ref = f5_vs.get("persist", None)
         if persist_ref:
-            persist_ref = persist_ref.keys()[0]
+            persist_ref = [key for key in persist_ref.keys()][0]
         return persist_ref
 
     def convert_translate_port(self, avi_config, f5_vs, app_prof, pool_ref,

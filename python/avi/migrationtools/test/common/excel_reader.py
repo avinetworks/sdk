@@ -51,8 +51,8 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
     with open(path_to_out_json, 'r') as file_strem:
         file_strem = json.load(file_strem)
         for entity in file_strem:
-            if entity <> 'META' and entity <> 'VsVip' and entity <> \
-                    "OneConnect" and entity <> "hash_algorithm":
+            if entity != 'META' and entity != 'VsVip' and entity != \
+                    "OneConnect" and entity != "hash_algorithm":
                 for obj in file_strem[entity]:
                     out_obj.append(obj.get('name'))
     excel_obj.sort()
@@ -63,7 +63,7 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
             a = file_strem.readlines()
             try:
                 b = str(a).split('$$$$$$')[-2].replace('\'', '"')
-                print b
+                print(b)
                 log_obj = eval(b)
             except:
                 pass
@@ -78,11 +78,11 @@ def output_sanitization(path_to_excel, path_to_out_json=None, path_to_log=None):
         for key in log_obj.keys():
             obj_list = list(set(obj_list) - set(log_obj[key].keys()))
 
-    print "Object Difference between Excel sheet and output is %s" % len(obj_list)
+    print("Object Difference between Excel sheet and output is %s" % len(obj_list))
     if obj_list:
-        print "Object not Common in Both Excel and Output %s", obj_list
+        print("Object not Common in Both Excel and Output %s", obj_list)
         return False
-    print "Excel sheet matches with Output.json"
+    print("Excel sheet matches with Output.json")
     return True
 
 
@@ -127,7 +127,7 @@ def percentage_success(path_to_excel):
         else:
             report_dict[key].update({'percent': 100.0})
     for key in report_dict.keys():
-        print key, " -> ", report_dict[key]['percent'], "%"
+        print(key, " -> ", report_dict[key]['percent'], "%")
 
 def output_vs_level_status(path_to_excel):
     path = path_to_excel

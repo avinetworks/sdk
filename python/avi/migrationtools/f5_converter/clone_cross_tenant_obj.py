@@ -126,7 +126,7 @@ class CloneObjects:
         """
         if not parent_tenant:
             parent_tenant = conv_utils.get_name(obj_dict['tenant_ref'])
-        for k, v in obj_dict.iteritems():
+        for k, v in obj_dict.items():
             if k == 'tenant_ref':
                 continue
             if isinstance(v, dict):
@@ -156,6 +156,9 @@ class CloneObjects:
                 if v:
                     o_tenant = conv_utils.get_tenant_from_ref(v)
                     o_type = conv_utils.get_obj_type_from_ref(v)
+
+                    if o_type == 'vsvip':
+                        continue
                     if o_tenant == parent_tenant:
                         continue
                     if (o_tenant == 'admin' and o_type in
@@ -178,7 +181,7 @@ class CloneObjects:
         total_size = len(avi_object_types)
         progress_count = 0
         LOG.info("Started Cloning of cross tenant objects")
-        print "Cloning cross tenant objects..."
+        print("Cloning cross tenant objects...")
         msg = "Cloning started..."
         for object_type in avi_object_types:
             progress_count += 1

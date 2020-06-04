@@ -5,7 +5,7 @@ coverage
 import os
 import json
 import re
-import urlparse
+from urllib.parse import urlparse, parse_qs
 
 from avi.migrationtools.netscaler_converter.netscaler_converter import NetscalerConverter
 
@@ -47,8 +47,8 @@ def get_name(url):
     :param url:
     :return: Name of object
     """
-    parsed = urlparse.urlparse(url)
-    return urlparse.parse_qs(parsed.query)['name'][0]
+    parsed = urlparse(url)
+    return parse_qs(parsed.query)['name'][0]
 
 
 def http_policies_references_vs(avi_config):

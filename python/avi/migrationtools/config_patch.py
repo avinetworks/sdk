@@ -77,7 +77,7 @@ class ConfigPatch(object):
         :return: None
         """
         if isinstance(obj, dict):
-            for k, v in obj.iteritems():
+            for k, v in obj.items():
                 if k.endswith('ref') or k.endswith('_refs'):
                     if isinstance(v, list):
                         if old_ref in v:
@@ -114,7 +114,7 @@ class ConfigPatch(object):
         :param avi_cfg: Full Avi configuration dictionary.
         :return: None
         """
-        for _, obj_list in avi_cfg.iteritems():
+        for _, obj_list in avi_cfg.items():
             for obj in obj_list:
                 self.update_obj_refs(
                     obj_type, old_ref, new_ref, obj, avi_cfg)
@@ -198,7 +198,7 @@ class ConfigPatch(object):
                     obj_type, old_obj_ref, new_obj_ref, avi_cfg)
 
     def deep_update(self, d, u):
-        for k, v in u.iteritems():
+        for k, v in u.items():
             if isinstance(v, collections.Mapping):
                 d[k] = self.deep_update(d.get(k, {}), v)
             elif isinstance(v, list):
@@ -266,8 +266,8 @@ class ConfigPatch(object):
         new_cfg = deepcopy(self.avi_cfg)
         total_size = len(self.patches)
         progressbar_count = 0
-        print "Conversion For Patching of objects started..."
-        for obj_type, obj_patches in self.patches.iteritems():
+        print("Conversion For Patching of objects started...")
+        for obj_type, obj_patches in self.patches.items():
             progressbar_count += 1
             # for each object that is being patched need to iterate
             #   over all the configuration that matches either reference

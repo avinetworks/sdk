@@ -5,7 +5,7 @@ import logging
 import os
 import random
 import string
-import urlparse
+from urllib.parse import urlparse, parse_qs
 from datetime import datetime
 from socket import gethostname
 
@@ -135,14 +135,14 @@ class MigrationUtil(object):
             ob_cp.pop("description", [])
             ob_cp.pop('url', [])
             ob_cp.pop('uuid', [])
-            if cmp(src_cp, ob_cp) == 0:
+            if src_cp.items() == ob_cp.items():
                 return obj["name"], src_obj['name']
         for tmp_obj in obj_list:
             tmp_cp = copy.deepcopy(tmp_obj)
             tmp_cp.pop("name")
             tmp_cp.pop("description", [])
             dup_lst = tmp_cp.pop("dup_of", [tmp_obj["name"]])
-            if cmp(src_cp, tmp_cp) == 0:
+            if src_cp.items() == tmp_cp.items():
                 dup_lst.append(src_obj["name"])
                 tmp_obj["dup_of"] = dup_lst
                 old_name = tmp_obj['name']
@@ -176,10 +176,10 @@ class MigrationUtil(object):
         try:
             with open(file_path, "r") as file_obj:
                 file_str = file_obj.read()
-                file_str = file_str.decode("utf-8")
+                file_str = file_str  # .decode("utf-8")
         except UnicodeDecodeError:
             try:
-                file_str = file_str.decode('latin-1')
+                file_str = file_str  # .decode('latin-1')
             except:
                 update_count('error')
                 LOG.error("[UnicodeDecode] Error to read file %s" % file_path,
@@ -198,8 +198,8 @@ class MigrationUtil(object):
         :param url:
         :return: Name of object
         """
-        parsed = urlparse.urlparse(url)
-        return urlparse.parse_qs(parsed.query)['name'][0]
+        parsed = urlparse(url)
+        return parse_qs(parsed.query)['name'][0]
 
     def get_tenant_from_ref(self, url):
         """
@@ -207,8 +207,8 @@ class MigrationUtil(object):
         :param url:
         :return: Name of tenant
         """
-        parsed = urlparse.urlparse(url)
-        return urlparse.parse_qs(parsed.query).get('tenant', ['admin'])[0]
+        parsed = urlparse(url)
+        return parse_qs(parsed.query).get('tenant', ['admin'])[0]
 
     def get_obj_type_from_ref(self, url):
         return url.split('/api/')[1].split('/')[0].split('?')[0]
@@ -273,9 +273,9 @@ class MigrationUtil(object):
         filledLength = int(length * iteration // total)
         bar = fill * filledLength + '-' * (length - filledLength)
         if (iteration < total):
-            print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),
+            print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),)
         else:
-            print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
+            print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix))
 
     def validate_value(self, entity_names, prop_name, value, limit_data, obj,
                        valname):
@@ -294,7 +294,7 @@ class MigrationUtil(object):
                  '-->'.join(entity_names), prop_name) or valname and '%s-->%s' \
                  % (valname, prop_name) or entity_names and '%s-->%s' % (
                  '-->'.join(entity_names), prop_name) or '%s' % prop_name
-        for key, val in limit_data.iteritems():
+        for key, val in limit_data.items():
             pr = val.get(obj, {})
             if not pr:
                 continue
@@ -311,7 +311,8 @@ class MigrationUtil(object):
                    'special_values', 'ref_type']))
             return None, None
         if new_value is not None:
-            if type(new_value) == unicode:
+            # commenting this since now in Python 3 strings are already in unicode format.
+            if type(new_value) == str:
                 new_value = new_value.encode()
             if type(new_value) == eval(typ) or (eval(typ) == int and
                                                 str(new_value).isdigit()):
@@ -380,7 +381,7 @@ class MigrationUtil(object):
                     ref = pr['properties'][name].get('ref_type')
                     vr = val.get(ref, {})
                     if not vr:
-                        for k, v in limit_data.iteritems():
+                        for k, v in limit_data.items():
                             if v.get(ref):
                                 tr = v[ref]
                                 return self.get_to_prop(v, tr, entity_names,
@@ -409,7 +410,7 @@ class MigrationUtil(object):
             with open(dir_path + os.path.sep + 'pb_attributes.yaml') as data:
                 limit_data = yaml.safe_load(data)
         if limit_data:
-            for obj, vals in avi_config.iteritems():
+            for obj, vals in avi_config.items():
                 if obj != 'META' and vals:
                     for val in vals:
                         heir = []
@@ -420,7 +421,7 @@ class MigrationUtil(object):
 
     def validate_prop(self, dictval, heir, limit_data, obj, valname=None):
 
-        for k, v in dictval.iteritems():
+        for k, v in dictval.items():
             if k in ['tenant_ref', 'name', 'cloud_ref', 'health_monitor_refs',
                      'ssl_profile_ref', 'application_persistence_profile_ref',
                      'application_profile_ref', 'network_profile_ref',
@@ -474,8 +475,8 @@ class MigrationUtil(object):
         cert_file_name = cert_file_name.replace(':Common:', '')
         cert_text = self.upload_file(input_dir + os.path.sep + cert_file_name)
         if cert_text:
-            cert_date = crypto.load_certificate(crypto.FILETYPE_PEM, cert_text)
-            expiry_date = datetime.strptime(cert_date.get_notAfter(),
+            cert_date = crypto.load_certificate(crypto.FILETYPE_PEM, cert_text.encode())
+            expiry_date = datetime.strptime(cert_date.get_notAfter().decode('utf-8'),
                                             "%Y%m%d%H%M%SZ")
             present_date = datetime.now()
             if expiry_date < present_date:
@@ -593,8 +594,8 @@ class MigrationUtil(object):
             if str.startswith(str(name), 'System-'):
                 return
         else:
-            print 'ERROR: Reference not found for %s with name %s' % (
-                entity, name)
+            print('ERROR: Reference not found for %s with name %s' % (
+                entity, name))
             exit()
         depth += 1
         new_name = found_obj.get('name')
@@ -611,9 +612,9 @@ class MigrationUtil(object):
         :param url: reference url to be parsed
         :return: entity and object name
         """
-        parsed = urlparse.urlparse(url)
+        parsed = urlparse(url)
         return parsed.path.split('/')[2], \
-               urlparse.parse_qs(parsed.query)['name'][0]
+               parse_qs(parsed.query)['name'][0]
 
     def get_path_key_map(self):
         yml_file = os.path.join(self.get_project_path(),
