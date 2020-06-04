@@ -271,9 +271,6 @@ type EventDetails struct {
 	// Placeholder for description of property network_subnet_details of obj type EventDetails field type str  type object
 	NetworkSubnetDetails *NetworkSubnetInfo `json:"network_subnet_details,omitempty"`
 
-	// Nsxt cloud event. Field introduced in 20.1.1.
-	NsxtInfo *NsxtSetup `json:"nsxt_info,omitempty"`
-
 	// Placeholder for description of property nw_subnet_clash_details of obj type EventDetails field type str  type object
 	NwSubnetClashDetails *NetworkSubnetClash `json:"nw_subnet_clash_details,omitempty"`
 
@@ -322,9 +319,6 @@ type EventDetails struct {
 	// Placeholder for description of property psm_program_details of obj type EventDetails field type str  type object
 	PsmProgramDetails *PsmProgramDetails `json:"psm_program_details,omitempty"`
 
-	//  Field introduced in 20.1.1.
-	RateLimiterEventDetails *RateLimiterEventDetails `json:"rate_limiter_event_details,omitempty"`
-
 	// Placeholder for description of property rebalance_migrate_details of obj type EventDetails field type str  type object
 	RebalanceMigrateDetails *RebalanceMigrateEventDetails `json:"rebalance_migrate_details,omitempty"`
 
@@ -360,9 +354,6 @@ type EventDetails struct {
 
 	// Placeholder for description of property se_hb_event_details of obj type EventDetails field type str  type object
 	SeHbEventDetails *SeHBEventDetails `json:"se_hb_event_details,omitempty"`
-
-	// Inter-SE datapath heartbeat recovered. One event is generated when heartbeat recovers. Field introduced in 20.1.1.
-	SeHbRecoveredEventDetails *SeHbRecoveredEventDetails `json:"se_hb_recovered_event_details,omitempty"`
 
 	// Placeholder for description of property se_hm_gs_details of obj type EventDetails field type str  type object
 	SeHmGsDetails *SeHmEventGSDetails `json:"se_hm_gs_details,omitempty"`

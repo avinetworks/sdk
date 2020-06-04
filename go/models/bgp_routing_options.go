@@ -22,7 +22,4 @@ type BgpRoutingOptions struct {
 
 	// Learn routes from the BGP peer. Field introduced in 20.1.1.
 	LearnRoutes *bool `json:"learn_routes,omitempty"`
-
-	// Maximum number of routes that can be learned from a BGP peer. Allowed values are 50-250. Field introduced in 20.1.1.
-	MaxLearnLimit *int32 `json:"max_learn_limit,omitempty"`
 }

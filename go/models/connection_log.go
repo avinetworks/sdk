@@ -106,8 +106,8 @@ type ConnectionLog struct {
 	// Required: true
 	OutOfOrders *int32 `json:"out_of_orders"`
 
-	// Persistence applied. Field introduced in 20.1.1.
-	PersistenceUsed *bool `json:"persistence_used,omitempty"`
+	// Persistence applied. Enum options - PERSISTENCE_TYPE_CLIENT_IP_ADDRESS, PERSISTENCE_TYPE_HTTP_COOKIE, PERSISTENCE_TYPE_TLS, PERSISTENCE_TYPE_CLIENT_IPV6_ADDRESS, PERSISTENCE_TYPE_CUSTOM_HTTP_HEADER, PERSISTENCE_TYPE_APP_COOKIE, PERSISTENCE_TYPE_GSLB_SITE. Field introduced in 20.1.1.
+	PersistenceUsed *string `json:"persistence_used,omitempty"`
 
 	// pool of ConnectionLog.
 	Pool *string `json:"pool,omitempty"`

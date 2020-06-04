@@ -71,9 +71,6 @@ type ControllerProperties struct {
 	// Number of dummy.
 	Dummy *int32 `json:"dummy,omitempty"`
 
-	// Allow editing of system limits. Keep in mind that these system limits have been carefully selected based on rigorous testing in our testig environments. Modifying these limits could destabilize your cluster. Do this at your own risk!. Field introduced in 20.1.1.
-	EditSystemLimits *bool `json:"edit_system_limits,omitempty"`
-
 	// This setting enables the controller leader to shard API requests to the followers (if any). Field introduced in 18.1.5, 18.2.1.
 	EnableAPISharding *bool `json:"enable_api_sharding,omitempty"`
 

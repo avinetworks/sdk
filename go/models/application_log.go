@@ -105,9 +105,6 @@ type ApplicationLog struct {
 	// GRPC response status sent in the GRPC trailer. Special values are -1- 'No GRPC status recevied even though client sent content-type as application/grpc.'. Field introduced in 20.1.1.
 	GrpcStatus *int32 `json:"grpc_status,omitempty"`
 
-	// The reason phrase corresponding to the gRPC status code. Enum options - GRPC_STATUS_CODE_OK, GRPC_STATUS_CODE_CANCELLED, GRPC_STATUS_CODE_UNKNOWN, GRPC_STATUS_CODE_INVALID_ARGUMENT, GRPC_STATUS_CODE_DEADLINE_EXCEEDED, GRPC_STATUS_CODE_NOT_FOUND, GRPC_STATUS_CODE_ALREADY_EXISTS, GRPC_STATUS_CODE_PERMISSION_DENIED, GRPC_STATUS_CODE_UNAUTHENTICATED, GRPC_STATUS_CODE_RESOURCE_EXHAUSTED, GRPC_STATUS_CODE_FAILED_PRECONDITION, GRPC_STATUS_CODE_ABORTED, GRPC_STATUS_CODE_OUT_OF_RANGE, GRPC_STATUS_CODE_UNIMPLEMENTED, GRPC_STATUS_CODE_INTERNAL, GRPC_STATUS_CODE_UNAVAILABLE, GRPC_STATUS_CODE_DATA_LOSS. Field introduced in 20.1.1.
-	GrpcStatusReasonPhrase *string `json:"grpc_status_reason_phrase,omitempty"`
-
 	// Response headers received from backend server.
 	HeadersReceivedFromServer *string `json:"headers_received_from_server,omitempty"`
 
@@ -126,14 +123,17 @@ type ApplicationLog struct {
 	// http_response_policy_rule_name of ApplicationLog.
 	HTTPResponsePolicyRuleName *string `json:"http_response_policy_rule_name,omitempty"`
 
+	// SAML Authentication rule matched. Field introduced in 20.1.1.
+	HTTPSamlAuthnRuleName *string `json:"http_saml_authn_rule_name,omitempty"`
+
+	// SAML Authorization rule matched. Field introduced in 20.1.1.
+	HTTPSamlAuthzRuleName *string `json:"http_saml_authz_rule_name,omitempty"`
+
 	// http_security_policy_rule_name of ApplicationLog.
 	HTTPSecurityPolicyRuleName *string `json:"http_security_policy_rule_name,omitempty"`
 
 	// http_version of ApplicationLog.
 	HTTPVersion *string `json:"http_version,omitempty"`
-
-	// Log for the ICAP processing. Field introduced in 20.1.1.
-	IcapLog *IcapLog `json:"icap_log,omitempty"`
 
 	// Number of log_id.
 	// Required: true
@@ -232,9 +232,6 @@ type ApplicationLog struct {
 
 	// SAML authentication is used. Field introduced in 18.2.1.
 	SamlAuthenticationUsed *bool `json:"saml_authentication_used,omitempty"`
-
-	// Logs for the SAML authentication/authorization process. Field introduced in 20.1.1.
-	SamlLog *SamlLog `json:"saml_log,omitempty"`
 
 	// SAML authentication session cookie is valid. Field introduced in 18.2.1.
 	SamlSessionCookieValid *bool `json:"saml_session_cookie_valid,omitempty"`

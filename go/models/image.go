@@ -11,9 +11,6 @@ type Image struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// This field describes the cloud info specific to the base image. Field introduced in 20.1.1.
-	CloudInfoValues []*ImageCloudData `json:"cloud_info_values,omitempty"`
-
 	// Controller package details. Field introduced in 18.2.6.
 	ControllerInfo *PackageDetails `json:"controller_info,omitempty"`
 

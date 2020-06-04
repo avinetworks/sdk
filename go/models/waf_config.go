@@ -58,7 +58,7 @@ type WafConfig struct {
 	// Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5.
 	RegexMatchLimit *int32 `json:"regex_match_limit,omitempty"`
 
-	// Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9.
+	// Limit depth of recursion for each regular expression match when processing rules. Field introduced in 20.1.1.
 	RegexRecursionLimit *int32 `json:"regex_recursion_limit,omitempty"`
 
 	// WAF default action for Request Body Phase. Field introduced in 17.2.1.

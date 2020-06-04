@@ -11,9 +11,6 @@ type Network struct {
 	// Read Only: true
 	LastModified *string `json:"_last_modified,omitempty"`
 
-	// Key/value network attributes. Field introduced in 20.1.1.
-	Attrs []*KeyValue `json:"attrs,omitempty"`
-
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 

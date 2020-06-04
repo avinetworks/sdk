@@ -16,9 +16,6 @@ type PortalFeatureOptIn struct {
 	// Flag to check if the user has opted in for auto deployment of CRS data on controller. Field introduced in 20.1.1.
 	EnableAutoDownloadWafSignatures *bool `json:"enable_auto_download_waf_signatures,omitempty"`
 
-	// Flag to check if the user has opted in for automated IP reputation db sync. Field introduced in 20.1.1.
-	EnableIPReputation *bool `json:"enable_ip_reputation,omitempty"`
-
 	// Flag to check if the user has opted in for notifications about the availability of new CRS data. Field introduced in 20.1.1.
 	EnableWafSignaturesNotifications *bool `json:"enable_waf_signatures_notifications,omitempty"`
 }

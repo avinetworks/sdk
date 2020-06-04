@@ -12,13 +12,17 @@ type IPReputationDB struct {
 	LastModified *string `json:"_last_modified,omitempty"`
 
 	// IP reputation DB base file. It is a reference to an object of type FileObject. Field introduced in 20.1.1.
-	BaseFileRefs []string `json:"base_file_refs,omitempty"`
+	BaseFileRef *string `json:"base_file_ref,omitempty"`
 
 	// Description. Field introduced in 20.1.1.
 	Description *string `json:"description,omitempty"`
 
 	// IP reputation DB incremental update files. It is a reference to an object of type FileObject. Field introduced in 20.1.1.
 	IncrementalFileRefs []string `json:"incremental_file_refs,omitempty"`
+
+	// Timestamp of the last change made to this IP reputation DB. Field introduced in 20.1.1.
+	// Required: true
+	LastModified *int64 `json:"last_modified"`
 
 	// IP reputation DB name. Field introduced in 20.1.1.
 	// Required: true

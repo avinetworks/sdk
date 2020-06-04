@@ -41,7 +41,6 @@ type AviClient struct {
 	ApplicationProfile              *ApplicationProfileClient
 	AuthProfile                     *AuthProfileClient
 	AutoScaleLaunchConfig           *AutoScaleLaunchConfigClient
-	AvailabilityZone                *AvailabilityZoneClient
 	Backup                          *BackupClient
 	BackupConfiguration             *BackupConfigurationClient
 	CertificateManagementProfile    *CertificateManagementProfileClient
@@ -85,7 +84,6 @@ type AviClient struct {
 	NetworkRuntime                  *NetworkRuntimeClient
 	NetworkSecurityPolicy           *NetworkSecurityPolicyClient
 	NetworkService                  *NetworkServiceClient
-	NsxtSegmentRuntime              *NsxtSegmentRuntimeClient
 	ObjectAccessPolicy              *ObjectAccessPolicyClient
 	PKIprofile                      *PKIprofileClient
 	PingAccessAgent                 *PingAccessAgentClient
@@ -114,7 +112,6 @@ type AviClient struct {
 	SnmpTrapProfile                 *SnmpTrapProfileClient
 	StringGroup                     *StringGroupClient
 	SystemConfiguration             *SystemConfigurationClient
-	SystemLimits                    *SystemLimitsClient
 	Tenant                          *TenantClient
 	TestSeDatastoreLevel1           *TestSeDatastoreLevel1Client
 	TestSeDatastoreLevel2           *TestSeDatastoreLevel2Client
@@ -124,7 +121,6 @@ type AviClient struct {
 	UpgradeStatusSummary            *UpgradeStatusSummaryClient
 	UserAccountProfile              *UserAccountProfileClient
 	UserActivity                    *UserActivityClient
-	VCenterServer                   *VCenterServerClient
 	VIDCInfo                        *VIDCInfoClient
 	VIMgrClusterRuntime             *VIMgrClusterRuntimeClient
 	VIMgrControllerRuntime          *VIMgrControllerRuntimeClient
@@ -171,7 +167,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.ApplicationProfile = NewApplicationProfileClient(aviSession)
 	aviClient.AuthProfile = NewAuthProfileClient(aviSession)
 	aviClient.AutoScaleLaunchConfig = NewAutoScaleLaunchConfigClient(aviSession)
-	aviClient.AvailabilityZone = NewAvailabilityZoneClient(aviSession)
 	aviClient.Backup = NewBackupClient(aviSession)
 	aviClient.BackupConfiguration = NewBackupConfigurationClient(aviSession)
 	aviClient.CertificateManagementProfile = NewCertificateManagementProfileClient(aviSession)
@@ -215,7 +210,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.NetworkRuntime = NewNetworkRuntimeClient(aviSession)
 	aviClient.NetworkSecurityPolicy = NewNetworkSecurityPolicyClient(aviSession)
 	aviClient.NetworkService = NewNetworkServiceClient(aviSession)
-	aviClient.NsxtSegmentRuntime = NewNsxtSegmentRuntimeClient(aviSession)
 	aviClient.ObjectAccessPolicy = NewObjectAccessPolicyClient(aviSession)
 	aviClient.PKIprofile = NewPKIprofileClient(aviSession)
 	aviClient.PingAccessAgent = NewPingAccessAgentClient(aviSession)
@@ -244,7 +238,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.SnmpTrapProfile = NewSnmpTrapProfileClient(aviSession)
 	aviClient.StringGroup = NewStringGroupClient(aviSession)
 	aviClient.SystemConfiguration = NewSystemConfigurationClient(aviSession)
-	aviClient.SystemLimits = NewSystemLimitsClient(aviSession)
 	aviClient.Tenant = NewTenantClient(aviSession)
 	aviClient.TestSeDatastoreLevel1 = NewTestSeDatastoreLevel1Client(aviSession)
 	aviClient.TestSeDatastoreLevel2 = NewTestSeDatastoreLevel2Client(aviSession)
@@ -254,7 +247,6 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.UpgradeStatusSummary = NewUpgradeStatusSummaryClient(aviSession)
 	aviClient.UserAccountProfile = NewUserAccountProfileClient(aviSession)
 	aviClient.UserActivity = NewUserActivityClient(aviSession)
-	aviClient.VCenterServer = NewVCenterServerClient(aviSession)
 	aviClient.VIDCInfo = NewVIDCInfoClient(aviSession)
 	aviClient.VIMgrClusterRuntime = NewVIMgrClusterRuntimeClient(aviSession)
 	aviClient.VIMgrControllerRuntime = NewVIMgrControllerRuntimeClient(aviSession)

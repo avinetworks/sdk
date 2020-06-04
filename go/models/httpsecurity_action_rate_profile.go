@@ -7,17 +7,17 @@ package models
 // swagger:model HTTPSecurityActionRateProfile
 type HttpsecurityActionRateProfile struct {
 
-	// The action to take when the rate limit has been reached. Field introduced in 18.2.9.
+	// The action to take when the rate limit has been reached. Field introduced in 20.1.1.
 	// Required: true
 	Action *RateLimiterAction `json:"action"`
 
-	// Rate limiting should be done on a per client ip basis. Field introduced in 18.2.9.
+	// Rate limiting should be done on a per client ip basis. Field introduced in 20.1.1.
 	PerClientIP *bool `json:"per_client_ip,omitempty"`
 
-	// Rate limiting should be done on a per request uri path basis. Field introduced in 18.2.9.
+	// Rate limiting should be done on a per request uri path basis. Field introduced in 20.1.1.
 	PerURIPath *bool `json:"per_uri_path,omitempty"`
 
-	// The rate limiter used when this action is triggered. Field introduced in 18.2.9.
+	// The rate limiter used when this action is triggered. Field introduced in 20.1.1.
 	// Required: true
 	RateLimiter *RateLimiter `json:"rate_limiter"`
 }

@@ -65,9 +65,6 @@ type ServiceEngineGroup struct {
 	// Redistribution of virtual services from the takeover SE to the replacement SE can cause momentary traffic loss. If the auto-redistribute load option is left in its default off state, any desired rebalancing requires calls to REST API.
 	AutoRedistributeActiveStandbyLoad *bool `json:"auto_redistribute_active_standby_load,omitempty"`
 
-	// Availability zones for Virtual Service High Availability. It is a reference to an object of type AvailabilityZone. Field introduced in 20.1.1.
-	AvailabilityZoneRefs []string `json:"availability_zone_refs,omitempty"`
-
 	// BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1.
 	BgpStateUpdateInterval *int32 `json:"bgp_state_update_interval,omitempty"`
 
@@ -76,9 +73,6 @@ type ServiceEngineGroup struct {
 
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
-
-	// Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9, 20.1.1.
-	CompressIPRulesForEachNsSubnet *bool `json:"compress_ip_rules_for_each_ns_subnet,omitempty"`
 
 	// Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1.
 	ConfigDebugsOnAllCores *bool `json:"config_debugs_on_all_cores,omitempty"`
@@ -254,7 +248,7 @@ type ServiceEngineGroup struct {
 	// Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.
 	MaxMemoryPerMempool *int32 `json:"max_memory_per_mempool,omitempty"`
 
-	// Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Allowed values are 1-128. Field introduced in 20.1.1.
+	// Configures the maximum number of se_dp processes created on the SE, requires SE reboot. If not configured, defaults to the number of CPUs on the SE. This should only be used if user wants to limit the number of se_dps to less than the available CPUs on the SE. Field introduced in 20.1.1.
 	MaxNumSeDps *int32 `json:"max_num_se_dps,omitempty"`
 
 	// Applicable to Azure platform only. Maximum number of public IPs per Azure LB. . Field introduced in 17.2.12, 18.1.2.
@@ -501,12 +495,6 @@ type ServiceEngineGroup struct {
 	// Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3.
 	SeUseDpdk *int32 `json:"se_use_dpdk,omitempty"`
 
-	// Configure the frequency in milliseconds of software transmit spillover queue flush when enabled. This is necessary to flush any packets in the spillover queue in the absence of a packet transmit in the normal course of operation. Allowed values are 50-500. Special values are 0- 'disable'. Field introduced in 20.1.1.
-	SeVnicTxSwQueueFlushFrequency *int32 `json:"se_vnic_tx_sw_queue_flush_frequency,omitempty"`
-
-	// Configure the size of software transmit spillover queue when enabled. Requires SE Reboot. Allowed values are 128-2048. Field introduced in 20.1.1.
-	SeVnicTxSwQueueSize *int32 `json:"se_vnic_tx_sw_queue_size,omitempty"`
-
 	// Maximum number of aggregated vs heartbeat packets to send in a batch. Allowed values are 1-256. Field introduced in 17.1.1.
 	SeVsHbMaxPktsInBatch *int32 `json:"se_vs_hb_max_pkts_in_batch,omitempty"`
 
@@ -533,9 +521,6 @@ type ServiceEngineGroup struct {
 
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
-
-	// The threshold for the transient shared config memory in the SE. Allowed values are 0-100. Field introduced in 20.1.1.
-	TransientSharedMemoryMax *int32 `json:"transient_shared_memory_max,omitempty"`
 
 	// This setting limits the number of UDF logs generated per second per core on this SE. UDF logs are generated due to the configured client log filters or the rules with logging enabled. Default is 100 logs per second. Set it to zero (0) to disable throttling. Field introduced in 17.1.3.
 	UdfLogThrottle *int32 `json:"udf_log_throttle,omitempty"`
@@ -570,9 +555,6 @@ type ServiceEngineGroup struct {
 
 	// Placeholder for description of property vcenter_hosts of obj type ServiceEngineGroup field type str  type object
 	VcenterHosts *VcenterHosts `json:"vcenter_hosts,omitempty"`
-
-	// VCenter information for scoping at Host/Cluster level. Field introduced in 20.1.1.
-	Vcenters []*PlacementScopeConfig `json:"vcenters,omitempty"`
 
 	// Number of vcpus for each of the Service Engine virtual machines.
 	VcpusPerSe *int32 `json:"vcpus_per_se,omitempty"`
