@@ -19,4 +19,7 @@ type SeFault struct {
 
 	// Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7.
 	NumExecutions *int32 `json:"num_executions,omitempty"`
+
+	// Number of times the fault should be skipped before executing. Field introduced in 18.2.9.
+	NumSkips *int32 `json:"num_skips,omitempty"`
 }
