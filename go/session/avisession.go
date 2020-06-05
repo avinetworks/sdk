@@ -950,6 +950,8 @@ func (avisess *AviSession) GetRaw(uri string) ([]byte, error) {
 
 // PostRaw performs a POST API call and returns raw data
 func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) {
+        glog.Infof("MANOJ PostRaw: %v", payload)
+        resp, rerror := avisess.restRequest("POST", uri, payload, "", nil)
 	resp, rerror := avisess.restRequest("POST", uri, nil, "", nil)
 	if rerror != nil || resp == nil {
 		return nil, rerror
