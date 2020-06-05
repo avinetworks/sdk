@@ -76,6 +76,7 @@ type AviClient struct {
 	Image                           *ImageClient
 	JobEntry                        *JobEntryClient
 	L4PolicySet                     *L4PolicySetClient
+	LicenseLedgerDetails            *LicenseLedgerDetailsClient
 	LogControllerMapping            *LogControllerMappingClient
 	MicroService                    *MicroServiceClient
 	MicroServiceGroup               *MicroServiceGroupClient
@@ -206,6 +207,7 @@ func NewAviClient(host string, username string, options ...func(*session.AviSess
 	aviClient.Image = NewImageClient(aviSession)
 	aviClient.JobEntry = NewJobEntryClient(aviSession)
 	aviClient.L4PolicySet = NewL4PolicySetClient(aviSession)
+	aviClient.LicenseLedgerDetails = NewLicenseLedgerDetailsClient(aviSession)
 	aviClient.LogControllerMapping = NewLogControllerMappingClient(aviSession)
 	aviClient.MicroService = NewMicroServiceClient(aviSession)
 	aviClient.MicroServiceGroup = NewMicroServiceGroupClient(aviSession)

@@ -23,6 +23,9 @@ type FileObject struct {
 	// Description of the file. Field introduced in 20.1.1.
 	Description *string `json:"description,omitempty"`
 
+	// Timestamp when the file will be no longer needed and can be removed by the system. If this is set, a garbage collector process will try to remove the file after this time. Field introduced in 20.1.1.
+	ExpiresAt *string `json:"expires_at,omitempty"`
+
 	// This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines. If the field is set to true, then the object is replicated across the federation. Field introduced in 20.1.1.
 	IsFederated *bool `json:"is_federated,omitempty"`
 

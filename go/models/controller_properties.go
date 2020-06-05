@@ -86,6 +86,9 @@ type ControllerProperties struct {
 	// Federated datastore will not cleanup diffs unless they are at least this duration in the past. Field introduced in 20.1.1.
 	FederatedDatastoreCleanupDuration *int64 `json:"federated_datastore_cleanup_duration,omitempty"`
 
+	// Period for file object cleanup job. Field introduced in 20.1.1.
+	FileObjectCleanupPeriod *int32 `json:"file_object_cleanup_period,omitempty"`
+
 	// Number of max_dead_se_in_grp.
 	MaxDeadSeInGrp *int32 `json:"max_dead_se_in_grp,omitempty"`
 
