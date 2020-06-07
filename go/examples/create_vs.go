@@ -93,7 +93,14 @@ func main() {
 	// Delete pool
 	err = aviClient.Pool.Delete(*npobj.UUID)
 	if err != nil {
-		fmt.Println("Pool creation failed: ", err)
+		fmt.Println("Pool deletion failed: ", err)
+		return
+	}
+
+	// Delete vip
+	err = aviClient.VsVip.Delete(*vsVipObj.UUID)
+	if err != nil {
+		fmt.Println("Vip deletion failed: ", err)
 		return
 	}
 }
