@@ -108,7 +108,6 @@ vsobj := models.VirtualService{}
 vname := "my-test-vs"
 vsobj.Name = &vname
 vsobj.VsvipRef = vsVipObj.UUID
-
 vsobj.PoolRef = npobj.UUID
 port := int32(80)
 vsobj.Services = append(vsobj.Services, &models.Service{Port: &port})
