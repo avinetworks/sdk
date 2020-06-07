@@ -30,6 +30,11 @@ func TestDeleteConfigurations(t *testing.T) {
 	// Delete Pool
 	poolRes := aviClient.Pool.DeleteByName("Test-pool")
 	fmt.Printf("Pool Deleted Successfully, : %+v", poolRes)
+
+	// Delete VsVip
+	vipRes := aviClient.VsVip.DeleteByName("test_vsvip")
+	fmt.Printf("VsVip Deleted Successfully, : %+v", vipRes)
+
 	// Create session for webapp tenant
 	aviClient1, err := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), os.Getenv("AVI_USERNAME"),
 		session.SetPassword(os.Getenv("AVI_PASSWORD")),
