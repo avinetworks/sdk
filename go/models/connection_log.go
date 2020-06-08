@@ -106,7 +106,7 @@ type ConnectionLog struct {
 	// Required: true
 	OutOfOrders *int32 `json:"out_of_orders"`
 
-	// Persistence applied. Field introduced in 20.1.1.
+	// Persistence applied during server selection. Field introduced in 20.1.1.
 	PersistenceUsed *bool `json:"persistence_used,omitempty"`
 
 	// pool of ConnectionLog.

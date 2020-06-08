@@ -181,6 +181,9 @@ type EventDetails struct {
 	// Placeholder for description of property container_cloud_sevice of obj type EventDetails field type str  type object
 	ContainerCloudSevice *ContainerCloudService `json:"container_cloud_sevice,omitempty"`
 
+	// Placeholder for description of property controller_license_reconcile_details of obj type EventDetails field type str  type object
+	ControllerLicenseReconcileDetails *ControllerLicenseReconcileDetails `json:"controller_license_reconcile_details,omitempty"`
+
 	// Placeholder for description of property crs_deployment_failure of obj type EventDetails field type str  type object
 	CrsDeploymentFailure *CRSDeploymentFailure `json:"crs_deployment_failure,omitempty"`
 
@@ -240,6 +243,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property license_expiry_details of obj type EventDetails field type str  type object
 	LicenseExpiryDetails *LicenseExpiryDetails `json:"license_expiry_details,omitempty"`
+
+	// Placeholder for description of property license_transaction_details of obj type EventDetails field type str  type object
+	LicenseTransactionDetails *LicenseTransactionDetails `json:"license_transaction_details,omitempty"`
 
 	// Placeholder for description of property marathon_service_port_conflict_details of obj type EventDetails field type str  type object
 	MarathonServicePortConflictDetails *MarathonServicePortConflict `json:"marathon_service_port_conflict_details,omitempty"`
@@ -399,6 +405,9 @@ type EventDetails struct {
 
 	// Placeholder for description of property se_pool_lb_details of obj type EventDetails field type str  type object
 	SePoolLbDetails *SePoolLbEventDetails `json:"se_pool_lb_details,omitempty"`
+
+	// Placeholder for description of property se_reconcile_details of obj type EventDetails field type str  type object
+	SeReconcileDetails *SeReconcileDetails `json:"se_reconcile_details,omitempty"`
 
 	// Placeholder for description of property se_thresh_event_details of obj type EventDetails field type str  type object
 	SeThreshEventDetails *SeThreshEventDetails `json:"se_thresh_event_details,omitempty"`

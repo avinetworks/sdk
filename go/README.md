@@ -81,24 +81,41 @@ if err != nil {
 }
 ```
 
+- Create vsvip 'test-vip' :
+
+```go
+vsVip := models.VsVip{}
+vipAddr := "10.90.20.51"
+vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
+vipId := "1"
+vipObj := models.Vip{VipID: &vipId, IPAddress: &vipip}
+
+vipName := "test-vip"
+vsVip.Name = &vipName
+vsVip.Vip = append(vsVip.Vip, &vipObj)
+
+vsVipObj, err := aviClient.VsVip.Create(&vsVip)
+
+if err != nil {
+    fmt.Println("VIP creation failed: ", err)
+}
+```
+
 - Create virtualservice 'my-test-vs' using pool 'my-test-pool':
 
 ```go
 vsobj := models.VirtualService{}
 vname := "my-test-vs"
 vsobj.Name = &vname
-vipAddr := "10.90.20.51"
-vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
-vipId := "myvip"
-vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: &vipId, IPAddress: &vipip})
+vsobj.VsvipRef = vsVipObj.UUID
 vsobj.PoolRef = npobj.UUID
 port := int32(80)
 vsobj.Services = append(vsobj.Services, &models.Service{Port: &port})
 
 nvsobj, err := aviClient.VirtualService.Create(&vsobj)
 if err != nil {
-  fmt.Println("VS creation failed: ", err)
-  return
+    fmt.Println("VS creation failed: ", err)
+    return
 }
 fmt.Printf("VS obj: %+v", *nvsobj)
 ```
