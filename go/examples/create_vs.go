@@ -14,6 +14,7 @@ func main() {
 	aviClient, err := clients.NewAviClient("10.10.28.91", "admin",
 		session.SetPassword("password"),
 		session.SetTenant("admin"),
+		session.SetVersion("20.1.1"),
 		session.SetInsecure)
 	if err != nil {
 		fmt.Println("Couldn't create session: ", err)
@@ -40,14 +41,27 @@ func main() {
 		return
 	}
 
+	vsVip := models.VsVip{}
+	vipAddr := "10.90.20.51"
+	vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
+	vipId := "1"
+	vipObj := models.Vip{VipID: &vipId, IPAddress: &vipip}
+	vipName := "test_vsvip"
+	vsVip.Name = &vipName
+	vsVip.Vip = append(vsVip.Vip, &vipObj)
+
+	vsVipObj, err := aviClient.VsVip.Create(&vsVip)
+	if err != nil {
+		fmt.Println("VIP creation failed: ", err)
+		return
+	}
+
 	// Create a virtual service and use the pool created above
 	vsobj := models.VirtualService{}
 	vname := "my-test-vs"
 	vsobj.Name = &vname
-	vipAddr := "10.90.20.51"
-	vipip := models.IPAddr{Type: &ipType, Addr: &vipAddr}
-	vipId := "myvip"
-	vsobj.Vip = append(vsobj.Vip, &models.Vip{VipID: &vipId, IPAddress: &vipip})
+	vsobj.VsvipRef = vsVipObj.UUID
+
 	vsobj.PoolRef = npobj.UUID
 	port := int32(80)
 	vsobj.Services = append(vsobj.Services, &models.Service{Port: &port})
@@ -79,7 +93,14 @@ func main() {
 	// Delete pool
 	err = aviClient.Pool.Delete(*npobj.UUID)
 	if err != nil {
-		fmt.Println("Pool creation failed: ", err)
+		fmt.Println("Pool deletion failed: ", err)
+		return
+	}
+
+	// Delete vip
+	err = aviClient.VsVip.Delete(*vsVipObj.UUID)
+	if err != nil {
+		fmt.Println("Vip deletion failed: ", err)
 		return
 	}
 }

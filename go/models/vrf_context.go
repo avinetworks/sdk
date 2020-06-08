@@ -35,6 +35,9 @@ type VrfContext struct {
 	// Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1.
 	Labels []*KeyValue `json:"labels,omitempty"`
 
+	// Enable LLDP. Field introduced in 20.1.1.
+	LldpEnable *bool `json:"lldp_enable,omitempty"`
+
 	// Name of the object.
 	// Required: true
 	Name *string `json:"name"`

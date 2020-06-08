@@ -565,6 +565,35 @@ def create_pool():
     }
     return jsonify(responce)
 
+@app.route("/api/vsvip", methods=['POST','GET'])
+def create_vsvip():
+    responce = {
+          "url": "/api/vsvip/vsvip-af544f90-3296-4bd7-887c-75bf6c8d7726",
+          "uuid": "vsvip-af544f90-3296-4bd7-887c-75bf6c8d7726",
+          "name": "test_vsvip",
+          "vrf_context_ref": "/api/vrfcontext/?tenant=admin&name=global&cloud=Test-vcenter-cloud",
+          "tenant_ref": "/api/tenant/?name=avinetworks",
+          "cloud_ref": "/api/cloud/?tenant=admin&name=Test-vcenter-cloud",
+          "vip": [
+              {
+                  "vip_id": "1",
+                  "ip_address": {
+                      "addr": "10.90.20.51",
+                      "type": "V4"
+                  },
+                  "enabled": True,
+                  "auto_allocate_ip": False,
+                  "auto_allocate_floating_ip": False,
+                  "avi_allocated_vip": False,
+                  "avi_allocated_fip": False,
+                  "auto_allocate_ip_type": "V4_ONLY",
+                  "prefix_length": 32
+              }
+          ],
+          "east_west_placement": False
+    }
+    return jsonify(responce)
+
 @app.route("/api/virtualservice", methods=['POST','GET'])
 def create_virtualservice():
     responce = {
@@ -844,6 +873,10 @@ def delete_persistenceprofile():
     data = {}
     return jsonify(data)
 
+@app.route("/api/vsvip/vsvip-af544f90-3296-4bd7-887c-75bf6c8d7726", methods=['DELETE'])
+def delete_vsvip():
+    data = {}
+    return jsonify(data)
 
 @app.route("/api/tenant/tenant-0e125e6b-a6a5-4a36-9d95-5e350844de2e", methods=['DELETE'])
 def delete_tenant():

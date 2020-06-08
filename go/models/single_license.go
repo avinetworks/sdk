@@ -51,13 +51,16 @@ type SingleLicense struct {
 	// Serial key (Hyphen separated 25 char wide alphanumeric key Ex  AA123-23BAS-383AS-383UD-FHSFG). Field introduced in 20.1.1.
 	SerialKey *string `json:"serial_key,omitempty"`
 
+	// Total number of service cores equivalent to all the resoures available in the single license. Field introduced in 20.1.1.
+	ServiceCores *float64 `json:"service_cores,omitempty"`
+
 	// Number of physical cpu sockets across Service Engines in no access and linux server clouds.
 	Sockets *int32 `json:"sockets,omitempty"`
 
 	// start_on of SingleLicense.
 	StartOn *string `json:"start_on,omitempty"`
 
-	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5.
+	// Specifies the licensed tier. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5.
 	TierType *string `json:"tier_type,omitempty"`
 
 	// valid_until of SingleLicense.
