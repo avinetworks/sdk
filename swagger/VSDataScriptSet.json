@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VSDataScriptSet Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- configure vsdatascriptset <key>\n- show vsdatascriptset <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -585,6 +585,13 @@
                     "type": "array", 
                     "description": "UUID of String Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type StringGroup."
                 }, 
+                "rate_limiters": {
+                    "items": {
+                        "$ref": "#/definitions/RateLimiter"
+                    }, 
+                    "type": "array", 
+                    "description": "The Rate Limit definitions needed for this DataScript. The name is composed of the Virtual Service name and the DataScript name. Field introduced in 18.2.9."
+                }, 
                 "name": {
                     "type": "string", 
                     "description": "Name for the virtual service datascript collection."
@@ -607,6 +614,36 @@
                         "$ref": "#/definitions/VSDataScriptSet"
                     }, 
                     "type": "array"
+                }
+            }
+        }, 
+        "RateLimiter": {
+            "required": [
+                "count", 
+                "period"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "default": 1000000000, 
+                    "type": "integer", 
+                    "description": "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }, 
+                "burst_sz": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
+                }, 
+                "period": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
                 }
             }
         }

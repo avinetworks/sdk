@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DnsPolicy Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- configure dnspolicy <key>\n- show dnspolicy <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -875,6 +875,36 @@
                 }
             }
         }, 
+        "RateLimiter": {
+            "required": [
+                "count", 
+                "period"
+            ], 
+            "type": "object", 
+            "properties": {
+                "count": {
+                    "default": 1000000000, 
+                    "type": "integer", 
+                    "description": "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }, 
+                "burst_sz": {
+                    "type": "integer", 
+                    "description": "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }, 
+                "name": {
+                    "type": "string", 
+                    "description": "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
+                }, 
+                "period": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }
+            }
+        }, 
         "DnsARdata": {
             "required": [
                 "ip_address"
@@ -911,6 +941,23 @@
                 }
             }
         }, 
+        "DnsRateLimiter": {
+            "required": [
+                "action", 
+                "rate_limiter_object"
+            ], 
+            "type": "object", 
+            "properties": {
+                "action": {
+                    "description": "Action to perform upon rate limiting. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/DnsRuleRLAction"
+                }, 
+                "rate_limiter_object": {
+                    "description": "Rate limiting object. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/RateLimiter"
+                }
+            }
+        }, 
         "DnsRateProfile": {
             "required": [
                 "action"
@@ -918,28 +965,27 @@
             "type": "object", 
             "properties": {
                 "action": {
-                    "description": "Action to perform upon rate limiting. Field introduced in 18.2.5.", 
+                    "description": "Action to perform upon rate limiting. Field deprecated in 18.2.9. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/DnsRuleRLAction"
                 }, 
                 "count": {
                     "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field introduced in 18.2.5.", 
+                    "description": "Maximum number of connections or requests or packets per second. It is deprecated because of adoption of new shared rate limiter protobuf. Allowed values are 1-4294967295. Special values are 0- 'unlimited'. Field deprecated in 18.2.9. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "burst_size": {
                     "type": "integer", 
-                    "description": "Maximum number of connections or requests or packets to be rate limited instantaneously. Field introduced in 18.2.5.", 
+                    "description": "Maximum number of connections or requests or packets to be rate limited instantaneously. Field deprecated in 18.2.9. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "period": {
-                    "default": 1, 
                     "type": "integer", 
-                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field introduced in 18.2.5.", 
+                    "description": "Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
                 "fine_grain": {
                     "type": "boolean", 
-                    "description": "Enable fine granularity. Field introduced in 18.2.5."
+                    "description": "Enable fine granularity. Field deprecated in 18.2.9. Field introduced in 18.2.5."
                 }
             }
         }, 
@@ -1013,25 +1059,29 @@
         "DnsRuleAction": {
             "type": "object", 
             "properties": {
+                "allow": {
+                    "description": "Allow or drop the DNS query. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/DnsRuleActionAllowDrop"
+                }, 
+                "dns_rate_limiter": {
+                    "description": "Rate limits the DNS requests. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/DnsRateLimiter"
+                }, 
                 "dns_rate_limit": {
-                    "description": "Rate limit the DNS requests. Field introduced in 18.2.5.", 
+                    "description": "Rate limits the DNS requests. Field deprecated in 18.2.9. Field introduced in 18.2.5.", 
                     "$ref": "#/definitions/DnsRateProfile"
                 }, 
                 "pool_switching": {
                     "description": "Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 18.1.3, 17.2.12.", 
                     "$ref": "#/definitions/DnsRuleActionPoolSwitching"
                 }, 
-                "allow": {
-                    "description": "Allow or drop the DNS query. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/DnsRuleActionAllowDrop"
+                "response": {
+                    "description": "Generate a response for the DNS query. Field introduced in 17.1.1.", 
+                    "$ref": "#/definitions/DnsRuleActionResponse"
                 }, 
                 "gslb_site_selection": {
                     "description": "Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5.", 
                     "$ref": "#/definitions/DnsRuleActionGslbSiteSelection"
-                }, 
-                "response": {
-                    "description": "Generate a response for the DNS query. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/DnsRuleActionResponse"
                 }
             }
         }, 

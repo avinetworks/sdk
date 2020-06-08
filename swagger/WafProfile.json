@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi WafProfile Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- configure wafprofile <key>\n- show wafprofile <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -550,6 +550,12 @@
                     "default": "phase:1,deny,status:403,log,auditlog", 
                     "type": "string", 
                     "description": "WAF default action for Request Header Phase. Field introduced in 17.2.1."
+                }, 
+                "regex_recursion_limit": {
+                    "default": 10000, 
+                    "type": "integer", 
+                    "description": "Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9.", 
+                    "format": "int32"
                 }, 
                 "buffer_response_body_for_inspection": {
                     "type": "boolean", 

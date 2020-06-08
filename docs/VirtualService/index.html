@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure virtualservice <key> - show virtualservice <key> - scaleout virtualservice <key> - scalein virtualservice <key> - migrate virtualservice <key> - switchover virtualservice <key> - clear virtualservice <key> - resync virtualservice <key> - rotatekeys virtualservice <key> - apicplacement virtualservice <key> - retryplacement virtualservice <key> ```  Examples - **virtualservice_example_1**: To create a basic virtualservice object that has both http and https enabled   ```json     {u'services': [{u'port': 80}, {u'enable_ssl': True, u'port': 443}], u'vip': [{u'ip_address': {u'type': u'V4', u'addr': u'10.10.2.28'}}], u'name': u'production_vs'}   ```  - **virtualservice_example_ipamdns_infoblox**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Infoblox as IPAM & DNS provider - On Infoblox server - \"10.10.10.0/24\" is configured for VIPs - \"prod.corp\" is configured as zone   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ```  - **virtualservice_example_ipamdns_internal**: Create a basic virtualservice object that requires IP to be auto-allocated and DNS record to be registered. @Assumptions: - This example assumes the virtualservice being created is part of a Cloud with Internal IPAM & DNS provider - On Avi - Network object containing free IPs from \"10.10.10.0/24\" is already created - \"prod.corp\" is configured as a domain name in DNS provider config in Avi   ```json     {u'vip': [{u'subnet': {u'ip_addr': {u'type': u'V4', u'addr': u'10.10.10.0'}, u'mask': 24}, u'auto_allocate_ip': True, u'network_ref': u'/api/network/network-042975ea-376d-4e59-b8da-1b299be51eb1'}], u'name': u'production_vs', u'fqdn': u'production_vs.prod.corp'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 18.2.9</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -1378,6 +1378,10 @@ font-style: italic;
       "ip6_address" : [ {
         "ip6_address" : ""
       } ],
+      "mx_records" : [ {
+        "host" : "aeiou",
+        "priority" : 123
+      } ],
       "metadata" : "aeiou",
       "fqdn" : [ "aeiou" ],
       "ns" : [ {
@@ -1393,6 +1397,9 @@ font-style: italic;
       "type" : "aeiou",
       "ttl" : 123,
       "wildcard_match" : true,
+      "txt_records" : [ {
+        "text_str" : "aeiou"
+      } ],
       "num_records_in_response" : 123,
       "service_locator" : [ {
         "port" : 123,
@@ -1421,6 +1428,12 @@ font-style: italic;
     "traffic_clone_profile_ref" : "aeiou",
     "host_name_xlate" : "aeiou",
     "connections_rate_limit" : {
+      "rate_limiter" : {
+        "period" : 123,
+        "count" : 123,
+        "name" : "aeiou",
+        "burst_sz" : 123
+      },
       "period" : 123,
       "count" : 123,
       "action" : {
@@ -1813,6 +1826,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -1828,6 +1845,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -1856,6 +1876,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -3059,6 +3085,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -3074,6 +3104,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -3102,6 +3135,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -4187,6 +4226,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -4202,6 +4245,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -4230,6 +4276,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -4685,6 +4737,10 @@ font-style: italic;
     "ip6_address" : [ {
       "ip6_address" : ""
     } ],
+    "mx_records" : [ {
+      "host" : "aeiou",
+      "priority" : 123
+    } ],
     "metadata" : "aeiou",
     "fqdn" : [ "aeiou" ],
     "ns" : [ {
@@ -4700,6 +4756,9 @@ font-style: italic;
     "type" : "aeiou",
     "ttl" : 123,
     "wildcard_match" : true,
+    "txt_records" : [ {
+      "text_str" : "aeiou"
+    } ],
     "num_records_in_response" : 123,
     "service_locator" : [ {
       "port" : 123,
@@ -4728,6 +4787,12 @@ font-style: italic;
   "traffic_clone_profile_ref" : "aeiou",
   "host_name_xlate" : "aeiou",
   "connections_rate_limit" : {
+    "rate_limiter" : {
+      "period" : 123,
+      "count" : 123,
+      "name" : "aeiou",
+      "burst_sz" : 123
+    },
     "period" : 123,
     "count" : 123,
     "action" : {
@@ -5655,10 +5720,12 @@ font-style: italic;
     <li><a href="#DnsARdata"><code>DnsARdata</code></a></li>
     <li><a href="#DnsCnameRdata"><code>DnsCnameRdata</code></a></li>
     <li><a href="#DnsInfo"><code>DnsInfo</code></a></li>
+    <li><a href="#DnsMxRdata"><code>DnsMxRdata</code></a></li>
     <li><a href="#DnsNsRdata"><code>DnsNsRdata</code></a></li>
     <li><a href="#DnsPolicies"><code>DnsPolicies</code></a></li>
     <li><a href="#DnsRecord"><code>DnsRecord</code></a></li>
     <li><a href="#DnsSrvRdata"><code>DnsSrvRdata</code></a></li>
+    <li><a href="#DnsTxtRdata"><code>DnsTxtRdata</code></a></li>
     <li><a href="#FullClientLogs"><code>FullClientLogs</code></a></li>
     <li><a href="#HTTPClientAuthenticationParams"><code>HTTPClientAuthenticationParams</code></a></li>
     <li><a href="#HTTPLocalFile"><code>HTTPLocalFile</code></a></li>
@@ -5678,6 +5745,7 @@ font-style: italic;
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
     <li><a href="#PathMatch"><code>PathMatch</code></a></li>
     <li><a href="#PerformanceLimits"><code>PerformanceLimits</code></a></li>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
     <li><a href="#RateLimiterAction"><code>RateLimiterAction</code></a></li>
     <li><a href="#RateProfile"><code>RateProfile</code></a></li>
     <li><a href="#ReplaceStringVar"><code>ReplaceStringVar</code></a></li>
@@ -5900,6 +5968,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DnsMxRdata">DnsMxRdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">host </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Fully qualified domain name of a mailserver . The host name maps directly to one or more address records in the DNS table, and must not point to any CNAME records (RFC 2181). Field introduced in 18.2.9. </div>
+<div class="param">priority </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The priority field identifies which mail server should be preferred. Allowed values are 0-65535. Field introduced in 18.2.9. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DnsNsRdata">DnsNsRdata</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> IPv6 address for Name Server. Field introduced in 18.1.1. </div>
@@ -5925,10 +6000,12 @@ font-style: italic;
 <div class="param">ip6_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsAAAARdata">array[DnsAAAARdata]</a></span> IPv6 address in AAAA record. Field introduced in 18.1.1. </div>
 <div class="param">ip_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsARdata">array[DnsARdata]</a></span> IP address in A record. </div>
 <div class="param">metadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Internal metadata for the DNS record. Field introduced in 18.2.5. </div>
+<div class="param">mx_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsMxRdata">array[DnsMxRdata]</a></span> MX record. Field introduced in 18.2.9. </div>
 <div class="param">ns (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsNsRdata">array[DnsNsRdata]</a></span> Name Server information in NS record. Field introduced in 17.1.1. </div>
 <div class="param">num_records_in_response (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Specifies the number of records returned by the DNS service. Enter 0 to return all records. Default is 0. Allowed values are 0-20. Special values are 0- &#39;Return all records&#39;. Field introduced in 17.1.1. format: int32</div>
 <div class="param">service_locator (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsSrvRdata">array[DnsSrvRdata]</a></span> Service locator info in SRV record. </div>
 <div class="param">ttl (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time To Live for this DNS record. format: int32</div>
+<div class="param">txt_records (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsTxtRdata">array[DnsTxtRdata]</a></span> Text record. Field introduced in 18.2.9. </div>
 <div class="param">type </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS record type. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. </div>
 <div class="param">wildcard_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable wild-card match of fqdn  if an exact match is not found in the DNS table, the longest match is chosen by wild-carding the fqdn in the DNS request. Default is false. Field introduced in 17.1.1. </div>
     </div>  <!-- field-items -->
@@ -5940,6 +6017,12 @@ font-style: italic;
 <div class="param">priority (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Priority of the target hosting the service, low value implies higher priority for this service record. Allowed values are 0-65535. format: int32</div>
 <div class="param">target (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Canonical hostname, of the machine hosting the service, with no trailing period. &#39;default.host&#39; is valid but not &#39;default.host.&#39;. </div>
 <div class="param">weight (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Relative weight for service records with same priority, high value implies higher preference for this service record. Allowed values are 0-65535. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="DnsTxtRdata">DnsTxtRdata</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">text_str </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Text data associated with the FQDN. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -6096,6 +6179,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="RateLimiterAction">RateLimiterAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#HTTPLocalFile">HTTPLocalFile</a></span> File to be used for HTTP Local response rate limit action. </div>
@@ -6108,13 +6200,14 @@ font-style: italic;
     <h3 class="field-label"><a name="RateProfile">RateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#RateLimiterAction">RateLimiterAction</a></span> Action to perform upon rate limiting. </div>
-<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. format: int32</div>
+<div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be let through instantaneously. Allowed values are 10-2500. Special values are 0- &#39;automatic&#39;. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets. Allowed values are 1-1000000000. Special values are 0- &#39;unlimited&#39;. Field deprecated in 18.2.9. format: int32</div>
 <div class="param">explicit_tracking (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Explicitly tracks an attacker across rate periods. </div>
 <div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. </div>
 <div class="param">http_cookie (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP cookie name. Field introduced in 17.1.1. </div>
 <div class="param">http_header (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> HTTP header name. Field introduced in 17.1.1. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. format: int32</div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 18.2.9. format: int32</div>
+<div class="param">rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> The rate limiter configuration for this rate profile. Field introduced in 18.2.9. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

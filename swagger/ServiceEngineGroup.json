@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi ServiceEngineGroup Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- configure serviceenginegroup <key>\n- show serviceenginegroup <key>\n- redistribute serviceenginegroup <key>\n- clear serviceenginegroup <key>\n```\n\nExamples\n- **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE\n  ```json\n    {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}\n  ```\n\n- **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments\n  ```json\n    {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}\n  ```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -962,6 +962,23 @@
                 }
             }
         }, 
+        "RateLimiterProperties": {
+            "type": "object", 
+            "properties": {
+                "msf_num_stages": {
+                    "default": 1, 
+                    "type": "integer", 
+                    "description": "Number of stages in msf rate limiter. Allowed values are 1-2. Field introduced in 18.2.9.", 
+                    "format": "int32"
+                }, 
+                "msf_stage_size": {
+                    "default": 16384, 
+                    "type": "integer", 
+                    "description": "Each stage size in msf rate limiter. Field introduced in 18.2.9.", 
+                    "format": "int64"
+                }
+            }
+        }, 
         "VcenterClusters": {
             "type": "object", 
             "properties": {
@@ -1187,6 +1204,11 @@
                     "type": "boolean", 
                     "description": "Enable SEs to elect a primary amongst themselves in the absence of a connectivity to controller. Field introduced in 18.1.2."
                 }, 
+                "compress_ip_rules_for_each_ns_subnet": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9."
+                }, 
                 "se_name_prefix": {
                     "default": "Avi", 
                     "type": "string", 
@@ -1395,10 +1417,6 @@
                     "description": "Max size of each packet in the pcap interface. Requires SE Reboot. Field introduced in 18.2.5.", 
                     "format": "int32"
                 }, 
-                "advertise_backend_networks": {
-                    "type": "boolean", 
-                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature. Field deprecated in 18.2.5."
-                }, 
                 "vcenter_folder": {
                     "default": "AviSeFolder", 
                     "type": "string", 
@@ -1422,11 +1440,9 @@
                     "description": "Minimum required heap memory to apply any configuration. Allowed values are 0-100. Field introduced in 18.1.2.", 
                     "format": "int32"
                 }, 
-                "max_memory_per_mempool": {
-                    "default": 64, 
-                    "type": "integer", 
-                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.", 
-                    "format": "int32"
+                "advertise_backend_networks": {
+                    "type": "boolean", 
+                    "description": "Advertise reach-ability of backend server networks via ADC through BGP for default gateway feature. Field deprecated in 18.2.5."
                 }, 
                 "ssl_preprocess_sni_hostname": {
                     "default": true, 
@@ -1459,10 +1475,9 @@
                     "description": "Excess Service Engine capacity provisioned for HA failover.", 
                     "format": "int32"
                 }, 
-                "mem_reserve": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
+                "hypervisor": {
+                    "type": "string", 
+                    "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
                 }, 
                 "vcenter_datastore_mode": {
                     "default": "VCENTER_DATASTORE_ANY", 
@@ -1704,9 +1719,10 @@
                     "description": "UDP Port for SE_DP IPC in Docker bridge mode. Field introduced in 17.1.2.", 
                     "format": "int32"
                 }, 
-                "hypervisor": {
-                    "type": "string", 
-                    "description": "Override default hypervisor. Enum options - DEFAULT, VMWARE_ESX, KVM, VMWARE_VSAN, XEN."
+                "mem_reserve": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Placeholder for description of property mem_reserve of obj type ServiceEngineGroup field type str  type boolean"
                 }, 
                 "cpu_reserve": {
                     "type": "boolean", 
@@ -1794,6 +1810,16 @@
                     "description": "Maximum disk capacity (in MB) to be allocated to an SE. This is exclusively used for debug and log data.", 
                     "format": "int32"
                 }, 
+                "se_rl_prop": {
+                    "description": "Rate limiter properties. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/RateLimiterProperties"
+                }, 
+                "auto_rebalance_interval": {
+                    "default": 300, 
+                    "type": "integer", 
+                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
+                    "format": "int32"
+                }, 
                 "se_flow_probe_retry_timer": {
                     "default": 40, 
                     "type": "integer", 
@@ -1805,15 +1831,15 @@
                     "description": "Determines if DPDK library should be used or not   0  Automatically determine based on hypervisor type 1  Use DPDK if PCAP is not enabled 2  Don't use DPDK. Allowed values are 0-2. Field introduced in 18.1.3.", 
                     "format": "int32"
                 }, 
-                "openstack_availability_zone": {
-                    "type": "string", 
-                    "description": " Field deprecated in 17.1.1."
-                }, 
-                "auto_rebalance_interval": {
-                    "default": 300, 
+                "max_memory_per_mempool": {
+                    "default": 64, 
                     "type": "integer", 
-                    "description": "Frequency of rebalance, if 'Auto rebalance' is enabled.", 
+                    "description": "Max bytes that can be allocated in a single mempool. Field introduced in 18.1.5.", 
                     "format": "int32"
+                }, 
+                "cloud_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Cloud."
                 }, 
                 "vip_asg": {
                     "description": "When vip_asg is set, Vip configuration will be managed by Avi.User will be able to configure vip_asg or Vips individually at the time of create. Field introduced in 17.2.12, 18.1.2.", 
@@ -1934,9 +1960,9 @@
                     "type": "string", 
                     "description": "High Availability mode for all the Virtual Services using this Service Engine group. Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
                 }, 
-                "cloud_ref": {
+                "openstack_availability_zone": {
                     "type": "string", 
-                    "description": " It is a reference to an object of type Cloud."
+                    "description": " Field deprecated in 17.1.1."
                 }, 
                 "vs_switchover_timeout": {
                     "default": 300, 

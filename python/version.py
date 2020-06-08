@@ -4,7 +4,7 @@ Created on Apr 22, 2016
 '''
 
 AVI_VERSION = '18.2.9'
-AVI_PIP_VERSION = '18.2.9b1'
+AVI_PIP_VERSION = '18.2.9'
 
 if __name__ == '__main__':
     print AVI_PIP_VERSION

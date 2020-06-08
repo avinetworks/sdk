@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '18.2.9'
     title: Avi DebugServiceEngine Object API
     contact:
         name: Avi Networks Inc.
@@ -715,4 +715,8 @@ definitions:
                 description: "Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7."
                 type: integer
                 default: 1
+                format: int32
+            num_skips:
+                description: "Number of times the fault should be skipped before executing. Field introduced in 18.2.9."
+                type: integer
                 format: int32

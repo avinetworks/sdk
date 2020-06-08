@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '18.2.9'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -652,6 +652,19 @@ definitions:
                 description: "TCP/UDP port range start (inclusive). Allowed values are 1-65535."
                 type: integer
                 format: int32
+    RateLimiterProperties:
+        type: object
+        properties:
+            msf_num_stages:
+                description: "Number of stages in msf rate limiter. Allowed values are 1-2. Field introduced in 18.2.9."
+                type: integer
+                default: 1
+                format: int32
+            msf_stage_size:
+                description: "Each stage size in msf rate limiter. Field introduced in 18.2.9."
+                type: integer
+                default: 16384
+                format: int64
     ServiceEngineGroup:
         type: object
         required:
@@ -740,6 +753,10 @@ definitions:
             cloud_ref:
                 description: " It is a reference to an object of type Cloud."
                 type: string
+            compress_ip_rules_for_each_ns_subnet:
+                description: "Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9."
+                type: boolean
+                default: True
             config_debugs_on_all_cores:
                 description: "Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1."
                 type: boolean
@@ -1225,6 +1242,9 @@ definitions:
                 type: integer
                 default: 1501
                 format: int32
+            se_rl_prop:
+                description: "Rate limiter properties. Field introduced in 18.2.9."
+                $ref: '#/definitions/RateLimiterProperties'
             se_routing:
                 description: "Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3."
                 type: boolean

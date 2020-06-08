@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi Cloud Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- configure cloud <key>\n- show cloud <key>\n- show cloud internals\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -1567,6 +1567,27 @@
                 }
             }
         }, 
+        "GCPVIPAllocation": {
+            "required": [
+                "mode"
+            ], 
+            "type": "object", 
+            "properties": {
+                "routes": {
+                    "description": "Configure Google Cloud VPC Routes for VIP. The VIP can either be a static IP or auto allocted from AVI Internal Network. The VIP should not overlap with any of the subnet ranges in Google Cloud VPC. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/GCPVIPRoutes"
+                }, 
+                "ilb": {
+                    "description": "Configure Google Cloud Internal LoadBalancer for VIP. The VIP will be auto allocated from a Google Cloud VPC Subnet. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/GCPVIPILB"
+                }, 
+                "mode": {
+                    "default": "ROUTES", 
+                    "type": "string", 
+                    "description": "VIP Allocation Mode. Enum options - ROUTES, ILB. Field introduced in 18.2.9."
+                }
+            }
+        }, 
         "NuageSDNController": {
             "type": "object", 
             "properties": {
@@ -2604,6 +2625,7 @@
                 "network_config", 
                 "region_name", 
                 "se_project_id", 
+                "vip_allocation_strategy", 
                 "zones"
             ], 
             "type": "object", 
@@ -2615,6 +2637,10 @@
                 "region_name": {
                     "type": "string", 
                     "description": "Google Cloud Platform Region Name where Service Engines will be spawned. Field introduced in 18.2.1."
+                }, 
+                "vip_allocation_strategy": {
+                    "description": "VIP allocation strategy defines how the VIPs will be created in Google Cloud. Field introduced in 18.2.9.", 
+                    "$ref": "#/definitions/GCPVIPAllocation"
                 }, 
                 "gcs_project_id": {
                     "type": "string", 
@@ -2633,7 +2659,7 @@
                 }, 
                 "match_se_group_subnet": {
                     "type": "boolean", 
-                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.1."
+                    "description": "Deprecated, please use match_se_group_subnet in routes mode in . vip_allocation_strategy. Field deprecated in 18.2.9. Field introduced in 18.2.1."
                 }, 
                 "encryption_key_id": {
                     "type": "string", 
@@ -2888,22 +2914,24 @@
                 }
             }
         }, 
-        "CloudApiResponse": {
+        "GCPInBandManagement": {
             "required": [
-                "count", 
-                "results"
+                "vpc_network_name", 
+                "vpc_subnet_name"
             ], 
             "type": "object", 
             "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
+                "vpc_network_name": {
+                    "type": "string", 
+                    "description": "Service Engine Network Name. Field introduced in 18.2.2."
                 }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/Cloud"
-                    }, 
-                    "type": "array"
+                "vpc_subnet_name": {
+                    "type": "string", 
+                    "description": "Service Engine Network Subnet Name. Field introduced in 18.2.1."
+                }, 
+                "vpc_project_id": {
+                    "type": "string", 
+                    "description": "Project ID of the Service Engine Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
                 }
             }
         }, 
@@ -2951,24 +2979,22 @@
                 }
             }
         }, 
-        "GCPInBandManagement": {
+        "CloudApiResponse": {
             "required": [
-                "vpc_network_name", 
-                "vpc_subnet_name"
+                "count", 
+                "results"
             ], 
             "type": "object", 
             "properties": {
-                "vpc_network_name": {
-                    "type": "string", 
-                    "description": "Service Engine Network Name. Field introduced in 18.2.2."
+                "count": {
+                    "type": "integer", 
+                    "format": "int32"
                 }, 
-                "vpc_subnet_name": {
-                    "type": "string", 
-                    "description": "Service Engine Network Subnet Name. Field introduced in 18.2.1."
-                }, 
-                "vpc_project_id": {
-                    "type": "string", 
-                    "description": "Project ID of the Service Engine Network. By default, Service Engine Project ID will be used. Field introduced in 18.2.1."
+                "results": {
+                    "items": {
+                        "$ref": "#/definitions/Cloud"
+                    }, 
+                    "type": "array"
                 }
             }
         }, 
@@ -3089,6 +3115,10 @@
                 "proxy_configuration": {
                     "description": "Placeholder for description of property proxy_configuration of obj type Cloud field type str  type object", 
                     "$ref": "#/definitions/ProxyConfiguration"
+                }, 
+                "enable_vip_on_all_interfaces": {
+                    "type": "boolean", 
+                    "description": "Enable VIP on all data interfaces for the Cloud. Field introduced in 18.2.9."
                 }, 
                 "docker_configuration": {
                     "description": "Placeholder for description of property docker_configuration of obj type Cloud field type str  type object", 
@@ -3251,6 +3281,18 @@
                 }
             }
         }, 
+        "GCPVIPILB": {
+            "type": "object", 
+            "properties": {
+                "cloud_router_names": {
+                    "items": {
+                        "type": "string"
+                    }, 
+                    "type": "array", 
+                    "description": "Google Cloud Router Names to advertise BYOIP. Field introduced in 18.2.9."
+                }
+            }
+        }, 
         "AzureNetworkInfo": {
             "type": "object", 
             "properties": {
@@ -3401,6 +3443,15 @@
                 "disable_auto_se_creation": {
                     "type": "boolean", 
                     "description": "Disable SE creation."
+                }
+            }
+        }, 
+        "GCPVIPRoutes": {
+            "type": "object", 
+            "properties": {
+                "match_se_group_subnet": {
+                    "type": "boolean", 
+                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 18.2.9."
                 }
             }
         }, 

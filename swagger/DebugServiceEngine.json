@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi DebugServiceEngine Object API", 
-        "version": "18.2.8", 
+        "version": "18.2.9", 
         "description": "CLI\n```\n- debug serviceengine <key>\n- show debug serviceengine <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -724,6 +724,11 @@
                     "default": 1, 
                     "type": "integer", 
                     "description": "Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7.", 
+                    "format": "int32"
+                }, 
+                "num_skips": {
+                    "type": "integer", 
+                    "description": "Number of times the fault should be skipped before executing. Field introduced in 18.2.9.", 
                     "format": "int32"
                 }, 
                 "arg": {

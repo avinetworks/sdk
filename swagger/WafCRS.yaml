@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '18.2.9'
     title: Avi WafCRS Object API
     contact:
         name: Avi Networks Inc.

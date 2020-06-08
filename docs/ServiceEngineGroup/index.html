@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure serviceenginegroup <key> - show serviceenginegroup <key> - redistribute serviceenginegroup <key> - clear serviceenginegroup <key> ```  Examples - **serviceenginegroup_example_1**: To create a SE group that is suitable for a production application with a HA policy of shared active/active with a minimum scale out of 2 SE   ```json     {u'min_scaleout_per_vs': 2, u'ha_mode': u'HA_MODE_SHARED_PAIR', u'name': u'production-group'}   ```  - **serviceenginegroup_example_2**: To create a SE group that is of best effort category suitable for test deployments   ```json     {u'buffer_se': 0, u'ha_mode': u'HA_MODE_SHARED', u'max_se': 8, u'name': u'test-group'}   ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 18.2.9</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -388,6 +388,11 @@ font-style: italic;
     "hardwaresecuritymodulegroup_ref" : "aeiou",
     "uuid" : "aeiou",
     "vs_se_scaleout_ready_timeout" : 123,
+    "se_rl_prop" : {
+      "msf_num_stages" : 123,
+      "msf_stage_size" : 123456789
+    },
+    "compress_ip_rules_for_each_ns_subnet" : true,
     "enable_hsm_priming" : true,
     "se_dp_vnic_queue_stall_threshold" : 123,
     "se_udp_encap_ipc" : 123,
@@ -694,6 +699,11 @@ font-style: italic;
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
+  "compress_ip_rules_for_each_ns_subnet" : true,
   "enable_hsm_priming" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
@@ -1129,6 +1139,11 @@ font-style: italic;
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
+  "compress_ip_rules_for_each_ns_subnet" : true,
   "enable_hsm_priming" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
@@ -1446,6 +1461,11 @@ font-style: italic;
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
+  "compress_ip_rules_for_each_ns_subnet" : true,
   "enable_hsm_priming" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
@@ -1763,6 +1783,11 @@ font-style: italic;
   "hardwaresecuritymodulegroup_ref" : "aeiou",
   "uuid" : "aeiou",
   "vs_se_scaleout_ready_timeout" : 123,
+  "se_rl_prop" : {
+    "msf_num_stages" : 123,
+    "msf_stage_size" : 123456789
+  },
+  "compress_ip_rules_for_each_ns_subnet" : true,
   "enable_hsm_priming" : true,
   "se_dp_vnic_queue_stall_threshold" : 123,
   "se_udp_encap_ipc" : 123,
@@ -2033,6 +2058,7 @@ font-style: italic;
     <li><a href="#IptableRuleSet"><code>IptableRuleSet</code></a></li>
     <li><a href="#MetricsRealTimeUpdate"><code>MetricsRealTimeUpdate</code></a></li>
     <li><a href="#PortRange"><code>PortRange</code></a></li>
+    <li><a href="#RateLimiterProperties"><code>RateLimiterProperties</code></a></li>
     <li><a href="#ServiceEngineGroup"><code>ServiceEngineGroup</code></a></li>
     <li><a href="#ServiceEngineGroupApiResponse"><code>ServiceEngineGroupApiResponse</code></a></li>
     <li><a href="#VcenterClusters"><code>VcenterClusters</code></a></li>
@@ -2119,6 +2145,13 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="RateLimiterProperties">RateLimiterProperties</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">msf_num_stages (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of stages in msf rate limiter. Allowed values are 1-2. Field introduced in 18.2.9. format: int32</div>
+<div class="param">msf_stage_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Each stage size in msf rate limiter. Field introduced in 18.2.9. format: int64</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="ServiceEngineGroup">ServiceEngineGroup</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
@@ -2142,6 +2175,7 @@ font-style: italic;
 <div class="param">bgp_state_update_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> BGP peer state update interval. Allowed values are 5-100. Field introduced in 17.2.14,18.1.5,18.2.1. format: int32</div>
 <div class="param">buffer_se (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Excess Service Engine capacity provisioned for HA failover. format: int32</div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
+<div class="param">compress_ip_rules_for_each_ns_subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9. </div>
 <div class="param">config_debugs_on_all_cores (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1. </div>
 <div class="param">connection_memory_percentage (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of memory for connection state. This will come at the expense of memory used for HTTP in-memory cache. Allowed values are 10-90. format: int32</div>
 <div class="param">core_shm_app_cache (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Include shared memory for app cache in core file.Requires SE Reboot. Field introduced in 18.2.8. </div>
@@ -2263,6 +2297,7 @@ font-style: italic;
 <div class="param">se_pcap_reinit_threshold (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Threshold for input packet receive errors in PCAP mode exceeding which a PCAP reinit is triggered. If not set, an unconditional reinit is performed. This value is checked every pcap_reinit_frequency interval. Field introduced in 17.2.13, 18.1.3, 18.2.1. format: int32</div>
 <div class="param">se_probe_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TCP port on SE where echo service will be run. Field introduced in 17.2.2. format: int32</div>
 <div class="param">se_remote_punt_udp_port (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> UDP Port for punted packets in Docker bridge mode. Field introduced in 17.1.2. format: int32</div>
+<div class="param">se_rl_prop (optional)</div><div class="param-desc"><span class="param-type"><a href="#RateLimiterProperties">RateLimiterProperties</a></span> Rate limiter properties. Field introduced in 18.2.9. </div>
 <div class="param">se_routing (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable routing via Service Engine Datapath. When disabled, routing is done by the Linux kernel. IP Routing needs to be enabled in Service Engine Group for SE Routing to be effective. Field deprecated in 18.2.5. Field introduced in 18.2.3. </div>
 <div class="param">se_rum_sampling_nav_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Minimum time to wait on server between taking sampleswhen sampling the navigation timing data from the end user client. Field introduced in 18.2.6. format: int32</div>
 <div class="param">se_rum_sampling_nav_percent (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Percentage of navigation timing data from the end user client, used for sampling to get client insights. Field introduced in 18.2.6. format: int32</div>

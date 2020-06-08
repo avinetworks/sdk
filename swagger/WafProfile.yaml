@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '18.2.9'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -473,6 +473,11 @@ definitions:
                 description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
                 type: integer
                 default: 30000
+                format: int32
+            regex_recursion_limit:
+                description: "Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9."
+                type: integer
+                default: 10000
                 format: int32
             request_body_default_action:
                 description: "WAF default action for Request Body Phase. Field introduced in 17.2.1."
