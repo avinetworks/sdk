@@ -738,15 +738,39 @@ class Test(unittest.TestCase):
     @pytest.mark.travis
     @my_vcr.use_cassette()
     def test_clone_vs(self):
-        api1 = ApiSession.get_session(avi_credentials=api.avi_credentials,
-                                      verify=False)
-        avi_clone = AviClone(api1)
-        (new_vs, created_objs, warnings) = avi_clone.clone_vs('basic_vs_to_clone', 'basic_vs_cloned',
-                                                              new_vs_vips=['*'], new_vs_fips=[None],
-                                                              new_vs_v6vips=[None])
+        basic_vs_cfg = gSAMPLE_CONFIG['BasicVS']
+        vs_obj = basic_vs_cfg['vs_obj']
+        resp = api.post('pool', data=json.dumps(basic_vs_cfg['pool_obj']),
+                        api_version='17.1.1')
+        assert resp.status_code in (200, 201)
+        vs_obj['pool_ref'] = api.get_obj_ref(resp.json())
+        resp = api.post('virtualservice', data=json.dumps(vs_obj),
+                        api_version='17.1.1')
+        assert resp.status_code in (200, 201)
 
+        avi_clone = AviClone(api)
+        (new_vs,
+         created_objs,
+         warnings) = avi_clone.clone_vs(vs_obj['name'],
+                                        'basic_vs_cloned',
+                                        new_vs_vips=['10.90.64.124'],
+                                        new_vs_fips=[None],
+                                        new_vs_v6vips=[None])
         assert new_vs is not None
 
+        pool_name = gSAMPLE_CONFIG['BasicVS']['pool_obj']['name']
+
+        resp = api.delete_by_name('virtualservice', vs_obj['name'],
+                        api_version='17.1.1')
+        assert resp.status_code in (200, 204)
+
+        resp = api.delete_by_name('pool', pool_name,
+                        api_version='17.1.1')
+        assert resp.status_code in (200, 204)
+
+        all_created_objs = [new_vs]
+        all_created_objs.extend(created_objs)
+        avi_clone.delete_objects(objs=all_created_objs, tenant=None)
 
     @pytest.mark.skip_travis
     def test_avi_file_upload(self):
