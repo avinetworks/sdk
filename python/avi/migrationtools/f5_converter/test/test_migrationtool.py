@@ -69,7 +69,7 @@ setup = dict(
     prefix=file_attribute['prefix'],
     cloud_name=file_attribute['cloud_name'],
     tenant=file_attribute['tenant'],
-    input_folder_location='',
+    input_folder_location=os.path.abspath(os.path.join(os.path.dirname(__file__), 'certs')),
     config_file_name_v10=input_file_v10,
     config_file_name_v11=input_file_v11,
     partition_config='new',  # this is new
@@ -115,8 +115,7 @@ class Namespace:
 
 def f5_conv(
         bigip_config_file=None, skip_default_file=False, f5_config_version=None,
-        input_folder_location=
-        'python/avi/migrationtools/f5_converter/test/certs',
+        input_folder_location=os.path.abspath(os.path.join(os.path.dirname(__file__), 'certs')),
         output_file_path=output_file, option='cli-upload', user=None,
         password=None, controller_ip=None,
         tenant='admin', cloud_name='Default-Cloud', vs_state='disable',
@@ -1564,10 +1563,10 @@ class TestF5Converter:
             ssl_cert_objects = data['SSLKeyAndCertificate']
             ssl_profile_objects = data['SSLProfile']
             expected_cert = [ssl_cert for ssl_cert in ssl_cert_objects
-                             if ssl_cert['name'] == 'monitor.fmr.com.crt-dummy']
+                             if ssl_cert['name'] == 'monitor.fmr.com.crt']
             expected_ssl_profile = [ssl_profile for ssl_profile in ssl_profile_objects
                                     if ssl_profile['name'] == 'monitor.fmr.com']
-            assert expected_cert, "Expected cert monitor.fmr.com.crt-dummy not found"
+            assert expected_cert, "Expected cert monitor.fmr.com.crt not found"
             assert expected_ssl_profile, "Expected ssl profile monitor.fmr.com not found"
 
 def teardown():
