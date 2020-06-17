@@ -741,11 +741,17 @@ class Test(unittest.TestCase):
         basic_vs_cfg = gSAMPLE_CONFIG['BasicVS']
         vs_obj = basic_vs_cfg['vs_obj']
         resp = api.post('pool', data=json.dumps(basic_vs_cfg['pool_obj']),
-                        api_version='17.1.1')
+                        api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 201)
         vs_obj['pool_ref'] = api.get_obj_ref(resp.json())
+
+        resp = api.post('vsvip', data=json.dumps(basic_vs_cfg['vsvip_obj']),
+                        api_version=login_info.get('api_version'))
+        assert resp.status_code in (200, 201)
+        vs_obj['vsvip_ref'] = api.get_obj_ref(resp.json())
+
         resp = api.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version='17.1.1')
+                        api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 201)
 
         avi_clone = AviClone(api)
@@ -759,13 +765,18 @@ class Test(unittest.TestCase):
         assert new_vs is not None
 
         pool_name = gSAMPLE_CONFIG['BasicVS']['pool_obj']['name']
+        vsvip_name = gSAMPLE_CONFIG['BasicVS']['vsvip_obj']['name']
 
         resp = api.delete_by_name('virtualservice', vs_obj['name'],
-                        api_version='17.1.1')
+                                  api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 204)
 
+        # resp = api.delete_by_name('vsvip', vsvip_name,
+        #                           api_version=login_info.get('api_version'))
+        # assert resp.status_code in (200, 204)
+
         resp = api.delete_by_name('pool', pool_name,
-                        api_version='17.1.1')
+                                  api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 204)
 
         all_created_objs = [new_vs]
