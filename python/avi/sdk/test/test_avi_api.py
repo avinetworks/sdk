@@ -741,11 +741,11 @@ class Test(unittest.TestCase):
         basic_vs_cfg = gSAMPLE_CONFIG['BasicVS']
         vs_obj = basic_vs_cfg['vs_obj']
         resp = api.post('pool', data=json.dumps(basic_vs_cfg['pool_obj']),
-                        api_version='17.1.1')
+                        api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 201)
         vs_obj['pool_ref'] = api.get_obj_ref(resp.json())
         resp = api.post('virtualservice', data=json.dumps(vs_obj),
-                        api_version='17.1.1')
+                        api_version=login_info.get("api_version"))
         assert resp.status_code in (200, 201)
 
         avi_clone = AviClone(api)
