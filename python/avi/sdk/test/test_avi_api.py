@@ -768,7 +768,7 @@ class Test(unittest.TestCase):
         vsvip_name = gSAMPLE_CONFIG['BasicVS']['vsvip_obj']['name']
 
         resp = api.delete_by_name('virtualservice', vs_obj['name'],
-                                  api_version=login_info.get("api_version"))
+                                  api_version=login_info.get('api_version'))
         assert resp.status_code in (200, 204)
 
         # resp = api.delete_by_name('vsvip', vsvip_name,
