@@ -71,7 +71,7 @@ type ServiceEngineGroup struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	// Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9.
+	// Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Field introduced in 18.2.9.
 	CompressIPRulesForEachNsSubnet *bool `json:"compress_ip_rules_for_each_ns_subnet,omitempty"`
 
 	// Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1.

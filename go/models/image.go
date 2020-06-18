@@ -14,6 +14,9 @@ type Image struct {
 	// Controller package details. Field introduced in 18.2.6.
 	ControllerInfo *PackageDetails `json:"controller_info,omitempty"`
 
+	// Mandatory Controller patch name that is applied along with this base image. Field introduced in 18.2.10.
+	ControllerPatchName *string `json:"controller_patch_name,omitempty"`
+
 	// It references the controller-patch associated with the Uber image. Field introduced in 18.2.8.
 	ControllerPatchUUID *string `json:"controller_patch_uuid,omitempty"`
 
@@ -26,6 +29,9 @@ type Image struct {
 
 	// SE package details. Field introduced in 18.2.6.
 	SeInfo *PackageDetails `json:"se_info,omitempty"`
+
+	// Mandatory ServiceEngine patch name that is applied along with this base image. Field introduced in 18.2.10.
+	SePatchName *string `json:"se_patch_name,omitempty"`
 
 	// It references the Service Engine patch associated with the Uber Image. Field introduced in 18.2.8.
 	SePatchUUID *string `json:"se_patch_uuid,omitempty"`
