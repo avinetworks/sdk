@@ -33,24 +33,32 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AviRestUtils {
 
 	static final Logger LOGGER = Logger.getLogger(AviRestUtils.class.getName());
 	private static HashMap<String, AviCredentials> sessionPool = new HashMap<String, AviCredentials>();
+	private static final String API_PREFIX = "/api/";
 
 	public static RestTemplate getRestTemplate(AviCredentials creds) {
 		RestTemplate restTemplate = null;
 		if (creds != null) {
 			try {
 				restTemplate = getInitializedRestTemplate(creds);
-				restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(getControllerURL(creds)));
+				restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(getControllerURL(creds) + API_PREFIX));
 				List<ClientHttpRequestInterceptor> interceptors = 
 						Collections.<ClientHttpRequestInterceptor>singletonList(
 								new AviAuthorizationInterceptor(creds));
 				restTemplate.setInterceptors(interceptors);
+				restTemplate.setMessageConverters(getMessageConverters(restTemplate));
 				return restTemplate;
 			} catch (Exception e) {
 				LOGGER.severe("Exception during rest template initialization");
@@ -59,6 +67,19 @@ public class AviRestUtils {
 		}
 		return restTemplate;
 	}
+
+	private static List<HttpMessageConverter<?>> getMessageConverters(RestTemplate restTemplate) {
+        // Get existing message converters
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        messageConverters.clear();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(Include.NON_NULL);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        MappingJackson2HttpMessageConverter mycov = new MappingJackson2HttpMessageConverter(objectMapper);
+        mycov.setPrettyPrint(true);
+        messageConverters.add(mycov);
+        return messageConverters;
+    }
 
 	private static RestTemplate getInitializedRestTemplate(AviCredentials creds) {
 		try {

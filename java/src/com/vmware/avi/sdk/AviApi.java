@@ -32,11 +32,11 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vmware.avi.sdk.model.AviRestResource;
 
 /**
  * This class creates a session with controller and facilitates CRUD operations.
@@ -119,14 +119,52 @@ public class AviApi {
 	public JSONObject get(String path, Map<String, String> params) throws Exception {
 		return this.get(path, params, null);
 	}
-	
-	public <T extends AviRestResource> T getForObject(Class objClass, Map<String, String> params) throws Exception {
-		
+
+	public <T> T getForObject(Class<T> objClass, String objectUUid) throws Exception {
 		String path = objClass.getSimpleName().toLowerCase();
-		String getUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/pool-0235f018-bded-4d5b-ad55-26798025b206";
+		String getUrl = path + "/" + objectUUid;
+
 		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
 		return aviObj;
-		
+	}
+
+	public <T> T getForObject(Class<T> objClass, Map<String, String> params) throws Exception {
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
+
+		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
+		return aviObj;
+	}
+
+	public <T> T getForObjectList(Class<T> objClass, Map<String, String> params) throws Exception {
+
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
+
+		T aviObj = null;
+		if (params != null) {
+			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
+		}
+		else {
+			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
+		}
+		return aviObj;
+	}
+
+	public String buildApiParams(String apiUrl, Map<String, String> params) {
+		int index = 0;
+
+		if (null != params) {
+			for(String key: params.keySet()) {
+				if(index == 0) {
+					apiUrl += "?" + key + "={" + key + "}";
+				} else {
+					apiUrl += "&" + key + "={" + key + "}";
+				}
+				index++;
+			}
+		}
+		return apiUrl;
 	}
 
 	/**
@@ -200,11 +238,23 @@ public class AviApi {
 	}
 	
 	
-	public <T extends AviRestResource> T put(T aviObj) throws JSONException, AviApiException, IOException {
+	public <T> void put(T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
-		String getUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/pool-0235f018-bded-4d5b-ad55-26798025b206";
+		String getUrl = path + "/" + objectUUid;
 		this.restTemplate.put(getUrl, aviObj);
-		return aviObj;
+	}
+
+	public <T> ResponseEntity<T> post(Class<T> objClass, T aviObj) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		String getUrl = path;
+		ResponseEntity<T> responseEntity = (ResponseEntity<T>)this.restTemplate.postForEntity(getUrl, aviObj, objClass);
+		return responseEntity;
+	}
+
+	public <T> void delete(Class<T> objClass, String objUUid) throws JSONException, AviApiException, IOException {
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = path + "/" + objUUid;
+		this.restTemplate.delete(getUrl);
 	}
 
 	/**
