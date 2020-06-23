@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -151,20 +152,14 @@ public class AviApi {
 		return aviObj;
 	}
 
-	public String buildApiParams(String apiUrl, Map<String, String> params) {
-		int index = 0;
-
+	public String buildApiParams(String path, Map<String, String> params) {
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restTemplate.getUriTemplateHandler().expand("/").toString().concat(path));
 		if (null != params) {
 			for(String key: params.keySet()) {
-				if(index == 0) {
-					apiUrl += "?" + key + "={" + key + "}";
-				} else {
-					apiUrl += "&" + key + "={" + key + "}";
-				}
-				index++;
+				uriBuilder.queryParam(key, params.get(key));
 			}
 		}
-		return apiUrl;
+		return uriBuilder.toUriString();
 	}
 
 	/**
