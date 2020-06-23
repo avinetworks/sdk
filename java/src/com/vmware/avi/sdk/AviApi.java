@@ -5,52 +5,39 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.HttpCookie;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultServiceUnavailableRetryStrategy;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class creates a session with controller and facilitates CRUD operations.
@@ -75,16 +62,14 @@ public class AviApi {
 		this.aviCredentials = aviCredentials;
 		this.sessionKey = aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":"
 				+ aviCredentials.getPort();
+		this.restTemplate = AviRestUtils.getRestTemplate(aviCredentials);
 	}
 
 	/**
 	 * The Session pool containing session objects in runtime to avoid duplicates.
 	 */
 	private static HashMap<String, AviApi> sessionPool = new HashMap<String, AviApi>();
-	/**
-	 * Maintains count of execution at the time of retries.
-	 */
-	int numApiExecCount = 0;
+
 	/**
 	 * AviCredentials object for this session.
 	 */
@@ -93,6 +78,10 @@ public class AviApi {
 	 * The session key of this session.
 	 */
 	private String sessionKey;
+
+	private RestTemplate restTemplate;
+
+
 
 	/**
 	 * This static factory method to create session if not present in the pool if
@@ -111,102 +100,10 @@ public class AviApi {
 			} else {
 				AviApi session = new AviApi(aviCredentials);
 				if (!aviCredentials.getLazyAuthentication()) {
-					session.authenticateSession();
+					AviRestUtils.authenticateSession(aviCredentials);
 				}
 				sessionPool.put(session.sessionKey, session);
 				return session;
-			}
-		}
-	}
-
-	/**
-	 * This method returns the controller URL based on controller IP and controller
-	 * port.
-	 * 
-	 * @return A String representing the controller URL.
-	 */
-	private String getControllerURL() {
-		StringBuffer sb = new StringBuffer();
-		if (this.aviCredentials.getController().startsWith("http")) {
-			if (Arrays.asList(80, 443).contains(this.aviCredentials.getPort())) {
-				sb.append(this.aviCredentials.getController());
-			} else {
-				sb.append(aviCredentials.getController());
-				sb.append(":");
-				sb.append(this.aviCredentials.getPort());
-			}
-		} else {
-			if (this.aviCredentials.getPort() == 443) {
-				sb.append("https://");
-				sb.append(this.aviCredentials.getController());
-			} else if (this.aviCredentials.getPort() == 80) {
-				sb.append("http://");
-				sb.append(this.aviCredentials.getController());
-			} else {
-				sb.append("https://");
-				sb.append(this.aviCredentials.getController());
-				sb.append(":");
-				sb.append(this.aviCredentials.getPort());
-			}
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * This method authenticates user based on the credentials and update the
-	 * csrftoken and session id for this session.
-	 */
-	private void authenticateSession() {
-		JSONObject body = new JSONObject();
-		body.put("username", this.aviCredentials.getUsername());
-		if (this.aviCredentials.getPassword() != null && !this.aviCredentials.getPassword().isEmpty()) {
-			body.put("password", this.aviCredentials.getPassword());
-		} else if (this.aviCredentials.getToken() != null && !this.aviCredentials.getToken().isEmpty()) {
-			body.put("token", this.aviCredentials.getToken());
-		}
-		LOGGER.info("Authentication session for " + this.aviCredentials.getUsername());
-		CloseableHttpClient httpClient = this.buildHttpClient();
-		try {
-			String postUrl = this.getControllerURL() + "/login";
-			HttpPost postRequest = new HttpPost(postUrl);
-			StringEntity input = new StringEntity(body.toString());
-			input.setContentType("application/json");
-			postRequest.addHeader("X-Avi-Version", this.aviCredentials.getVersion());
-			postRequest.addHeader("X-Avi-Tenant", this.aviCredentials.getTenant());
-			postRequest.setEntity(input);
-			HttpResponse response = httpClient.execute(postRequest);
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode > 299) {
-				LOGGER.severe("Login faild with status code " + statusCode);
-				throw new IOException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
-			}
-			String output = EntityUtils.toString(response.getEntity());
-			JSONObject result = new JSONObject(output);
-			String sessionCookieName = result.get("session_cookie_name").toString();
-			String csrftoken = null;
-			String sessionCookie = null;
-			for (Header header : response.getHeaders("Set-Cookie")) {
-				List<HttpCookie> httpCookies = HttpCookie.parse(header.getValue());
-				for (HttpCookie cookie : httpCookies) {
-					if (cookie.getName().equals("csrftoken")) {
-						csrftoken = cookie.getValue();
-					} else if (cookie.getName().equals(sessionCookieName)) {
-						sessionCookie = cookie.getValue();
-					}
-				}
-			}
-			this.aviCredentials.setCsrftoken(csrftoken);
-			this.aviCredentials.setSessionID(sessionCookie);
-			AviApi.sessionPool.put(this.sessionKey, this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (null != httpClient) {
-				try {
-					httpClient.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
@@ -222,6 +119,47 @@ public class AviApi {
 	 */
 	public JSONObject get(String path, Map<String, String> params) throws Exception {
 		return this.get(path, params, null);
+	}
+
+	public <T> T getForObject(Class<T> objClass, String objectUUid) throws Exception {
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = path + "/" + objectUUid;
+
+		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
+		return aviObj;
+	}
+
+	public <T> T getForObject(Class<T> objClass, Map<String, String> params) throws Exception {
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
+
+		T aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
+		return aviObj;
+	}
+
+	public <T> T getForObjectList(Class<T> objClass, Map<String, String> params) throws Exception {
+
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = buildApiParams(path.split("apiresponse")[0], params);
+
+		T aviObj = null;
+		if (params != null) {
+			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass, params);
+		}
+		else {
+			aviObj = (T) this.restTemplate.getForObject(getUrl, objClass);
+		}
+		return aviObj;
+	}
+
+	public String buildApiParams(String path, Map<String, String> params) {
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(restTemplate.getUriTemplateHandler().expand("/").toString().concat(path));
+		if (null != params) {
+			for(String key: params.keySet()) {
+				uriBuilder.queryParam(key, params.get(key));
+			}
+		}
+		return uriBuilder.toUriString();
 	}
 
 	/**
@@ -240,7 +178,7 @@ public class AviApi {
 			throws Exception {
 		CloseableHttpClient httpClient = null;
 		try {
-			String getUrl = this.getControllerURL() + "/api/" + path;
+			String getUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path;
 			URIBuilder uriBuilder = new URIBuilder(getUrl);
 
 			if (null != params && !params.isEmpty()) {
@@ -251,9 +189,9 @@ public class AviApi {
 				uriBuilder.addParameters(urlParameters);
 			}
 
-			httpClient = this.buildHttpClient();
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
 			HttpGet request = new HttpGet(uriBuilder.build());
-			this.buildHeaders(request, userHeaders);
+			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
 			HttpResponse response = httpClient.execute(request);
 
 			Object[] args = new Object[] { path, params };
@@ -294,6 +232,26 @@ public class AviApi {
 		return this.put(path, body, null);
 	}
 
+
+	public <T> void put(T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		String getUrl = path + "/" + objectUUid;
+		this.restTemplate.put(getUrl, aviObj);
+	}
+
+	public <T> ResponseEntity<T> post(Class<T> objClass, T aviObj) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		String getUrl = path;
+		ResponseEntity<T> responseEntity = (ResponseEntity<T>)this.restTemplate.postForEntity(getUrl, aviObj, objClass);
+		return responseEntity;
+	}
+
+	public <T> void delete(Class<T> objClass, String objUUid) throws JSONException, AviApiException, IOException {
+		String path = objClass.getSimpleName().toLowerCase();
+		String getUrl = path + "/" + objUUid;
+		this.restTemplate.delete(getUrl);
+	}
+
 	/**
 	 * This method calls the PUT REST API.
 	 * 
@@ -311,12 +269,12 @@ public class AviApi {
 	public JSONObject put(String path, JSONObject body, HashMap<String, String> userHeaders) throws AviApiException {
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = this.buildHttpClient();
-			String putUrl = this.getControllerURL() + "/api/" + path + "/" + body.get("uuid");
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
+			String putUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/" + body.get("uuid");
 			HttpPut request = new HttpPut(putUrl);
 			StringEntity input = new StringEntity(body.toString());
 			request.setEntity(input);
-			this.buildHeaders(request, userHeaders);
+			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
 			HttpResponse response = httpClient.execute(request);
 
 			Object[] args = new Object[] { path, body };
@@ -357,6 +315,19 @@ public class AviApi {
 		return this.post(path, body, null);
 	}
 
+	public Object post(Object aviObj) throws JSONException, AviApiException, IOException {
+		String path = aviObj.getClass().getSimpleName().toLowerCase();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		JSONObject objPut = new JSONObject(objectMapper.writeValueAsString(aviObj));
+		JSONObject responseVal = this.post(path, objPut);
+		Object resObj = null;
+		if (null != responseVal) {
+			resObj = objectMapper.readValue(responseVal.toString(), aviObj.getClass());
+		}
+		return resObj;
+	}
+
 	/**
 	 * This method calls the POST REST API
 	 * 
@@ -374,12 +345,12 @@ public class AviApi {
 	public JSONObject post(String path, JSONObject body, HashMap<String, String> userHeaders) throws AviApiException {
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = this.buildHttpClient();
-			String postUrl = this.getControllerURL() + "/api/" + path;
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
+			String postUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path;
 			HttpPost request = new HttpPost(postUrl);
 			StringEntity input = new StringEntity(body.toString());
 			request.setEntity(input);
-			this.buildHeaders(request, userHeaders);
+			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
 			HttpResponse response = httpClient.execute(request);
 
 			Object[] args = new Object[] { path, body };
@@ -437,10 +408,10 @@ public class AviApi {
 	public JSONObject delete(String path, String uuid, HashMap<String, String> userHeaders) throws AviApiException {
 		CloseableHttpClient httpClient = null;
 		try {
-			String deleteUrl = this.getControllerURL() + "/api/" + path + "/" + uuid;
-			httpClient = this.buildHttpClient();
+			String deleteUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path + "/" + uuid;
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
 			HttpDelete request = new HttpDelete(deleteUrl);
-			this.buildHeaders(request, userHeaders);
+			AviRestUtils.buildHeaders(request, userHeaders, this.aviCredentials);
 			HttpResponse response = httpClient.execute(request);
 			Object[] args = new Object[] { path, uuid };
 			Class[] mParams = new Class[] { String.class, String.class };
@@ -474,13 +445,13 @@ public class AviApi {
 	 * @param fileUploadUri is uri where we have to upload file
 	 * @throws Exception
 	 */
-	public int fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
+	public void fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
 		CloseableHttpClient httpClient = null;
 		try {
-			httpClient = this.buildHttpClient();
-			String postUrl = this.getControllerURL() + "/api/" + uri;
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
+			String postUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + uri;
 			HttpPost request = new HttpPost(postUrl);
-			this.buildHeaders(request);
+			AviRestUtils.buildHeaders(request, null, this.aviCredentials);
 			request.removeHeaders("Content-Type");
 			MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 			builder.addTextBody("uri", fileUploadUri, ContentType.TEXT_PLAIN);
@@ -488,8 +459,8 @@ public class AviApi {
 			// This attaches the file to the POST:
 			File f = new File(filePath);
 			builder.addBinaryBody("file", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM, f.getName());
-			HttpEntity multipart = builder.build();
-			request.setEntity(multipart);
+			HttpEntity multipart = (HttpEntity) builder.build();
+			request.setEntity((org.apache.http.HttpEntity) multipart);
 			CloseableHttpResponse response = httpClient.execute(request);
 			int responseCode = response.getStatusLine().getStatusCode();
 			if (responseCode > 299) {
@@ -502,7 +473,6 @@ public class AviApi {
 				}
 				throw new AviApiException(errMessage.toString());
 			}
-			return responseCode;
 
 		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
@@ -519,7 +489,6 @@ public class AviApi {
 				}
 			}
 		}
-
 	}
 
 	/***
@@ -533,7 +502,7 @@ public class AviApi {
 	 * @throws AviApiException
 	 * @throws IOException
 	 */
-	public int fileDownload(String path, String localFilePath, Map<String, String> params)
+	public String fileDownload(String path, String localFilePath, Map<String, String> params)
 			throws AviApiException, IOException {
 		CloseableHttpClient httpClient = null;
 		InputStream inputStream = null;
@@ -541,10 +510,9 @@ public class AviApi {
 		String filePath = null;
 		try {
 			HttpResponse response = null;
-			httpClient = this.buildHttpClient();
-			httpClient = this.buildHttpClient();
+			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
 			LOGGER.info("Inside download file :: Path is :" + path);
-			String getUrl = this.getControllerURL() + "/api/" + path;
+			String getUrl = AviRestUtils.getControllerURL(this.aviCredentials) + "/api/" + path;
 			LOGGER.info("postUrl : " + getUrl);
 			URIBuilder uriBuilder = new URIBuilder(getUrl);
 
@@ -557,10 +525,9 @@ public class AviApi {
 			}
 
 			HttpGet request = new HttpGet(uriBuilder.build());
-			this.buildHeaders(request);
+			AviRestUtils.buildHeaders(request, null, this.aviCredentials);
 			request.removeHeaders("Content-Type");
 			response = httpClient.execute(request);
-			int responseCode = response.getStatusLine().getStatusCode();
 			if (null != response.getEntity()) {
 				inputStream = response.getEntity().getContent();
 				File file = new File(localFilePath);
@@ -572,7 +539,7 @@ public class AviApi {
 				filePath = file.getAbsolutePath();
 			}
 			LOGGER.info("Path of downloaded file :" + filePath);
-			return responseCode;
+			return filePath;
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
@@ -619,15 +586,7 @@ public class AviApi {
 	private JSONObject parseResponse(HttpResponse response, Method m, Object[] args) throws AviApiException {
 		try {
 			int responseCode = response.getStatusLine().getStatusCode();
-			if (Arrays.asList(419, 401).contains(responseCode)) {
-				this.numApiExecCount++;
-				if (numApiExecCount < this.aviCredentials.getNumApiRetries()) {
-					this.authenticateSession();
-					JSONObject result = (JSONObject) m.invoke(this, args);
-					this.numApiExecCount = 0;
-					return result;
-				}
-			} else if (responseCode > 299) {
+			if (responseCode > 299) {
 				StringBuffer errMessage = new StringBuffer();
 				errMessage.append("Failed : HTTP error code : ");
 				errMessage.append(responseCode);
@@ -650,7 +609,7 @@ public class AviApi {
 					return null;
 				}
 			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | IOException e) {
+		} catch (IllegalArgumentException | IOException e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
@@ -658,122 +617,4 @@ public class AviApi {
 			throw new AviApiException(e);
 		}
 	}
-
-	/**
-	 * This method sets a custom HttpRequestRetryHandler in order to enable a custom
-	 * exception recovery mechanism.
-	 * 
-	 * @return A HttpRequestRetryHandler representing handling of the retryHandler.
-	 */
-	private HttpRequestRetryHandler retryHandler() {
-		return (exception, executionCount, context) -> {
-
-			if (executionCount >= this.aviCredentials.getNumApiRetries()) {
-				// Do not retry if over max retry count
-				return false;
-			}
-			if (exception instanceof InterruptedIOException) {
-				// Timeout
-				return false;
-			}
-			if (exception instanceof UnknownHostException) {
-				// Unknown host
-				return false;
-			}
-			if (exception instanceof SSLException) {
-				// SSL handshake exception
-				return false;
-			}
-			if (exception instanceof HttpHostConnectException) {
-				return true;
-			}
-			HttpClientContext clientContext = HttpClientContext.adapt(context);
-			HttpRequest request = clientContext.getRequest();
-			boolean idempotent = !(request instanceof HttpEntityEnclosingRequest);
-			if (idempotent) {
-				// Retry if the request is considered idempotent
-				return true;
-			}
-			return false;
-		};
-	}
-
-	/**
-	 * This method sets all HTTP request headers.
-	 * 
-	 * @param request A HttpRequestBase containing all require headers.
-	 * @throws Exception
-	 */
-	private void buildHeaders(HttpRequestBase request, HashMap<String, String> userHeaders) throws Exception {
-		if (null == this.aviCredentials.getSessionID() || this.aviCredentials.getSessionID().isEmpty()) {
-			this.authenticateSession();
-		}
-		request.addHeader("Content-Type", "application/json");
-		request.addHeader("X-Avi-Version", this.aviCredentials.getVersion());
-		request.addHeader("X-Avi-Tenant", this.aviCredentials.getTenant());
-		request.addHeader("X-CSRFToken", this.aviCredentials.getCsrftoken());
-		request.addHeader("Referer", this.getControllerURL());
-
-		request.addHeader("Cookie", "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-				+ this.aviCredentials.getSessionID());
-
-		if ((null != userHeaders) && (!userHeaders.isEmpty())) {
-			for (String key : userHeaders.keySet()) {
-				request.addHeader(key, userHeaders.get(key));
-			}
-		}
-
-	}
-
-	/**
-	 * This method sets all HTTP request headers.
-	 * 
-	 * @param request A HttpRequestBase containing all require headers.
-	 */
-	private void buildHeaders(HttpRequestBase request) {
-		if (null == this.aviCredentials.getSessionID() || this.aviCredentials.getSessionID().isEmpty()) {
-			this.authenticateSession();
-		}
-		request.addHeader("Content-Type", "application/json");
-		request.addHeader("X-Avi-Version", this.aviCredentials.getVersion());
-		request.addHeader("X-Avi-Tenant", this.aviCredentials.getTenant());
-		request.addHeader("X-CSRFToken", this.aviCredentials.getCsrftoken());
-		request.addHeader("Referer", this.getControllerURL());
-		request.addHeader("Cookie", "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-				+ this.aviCredentials.getSessionID());
-	}
-
-	/**
-	 * This method build custom CloseableHttpClient with SSL socket and
-	 * retryHandler.
-	 * 
-	 * @return The CloseableHttpClient representing HttpClient.
-	 */
-	private CloseableHttpClient buildHttpClient() {
-		CloseableHttpClient httpClient = null;
-		if (!this.aviCredentials.getVerify()) {
-			SSLContext sslcontext = null;
-			try {
-				sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(sslcontext,
-					(s, sslSession) -> true);
-
-			httpClient = HttpClients.custom().setRetryHandler(this.retryHandler())
-					.setSSLSocketFactory(sslConnectionSocketFactory)
-					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							this.aviCredentials.getNumApiRetries(), this.aviCredentials.getRetryWaitTime()))
-					.build();
-		} else {
-			httpClient = HttpClients.custom().setRetryHandler(this.retryHandler())
-					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							this.aviCredentials.getNumApiRetries(), this.aviCredentials.getRetryWaitTime()))
-					.build();
-		}
-		return httpClient;
-	}
-
 }
