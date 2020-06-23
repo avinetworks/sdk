@@ -2,7 +2,6 @@ package com.vmware.avi.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -32,7 +31,8 @@ public class AviSDKTest {
 	static AviCredentials getCredsToken() {
 		if (null == AviSDKTest.creds) {
 			String token = AviSDKTest.getToken();
-			AviSDKTest.creds = new AviCredentials(AviSDKTest.CONTROLLER, AviSDKTest.USERNAME);
+			AviSDKTest.creds = new AviCredentials(
+					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME);
 			creds.setVersion(AviSDKTest.VERSION);
 			creds.setTenant(AviSDKTest.TENANT);
 			creds.setToken(token);
@@ -44,7 +44,8 @@ public class AviSDKTest {
 
 	static AviCredentials getCredsPassword() {
 		if (null == AviSDKTest.creds) {
-			AviSDKTest.creds = new AviCredentials(AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, AviSDKTest.PASSWORD);
+			AviSDKTest.creds = new AviCredentials(
+					AviSDKTest.CONTROLLER, AviSDKTest.USERNAME, AviSDKTest.PASSWORD);
 			creds.setVersion(AviSDKTest.VERSION);
 			creds.setTenant(AviSDKTest.TENANT);
 			return creds;
@@ -70,6 +71,7 @@ public class AviSDKTest {
 		return null;
 	}
 
+
 	@Test
 	public void testExample() throws Exception {
 		try {
@@ -88,49 +90,44 @@ public class AviSDKTest {
 			// GET rest call
 			Map<String, String> val = new HashMap<String, String>();
 			val.put("name", objectName);
-			JSONObject pools = serv.get("pool", val);
+			JSONObject pools = serv.get("pool",val);
 			JSONArray resp = (JSONArray) pools.get("results");
-			JSONObject result = (JSONObject) resp.get(0);
-			String name = (String) result.get("name");
-			String uuid = (String) result.get("uuid");
+            JSONObject result = (JSONObject)resp.get(0);
+			String name = (String)result.get("name");
+			String uuid = (String)result.get("uuid");
 
 			assertEquals(objectName, name);
 
 			// PUT test case
 			Map<String, String> value = new HashMap<String, String>();
 			val.put("name", objectName);
-			JSONObject request = serv.get("pool", value);
+			JSONObject request = serv.get("pool",value);
 			JSONArray res = (JSONArray) request.get("results");
-			JSONObject putResult = (JSONObject) res.get(0);
-			putResult.put("name", "test-pool");
+            JSONObject putResult= (JSONObject)res.get(0);
+            putResult.put("name", "test-pool");
 
 			JSONObject updateRes = serv.put("pool", result);
-			String updatedName = (String) updateRes.get("name");
+            String updatedName  = (String)updateRes.get("name");
 
-			assertNotSame(objectName, updatedName);
+            assertNotSame(objectName, updatedName);
 
-			// DELETE test case
-			JSONObject deleteRes = serv.delete("pool", uuid);
+            // DELETE test case
+            JSONObject deleteRes = serv.delete("pool", uuid);
 			String msg = deleteRes.get("Message").toString();
 			assertEquals("Object deleted successfully", "Object deleted successfully", msg);
 
-		} catch (AviApiException e) {
+		} catch (AviApiException  e) {
 			e.printStackTrace(System.err);
-			throw e;
 		}
 	}
-
 	@Test
 	public void testPostFileUpload() throws Exception {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
-			int status = serv.fileUpload("fileservice/hsmpackages?hsmtype=safenet",
-					"/mnt/files/hsmpackages/safenet.tar", "controller://hsmpackages");
-			assertTrue("file upload failed", status < 299);
-
+			serv.fileUpload("fileservice/hsmpackages?hsmtype=safenet", "/mnt/files/hsmpackages/safenet.tar",
+					"controller://hsmpackages");
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
-			throw e;
 		}
 	}
 
@@ -141,11 +138,9 @@ public class AviSDKTest {
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("full_system", "true");
 			param.put("passphrase", "abc1234");
-			int status = serv.fileDownload("/configuration/export", "/tmp/file.txt", param);
-			assertTrue("file download failed", status < 299);
+			serv.fileDownload("/configuration/export", "/tmp/file.txt", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
-			throw e;
 		}
 	}
 
@@ -155,25 +150,20 @@ public class AviSDKTest {
 			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
 			param.put("passphrase", "abc1234");
-			int status = serv.fileDownload("/configuration/export", "/tmp/file.json", param);
-			assertTrue("file download failed", status < 299);
+			serv.fileDownload("/configuration/export", "/tmp/file.json", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
-			throw e;
 		}
 	}
-
 	@Test
 	public void downloadTarFile() throws Exception {
 		try {
 			AviApi serv = new AviApi(AviSDKTest.getCredsPassword());
 			Map<String, String> param = new HashMap<String, String>();
-			param.put("passphrase", "abc1234");
-			int status = serv.fileDownload("/configuration/export", "/tmp/file.tar", param);
-			assertTrue("file download failed", status < 299);
+			param.put("uri", "controller://tech_support/portal.20200225-082451.tar.gz");
+			serv.fileDownload("/fileservice", "/tmp/file.tar", param);
 		} catch (AviApiException e) {
 			e.printStackTrace(System.err);
-			throw e;
 		}
 	}
 
