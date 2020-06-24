@@ -32,6 +32,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -232,11 +233,13 @@ public class AviApi {
 		return this.put(path, body, null);
 	}
 
-
-	public <T> void put(T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> put(Class<T> objClass, T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objectUUid;
-		this.restTemplate.put(getUrl, aviObj);
+
+        HttpEntity<T> requestEntity = new HttpEntity<T>(aviObj);
+		ResponseEntity<T> response = restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity, objClass);
+		return response;
 	}
 
 	public <T> ResponseEntity<T> post(Class<T> objClass, T aviObj) throws JSONException, AviApiException, IOException {
@@ -246,10 +249,12 @@ public class AviApi {
 		return responseEntity;
 	}
 
-	public <T> void delete(Class<T> objClass, String objUUid) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> delete(Class<T> objClass, String objUUid) throws JSONException, AviApiException, IOException {
 		String path = objClass.getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objUUid;
-		this.restTemplate.delete(getUrl);
+
+        ResponseEntity<T> responseEntity = restTemplate.exchange(getUrl, HttpMethod.DELETE, null, objClass);
+        return responseEntity;
 	}
 
 	/**
