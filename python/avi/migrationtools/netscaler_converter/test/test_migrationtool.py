@@ -184,10 +184,9 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         dummy_obj = 'Lab-Test-Cert'
-	xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
-        
-        assert check_dummy_cert_status(xlsx_file,
-                                       certObj=dummy_obj) == True
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
+
+        assert check_dummy_cert_status(xlsx_file, dummy_obj) == True
 
     @pytest.mark.travis
     @pytest.mark.TCID1_48_1497_3_0
