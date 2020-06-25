@@ -7,6 +7,9 @@ package models
 // swagger:model VsError
 type VsError struct {
 
+	// The time at which the error occurred. Field introduced in 18.2.10.
+	EventTimestamp *TimeStamp `json:"event_timestamp,omitempty"`
+
 	// reason of VsError.
 	Reason []string `json:"reason,omitempty"`
 
