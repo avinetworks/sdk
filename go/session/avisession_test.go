@@ -111,7 +111,6 @@ func getSessions(t *testing.T) []*AviSession {
 			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetVersion(aviVersion))
 	}
 
-
 	var sessionSetAuthTokenV2 *AviSession
 	sessionSetAuthTokenV2, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 		SetRefreshAuthTokenCallbackV2(getValidTokenV2), SetInsecure, SetTenant(AVI_TENANT),
@@ -143,6 +142,33 @@ func getSessions(t *testing.T) []*AviSession {
 	}
 
 	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback, sessionSetAuthTokenV2}
+}
+
+func testSessionForQuickControllerStatusCheck(t *testing.T) {
+	aviVersion, ok := os.LookupEnv("AVI_VERSION")
+	if !ok {
+		aviVersion = "18.1.3"
+	}
+
+	var err error
+	var quickControllerStatusChkSession *AviSession
+
+	if AVI_PASSWORD != "" {
+		quickControllerStatusChkSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetQuickControllerStatusCheck, SetLazyAuthentication(true),
+			SetVersion(aviVersion))
+	} else {
+		quickControllerStatusChkSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetQuickControllerStatusCheck, SetLazyAuthentication(true),
+			SetVersion(aviVersion))
+	}
+
+	if err != nil {
+		t.Errorf("Session Creation failed: %s", err)
+	}
+	if quickControllerStatusChkSession.allowInfiniteCtrlStatusCheck != false {
+		t.Errorf("Failed to initialisse the AVI session for quick controller status poll")
+	}
 }
 
 func testAviSession(t *testing.T, avisess *AviSession) {
@@ -252,6 +278,10 @@ func TestAviSession(t *testing.T) {
 	for _, session := range getSessions(t) {
 		testAviSession(t, session)
 	}
+}
+
+func TestAviSessionQuickControllerStatusCheck(t *testing.T) {
+	testSessionForQuickControllerStatusCheck(t)
 }
 
 func TestAviPool(t *testing.T) {
@@ -380,7 +410,7 @@ func TestTokenAuthRobustnessV2(t *testing.T) {
 		SetInsecure)
 	var res interface{}
 	err = authTokenSessionCallback.Get("api/tenant", &res)
-	if err.Error() !=  "Invalid token from callback method" {
+	if err.Error() != "Invalid token from callback method" {
 		t.Errorf("Didn't get expected error for wrong token using SetRefreshAuthTokenCallback V2 functionality")
 	}
 }
