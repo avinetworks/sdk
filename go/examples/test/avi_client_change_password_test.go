@@ -8,14 +8,14 @@ import (
 	"testing"
 )
 func TestResetPassword(t *testing.T) {
-	password := os.Getenv("password")
+	password := os.Getenv("AVI_PASSWORD")
 	invalid_password := password + "1"
 	var robj interface{}
 	path := "api/healthmonitor"
-	aviClient, _ := clients.NewAviClient(os.Getenv("controller"), "admin",
+	aviClient, _ := clients.NewAviClient(os.Getenv("AVI_CONTROLLER"), "admin",
 		session.SetPassword(invalid_password),
-		session.SetTenant("admin"),
-		session.SetVersion(os.Getenv("version")),
+		session.SetTenant(os.Getenv("AVI_TENANT")),
+		session.SetVersion(os.Getenv("AVI_VERSION")),
 		session.SetInsecure, session.SetLazyAuthentication(true))
 
 	err := aviClient.AviSession.Get(path, &robj)
@@ -30,3 +30,4 @@ func TestResetPassword(t *testing.T) {
 			t.Fail()
 	}
 }
+
