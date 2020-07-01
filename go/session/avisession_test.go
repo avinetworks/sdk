@@ -144,30 +144,38 @@ func getSessions(t *testing.T) []*AviSession {
 	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback, sessionSetAuthTokenV2}
 }
 
-func testSessionForQuickControllerStatusCheck(t *testing.T) {
+func testControllerStatusCheckLimits(t *testing.T) {
 	aviVersion, ok := os.LookupEnv("AVI_VERSION")
 	if !ok {
 		aviVersion = "18.1.3"
 	}
 
 	var err error
-	var quickControllerStatusChkSession *AviSession
-
+	var aviSession *AviSession
+	var numRetries = 4
+	var numTimeIntervalSecs = 10
 	if AVI_PASSWORD != "" {
-		quickControllerStatusChkSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
-			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetQuickControllerStatusCheck, SetLazyAuthentication(true),
-			SetVersion(aviVersion))
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs), SetVersion(aviVersion))
 	} else {
-		quickControllerStatusChkSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
-			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetQuickControllerStatusCheck, SetLazyAuthentication(true),
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs),
 			SetVersion(aviVersion))
 	}
 
 	if err != nil {
 		t.Errorf("Session Creation failed: %s", err)
 	}
-	if quickControllerStatusChkSession.allowInfiniteCtrlStatusCheck != false {
-		t.Errorf("Failed to initialisse the AVI session for quick controller status poll")
+	if aviSession.infinitelyCheckCtrlStatus != false {
+		t.Errorf("Failed to initialise the AVI session with limited controller status poll")
+	}
+	if aviSession.ctrlStatusCheckRetryCount != numRetries {
+		t.Errorf("Failed to initialise the AVI session with expected retry count")
+	}
+	if aviSession.ctrlStatusCheckRetryInterval != numTimeIntervalSecs {
+		t.Errorf("Failed to initialise the AVI session with expected time interval to poll the controller status.")
 	}
 }
 
@@ -280,8 +288,8 @@ func TestAviSession(t *testing.T) {
 	}
 }
 
-func TestAviSessionQuickControllerStatusCheck(t *testing.T) {
-	testSessionForQuickControllerStatusCheck(t)
+func TestAviSessionControllerStatusCheckLimits(t *testing.T) {
+	testControllerStatusCheckLimits(t)
 }
 
 func TestAviPool(t *testing.T) {

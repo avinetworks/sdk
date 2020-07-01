@@ -130,7 +130,12 @@ type AviSession struct {
 
 	// flag to check if on API failure, the controller status should be polled by
 	// sleeping for exponentially increasing time per interation or not.
-	allowInfiniteCtrlStatusCheck bool
+	infinitelyCheckCtrlStatus bool
+
+	// Number of retries the SDK should attempt when controller is not reachable.
+	ctrlStatusCheckRetryCount int
+	// Total number of seconds to wait before attemptemptin another try to reach to controller.
+	ctrlStatusCheckRetryInterval int
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -138,7 +143,6 @@ const DEFAULT_API_TIMEOUT = time.Duration(60 * time.Second)
 const DEFAULT_API_TENANT = "admin"
 const DEFAULT_MAX_API_RETRIES = 3
 const DEFAULT_API_RETRY_INTERVAL = 500
-const DEFAULT_NON_EXPON_STAT_INTERVAL = time.Duration(30 * time.Second)
 
 //NewAviSession initiates a session to AviController and returns it
 func NewAviSession(host string, username string, options ...func(*AviSession) error) (*AviSession, error) {
@@ -155,9 +159,10 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	avisess.tenant = ""
 	avisess.insecure = false
 	// This was the default behavior before providing the flexibility to configure session.
-	// This can be over-ridden while client init.
-	avisess.allowInfiniteCtrlStatusCheck = true
-
+	avisess.infinitelyCheckCtrlStatus = true
+	// The default behaviour was for 10 iterations, if client does not init session with specific retry
+	// count option the controller status will be checked 10 times.
+	avisess.ctrlStatusCheckRetryCount = 10
 	for _, option := range options {
 		err := option(avisess)
 		if err != nil {
@@ -335,11 +340,15 @@ func SetInsecure(avisess *AviSession) error {
 	return nil
 }
 
-// SetQuickControllerStatusCheck informs the SDK to not to poll for the controller status
-// by sleeping exponentially on every polling iteration during API failure.
-func SetQuickControllerStatusCheck(avisess *AviSession) error {
-	avisess.allowInfiniteCtrlStatusCheck = false
-	return nil
+// SetControllerStatusCheckLimits allows client to limit the number of tries the SDK should
+// attempt to reach the controller at the time gap of specified time intervals.
+func SetControllerStatusCheckLimits(numRetries, numIntervals int) func(*AviSession) error {
+	return func(avisess *AviSession) error {
+		avisess.infinitelyCheckCtrlStatus = false
+		avisess.ctrlStatusCheckRetryCount = numRetries
+		avisess.ctrlStatusCheckRetryInterval = numIntervals
+		return nil
+	}
 }
 
 // SetTransport - Use this for NewAviSession option argument for configuring http transport to enable connection
@@ -548,7 +557,7 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		}
 	}
 	if retryReq {
-		check, err := avisess.CheckControllerStatus(avisess.allowInfiniteCtrlStatusCheck)
+		check, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restRequest Error during checking controller state %v", err)
 			return nil, err
@@ -683,7 +692,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	}
 
 	if retryReq {
-		check, err := avisess.CheckControllerStatus(avisess.allowInfiniteCtrlStatusCheck)
+		check, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restMultipartUploadRequest Error during checking controller state")
 			return err
@@ -762,7 +771,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	}
 
 	if retryReq {
-		check, err := avisess.CheckControllerStatus(avisess.allowInfiniteCtrlStatusCheck)
+		check, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
 			return err
@@ -821,10 +830,10 @@ func debug(data []byte, err error) {
 
 //Checking for controller up state.
 // Flexible to wait on controller status infinitely or for fixed time span.
-func (avisess *AviSession) CheckControllerStatus(checkForCtrlStatusInfinitely bool) (bool, error) {
+func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 	url := avisess.prefix + "/api/cluster/status"
 	var isControllerUp bool
-	for round := 0; round < 10; round++ {
+	for round := 0; round < avisess.ctrlStatusCheckRetryCount; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error %v while generating http request.", err)
@@ -845,11 +854,11 @@ func (avisess *AviSession) CheckControllerStatus(checkForCtrlStatusInfinitely bo
 			glog.Errorf("CheckControllerStatus Error while generating http request %v %v", url, err)
 		}
 		//wait before retry
-		if checkForCtrlStatusInfinitely {
+		if avisess.infinitelyCheckCtrlStatus {
 			time.Sleep(time.Duration(math.Exp(float64(round))*3) * time.Second)
 		} else {
-			// this will poll for controller status for maximum 5 minutes ( 30 secs * 10 ).
-			time.Sleep(DEFAULT_NON_EXPON_STAT_INTERVAL)
+			// controller status will be polled at intervals specified during client init.
+			time.Sleep(time.Duration(avisess.ctrlStatusCheckRetryInterval) * time.Second)
 		}
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
