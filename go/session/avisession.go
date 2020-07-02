@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"math"
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
@@ -128,10 +127,6 @@ type AviSession struct {
 	// optional api retry interval in milliseconds
 	api_retry_interval int
 
-	// flag to check if on API failure, the controller status should be polled by
-	// sleeping for exponentially increasing time per interation or not.
-	infinitelyCheckCtrlStatus bool
-
 	// Number of retries the SDK should attempt when controller is not reachable.
 	ctrlStatusCheckRetryCount int
 	// Total number of seconds to wait before attemptemptin another try to reach to controller.
@@ -158,8 +153,6 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	avisess.prefix = "https://" + avisess.host + "/"
 	avisess.tenant = ""
 	avisess.insecure = false
-	// This was the default behavior before providing the flexibility to configure session.
-	avisess.infinitelyCheckCtrlStatus = true
 	// The default behaviour was for 10 iterations, if client does not init session with specific retry
 	// count option the controller status will be checked 10 times.
 	avisess.ctrlStatusCheckRetryCount = 10
@@ -342,11 +335,13 @@ func SetInsecure(avisess *AviSession) error {
 
 // SetControllerStatusCheckLimits allows client to limit the number of tries the SDK should
 // attempt to reach the controller at the time gap of specified time intervals.
-func SetControllerStatusCheckLimits(numRetries, numIntervals int) func(*AviSession) error {
+func SetControllerStatusCheckLimits(numRetries, retryInterval int) func(*AviSession) error {
 	return func(avisess *AviSession) error {
-		avisess.infinitelyCheckCtrlStatus = false
+		if numRetries <= 0 || retryInterval <= 0 {
+			return errors.New("Retry count and retry interval should be greater than zero")
+		}
 		avisess.ctrlStatusCheckRetryCount = numRetries
-		avisess.ctrlStatusCheckRetryInterval = numIntervals
+		avisess.ctrlStatusCheckRetryInterval = retryInterval
 		return nil
 	}
 }
@@ -853,9 +848,12 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 		} else {
 			glog.Errorf("CheckControllerStatus Error while generating http request %v %v", url, err)
 		}
-		//wait before retry
-		if avisess.infinitelyCheckCtrlStatus {
-			time.Sleep(time.Duration(math.Exp(float64(round))*3) * time.Second)
+		// if controller status check interval is not set during client init, use the default SDK
+		// behaviour.
+		if avisess.ctrlStatusCheckRetryInterval == 0 {
+			// Default controller status check behaviour is 10 iterations at interval of 30 secs each.
+			// i.e total 5 mins.
+			time.Sleep(time.Duration(30) * time.Second)
 		} else {
 			// controller status will be polled at intervals specified during client init.
 			time.Sleep(time.Duration(avisess.ctrlStatusCheckRetryInterval) * time.Second)
