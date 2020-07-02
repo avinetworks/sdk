@@ -127,9 +127,9 @@ type AviSession struct {
 	// optional api retry interval in milliseconds
 	api_retry_interval int
 
-	// Number of retries the SDK should attempt when controller is not reachable.
+	// Number of retries the SDK should attempt to check controller status.
 	ctrlStatusCheckRetryCount int
-	// Total number of seconds to wait before attemptemptin another try to reach to controller.
+	// Time interval in seconds within each retry to check controller status.
 	ctrlStatusCheckRetryInterval int
 }
 
