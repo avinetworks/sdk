@@ -60,6 +60,17 @@ aviClient, err := clients.NewAviClient("10.10.25.25", "admin",
 		session.SetInsecure)
 ```
 
+For custom retry count and interval (in seconds) between retries to poll for 
+controller status, below example can be used to initialise the client.
+
+```go
+aviClient, err := clients.NewAviClient("10.10.25.25", "admin",
+		session.SetPassword("something"),
+		session.SetTenant("admin"),
+		session.SetControllerStatusCheckLimits(5, 10), // retryCount, timeInterval (in seconds).
+		session.SetInsecure)
+```
+
 - Create pool 'my-test-pool' with one server:
 
 ```go
