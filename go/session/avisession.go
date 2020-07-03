@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"math"
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
@@ -851,9 +852,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 		// if controller status check interval is not set during client init, use the default SDK
 		// behaviour.
 		if avisess.ctrlStatusCheckRetryInterval == 0 {
-			// Default controller status check behaviour is 10 iterations at interval of 30 secs each.
-			// i.e total 5 mins.
-			time.Sleep(time.Duration(30) * time.Second)
+			time.Sleep(getMinTimeDuration((time.Duration(math.Exp(float64(round))*3) * time.Second), (time.Duration(30) * time.Second)))
 		} else {
 			// controller status will be polled at intervals specified during client init.
 			time.Sleep(time.Duration(avisess.ctrlStatusCheckRetryInterval) * time.Second)
@@ -861,6 +860,14 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
 	return isControllerUp, nil
+}
+
+//getMinTimeDuration returns the minimum time duration between two time values.
+func getMinTimeDuration(durationFirst, durationSecond time.Duration) time.Duration {
+	if durationFirst <= durationSecond {
+		return durationFirst
+	}
+	return durationSecond
 }
 
 func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
