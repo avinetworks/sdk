@@ -111,7 +111,6 @@ func getSessions(t *testing.T) []*AviSession {
 			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetVersion(aviVersion))
 	}
 
-
 	var sessionSetAuthTokenV2 *AviSession
 	sessionSetAuthTokenV2, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
 		SetRefreshAuthTokenCallbackV2(getValidTokenV2), SetInsecure, SetTenant(AVI_TENANT),
@@ -143,6 +142,53 @@ func getSessions(t *testing.T) []*AviSession {
 	}
 
 	return []*AviSession{credentialsSession, authTokenSession, authTokenSessionCallback, sessionSetAuthTokenV2}
+}
+
+func testControllerStatusCheckLimits(t *testing.T) {
+	aviVersion, ok := os.LookupEnv("AVI_VERSION")
+	if !ok {
+		aviVersion = "18.1.3"
+	}
+
+	var err error
+	var aviSession *AviSession
+	var numRetries = 4
+	var numTimeIntervalSecs = 10
+
+	// try to init the session with illegal inputs for controller status check limits.
+	if AVI_PASSWORD != "" {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(0, -1), SetVersion(aviVersion))
+	} else {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(-2, -3),
+			SetVersion(aviVersion))
+	}
+	if err == nil {
+		t.Errorf("The Avi session go created with illegal arguments")
+	}
+	if AVI_PASSWORD != "" {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetPassword(AVI_PASSWORD), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs), SetVersion(aviVersion))
+	} else {
+		aviSession, err = NewAviSession(AVI_CONTROLLER, AVI_USERNAME,
+			SetTenant(AVI_TENANT), SetAuthToken(AVI_AUTH_TOKEN), SetInsecure, SetLazyAuthentication(true),
+			SetControllerStatusCheckLimits(numRetries, numTimeIntervalSecs),
+			SetVersion(aviVersion))
+	}
+
+	if err != nil {
+		t.Errorf("Session Creation failed: %s", err)
+	}
+	if aviSession.ctrlStatusCheckRetryCount != numRetries {
+		t.Errorf("Failed to initialise the AVI session with expected retry count")
+	}
+	if aviSession.ctrlStatusCheckRetryInterval != numTimeIntervalSecs {
+		t.Errorf("Failed to initialise the AVI session with expected time interval to poll the controller status.")
+	}
 }
 
 func testAviSession(t *testing.T, avisess *AviSession) {
@@ -252,6 +298,10 @@ func TestAviSession(t *testing.T) {
 	for _, session := range getSessions(t) {
 		testAviSession(t, session)
 	}
+}
+
+func TestAviSessionControllerStatusCheckLimits(t *testing.T) {
+	testControllerStatusCheckLimits(t)
 }
 
 func TestAviPool(t *testing.T) {
@@ -380,7 +430,7 @@ func TestTokenAuthRobustnessV2(t *testing.T) {
 		SetInsecure)
 	var res interface{}
 	err = authTokenSessionCallback.Get("api/tenant", &res)
-	if err.Error() !=  "Invalid token from callback method" {
+	if err.Error() != "Invalid token from callback method" {
 		t.Errorf("Didn't get expected error for wrong token using SetRefreshAuthTokenCallback V2 functionality")
 	}
 }

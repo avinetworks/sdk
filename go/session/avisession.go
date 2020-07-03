@@ -127,6 +127,11 @@ type AviSession struct {
 
 	// optional api retry interval in milliseconds
 	api_retry_interval int
+
+	// Number of retries the SDK should attempt to check controller status.
+	ctrlStatusCheckRetryCount int
+	// Time interval in seconds within each retry to check controller status.
+	ctrlStatusCheckRetryInterval int
 }
 
 const DEFAULT_AVI_VERSION = "17.1.2"
@@ -149,7 +154,9 @@ func NewAviSession(host string, username string, options ...func(*AviSession) er
 	avisess.prefix = "https://" + avisess.host + "/"
 	avisess.tenant = ""
 	avisess.insecure = false
-
+	// The default behaviour was for 10 iterations, if client does not init session with specific retry
+	// count option the controller status will be checked 10 times.
+	avisess.ctrlStatusCheckRetryCount = 10
 	for _, option := range options {
 		err := option(avisess)
 		if err != nil {
@@ -325,6 +332,19 @@ func (avisess *AviSession) setTenant(tenant string) error {
 func SetInsecure(avisess *AviSession) error {
 	avisess.insecure = true
 	return nil
+}
+
+// SetControllerStatusCheckLimits allows client to limit the number of tries the SDK should
+// attempt to reach the controller at the time gap of specified time intervals.
+func SetControllerStatusCheckLimits(numRetries, retryInterval int) func(*AviSession) error {
+	return func(avisess *AviSession) error {
+		if numRetries <= 0 || retryInterval <= 0 {
+			return errors.New("Retry count and retry interval should be greater than zero")
+		}
+		avisess.ctrlStatusCheckRetryCount = numRetries
+		avisess.ctrlStatusCheckRetryInterval = retryInterval
+		return nil
+	}
 }
 
 // SetTransport - Use this for NewAviSession option argument for configuring http transport to enable connection
@@ -805,12 +825,11 @@ func debug(data []byte, err error) {
 }
 
 //Checking for controller up state.
-//This is an infinite loop till the controller is in up state.
-//Return true when controller is in up state.
+// Flexible to wait on controller status infinitely or for fixed time span.
 func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 	url := avisess.prefix + "/api/cluster/status"
-	//This is an infinite loop. Generating http request for a login URI till controller is in up state.
-	for round := 0; round < 10; round++ {
+	var isControllerUp bool
+	for round := 0; round < avisess.ctrlStatusCheckRetryCount; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error %v while generating http request.", err)
@@ -821,6 +840,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 			defer stateResp.Body.Close()
 			//Checking controller response
 			if stateResp.StatusCode != 503 && stateResp.StatusCode != 502 && stateResp.StatusCode != 500 {
+				isControllerUp = true
 				break
 			} else {
 				glog.Infof("CheckControllerStatus Error while generating http request %d %v",
@@ -829,11 +849,25 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 		} else {
 			glog.Errorf("CheckControllerStatus Error while generating http request %v %v", url, err)
 		}
-		//wait before retry
-		time.Sleep(time.Duration(math.Exp(float64(round))*3) * time.Second)
+		// if controller status check interval is not set during client init, use the default SDK
+		// behaviour.
+		if avisess.ctrlStatusCheckRetryInterval == 0 {
+			time.Sleep(getMinTimeDuration((time.Duration(math.Exp(float64(round))*3) * time.Second), (time.Duration(30) * time.Second)))
+		} else {
+			// controller status will be polled at intervals specified during client init.
+			time.Sleep(time.Duration(avisess.ctrlStatusCheckRetryInterval) * time.Second)
+		}
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
-	return true, nil
+	return isControllerUp, nil
+}
+
+//getMinTimeDuration returns the minimum time duration between two time values.
+func getMinTimeDuration(durationFirst, durationSecond time.Duration) time.Duration {
+	if durationFirst <= durationSecond {
+		return durationFirst
+	}
+	return durationSecond
 }
 
 func (avisess *AviSession) restRequestInterfaceResponse(verb string, url string,
@@ -950,7 +984,7 @@ func (avisess *AviSession) GetRaw(uri string) ([]byte, error) {
 
 // PostRaw performs a POST API call and returns raw data
 func (avisess *AviSession) PostRaw(uri string, payload interface{}) ([]byte, error) {
-        resp, rerror := avisess.restRequest("POST", uri, payload, "", nil)
+	resp, rerror := avisess.restRequest("POST", uri, payload, "", nil)
 	if rerror != nil || resp == nil {
 		return nil, rerror
 	}
