@@ -67,7 +67,7 @@ controller status, below example can be used to initialise the client.
 aviClient, err := clients.NewAviClient("10.10.25.25", "admin",
 		session.SetPassword("something"),
 		session.SetTenant("admin"),
-		SetControllerStatusCheckLimits(5, 10), // numRetries, time interval (in seconds).
+		SetControllerStatusCheckLimits(5, 10), // retryCount, timeInterval (in seconds).
 		session.SetInsecure)
 ```
 
