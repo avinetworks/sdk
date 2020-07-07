@@ -33,7 +33,7 @@ class Test(unittest.TestCase):
 
         vs = [vs for vs in patched_cfg.get('VirtualService') if vs['name'] == 'vs1']
         assert vs
-        print json.dumps(vs, indent=2)
+        print(json.dumps(vs, indent=2))
         assert vs[0]['pool_ref'] == '/api/pool/?tenant=admin&name=coolpool&cloud=AWS'
         cicd_pools = [pool for pool in pools if pool['name'].find('cicd') != -1]
         for p in cicd_pools:

@@ -7,9 +7,9 @@ Created on September 15, 2016
 
 import json
 import logging
-import urlparse
+from urllib.parse import urlparse, parse_qs, urlunparse, unquote
 from copy import deepcopy
-from urllib import urlencode
+from urllib.parse import urlencode
 import urllib
 
 import argparse
@@ -92,7 +92,7 @@ class AviAnsibleConverterBase(object):
         :return:
         """
         # converts ref into the relative reference
-        if not (isinstance(x, basestring) or isinstance(x, unicode)):
+        if not isinstance(x, str):
             return x
         if x == '/api/tenant/admin':
             x = '/api/tenant/admin#admin'
@@ -103,32 +103,33 @@ class AviAnsibleConverterBase(object):
             # print name, obj_type
             x = '/api/%s?name=%s' % (obj_type, name)
         elif x.startswith('/api/') and '?' in x:
-            parsed = urlparse.urlparse(x)
-            params = urlparse.parse_qs(parsed.query)
+            parsed = urlparse(x)
+            params = parse_qs(parsed.query)
             if 'cloud' in params:
                 obj['cloud_ref'] = '/api/cloud?name=%s' % params['cloud'][0]
         else:
-            print "[WARNING] Ignoring invalid reference:  %s" % x
+            print("[WARNING] Ignoring invalid reference:  %s" % x)
             return None
 
-        u = urlparse.urlparse(x)
-        query = {'name': urlparse.parse_qs(u.query)['name']}
+        u = urlparse(x)
+        query = {'name': parse_qs(u.query)['name']}
         # query.pop('tenant', None)
         # query.pop('cloud', None)
         u = u._replace(query=urlencode(query, True))
-        x = urlparse.urlunparse(u)
-        return urllib.unquote(x)
+        x = urlunparse(u)
+        return unquote(x)
 
     def transform_obj_refs(self, obj):
         if type(obj) != dict:
             return
-        for k, v in obj.items():
+        for k, v in obj.copy().items():
             if type(v) == dict:
                 self.transform_obj_refs(v)
                 continue
             if k.endswith('_ref') or k.endswith('_refs'):
                 # check for whether v is string or list of strings
-                if isinstance(v, basestring) or isinstance(v, unicode):
+                # if isinstance(v, basestring) or isinstance(v, unicode):
+                if isinstance(v, str):
                     ref = self.transform_ref(v, obj)
                     if ref:
                         obj[k] = ref
@@ -139,8 +140,9 @@ class AviAnsibleConverterBase(object):
                     for item in v:
                         if type(item) == dict:
                             self.transform_obj_refs(item)
-                        elif (isinstance(item, basestring) or
-                              isinstance(item, unicode)):
+                        # elif (isinstance(item, basestring) or
+                        #       isinstance(item, unicode)):
+                        elif isinstance(item, str):
                             ref = self.transform_ref(item, obj)
                             if ref:
                                 new_list.append(ref)
@@ -170,12 +172,12 @@ class AviAnsibleConverterBase(object):
         for skip_field in self.skip_fields:
             rsrc.pop(skip_field, None)
         for key in rsrc:
-            if isinstance(rsrc[key], str) and key != 'key':
-                rsrc[key] = rsrc[key].encode('string-escape')
-            elif isinstance(rsrc[key], unicode) and key == 'key':
-                rsrc[key] = rsrc[key].encode()
-            elif isinstance(rsrc[key], unicode):
-                rsrc[key] = rsrc[key].encode('unicode-escape')
+            if isinstance(rsrc[key], (str, bytes)) and key != 'key':
+                rsrc[key] = str(rsrc[key].encode("unicode_escape"), "latin1")
+            elif isinstance(rsrc[key], str) and key == 'key':
+                rsrc[key] = rsrc[key]
+            elif isinstance(rsrc[key], str):
+                rsrc[key] = rsrc[key].encode('unicode-escape').decode('utf-8')
 
         if rsrc_type == 'vsvip':
             # check for floating IP and normal IP
@@ -419,7 +421,7 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
         # Added variable to check progress.
         total_size = len(self.avi_cfg['VirtualService'])
         progressbar_count = 0
-        print "Conversion Started For Ansible Generate Traffic..."
+        print("Conversion Started For Ansible Generate Traffic...")
         trafic_obj = TrafficGen.get_instance(
             instace_type, self.prefix, ns_vs_name_dict=self.ns_vs_name_dict)
         for vs in self.avi_cfg['VirtualService']:
@@ -515,7 +517,7 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
         generate_traffic_dict = deepcopy(ansible_dict)
         total_size = len(self.default_meta_order)
         progressbar_count = 0
-        print "Conversion Started For Ansible Create Object..."
+        print("Conversion Started For Ansible Create Object...")
         for obj_type in self.default_meta_order:
             progressbar_count += 1
             # Added call to check progress.
@@ -551,12 +553,12 @@ class AviAnsibleConverterMigration(AviAnsibleConverterBase):
 
         # Added support to generate ansible delete object playbook
         if len(ad['tasks']):
-            for k, v in ad['tasks'][0].iteritems():
+            for k, v in ad['tasks'][0].items():
                     if isinstance(v, dict):
                         v['api_context'] = "{{avi_api_context | default(omit)}}"
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
-            for k, v in task.iteritems():
+            for k, v in task.items():
                 if k == 'name' or k == 'tags' or k =='register':
                     continue
                 if v.get('system_default'):

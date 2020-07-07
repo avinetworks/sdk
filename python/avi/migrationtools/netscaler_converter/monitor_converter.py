@@ -1,6 +1,8 @@
 import os
 import re
 import logging
+from functools import reduce
+
 import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 import math
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -75,7 +77,7 @@ class MonitorConverter(object):
         ns_monitors = ns_config.get('add lb monitor', {})
         total_size = len(ns_monitors.keys())
         count = 0
-        print "Converting Monitors..."
+        print("Converting Monitors...")
         self.add_ns_default_monitors(avi_config)
         for name in ns_monitors.keys():
             count = count + 1

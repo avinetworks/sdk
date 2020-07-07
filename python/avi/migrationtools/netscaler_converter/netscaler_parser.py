@@ -40,7 +40,7 @@ def parse_config_file(filepath):
     command.ignore(comment | blank_line)
     with open(filepath) as infile:
         line_no = 1
-        print "Parsing Input Configuration..."
+        print("Parsing Input Configuration...")
         lines = infile.readlines()
         total_lines = len(lines)
         for line in lines:
@@ -131,7 +131,7 @@ def get_ns_conf_dict(filepath):
         LOG.debug('File parsed successfully')
     except Exception as exception:
         update_count('error')
-        print exception
+        print(exception)
         LOG.error('Error in parsing the file', exc_info=True)
 
     return netscaler_conf, skipped_cmds

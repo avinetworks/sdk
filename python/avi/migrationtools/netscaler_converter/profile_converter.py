@@ -168,7 +168,7 @@ class ProfileConverter(object):
         self.total_size = len(http_profiles.keys()) + len(tcp_profiles.keys()) \
                           + len(set_ssl_service) + len(ssl_vs_mapping) + \
                           len(set_ssl_service_group) + len(ssl_mappings)
-        print "Converting Profiles.."
+        print("Converting Profiles..")
         for key in http_profiles.keys():
             ns_http_profile_command = 'add ns httpProfile'
             self.progressbar_count += 1
@@ -701,10 +701,10 @@ class ProfileConverter(object):
                     LOG.warning(
                         'Create self cerificate and key for : %s' % name)
                 if key and cert:
-                    cert = {"certificate": cert}
+                    cert = {"certificate": cert.decode() if type(cert) == bytes else cert}
                     ssl_kc_obj = {
                         'name': name,
-                        'key': key,
+                        'key': key.decode() if type(key) == bytes else key,
                         'certificate': cert,
                         'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE',
                         'tenant_ref': self.tenant_ref

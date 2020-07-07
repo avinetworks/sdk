@@ -62,7 +62,7 @@ class NetscalerGSLBConverter(AviConverter):
         gslb_ns_config['add gslb vserver'] = ns_config.get('add gslb vserver')
         gslb_ns_config['bind gslb vserver'] = ns_config.get('bind gslb vserver')
         gslb_ns_config['add server'] = ns_config.get('add server')
-        print gslb_ns_config
+        print(gslb_ns_config)
         # getting meta tag from superclass
         meta = self.meta(self.tenant, self.controller_version)
         avi_gslb_config = gslb_config_converter.convert(

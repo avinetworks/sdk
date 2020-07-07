@@ -75,7 +75,7 @@ class ProfileConfigConv(object):
         if not persistence:
             f5_config['persistence'] = {}
         avi_config['UnsupportedProfiles'] = []
-        print "\nConverting Profiles ..."
+        print("\nConverting Profiles ...")
         # Added variable to get total object count.
         progressbar_count = 0
         total_size = len(profile_config.keys())
@@ -238,11 +238,11 @@ class ProfileConfigConv(object):
         if tenant == None:
             tenant = 'admin'
         if key and cert:
-            cert = {"certificate": cert}
+            cert = {"certificate": cert if type(cert) == str else cert.decode()}
             ssl_kc_obj = {
                 'name': name,
                 'tenant_ref': conv_utils.get_object_ref(tenant, 'tenant'),
-                'key': key,
+                'key': key if type(key) == str else key.decode(),
                 'certificate': cert,
                 'type': 'SSL_CERTIFICATE_TYPE_VIRTUALSERVICE'
             }
@@ -473,7 +473,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
 
             cert_obj = profile.get("cert-key-chain", None)
             if cert_obj and cert_obj.keys():
-                cert_obj_key = cert_obj.keys()[0]
+                cert_obj_key = list(cert_obj.keys())[0]
                 key_file = cert_obj.get(cert_obj_key, {}).get("key", None)
                 cert_file = cert_obj.get(cert_obj_key, {}).get("cert", None)
             else:
@@ -536,7 +536,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
                 ssl_profile['send_close_notify'] = False
             options = profile.get("options", {})
             options = {} if options == 'none' else options
-            options = options.keys()+options.values()
+            options = list(options.keys()) + list(options.values())
             if None in options:
                 options.remove(None)
             accepted_versions = []
@@ -774,12 +774,12 @@ class ProfileConfigConvV11(ProfileConfigConv):
             exclude_uri = profile.get("cache-uri-exclude", None)
             include_uri = profile.get("cache-uri-include", None)
             if exclude_uri and isinstance(exclude_uri, dict):
-                exclude_uri = exclude_uri.keys() + exclude_uri.values()
+                exclude_uri = list(exclude_uri.keys()) + list(exclude_uri.values())
                 if None in exclude_uri:
                     exclude_uri.remove(None)
                 cache_config['mime_types_black_list'] = exclude_uri
             if include_uri and isinstance(include_uri, dict):
-                include_uri = include_uri.keys() + include_uri.values()
+                include_uri = list(include_uri.keys()) + list(include_uri.values())
                 if None in include_uri:
                     include_uri.remove(None)
                 cache_config['mime_types_list'] = include_uri
@@ -825,7 +825,7 @@ class ProfileConfigConvV11(ProfileConfigConv):
             ct_exclude = None if ct_exclude == 'none' else ct_exclude
             http_profile = dict()
             if content_type:
-                content_type = content_type.keys()+content_type.values()
+                content_type = list(content_type.keys()) + list(content_type.values())
             elif ct_exclude:
                 content_type = final.DEFAULT_CONTENT_TYPE
             if ct_exclude:
@@ -868,11 +868,11 @@ class ProfileConfigConvV11(ProfileConfigConv):
                                              None) == 'enabled')
             syn_protection = (hw_syn_protection or sw_syn_protection)
             timeout = profile.get("idle-timeout", final.MIN_SESSION_TIMEOUT)
-            if timeout < 60:
+            if int(timeout) < 60:
                 timeout = final.MIN_SESSION_TIMEOUT
                 LOG.warn("idle-timeout for profile: %s is less" % name +
                          " than minimum, changed to Avis minimum value")
-            elif timeout > final.MAX_SESSION_TIMEOUT:
+            elif int(timeout) > final.MAX_SESSION_TIMEOUT:
                 timeout = final.MAX_SESSION_TIMEOUT
                 LOG.warn("idle-timeout for profile: %s  is grater" % name +
                          " than maximum, changed to Avis maximum value")
@@ -1369,11 +1369,11 @@ class ProfileConfigConvV10(ProfileConfigConv):
 
             description = profile.get('description', None)
             timeout = profile.get("idle timeout", final.MIN_SESSION_TIMEOUT)
-            if timeout < 60:
+            if int(timeout) < 60:
                 timeout = final.MIN_SESSION_TIMEOUT
                 LOG.warn("idle-timeout for profile: %s is less" % name +
                          " than minimum, changed to Avis minimum value")
-            elif timeout > final.MAX_SESSION_TIMEOUT:
+            elif int(timeout) > final.MAX_SESSION_TIMEOUT:
                 timeout = final.MAX_SESSION_TIMEOUT
                 LOG.warn("idle-timeout for profile: %s  is grater" % name +
                          " than maximum, changed to Avis maximum value")
@@ -1691,7 +1691,7 @@ class ProfileConfigConvV10(ProfileConfigConv):
             if content_type and isinstance(content_type, str):
                 content_type = content_type.split(" ")
             elif content_type and isinstance(content_type, dict):
-                content_type = content_type.keys()+content_type.values()
+                content_type = list(content_type.keys())+list(content_type.values())
                 content_type = list(set(content_type))
                 content_type.remove(None)
             elif content_type_exclude:

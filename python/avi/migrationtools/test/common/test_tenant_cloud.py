@@ -11,7 +11,7 @@ def create_tenant(controller_ip, username, password, name):
     json_data = json.dumps (data)
     path = "/tenant?"
     rsp = session.post (path, data=json_data)
-    print rsp
+    print(rsp)
     return
 
 
@@ -25,7 +25,7 @@ def create_cloud(controller_ip, username, password, cloud_name):
     json_data = json.dumps (data)
     path = "/cloud?include_name"
     rsp1 = session.post (path, data=json_data)
-    print rsp1
+    print(rsp1)
     return json.loads (rsp1.content)
 
 
@@ -35,7 +35,7 @@ def create_segroup(controller_ip, username, password, segroup_name):
      json_data = json.dumps(data)
      path = "/serviceenginegroup"
      rsp1 = session.post(path, data=json_data)
-     print rsp1
+     print(rsp1)
      return rsp1
 
 
@@ -45,7 +45,7 @@ def create_vrf_context(controller_ip, username, password, vrf_name):
     json_data = json.dumps(data)
     path = "/vrfcontext"
     rsp1 = session.post(path, data=json_data)
-    print rsp1
+    print(rsp1)
     return rsp1
 
 

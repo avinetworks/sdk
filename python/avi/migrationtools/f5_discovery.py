@@ -70,7 +70,7 @@ class F5InventoryConv(object):
         # refactor the data for easy access
         traffic_global_dict = {}
         for data in self.avi_object:
-            for k, v in data.iteritems():
+            for k, v in data.items():
                 if data[k].get('traffic'):
                     entries = data[k]['traffic']
                     if int(version) > 11:
@@ -435,18 +435,18 @@ class F5InventoryConv(object):
         worksheet_summary.write(11, 5, "Total pools", bold)
         worksheet_summary.write(11, 6, str(total_pools))
         
-        print "===================="
-        print " Summary"
-        print "===================="
-        print "Total vs: ", total_vs
-        print "Total enabled vs: ", total_enabled_vs
-        print "Total pools: ", total_pools
+        print("====================")
+        print(" Summary")
+        print("====================")
+        print("Total vs: ", total_vs)
+        print("Total enabled vs: ", total_enabled_vs)
+        print("Total pools: ", total_pools)
 
         if total_enabled_pools:
             worksheet_summary.write(12, 5, "Total enabled pools", bold)
             worksheet_summary.write(12, 6, str(total_enabled_pools))
-            print "Total enabled pools: ", total_enabled_pools
-        print "--------------------"
+            print("Total enabled pools: ", total_enabled_pools)
+        print("--------------------")
 
         workbook.close()
 
@@ -490,10 +490,10 @@ class F5InventoryConvV10(F5InventoryConv):
             self.avi_object_temp = {}
             i += 1
             if i == 1:
-                print "Running Sample for 1st time"
+                print("Running Sample for 1st time")
             else:
                 time.sleep(60 * int(self.interval))
-                print "Running Sample for 2nd time"
+                print("Running Sample for 2nd time")
 
             virtual_services = self.get_all_virtual_service()
             for vs in virtual_services:
@@ -590,10 +590,10 @@ class F5InventoryConvV11(F5InventoryConv):
         while i < 2:
             i += 1
             if i == 1:
-                print "Running Sample for 1st time"
+                print("Running Sample for 1st time")
             else:
                 time.sleep(60 * int(self.interval))
-                print "Running Sample for 2nd time"
+                print("Running Sample for 2nd time")
 
             virtual_services = self.get_all_virtual_service()
             for vs in virtual_services:
@@ -709,17 +709,17 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if not args.f5_ip:
-        print 'Please provide f5 host'
+        print('Please provide f5 host')
         exit(0)
     if not args.f5_user:
-        print 'Please provide ssh username of f5 host'
+        print('Please provide ssh username of f5 host')
         exit(0)
     if not args.f5_password:
-        print 'Please provide ssh password of f5 host'
+        print('Please provide ssh password of f5 host')
         exit(0)
 
     if not os.path.isdir(args.output_file_path):
-        print "Creating output directory ..."
+        print("Creating output directory ...")
         os.makedirs(args.output_file_path)
 
     f5_inventory_conv = F5InventoryConv.get_instance(
@@ -730,4 +730,4 @@ if __name__ == '__main__':
 
     f5_inventory_conv.print_human(
         args.output_file_path, args.f5_config_version, args.f5_ip)
-    print "\n Inventory Complete ..."
+    print("\n Inventory Complete ...")

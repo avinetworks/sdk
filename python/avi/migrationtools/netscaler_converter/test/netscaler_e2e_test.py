@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 
 
 def set_output_dir_in_test_config_ini(ini_file, section, output_dir,
