@@ -4,7 +4,8 @@ import os
 import copy
 import re
 import random
-import urlparse
+from functools import reduce
+
 import ast
 import pandas
 import pexpect
@@ -12,6 +13,7 @@ import avi.migrationtools.netscaler_converter.ns_constants as ns_constants
 from pkg_resources import parse_version
 from xlsxwriter import Workbook
 from openpyxl import load_workbook
+from urllib.parse import urlparse
 from OpenSSL import crypto
 from socket import gethostname
 from avi.migrationtools.netscaler_converter.ns_constants \
@@ -81,7 +83,7 @@ class NsUtil(MigrationUtil):
         global csv_writer_dict_list
         global progressbar_count
         global total_count
-        print "Generating Report For Converted Configuration..."
+        print("Generating Report For Converted Configuration...")
         ptotal = len(ns_config)
         ppcount = 0
         for config_key in ns_config:
@@ -125,9 +127,9 @@ class NsUtil(MigrationUtil):
         for status in STATUS_LIST:
             status_list = [row for row in row_list if
                            row['Status'] == status]
-            print '%s: %s' % (status, len(status_list))
+            print('%s: %s' % (status, len(status_list)))
         # add skipped list of each object at vs level
-        print "Writing Excel Sheet For Converted Configuration..."
+        print("Writing Excel Sheet For Converted Configuration...")
         total_count = total_count + len(row_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
@@ -392,7 +394,7 @@ class NsUtil(MigrationUtil):
                 del tmp_cp["name"]
                 if "description" in tmp_cp:
                     del tmp_cp["description"]
-                if cmp(src_cp, tmp_cp) == 0:
+                if src_cp.items() == tmp_cp.items():
                     LOG.warn('Remove duplicate %s object : %s' % (obj_type,
                                                                   tmp_obj[
                                                                       "name"]))
@@ -448,8 +450,8 @@ class NsUtil(MigrationUtil):
             if parse_version(controller_version) >= parse_version('17.1'):
                 vs_port_list = [int(v['services'][0]['port']) for v in
                                 avi_config['VirtualService']
-                                if v['vip'][0]['ip_address']['addr'] ==
-                                vs['vip'][0]['ip_address']['addr']
+                                if v['vsvip_ref'].split('name=')[1].split('-')[0] ==
+                                vs['vsvip_ref'].split('name=')[1].split('-')[0]
                                 and 'port_range_end' not in v['services'][0]]
             else:
                 vs_port_list = [int(v['services'][0]['port']) for v in
@@ -559,8 +561,9 @@ class NsUtil(MigrationUtil):
 
         if parse_version(controller_version) >= parse_version('17.1'):
             # Get the list of vs which shared the same vip
-            shared_vip = [v for v in cs_vs_list if v['vip'][0]['ip_address'][
-                'addr'] == vs['vip'][0]['ip_address']['addr'] and
+            shared_vip = [v for v in cs_vs_list if v['vsvip_ref'
+            ].split('name=')[1].split('-')[0] == vs['vsvip_ref'
+            ].split('name=')[1].split('-')[0] and
                           v['services'][0][
                               'port'] == vs['services'][0]['port']]
         else:
@@ -572,7 +575,7 @@ class NsUtil(MigrationUtil):
         if shared_vip:
             return True
         elif parse_version(controller_version) >= parse_version('17.1'):
-            vsvip = vs['vip'][0]['ip_address']['addr']
+            vsvip = vs['vsvip_ref'].split('name=')[1].split('-')[0]
             self.create_update_vsvip(vsvip, avi_config['VsVip'], tenant_ref,
                                 cloud_ref,
                                 prefix=prefix)
@@ -905,7 +908,7 @@ class NsUtil(MigrationUtil):
         if parse_version(controller_version) >= parse_version('17.1'):
             avi_config['VirtualService'] = \
                 [vs for vs in vs_list
-                 if vs['vip'][0]['ip_address']['addr'] != '0.0.0.0']
+                 if vs['vsvip_ref'].split('name=')[1].split('-')[0] != '0.0.0.0']
         else:
             avi_config['VirtualService'] = \
                 [vs for vs in vs_list
@@ -917,7 +920,7 @@ class NsUtil(MigrationUtil):
         :param url: url that need to be parsed
         :return:
         """
-        parsed = urlparse.urlparse(url)
+        parsed = urlparse(url)
         return parsed
 
     def format_string_to_json(self, avi_string):
@@ -1396,8 +1399,9 @@ class NsUtil(MigrationUtil):
         for row_data in row_list:
             progressbar_count += 1
             for _key, _value in row_data.items():
-                col = fieldnames.index(_key)
-                status_ws.write(row, col, _value)
+                if _key in fieldnames:
+                    col = fieldnames.index(_key)
+                    status_ws.write(row, col, _value)
             msg = "Writing excel sheet started..."
             self.print_progress_bar(progressbar_count, total_count, msg,
                                prefix='Progress', suffix='')
@@ -1490,7 +1494,7 @@ class NsUtil(MigrationUtil):
         :param url: url
         :return:
         """
-        parsed = urlparse.urlparse(url)
+        parsed = urlparse(url)
         redirect_fail_action = {
             'fail_action': {
                 'redirect': {
@@ -1643,7 +1647,7 @@ class NsUtil(MigrationUtil):
         mergelist=[]
         for poolgrp in avi_config['PoolGroup']:
             if poolgrp['name'] == 'lb-depoed1cdb.qai-pri-5984-poolgroup':
-                print 'found'
+                print('found')
             # do not merge the pool if it is a backup pool in the group
             pool_member = [obj for obj in poolgrp['members'] if not
                            obj.get('priority_label', '10') == '2']

@@ -36,18 +36,18 @@ def output_sanitization(path_to_excel, path_to_out_json=None):
     with open(path_to_out_json, 'r') as file_strem:
         file_strem = json.load(file_strem)
         for entity in file_strem:
-            if entity <> 'META' and entity <> 'VsVip':
+            if entity != 'META' and entity != 'VsVip':
                 # print file_strem
                 for obj in file_strem[entity]:
                     out_obj.append(obj.get('name'))
-    print len(out_obj)
-    print len(excel_obj)
+    print(len(out_obj))
+    print(len(excel_obj))
     excel_obj.sort()
     out_obj.sort()
-    print "Object Common in Both Excel and Output "
+    print("Object Common in Both Excel and Output ")
     for obj in excel_obj:
         if obj not in out_obj:
-            print obj
+            print(obj)
     
 
 def percentage_success(path_to_excel):
@@ -91,5 +91,5 @@ def percentage_success(path_to_excel):
         else:
             report_dict[key].update({'percent': 100.0})
     for key in report_dict.keys():
-        print key, " -> ", report_dict[key]['percent'], "%"
+        print(key, " -> ", report_dict[key]['percent'], "%")
 

@@ -1,6 +1,8 @@
 import copy
 import logging
 import os
+from functools import reduce
+
 import pandas
 import ast
 import re
@@ -157,8 +159,8 @@ class F5Util(MigrationUtil):
         for status in conv_const.STATUS_LIST:
             status_list = [row for row in csv_writer_dict_list if
                            row['Status'] == status]
-            print '%s: %s' % (status, len(status_list))
-        print "Writing Excel Sheet For Converted Configuration..."
+            print('%s: %s' % (status, len(status_list)))
+        print("Writing Excel Sheet For Converted Configuration...")
         ptotal_count = ptotal_count + len(csv_writer_dict_list)
         if vs_level_status:
             self.vs_per_skipped_setting_for_references(avi_config)
@@ -570,10 +572,15 @@ class F5Util(MigrationUtil):
         port = parts[1] if len(parts) == 2 else conv_const.DEFAULT_PORT
         # Get the list of vs which shared the same vip
         if parse_version(controller_version) >= parse_version('17.1'):
-            vs_dup_ips = \
-                [vs for vs in avi_config['VirtualService'] if
-                 vs['vip'][0]['ip_address']['addr'] ==
-                 ip_addr]
+            # vs_dup_ips = \
+            #     [vs for vs in avi_config['VirtualService'] if
+            #      vs['vip'][0]['ip_address']['addr'] ==
+            #      ip_addr]
+            vs_dup_ips = []
+            for vs in avi_config['VirtualService']:
+                vs_ip = vs['vsvip_ref'].split('name=')[1].split('-')[0]
+                if ip_addr == vs_ip:
+                    vs_dup_ips.append(vs)
         else:
             vs_dup_ips = \
                 [vs for vs in avi_config['VirtualService'] if
@@ -1219,9 +1226,9 @@ class F5Util(MigrationUtil):
         if parse_version(controller_version) < parse_version(
            '17.1.6') or app_prof_type != 'APPLICATION_PROFILE_TYPE_HTTP' \
            or shared_apptype != app_prof_type or (
-                persist_type and persist_type !=
+                persist_type != None and persist_type !=
                 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
-                pool_per_type and pool_per_type !=
+                pool_per_type != None and pool_per_type !=
                 'PERSISTENCE_TYPE_HTTP_COOKIE') or (
                 shared_appobj.get('http_profile', {}).get(
                     'connection_multiplexing_enabled') != app_prof_obj.get(
@@ -1861,7 +1868,7 @@ class F5Util(MigrationUtil):
         net_config = f5_config.get('route', {})
         avi_vrf = avi_config["VrfContext"]
         # Convert net static route to vrf static route
-        for key, route in net_config.iteritems():
+        for key, route in net_config.items():
             LOG.debug("Starting conversion from net route to static for '%s'"
                       % key)
             static_route, vrf, msg = self.update_static_route(route)

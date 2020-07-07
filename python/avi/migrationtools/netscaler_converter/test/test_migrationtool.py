@@ -5,6 +5,8 @@ converter tool along with its options / parameters
 
 import logging
 import os
+import shutil
+
 import pytest
 import yaml
 import subprocess
@@ -184,8 +186,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         dummy_obj = 'Lab-Test-Cert'
-	xlsx_file = '%s/ns-ConversionStatus.xlsx' %setup.get('output_file_path')
-        
+        xlsx_file = '%s/ns-ConversionStatus.xlsx' % setup.get('output_file_path')
         assert check_dummy_cert_status(xlsx_file,
                                        certObj=dummy_obj) == True
 
@@ -320,9 +321,9 @@ class TestNetscalerConverter:
             clean_reboot(file_attribute['controller_ip_17_1_1'], file_attribute['controller_user_17_1_1'],
                          file_attribute['controller_password_17_1_1'], file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
 
@@ -370,9 +371,9 @@ class TestNetscalerConverter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
 
@@ -453,7 +454,7 @@ class TestNetscalerConverter:
                        controller_version=setup.get('controller_version_v17'))
 
         assert get_count('error') == 0
-        assert get_count('warning') == 5
+        assert get_count('warning') == 4
 
     @pytest.mark.travis
 

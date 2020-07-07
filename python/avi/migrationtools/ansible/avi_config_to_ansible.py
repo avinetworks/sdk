@@ -101,7 +101,7 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
             rsrc.update(
                 {'api_version': self.api_version})
             self.update_tenant(rsrc)
-            print 'processed', obj_type, rsrc.get('name', 'N/A')
+            print('processed', obj_type, rsrc.get('name', 'N/A'))
             ansible_dict['avi_config'][rsrc_type].append(rsrc)
         return ansible_dict
 
@@ -120,7 +120,7 @@ class AviAnsibleConverter(AviAnsibleConverterBase):
 
         tasks = [task for task in reversed(ad['tasks'])]
         for task in tasks:
-            for k, v in task.iteritems():
+            for k, v in task.items():
                 if k == 'name' or k == 'tags' or k =='register':
                     continue
                 if v.get('system_default'):

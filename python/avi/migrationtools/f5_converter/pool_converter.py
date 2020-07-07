@@ -61,7 +61,7 @@ class PoolConfigConv(object):
         total_size = len(pool_config.keys())
         # Added variable to get total object count.
         progressbar_count = 0
-        print "Converting Pools..."
+        print("Converting Pools...")
         for pool_name in pool_config.keys():
             progressbar_count += 1
             LOG.debug("Converting Pool: %s" % pool_name)
@@ -378,9 +378,9 @@ class PoolConfigConvV11(PoolConfigConv):
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')
-        address = (isinstance(members, dict) and members.get(members.keys()[
-                  0]) and isinstance(members[members.keys()[0]], dict)) and \
-                  members[members.keys()[0]].get('address') or isinstance(
+        address = (isinstance(members, dict) and members.get(list(members.keys())[
+                  0]) and isinstance(members[list(members.keys())[0]], dict)) and \
+                  members[list(members.keys())[0]].get('address') or isinstance(
                   members, str) and members.split(' ')[0] or None if members \
                   else None
         if vrf:
@@ -611,9 +611,9 @@ class PoolConfigConvV10(PoolConfigConv):
         # Adding vrf context ref to pool obj
         vrf_config = avi_config['VrfContext']
         members = f5_pool.get('members')
-        address = (isinstance(members, dict) and members.get(members.keys()[
-                  0]) and isinstance(members[members.keys()[0]], dict)) and \
-                  members[members.keys()[0]].get('address') or isinstance(
+        address = (isinstance(members, dict) and members.get(list(members.keys())[
+                  0]) and isinstance(members[list(members.keys())[0]], dict)) and \
+                  members[list(members.keys())[0]].get('address') or isinstance(
                   members, str) and members.split(' ')[0] or None if members \
                   else None
         if vrf:

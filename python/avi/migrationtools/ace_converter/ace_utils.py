@@ -10,6 +10,7 @@ def get_loc():
     """ Give the location of the script running """
     return os.path.dirname(os.path.abspath(__file__))
 
+
 def get_excel_dict():
     """ Returning the excel dict"""
     global excel_dict
@@ -37,15 +38,15 @@ def printProgressBar(iteration, total, msg, prefix='', suffix='', decimals=1,
         fill        - Optional  : bar fill character (Str)
     """
     percent = ("{0:." + str(decimals) + "f}").\
-                             format(100 * (iteration / float(total)))
+        format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
     if (iteration < total):
-        print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),
+        print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),)
     else:
-        print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
-        print 'completed'
-        print '\n'
+        print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix))
+        print('completed')
+        print('\n')
 
 
 # Update Excel Sheet

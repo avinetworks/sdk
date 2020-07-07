@@ -194,9 +194,16 @@ class CsvsConverter(object):
                                                     tenant=self.tenant_name,
                                                     cloud_name=self.cloud_name)
                     vs_obj['se_group_ref'] = se_group_ref
+
+                if ip_addr:
+                    vsvip_ref = ns_util.get_object_ref(
+                        ip_addr + '-vsvip', 'vsvip', self.tenant_name,
+                        self.cloud_name)
+
                 if parse_version(self.controller_version) >= parse_version(
                         '17.1'):
-                    vs_obj['vip'] = [vip]
+                    # vs_obj['vip'] = [vip]
+                    vs_obj['vsvip_ref'] = vsvip_ref
                 else:
                     vs_obj['ip_address'] = vip['ip_address']
 

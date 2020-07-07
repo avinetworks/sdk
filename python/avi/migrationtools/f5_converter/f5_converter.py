@@ -104,8 +104,8 @@ class F5Converter(AviConverter):
         # Add logger and print avi migrationtool version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
-        print 'AVI sdk version: %s Controller Version: %s' \
-              % (sdk_version, self.controller_version)
+        print('AVI sdk version: %s Controller Version: %s' \
+              % (sdk_version, self.controller_version))
 
     def upload_config_to_controller(self, avi_config):
         """
@@ -151,7 +151,7 @@ class F5Converter(AviConverter):
         source_file = None
         if is_download_from_host:
             LOG.debug("Copying files from host")
-            print "Copying Files from Host..."
+            print("Copying Files from Host...")
             scp_util.get_files_from_f5(input_dir, self.f5_host_ip,
                                        self.f5_ssh_user, self.f5_ssh_password,
                                        None, self.f5_ssh_port)
@@ -164,12 +164,12 @@ class F5Converter(AviConverter):
         elif self.bigip_config_file:
             source_file = open(self.bigip_config_file, "r")
         if not source_file:
-            print 'Not found F5 configuration file'
+            print('Not found F5 configuration file')
             return
         source_str = source_file.read()
         total_size = source_file.tell()
         LOG.debug('Parsing config file:' + source_file.name)
-        print "Parsing Input Configuration..."
+        print("Parsing Input Configuration...")
         f5_config_dict, not_supported_list = f5_parser.parse_config(
             source_str, total_size, self.f5_config_version)
         LOG.debug('Config file %s parsed successfully' % source_file.name)
@@ -187,7 +187,7 @@ class F5Converter(AviConverter):
                     total_size = p_source_file.tell()
                 LOG.debug('Parsing partition config file:' +
                           p_source_file.name)
-                print "Parsing Partitions Configuration..."
+                print("Parsing Partitions Configuration...")
                 partition_dict, not_supported_list = f5_parser.parse_config(
                     p_src_str, total_size, self.f5_config_version)
                 LOG.debug(
@@ -238,8 +238,8 @@ class F5Converter(AviConverter):
                 self.f5_host_ip, self.f5_ssh_user, self.f5_ssh_password, 'f5')
         if self.option == 'auto-upload':
             self.upload_config_to_controller(avi_config)
-        print "Total Warning: ", get_count('warning')
-        print "Total Errors: ", get_count('error')
+        print("Total Warning: ", get_count('warning'))
+        print("Total Errors: ", get_count('error'))
 
     def get_default_config(self, is_download, path):
         """
@@ -250,7 +250,7 @@ class F5Converter(AviConverter):
         """
         f5_defaults_dict = {}
         if is_download:
-            print "Copying Files from Host..."
+            print("Copying Files from Host...")
             with open(path + os.path.sep + "profile_base.conf", "r") as \
                     profile:
                 profile_base = profile.read()
@@ -306,7 +306,7 @@ class F5Converter(AviConverter):
         :param merge_dct:
         :return:
         """
-        for k, v in merge_dct.iteritems():
+        for k, v in merge_dct.items():
             if (k in dct and isinstance(dct[k], dict) and
                     isinstance(merge_dct[k], dict)):
                 self.dict_merge(dct[k], merge_dct[k])
@@ -579,8 +579,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # print avi f5 converter version
     if args.version:
-        print "SDK Version: %s\nController Version: %s" % \
-              (sdk_version, args.controller_version)
+        print("SDK Version: %s\nController Version: %s" % \
+              (sdk_version, args.controller_version))
         exit(0)
     f5_converter = F5Converter(args)
     f5_converter.convert()

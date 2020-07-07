@@ -103,7 +103,7 @@ class NetscalerConverter(AviConverter):
 
         if is_download_from_host:
             LOG.debug("Copying files from host")
-            print "Copying Files from Host..."
+            print("Copying Files from Host...")
             scp_util.get_files_from_ns(input_dir, self.ns_host_ip,
                                        self.ns_ssh_user, self.ns_ssh_password)
             LOG.debug("Copied input files")
@@ -111,7 +111,7 @@ class NetscalerConverter(AviConverter):
         else:
             source_file = self.ns_config_file
         if not source_file:
-            print 'Not found ns configuration file'
+            print('Not found ns configuration file')
             return
         ns_config, skipped_cmds = ns_parser.get_ns_conf_dict(source_file)
         user_ignore = {}
@@ -378,5 +378,5 @@ if __name__ == "__main__":
         netscaler_converter.print_pip_and_controller_version()
         exit(0)
     netscaler_converter.convert()
-    print "Total Warning: ", get_count('warning')
-    print "Total Errors: ", get_count('error')
+    print("Total Warning: ", get_count('warning'))
+    print("Total Errors: ", get_count('error'))
