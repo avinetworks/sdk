@@ -2,9 +2,9 @@
 import argparse
 import json
 import os
-import urlparse
 import yaml
 from avi.migrationtools.avi_migration_utils import MigrationUtil
+from urllib.parse import urlparse
 
 # Read avi object to API path map from yaml file.
 mg_util = MigrationUtil()
@@ -34,7 +34,7 @@ def filter_for_vs(avi_config, vs_names):
             continue
         vs = vs[0]
         new_config['VirtualService'].append(vs)
-        print '%s(VirtualService)' % vs_name
+        print('%s(VirtualService)' % vs_name)
         find_and_add_objects(vs, avi_config, new_config, depth=0)
 
     for warn in warning_list:
@@ -66,7 +66,7 @@ def search_obj(entity, name, new_config, avi_config, depth):
     elif entity == 'vrfcontext':
         return
     else:
-        print 'WARNING: Reference not found for %s with name %s' % (entity, name)
+        print('WARNING: Reference not found for %s with name %s' % (entity, name))
         return
     if avi_conf_key in new_config:
         if not any(d['name'] == found_obj['name'] for d in
@@ -145,5 +145,5 @@ if __name__ == '__main__':
         json.dump(new_avi_config, text_file, indent=4)
         text_file.close()
 
-        print '\nWritten filtered avi config file to:', \
-            '%s%sFilterOutput.json' % (output_dir, os.path.sep)
+        print('\nWritten filtered avi config file to:', \
+              '%s%sFilterOutput.json' % (output_dir, os.path.sep))

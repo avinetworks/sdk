@@ -207,7 +207,7 @@ class MonitorConfigConv(object):
         :return:
         """
         LOG.debug("Converting health monitors")
-        print "Converting Monitors..."
+        print("Converting Monitors...")
         converted_objs = []
         m_user_ignore = user_ignore.get('monitor', {})
         monitor_config = f5_config.pop("monitor", {})

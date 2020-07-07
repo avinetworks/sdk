@@ -68,7 +68,7 @@ class MonitorConverter(object):
                 if health_monitor.get('method', []) and health_monitor.get('url', []):
                     request_url = "{} {}".format(health_monitor['method'], health_monitor['url'])
                 elif health_monitor.get('header-value', []):
-                    request_url = "HEAD Host:{}".format(str(health_monitor['header-value']).replace('"',''))
+                    request_url = "HEAD Host:{}".format(str(health_monitor['header-value']).replace('"', ''))
                 else:
                     request_url = health_monitor.get('url', [])
 
@@ -105,7 +105,6 @@ class MonitorConverter(object):
                                         "description": "",
                                     }
                                 }
-
 
                 monitor.update(extra_details)
 

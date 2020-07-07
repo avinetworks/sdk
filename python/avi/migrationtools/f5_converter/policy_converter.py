@@ -218,7 +218,7 @@ class PolicyConfigConv(object):
                             'name': ipgrp_name,
                             'tenant_ref': conv_utils.get_object_ref(
                                  'admin', 'tenant'),
-                            'country_codes': result['values'].keys()
+                            'country_codes': list(result['values'].keys())
                         }
 
                         if 'IpAddrGroup' not in avi_config:
@@ -279,7 +279,7 @@ class PolicyConfigConv(object):
                     "match_case": 'SENSITIVE' if 'case-sensitive' in result
                                     else 'INSENSITIVE',
                     "name": result['name'],
-                    "value": result['values'].keys()[0],
+                    "value": list(result['values'].keys())[0],
                     "match_criteria": ''
                 }
 
@@ -317,7 +317,7 @@ class PolicyConfigConv(object):
                     "match_case": 'SENSITIVE' if 'case-sensitive' in result
                                     else 'INSENSITIVE',
                     "hdr": result['name'],
-                    "value": result['values'].keys(),
+                    "value": list(result['values'].keys()),
                     "match_criteria": ''
                 }
                 match_criteria = [key for key in result if key in
@@ -356,7 +356,7 @@ class PolicyConfigConv(object):
                     host_header = {
                         "match_case": 'SENSITIVE' if 'case-sensitive' in result
                                         else 'INSENSITIVE',
-                        "value": result['values'].keys(),
+                        "value": list(result['values'].keys()),
                         "match_criteria": ''
                     }
                     match_criteria = [key for key in result if key in
@@ -380,7 +380,7 @@ class PolicyConfigConv(object):
                       'less-or-equal' not in result and 'greater-or-equal' \
                       not in result:
                         service_port = {
-                            'ports': result['values'].keys(),
+                            'ports': list(result['values'].keys()),
                             'match_criteria': 'IS_NOT_IN' if 'not' in result
                                                 else 'IS_IN'
                         }
@@ -416,13 +416,13 @@ class PolicyConfigConv(object):
                                   'POST', 'TRACE', 'options', 'put', 'head',
                                   'get', 'delete', 'post', 'trace']
                     invalid = [True if val not in avi_method else False for
-                               val in result['values'].keys()]
+                               val in list(result['values'].keys())]
                     if all(invalid):
                         LOG.debug('All methods %s are invalid', str(result[
                                                             'values'].keys()))
                         continue
                     else:
-                        valid = [val for val in result['values'].keys() if
+                        valid = [val for val in list(result['values'].keys()) if
                                  val in avi_method]
                         LOG.debug('Only these %s methods are valid', str(valid))
                     method = {
@@ -464,7 +464,7 @@ class PolicyConfigConv(object):
                     "match_case": 'SENSITIVE' if 'case-sensitive' in result
                                     else 'INSENSITIVE',
                     "hdr": 'referer',
-                    "value": result['values'].keys(),
+                    "value": list(result['values'].keys()),
                     "match_criteria": ''
                 }
                 match_criteria = [key for key in result if key in
@@ -501,7 +501,7 @@ class PolicyConfigConv(object):
                               , op)
                 if 'path' in result or 'extension' in result:
                     path_query = {
-                        "match_str": result['values'].keys(),
+                        "match_str": list(result['values'].keys()),
                         "match_criteria": '',
                         'match_case': 'SENSITIVE' if 'case-sensitive' in result
                                         else 'INSENSITIVE'
@@ -550,7 +550,7 @@ class PolicyConfigConv(object):
                       'less-or-equal' not in result and 'greater-or-equal' \
                       not in result:
                         service_port = {
-                            'ports': result['values'].keys(),
+                            'ports': list(result['values'].keys()),
                             'match_criteria': 'IS_NOT_IN' if 'not' in result
                                                 else 'IS_IN'
                         }
@@ -573,13 +573,13 @@ class PolicyConfigConv(object):
                       'ends-with' not in result and 'contains' not in result:
                         avi_protocol = ['HTTP', 'HTTPS']
                         invalid = [True if val not in avi_protocol else
-                                   False for val in result['values'].keys()]
+                                   False for val in list(result['values'].keys())]
                         if all(invalid):
                             LOG.debug('All protocols %s are invalid',
-                                      str(result['values'].keys()))
+                                      str(list(result['values'].keys())))
                             continue
                         else:
-                            valid = [val for val in result['values'].keys()
+                            valid = [val for val in list(result['values'].keys())
                                      if val in avi_protocol]
                             LOG.debug('Only these protocols %s are valid',
                                       str(avi_protocol))
@@ -637,7 +637,7 @@ class PolicyConfigConv(object):
                             match['query'] = query
                         else:
                             string_group['kv'] = list({'key': val} for val in
-                                                      result['values'].keys())
+                                                      list(result['values'].keys()))
                             string_group['type'] = 'SG_TYPE_STRING'
                             query['string_group_refs'].append(
                                 conv_utils.get_object_ref(strgrp_name,
@@ -692,13 +692,13 @@ class PolicyConfigConv(object):
                         avi_version = ['ZERO_NINE', 'ONE_ZERO', 'ONE_ONE',
                                        'zero_nine', 'one_zero', 'one_one']
                         invalid = [True if val not in avi_version else False for
-                                   val in result['values'].keys()]
+                                   val in list(result['values'].keys())]
                         if all(invalid):
                             LOG.debug('All versions %s are invalid', str(result[
                                                               'values'].keys()))
                             continue
                         else:
-                            valid = [val for val in result['values'].keys()
+                            valid = [val for val in list(result['values'].keys())
                                      if val in avi_version]
                             LOG.debug('Only these %s versions are valid',
                                       str(valid))
@@ -712,13 +712,13 @@ class PolicyConfigConv(object):
                         if 'not' not in result:
                             avi_protocol = ['HTTP', 'HTTPS']
                             invalid = [True if val not in avi_protocol else
-                                       False for val in result['values'].keys()]
+                                       False for val in list(result['values'].keys())]
                             if all(invalid):
                                 LOG.debug('All protocols %s are invalid',
-                                          str(result['values'].keys()))
+                                          str(list(result['values'].keys())))
                                 continue
                             else:
-                                valid = [val for val in result['values'].keys()
+                                valid = [val for val in list(result['values'].keys())
                                          if val in avi_protocol]
                                 LOG.debug('Only these protocols %s are valid',
                                           str(avi_protocol))
@@ -778,7 +778,7 @@ class PolicyConfigConv(object):
                             status['status_codes'] = status_code
                         ranges = [{'begin': stat_code.split('-')[0], 'end':
                                   stat_code.split('-')[1]} for stat_code in
-                                  result['values'].keys() if '-' in stat_code]
+                                 list(result['values'].keys()) if '-' in stat_code]
                         if ranges:
                             status['ranges'] = ranges
                         match['status'] = status

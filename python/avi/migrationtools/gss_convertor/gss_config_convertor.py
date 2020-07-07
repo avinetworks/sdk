@@ -35,7 +35,7 @@ def config_converter(file_name):
     total_failed = 0
 
     LOG.info('Internal Conversion Started')
-    print "Converting the Parsed output ...."
+    print("Converting the Parsed output ....")
 
     # Holding this feature for confirmation from Sumant or Gauvrav
     # failed_checks = 3
@@ -75,8 +75,8 @@ def config_converter(file_name):
             # print parsed_output['source-address-list'][loc]['hang']
             excel_dict_create(source, 'source-address-list', 'success')
         except Exception as e:
-            print "Failed for ", source
-            print "Exception", str(e)
+            print("Failed for ", source)
+            print("Exception", str(e))
 
     combined_dict = {}
 

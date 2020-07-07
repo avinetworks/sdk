@@ -100,7 +100,7 @@ class LbvsConverter(object):
             self.lbvs_skip_attrs, self.lbvs_na_attrs, self.lbvs_ignore_vals,
             self.lbvs_user_ignore, self.prefix)
 
-        print "Converting VirtualServices..."
+        print("Converting VirtualServices...")
         for key in lb_vs_conf.keys():
             try:
                 LOG.debug('LB VS conversion started for: %s' % key)
@@ -212,9 +212,17 @@ class LbvsConverter(object):
                     vs_obj['se_group_ref'] = se_group_ref
                 if parse_version(self.controller_version) >= \
                         parse_version('17.1'):
-                    vs_obj['vip'] = [vip]
+                    # vs_obj['vip'] = [vip]
+                    vs_obj['vsvip_ref'] = ns_util.get_object_ref(
+                            ip_addr + '-vsvip', 'vsvip', self.tenant_name,
+                            self.cloud_name)
                 else:
-                    vs_obj['ip_address'] = vip['ip_address']
+                    ip_address = {
+                            'addr': ip_addr,
+                            'type': 'V4'
+                        }
+
+                    vs_obj['ip_address'] = ip_address
                 bind_conf_list = bind_lb_vs_config.get(key, None)
                 # Skipped this lb vs if it do not have any bind lb vserver
                 if (not bind_conf_list) and (not redirect_url):

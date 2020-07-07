@@ -38,10 +38,10 @@ class SSLConverter(object):
         cert = self.common_utils.upload_file(folder_path + cert_file_name)
         ssl_kc_obj = None
         if key and cert:
-            cert = {"certificate": cert}
+            cert = {"certificate": cert.decode()}
             ssl_kc_obj = {
                 'name': name,
-                'key': key,
+                'key': key.decode(),
                 'certificate': cert,
                 'key_passphrase': ''
             }

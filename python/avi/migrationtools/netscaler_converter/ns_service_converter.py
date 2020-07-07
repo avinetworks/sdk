@@ -361,7 +361,7 @@ class ServiceConverter(object):
         # Get the total size of object
         self.total_size = self.total_size + len(ns_services) + \
                           len(ns_service_groups)
-        print "Converting Pools..."
+        print("Converting Pools...")
         for key in ns_services:
             try:
                 # Added count to increment progress.

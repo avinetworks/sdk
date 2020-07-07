@@ -190,8 +190,8 @@ def printProgressBar(iteration, total, msg, prefix='', suffix='', decimals=1,
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
     if (iteration < total):
-        print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),
+        print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix),)
     else:
-        print '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
-        print 'completed'
-        print '\n'
+        print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix))
+        print('completed')
+        print('\n')

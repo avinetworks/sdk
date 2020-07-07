@@ -540,9 +540,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_26_0
@@ -579,9 +579,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_28_0
@@ -619,9 +619,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_30_0
@@ -678,9 +678,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_33_0
@@ -979,7 +979,7 @@ class TestF5Converter:
                     '&')[0]
                 script_set = [data['name'] for data in vs_datascript if
                               data['name'] == ds_name][0]
-                print script_set, " ", ds_name
+                print(script_set, " ", ds_name)
                 assert script_set == ds_name
 
             vs_data = [data for data in vs_object if data['name']
@@ -990,7 +990,7 @@ class TestF5Converter:
                     '&')[0]
                 httppolicy = [data['name'] for data in http_policy_set
                               if data['name'] == policy_name][0]
-                print policy_name, " ", httppolicy
+                print(policy_name, " ", httppolicy)
                 assert policy_name == httppolicy
 
             vs_data_for_policy_set = [data for data in vs_object if
@@ -1001,7 +1001,7 @@ class TestF5Converter:
                     '&')[0]
                 script_set = [data['name'] for data in vs_datascript
                               if data['name'] == ds_name][0]
-                print script_set, " ", ds_name
+                print(script_set, " ", ds_name)
                 assert script_set == ds_name
 
             vs_data = [data for data in vs_object if data['name'] == "EngVIP"]
@@ -1013,7 +1013,7 @@ class TestF5Converter:
                     httppolicy = [data['name'] for data in http_policy_set if
                                   data['name'] == policy_name
                                   and '_sys_https_redirect-EngVIP'][0]
-                    print policy_name, " ", httppolicy
+                    print(policy_name, " ", httppolicy)
                     assert policy_name == httppolicy
 
             vs_data = [data for data in vs_object if data['name'] == "vs1"]
@@ -1053,7 +1053,7 @@ class TestF5Converter:
                 httppolicy = [data['name'] for data in http_policy_set if
                               data['name'] == policy_name and
                               'Test-support-Profile-HTTP-HTTP-Policy-Set'][0]
-                print policy_name, " ", httppolicy
+                print(policy_name, " ", httppolicy)
                 assert policy_name == httppolicy
 
         vs_data = [data for data in vs_object if data['name']
@@ -1113,9 +1113,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_51_0
@@ -1169,9 +1169,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_54_0
@@ -1220,9 +1220,9 @@ class TestF5Converter:
                          file_attribute['controller_password_17_1_1'],
                          file_attribute['controller_version_v17'],
                          file_attribute['license_file_path'])
-            print "Controller is running properly."
+            print("Controller is running properly.")
         else:
-            print "Controller is not running properly."
+            print("Controller is not running properly.")
 
     @pytest.mark.skip_travis
     @pytest.mark.TCID1_48_1497_56_0
@@ -1403,7 +1403,7 @@ class TestF5Converter:
             if policy_name == "req_pol_rule-F5-VIP-443-004":
                 httppolicy = [data['name'] for data in http_policy_set if
                               data['name'] == policy_name][0]
-                print policy_name, " ", httppolicy
+                print(policy_name, " ", httppolicy)
                 assert policy_name == httppolicy
 
         for i in httppolicydata2:
@@ -1412,7 +1412,7 @@ class TestF5Converter:
             if policy_name == "req_pol_rule-F5-VIP-443-004":
                 httppolicy = [data['name'] for data in http_policy_set if
                               data['name'] == policy_name][0]
-                print policy_name, " ", httppolicy
+                print(policy_name, " ", httppolicy)
                 assert policy_name == httppolicy
 
     @pytest.mark.travis

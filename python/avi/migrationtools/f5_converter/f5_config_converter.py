@@ -193,14 +193,14 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     LOG.info('Total Objects of %s : %s (%s full conversions)'
                              % (key, len(avi_config_dict[key]),
                                 conversion_util.fully_migrated))
-                    print 'Total Objects of %s : %s (%s full conversions)' \
+                    print('Total Objects of %s : %s (%s full conversions)' \
                           % (key, len(avi_config_dict[key]),
-                             conversion_util.fully_migrated)
+                             conversion_util.fully_migrated))
                 else:
                     LOG.info('Total Objects of %s : %s'
                              % (key, len(avi_config_dict[key])))
-                    print 'Total Objects of %s : %s' \
-                          % (key, len(avi_config_dict[key]))
+                    print('Total Objects of %s : %s' \
+                        % (key, len(avi_config_dict[key])))
 
                 continue
             # Added code to print merged count.
@@ -211,7 +211,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      ssl_count['count'])
                 LOG.info(profile_merged_message)
-                print profile_merged_message
+                print(profile_merged_message)
                 continue
             elif object_merge_check and key == 'ApplicationProfile':
                 mergedfile = len(avi_config_dict[key]) - \
@@ -221,7 +221,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      profile_conv.app_count)
                 LOG.info(profile_merged_message)
-                print profile_merged_message
+                print(profile_merged_message)
                 continue
             elif object_merge_check and key == 'NetworkProfile':
                 mergedfile = len(avi_config_dict[key]) - \
@@ -231,7 +231,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      profile_conv.net_count)
                 LOG.info(profile_merged_message)
-                print profile_merged_message
+                print(profile_merged_message)
                 continue
             elif object_merge_check and key == 'HealthMonitor':
                 mergedmon = len(avi_config_dict[key]) - mon_conv.mon_count
@@ -240,7 +240,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedmon),
                      mon_conv.mon_count)
                 LOG.info(monitor_merged_message)
-                print monitor_merged_message
+                print(monitor_merged_message)
                 continue
             elif object_merge_check and key == 'PKIProfile':
                 mergedfile = len(avi_config_dict[key]) - \
@@ -250,7 +250,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      profile_conv.pki_count)
                 LOG.info(profile_merged_message)
-                print profile_merged_message
+                print(profile_merged_message)
                 continue
             elif object_merge_check and key == 'ApplicationPersistenceProfile':
                 mergedfile = len(avi_config_dict[key]) - \
@@ -260,7 +260,7 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      persist_conv.app_per_count)
                 LOG.info(profile_merged_message)
-                print profile_merged_message
+                print(profile_merged_message)
                 continue
             elif object_merge_check and key == 'SSLKeyAndCertificate':
                 mergedfile = len(avi_config_dict[key]) - \
@@ -270,10 +270,10 @@ def convert(f5_config, output_dir, vs_state, input_dir, version,
                     (key, len(avi_config_dict[key]), abs(mergedfile),
                      profile_conv.certkey_count)
                 LOG.info(certkey_merged_message)
-                print certkey_merged_message
+                print(certkey_merged_message)
                 continue
             LOG.info('Total Objects of %s : %s' % (key, len(
                 avi_config_dict[key])))
-            print 'Total Objects of %s : %s' % (key, len(
-                avi_config_dict[key]))
+            print('Total Objects of %s : %s' % (key, len(
+                avi_config_dict[key])))
     return avi_config_dict, partition_vs_mapping

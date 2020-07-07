@@ -69,7 +69,7 @@ class PersistenceConfigConv(object):
         # Added variable to get total object count.
         progressbar_count = 0
         total_size = len(f5_persistence_dict.keys())
-        print "Converting Persistence Profiles..."
+        print("Converting Persistence Profiles...")
         for key in f5_persistence_dict.keys():
             progressbar_count += 1
             persist_mode = None
@@ -286,7 +286,7 @@ class PersistenceConfigConvV11(PersistenceConfigConv):
                     if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
         timeout = 0 if timeout == 'indefinite' else timeout
-        if timeout > 0:
+        if int(timeout) > 0:
             timeout = int(timeout)/final.SEC_IN_MIN
         persist_profile = {
             "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
@@ -434,7 +434,7 @@ class PersistenceConfigConvV10(PersistenceConfigConv):
         skipped += [attr for attr in profile.keys()
                     if attr not in supported_attr]
         timeout = profile.get("timeout", final.SOURCE_ADDR_TIMEOUT)
-        if timeout > 0:
+        if int(timeout) > 0:
             timeout = int(timeout)/final.SEC_IN_MIN
         persist_profile = {
           "server_hm_down_recovery": "HM_DOWN_PICK_NEW_SERVER",
