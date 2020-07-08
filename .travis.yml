@@ -83,6 +83,6 @@ notifications:
       - chaitanya.deshpande@avinetworks.com
       - shrikant.patil@avinetworks.com
       - ashwini.bodke@avinetworks.com
-      - rohan.suryawanshi@avinetworks.com
+      - shounak.joshi@avinetworks.com
     on_failure: always
 
