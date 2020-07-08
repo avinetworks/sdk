@@ -3,7 +3,7 @@ from avi.sdk.avi_api import ApiSession, \
 import requests
 import re
 import urllib
-import urlparse
+# import urlparse
 import json
 from datetime import datetime
 from requests import ConnectionError
@@ -387,10 +387,10 @@ class OktaSAMLApiSession(ApiSession):
 
         idp_session = requests.Session()
         idp_session.verify = False
-        saml_data = urllib.urlencode({
+        saml_data = urllib.parse.urlencode({
             'SAMLRequest': saml_request,
             'RelayState': relay_state})
-        parsed_uri = urlparse.urlparse(assertion_url)
+        parsed_uri = urllib.parse.urlparse(assertion_url)
         base_url = "{}://{}".format(parsed_uri.scheme, parsed_uri.netloc)
         if self.idp_cookies:
             logger.info("Controller url %s generated SAML request is being "
