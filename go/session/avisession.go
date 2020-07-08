@@ -553,21 +553,19 @@ func (avisess *AviSession) restRequest(verb string, uri string, payload interfac
 		}
 	}
 	if retryReq {
-		check, err := avisess.CheckControllerStatus()
+		check, httpResp, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restRequest Error during checking controller state %v", err)
-			return nil, err
+			return httpResp, err
 		}
 		// Doing this so that a new request is made to the
 		return avisess.restRequest(verb, uri, payload, tenant, errorResult, retry+1)
 	}
-
 	return resp, nil
 }
 
 // fetchBody fetches the response body from the http.Response returned from restRequest
 func (avisess *AviSession) fetchBody(verb, uri string, resp *http.Response) (result []byte, err error) {
-	defer resp.Body.Close()
 	url := avisess.prefix + uri
 	errorResult := AviError{HttpStatusCode: resp.StatusCode, Verb: verb, Url: url}
 
@@ -575,6 +573,18 @@ func (avisess *AviSession) fetchBody(verb, uri string, resp *http.Response) (res
 		// no content in the response
 		return result, nil
 	}
+	// It cannot be assumed that the error will always be from server side in response.
+	// Error could be from HTTP client side which will not have body in response.
+	// Need to change our API resp handling design if we want to handle client side errors separately.
+
+	// Below block will take care for errors without body.
+	if resp.Body == nil {
+		glog.Errorf("Encountered client side error: %+v", resp)
+		errorResult.Message = &resp.Status
+		return result, errorResult
+	}
+
+	defer resp.Body.Close()
 	result, err = ioutil.ReadAll(resp.Body)
 	if err == nil {
 		if resp.StatusCode < 200 || resp.StatusCode > 299 {
@@ -688,7 +698,7 @@ func (avisess *AviSession) restMultipartUploadRequest(verb string, uri string, f
 	}
 
 	if retryReq {
-		check, err := avisess.CheckControllerStatus()
+		check, _, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restMultipartUploadRequest Error during checking controller state")
 			return err
@@ -767,7 +777,7 @@ func (avisess *AviSession) restMultipartDownloadRequest(verb string, uri string,
 	}
 
 	if retryReq {
-		check, err := avisess.CheckControllerStatus()
+		check, _, err := avisess.CheckControllerStatus()
 		if check == false {
 			glog.Errorf("restMultipartDownloadRequest Error during checking controller state")
 			return err
@@ -826,14 +836,14 @@ func debug(data []byte, err error) {
 
 //Checking for controller up state.
 // Flexible to wait on controller status infinitely or for fixed time span.
-func (avisess *AviSession) CheckControllerStatus() (bool, error) {
+func (avisess *AviSession) CheckControllerStatus() (bool, *http.Response, error) {
 	url := avisess.prefix + "/api/cluster/status"
 	var isControllerUp bool
 	for round := 0; round < avisess.ctrlStatusCheckRetryCount; round++ {
 		checkReq, err := http.NewRequest("GET", url, nil)
 		if err != nil {
 			glog.Errorf("CheckControllerStatus Error %v while generating http request.", err)
-			return false, err
+			return false, nil, err
 		}
 		//Getting response from controller's API
 		if stateResp, err := avisess.client.Do(checkReq); err == nil {
@@ -859,7 +869,7 @@ func (avisess *AviSession) CheckControllerStatus() (bool, error) {
 		}
 		glog.Errorf("CheckControllerStatus Controller %v Retrying. round %v..!", url, round)
 	}
-	return isControllerUp, nil
+	return isControllerUp, &http.Response{Status: "408 Request Timeout", StatusCode: 408}, nil
 }
 
 //getMinTimeDuration returns the minimum time duration between two time values.
