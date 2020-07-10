@@ -7,6 +7,9 @@ package models
 // swagger:model PatchData
 type PatchData struct {
 
+	// Image path of current patch image. . Field introduced in 18.2.10.
+	PatchImagePath *string `json:"patch_image_path,omitempty"`
+
 	// Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8.
 	PatchImageRef *string `json:"patch_image_ref,omitempty"`
 
