@@ -7,4 +7,4 @@ AVI_VERSION = '20.1.1'
 AVI_PIP_VERSION = '20.1.1b1'
 
 if __name__ == '__main__':
-    print AVI_PIP_VERSION
+    print(AVI_PIP_VERSION)

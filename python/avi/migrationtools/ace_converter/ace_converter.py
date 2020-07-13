@@ -75,7 +75,7 @@ class AceConvertor(AviConverter):
         parser = Parser(self.in_file)
         parsed_output = parser.parse_ace()
         # Configuration Conversion
-        print "configuration conversion started ..."
+        print("configuration conversion started ...")
         cfgConvert = ConfigConverter(
             parsed_output, version=self.controller_version,
             enable_vs=self.enable_vs,
@@ -110,7 +110,7 @@ class AceConvertor(AviConverter):
             if self.controller_ip:
                 self.upload_config_to_controller(converted_output)
             else:
-                print "Fatal: enter controller ip"
+                print("Fatal: enter controller ip")
 
     def excel_sheet_writing(self):
         """ Excel Sheet Creation. """
@@ -164,8 +164,8 @@ class AceConvertor(AviConverter):
         # Add logger and print avi netscaler converter version
         LOG.info('AVI sdk version: %s Controller Version: %s'
                  % (sdk_version, self.controller_version))
-        print 'AVI sdk version: %s Controller Version: %s' \
-              % (sdk_version, self.controller_version)
+        print('AVI sdk version: %s Controller Version: %s'
+              % (sdk_version, self.controller_version))
 
 
 if __name__ == '__main__':
@@ -286,8 +286,8 @@ Optional:
     pargs = parser.parse_args()
 
     if pargs.version:
-        print "SDK Version: %s\nController Version: %s" % \
-              (sdk_version, pargs.controller_version)
+        print("SDK Version: %s\nController Version: %s" %
+              (sdk_version, pargs.controller_version))
         exit(0)
 
     if pargs.input_file is not None and pargs.output_loc is not None:
@@ -295,13 +295,13 @@ Optional:
         LOG.info(' Ace Convertor Started ')
         # print "Gss Convertor v" + str(sdk_version) # version needs to be added
         time.sleep(1.5)
-        print "Ace Conversion Initializing ...."
+        print("Ace Conversion Initializing ....")
         ace_converter = AceConvertor(pargs)
 
         # creating output directory if not present
         if not os.path.exists(pargs.output_loc):
-            print "Folder not found " + pargs.output_loc
-            print "Creating ..."
+            print("Folder not found " + pargs.output_loc)
+            print("Creating ...")
             os.makedirs(pargs.output_loc)
 
         # initiate logging
@@ -314,11 +314,11 @@ Optional:
             elapsed_time = str(elapsed)[:3] + " Seconds"
         else:
             elapsed_time = str(elapsed / 60)[:4] + " Minutes"
-        print "\n(Elapsed Time: " + elapsed_time + ")"
+        print("\n(Elapsed Time: " + elapsed_time + ")")
 
     elif pargs.input_file is None:
-        print "Fatal: Enter a input file"
+        print("Fatal: Enter a input file")
         sys.exit()
     elif pargs.output_loc is None:
-        print "Fatal: Enter a output location"
+        print("Fatal: Enter a output location")
         sys.exit()

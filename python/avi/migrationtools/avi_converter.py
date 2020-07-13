@@ -51,7 +51,7 @@ class AviConverter(object):
         :param avi_config: converted avi object dict
         :return:
         """
-        print "Uploading Configuration to Controller..."
+        print("Uploading Configuration to Controller...")
         avi_rest_lib.upload_config_to_controller(
             avi_config, self.controller_ip, self.user, self.password,
             self.tenant, self.controller_version)
@@ -72,16 +72,16 @@ class AviConverter(object):
         :return: None
         """
         report_path = output_dir + os.path.sep + report_name
-        print "Converted Output Location: %s" % \
-              (report_path)
-        with open(report_path, "w") as text_file:
+        print("Converted Output Location: %s" % \
+              (report_path))
+        with open(report_path, "w", encoding='utf-8') as text_file:
             json.dump(avi_config, text_file, indent=4)
         LOG.info('written avi config file ' +
                  output_dir + os.path.sep + "Output.json")
 
     def init_logger_path(self):
         LOG.setLevel(logging.DEBUG)
-        print "Log File Location: %s" % self.output_file_path
+        print("Log File Location: %s" % self.output_file_path)
         formatter = '[%(asctime)s] %(levelname)s [%(funcName)s:%(lineno)d] %(message)s'
         logging.basicConfig(filename=os.path.join(self.output_file_path, 'converter.log'),
                             level=logging.DEBUG, format=formatter)

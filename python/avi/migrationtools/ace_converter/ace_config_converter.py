@@ -97,7 +97,7 @@ class ConfigConverter(object):
         data['VirtualService'] = vs_list
         data['Pool'].extend(cloned_pool_list)
         root_inter_certs = self.ssl.crypto_chaingroup()
-        #Checking chaingroup present or not
+        # Checking chaingroup present or not
         if root_inter_certs:
             data['SSLKeyAndCertificate'].extend(root_inter_certs)
 

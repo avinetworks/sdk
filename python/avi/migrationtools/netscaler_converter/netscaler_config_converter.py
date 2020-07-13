@@ -154,15 +154,15 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                         LOG.info('Total Objects of %s : %s (%s full conversions)'
                                  % (key,len(avi_config[key]),
                                     nsu.fully_migrated))
-                        print 'Total Objects of %s : %s (%s full conversions)'\
+                        print('Total Objects of %s : %s (%s full conversions)'\
                               % (key, len(avi_config[key]),
-                                 nsu.fully_migrated)
+                                 nsu.fully_migrated))
                     else:
                         LOG.info(
                             'Total Objects of %s : %s'
                             % (key, len(avi_config[key])))
-                        print 'Total Objects of %s : %s' \
-                              % (key, len(avi_config[key]))
+                        print('Total Objects of %s : %s' \
+                              % (key, len(avi_config[key])))
 
                     continue
                 # Added code to print merged count.
@@ -174,7 +174,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                          abs(profile_converter.ssl_merge_count) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
-                    print profile_merged_message
+                    print(profile_merged_message)
                     continue
                 elif object_merge_check and key == 'ApplicationProfile':
                     profile_merged_message = \
@@ -184,7 +184,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                          abs(app_merge_count['count']) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
-                    print profile_merged_message
+                    print(profile_merged_message)
                     continue
                 elif object_merge_check and key == 'NetworkProfile':
                     profile_merged_message = \
@@ -194,7 +194,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                          abs(profile_converter.network_merge_count) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
-                    print profile_merged_message
+                    print(profile_merged_message)
                     continue
                 elif object_merge_check and key == \
                         'ApplicationPersistenceProfile':
@@ -205,7 +205,7 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                          abs(app_per_merge_count['count']) +
                          len(avi_config[key]))
                     LOG.info(profile_merged_message)
-                    print profile_merged_message
+                    print(profile_merged_message)
                     continue
                 elif object_merge_check and key == 'HealthMonitor':
                     monitor_merged_message = \
@@ -215,11 +215,11 @@ def convert(ns_config_dict, tenant_name, cloud_name, version, output_dir,
                          abs(monitor_converter.monitor_merge_count) +
                          len(avi_config[key]))
                     LOG.info(monitor_merged_message)
-                    print monitor_merged_message
+                    print(monitor_merged_message)
                     continue
                 LOG.info('Total Objects of %s : %s' % (key,
                                                        len(avi_config[key])))
-                print 'Total Objects of %s : %s' % (key, len(avi_config[key]))
+                print('Total Objects of %s : %s' % (key, len(avi_config[key])))
 
     except:
         update_count('warning')

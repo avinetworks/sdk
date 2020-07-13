@@ -82,7 +82,7 @@ class DataGroupConfigConv(object):
         # Added variable to get total object count.
         progressbar_count = 0
         total_size = len(f5_datagroup_dict.keys())
-        print "Converting Data groups..."
+        print("Converting Data groups...")
         for key in f5_datagroup_dict.keys():
             progressbar_count += 1
             data_group_type = None

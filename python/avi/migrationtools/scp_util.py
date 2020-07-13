@@ -56,7 +56,7 @@ class SCPUtil(object):
         """
         try:
             self.sftp.stat(path)
-        except IOError, e:
+        except IOError as e:
             if 'No such file' in str(e):
                 return False
             raise
