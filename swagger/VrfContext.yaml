@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.9'
+    version: '18.2.10'
     title: Avi VrfContext Object API
     contact:
         name: Avi Networks Inc.
@@ -645,6 +645,10 @@ definitions:
                 type: array
                 items:
                     $ref: '#/definitions/KeyValue'
+            lldp_enable:
+                description: "Enable LLDP. Field introduced in 18.2.10."
+                type: boolean
+                default: True
             name:
                 description: "Name of the object."
                 type: string

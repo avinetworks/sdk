@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi UpgradeStatusInfo Object API", 
-        "version": "18.2.9", 
+        "version": "18.2.10", 
         "description": "CLI\n```\n- show upgrade status detail\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -556,6 +556,10 @@
                     "type": "string", 
                     "description": "Image uuid for identifying the patch. It is a reference to an object of type Image. Field introduced in 18.2.8."
                 }, 
+                "patch_image_path": {
+                    "type": "string", 
+                    "description": "Image path of current patch image. . Field introduced in 18.2.10."
+                }, 
                 "patch_version": {
                     "type": "string", 
                     "description": "Patch version. Field introduced in 18.2.8."
@@ -875,6 +879,22 @@
         "VsError": {
             "type": "object", 
             "properties": {
+                "vip_id": {
+                    "type": "string", 
+                    "description": "vip_id of VsError."
+                }, 
+                "se_group_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type ServiceEngineGroup."
+                }, 
+                "tenant_ref": {
+                    "type": "string", 
+                    "description": " It is a reference to an object of type Tenant."
+                }, 
+                "event_timestamp": {
+                    "description": "The time at which the error occurred. Field introduced in 18.2.10.", 
+                    "$ref": "#/definitions/TimeStamp"
+                }, 
                 "se_group_ha_mode": {
                     "type": "string", 
                     "description": " Enum options - HA_MODE_SHARED_PAIR, HA_MODE_SHARED, HA_MODE_LEGACY_ACTIVE_STANDBY."
@@ -886,25 +906,17 @@
                     "type": "array", 
                     "description": "reason of VsError."
                 }, 
-                "vip_id": {
+                "se_ref": {
                     "type": "string", 
-                    "description": "vip_id of VsError."
-                }, 
-                "traffic_status": {
-                    "type": "string", 
-                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "se_group_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type ServiceEngineGroup."
+                    "description": "The SE on which the VS errored during scale-in/scale-out operations. It is a reference to an object of type ServiceEngine. Field introduced in 18.2.10."
                 }, 
                 "vs_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type VirtualService."
+                }, 
+                "traffic_status": {
+                    "type": "string", 
+                    "description": " Enum options - TRAFFIC_DISRUPTED, TRAFFIC_NOT_DISRUPTED."
                 }
             }
         }, 
@@ -930,14 +942,25 @@
             "properties": {
                 "task": {
                     "type": "string", 
-                    "description": "Enum representing the task. Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
+                    "description": "Enum representing the task.(Not in use). Enum options - PREPARE_FOR_SHUTDOWN, COPY_AND_VERIFY_IMAGE, INSTALL_IMAGE, POST_INSTALL_HOOKS, PREPARE_CONTROLLER_FOR_SHUTDOWN, STOP_CONTROLLER, EXTRACT_PATCH_IMAGE, EXECUTE_PRE_INSTALL_COMMANDS, INSTALL_PATCH_IMAGE, PREPARE_FOR_REBOOT_CONTROLLER_NODES, REBOOT_CONTROLLER_NODES, WAIT_FOR_ALL_CONTROLLER_NODES_ONLINE, PRE_UPGRADE_HOOKS, MIGRATE_CONFIG, START_PRIMARY_CONTROLLER, START_ALL_CONTROLLERS, POST_UPGRADE_HOOKS, EXECUTE_POST_INSTALL_COMMANDS, SET_CONTROLLER_UPGRADE_COMPLETED, STATE_NOT_USED_IN_V2, COMMIT_UPGRADE, UNKNOWN_TASK, PATCH_CONTROLLER_HEALTH_CHECK. Field introduced in 18.2.6."
+                }, 
+                "sub_events": {
+                    "items": {
+                        "$ref": "#/definitions/UpgradeEvent"
+                    }, 
+                    "type": "array", 
+                    "description": "List of all events node wise. Field introduced in 18.2.10."
                 }, 
                 "nodes_events": {
                     "items": {
                         "$ref": "#/definitions/UpgradeEvent"
                     }, 
                     "type": "array", 
-                    "description": "List of all events node wise. Field introduced in 18.2.6."
+                    "description": "List of all events node wise.(Not in use). Field introduced in 18.2.6."
+                }, 
+                "task_name": {
+                    "type": "string", 
+                    "description": "Name representing the task. Field introduced in 18.2.10."
                 }
             }
         }, 
@@ -951,6 +974,10 @@
                 "upgrade_ops": {
                     "type": "string", 
                     "description": "Upgrade operations requested. Enum options - UPGRADE, PATCH, ROLLBACK, ROLLBACKPATCH, SEGROUP_RESUME. Field introduced in 18.2.6."
+                }, 
+                "se_patch_image_ref": {
+                    "type": "string", 
+                    "description": "Image uuid for identifying the current se patch required in case of system upgrade(re-image) with se patch. . It is a reference to an object of type Image. Field introduced in 18.2.10."
                 }, 
                 "node_type": {
                     "type": "string", 
@@ -977,14 +1004,18 @@
                     "description": "Completed set of tasks in the Upgrade operation. Field introduced in 18.2.6.", 
                     "format": "int32"
                 }, 
+                "se_patch_image_path": {
+                    "type": "string", 
+                    "description": "Image path of se patch image.(required in case of reimage and upgrade + patch). Field introduced in 18.2.10."
+                }, 
                 "_last_modified": {
                     "readOnly": true, 
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "previous_version": {
+                "prev_image_path": {
                     "type": "string", 
-                    "description": "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
+                    "description": "Image path of previous base image. Field introduced in 18.2.10."
                 }, 
                 "system": {
                     "type": "boolean", 
@@ -1025,6 +1056,10 @@
                     "type": "array", 
                     "description": "List of patches applied to this node on previous major version. Field introduced in 18.2.8."
                 }, 
+                "after_reboot_task_name": {
+                    "type": "string", 
+                    "description": "Backward compatible task dict name. Field introduced in 18.2.10."
+                }, 
                 "previous_image_ref": {
                     "type": "string", 
                     "description": "Image uuid for identifying previous base image.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . It is a reference to an object of type Image. Field introduced in 18.2.6."
@@ -1036,9 +1071,17 @@
                     "type": "array", 
                     "description": "List of patches applied to this node. Example  Base-image is 18.2.6 and a patch 6p1 is applied, then a patch 6p5 applied, this field will indicate the [{'6p1', '6p1_image_uuid'}, {'6p5', '6p5_image_uuid'}] value. Field introduced in 18.2.8."
                 }, 
+                "image_path": {
+                    "type": "string", 
+                    "description": "Image path of current base image. Field introduced in 18.2.10."
+                }, 
                 "start_time": {
                     "type": "string", 
                     "description": "Start time of Upgrade operation. Field introduced in 18.2.6."
+                }, 
+                "after_reboot_rollback_fnc": {
+                    "type": "string", 
+                    "description": "Backward compatible abort function name. Field introduced in 18.2.10."
                 }, 
                 "previous_patch_image_ref": {
                     "type": "string", 
@@ -1061,6 +1104,10 @@
                     "type": "boolean", 
                     "description": "Check if the rollback is possible on this node. Field introduced in 18.2.6."
                 }, 
+                "patch_image_path": {
+                    "type": "string", 
+                    "description": "Image path of current patch image. Field introduced in 18.2.10."
+                }, 
                 "name": {
                     "type": "string", 
                     "description": "Name of the system such as cluster name, se group name and se name. Field introduced in 18.2.6."
@@ -1069,6 +1116,10 @@
                     "readOnly": true, 
                     "type": "string", 
                     "description": "url"
+                }, 
+                "seg_params": {
+                    "description": "se_patch may be different from the controller_patch. It has to be saved in the journal for subsequent consumption. The SeGroup params will be saved in the controller entry as seg_params. . Field introduced in 18.2.10.", 
+                    "$ref": "#/definitions/UpgradeOpsParam"
                 }, 
                 "tenant_ref": {
                     "type": "string", 
@@ -1089,6 +1140,22 @@
                 "end_time": {
                     "type": "string", 
                     "description": "End time of Upgrade operation. Field introduced in 18.2.6."
+                }, 
+                "clean": {
+                    "type": "boolean", 
+                    "description": "Flag for clean installation. Field introduced in 18.2.10."
+                }, 
+                "prev_patch_image_path": {
+                    "type": "string", 
+                    "description": "Image path of previous patch image. Field introduced in 18.2.10."
+                }, 
+                "previous_version": {
+                    "type": "string", 
+                    "description": "Previous version prior to upgrade.Example  Base-image was 18.2.5 and an upgrade was done to 18.2.6, then this field will indicate the 18.2.5 value. . Field introduced in 18.2.6."
+                }, 
+                "patch_reboot": {
+                    "type": "boolean", 
+                    "description": "Flag for patch op with reboot. Field introduced in 18.2.10."
                 }, 
                 "previous_patch_version": {
                     "type": "string", 

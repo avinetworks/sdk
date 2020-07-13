@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "Avi VrfContext Object API", 
-        "version": "18.2.9", 
+        "version": "18.2.10", 
         "description": "CLI\n```\n- configure vrfcontext <key>\n- show vrfcontext <key>\n```\n", 
         "contact": {
             "url": "https://avinetworks.com/contact-us", 
@@ -578,9 +578,9 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
-                "description": {
+                "uuid": {
                     "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "Unique object identifier of the object."
                 }, 
                 "static_routes": {
                     "items": {
@@ -603,6 +603,11 @@
                 "tenant_ref": {
                     "type": "string", 
                     "description": " It is a reference to an object of type Tenant."
+                }, 
+                "lldp_enable": {
+                    "default": true, 
+                    "type": "boolean", 
+                    "description": "Enable LLDP. Field introduced in 18.2.10."
                 }, 
                 "name": {
                     "type": "string", 
@@ -636,9 +641,9 @@
                     "description": "Bgp Local and Peer Info.", 
                     "$ref": "#/definitions/BgpProfile"
                 }, 
-                "uuid": {
+                "description": {
                     "type": "string", 
-                    "description": "Unique object identifier of the object."
+                    "description": "User defined description for the object."
                 }
             }
         }, 

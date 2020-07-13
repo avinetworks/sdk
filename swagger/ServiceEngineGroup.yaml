@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.9'
+    version: '18.2.10'
     title: Avi ServiceEngineGroup Object API
     contact:
         name: Avi Networks Inc.
@@ -754,7 +754,7 @@ definitions:
                 description: " It is a reference to an object of type Cloud."
                 type: string
             compress_ip_rules_for_each_ns_subnet:
-                description: "Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9."
+                description: "Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Field introduced in 18.2.9."
                 type: boolean
                 default: True
             config_debugs_on_all_cores:

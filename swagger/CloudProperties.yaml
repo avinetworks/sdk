@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.9'
+    version: '18.2.10'
     title: Avi CloudProperties Object API
     contact:
         name: Avi Networks Inc.
@@ -1082,10 +1082,15 @@ definitions:
                 type: integer
                 default: 5
                 format: int32
-            upgrade_lease_time:
-                description: "Number of upgrade_lease_time."
+            upgrade_fat_se_lease_time:
+                description: "Amount of time Controller waits for a large-sized SE (>=128GB memory) to reconnect after it is rebooted during upgrade. Field introduced in 18.2.10."
                 type: integer
-                default: 360
+                default: 1200
+                format: int32
+            upgrade_lease_time:
+                description: "Amount of time Controller waits for a regular-sized SE (<128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds."
+                type: integer
+                default: 600
                 format: int32
             url:
                 description: "url"
