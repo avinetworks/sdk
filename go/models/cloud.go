@@ -96,7 +96,7 @@ type Cloud struct {
 	// Placeholder for description of property openstack_configuration of obj type Cloud field type str  type object
 	OpenstackConfiguration *OpenStackConfiguration `json:"openstack_configuration,omitempty"`
 
-	// Placeholder for description of property oshiftk8s_configuration of obj type Cloud field type str  type object
+	//  Field deprecated in 20.1.1.
 	Oshiftk8sConfiguration *OShiftK8SConfiguration `json:"oshiftk8s_configuration,omitempty"`
 
 	// Prefer static routes over interface routes during VirtualService placement.

@@ -17,6 +17,9 @@ type WafPolicy struct {
 	// Application Specific Signatures. Field introduced in 20.1.1.
 	ApplicationSignatures *WafApplicationSignatures `json:"application_signatures,omitempty"`
 
+	// Configure thresholds for confidence labels. Field introduced in 20.1.1.
+	ConfidenceOverride *AppLearningConfidenceOverride `json:"confidence_override,omitempty"`
+
 	// Creator name. Field introduced in 17.2.4.
 	CreatedBy *string `json:"created_by,omitempty"`
 
@@ -29,11 +32,23 @@ type WafPolicy struct {
 	// Enable Application Learning for this WAF policy. Field introduced in 18.2.3.
 	EnableAppLearning *bool `json:"enable_app_learning,omitempty"`
 
+	// Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 20.1.1.
+	EnableAutoRuleUpdates *bool `json:"enable_auto_rule_updates,omitempty"`
+
+	// Enable dynamic regex generation for positive security model rules. Field introduced in 20.1.1.
+	EnableRegexLearning *bool `json:"enable_regex_learning,omitempty"`
+
 	// WAF Policy failure mode. This can be 'Open' or 'Closed'. Enum options - WAF_FAILURE_MODE_OPEN, WAF_FAILURE_MODE_CLOSED. Field introduced in 18.1.2.
 	FailureMode *string `json:"failure_mode,omitempty"`
 
 	// Configure parameters for WAF learning. Field deprecated in 18.2.3. Field introduced in 18.1.2.
 	Learning *WafLearning `json:"learning,omitempty"`
+
+	// Parameters for tuning Application learning. Field introduced in 20.1.1.
+	LearningParams *AppLearningParams `json:"learning_params,omitempty"`
+
+	// Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 20.1.1.
+	MinConfidence *string `json:"min_confidence,omitempty"`
 
 	// WAF Policy mode. This can be detection or enforcement. It can be overwritten by rules if allow_mode_delegation is set. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 17.2.1.
 	// Required: true
