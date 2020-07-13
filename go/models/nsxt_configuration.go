@@ -7,6 +7,9 @@ package models
 // swagger:model NsxtConfiguration
 type NsxtConfiguration struct {
 
+	// Automatically create DFW rules for VirtualService in NSX-T Manager. Field introduced in 20.1.1.
+	AutomateDfwRules *bool `json:"automate_dfw_rules,omitempty"`
+
 	// Domain where NSGroup objects belongs to. Field introduced in 20.1.1.
 	DomainID *string `json:"domain_id,omitempty"`
 
