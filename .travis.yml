@@ -82,7 +82,7 @@ notifications:
       - rastogiga@vmware.com
       - deshpandech@vmware.com
       - pshrikan@vmware.com
-      - jmanog@vmware.com
+      - jmanoj@vmware.com
       - sgangadhar@vmware.com
       - shounakj@vmware.com
     on_failure: always
