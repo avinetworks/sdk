@@ -18,6 +18,9 @@ type ALBServicesConfig struct {
 	// Required: true
 	FeatureOptInStatus *PortalFeatureOptIn `json:"feature_opt_in_status"`
 
+	// IP reputation db file object expiry duration in days. Allowed values are 1-7. Field introduced in 20.1.1.
+	IPReputationFileObjectExpiryDuration *int32 `json:"ip_reputation_file_object_expiry_duration,omitempty"`
+
 	// IP reputation db sync interval in minutes. Allowed values are 2-1440. Field introduced in 20.1.1.
 	IPReputationSyncInterval *int32 `json:"ip_reputation_sync_interval,omitempty"`
 

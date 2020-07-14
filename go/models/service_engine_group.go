@@ -77,7 +77,7 @@ type ServiceEngineGroup struct {
 	//  It is a reference to an object of type Cloud.
 	CloudRef *string `json:"cloud_ref,omitempty"`
 
-	// Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Requires SE Reboot. Field introduced in 18.2.9, 20.1.1.
+	// Compress IP rules into a single subnet based IP rule for each north-south IPAM subnet configured in PCAP mode in OpenShift/Kubernetes node. Field introduced in 18.2.9, 20.1.1.
 	CompressIPRulesForEachNsSubnet *bool `json:"compress_ip_rules_for_each_ns_subnet,omitempty"`
 
 	// Enable config debugs on all cores of SE. Field introduced in 17.2.13,18.1.5,18.2.1.
@@ -229,6 +229,9 @@ type ServiceEngineGroup struct {
 
 	// Instance/Flavor name for SE instance.
 	InstanceFlavor *string `json:"instance_flavor,omitempty"`
+
+	// Additional information associated with instance_flavor. Field introduced in 20.1.1.
+	InstanceFlavorInfo *CloudFlavor `json:"instance_flavor_info,omitempty"`
 
 	// Iptable Rules.
 	Iptables []*IptableRuleSet `json:"iptables,omitempty"`
