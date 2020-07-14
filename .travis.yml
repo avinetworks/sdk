@@ -79,10 +79,11 @@ matrix:
 notifications:
   email:
     recipients:
-      - grastogi@avinetworks.com
-      - chaitanya.deshpande@avinetworks.com
-      - shrikant.patil@avinetworks.com
-      - ashwini.bodke@avinetworks.com
-      - rohan.suryawanshi@avinetworks.com
+      - rastogiga@vmware.com
+      - deshpandech@vmware.com
+      - pshrikan@vmware.com
+      - jmanog@vmware.com
+      - sgangadhar@vmware.com
+      - shounakj@vmware.com
     on_failure: always
 
