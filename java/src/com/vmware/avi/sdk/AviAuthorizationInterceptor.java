@@ -1,66 +1,80 @@
 package com.vmware.avi.sdk;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.logging.Logger;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
 public class AviAuthorizationInterceptor implements ClientHttpRequestInterceptor {
 	
+	static final Logger LOGGER = Logger.getLogger(AviAuthorizationInterceptor.class.getName());
+	
 	private AviCredentials aviCredentials;
-	/**
-	 * Maintains count of execution at the time of retries.
-	 */
-	private int numApiExecCount = 0;
 	
 	public AviAuthorizationInterceptor(AviCredentials aviCredentials) {
 		this.aviCredentials = aviCredentials;
 	}
 
 	@Override
-	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-			throws IOException {
+	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) {
+		LOGGER.info("__INIT__ Inside Interceptor..");
+		int numApiExecCount = 0;
 		if (null == this.aviCredentials.getSessionID() || this.aviCredentials.getSessionID().isEmpty()) {
 			AviRestUtils.authenticateSession(this.aviCredentials);
 		}
-		HttpHeaders headers = request.getHeaders();
-		headers.add("Content-Type", "application/json");
-		headers.add("X-Avi-Version", this.aviCredentials.getVersion());
-		headers.add("X-Avi-Tenant", this.aviCredentials.getTenant());
-		headers.add("X-CSRFToken", this.aviCredentials.getCsrftoken());
-		headers.add("Referer", AviRestUtils.getControllerURL(this.aviCredentials));
-		headers.add(HttpHeaders.COOKIE, "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-				+ this.aviCredentials.getSessionID());
-		
-		ClientHttpResponse response = execution.execute(request, body);
-		
-		int responseCode = response.getRawStatusCode();
-		
-		if (Arrays.asList(419, 401).contains(responseCode)) {
-			this.numApiExecCount++;
-			while (numApiExecCount < this.aviCredentials.getNumApiRetries()) {
-				headers.remove("X-CSRFToken");
-				headers.remove("Cookie");
-				AviRestUtils.authenticateSession(this.aviCredentials);
-				headers.add("X-CSRFToken", this.aviCredentials.getCsrftoken());
-				headers.add("Cookie", "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-						+ this.aviCredentials.getSessionID());
-				response = execution.execute(request, body);
-				if (Arrays.asList(419, 401).contains(response.getRawStatusCode())) {
-					this.numApiExecCount++;
-					continue;
-				}
-				else {
-					break;
+		ClientHttpResponse response = null;
+		try {
+			numApiExecCount = 0;
+			HttpHeaders headers = request.getHeaders();
+			headers.add("Content-Type", "application/json");
+			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+			headers.add("X-Avi-Version", this.aviCredentials.getVersion());
+			headers.add("X-Avi-Tenant", this.aviCredentials.getTenant());
+			headers.add("X-CSRFToken", this.aviCredentials.getCsrftoken());
+			headers.add("Referer", AviRestUtils.getControllerURL(this.aviCredentials));
+			headers.add(HttpHeaders.COOKIE, "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
+					+ this.aviCredentials.getSessionID());
+			
+			response = execution.execute(request, body);
+			
+			int responseCode = response.getRawStatusCode();
+			
+			if (Arrays.asList(419, 401).contains(responseCode)) {
+				numApiExecCount++;
+				while (numApiExecCount < this.aviCredentials.getNumApiRetries()) {
+					LOGGER.info("Inside Interceptor authentication retries:: "+ numApiExecCount);
+					response.close();
+					headers.remove("X-CSRFToken");
+					headers.remove("Cookie");
+					AviRestUtils.authenticateSession(this.aviCredentials);
+					headers.add("X-CSRFToken", this.aviCredentials.getCsrftoken());
+					headers.add(HttpHeaders.COOKIE, "csrftoken=" + this.aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
+							+ this.aviCredentials.getSessionID());
+					
+					Thread.sleep(this.aviCredentials.getRetryWaitTime()*1000);
+					response = execution.execute(request, body);
+					LOGGER.info("Interceptor execution completed for retries");
+					if (Arrays.asList(419, 401).contains(response.getRawStatusCode())) {
+						numApiExecCount++;
+						continue;
+					}
+					else {
+						numApiExecCount = 0;
+						break;
+					}
 				}
 			}
+		}catch (Throwable e) {
+			e.printStackTrace();
 		}
-
+		LOGGER.info("__DONE__ Interceptor");
 		return response;
 	}
-
+	
 }
