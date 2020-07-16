@@ -2,6 +2,8 @@ package com.vmware.avi.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -113,8 +115,7 @@ public class AviSDKTest {
 
             // DELETE test case
             JSONObject deleteRes = serv.delete("pool", uuid);
-			String msg = deleteRes.get("Message").toString();
-			assertEquals("Object deleted successfully", "Object deleted successfully", msg);
+            assertTrue(deleteRes.isEmpty());
 
 		} catch (AviApiException  e) {
 			e.printStackTrace(System.err);

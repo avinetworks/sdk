@@ -99,7 +99,7 @@ public class AviCredentials
     private Boolean verify = false;// for SSL and HTTPS
     private Boolean retryConxnErrors;
     private Integer numApiRetries = 3;
-    private Integer retryWaitTime = 10;
+    private Integer retryWaitTime = 5;
     private Boolean lazyAuthentication = false;
 
     /**
@@ -437,4 +437,13 @@ public class AviCredentials
     {
         this.lazyAuthentication = lazyAuthentication;
     }
+
+	@Override
+	public String toString() {
+		return "AviCredentials [controller=" + controller + ", username=" + username + ", password=" + password
+				+ ", tenant=" + tenant + ", version=" + version + ", tenantUuid=" + tenantUuid + ", port=" + port
+				+ ", timeout=" + timeout + ", sessionID=" + sessionID + ", csrftoken=" + csrftoken + ", token=" + token
+				+ ", verify=" + verify + ", retryConxnErrors=" + retryConxnErrors + ", numApiRetries=" + numApiRetries
+				+ ", retryWaitTime=" + retryWaitTime + ", lazyAuthentication=" + lazyAuthentication + "]";
+	}
 }
