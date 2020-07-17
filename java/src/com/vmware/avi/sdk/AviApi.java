@@ -7,12 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import org.apache.http.HttpResponse;
@@ -28,12 +26,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,8 +33,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vmware.avi.sdk.model.AviApiResponse;
 
 /**
@@ -77,11 +67,6 @@ public class AviApi {
 	private static HashMap<String, AviApi> sessionPool = new HashMap<String, AviApi>();
 
 	/**
-	 * The Map which will fetch classes from model.
-	 */
-	public static Map<String, String> modelMap = new HashMap<String, String>();
-
-	/**
 	 * AviCredentials object for this session.
 	 */
 	private AviCredentials aviCredentials;
@@ -91,10 +76,6 @@ public class AviApi {
 	private String sessionKey;
 
 	private RestTemplate restTemplate;
-
-	static {
-		fetchClassNames("com.vmware.avi.sdk.model");
-	}
 
 	/**
 	 * This static factory method to create session if not present in the pool if
@@ -204,10 +185,8 @@ public class AviApi {
 			}
 			JSONObject jsonObject = null;
 			if (path.contains("/")) {
-				Object response = restTemplate.getForObject(getUrl, Object.class);
-				ObjectMapper mapper = new ObjectMapper();
-				String jsonStr = mapper.writeValueAsString(response);
-				jsonObject = new JSONObject(jsonStr);
+				String response = restTemplate.getForObject(getUrl, String.class);
+				jsonObject = new JSONObject(response);
 			} else {
 				AviApiResponse result = restTemplate.getForObject(getUrl, AviApiResponse.class);
 				jsonObject = new JSONObject(result);
@@ -238,24 +217,24 @@ public class AviApi {
 		return this.put(path, body, null);
 	}
 
-	public <T> ResponseEntity<T> put(Class<T> objClass, T aviObj, String objectUUid)
+	public <T> ResponseEntity<T> put(T aviObj, String objectUUid)
 			throws JSONException, AviApiException, IOException {
 		LOGGER.info("__INIT__ Inside executing PUT..");
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objectUUid;
 
 		HttpEntity<T> requestEntity = new HttpEntity<T>(aviObj);
-		ResponseEntity<T> response = restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity, objClass);
+		ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity, aviObj.getClass());
 		LOGGER.info("__DONE__Executing PUT is completed..");
 		return response;
 	}
 
-	public <T> ResponseEntity<T> post(Class<T> objClass, T aviObj) throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> post(T aviObj) throws JSONException, AviApiException, IOException {
 		LOGGER.info("__INIT__ Inside executing POST..");
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path;
 		ResponseEntity<T> responseEntity = (ResponseEntity<T>) this.restTemplate.postForEntity(getUrl, aviObj,
-				objClass);
+				aviObj.getClass());
 		LOGGER.info("__DONE__Executing POST is completed..");
 		return responseEntity;
 	}
@@ -289,21 +268,18 @@ public class AviApi {
 			throws AviApiException {
 		try {
 			LOGGER.info("__INIT__ Inside executing PUT..");
-			ObjectMapper mapper = new ObjectMapper();
-			Class restResource = getAviRestResourceObject(path.toLowerCase());
-			Object input = mapper.readValue(body.toString(), restResource);
-
+			
 			String objectUuid = body.get("uuid").toString();
 			String putUrl = path.toLowerCase().concat("/" + objectUuid);
-			HttpEntity<Object> requestEntity;
+			HttpEntity<String> requestEntity;
 			if (userHeaders != null) {
 				HttpHeaders headers = setHeaders(userHeaders);
-				requestEntity = new HttpEntity<Object>(input, headers);
+				requestEntity = new HttpEntity<String>(body.toString(), headers);
 			} else {
-				requestEntity = new HttpEntity<Object>(input);
+				requestEntity = new HttpEntity<String>(body.toString());
 			}
-			ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(putUrl, HttpMethod.PUT,
-					requestEntity, restResource);
+			ResponseEntity<String> response = (ResponseEntity<String>) restTemplate.exchange(putUrl, HttpMethod.PUT,
+					requestEntity, String.class);
 
 			JSONObject jsonObject = new JSONObject(response.getBody());
 			LOGGER.info("__DONE__Executing PUT is completed..");
@@ -333,21 +309,6 @@ public class AviApi {
 		return this.post(path, body, null);
 	}
 
-	public Object post(Object aviObj) throws JSONException, AviApiException, IOException {
-		LOGGER.info("__INIT__ Inside executing POST..");
-		String path = aviObj.getClass().getSimpleName().toLowerCase();
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		JSONObject objPut = new JSONObject(objectMapper.writeValueAsString(aviObj));
-		JSONObject responseVal = this.post(path, objPut);
-		Object resObj = null;
-		if (null != responseVal) {
-			resObj = objectMapper.readValue(responseVal.toString(), aviObj.getClass());
-		}
-		LOGGER.info("__DONE__Executing POST is completed..");
-		return resObj;
-	}
-
 	/**
 	 * This method calls the POST REST API
 	 * 
@@ -366,19 +327,16 @@ public class AviApi {
 			throws AviApiException {
 		try {
 			LOGGER.info("__INIT__ Inside executing POST..");
-			ObjectMapper mapper = new ObjectMapper();
-			Class restResource = getAviRestResourceObject(path.toLowerCase());
-			Object input = mapper.readValue(body.toString(), restResource);
-
-			HttpEntity<Object> requestEntity;
+			
+			HttpEntity<String> requestEntity;
 			if (userHeaders != null) {
 				HttpHeaders headers = setHeaders(userHeaders);
-				requestEntity = new HttpEntity<Object>(input, headers);
+				requestEntity = new HttpEntity<String>(body.toString(), headers);
 			} else {
-				requestEntity = new HttpEntity<Object>(input);
+				requestEntity = new HttpEntity<String>(body.toString());
 			}
-			ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(path, HttpMethod.POST,
-					requestEntity, restResource);
+			ResponseEntity<String> response = (ResponseEntity<String>) restTemplate.exchange(path, HttpMethod.POST,
+					requestEntity, String.class);
 
 			JSONObject jsonObject = new JSONObject(response.getBody());
 			LOGGER.info("__DONE__Executing POST is completed..");
@@ -409,49 +367,6 @@ public class AviApi {
 		}
 		LOGGER.info("__DONE__ setHeader");
 		return headers;
-	}
-
-	/***
-	 * This method returns AviRestResource
-	 * 
-	 * @param objectType name of the object.
-	 * @return AviRestResource
-	 */
-	@SuppressWarnings("rawtypes")
-	private Class getAviRestResourceObject(String objectType) {
-		LOGGER.info("__INIT__ Inside getAviRestResourceObject");
-		String className = null;
-		if (modelMap.containsKey(objectType.toUpperCase())) {
-			className = modelMap.get(objectType.toUpperCase());
-		}
-		try {
-			Class obj = (Class) Class.forName("com.vmware.avi.sdk.model." + className);
-			return obj;
-		} catch (ClassNotFoundException e) {
-			LOGGER.info("Exception : " + e.getMessage());
-		}
-		LOGGER.info("__DONE__ getAviRestResourceObject");
-		return null;
-	}
-
-	/**
-	 * This method will add Class names from the package into the modelMap.
-	 * 
-	 * @param packageName fully qualified package name
-	 * @throws ClassNotFoundException
-	 */
-	private static void fetchClassNames(String packageName) {
-		LOGGER.info("__INIT__ Inside fetchClassNames and generate map");
-		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder().setScanners(new SubTypesScanner(false),
-				new ResourcesScanner());
-		configurationBuilder.setUrls(ClasspathHelper.forPackage(packageName))
-				.filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName)));
-		Reflections reflection = new Reflections(configurationBuilder);
-		Set<Class<?>> classes = reflection.getSubTypesOf(Object.class);
-		for (Class c : classes) {
-			modelMap.put(c.getSimpleName().toUpperCase(), c.getSimpleName());
-		}
-		LOGGER.info("__DONE__ fetchClassNames map generated");
 	}
 
 	/**

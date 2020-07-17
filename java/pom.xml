@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.vmware.avi.sdk</groupId>
 	<artifactId>avisdk</artifactId>
-	<version>20.1.1</version>
+	<version>20.1.1-beta-3</version>
 	<name>avisdk</name>
 	<description>Avi SDK is a java API which creates a session with controller and perform CRUD operations.</description>
 	<url>https://github.com/avinetworks/sdk/tree/master/java</url>
@@ -263,14 +263,6 @@
 			<version>2.3.0.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>0.9.10</version>
-			<scope>provided</scope>
-		</dependency>
-
 
 	</dependencies>
 </project>
