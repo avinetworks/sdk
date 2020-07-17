@@ -164,6 +164,9 @@ type ControllerProperties struct {
 	// Amount of time Controller waits for a regular-sized SE (<128GB memory) to reconnect after it is rebooted during upgrade. Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
 	UpgradeLeaseTime *int32 `json:"upgrade_lease_time,omitempty"`
 
+	// This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10.
+	UpgradeSePerVsScaleOpsTxnTime *int32 `json:"upgrade_se_per_vs_scale_ops_txn_time,omitempty"`
+
 	// url
 	// Read Only: true
 	URL *string `json:"url,omitempty"`
