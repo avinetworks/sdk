@@ -521,6 +521,12 @@
                     "type": "string", 
                     "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
                 }, 
+                "upgrade_se_per_vs_scale_ops_txn_time": {
+                    "default": 3, 
+                    "type": "integer", 
+                    "description": "This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10.", 
+                    "format": "int32"
+                }, 
                 "query_host_fail": {
                     "default": 180, 
                     "type": "integer", 

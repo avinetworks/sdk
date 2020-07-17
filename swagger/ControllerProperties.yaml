@@ -422,6 +422,11 @@ definitions:
                 type: integer
                 default: 600
                 format: int32
+            upgrade_se_per_vs_scale_ops_txn_time:
+                description: "This parameter defines the upper-bound value of the VS scale-in or VS scale-out operation executed in the SeScaleIn and SeScale context.  User can tweak this parameter to a higher value if the Segroup gets suspended due to SeScalein or SeScaleOut timeout failure typically associated with high number of VS(es) scaled out. . Field introduced in 18.2.10."
+                type: integer
+                default: 3
+                format: int32
             url:
                 description: "url"
                 readOnly: True
