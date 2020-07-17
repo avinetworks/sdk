@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriTemplateHandler;
@@ -58,11 +59,10 @@ public class AviRestUtils {
 			try {
 				restTemplate = getInitializedRestTemplate(creds);
 				DefaultUriTemplateHandler templateHandler = new DefaultUriTemplateHandler();
-				templateHandler.setBaseUrl(getControllerURL(creds)+ API_PREFIX);
+				templateHandler.setBaseUrl(getControllerURL(creds) + API_PREFIX);
 				restTemplate.setUriTemplateHandler(templateHandler);
-				List<ClientHttpRequestInterceptor> interceptors = 
-						Collections.<ClientHttpRequestInterceptor>singletonList(
-								new AviAuthorizationInterceptor(creds));
+				List<ClientHttpRequestInterceptor> interceptors = Collections
+						.<ClientHttpRequestInterceptor>singletonList(new AviAuthorizationInterceptor(creds));
 				restTemplate.setInterceptors(interceptors);
 				restTemplate.setMessageConverters(getMessageConverters(restTemplate));
 				AviRestUtils.sessionPool.put(getSessionKey(creds), restTemplate);
@@ -77,17 +77,18 @@ public class AviRestUtils {
 	}
 
 	private static List<HttpMessageConverter<?>> getMessageConverters(RestTemplate restTemplate) {
-        // Get existing message converters
-        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-        messageConverters.clear();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(Include.NON_NULL);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        MappingJackson2HttpMessageConverter mycov = new MappingJackson2HttpMessageConverter(objectMapper);
-        mycov.setPrettyPrint(true);
-        messageConverters.add(mycov);
-        return messageConverters;
-    }
+		// Get existing message converters
+		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+		messageConverters.clear();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		MappingJackson2HttpMessageConverter mycov = new MappingJackson2HttpMessageConverter(objectMapper);
+		mycov.setPrettyPrint(true);
+		messageConverters.add(new StringHttpMessageConverter());
+		messageConverters.add(mycov);
+		return messageConverters;
+	}
 
 	private static RestTemplate getInitializedRestTemplate(AviCredentials creds) {
 		try {
@@ -99,7 +100,7 @@ public class AviRestUtils {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method sets a custom HttpRequestRetryHandler in order to enable a custom
 	 * exception recovery mechanism.
@@ -140,7 +141,6 @@ public class AviRestUtils {
 		};
 	}
 
-
 	public static CloseableHttpClient buildHttpClient(AviCredentials creds) {
 		LOGGER.info("__INIT__ Inside buildHttpClient..");
 		CloseableHttpClient httpClient = null;
@@ -158,13 +158,12 @@ public class AviRestUtils {
 			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds))
 					.setSSLSocketFactory(sslConnectionSocketFactory)
 					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							creds.getNumApiRetries(), creds.getRetryWaitTime())).disableCookieManagement()
-					.build();
+							creds.getNumApiRetries(), creds.getRetryWaitTime()))
+					.disableCookieManagement().build();
 		} else {
-			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds))
-					.setServiceUnavailableRetryStrategy(new DefaultServiceUnavailableRetryStrategy(
-							creds.getNumApiRetries(), creds.getRetryWaitTime())).disableCookieManagement()
-					.build();
+			httpClient = HttpClients.custom().setRetryHandler(retryHandler(creds)).setServiceUnavailableRetryStrategy(
+					new DefaultServiceUnavailableRetryStrategy(creds.getNumApiRetries(), creds.getRetryWaitTime()))
+					.disableCookieManagement().build();
 		}
 		LOGGER.info("__DONE__ BuildHttpClient completed");
 		return httpClient;
@@ -218,8 +217,7 @@ public class AviRestUtils {
 			LOGGER.info("__DONE__ Authentication session success for:: " + aviCredentials.getUsername());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			if (null != httpClient) {
 				try {
 					httpClient.close();
@@ -230,10 +228,8 @@ public class AviRestUtils {
 		}
 	}
 
-
 	public static String getSessionKey(AviCredentials aviCredentials) {
-		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":"
-				+ aviCredentials.getPort();
+		return aviCredentials.getController() + ":" + aviCredentials.getUsername() + ":" + aviCredentials.getPort();
 	}
 
 	/**
@@ -275,7 +271,8 @@ public class AviRestUtils {
 	 * @param request A HttpRequestBase containing all require headers.
 	 * @throws Exception
 	 */
-	public static void buildHeaders(HttpRequestBase request, HashMap<String, String> userHeaders, AviCredentials aviCredentials) throws Exception {
+	public static void buildHeaders(HttpRequestBase request, HashMap<String, String> userHeaders,
+			AviCredentials aviCredentials) throws Exception {
 		LOGGER.info("__INIT__ Inside buildHeaders..");
 		if (null == aviCredentials.getSessionID() || aviCredentials.getSessionID().isEmpty()) {
 			authenticateSession(aviCredentials);
@@ -286,8 +283,8 @@ public class AviRestUtils {
 		request.addHeader("X-CSRFToken", aviCredentials.getCsrftoken());
 		request.addHeader("Referer", getControllerURL(aviCredentials));
 
-		request.addHeader("Cookie", "csrftoken=" + aviCredentials.getCsrftoken() + "; " + "avi-sessionid="
-				+ aviCredentials.getSessionID());
+		request.addHeader("Cookie",
+				"csrftoken=" + aviCredentials.getCsrftoken() + "; " + "avi-sessionid=" + aviCredentials.getSessionID());
 
 		if ((null != userHeaders) && (!userHeaders.isEmpty())) {
 			for (String key : userHeaders.keySet()) {
