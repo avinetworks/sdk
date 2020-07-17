@@ -7,7 +7,7 @@ package models
 // swagger:model OCSPConfig
 type OCSPConfig struct {
 
-	// Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 15-MAX. Field introduced in 20.1.1.
+	// Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-MAX. Field introduced in 20.1.1.
 	FailedOcspJobsRetryInterval *int32 `json:"failed_ocsp_jobs_retry_interval,omitempty"`
 
 	// Interval between the OCSP queries. Allowed values are 30-MAX. Field introduced in 20.1.1.
