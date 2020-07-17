@@ -114,6 +114,9 @@ type VIMgrSEVMRuntime struct {
 	// Unique object identifier of vcenter_datacenter.
 	VcenterDatacenterUUID *string `json:"vcenter_datacenter_uuid,omitempty"`
 
+	// ServiceEngine instance uuid from vCenter. Field introduced in 20.1.1.
+	VcenterInstanceUUID *string `json:"vcenter_instance_uuid,omitempty"`
+
 	// ServiceEngine belongs to VCenter. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1.
 	VcenterRef *string `json:"vcenter_ref,omitempty"`
 

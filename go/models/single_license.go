@@ -13,6 +13,9 @@ type SingleLicense struct {
 	// Number of Service Engine cores in non-container clouds.
 	Cores *int32 `json:"cores,omitempty"`
 
+	// Total number of cpu cores. Field introduced in 20.1.1.
+	CPUCores *float64 `json:"cpu_cores,omitempty"`
+
 	// created_on of SingleLicense.
 	CreatedOn *string `json:"created_on,omitempty"`
 
@@ -22,6 +25,9 @@ type SingleLicense struct {
 
 	// enforced_params of SingleLicense.
 	EnforcedParams []string `json:"enforced_params,omitempty"`
+
+	// Flag to track license expiry. Field introduced in 20.1.1.
+	Expired *bool `json:"expired,omitempty"`
 
 	// last_update of SingleLicense.
 	LastUpdate *string `json:"last_update,omitempty"`
