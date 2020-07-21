@@ -1,18 +1,19 @@
 {
+    "version": 1,
     "interactions": [
         {
             "request": {
-                "uri": "https://10.79.171.121/login",
+                "method": "POST",
+                "uri": "https://10.79.168.227/login",
+                "body": "username=admin&password=admin",
                 "headers": {
+                    "Content-Length": [
+                        "29"
+                    ],
                     "Content-Type": [
                         "application/x-www-form-urlencoded"
-                    ],
-                    "Content-Length": [
-                        "43"
                     ]
-                },
-                "method": "POST",
-                "body": "password=RyVm%26%40%28%5E%29&username=admin"
+                }
             },
             "response": {
                 "status": {
@@ -20,32 +21,27 @@
                     "message": "OK"
                 },
                 "headers": {
-                    "AVI_API_VERSION": [
-                        "16_4_2"
-                    ],
-                    "Date": [
-                        "Tue, 16 Jun 2020 12:27:04 GMT"
-                    ],
-                    "Set-Cookie": [
-                        "csrftoken=vLCRC4M5gZ7y1KOTs1auOil8aIdqB8tF; expires=Tue, 15-Jun-2021 12:27:04 GMT; Max-Age=31449600; Path=/; secure",
-                        "sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; expires=Wed, 17-Jun-2020 12:27:04 GMT; httponly; Max-Age=86400; Path=/; secure",
-                        "avi-sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; expires=Wed, 17-Jun-2020 12:27:04 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ],
                     "Vary": [
                         "Accept, Cookie",
                         "Origin"
                     ],
-                    "X-Content-Type-Options": [
-                        "nosniff"
-                    ],
-                    "Access-Control-Allow-Methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ],
                     "Cache-Control": [
                         "private, no-cache, must-revalidate"
                     ],
+                    "Connection": [
+                        "keep-alive"
+                    ],
                     "Access-Control-Allow-Origin": [
                         "https://portal.avinetworks.com"
+                    ],
+                    "Strict-Transport-Security": [
+                        "max-age=31536000; includeSubdomains"
+                    ],
+                    "X-Frame-Options": [
+                        "SAMEORIGIN"
+                    ],
+                    "Access-Control-Allow-Methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
                     ],
                     "Content-Type": [
                         "application/json"
@@ -53,67 +49,72 @@
                     "Allow": [
                         "POST, OPTIONS"
                     ],
-                    "Transfer-Encoding": [
-                        "chunked"
-                    ],
-                    "X-XSS-Protection": [
-                        "1; mode=block"
-                    ],
-                    "Referrer-Policy": [
-                        "strict-origin"
-                    ],
-                    "Access-Control-Expose-Headers": [
-                        "X-NEXT-CALL"
-                    ],
-                    "Content-Security-Policy": [
-                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    "Set-Cookie": [
+                        "csrftoken=UmdW265MXHvNCKgKLyYYO2zcRlrFakCx; expires=Tue, 20-Jul-2021 06:36:35 GMT; Max-Age=31449600; Path=/; Secure",
+                        "avi-sessionid=1r2226cfy34xvuonujc929fmes0syi83; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure",
+                        "sessionid=1r2226cfy34xvuonujc929fmes0syi83; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure"
                     ],
                     "Access-Control-Allow-Credentials": [
                         "true"
                     ],
+                    "Referrer-Policy": [
+                        "strict-origin"
+                    ],
                     "Access-Control-Allow-Headers": [
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN"
                     ],
-                    "Connection": [
-                        "keep-alive"
+                    "X-XSS-Protection": [
+                        "1; mode=block"
                     ],
-                    "X-Frame-Options": [
-                        "SAMEORIGIN"
+                    "Access-Control-Expose-Headers": [
+                        "X-NEXT-CALL"
                     ],
-                    "Strict-Transport-Security": [
-                        "max-age=31536000; includeSubdomains"
+                    "AVI_API_VERSION": [
+                        "16_4_2"
+                    ],
+                    "Content-Security-Policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:;"
+                    ],
+                    "Transfer-Encoding": [
+                        "chunked"
+                    ],
+                    "X-Content-Type-Options": [
+                        "nosniff"
+                    ],
+                    "Date": [
+                        "Tue, 21 Jul 2020 06:36:35 GMT"
                     ]
                 },
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1592310183773148\", \"email_configuration\": {\"disable_tls\": false, \"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"welcome_workflow_complete\": true, \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-a578fede-e478-40c5-92c7-94f19109c074\"]}, \"docker_mode\": false, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"dns_configuration\": {\"search_domain\": \"\"}, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-88df439f-6887-4d93-8a5c-c0db672c625b\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-f2af67d5-ff28-465b-8648-e804b2feab36\", \"/api/sslkeyandcertificate/sslkeyandcertificate-fcc986a6-f9dd-419e-9ec8-c5279add41c0\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": false, \"disable_swagger\": false, \"enable_http\": true, \"api_force_timeout\": 24, \"allow_basic_authentication\": false}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"18.2.10\", \"build\": 9008, \"Tag\": \"18.2.10-9008-20200616.035048\", \"Date\": \"2020-06-16T03:50:48+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{\\\"pageSize\\\":30}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"uuid\": \"user-1\"}, \"tenants\": [{\"url\": \"https://10.79.171.121/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.79.171.121/api/tenant/tenant-2122a4b1-c1b9-472f-9eeb-861afb6acc31\", \"uuid\": \"tenant-2122a4b1-c1b9-472f-9eeb-861afb6acc31\", \"name\": \"crosstenanthm\", \"_last_modified\": \"1592309994448291\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}], \"session_cookie_name\": \"avi-sessionid\"}"
+                    "string": "{\"user_initialized\": true, \"version\": {\"build\": 9046, \"Tag\": \"20.1.1-9046-20200720.043329\", \"ProductName\": \"Avi Cloud Controller\", \"min_version\": 15.2, \"Version\": \"20.1.1\", \"Product\": \"controller\", \"Date\": \"2020-07-20T04:33:29+00:00\"}, \"user\": {\"is_superuser\": true, \"default_tenant_ref\": \"https://10.79.168.227/api/tenant/admin\", \"name\": \"admin\", \"username\": \"admin\", \"full_name\": \"System Administrator\", \"email\": \"\", \"local\": true, \"uuid\": \"user-1\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\"}, \"tenants\": [{\"url\": \"https://10.79.168.227/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}], \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1595253080263550\", \"dns_configuration\": {\"search_domain\": \"\"}, \"portal_configuration\": {\"enable_https\": true, \"redirect_to_https\": true, \"enable_http\": true, \"use_uuid_from_input\": false, \"enable_clickjacking_protection\": true, \"allow_basic_authentication\": false, \"password_strength_check\": false, \"disable_remote_cli_shell\": false, \"disable_swagger\": false, \"api_force_timeout\": 24, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-6ba55131-ec24-4e2a-9d1f-6d2027a1a5af\", \"/api/sslkeyandcertificate/sslkeyandcertificate-caa2d00f-e086-40b7-83d2-6fe6d060bab9\"], \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1fa4f20e-1e62-4041-b54c-f909c41c7a40\"}, \"global_tenant_config\": {\"tenant_vrf\": false, \"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true}, \"email_configuration\": {\"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\", \"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"disable_tls\": false}, \"docker_mode\": false, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"default_license_tier\": \"ENTERPRISE\", \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-eff745b4-1f61-4585-bf8b-baf72c881ead\"]}, \"welcome_workflow_complete\": false, \"fips_mode\": false}, \"controller\": {\"api_idle_timeout\": 15}, \"session_cookie_name\": \"avi-sessionid\"}"
                 }
             }
         },
         {
             "request": {
-                "uri": "https://10.79.171.121/api/pool",
+                "method": "GET",
+                "uri": "https://10.79.168.227/api/pool",
+                "body": null,
                 "headers": {
-                    "X-Avi-Tenant": [
-                        "admin"
-                    ],
                     "Referer": [
-                        "https://10.79.171.121"
-                    ],
-                    "Cookie": [
-                        "avi-sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; csrftoken=vLCRC4M5gZ7y1KOTs1auOil8aIdqB8tF; sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; avi-sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; csrftoken=vLCRC4M5gZ7y1KOTs1auOil8aIdqB8tF; sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in"
+                        "https://10.79.168.227"
                     ],
                     "Content-Type": [
                         "application/json"
-                    ],
-                    "X-CSRFToken": [
-                        "vLCRC4M5gZ7y1KOTs1auOil8aIdqB8tF"
                     ],
                     "timeout": [
                         "60"
+                    ],
+                    "X-CSRFToken": [
+                        "UmdW265MXHvNCKgKLyYYO2zcRlrFakCx"
+                    ],
+                    "X-Avi-Tenant": [
+                        "admin"
+                    ],
+                    "Cookie": [
+                        "avi-sessionid=1r2226cfy34xvuonujc929fmes0syi83; csrftoken=UmdW265MXHvNCKgKLyYYO2zcRlrFakCx; sessionid=1r2226cfy34xvuonujc929fmes0syi83; avi-sessionid=1r2226cfy34xvuonujc929fmes0syi83; csrftoken=UmdW265MXHvNCKgKLyYYO2zcRlrFakCx; sessionid=1r2226cfy34xvuonujc929fmes0syi83"
                     ]
-                },
-                "method": "GET",
-                "body": null
+                }
             },
             "response": {
                 "status": {
@@ -121,87 +122,87 @@
                     "message": "OK"
                 },
                 "headers": {
-                    "AVI_API_VERSION": [
-                        "16_4_2"
-                    ],
-                    "Date": [
-                        "Tue, 16 Jun 2020 12:27:05 GMT"
-                    ],
-                    "Set-Cookie": [
-                        "sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; expires=Wed, 17-Jun-2020 12:27:05 GMT; httponly; Max-Age=86400; Path=/; secure",
-                        "avi-sessionid=kf1mhf53dhdtnukijsh9fx9a8ecec6in; expires=Wed, 17-Jun-2020 12:27:05 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ],
                     "Vary": [
                         "Accept, Cookie",
                         "Origin"
                     ],
-                    "X-Content-Type-Options": [
-                        "nosniff"
-                    ],
-                    "Access-Control-Allow-Methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ],
                     "Cache-Control": [
                         "private, no-cache, must-revalidate"
                     ],
+                    "Connection": [
+                        "keep-alive"
+                    ],
                     "Access-Control-Allow-Origin": [
                         "https://portal.avinetworks.com"
+                    ],
+                    "Strict-Transport-Security": [
+                        "max-age=31536000; includeSubdomains"
+                    ],
+                    "X-Frame-Options": [
+                        "SAMEORIGIN"
+                    ],
+                    "Access-Control-Allow-Methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
                     ],
                     "Content-Type": [
                         "application/json"
                     ],
                     "Allow": [
-                        "HEAD, GET, POST, OPTIONS"
+                        "HEAD, POST, GET, OPTIONS"
                     ],
-                    "Transfer-Encoding": [
-                        "chunked"
-                    ],
-                    "X-XSS-Protection": [
-                        "1; mode=block"
-                    ],
-                    "Referrer-Policy": [
-                        "strict-origin"
-                    ],
-                    "Access-Control-Expose-Headers": [
-                        "X-NEXT-CALL"
-                    ],
-                    "Content-Security-Policy": [
-                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    "Set-Cookie": [
+                        "avi-sessionid=1r2226cfy34xvuonujc929fmes0syi83; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure",
+                        "sessionid=1r2226cfy34xvuonujc929fmes0syi83; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure"
                     ],
                     "Access-Control-Allow-Credentials": [
                         "true"
                     ],
+                    "Referrer-Policy": [
+                        "strict-origin"
+                    ],
                     "Access-Control-Allow-Headers": [
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN"
                     ],
-                    "Connection": [
-                        "keep-alive"
+                    "X-XSS-Protection": [
+                        "1; mode=block"
                     ],
-                    "X-Frame-Options": [
-                        "SAMEORIGIN"
+                    "Access-Control-Expose-Headers": [
+                        "X-NEXT-CALL"
                     ],
-                    "Strict-Transport-Security": [
-                        "max-age=31536000; includeSubdomains"
+                    "AVI_API_VERSION": [
+                        "16_4_2"
+                    ],
+                    "Content-Security-Policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:;"
+                    ],
+                    "Transfer-Encoding": [
+                        "chunked"
+                    ],
+                    "X-Content-Type-Options": [
+                        "nosniff"
+                    ],
+                    "Date": [
+                        "Tue, 21 Jul 2020 06:36:35 GMT"
                     ]
                 },
                 "body": {
-                    "string": "{\"count\": 45, \"results\": [{\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": true, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310006578281\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"testpool-1\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-65346d6e-4015-4c8e-841b-44104579dbcf\", \"enabled\": true, \"uuid\": \"pool-65346d6e-4015-4c8e-841b-44104579dbcf\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": true, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310006688867\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 0, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"f5-default-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-2863a941-c3ce-4972-8a4e-825e3fbf21e1\", \"enabled\": true, \"uuid\": \"pool-2863a941-c3ce-4972-8a4e-825e3fbf21e1\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.114.125\"}, \"hostname\": \"10.90.114.125\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 22}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.50\"}, \"hostname\": \"10.90.115.50\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 22}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310006800343\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"pool10.90.114.202\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-502ea3ba-7a6f-4d7a-be43-9d896c147e23\", \"enabled\": true, \"uuid\": \"pool-502ea3ba-7a6f-4d7a-be43-9d896c147e23\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"1.1.1.1\"}, \"hostname\": \"1.1.1.1\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 22}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310006903730\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"pool10.90.114.131-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-b19279be-9c4b-4868-a0ba-21a471f056f5\", \"enabled\": true, \"uuid\": \"pool-b19279be-9c4b-4868-a0ba-21a471f056f5\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"My Pool Member\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.14\"}, \"hostname\": \"F5-Node-Server3\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.10\"}, \"hostname\": \"F5-Node-Server1\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"Test Mitch-Chen/Server\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.11\"}, \"hostname\": \"F5-Node-Server2\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310006998248\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 5, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-001-1\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-4b21d31d-e3a5-4274-845e-031a3293af44\", \"enabled\": true, \"uuid\": \"pool-4b21d31d-e3a5-4274-845e-031a3293af44\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"My Pool Member\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.14\"}, \"hostname\": \"F5-Node-Server3\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.10\"}, \"hostname\": \"F5-Node-Server1\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"Test Mitch-Chen/Server\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.11\"}, \"hostname\": \"F5-Node-Server2\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007112575\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-f21da21d-224e-4510-acd7-8e75d275a9de\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-cdaf6ad5-498c-445e-b31e-41d098cc65b3\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 5, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-001-2\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-966c832f-c523-4849-83e9-0ce61449260c\", \"enabled\": true, \"uuid\": \"pool-966c832f-c523-4849-83e9-0ce61449260c\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"1.1.1.1\"}, \"hostname\": \"1.1.1.1\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 22}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007219220\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"pool10.90.114.129-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-83f258e1-e385-47e4-9dec-fe4537871225\", \"enabled\": true, \"uuid\": \"pool-83f258e1-e385-47e4-9dec-fe4537871225\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": true, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007324628\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"testpool-3\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-0975e880-b2e7-47ed-9a48-1d5487f54f9d\", \"enabled\": true, \"uuid\": \"pool-0975e880-b2e7-47ed-9a48-1d5487f54f9d\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.124.222\"}, \"hostname\": \"10.90.124.222\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007427793\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"my-avi-200-ok-pool-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-cf4a57ce-1251-42b4-8e74-0f234f930803\", \"enabled\": true, \"uuid\": \"pool-cf4a57ce-1251-42b4-8e74-0f234f930803\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.10.26.85\"}, \"hostname\": \"opcito-test-pool\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007547851\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"description\": \"software developer\", \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"Opcito-test-pool-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-b65f4a6d-8741-4ab9-a41c-23424a3a6073\", \"enabled\": true, \"uuid\": \"pool-b65f4a6d-8741-4ab9-a41c-23424a3a6073\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"My Pool Member\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.14\"}, \"hostname\": \"F5-Node-Server3\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.10\"}, \"hostname\": \"F5-Node-Server1\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"Test Mitch-Chen/Server\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.11\"}, \"hostname\": \"F5-Node-Server2\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007656417\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-f21da21d-224e-4510-acd7-8e75d275a9de\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-cdaf6ad5-498c-445e-b31e-41d098cc65b3\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 5, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-001\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-3c960953-16a2-4388-86f7-8a44449c77d2\", \"enabled\": true, \"uuid\": \"pool-3c960953-16a2-4388-86f7-8a44449c77d2\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.124.222\"}, \"hostname\": \"10.90.124.222\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007771124\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"my-avi-200-ok-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-476d03ef-c2df-4e60-9042-732c3345ee90\", \"enabled\": true, \"uuid\": \"pool-476d03ef-c2df-4e60-9042-732c3345ee90\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_FASTEST_RESPONSE\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.40.30\"}, \"hostname\": \"192.168.40.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007871310\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"graceful_disable_timeout\": 1, \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"server_reselect\": {\"retry_nonidempotent\": false, \"svr_resp_code\": {\"resp_code_block\": [\"HTTP_RSP_4XX\", \"HTTP_RSP_5XX\"]}, \"num_retries\": 100, \"enabled\": true}, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-003\", \"max_concurrent_connections_per_server\": 1000, \"url\": \"https://10.79.171.121/api/pool/pool-4dbbd149-6333-4478-94f7-c1e059855a0a\", \"enabled\": true, \"uuid\": \"pool-4dbbd149-6333-4478-94f7-c1e059855a0a\", \"connection_ramp_duration\": 100}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310007976617\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-f66fcf4b-e9cc-4eda-bc48-5757ff0895b0\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"testpool-2\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-0014c37d-0053-4267-9f09-1e14226f9043\", \"enabled\": true, \"uuid\": \"pool-0014c37d-0053-4267-9f09-1e14226f9043\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_LOAD\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.31\"}, \"hostname\": \"192.168.39.31\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 20, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.30\"}, \"hostname\": \"192.168.39.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"redirect\": {\"status_code\": \"HTTP_REDIRECT_STATUS_CODE_302\", \"host\": \"www.google.com\", \"protocol\": \"HTTPS\"}, \"type\": \"FAIL_ACTION_HTTP_REDIRECT\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008090052\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-55e5db82-2a9f-411c-a776-ea7aa5f84240\", \"ssl_key_and_certificate_ref\": \"https://10.79.171.121/api/sslkeyandcertificate/sslkeyandcertificate-66a1b2a9-0b6b-482f-b991-f66c79138cc8\", \"graceful_disable_timeout\": 1, \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-f66fcf4b-e9cc-4eda-bc48-5757ff0895b0\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"server_reselect\": {\"retry_nonidempotent\": false, \"svr_resp_code\": {\"resp_code_block\": [\"HTTP_RSP_4XX\", \"HTTP_RSP_5XX\"]}, \"num_retries\": 100, \"enabled\": true}, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-002-clone\", \"max_concurrent_connections_per_server\": 100, \"url\": \"https://10.79.171.121/api/pool/pool-e8cecc59-51a4-4310-96f9-237b55276772\", \"enabled\": true, \"uuid\": \"pool-e8cecc59-51a4-4310-96f9-237b55276772\", \"connection_ramp_duration\": 30}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.10.26.85\"}, \"hostname\": \"opcito-test-pool\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008193602\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"description\": \"software developer\", \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"Opcito-test-pool\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-79ac080f-d0bf-4d03-bffb-ca601c5159a5\", \"enabled\": true, \"uuid\": \"pool-79ac080f-d0bf-4d03-bffb-ca601c5159a5\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.114.10\"}, \"hostname\": \"10.90.114.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 3389}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.110.10\"}, \"hostname\": \"10.90.110.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 3389}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008314532\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"dnspool1\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-d8dee6b4-8868-469a-b1d9-47918c5d5ec9\", \"enabled\": true, \"uuid\": \"pool-d8dee6b4-8868-469a-b1d9-47918c5d5ec9\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.10.0.100\"}, \"hostname\": \"10.10.0.100\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 53}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"8.8.8.8\"}, \"hostname\": \"8.8.8.8\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 53}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.110.10\"}, \"hostname\": \"10.90.110.10\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 3389}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008416622\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 3, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"poolnew1-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-979b3113-f88d-4254-9620-bb52b5fb086a\", \"enabled\": true, \"uuid\": \"pool-979b3113-f88d-4254-9620-bb52b5fb086a\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.1.1.90\"}, \"hostname\": \"10.1.1.90%101\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 443}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008554194\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-752282d0-59dd-4c2a-9cf9-0ad0b45d1469\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-02df44dc-13b9-4da0-ac0e-7b1f7255eae2\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 1, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"Peer_test-clone\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-00fe1ab4-ebe5-4277-8179-01265d5964df\", \"enabled\": true, \"uuid\": \"pool-00fe1ab4-ebe5-4277-8179-01265d5964df\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_ROUND_ROBIN\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.114.125\"}, \"hostname\": \"10.90.114.125\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 443}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.50\"}, \"hostname\": \"10.90.115.50\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 443}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.117.121\"}, \"hostname\": \"10.90.117.121\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 443}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.190.15\"}, \"hostname\": \"10.90.190.15\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008668213\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-26c7ce99-804e-4da8-8950-e4b81a6650d6\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 4, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"poolnew2\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-0ca02f8c-f394-4e26-9c25-87239f380ee5\", \"enabled\": true, \"uuid\": \"pool-0ca02f8c-f394-4e26-9c25-87239f380ee5\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.10\"}, \"hostname\": \"F5-Node-Server1\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.11\"}, \"hostname\": \"F5-Node-Server2\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.30\"}, \"hostname\": \"192.168.39.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.40.30\"}, \"hostname\": \"192.168.40.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008767900\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 6, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-005\", \"max_concurrent_connections_per_server\": 0, \"url\": \"https://10.79.171.121/api/pool/pool-57a6d35a-4f90-47c3-9a11-784cf44966ad\", \"enabled\": true, \"uuid\": \"pool-57a6d35a-4f90-47c3-9a11-784cf44966ad\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"My Pool Member\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.14\"}, \"hostname\": \"F5-Node-Server3\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.10\"}, \"hostname\": \"F5-Node-Server1\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"Test Mitch-Chen/Server\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.38.11\"}, \"hostname\": \"F5-Node-Server2\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008876482\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-f21da21d-224e-4510-acd7-8e75d275a9de\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-cdaf6ad5-498c-445e-b31e-41d098cc65b3\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 5, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-001-clone\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-5d77556d-28be-4ac2-bec0-865ef475c14f\", \"enabled\": true, \"uuid\": \"pool-5d77556d-28be-4ac2-bec0-865ef475c14f\", \"connection_ramp_duration\": 10}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_LOAD\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.31\"}, \"hostname\": \"192.168.39.31\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 20, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.30\"}, \"hostname\": \"192.168.39.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310008985709\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"graceful_disable_timeout\": 1, \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"server_reselect\": {\"retry_nonidempotent\": false, \"svr_resp_code\": {\"resp_code_block\": [\"HTTP_RSP_4XX\", \"HTTP_RSP_5XX\"]}, \"num_retries\": 100, \"enabled\": true}, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-Crosstenant-002\", \"max_concurrent_connections_per_server\": 100, \"url\": \"https://10.79.171.121/api/pool/pool-4efb2600-4c2e-4169-8eba-378603dcc30a\", \"enabled\": true, \"uuid\": \"pool-4efb2600-4c2e-4169-8eba-378603dcc30a\", \"connection_ramp_duration\": 30}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_LOAD\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.31\"}, \"hostname\": \"192.168.39.31\", \"enabled\": false, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 20, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"192.168.39.30\"}, \"hostname\": \"192.168.39.30\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"redirect\": {\"status_code\": \"HTTP_REDIRECT_STATUS_CODE_302\", \"host\": \"www.google.com\", \"protocol\": \"HTTPS\"}, \"type\": \"FAIL_ACTION_HTTP_REDIRECT\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310009087016\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"ssl_profile_ref\": \"https://10.79.171.121/api/sslprofile/sslprofile-55e5db82-2a9f-411c-a776-ea7aa5f84240\", \"ssl_key_and_certificate_ref\": \"https://10.79.171.121/api/sslkeyandcertificate/sslkeyandcertificate-66a1b2a9-0b6b-482f-b991-f66c79138cc8\", \"graceful_disable_timeout\": 1, \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-f66fcf4b-e9cc-4eda-bc48-5757ff0895b0\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"server_reselect\": {\"retry_nonidempotent\": false, \"svr_resp_code\": {\"resp_code_block\": [\"HTTP_RSP_4XX\", \"HTTP_RSP_5XX\"]}, \"num_retries\": 100, \"enabled\": true}, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"F5-Pool-002\", \"max_concurrent_connections_per_server\": 100, \"url\": \"https://10.79.171.121/api/pool/pool-59f3766e-f720-4def-9ac7-151d2922024c\", \"enabled\": true, \"uuid\": \"pool-59f3766e-f720-4def-9ac7-151d2922024c\", \"connection_ramp_duration\": 30}, {\"lb_algorithm\": \"LB_ALGORITHM_LEAST_CONNECTIONS\", \"use_service_port\": false, \"rewrite_host_header_to_server_name\": false, \"host_check_enabled\": false, \"tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"rewrite_host_header_to_sni\": false, \"capacity_estimation\": false, \"servers\": [{\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.10\"}, \"hostname\": \"10.90.115.10\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}, {\"ratio\": 1, \"description\": \"\", \"ip\": {\"type\": \"V4\", \"addr\": \"10.90.115.11\"}, \"hostname\": \"10.90.115.11\", \"enabled\": true, \"verify_network\": false, \"static\": false, \"resolve_server_by_dns\": false, \"rewrite_host_header\": false, \"port\": 80}], \"fewest_tasks_feedback_delay\": 10, \"capacity_estimation_ttfb_thresh\": 0, \"fail_action\": {\"type\": \"FAIL_ACTION_CLOSE_CONN\"}, \"lb_algorithm_hash\": \"LB_ALGORITHM_CONSISTENT_HASH_SOURCE_IP_ADDRESS\", \"_last_modified\": \"1592310009194298\", \"cloud_ref\": \"https://10.79.171.121/api/cloud/cloud-134dc497-3149-4c6b-84bd-e88e4e0d8122\", \"vrf_ref\": \"https://10.79.171.121/api/vrfcontext/vrfcontext-a55e3d8a-6545-4d15-a434-322e8d290812\", \"application_persistence_profile_ref\": \"https://10.79.171.121/api/applicationpersistenceprofile/applicationpersistenceprofile-f66fcf4b-e9cc-4eda-bc48-5757ff0895b0\", \"inline_health_monitor\": true, \"default_server_port\": 80, \"request_queue_depth\": 128, \"graceful_disable_timeout\": 1, \"server_count\": 2, \"sni_enabled\": true, \"request_queue_enabled\": false, \"name\": \"testpool-2-clone\", \"max_concurrent_connections_per_server\": 50, \"url\": \"https://10.79.171.121/api/pool/pool-a48ac965-c21d-4090-a635-1b29511765e0\", \"enabled\": true, \"uuid\": \"pool-a48ac965-c21d-4090-a635-1b29511765e0\", \"connection_ramp_duration\": 10}], \"next\": \"https://10.79.171.121/api/pool?page=2\"}"
+                    "string": "{\"count\": 0, \"results\": []}"
                 }
             }
         },
         {
             "request": {
-                "uri": "https://10.79.171.121/login",
+                "method": "POST",
+                "uri": "https://10.79.168.227/login",
+                "body": "username=admin&password=admin",
                 "headers": {
+                    "Content-Length": [
+                        "29"
+                    ],
                     "Content-Type": [
                         "application/x-www-form-urlencoded"
-                    ],
-                    "Content-Length": [
-                        "43"
                     ]
-                },
-                "method": "POST",
-                "body": "password=RyVm%26%40%28%5E%29&username=admin"
+                }
             },
             "response": {
                 "status": {
@@ -209,32 +210,27 @@
                     "message": "OK"
                 },
                 "headers": {
-                    "AVI_API_VERSION": [
-                        "16_4_2"
-                    ],
-                    "Date": [
-                        "Tue, 16 Jun 2020 12:27:07 GMT"
-                    ],
-                    "Set-Cookie": [
-                        "csrftoken=kI0IuBB14TmO1mE9P1Hn5NUYnWj7erVp; expires=Tue, 15-Jun-2021 12:27:07 GMT; Max-Age=31449600; Path=/; secure",
-                        "sessionid=70hfe1xyn5eff80w6mwatnah9b8irp9t; expires=Wed, 17-Jun-2020 12:27:07 GMT; httponly; Max-Age=86400; Path=/; secure",
-                        "avi-sessionid=70hfe1xyn5eff80w6mwatnah9b8irp9t; expires=Wed, 17-Jun-2020 12:27:07 GMT; httponly; Max-Age=86400; Path=/; secure"
-                    ],
                     "Vary": [
                         "Accept, Cookie",
                         "Origin"
                     ],
-                    "X-Content-Type-Options": [
-                        "nosniff"
-                    ],
-                    "Access-Control-Allow-Methods": [
-                        "GET, POST, PUT, DELETE, OPTIONS"
-                    ],
                     "Cache-Control": [
                         "private, no-cache, must-revalidate"
                     ],
+                    "Connection": [
+                        "keep-alive"
+                    ],
                     "Access-Control-Allow-Origin": [
                         "https://portal.avinetworks.com"
+                    ],
+                    "Strict-Transport-Security": [
+                        "max-age=31536000; includeSubdomains"
+                    ],
+                    "X-Frame-Options": [
+                        "SAMEORIGIN"
+                    ],
+                    "Access-Control-Allow-Methods": [
+                        "GET, POST, PUT, DELETE, OPTIONS"
                     ],
                     "Content-Type": [
                         "application/json"
@@ -242,42 +238,46 @@
                     "Allow": [
                         "POST, OPTIONS"
                     ],
-                    "Transfer-Encoding": [
-                        "chunked"
-                    ],
-                    "X-XSS-Protection": [
-                        "1; mode=block"
-                    ],
-                    "Referrer-Policy": [
-                        "strict-origin"
-                    ],
-                    "Access-Control-Expose-Headers": [
-                        "X-NEXT-CALL"
-                    ],
-                    "Content-Security-Policy": [
-                        "default-src 'self'; style-src 'self' 'unsafe-inline'"
+                    "Set-Cookie": [
+                        "csrftoken=V9FCDECDtvSAR3xSDDuwstFnW0WUKijf; expires=Tue, 20-Jul-2021 06:36:35 GMT; Max-Age=31449600; Path=/; Secure",
+                        "avi-sessionid=fxllb5rs7xf05bng3qze386i0ri3nudz; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure",
+                        "sessionid=fxllb5rs7xf05bng3qze386i0ri3nudz; expires=Wed, 22-Jul-2020 06:36:35 GMT; HttpOnly; Max-Age=86400; Path=/; Secure"
                     ],
                     "Access-Control-Allow-Credentials": [
                         "true"
                     ],
+                    "Referrer-Policy": [
+                        "strict-origin"
+                    ],
                     "Access-Control-Allow-Headers": [
                         "Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With,X-Avi-Tenant,X-Avi-UserAgent,X-Avi-Tenant-UUID,X-CSRFToken,X-PORTAL-AUTHTOKEN"
                     ],
-                    "Connection": [
-                        "keep-alive"
+                    "X-XSS-Protection": [
+                        "1; mode=block"
                     ],
-                    "X-Frame-Options": [
-                        "SAMEORIGIN"
+                    "Access-Control-Expose-Headers": [
+                        "X-NEXT-CALL"
                     ],
-                    "Strict-Transport-Security": [
-                        "max-age=31536000; includeSubdomains"
+                    "AVI_API_VERSION": [
+                        "16_4_2"
+                    ],
+                    "Content-Security-Policy": [
+                        "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:;"
+                    ],
+                    "Transfer-Encoding": [
+                        "chunked"
+                    ],
+                    "X-Content-Type-Options": [
+                        "nosniff"
+                    ],
+                    "Date": [
+                        "Tue, 21 Jul 2020 06:36:35 GMT"
                     ]
                 },
                 "body": {
-                    "string": "{\"user_initialized\": true, \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1592310183773148\", \"email_configuration\": {\"disable_tls\": false, \"from_email\": \"admin@avicontroller.net\", \"mail_server_port\": 25, \"smtp_type\": \"SMTP_LOCAL_HOST\", \"mail_server_name\": \"localhost\"}, \"global_tenant_config\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"welcome_workflow_complete\": true, \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-a578fede-e478-40c5-92c7-94f19109c074\"]}, \"docker_mode\": false, \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"dns_configuration\": {\"search_domain\": \"\"}, \"portal_configuration\": {\"use_uuid_from_input\": false, \"redirect_to_https\": true, \"sslprofile_ref\": \"/api/sslprofile/sslprofile-88df439f-6887-4d93-8a5c-c0db672c625b\", \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-f2af67d5-ff28-465b-8648-e804b2feab36\", \"/api/sslkeyandcertificate/sslkeyandcertificate-fcc986a6-f9dd-419e-9ec8-c5279add41c0\"], \"enable_clickjacking_protection\": true, \"enable_https\": true, \"disable_remote_cli_shell\": false, \"password_strength_check\": false, \"disable_swagger\": false, \"enable_http\": true, \"api_force_timeout\": 24, \"allow_basic_authentication\": false}, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"default_license_tier\": \"ENTERPRISE_18\"}, \"controller\": {\"api_idle_timeout\": 15}, \"version\": {\"Product\": \"controller\", \"Version\": \"18.2.10\", \"build\": 9008, \"Tag\": \"18.2.10-9008-20200616.035048\", \"Date\": \"2020-06-16T03:50:48+00:00\", \"min_version\": 15.2, \"ProductName\": \"Avi Cloud Controller\"}, \"user\": {\"username\": \"admin\", \"name\": \"admin\", \"is_superuser\": true, \"full_name\": \"System Administrator\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{\\\"pageSize\\\":30}}\", \"local\": true, \"email\": \"\", \"default_tenant_ref\": \"https://10.79.171.121/api/tenant/admin\", \"uuid\": \"user-1\"}, \"tenants\": [{\"url\": \"https://10.79.171.121/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}, {\"url\": \"https://10.79.171.121/api/tenant/tenant-2122a4b1-c1b9-472f-9eeb-861afb6acc31\", \"uuid\": \"tenant-2122a4b1-c1b9-472f-9eeb-861afb6acc31\", \"name\": \"crosstenanthm\", \"_last_modified\": \"1592309994448291\", \"config_settings\": {\"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true, \"tenant_vrf\": false}, \"local\": true}], \"session_cookie_name\": \"avi-sessionid\"}"
+                    "string": "{\"user_initialized\": true, \"version\": {\"build\": 9046, \"Tag\": \"20.1.1-9046-20200720.043329\", \"ProductName\": \"Avi Cloud Controller\", \"min_version\": 15.2, \"Version\": \"20.1.1\", \"Product\": \"controller\", \"Date\": \"2020-07-20T04:33:29+00:00\"}, \"user\": {\"is_superuser\": true, \"default_tenant_ref\": \"https://10.79.168.227/api/tenant/admin\", \"name\": \"admin\", \"username\": \"admin\", \"full_name\": \"System Administrator\", \"email\": \"\", \"local\": true, \"uuid\": \"user-1\", \"ui_property\": \"{\\\"defaultTimeframe\\\":\\\"6h\\\",\\\"valuesToDisplay\\\":\\\"avg\\\",\\\"sideRailOpen\\\":true,\\\"logs\\\":{\\\"savedSearch\\\":[],\\\"sidebarActiveTab\\\":\\\"1\\\"},\\\"appDashboard\\\":{\\\"viewType\\\":\\\"list\\\"},\\\"grid\\\":{}}\"}, \"tenants\": [{\"url\": \"https://10.79.168.227/api/tenant/admin\", \"uuid\": \"admin\", \"name\": \"admin\", \"local\": true}], \"system_config\": {\"url\": \"/api/systemconfiguration\", \"uuid\": \"default\", \"_last_modified\": \"1595253080263550\", \"dns_configuration\": {\"search_domain\": \"\"}, \"portal_configuration\": {\"enable_https\": true, \"redirect_to_https\": true, \"enable_http\": true, \"use_uuid_from_input\": false, \"enable_clickjacking_protection\": true, \"allow_basic_authentication\": false, \"password_strength_check\": false, \"disable_remote_cli_shell\": false, \"disable_swagger\": false, \"api_force_timeout\": 24, \"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-6ba55131-ec24-4e2a-9d1f-6d2027a1a5af\", \"/api/sslkeyandcertificate/sslkeyandcertificate-caa2d00f-e086-40b7-83d2-6fe6d060bab9\"], \"sslprofile_ref\": \"/api/sslprofile/sslprofile-1fa4f20e-1e62-4041-b54c-f909c41c7a40\"}, \"global_tenant_config\": {\"tenant_vrf\": false, \"se_in_provider_context\": true, \"tenant_access_to_provider_se\": true}, \"email_configuration\": {\"smtp_type\": \"SMTP_LOCAL_HOST\", \"from_email\": \"admin@avicontroller.net\", \"mail_server_name\": \"localhost\", \"mail_server_port\": 25, \"disable_tls\": false}, \"docker_mode\": false, \"ssh_ciphers\": [\"aes128-ctr\", \"aes256-ctr\", \"arcfour256\", \"arcfour128\"], \"ssh_hmacs\": [\"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-256-etm@openssh.com\", \"umac-128-etm@openssh.com\", \"hmac-sha2-512\"], \"default_license_tier\": \"ENTERPRISE\", \"secure_channel_configuration\": {\"sslkeyandcertificate_refs\": [\"/api/sslkeyandcertificate/sslkeyandcertificate-eff745b4-1f61-4585-bf8b-baf72c881ead\"]}, \"welcome_workflow_complete\": false, \"fips_mode\": false}, \"controller\": {\"api_idle_timeout\": 15}, \"session_cookie_name\": \"avi-sessionid\"}"
                 }
             }
         }
-    ],
-    "version": 1
+    ]
 }
