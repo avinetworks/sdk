@@ -18,11 +18,9 @@ type ALBServicesConfig struct {
 	// Required: true
 	FeatureOptInStatus *PortalFeatureOptIn `json:"feature_opt_in_status"`
 
-	// IP reputation db file object expiry duration in days. Allowed values are 1-7. Field introduced in 20.1.1.
-	IPReputationFileObjectExpiryDuration *int32 `json:"ip_reputation_file_object_expiry_duration,omitempty"`
-
-	// IP reputation db sync interval in minutes. Allowed values are 2-1440. Field introduced in 20.1.1.
-	IPReputationSyncInterval *int32 `json:"ip_reputation_sync_interval,omitempty"`
+	// Default values to be used for IP Reputation sync. Field introduced in 20.1.1.
+	// Required: true
+	IPReputationConfig *IPReputationConfig `json:"ip_reputation_config"`
 
 	// Time interval in minutes. Allowed values are 5-60. Field introduced in 18.2.6.
 	PollingInterval *int32 `json:"polling_interval,omitempty"`
@@ -43,8 +41,8 @@ type ALBServicesConfig struct {
 	// Read Only: true
 	URL *string `json:"url,omitempty"`
 
-	// By default, use system proxy configurationIf false, use split proxy configuration. Field introduced in 20.1.1.
-	UseSystemProxy *bool `json:"use_system_proxy,omitempty"`
+	// By default, use system proxy configuration.If true, use split proxy configuration. Field introduced in 20.1.1.
+	UseSplitProxy *bool `json:"use_split_proxy,omitempty"`
 
 	//  Field introduced in 18.2.6.
 	UUID *string `json:"uuid,omitempty"`

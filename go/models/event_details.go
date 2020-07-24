@@ -280,6 +280,9 @@ type EventDetails struct {
 	// Placeholder for description of property network_subnet_details of obj type EventDetails field type str  type object
 	NetworkSubnetDetails *NetworkSubnetInfo `json:"network_subnet_details,omitempty"`
 
+	// Nsxt Image event. Field introduced in 20.1.1.
+	NsxtImgDetails *NsxtImageDetails `json:"nsxt_img_details,omitempty"`
+
 	// Nsxt cloud event. Field introduced in 20.1.1.
 	NsxtInfo *NsxtSetup `json:"nsxt_info,omitempty"`
 
