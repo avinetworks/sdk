@@ -213,7 +213,6 @@ type AnalyticsProfile struct {
 	HsSecurityNonpfsPenalty *float64 `json:"hs_security_nonpfs_penalty,omitempty"`
 
 	// Score assigned when OCSP Certificate Status is set to Revoked or Issuer Revoked. Allowed values are 0.0-5.0. Field introduced in 20.1.1.
-	// Read Only: true
 	HsSecurityOcspRevokedScore *float64 `json:"hs_security_ocsp_revoked_score,omitempty"`
 
 	// Deprecated. Allowed values are 0-5.

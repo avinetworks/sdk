@@ -208,6 +208,9 @@ type Pool struct {
 	//  It is a reference to an object of type Tenant.
 	TenantRef *string `json:"tenant_ref,omitempty"`
 
+	// This tier1_lr field should be set same as VirtualService associated for NSX-T. Field introduced in 20.1.1.
+	Tier1Lr *string `json:"tier1_lr,omitempty"`
+
 	// url
 	// Read Only: true
 	URL *string `json:"url,omitempty"`

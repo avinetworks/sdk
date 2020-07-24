@@ -10,7 +10,10 @@ type OCSPConfig struct {
 	// Describes the Time Interval after which the next OCSP job needs to be scheduled in case of the OCSP job failures. Allowed values are 60-MAX. Field introduced in 20.1.1.
 	FailedOcspJobsRetryInterval *int32 `json:"failed_ocsp_jobs_retry_interval,omitempty"`
 
-	// Interval between the OCSP queries. Allowed values are 30-MAX. Field introduced in 20.1.1.
+	// Maximum number of times the failed OCSP job can be rescheduled with failed_ocsp_jobs_retry_interval. Field introduced in 20.1.1.
+	MaxTries *int32 `json:"max_tries,omitempty"`
+
+	// Interval between the OCSP queries. Allowed values are 60-MAX. Field introduced in 20.1.1.
 	OcspReqInterval *int32 `json:"ocsp_req_interval,omitempty"`
 
 	// Time in seconds that the system waits for a reply from the OCSP responder before dropping the connection. Field introduced in 20.1.1.

@@ -31,6 +31,6 @@ type SAMLSPConfig struct {
 	// Read Only: true
 	SpMetadata *string `json:"sp_metadata,omitempty"`
 
-	// By enabling this field IdP can control how long the SP session can exist through the SessionNotOnOrAfter field in the AuthNStatement of SAML Response. Field introduced in 18.2.7.
+	// By enabling this field IdP can control how long the SP session can exist through the SessionNotOnOrAfter field in the AuthNStatement of SAML Response. Field introduced in 20.1.1.
 	UseIdpSessionTimeout *bool `json:"use_idp_session_timeout,omitempty"`
 }
