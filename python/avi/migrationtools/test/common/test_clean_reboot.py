@@ -11,7 +11,8 @@ def verify_controller_is_up(controller_ip, username, password):
     session = ApiSession.get_session (controller_ip, username, password)
     cluster_up_states = ["CLUSTER_UP_HA_ACTIVE", "CLUSTER_UP_NO_HA"]
     data = session.get('cluster/runtime')
-    data = json.loads (data.content)
+    response_content = data.content.decode() if type(data.content) == bytes else data.content
+    data = json.loads (response_content)
     if data['cluster_state']['state'] in cluster_up_states:
         print("Node is active. We can use controller for further process.")
         return True
@@ -68,7 +69,8 @@ def upload_license(session, licensefile):
     that it is uploaded successfully using assert.
     """
     response = session.put('license', data=licensefile)
-    response = json.loads(response.content)
+    response_content = response.content.decode() if type(response.content) == bytes else response.content
+    response = json.loads(response_content)
     assert "Successfully uploaded license AviInternal" in response['result']
     time.sleep(60)
     print("Successfully uploaded license AviInternal")
@@ -80,15 +82,16 @@ def wait_until_node_ready(session, interval=10, timeout=6000):
     and verify cluster state.
     """
     cluster_up_states = ["CLUSTER_UP_HA_ACTIVE", "CLUSTER_UP_NO_HA"]
-    iters = timeout / interval
-    for count in range (0, iters):
+    iters = int(timeout / interval)
+    for count in range(0, iters):
         try:
             data = session.get('cluster/runtime')
         except Exception as e:
             print("cluster api runtime exception %s" % e)
             pass
         if type(data) != dict and data.status_code == 200:
-            data = json.loads (data.content)
+            response_content = data.content.decode() if type(data.content) == bytes else data.content
+            data = json.loads (response_content)
             if data['cluster_state']['state'] in cluster_up_states:
                 print("node is active")
                 break
