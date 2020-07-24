@@ -26,7 +26,8 @@ def create_cloud(controller_ip, username, password, cloud_name):
     path = "/cloud?include_name"
     rsp1 = session.post (path, data=json_data)
     print(rsp1)
-    return json.loads (rsp1.content)
+    response_content = rsp1.content.decode() if type(rsp1.content) == bytes else rsp1.content
+    return json.loads (response_content)
 
 
 def create_segroup(controller_ip, username, password, segroup_name):
