@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkSecurityMatchTarget objNetworkSecurityMatchTarget = (NetworkSecurityMatchTarget) o;
-  return   Objects.equals(this.microservice, objNetworkSecurityMatchTarget.microservice)&&
-  Objects.equals(this.clientIp, objNetworkSecurityMatchTarget.clientIp)&&
-  Objects.equals(this.ipReputationType, objNetworkSecurityMatchTarget.ipReputationType)&&
-  Objects.equals(this.vsPort, objNetworkSecurityMatchTarget.vsPort);
+  return   Objects.equals(this.clientIp, objNetworkSecurityMatchTarget.clientIp)&&
+  Objects.equals(this.vsPort, objNetworkSecurityMatchTarget.vsPort)&&
+  Objects.equals(this.microservice, objNetworkSecurityMatchTarget.microservice)&&
+  Objects.equals(this.ipReputationType, objNetworkSecurityMatchTarget.ipReputationType);
 }
 
 @Override

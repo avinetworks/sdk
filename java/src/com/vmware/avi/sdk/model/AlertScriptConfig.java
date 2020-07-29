@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertScriptConfig objAlertScriptConfig = (AlertScriptConfig) o;
-  return   Objects.equals(this.actionScript, objAlertScriptConfig.actionScript)&&
-  Objects.equals(this.tenantRef, objAlertScriptConfig.tenantRef)&&
-  Objects.equals(this.uuid, objAlertScriptConfig.uuid)&&
-  Objects.equals(this.name, objAlertScriptConfig.name);
+  return   Objects.equals(this.uuid, objAlertScriptConfig.uuid)&&
+  Objects.equals(this.name, objAlertScriptConfig.name)&&
+  Objects.equals(this.actionScript, objAlertScriptConfig.actionScript)&&
+  Objects.equals(this.tenantRef, objAlertScriptConfig.tenantRef);
 }
 
 @Override

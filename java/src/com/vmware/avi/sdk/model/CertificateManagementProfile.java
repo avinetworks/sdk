@@ -167,10 +167,10 @@ public boolean equals(java.lang.Object o) {
   }
   CertificateManagementProfile objCertificateManagementProfile = (CertificateManagementProfile) o;
   return   Objects.equals(this.uuid, objCertificateManagementProfile.uuid)&&
-  Objects.equals(this.scriptPath, objCertificateManagementProfile.scriptPath)&&
+  Objects.equals(this.name, objCertificateManagementProfile.name)&&
   Objects.equals(this.scriptParams, objCertificateManagementProfile.scriptParams)&&
-  Objects.equals(this.tenantRef, objCertificateManagementProfile.tenantRef)&&
-  Objects.equals(this.name, objCertificateManagementProfile.name);
+  Objects.equals(this.scriptPath, objCertificateManagementProfile.scriptPath)&&
+  Objects.equals(this.tenantRef, objCertificateManagementProfile.tenantRef);
 }
 
 @Override

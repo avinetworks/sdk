@@ -100,9 +100,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureNetworkInfo objAzureNetworkInfo = (AzureNetworkInfo) o;
-  return   Objects.equals(this.seNetworkId, objAzureNetworkInfo.seNetworkId)&&
-  Objects.equals(this.managementNetworkId, objAzureNetworkInfo.managementNetworkId)&&
-  Objects.equals(this.virtualNetworkId, objAzureNetworkInfo.virtualNetworkId);
+  return   Objects.equals(this.virtualNetworkId, objAzureNetworkInfo.virtualNetworkId)&&
+  Objects.equals(this.seNetworkId, objAzureNetworkInfo.seNetworkId)&&
+  Objects.equals(this.managementNetworkId, objAzureNetworkInfo.managementNetworkId);
 }
 
 @Override

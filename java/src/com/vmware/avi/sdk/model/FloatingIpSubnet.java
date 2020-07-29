@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FloatingIpSubnet objFloatingIpSubnet = (FloatingIpSubnet) o;
-  return   Objects.equals(this.prefix, objFloatingIpSubnet.prefix)&&
-  Objects.equals(this.name, objFloatingIpSubnet.name)&&
-  Objects.equals(this.uuid, objFloatingIpSubnet.uuid);
+  return   Objects.equals(this.name, objFloatingIpSubnet.name)&&
+  Objects.equals(this.uuid, objFloatingIpSubnet.uuid)&&
+  Objects.equals(this.prefix, objFloatingIpSubnet.prefix);
 }
 
 @Override

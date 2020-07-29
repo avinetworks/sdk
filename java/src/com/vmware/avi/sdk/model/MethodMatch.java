@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MethodMatch objMethodMatch = (MethodMatch) o;
-  return   Objects.equals(this.methods, objMethodMatch.methods)&&
-  Objects.equals(this.matchCriteria, objMethodMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objMethodMatch.matchCriteria)&&
+  Objects.equals(this.methods, objMethodMatch.methods);
 }
 
 @Override

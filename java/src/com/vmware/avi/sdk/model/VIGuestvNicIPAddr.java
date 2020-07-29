@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIGuestvNicIPAddr objVIGuestvNicIPAddr = (VIGuestvNicIPAddr) o;
-  return   Objects.equals(this.mask, objVIGuestvNicIPAddr.mask)&&
-  Objects.equals(this.ipAddr, objVIGuestvNicIPAddr.ipAddr);
+  return   Objects.equals(this.ipAddr, objVIGuestvNicIPAddr.ipAddr)&&
+  Objects.equals(this.mask, objVIGuestvNicIPAddr.mask);
 }
 
 @Override

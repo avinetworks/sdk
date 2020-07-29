@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CustomTag objCustomTag = (CustomTag) o;
-  return   Objects.equals(this.tagVal, objCustomTag.tagVal)&&
-  Objects.equals(this.tagKey, objCustomTag.tagKey);
+  return   Objects.equals(this.tagKey, objCustomTag.tagKey)&&
+  Objects.equals(this.tagVal, objCustomTag.tagVal);
 }
 
 @Override

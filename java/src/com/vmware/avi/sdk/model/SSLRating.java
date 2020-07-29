@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLRating objSSLRating = (SSLRating) o;
-  return   Objects.equals(this.compatibilityRating, objSSLRating.compatibilityRating)&&
-  Objects.equals(this.securityScore, objSSLRating.securityScore)&&
-  Objects.equals(this.performanceRating, objSSLRating.performanceRating);
+  return   Objects.equals(this.securityScore, objSSLRating.securityScore)&&
+  Objects.equals(this.performanceRating, objSSLRating.performanceRating)&&
+  Objects.equals(this.compatibilityRating, objSSLRating.compatibilityRating);
 }
 
 @Override

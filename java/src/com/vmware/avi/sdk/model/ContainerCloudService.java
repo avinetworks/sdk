@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ContainerCloudService objContainerCloudService = (ContainerCloudService) o;
-  return   Objects.equals(this.status, objContainerCloudService.status)&&
-  Objects.equals(this.reason, objContainerCloudService.reason)&&
-  Objects.equals(this.object, objContainerCloudService.object)&&
+  return   Objects.equals(this.ccId, objContainerCloudService.ccId)&&
   Objects.equals(this.service, objContainerCloudService.service)&&
-  Objects.equals(this.ccId, objContainerCloudService.ccId);
+  Objects.equals(this.object, objContainerCloudService.object)&&
+  Objects.equals(this.status, objContainerCloudService.status)&&
+  Objects.equals(this.reason, objContainerCloudService.reason);
 }
 
 @Override

@@ -122,8 +122,8 @@ public boolean equals(java.lang.Object o) {
   }
   PackageDetails objPackageDetails = (PackageDetails) o;
   return   Objects.equals(this.path, objPackageDetails.path)&&
-  Objects.equals(this.hash, objPackageDetails.hash)&&
   Objects.equals(this.build, objPackageDetails.build)&&
+  Objects.equals(this.hash, objPackageDetails.hash)&&
   Objects.equals(this.patch, objPackageDetails.patch);
 }
 

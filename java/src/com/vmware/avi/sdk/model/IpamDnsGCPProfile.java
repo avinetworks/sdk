@@ -225,13 +225,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsGCPProfile objIpamDnsGCPProfile = (IpamDnsGCPProfile) o;
-  return   Objects.equals(this.vpcNetworkName, objIpamDnsGCPProfile.vpcNetworkName)&&
-  Objects.equals(this.regionName, objIpamDnsGCPProfile.regionName)&&
-  Objects.equals(this.usableNetworkRefs, objIpamDnsGCPProfile.usableNetworkRefs)&&
-  Objects.equals(this.useGcpNetwork, objIpamDnsGCPProfile.useGcpNetwork)&&
+  return   Objects.equals(this.usableNetworkRefs, objIpamDnsGCPProfile.usableNetworkRefs)&&
   Objects.equals(this.matchSeGroupSubnet, objIpamDnsGCPProfile.matchSeGroupSubnet)&&
+  Objects.equals(this.useGcpNetwork, objIpamDnsGCPProfile.useGcpNetwork)&&
   Objects.equals(this.networkHostProjectId, objIpamDnsGCPProfile.networkHostProjectId)&&
-  Objects.equals(this.seProjectId, objIpamDnsGCPProfile.seProjectId);
+  Objects.equals(this.seProjectId, objIpamDnsGCPProfile.seProjectId)&&
+  Objects.equals(this.regionName, objIpamDnsGCPProfile.regionName)&&
+  Objects.equals(this.vpcNetworkName, objIpamDnsGCPProfile.vpcNetworkName);
 }
 
 @Override

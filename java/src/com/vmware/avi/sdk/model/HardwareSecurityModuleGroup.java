@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HardwareSecurityModuleGroup objHardwareSecurityModuleGroup = (HardwareSecurityModuleGroup) o;
-  return   Objects.equals(this.hsm, objHardwareSecurityModuleGroup.hsm)&&
-  Objects.equals(this.tenantRef, objHardwareSecurityModuleGroup.tenantRef)&&
-  Objects.equals(this.uuid, objHardwareSecurityModuleGroup.uuid)&&
-  Objects.equals(this.name, objHardwareSecurityModuleGroup.name);
+  return   Objects.equals(this.uuid, objHardwareSecurityModuleGroup.uuid)&&
+  Objects.equals(this.name, objHardwareSecurityModuleGroup.name)&&
+  Objects.equals(this.hsm, objHardwareSecurityModuleGroup.hsm)&&
+  Objects.equals(this.tenantRef, objHardwareSecurityModuleGroup.tenantRef);
 }
 
 @Override

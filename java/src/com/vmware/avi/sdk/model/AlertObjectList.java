@@ -173,10 +173,10 @@ public boolean equals(java.lang.Object o) {
   }
   AlertObjectList objAlertObjectList = (AlertObjectList) o;
   return   Objects.equals(this.uuid, objAlertObjectList.uuid)&&
-  Objects.equals(this.source, objAlertObjectList.source)&&
+  Objects.equals(this.name, objAlertObjectList.name)&&
   Objects.equals(this.objects, objAlertObjectList.objects)&&
-  Objects.equals(this.tenantRef, objAlertObjectList.tenantRef)&&
-  Objects.equals(this.name, objAlertObjectList.name);
+  Objects.equals(this.source, objAlertObjectList.source)&&
+  Objects.equals(this.tenantRef, objAlertObjectList.tenantRef);
 }
 
 @Override

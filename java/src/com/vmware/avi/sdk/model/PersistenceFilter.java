@@ -197,14 +197,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PersistenceFilter objPersistenceFilter = (PersistenceFilter) o;
-  return   Objects.equals(this.persistenceCookie, objPersistenceFilter.persistenceCookie)&&
-  Objects.equals(this.persistenceIp, objPersistenceFilter.persistenceIp)&&
-  Objects.equals(this.persistenceEndIp, objPersistenceFilter.persistenceEndIp)&&
-  Objects.equals(this.serverPort, objPersistenceFilter.serverPort)&&
-  Objects.equals(this.serverEndIp, objPersistenceFilter.serverEndIp)&&
-  Objects.equals(this.serverIp, objPersistenceFilter.serverIp)&&
+  return   Objects.equals(this.persistenceIp, objPersistenceFilter.persistenceIp)&&
   Objects.equals(this.persistenceMask, objPersistenceFilter.persistenceMask)&&
-  Objects.equals(this.serverMask, objPersistenceFilter.serverMask);
+  Objects.equals(this.persistenceEndIp, objPersistenceFilter.persistenceEndIp)&&
+  Objects.equals(this.serverIp, objPersistenceFilter.serverIp)&&
+  Objects.equals(this.serverMask, objPersistenceFilter.serverMask)&&
+  Objects.equals(this.serverEndIp, objPersistenceFilter.serverEndIp)&&
+  Objects.equals(this.serverPort, objPersistenceFilter.serverPort)&&
+  Objects.equals(this.persistenceCookie, objPersistenceFilter.persistenceCookie);
 }
 
 @Override

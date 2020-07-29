@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TCPApplicationProfile objTCPApplicationProfile = (TCPApplicationProfile) o;
-  return   Objects.equals(this.proxyProtocolVersion, objTCPApplicationProfile.proxyProtocolVersion)&&
+  return   Objects.equals(this.proxyProtocolEnabled, objTCPApplicationProfile.proxyProtocolEnabled)&&
+  Objects.equals(this.proxyProtocolVersion, objTCPApplicationProfile.proxyProtocolVersion)&&
   Objects.equals(this.sslClientCertificateMode, objTCPApplicationProfile.sslClientCertificateMode)&&
-  Objects.equals(this.pkiProfileRef, objTCPApplicationProfile.pkiProfileRef)&&
-  Objects.equals(this.proxyProtocolEnabled, objTCPApplicationProfile.proxyProtocolEnabled);
+  Objects.equals(this.pkiProfileRef, objTCPApplicationProfile.pkiProfileRef);
 }
 
 @Override

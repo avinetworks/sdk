@@ -340,17 +340,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsVip objVsVip = (VsVip) o;
-  return   Objects.equals(this.vrfContextRef, objVsVip.vrfContextRef)&&
-  Objects.equals(this.eastWestPlacement, objVsVip.eastWestPlacement)&&
-  Objects.equals(this.uuid, objVsVip.uuid)&&
+  return   Objects.equals(this.uuid, objVsVip.uuid)&&
+  Objects.equals(this.name, objVsVip.name)&&
+  Objects.equals(this.vip, objVsVip.vip)&&
   Objects.equals(this.dnsInfo, objVsVip.dnsInfo)&&
+  Objects.equals(this.vrfContextRef, objVsVip.vrfContextRef)&&
+  Objects.equals(this.eastWestPlacement, objVsVip.eastWestPlacement)&&
+  Objects.equals(this.useStandardAlb, objVsVip.useStandardAlb)&&
   Objects.equals(this.tier1Lr, objVsVip.tier1Lr)&&
   Objects.equals(this.tenantRef, objVsVip.tenantRef)&&
-  Objects.equals(this.vip, objVsVip.vip)&&
-  Objects.equals(this.vsvipCloudConfigCksum, objVsVip.vsvipCloudConfigCksum)&&
-  Objects.equals(this.useStandardAlb, objVsVip.useStandardAlb)&&
   Objects.equals(this.cloudRef, objVsVip.cloudRef)&&
-  Objects.equals(this.name, objVsVip.name);
+  Objects.equals(this.vsvipCloudConfigCksum, objVsVip.vsvipCloudConfigCksum);
 }
 
 @Override

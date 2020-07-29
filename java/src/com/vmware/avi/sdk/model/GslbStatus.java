@@ -167,12 +167,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbStatus objGslbStatus = (GslbStatus) o;
-  return   Objects.equals(this.gslbRuntime, objGslbStatus.gslbRuntime)&&
-  Objects.equals(this.thirdPartySite, objGslbStatus.thirdPartySite)&&
-  Objects.equals(this.site, objGslbStatus.site)&&
+  return   Objects.equals(this.uuid, objGslbStatus.uuid)&&
   Objects.equals(this.name, objGslbStatus.name)&&
   Objects.equals(this.details, objGslbStatus.details)&&
-  Objects.equals(this.uuid, objGslbStatus.uuid);
+  Objects.equals(this.gslbRuntime, objGslbStatus.gslbRuntime)&&
+  Objects.equals(this.site, objGslbStatus.site)&&
+  Objects.equals(this.thirdPartySite, objGslbStatus.thirdPartySite);
 }
 
 @Override

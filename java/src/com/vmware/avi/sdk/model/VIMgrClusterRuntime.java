@@ -252,15 +252,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrClusterRuntime objVIMgrClusterRuntime = (VIMgrClusterRuntime) o;
-  return   Objects.equals(this.hostRefs, objVIMgrClusterRuntime.hostRefs)&&
-  Objects.equals(this.datacenterManagedObjectId, objVIMgrClusterRuntime.datacenterManagedObjectId)&&
+  return   Objects.equals(this.type, objVIMgrClusterRuntime.type)&&
   Objects.equals(this.uuid, objVIMgrClusterRuntime.uuid)&&
-  Objects.equals(this.cloudRef, objVIMgrClusterRuntime.cloudRef)&&
-  Objects.equals(this.datacenterUuid, objVIMgrClusterRuntime.datacenterUuid)&&
+  Objects.equals(this.name, objVIMgrClusterRuntime.name)&&
   Objects.equals(this.managedObjectId, objVIMgrClusterRuntime.managedObjectId)&&
-  Objects.equals(this.type, objVIMgrClusterRuntime.type)&&
+  Objects.equals(this.datacenterManagedObjectId, objVIMgrClusterRuntime.datacenterManagedObjectId)&&
+  Objects.equals(this.datacenterUuid, objVIMgrClusterRuntime.datacenterUuid)&&
+  Objects.equals(this.hostRefs, objVIMgrClusterRuntime.hostRefs)&&
   Objects.equals(this.tenantRef, objVIMgrClusterRuntime.tenantRef)&&
-  Objects.equals(this.name, objVIMgrClusterRuntime.name);
+  Objects.equals(this.cloudRef, objVIMgrClusterRuntime.cloudRef);
 }
 
 @Override

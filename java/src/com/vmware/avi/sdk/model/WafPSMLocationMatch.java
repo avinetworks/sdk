@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafPSMLocationMatch objWafPSMLocationMatch = (WafPSMLocationMatch) o;
-  return   Objects.equals(this.path, objWafPSMLocationMatch.path)&&
-  Objects.equals(this.host, objWafPSMLocationMatch.host)&&
-  Objects.equals(this.methods, objWafPSMLocationMatch.methods);
+  return   Objects.equals(this.methods, objWafPSMLocationMatch.methods)&&
+  Objects.equals(this.path, objWafPSMLocationMatch.path)&&
+  Objects.equals(this.host, objWafPSMLocationMatch.host);
 }
 
 @Override

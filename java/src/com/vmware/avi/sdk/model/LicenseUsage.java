@@ -131,8 +131,8 @@ public boolean equals(java.lang.Object o) {
   LicenseUsage objLicenseUsage = (LicenseUsage) o;
   return   Objects.equals(this.available, objLicenseUsage.available)&&
   Objects.equals(this.consumed, objLicenseUsage.consumed)&&
-  Objects.equals(this.remaining, objLicenseUsage.remaining)&&
-  Objects.equals(this.escrow, objLicenseUsage.escrow);
+  Objects.equals(this.escrow, objLicenseUsage.escrow)&&
+  Objects.equals(this.remaining, objLicenseUsage.remaining);
 }
 
 @Override

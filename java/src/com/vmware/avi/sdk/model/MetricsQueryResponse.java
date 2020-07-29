@@ -232,15 +232,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsQueryResponse objMetricsQueryResponse = (MetricsQueryResponse) o;
-  return   Objects.equals(this.metricId, objMetricsQueryResponse.metricId)&&
-  Objects.equals(this.series, objMetricsQueryResponse.series)&&
-  Objects.equals(this.stop, objMetricsQueryResponse.stop)&&
+  return   Objects.equals(this.entityUuid, objMetricsQueryResponse.entityUuid)&&
+  Objects.equals(this.metricEntity, objMetricsQueryResponse.metricEntity)&&
+  Objects.equals(this.metricId, objMetricsQueryResponse.metricId)&&
   Objects.equals(this.start, objMetricsQueryResponse.start)&&
+  Objects.equals(this.stop, objMetricsQueryResponse.stop)&&
   Objects.equals(this.step, objMetricsQueryResponse.step)&&
   Objects.equals(this.limit, objMetricsQueryResponse.limit)&&
-  Objects.equals(this.entityUuid, objMetricsQueryResponse.entityUuid)&&
-  Objects.equals(this.id, objMetricsQueryResponse.id)&&
-  Objects.equals(this.metricEntity, objMetricsQueryResponse.metricEntity);
+  Objects.equals(this.series, objMetricsQueryResponse.series)&&
+  Objects.equals(this.id, objMetricsQueryResponse.id);
 }
 
 @Override

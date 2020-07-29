@@ -182,13 +182,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CC_VnicInfo objCC_VnicInfo = (CC_VnicInfo) o;
-  return   Objects.equals(this.status, objCC_VnicInfo.status)&&
-  Objects.equals(this.networkUuid, objCC_VnicInfo.networkUuid)&&
-  Objects.equals(this.statusString, objCC_VnicInfo.statusString)&&
+  return   Objects.equals(this.networkUuid, objCC_VnicInfo.networkUuid)&&
+  Objects.equals(this.vrfUuid, objCC_VnicInfo.vrfUuid)&&
   Objects.equals(this.subnetUuid, objCC_VnicInfo.subnetUuid)&&
-  Objects.equals(this.macAddress, objCC_VnicInfo.macAddress)&&
   Objects.equals(this.portUuid, objCC_VnicInfo.portUuid)&&
-  Objects.equals(this.vrfUuid, objCC_VnicInfo.vrfUuid);
+  Objects.equals(this.macAddress, objCC_VnicInfo.macAddress)&&
+  Objects.equals(this.status, objCC_VnicInfo.status)&&
+  Objects.equals(this.statusString, objCC_VnicInfo.statusString);
 }
 
 @Override

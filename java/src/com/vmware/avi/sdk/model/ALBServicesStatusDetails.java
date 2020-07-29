@@ -102,9 +102,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ALBServicesStatusDetails objALBServicesStatusDetails = (ALBServicesStatusDetails) o;
-  return   Objects.equals(this.connectivity, objALBServicesStatusDetails.connectivity)&&
-  Objects.equals(this.reason, objALBServicesStatusDetails.reason)&&
-  Objects.equals(this.registration, objALBServicesStatusDetails.registration);
+  return   Objects.equals(this.registration, objALBServicesStatusDetails.registration)&&
+  Objects.equals(this.connectivity, objALBServicesStatusDetails.connectivity)&&
+  Objects.equals(this.reason, objALBServicesStatusDetails.reason);
 }
 
 @Override

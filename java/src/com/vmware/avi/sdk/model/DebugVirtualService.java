@@ -350,19 +350,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugVirtualService objDebugVirtualService = (DebugVirtualService) o;
-  return   Objects.equals(this.capture, objDebugVirtualService.capture)&&
-  Objects.equals(this.seParams, objDebugVirtualService.seParams)&&
-  Objects.equals(this.uuid, objDebugVirtualService.uuid)&&
-  Objects.equals(this.captureParams, objDebugVirtualService.captureParams)&&
-  Objects.equals(this.debugIp, objDebugVirtualService.debugIp)&&
-  Objects.equals(this.captureFilters, objDebugVirtualService.captureFilters)&&
-  Objects.equals(this.cloudRef, objDebugVirtualService.cloudRef)&&
-  Objects.equals(this.dnsOptions, objDebugVirtualService.dnsOptions)&&
+  return   Objects.equals(this.uuid, objDebugVirtualService.uuid)&&
+  Objects.equals(this.name, objDebugVirtualService.name)&&
   Objects.equals(this.flags, objDebugVirtualService.flags)&&
+  Objects.equals(this.debugIp, objDebugVirtualService.debugIp)&&
+  Objects.equals(this.capture, objDebugVirtualService.capture)&&
+  Objects.equals(this.captureParams, objDebugVirtualService.captureParams)&&
+  Objects.equals(this.seParams, objDebugVirtualService.seParams)&&
   Objects.equals(this.debugHm, objDebugVirtualService.debugHm)&&
-  Objects.equals(this.resyncFlows, objDebugVirtualService.resyncFlows)&&
+  Objects.equals(this.dnsOptions, objDebugVirtualService.dnsOptions)&&
+  Objects.equals(this.captureFilters, objDebugVirtualService.captureFilters)&&
   Objects.equals(this.tenantRef, objDebugVirtualService.tenantRef)&&
-  Objects.equals(this.name, objDebugVirtualService.name);
+  Objects.equals(this.cloudRef, objDebugVirtualService.cloudRef)&&
+  Objects.equals(this.resyncFlows, objDebugVirtualService.resyncFlows);
 }
 
 @Override

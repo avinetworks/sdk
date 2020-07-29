@@ -230,15 +230,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmBindVsSeEventDetails objRmBindVsSeEventDetails = (RmBindVsSeEventDetails) o;
-  return   Objects.equals(this.standby, objRmBindVsSeEventDetails.standby)&&
-  Objects.equals(this.ip, objRmBindVsSeEventDetails.ip)&&
+  return   Objects.equals(this.vsUuid, objRmBindVsSeEventDetails.vsUuid)&&
   Objects.equals(this.vsName, objRmBindVsSeEventDetails.vsName)&&
-  Objects.equals(this.primary, objRmBindVsSeEventDetails.primary)&&
-  Objects.equals(this.vsUuid, objRmBindVsSeEventDetails.vsUuid)&&
-  Objects.equals(this.ip6, objRmBindVsSeEventDetails.ip6)&&
   Objects.equals(this.seName, objRmBindVsSeEventDetails.seName)&&
+  Objects.equals(this.primary, objRmBindVsSeEventDetails.primary)&&
+  Objects.equals(this.standby, objRmBindVsSeEventDetails.standby)&&
+  Objects.equals(this.type, objRmBindVsSeEventDetails.type)&&
   Objects.equals(this.vipVnics, objRmBindVsSeEventDetails.vipVnics)&&
-  Objects.equals(this.type, objRmBindVsSeEventDetails.type);
+  Objects.equals(this.ip, objRmBindVsSeEventDetails.ip)&&
+  Objects.equals(this.ip6, objRmBindVsSeEventDetails.ip6);
 }
 
 @Override

@@ -249,16 +249,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSiteRuntimeCfg objGslbSiteRuntimeCfg = (GslbSiteRuntimeCfg) o;
-  return   Objects.equals(this.fdInfo, objGslbSiteRuntimeCfg.fdInfo)&&
-  Objects.equals(this.glbInfo, objGslbSiteRuntimeCfg.glbInfo)&&
-  Objects.equals(this.replQueue, objGslbSiteRuntimeCfg.replQueue)&&
-  Objects.equals(this.mmInfo, objGslbSiteRuntimeCfg.mmInfo)&&
-  Objects.equals(this.gpkiInfo, objGslbSiteRuntimeCfg.gpkiInfo)&&
+  return   Objects.equals(this.glbInfo, objGslbSiteRuntimeCfg.glbInfo)&&
   Objects.equals(this.ghmInfo, objGslbSiteRuntimeCfg.ghmInfo)&&
   Objects.equals(this.gsInfo, objGslbSiteRuntimeCfg.gsInfo)&&
-  Objects.equals(this.syncInfo, objGslbSiteRuntimeCfg.syncInfo)&&
+  Objects.equals(this.mmInfo, objGslbSiteRuntimeCfg.mmInfo)&&
   Objects.equals(this.gapInfo, objGslbSiteRuntimeCfg.gapInfo)&&
-  Objects.equals(this.geoInfo, objGslbSiteRuntimeCfg.geoInfo);
+  Objects.equals(this.geoInfo, objGslbSiteRuntimeCfg.geoInfo)&&
+  Objects.equals(this.fdInfo, objGslbSiteRuntimeCfg.fdInfo)&&
+  Objects.equals(this.gpkiInfo, objGslbSiteRuntimeCfg.gpkiInfo)&&
+  Objects.equals(this.replQueue, objGslbSiteRuntimeCfg.replQueue)&&
+  Objects.equals(this.syncInfo, objGslbSiteRuntimeCfg.syncInfo);
 }
 
 @Override

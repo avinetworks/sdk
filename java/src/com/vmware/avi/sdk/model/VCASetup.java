@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VCASetup objVCASetup = (VCASetup) o;
-  return   Objects.equals(this.username, objVCASetup.username)&&
+  return   Objects.equals(this.ccId, objVCASetup.ccId)&&
+  Objects.equals(this.username, objVCASetup.username)&&
   Objects.equals(this.instance, objVCASetup.instance)&&
   Objects.equals(this.privilege, objVCASetup.privilege)&&
-  Objects.equals(this.errorString, objVCASetup.errorString)&&
-  Objects.equals(this.ccId, objVCASetup.ccId);
+  Objects.equals(this.errorString, objVCASetup.errorString);
 }
 
 @Override

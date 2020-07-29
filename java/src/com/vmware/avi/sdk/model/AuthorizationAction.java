@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthorizationAction objAuthorizationAction = (AuthorizationAction) o;
-  return   Objects.equals(this.statusCode, objAuthorizationAction.statusCode)&&
-  Objects.equals(this.type, objAuthorizationAction.type);
+  return   Objects.equals(this.type, objAuthorizationAction.type)&&
+  Objects.equals(this.statusCode, objAuthorizationAction.statusCode);
 }
 
 @Override

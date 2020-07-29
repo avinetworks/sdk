@@ -157,10 +157,10 @@ public boolean equals(java.lang.Object o) {
   }
   SCVsStateInfo objSCVsStateInfo = (SCVsStateInfo) o;
   return   Objects.equals(this.uuid, objSCVsStateInfo.uuid)&&
+  Objects.equals(this.vipId, objSCVsStateInfo.vipId)&&
   Objects.equals(this.vsId, objSCVsStateInfo.vsId)&&
   Objects.equals(this.operStatus, objSCVsStateInfo.operStatus)&&
-  Objects.equals(this.tenantRef, objSCVsStateInfo.tenantRef)&&
-  Objects.equals(this.vipId, objSCVsStateInfo.vipId);
+  Objects.equals(this.tenantRef, objSCVsStateInfo.tenantRef);
 }
 
 @Override

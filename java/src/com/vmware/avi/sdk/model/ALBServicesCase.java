@@ -578,31 +578,31 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ALBServicesCase objALBServicesCase = (ALBServicesCase) o;
-  return   Objects.equals(this.contactInfo, objALBServicesCase.contactInfo)&&
-  Objects.equals(this.lastModifiedDate, objALBServicesCase.lastModifiedDate)&&
-  Objects.equals(this.customTag, objALBServicesCase.customTag)&&
-  Objects.equals(this.caseNumber, objALBServicesCase.caseNumber)&&
+  return   Objects.equals(this.assetId, objALBServicesCase.assetId)&&
   Objects.equals(this.id, objALBServicesCase.id)&&
-  Objects.equals(this.deploymentEnvironment, objALBServicesCase.deploymentEnvironment)&&
-  Objects.equals(this.assetId, objALBServicesCase.assetId)&&
-  Objects.equals(this.frUseCases, objALBServicesCase.frUseCases)&&
-  Objects.equals(this.severity, objALBServicesCase.severity)&&
+  Objects.equals(this.caseNumber, objALBServicesCase.caseNumber)&&
   Objects.equals(this.caseStatus, objALBServicesCase.caseStatus)&&
-  Objects.equals(this.environment, objALBServicesCase.environment)&&
-  Objects.equals(this.version, objALBServicesCase.version)&&
   Objects.equals(this.subject, objALBServicesCase.subject)&&
-  Objects.equals(this.type, objALBServicesCase.type)&&
-  Objects.equals(this.email, objALBServicesCase.email)&&
-  Objects.equals(this.caseAttachments, objALBServicesCase.caseAttachments)&&
-  Objects.equals(this.status, objALBServicesCase.status)&&
-  Objects.equals(this.frCurrentSolution, objALBServicesCase.frCurrentSolution)&&
-  Objects.equals(this.description, objALBServicesCase.description)&&
   Objects.equals(this.caseCreatedBy, objALBServicesCase.caseCreatedBy)&&
-  Objects.equals(this.time, objALBServicesCase.time)&&
-  Objects.equals(this.frBusinessJustification, objALBServicesCase.frBusinessJustification)&&
-  Objects.equals(this.frTiming, objALBServicesCase.frTiming)&&
+  Objects.equals(this.createdDate, objALBServicesCase.createdDate)&&
+  Objects.equals(this.lastModifiedDate, objALBServicesCase.lastModifiedDate)&&
+  Objects.equals(this.status, objALBServicesCase.status)&&
+  Objects.equals(this.version, objALBServicesCase.version)&&
   Objects.equals(this.patchVersion, objALBServicesCase.patchVersion)&&
-  Objects.equals(this.createdDate, objALBServicesCase.createdDate);
+  Objects.equals(this.description, objALBServicesCase.description)&&
+  Objects.equals(this.type, objALBServicesCase.type)&&
+  Objects.equals(this.environment, objALBServicesCase.environment)&&
+  Objects.equals(this.deploymentEnvironment, objALBServicesCase.deploymentEnvironment)&&
+  Objects.equals(this.severity, objALBServicesCase.severity)&&
+  Objects.equals(this.time, objALBServicesCase.time)&&
+  Objects.equals(this.customTag, objALBServicesCase.customTag)&&
+  Objects.equals(this.caseAttachments, objALBServicesCase.caseAttachments)&&
+  Objects.equals(this.email, objALBServicesCase.email)&&
+  Objects.equals(this.contactInfo, objALBServicesCase.contactInfo)&&
+  Objects.equals(this.frUseCases, objALBServicesCase.frUseCases)&&
+  Objects.equals(this.frCurrentSolution, objALBServicesCase.frCurrentSolution)&&
+  Objects.equals(this.frBusinessJustification, objALBServicesCase.frBusinessJustification)&&
+  Objects.equals(this.frTiming, objALBServicesCase.frTiming);
 }
 
 @Override

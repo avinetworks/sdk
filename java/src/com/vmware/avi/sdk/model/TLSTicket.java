@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TLSTicket objTLSTicket = (TLSTicket) o;
-  return   Objects.equals(this.hmacKey, objTLSTicket.hmacKey)&&
-  Objects.equals(this.name, objTLSTicket.name)&&
-  Objects.equals(this.aesKey, objTLSTicket.aesKey);
+  return   Objects.equals(this.name, objTLSTicket.name)&&
+  Objects.equals(this.aesKey, objTLSTicket.aesKey)&&
+  Objects.equals(this.hmacKey, objTLSTicket.hmacKey);
 }
 
 @Override

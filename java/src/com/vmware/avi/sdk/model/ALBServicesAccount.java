@@ -111,9 +111,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ALBServicesAccount objALBServicesAccount = (ALBServicesAccount) o;
-  return   Objects.equals(this.users, objALBServicesAccount.users)&&
-  Objects.equals(this.name, objALBServicesAccount.name)&&
-  Objects.equals(this.id, objALBServicesAccount.id);
+  return   Objects.equals(this.name, objALBServicesAccount.name)&&
+  Objects.equals(this.id, objALBServicesAccount.id)&&
+  Objects.equals(this.users, objALBServicesAccount.users);
 }
 
 @Override

@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AvgUptimeChangeDetails objAvgUptimeChangeDetails = (AvgUptimeChangeDetails) o;
-  return   Objects.equals(this.currentValue, objAvgUptimeChangeDetails.currentValue)&&
+  return   Objects.equals(this.metricName, objAvgUptimeChangeDetails.metricName)&&
+  Objects.equals(this.metricId, objAvgUptimeChangeDetails.metricId)&&
+  Objects.equals(this.currentValue, objAvgUptimeChangeDetails.currentValue)&&
   Objects.equals(this.threshold, objAvgUptimeChangeDetails.threshold)&&
-  Objects.equals(this.resourceStr, objAvgUptimeChangeDetails.resourceStr)&&
-  Objects.equals(this.metricName, objAvgUptimeChangeDetails.metricName)&&
-  Objects.equals(this.metricId, objAvgUptimeChangeDetails.metricId);
+  Objects.equals(this.resourceStr, objAvgUptimeChangeDetails.resourceStr);
 }
 
 @Override

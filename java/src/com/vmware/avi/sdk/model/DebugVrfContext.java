@@ -116,8 +116,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugVrfContext objDebugVrfContext = (DebugVrfContext) o;
-  return   Objects.equals(this.commandBufferSize, objDebugVrfContext.commandBufferSize)&&
-  Objects.equals(this.flags, objDebugVrfContext.flags)&&
+  return   Objects.equals(this.flags, objDebugVrfContext.flags)&&
+  Objects.equals(this.commandBufferSize, objDebugVrfContext.commandBufferSize)&&
   Objects.equals(this.commandBufferInterval, objDebugVrfContext.commandBufferInterval);
 }
 

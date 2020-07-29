@@ -167,12 +167,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NatRule objNatRule = (NatRule) o;
-  return   Objects.equals(this.index, objNatRule.index)&&
+  return   Objects.equals(this.name, objNatRule.name)&&
+  Objects.equals(this.index, objNatRule.index)&&
   Objects.equals(this.enable, objNatRule.enable)&&
-  Objects.equals(this.name, objNatRule.name)&&
-  Objects.equals(this.createdBy, objNatRule.createdBy)&&
+  Objects.equals(this.match, objNatRule.match)&&
   Objects.equals(this.action, objNatRule.action)&&
-  Objects.equals(this.match, objNatRule.match);
+  Objects.equals(this.createdBy, objNatRule.createdBy);
 }
 
 @Override

@@ -213,14 +213,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SipMessage objSipMessage = (SipMessage) o;
-  return   Objects.equals(this.status, objSipMessage.status)&&
-  Objects.equals(this.rxBytes, objSipMessage.rxBytes)&&
+  return   Objects.equals(this.method, objSipMessage.method)&&
+  Objects.equals(this.status, objSipMessage.status)&&
   Objects.equals(this.statusCode, objSipMessage.statusCode)&&
   Objects.equals(this.content, objSipMessage.content)&&
-  Objects.equals(this.fromClient, objSipMessage.fromClient)&&
+  Objects.equals(this.rxBytes, objSipMessage.rxBytes)&&
   Objects.equals(this.txBytes, objSipMessage.txBytes)&&
   Objects.equals(this.rcvTimestamp, objSipMessage.rcvTimestamp)&&
-  Objects.equals(this.method, objSipMessage.method);
+  Objects.equals(this.fromClient, objSipMessage.fromClient);
 }
 
 @Override

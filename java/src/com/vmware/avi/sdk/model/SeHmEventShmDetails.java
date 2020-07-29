@@ -117,10 +117,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHmEventShmDetails objSeHmEventShmDetails = (SeHmEventShmDetails) o;
-  return   Objects.equals(this.responseCode, objSeHmEventShmDetails.responseCode)&&
-  Objects.equals(this.respString, objSeHmEventShmDetails.respString)&&
+  return   Objects.equals(this.healthMonitor, objSeHmEventShmDetails.healthMonitor)&&
   Objects.equals(this.averageResponseTime, objSeHmEventShmDetails.averageResponseTime)&&
-  Objects.equals(this.healthMonitor, objSeHmEventShmDetails.healthMonitor);
+  Objects.equals(this.respString, objSeHmEventShmDetails.respString)&&
+  Objects.equals(this.responseCode, objSeHmEventShmDetails.responseCode);
 }
 
 @Override

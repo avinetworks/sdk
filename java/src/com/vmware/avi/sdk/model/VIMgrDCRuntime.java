@@ -504,23 +504,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrDCRuntime objVIMgrDCRuntime = (VIMgrDCRuntime) o;
-  return   Objects.equals(this.cloudRef, objVIMgrDCRuntime.cloudRef)&&
-  Objects.equals(this.nwRefs, objVIMgrDCRuntime.nwRefs)&&
-  Objects.equals(this.clusterRefs, objVIMgrDCRuntime.clusterRefs)&&
-  Objects.equals(this.interestedVms, objVIMgrDCRuntime.interestedVms)&&
+  return   Objects.equals(this.type, objVIMgrDCRuntime.type)&&
   Objects.equals(this.uuid, objVIMgrDCRuntime.uuid)&&
-  Objects.equals(this.inventoryState, objVIMgrDCRuntime.inventoryState)&&
-  Objects.equals(this.sevmRefs, objVIMgrDCRuntime.sevmRefs)&&
-  Objects.equals(this.vmRefs, objVIMgrDCRuntime.vmRefs)&&
-  Objects.equals(this.tenantRef, objVIMgrDCRuntime.tenantRef)&&
-  Objects.equals(this.hostRefs, objVIMgrDCRuntime.hostRefs)&&
+  Objects.equals(this.name, objVIMgrDCRuntime.name)&&
   Objects.equals(this.managedObjectId, objVIMgrDCRuntime.managedObjectId)&&
+  Objects.equals(this.clusterRefs, objVIMgrDCRuntime.clusterRefs)&&
+  Objects.equals(this.hostRefs, objVIMgrDCRuntime.hostRefs)&&
+  Objects.equals(this.sevmRefs, objVIMgrDCRuntime.sevmRefs)&&
+  Objects.equals(this.nwRefs, objVIMgrDCRuntime.nwRefs)&&
+  Objects.equals(this.vmRefs, objVIMgrDCRuntime.vmRefs)&&
   Objects.equals(this.vcenterUuid, objVIMgrDCRuntime.vcenterUuid)&&
-  Objects.equals(this.pendingVcenterReqs, objVIMgrDCRuntime.pendingVcenterReqs)&&
-  Objects.equals(this.type, objVIMgrDCRuntime.type)&&
-  Objects.equals(this.interestedHosts, objVIMgrDCRuntime.interestedHosts)&&
+  Objects.equals(this.interestedVms, objVIMgrDCRuntime.interestedVms)&&
   Objects.equals(this.interestedNws, objVIMgrDCRuntime.interestedNws)&&
-  Objects.equals(this.name, objVIMgrDCRuntime.name);
+  Objects.equals(this.interestedHosts, objVIMgrDCRuntime.interestedHosts)&&
+  Objects.equals(this.inventoryState, objVIMgrDCRuntime.inventoryState)&&
+  Objects.equals(this.pendingVcenterReqs, objVIMgrDCRuntime.pendingVcenterReqs)&&
+  Objects.equals(this.tenantRef, objVIMgrDCRuntime.tenantRef)&&
+  Objects.equals(this.cloudRef, objVIMgrDCRuntime.cloudRef);
 }
 
 @Override

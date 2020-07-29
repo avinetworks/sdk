@@ -491,28 +491,28 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsData objMetricsData = (MetricsData) o;
-  return   Objects.equals(this.isNull, objMetricsData.isNull)&&
-  Objects.equals(this.connectionTime, objMetricsData.connectionTime)&&
-  Objects.equals(this.valueStr, objMetricsData.valueStr)&&
-  Objects.equals(this.redirectionTime, objMetricsData.redirectionTime)&&
-  Objects.equals(this.pageDownloadTime, objMetricsData.pageDownloadTime)&&
-  Objects.equals(this.serviceTime, objMetricsData.serviceTime)&&
-  Objects.equals(this.applicationResponseTime, objMetricsData.applicationResponseTime)&&
-  Objects.equals(this.domContentLoadTime, objMetricsData.domContentLoadTime)&&
-  Objects.equals(this.rumClientDataTransferTime, objMetricsData.rumClientDataTransferTime)&&
-  Objects.equals(this.predictionIntervalLow, objMetricsData.predictionIntervalLow)&&
-  Objects.equals(this.browserRenderingTime, objMetricsData.browserRenderingTime)&&
-  Objects.equals(this.valueStrDesc, objMetricsData.valueStrDesc)&&
-  Objects.equals(this.timestamp, objMetricsData.timestamp)&&
-  Objects.equals(this.pageLoadTime, objMetricsData.pageLoadTime)&&
-  Objects.equals(this.clientRtt, objMetricsData.clientRtt)&&
+  return   Objects.equals(this.timestamp, objMetricsData.timestamp)&&
+  Objects.equals(this.value, objMetricsData.value)&&
+  Objects.equals(this.numSamples, objMetricsData.numSamples)&&
   Objects.equals(this.blockingTime, objMetricsData.blockingTime)&&
   Objects.equals(this.dnsLookupTime, objMetricsData.dnsLookupTime)&&
-  Objects.equals(this.value, objMetricsData.value)&&
+  Objects.equals(this.connectionTime, objMetricsData.connectionTime)&&
+  Objects.equals(this.redirectionTime, objMetricsData.redirectionTime)&&
+  Objects.equals(this.applicationResponseTime, objMetricsData.applicationResponseTime)&&
   Objects.equals(this.serverRtt, objMetricsData.serverRtt)&&
-  Objects.equals(this.numSamples, objMetricsData.numSamples)&&
+  Objects.equals(this.clientRtt, objMetricsData.clientRtt)&&
+  Objects.equals(this.serviceTime, objMetricsData.serviceTime)&&
+  Objects.equals(this.pageDownloadTime, objMetricsData.pageDownloadTime)&&
+  Objects.equals(this.browserRenderingTime, objMetricsData.browserRenderingTime)&&
+  Objects.equals(this.pageLoadTime, objMetricsData.pageLoadTime)&&
+  Objects.equals(this.domContentLoadTime, objMetricsData.domContentLoadTime)&&
+  Objects.equals(this.waitingTime, objMetricsData.waitingTime)&&
+  Objects.equals(this.rumClientDataTransferTime, objMetricsData.rumClientDataTransferTime)&&
+  Objects.equals(this.isNull, objMetricsData.isNull)&&
   Objects.equals(this.predictionIntervalHigh, objMetricsData.predictionIntervalHigh)&&
-  Objects.equals(this.waitingTime, objMetricsData.waitingTime);
+  Objects.equals(this.predictionIntervalLow, objMetricsData.predictionIntervalLow)&&
+  Objects.equals(this.valueStr, objMetricsData.valueStr)&&
+  Objects.equals(this.valueStrDesc, objMetricsData.valueStrDesc);
 }
 
 @Override

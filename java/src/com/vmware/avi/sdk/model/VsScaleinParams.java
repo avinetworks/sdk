@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsScaleinParams objVsScaleinParams = (VsScaleinParams) o;
-  return   Objects.equals(this.scaleinPrimary, objVsScaleinParams.scaleinPrimary)&&
-  Objects.equals(this.vipId, objVsScaleinParams.vipId)&&
-  Objects.equals(this.uuid, objVsScaleinParams.uuid)&&
+  return   Objects.equals(this.uuid, objVsScaleinParams.uuid)&&
+  Objects.equals(this.fromSeRef, objVsScaleinParams.fromSeRef)&&
+  Objects.equals(this.scaleinPrimary, objVsScaleinParams.scaleinPrimary)&&
   Objects.equals(this.adminDown, objVsScaleinParams.adminDown)&&
-  Objects.equals(this.fromSeRef, objVsScaleinParams.fromSeRef);
+  Objects.equals(this.vipId, objVsScaleinParams.vipId);
 }
 
 @Override

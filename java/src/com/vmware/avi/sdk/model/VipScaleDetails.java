@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VipScaleDetails objVipScaleDetails = (VipScaleDetails) o;
-  return   Objects.equals(this.subnetUuid, objVipScaleDetails.subnetUuid)&&
-  Objects.equals(this.vsvipUuid, objVipScaleDetails.vsvipUuid)&&
-  Objects.equals(this.error, objVipScaleDetails.error)&&
+  return   Objects.equals(this.vsvipUuid, objVipScaleDetails.vsvipUuid)&&
   Objects.equals(this.vipId, objVipScaleDetails.vipId)&&
-  Objects.equals(this.availabilityZone, objVipScaleDetails.availabilityZone);
+  Objects.equals(this.availabilityZone, objVipScaleDetails.availabilityZone)&&
+  Objects.equals(this.subnetUuid, objVipScaleDetails.subnetUuid)&&
+  Objects.equals(this.error, objVipScaleDetails.error);
 }
 
 @Override

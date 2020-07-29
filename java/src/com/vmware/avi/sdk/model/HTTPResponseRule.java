@@ -211,14 +211,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPResponseRule objHTTPResponseRule = (HTTPResponseRule) o;
-  return   Objects.equals(this.index, objHTTPResponseRule.index)&&
+  return   Objects.equals(this.name, objHTTPResponseRule.name)&&
+  Objects.equals(this.index, objHTTPResponseRule.index)&&
   Objects.equals(this.enable, objHTTPResponseRule.enable)&&
-  Objects.equals(this.name, objHTTPResponseRule.name)&&
-  Objects.equals(this.locHdrAction, objHTTPResponseRule.locHdrAction)&&
-  Objects.equals(this.hdrAction, objHTTPResponseRule.hdrAction)&&
-  Objects.equals(this.allHeaders, objHTTPResponseRule.allHeaders)&&
   Objects.equals(this.match, objHTTPResponseRule.match)&&
-  Objects.equals(this.log, objHTTPResponseRule.log);
+  Objects.equals(this.hdrAction, objHTTPResponseRule.hdrAction)&&
+  Objects.equals(this.locHdrAction, objHTTPResponseRule.locHdrAction)&&
+  Objects.equals(this.log, objHTTPResponseRule.log)&&
+  Objects.equals(this.allHeaders, objHTTPResponseRule.allHeaders);
 }
 
 @Override

@@ -220,15 +220,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeIpAddedEventDetails objSeIpAddedEventDetails = (SeIpAddedEventDetails) o;
-  return   Objects.equals(this.networkUuid, objSeIpAddedEventDetails.networkUuid)&&
-  Objects.equals(this.ip, objSeIpAddedEventDetails.ip)&&
-  Objects.equals(this.linuxName, objSeIpAddedEventDetails.linuxName)&&
-  Objects.equals(this.mask, objSeIpAddedEventDetails.mask)&&
+  return   Objects.equals(this.seRef, objSeIpAddedEventDetails.seRef)&&
   Objects.equals(this.ifName, objSeIpAddedEventDetails.ifName)&&
-  Objects.equals(this.mac, objSeIpAddedEventDetails.mac)&&
-  Objects.equals(this.seRef, objSeIpAddedEventDetails.seRef)&&
+  Objects.equals(this.linuxName, objSeIpAddedEventDetails.linuxName)&&
+  Objects.equals(this.ip, objSeIpAddedEventDetails.ip)&&
+  Objects.equals(this.mask, objSeIpAddedEventDetails.mask)&&
+  Objects.equals(this.mode, objSeIpAddedEventDetails.mode)&&
   Objects.equals(this.ns, objSeIpAddedEventDetails.ns)&&
-  Objects.equals(this.mode, objSeIpAddedEventDetails.mode);
+  Objects.equals(this.networkUuid, objSeIpAddedEventDetails.networkUuid)&&
+  Objects.equals(this.mac, objSeIpAddedEventDetails.mac);
 }
 
 @Override

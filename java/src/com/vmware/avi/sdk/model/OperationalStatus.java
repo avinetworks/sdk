@@ -152,11 +152,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OperationalStatus objOperationalStatus = (OperationalStatus) o;
-  return   Objects.equals(this.reasonCodeString, objOperationalStatus.reasonCodeString)&&
-  Objects.equals(this.state, objOperationalStatus.state)&&
-  Objects.equals(this.reasonCode, objOperationalStatus.reasonCode)&&
+  return   Objects.equals(this.state, objOperationalStatus.state)&&
   Objects.equals(this.reason, objOperationalStatus.reason)&&
-  Objects.equals(this.lastChangedTime, objOperationalStatus.lastChangedTime);
+  Objects.equals(this.reasonCode, objOperationalStatus.reasonCode)&&
+  Objects.equals(this.lastChangedTime, objOperationalStatus.lastChangedTime)&&
+  Objects.equals(this.reasonCodeString, objOperationalStatus.reasonCodeString);
 }
 
 @Override

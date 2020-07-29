@@ -120,9 +120,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CRSDetails objCRSDetails = (CRSDetails) o;
-  return   Objects.equals(this.releaseDate, objCRSDetails.releaseDate)&&
+  return   Objects.equals(this.name, objCRSDetails.name)&&
   Objects.equals(this.version, objCRSDetails.version)&&
-  Objects.equals(this.name, objCRSDetails.name);
+  Objects.equals(this.releaseDate, objCRSDetails.releaseDate);
 }
 
 @Override

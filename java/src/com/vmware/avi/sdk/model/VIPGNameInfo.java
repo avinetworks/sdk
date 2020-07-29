@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIPGNameInfo objVIPGNameInfo = (VIPGNameInfo) o;
-  return   Objects.equals(this.tenantRef, objVIPGNameInfo.tenantRef)&&
-  Objects.equals(this.managedObjectId, objVIPGNameInfo.managedObjectId)&&
+  return   Objects.equals(this.managedObjectId, objVIPGNameInfo.managedObjectId)&&
   Objects.equals(this.name, objVIPGNameInfo.name)&&
-  Objects.equals(this.uuid, objVIPGNameInfo.uuid);
+  Objects.equals(this.uuid, objVIPGNameInfo.uuid)&&
+  Objects.equals(this.tenantRef, objVIPGNameInfo.tenantRef);
 }
 
 @Override

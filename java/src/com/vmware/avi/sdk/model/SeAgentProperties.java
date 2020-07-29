@@ -845,40 +845,40 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeAgentProperties objSeAgentProperties = (SeAgentProperties) o;
-  return   Objects.equals(this.vnicRpcRetryInterval, objSeAgentProperties.vnicRpcRetryInterval)&&
-  Objects.equals(this.dpEnqIntervalMsec, objSeAgentProperties.dpEnqIntervalMsec)&&
-  Objects.equals(this.sdbScanCount, objSeAgentProperties.sdbScanCount)&&
-  Objects.equals(this.dpRegPendingMaxWaitTime, objSeAgentProperties.dpRegPendingMaxWaitTime)&&
-  Objects.equals(this.controllerEchoRpcAggressiveTimeout, objSeAgentProperties.controllerEchoRpcAggressiveTimeout)&&
-  Objects.equals(this.statesFlushInterval, objSeAgentProperties.statesFlushInterval)&&
-  Objects.equals(this.dpAggressiveEnqIntervalMsec, objSeAgentProperties.dpAggressiveEnqIntervalMsec)&&
-  Objects.equals(this.nsHelperDeqIntervalMsec, objSeAgentProperties.nsHelperDeqIntervalMsec)&&
-  Objects.equals(this.vnicIpDeleteInterval, objSeAgentProperties.vnicIpDeleteInterval)&&
-  Objects.equals(this.dpMaxWaitRspTimeSec, objSeAgentProperties.dpMaxWaitRspTimeSec)&&
-  Objects.equals(this.sendSeReadyTimeout, objSeAgentProperties.sendSeReadyTimeout)&&
-  Objects.equals(this.seGrpChangeDisruptive, objSeAgentProperties.seGrpChangeDisruptive)&&
-  Objects.equals(this.controllerRpcTimeout, objSeAgentProperties.controllerRpcTimeout)&&
-  Objects.equals(this.headlessTimeoutSec, objSeAgentProperties.headlessTimeoutSec)&&
-  Objects.equals(this.dpAggressiveDeqIntervalMsec, objSeAgentProperties.dpAggressiveDeqIntervalMsec)&&
-  Objects.equals(this.controllerEchoRpcTimeout, objSeAgentProperties.controllerEchoRpcTimeout)&&
-  Objects.equals(this.ignoreDockerMacChange, objSeAgentProperties.ignoreDockerMacChange)&&
-  Objects.equals(this.sdbPipelineSize, objSeAgentProperties.sdbPipelineSize)&&
-  Objects.equals(this.cpustatsInterval, objSeAgentProperties.cpustatsInterval)&&
-  Objects.equals(this.dpBatchSize, objSeAgentProperties.dpBatchSize)&&
-  Objects.equals(this.vnicdbCmdHistorySize, objSeAgentProperties.vnicdbCmdHistorySize)&&
-  Objects.equals(this.vnicProbeInterval, objSeAgentProperties.vnicProbeInterval)&&
-  Objects.equals(this.debugMode, objSeAgentProperties.debugMode)&&
-  Objects.equals(this.vnicDhcpIpMaxRetries, objSeAgentProperties.vnicDhcpIpMaxRetries)&&
-  Objects.equals(this.seagentStatecacheProperties, objSeAgentProperties.seagentStatecacheProperties)&&
-  Objects.equals(this.dpDeqIntervalMsec, objSeAgentProperties.dpDeqIntervalMsec)&&
-  Objects.equals(this.ctrlRegPendingMaxWaitTime, objSeAgentProperties.ctrlRegPendingMaxWaitTime)&&
-  Objects.equals(this.controllerHeartbeatMissLimit, objSeAgentProperties.controllerHeartbeatMissLimit)&&
-  Objects.equals(this.sdbFlushInterval, objSeAgentProperties.sdbFlushInterval)&&
-  Objects.equals(this.controllerEchoMissAggressiveLimit, objSeAgentProperties.controllerEchoMissAggressiveLimit)&&
-  Objects.equals(this.controllerHeartbeatTimeoutSec, objSeAgentProperties.controllerHeartbeatTimeoutSec)&&
+  return   Objects.equals(this.debugMode, objSeAgentProperties.debugMode)&&
   Objects.equals(this.controllerRegistrationTimeoutSec, objSeAgentProperties.controllerRegistrationTimeoutSec)&&
+  Objects.equals(this.controllerHeartbeatTimeoutSec, objSeAgentProperties.controllerHeartbeatTimeoutSec)&&
+  Objects.equals(this.headlessTimeoutSec, objSeAgentProperties.headlessTimeoutSec)&&
+  Objects.equals(this.controllerHeartbeatMissLimit, objSeAgentProperties.controllerHeartbeatMissLimit)&&
+  Objects.equals(this.dpEnqIntervalMsec, objSeAgentProperties.dpEnqIntervalMsec)&&
+  Objects.equals(this.dpDeqIntervalMsec, objSeAgentProperties.dpDeqIntervalMsec)&&
+  Objects.equals(this.dpBatchSize, objSeAgentProperties.dpBatchSize)&&
+  Objects.equals(this.dpMaxWaitRspTimeSec, objSeAgentProperties.dpMaxWaitRspTimeSec)&&
+  Objects.equals(this.cpustatsInterval, objSeAgentProperties.cpustatsInterval)&&
+  Objects.equals(this.controllerRpcTimeout, objSeAgentProperties.controllerRpcTimeout)&&
+  Objects.equals(this.controllerEchoRpcTimeout, objSeAgentProperties.controllerEchoRpcTimeout)&&
   Objects.equals(this.controllerEchoMissLimit, objSeAgentProperties.controllerEchoMissLimit)&&
-  Objects.equals(this.vnicDhcpIpCheckInterval, objSeAgentProperties.vnicDhcpIpCheckInterval);
+  Objects.equals(this.vnicProbeInterval, objSeAgentProperties.vnicProbeInterval)&&
+  Objects.equals(this.vnicIpDeleteInterval, objSeAgentProperties.vnicIpDeleteInterval)&&
+  Objects.equals(this.ctrlRegPendingMaxWaitTime, objSeAgentProperties.ctrlRegPendingMaxWaitTime)&&
+  Objects.equals(this.dpRegPendingMaxWaitTime, objSeAgentProperties.dpRegPendingMaxWaitTime)&&
+  Objects.equals(this.vnicDhcpIpCheckInterval, objSeAgentProperties.vnicDhcpIpCheckInterval)&&
+  Objects.equals(this.vnicDhcpIpMaxRetries, objSeAgentProperties.vnicDhcpIpMaxRetries)&&
+  Objects.equals(this.dpAggressiveEnqIntervalMsec, objSeAgentProperties.dpAggressiveEnqIntervalMsec)&&
+  Objects.equals(this.dpAggressiveDeqIntervalMsec, objSeAgentProperties.dpAggressiveDeqIntervalMsec)&&
+  Objects.equals(this.sdbScanCount, objSeAgentProperties.sdbScanCount)&&
+  Objects.equals(this.sdbPipelineSize, objSeAgentProperties.sdbPipelineSize)&&
+  Objects.equals(this.sdbFlushInterval, objSeAgentProperties.sdbFlushInterval)&&
+  Objects.equals(this.controllerEchoRpcAggressiveTimeout, objSeAgentProperties.controllerEchoRpcAggressiveTimeout)&&
+  Objects.equals(this.controllerEchoMissAggressiveLimit, objSeAgentProperties.controllerEchoMissAggressiveLimit)&&
+  Objects.equals(this.ignoreDockerMacChange, objSeAgentProperties.ignoreDockerMacChange)&&
+  Objects.equals(this.nsHelperDeqIntervalMsec, objSeAgentProperties.nsHelperDeqIntervalMsec)&&
+  Objects.equals(this.sendSeReadyTimeout, objSeAgentProperties.sendSeReadyTimeout)&&
+  Objects.equals(this.statesFlushInterval, objSeAgentProperties.statesFlushInterval)&&
+  Objects.equals(this.vnicdbCmdHistorySize, objSeAgentProperties.vnicdbCmdHistorySize)&&
+  Objects.equals(this.seGrpChangeDisruptive, objSeAgentProperties.seGrpChangeDisruptive)&&
+  Objects.equals(this.seagentStatecacheProperties, objSeAgentProperties.seagentStatecacheProperties)&&
+  Objects.equals(this.vnicRpcRetryInterval, objSeAgentProperties.vnicRpcRetryInterval);
 }
 
 @Override

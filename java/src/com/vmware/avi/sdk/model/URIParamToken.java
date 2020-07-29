@@ -119,10 +119,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   URIParamToken objURIParamToken = (URIParamToken) o;
-  return   Objects.equals(this.strValue, objURIParamToken.strValue)&&
-  Objects.equals(this.type, objURIParamToken.type)&&
+  return   Objects.equals(this.type, objURIParamToken.type)&&
   Objects.equals(this.startIndex, objURIParamToken.startIndex)&&
-  Objects.equals(this.endIndex, objURIParamToken.endIndex);
+  Objects.equals(this.endIndex, objURIParamToken.endIndex)&&
+  Objects.equals(this.strValue, objURIParamToken.strValue);
 }
 
 @Override

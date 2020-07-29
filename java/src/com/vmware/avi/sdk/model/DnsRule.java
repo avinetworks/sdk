@@ -169,11 +169,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRule objDnsRule = (DnsRule) o;
-  return   Objects.equals(this.index, objDnsRule.index)&&
+  return   Objects.equals(this.name, objDnsRule.name)&&
+  Objects.equals(this.index, objDnsRule.index)&&
   Objects.equals(this.enable, objDnsRule.enable)&&
-  Objects.equals(this.name, objDnsRule.name)&&
-  Objects.equals(this.action, objDnsRule.action)&&
   Objects.equals(this.match, objDnsRule.match)&&
+  Objects.equals(this.action, objDnsRule.action)&&
   Objects.equals(this.log, objDnsRule.log);
 }
 

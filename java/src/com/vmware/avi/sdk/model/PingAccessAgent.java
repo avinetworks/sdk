@@ -210,13 +210,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PingAccessAgent objPingAccessAgent = (PingAccessAgent) o;
-  return   Objects.equals(this.propertiesFileData, objPingAccessAgent.propertiesFileData)&&
-  Objects.equals(this.uuid, objPingAccessAgent.uuid)&&
-  Objects.equals(this.description, objPingAccessAgent.description)&&
+  return   Objects.equals(this.uuid, objPingAccessAgent.uuid)&&
+  Objects.equals(this.name, objPingAccessAgent.name)&&
   Objects.equals(this.pingaccessPoolRef, objPingAccessAgent.pingaccessPoolRef)&&
-  Objects.equals(this.tenantRef, objPingAccessAgent.tenantRef)&&
+  Objects.equals(this.propertiesFileData, objPingAccessAgent.propertiesFileData)&&
   Objects.equals(this.primaryServer, objPingAccessAgent.primaryServer)&&
-  Objects.equals(this.name, objPingAccessAgent.name);
+  Objects.equals(this.description, objPingAccessAgent.description)&&
+  Objects.equals(this.tenantRef, objPingAccessAgent.tenantRef);
 }
 
 @Override

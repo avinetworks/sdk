@@ -187,11 +187,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpAddrMatch objIpAddrMatch = (IpAddrMatch) o;
-  return   Objects.equals(this.ranges, objIpAddrMatch.ranges)&&
-  Objects.equals(this.prefixes, objIpAddrMatch.prefixes)&&
-  Objects.equals(this.groupRefs, objIpAddrMatch.groupRefs)&&
+  return   Objects.equals(this.matchCriteria, objIpAddrMatch.matchCriteria)&&
   Objects.equals(this.addrs, objIpAddrMatch.addrs)&&
-  Objects.equals(this.matchCriteria, objIpAddrMatch.matchCriteria);
+  Objects.equals(this.ranges, objIpAddrMatch.ranges)&&
+  Objects.equals(this.prefixes, objIpAddrMatch.prefixes)&&
+  Objects.equals(this.groupRefs, objIpAddrMatch.groupRefs);
 }
 
 @Override

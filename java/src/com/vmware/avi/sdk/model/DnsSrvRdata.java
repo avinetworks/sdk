@@ -128,8 +128,8 @@ public boolean equals(java.lang.Object o) {
   }
   DnsSrvRdata objDnsSrvRdata = (DnsSrvRdata) o;
   return   Objects.equals(this.priority, objDnsSrvRdata.priority)&&
-  Objects.equals(this.target, objDnsSrvRdata.target)&&
   Objects.equals(this.weight, objDnsSrvRdata.weight)&&
+  Objects.equals(this.target, objDnsSrvRdata.target)&&
   Objects.equals(this.port, objDnsSrvRdata.port);
 }
 

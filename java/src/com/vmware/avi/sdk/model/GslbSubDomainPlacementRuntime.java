@@ -114,8 +114,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSubDomainPlacementRuntime objGslbSubDomainPlacementRuntime = (GslbSubDomainPlacementRuntime) o;
-  return   Objects.equals(this.placementAllowed, objGslbSubDomainPlacementRuntime.placementAllowed)&&
-  Objects.equals(this.subDomain, objGslbSubDomainPlacementRuntime.subDomain)&&
+  return   Objects.equals(this.subDomain, objGslbSubDomainPlacementRuntime.subDomain)&&
+  Objects.equals(this.placementAllowed, objGslbSubDomainPlacementRuntime.placementAllowed)&&
   Objects.equals(this.transitionOps, objGslbSubDomainPlacementRuntime.transitionOps);
 }
 

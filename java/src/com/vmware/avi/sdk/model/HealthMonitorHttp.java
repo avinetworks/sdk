@@ -24,7 +24,7 @@ public class HealthMonitorHttp  {
     private Boolean exactHttpRequest = false;
 
     @JsonProperty("http_request")
-    private String httpRequest = "get / http/1.0";
+    private String httpRequest = "GET / HTTP/1.0";
 
     @JsonProperty("http_request_body")
     private String httpRequestBody = null;
@@ -98,7 +98,7 @@ public class HealthMonitorHttp  {
    * Send an http request to the server.
    * The default get / http/1.0 may be extended with additional headers or information.
    * For instance, get /index.htm http/1.1 host  www.site.com connection  close.
-   * Default value when not specified in API or module is interpreted by Avi Controller as get / http/1.0.
+   * Default value when not specified in API or module is interpreted by Avi Controller as GET / HTTP/1.0.
    * @return httpRequest
    */
   public String getHttpRequest() {
@@ -110,7 +110,7 @@ public class HealthMonitorHttp  {
    * Send an http request to the server.
    * The default get / http/1.0 may be extended with additional headers or information.
    * For instance, get /index.htm http/1.1 host  www.site.com connection  close.
-   * Default value when not specified in API or module is interpreted by Avi Controller as get / http/1.0.
+   * Default value when not specified in API or module is interpreted by Avi Controller as GET / HTTP/1.0.
    * @param httpRequest set the httpRequest.
    */
   public void setHttpRequest(String  httpRequest) {
@@ -299,16 +299,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorHttp objHealthMonitorHttp = (HealthMonitorHttp) o;
-  return   Objects.equals(this.authType, objHealthMonitorHttp.authType)&&
-  Objects.equals(this.httpRequest, objHealthMonitorHttp.httpRequest)&&
+  return   Objects.equals(this.httpRequest, objHealthMonitorHttp.httpRequest)&&
   Objects.equals(this.httpResponseCode, objHealthMonitorHttp.httpResponseCode)&&
+  Objects.equals(this.httpResponse, objHealthMonitorHttp.httpResponse)&&
+  Objects.equals(this.maintenanceCode, objHealthMonitorHttp.maintenanceCode)&&
   Objects.equals(this.maintenanceResponse, objHealthMonitorHttp.maintenanceResponse)&&
   Objects.equals(this.sslAttributes, objHealthMonitorHttp.sslAttributes)&&
-  Objects.equals(this.maintenanceCode, objHealthMonitorHttp.maintenanceCode)&&
-  Objects.equals(this.responseSize, objHealthMonitorHttp.responseSize)&&
   Objects.equals(this.exactHttpRequest, objHealthMonitorHttp.exactHttpRequest)&&
+  Objects.equals(this.authType, objHealthMonitorHttp.authType)&&
   Objects.equals(this.httpRequestBody, objHealthMonitorHttp.httpRequestBody)&&
-  Objects.equals(this.httpResponse, objHealthMonitorHttp.httpResponse);
+  Objects.equals(this.responseSize, objHealthMonitorHttp.responseSize);
 }
 
 @Override

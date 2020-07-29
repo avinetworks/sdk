@@ -188,13 +188,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsErrorEventDetails objVsErrorEventDetails = (VsErrorEventDetails) o;
-  return   Objects.equals(this.rpcStatus, objVsErrorEventDetails.rpcStatus)&&
+  return   Objects.equals(this.vsUuid, objVsErrorEventDetails.vsUuid)&&
   Objects.equals(this.seRequested, objVsErrorEventDetails.seRequested)&&
-  Objects.equals(this.ip, objVsErrorEventDetails.ip)&&
+  Objects.equals(this.seAssigned, objVsErrorEventDetails.seAssigned)&&
+  Objects.equals(this.rpcStatus, objVsErrorEventDetails.rpcStatus)&&
   Objects.equals(this.errorMessage, objVsErrorEventDetails.errorMessage)&&
-  Objects.equals(this.vsUuid, objVsErrorEventDetails.vsUuid)&&
-  Objects.equals(this.ip6, objVsErrorEventDetails.ip6)&&
-  Objects.equals(this.seAssigned, objVsErrorEventDetails.seAssigned);
+  Objects.equals(this.ip, objVsErrorEventDetails.ip)&&
+  Objects.equals(this.ip6, objVsErrorEventDetails.ip6);
 }
 
 @Override

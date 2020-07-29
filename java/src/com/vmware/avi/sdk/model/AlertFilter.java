@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertFilter objAlertFilter = (AlertFilter) o;
-  return   Objects.equals(this.filterAction, objAlertFilter.filterAction)&&
-  Objects.equals(this.filterString, objAlertFilter.filterString);
+  return   Objects.equals(this.filterString, objAlertFilter.filterString)&&
+  Objects.equals(this.filterAction, objAlertFilter.filterAction);
 }
 
 @Override

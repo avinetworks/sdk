@@ -77,8 +77,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLProfileSelector objSSLProfileSelector = (SSLProfileSelector) o;
-  return   Objects.equals(this.sslProfileRef, objSSLProfileSelector.sslProfileRef)&&
-  Objects.equals(this.clientIpList, objSSLProfileSelector.clientIpList);
+  return   Objects.equals(this.clientIpList, objSSLProfileSelector.clientIpList)&&
+  Objects.equals(this.sslProfileRef, objSSLProfileSelector.sslProfileRef);
 }
 
 @Override

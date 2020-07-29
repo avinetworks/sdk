@@ -159,12 +159,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUserLogin objConfigUserLogin = (ConfigUserLogin) o;
-  return   Objects.equals(this.status, objConfigUserLogin.status)&&
+  return   Objects.equals(this.user, objConfigUserLogin.user)&&
+  Objects.equals(this.status, objConfigUserLogin.status)&&
   Objects.equals(this.clientIp, objConfigUserLogin.clientIp)&&
-  Objects.equals(this.remoteAttributes, objConfigUserLogin.remoteAttributes)&&
   Objects.equals(this.errorMessage, objConfigUserLogin.errorMessage)&&
-  Objects.equals(this.user, objConfigUserLogin.user)&&
-  Objects.equals(this.local, objConfigUserLogin.local);
+  Objects.equals(this.local, objConfigUserLogin.local)&&
+  Objects.equals(this.remoteAttributes, objConfigUserLogin.remoteAttributes);
 }
 
 @Override

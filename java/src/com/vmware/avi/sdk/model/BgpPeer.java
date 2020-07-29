@@ -453,24 +453,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BgpPeer objBgpPeer = (BgpPeer) o;
-  return   Objects.equals(this.keepaliveInterval, objBgpPeer.keepaliveInterval)&&
-  Objects.equals(this.subnet, objBgpPeer.subnet)&&
-  Objects.equals(this.remoteAs, objBgpPeer.remoteAs)&&
-  Objects.equals(this.peerIp6, objBgpPeer.peerIp6)&&
-  Objects.equals(this.ebgpMultihop, objBgpPeer.ebgpMultihop)&&
-  Objects.equals(this.bfd, objBgpPeer.bfd)&&
-  Objects.equals(this.advertiseSnatIp, objBgpPeer.advertiseSnatIp)&&
-  Objects.equals(this.localAs, objBgpPeer.localAs)&&
-  Objects.equals(this.md5Secret, objBgpPeer.md5Secret)&&
+  return   Objects.equals(this.remoteAs, objBgpPeer.remoteAs)&&
   Objects.equals(this.peerIp, objBgpPeer.peerIp)&&
-  Objects.equals(this.advertiseVip, objBgpPeer.advertiseVip)&&
-  Objects.equals(this.advertisementInterval, objBgpPeer.advertisementInterval)&&
-  Objects.equals(this.shutdown, objBgpPeer.shutdown)&&
-  Objects.equals(this.connectTimer, objBgpPeer.connectTimer)&&
+  Objects.equals(this.subnet, objBgpPeer.subnet)&&
+  Objects.equals(this.md5Secret, objBgpPeer.md5Secret)&&
+  Objects.equals(this.bfd, objBgpPeer.bfd)&&
   Objects.equals(this.networkRef, objBgpPeer.networkRef)&&
+  Objects.equals(this.advertiseVip, objBgpPeer.advertiseVip)&&
+  Objects.equals(this.advertiseSnatIp, objBgpPeer.advertiseSnatIp)&&
+  Objects.equals(this.advertisementInterval, objBgpPeer.advertisementInterval)&&
+  Objects.equals(this.connectTimer, objBgpPeer.connectTimer)&&
+  Objects.equals(this.keepaliveInterval, objBgpPeer.keepaliveInterval)&&
+  Objects.equals(this.holdTime, objBgpPeer.holdTime)&&
+  Objects.equals(this.ebgpMultihop, objBgpPeer.ebgpMultihop)&&
+  Objects.equals(this.localAs, objBgpPeer.localAs)&&
+  Objects.equals(this.peerIp6, objBgpPeer.peerIp6)&&
   Objects.equals(this.subnet6, objBgpPeer.subnet6)&&
-  Objects.equals(this.label, objBgpPeer.label)&&
-  Objects.equals(this.holdTime, objBgpPeer.holdTime);
+  Objects.equals(this.shutdown, objBgpPeer.shutdown)&&
+  Objects.equals(this.label, objBgpPeer.label);
 }
 
 @Override

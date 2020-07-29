@@ -129,9 +129,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   L4RulePortMatch objL4RulePortMatch = (L4RulePortMatch) o;
-  return   Objects.equals(this.portRanges, objL4RulePortMatch.portRanges)&&
+  return   Objects.equals(this.matchCriteria, objL4RulePortMatch.matchCriteria)&&
   Objects.equals(this.ports, objL4RulePortMatch.ports)&&
-  Objects.equals(this.matchCriteria, objL4RulePortMatch.matchCriteria);
+  Objects.equals(this.portRanges, objL4RulePortMatch.portRanges);
 }
 
 @Override

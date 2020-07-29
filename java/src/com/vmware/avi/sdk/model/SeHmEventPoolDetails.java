@@ -180,13 +180,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHmEventPoolDetails objSeHmEventPoolDetails = (SeHmEventPoolDetails) o;
-  return   Objects.equals(this.srcUuid, objSeHmEventPoolDetails.srcUuid)&&
-  Objects.equals(this.virtualService, objSeHmEventPoolDetails.virtualService)&&
+  return   Objects.equals(this.pool, objSeHmEventPoolDetails.pool)&&
   Objects.equals(this.server, objSeHmEventPoolDetails.server)&&
+  Objects.equals(this.virtualService, objSeHmEventPoolDetails.virtualService)&&
   Objects.equals(this.seName, objSeHmEventPoolDetails.seName)&&
   Objects.equals(this.haReason, objSeHmEventPoolDetails.haReason)&&
   Objects.equals(this.percentServersUp, objSeHmEventPoolDetails.percentServersUp)&&
-  Objects.equals(this.pool, objSeHmEventPoolDetails.pool);
+  Objects.equals(this.srcUuid, objSeHmEventPoolDetails.srcUuid);
 }
 
 @Override

@@ -134,8 +134,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsOptRecord objDnsOptRecord = (DnsOptRecord) o;
-  return   Objects.equals(this.udpPayloadSize, objDnsOptRecord.udpPayloadSize)&&
-  Objects.equals(this.version, objDnsOptRecord.version)&&
+  return   Objects.equals(this.version, objDnsOptRecord.version)&&
+  Objects.equals(this.udpPayloadSize, objDnsOptRecord.udpPayloadSize)&&
   Objects.equals(this.dnssecOk, objDnsOptRecord.dnssecOk)&&
   Objects.equals(this.options, objDnsOptRecord.options);
 }

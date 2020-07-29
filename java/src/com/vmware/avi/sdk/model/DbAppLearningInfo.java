@@ -113,9 +113,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DbAppLearningInfo objDbAppLearningInfo = (DbAppLearningInfo) o;
-  return   Objects.equals(this.uriInfo, objDbAppLearningInfo.uriInfo)&&
-  Objects.equals(this.vsUuid, objDbAppLearningInfo.vsUuid)&&
-  Objects.equals(this.appId, objDbAppLearningInfo.appId);
+  return   Objects.equals(this.vsUuid, objDbAppLearningInfo.vsUuid)&&
+  Objects.equals(this.appId, objDbAppLearningInfo.appId)&&
+  Objects.equals(this.uriInfo, objDbAppLearningInfo.uriInfo);
 }
 
 @Override

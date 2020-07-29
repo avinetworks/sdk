@@ -141,8 +141,8 @@ public boolean equals(java.lang.Object o) {
   return   Objects.equals(this.vcenterUrl, objVcenterLogin.vcenterUrl)&&
   Objects.equals(this.username, objVcenterLogin.username)&&
   Objects.equals(this.password, objVcenterLogin.password)&&
-  Objects.equals(this.startTs, objVcenterLogin.startTs)&&
-  Objects.equals(this.cloudUuid, objVcenterLogin.cloudUuid);
+  Objects.equals(this.cloudUuid, objVcenterLogin.cloudUuid)&&
+  Objects.equals(this.startTs, objVcenterLogin.startTs);
 }
 
 @Override

@@ -186,13 +186,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VirtualServiceResource objVirtualServiceResource = (VirtualServiceResource) o;
-  return   Objects.equals(this.scaleinPrimary, objVirtualServiceResource.scaleinPrimary)&&
-  Objects.equals(this.numVcpus, objVirtualServiceResource.numVcpus)&&
-  Objects.equals(this.numStandbySe, objVirtualServiceResource.numStandbySe)&&
-  Objects.equals(this.isExclusive, objVirtualServiceResource.isExclusive)&&
+  return   Objects.equals(this.numVcpus, objVirtualServiceResource.numVcpus)&&
   Objects.equals(this.memory, objVirtualServiceResource.memory)&&
+  Objects.equals(this.isExclusive, objVirtualServiceResource.isExclusive)&&
+  Objects.equals(this.scaleinPrimary, objVirtualServiceResource.scaleinPrimary)&&
   Objects.equals(this.numSe, objVirtualServiceResource.numSe)&&
-  Objects.equals(this.scaleinSeUuid, objVirtualServiceResource.scaleinSeUuid);
+  Objects.equals(this.scaleinSeUuid, objVirtualServiceResource.scaleinSeUuid)&&
+  Objects.equals(this.numStandbySe, objVirtualServiceResource.numStandbySe);
 }
 
 @Override

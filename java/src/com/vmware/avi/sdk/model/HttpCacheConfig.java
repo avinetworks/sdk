@@ -490,22 +490,22 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HttpCacheConfig objHttpCacheConfig = (HttpCacheConfig) o;
-  return   Objects.equals(this.uriNonCacheable, objHttpCacheConfig.uriNonCacheable)&&
-  Objects.equals(this.minObjectSize, objHttpCacheConfig.minObjectSize)&&
-  Objects.equals(this.mimeTypesBlackGroupRefs, objHttpCacheConfig.mimeTypesBlackGroupRefs)&&
-  Objects.equals(this.queryCacheable, objHttpCacheConfig.queryCacheable)&&
+  return   Objects.equals(this.enabled, objHttpCacheConfig.enabled)&&
   Objects.equals(this.xcacheHeader, objHttpCacheConfig.xcacheHeader)&&
   Objects.equals(this.ageHeader, objHttpCacheConfig.ageHeader)&&
-  Objects.equals(this.mimeTypesList, objHttpCacheConfig.mimeTypesList)&&
-  Objects.equals(this.enabled, objHttpCacheConfig.enabled)&&
-  Objects.equals(this.defaultExpire, objHttpCacheConfig.defaultExpire)&&
-  Objects.equals(this.maxCacheSize, objHttpCacheConfig.maxCacheSize)&&
-  Objects.equals(this.mimeTypesGroupRefs, objHttpCacheConfig.mimeTypesGroupRefs)&&
-  Objects.equals(this.heuristicExpire, objHttpCacheConfig.heuristicExpire)&&
   Objects.equals(this.dateHeader, objHttpCacheConfig.dateHeader)&&
-  Objects.equals(this.aggressive, objHttpCacheConfig.aggressive)&&
+  Objects.equals(this.minObjectSize, objHttpCacheConfig.minObjectSize)&&
   Objects.equals(this.maxObjectSize, objHttpCacheConfig.maxObjectSize)&&
+  Objects.equals(this.defaultExpire, objHttpCacheConfig.defaultExpire)&&
+  Objects.equals(this.heuristicExpire, objHttpCacheConfig.heuristicExpire)&&
+  Objects.equals(this.maxCacheSize, objHttpCacheConfig.maxCacheSize)&&
+  Objects.equals(this.queryCacheable, objHttpCacheConfig.queryCacheable)&&
+  Objects.equals(this.mimeTypesList, objHttpCacheConfig.mimeTypesList)&&
+  Objects.equals(this.mimeTypesGroupRefs, objHttpCacheConfig.mimeTypesGroupRefs)&&
+  Objects.equals(this.aggressive, objHttpCacheConfig.aggressive)&&
   Objects.equals(this.mimeTypesBlackList, objHttpCacheConfig.mimeTypesBlackList)&&
+  Objects.equals(this.mimeTypesBlackGroupRefs, objHttpCacheConfig.mimeTypesBlackGroupRefs)&&
+  Objects.equals(this.uriNonCacheable, objHttpCacheConfig.uriNonCacheable)&&
   Objects.equals(this.ignoreRequestCacheControl, objHttpCacheConfig.ignoreRequestCacheControl);
 }
 

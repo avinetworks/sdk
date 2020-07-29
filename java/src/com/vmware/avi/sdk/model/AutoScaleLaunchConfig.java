@@ -224,13 +224,13 @@ public boolean equals(java.lang.Object o) {
   }
   AutoScaleLaunchConfig objAutoScaleLaunchConfig = (AutoScaleLaunchConfig) o;
   return   Objects.equals(this.uuid, objAutoScaleLaunchConfig.uuid)&&
+  Objects.equals(this.name, objAutoScaleLaunchConfig.name)&&
+  Objects.equals(this.imageId, objAutoScaleLaunchConfig.imageId)&&
+  Objects.equals(this.openstack, objAutoScaleLaunchConfig.openstack)&&
   Objects.equals(this.mesos, objAutoScaleLaunchConfig.mesos)&&
   Objects.equals(this.description, objAutoScaleLaunchConfig.description)&&
-  Objects.equals(this.imageId, objAutoScaleLaunchConfig.imageId)&&
-  Objects.equals(this.useExternalAsg, objAutoScaleLaunchConfig.useExternalAsg)&&
-  Objects.equals(this.openstack, objAutoScaleLaunchConfig.openstack)&&
   Objects.equals(this.tenantRef, objAutoScaleLaunchConfig.tenantRef)&&
-  Objects.equals(this.name, objAutoScaleLaunchConfig.name);
+  Objects.equals(this.useExternalAsg, objAutoScaleLaunchConfig.useExternalAsg);
 }
 
 @Override

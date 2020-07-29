@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VinfraVcenterBadCredentials objVinfraVcenterBadCredentials = (VinfraVcenterBadCredentials) o;
-  return   Objects.equals(this.previousCount, objVinfraVcenterBadCredentials.previousCount)&&
+  return   Objects.equals(this.vcenter, objVinfraVcenterBadCredentials.vcenter)&&
   Objects.equals(this.name, objVinfraVcenterBadCredentials.name)&&
+  Objects.equals(this.vcenterName, objVinfraVcenterBadCredentials.vcenterName)&&
   Objects.equals(this.user, objVinfraVcenterBadCredentials.user)&&
-  Objects.equals(this.vcenter, objVinfraVcenterBadCredentials.vcenter)&&
   Objects.equals(this.vcenterObject, objVinfraVcenterBadCredentials.vcenterObject)&&
-  Objects.equals(this.vcenterName, objVinfraVcenterBadCredentials.vcenterName);
+  Objects.equals(this.previousCount, objVinfraVcenterBadCredentials.previousCount);
 }
 
 @Override

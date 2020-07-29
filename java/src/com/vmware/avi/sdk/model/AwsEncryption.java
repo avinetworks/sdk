@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AwsEncryption objAwsEncryption = (AwsEncryption) o;
-  return   Objects.equals(this.masterKey, objAwsEncryption.masterKey)&&
-  Objects.equals(this.mode, objAwsEncryption.mode);
+  return   Objects.equals(this.mode, objAwsEncryption.mode)&&
+  Objects.equals(this.masterKey, objAwsEncryption.masterKey);
 }
 
 @Override

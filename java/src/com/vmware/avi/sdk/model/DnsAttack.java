@@ -154,11 +154,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsAttack objDnsAttack = (DnsAttack) o;
-  return   Objects.equals(this.threshold, objDnsAttack.threshold)&&
-  Objects.equals(this.maxMitigationAge, objDnsAttack.maxMitigationAge)&&
+  return   Objects.equals(this.attackVector, objDnsAttack.attackVector)&&
   Objects.equals(this.mitigationAction, objDnsAttack.mitigationAction)&&
   Objects.equals(this.enabled, objDnsAttack.enabled)&&
-  Objects.equals(this.attackVector, objDnsAttack.attackVector);
+  Objects.equals(this.maxMitigationAge, objDnsAttack.maxMitigationAge)&&
+  Objects.equals(this.threshold, objDnsAttack.threshold);
 }
 
 @Override

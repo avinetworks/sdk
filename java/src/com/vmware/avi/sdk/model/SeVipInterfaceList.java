@@ -138,11 +138,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeVipInterfaceList objSeVipInterfaceList = (SeVipInterfaceList) o;
-  return   Objects.equals(this.vipIntfIp6, objSeVipInterfaceList.vipIntfIp6)&&
+  return   Objects.equals(this.vipIntfMac, objSeVipInterfaceList.vipIntfMac)&&
+  Objects.equals(this.vlanId, objSeVipInterfaceList.vlanId)&&
   Objects.equals(this.vipIntfIp, objSeVipInterfaceList.vipIntfIp)&&
-  Objects.equals(this.vipIntfMac, objSeVipInterfaceList.vipIntfMac)&&
   Objects.equals(this.isPortchannel, objSeVipInterfaceList.isPortchannel)&&
-  Objects.equals(this.vlanId, objSeVipInterfaceList.vlanId);
+  Objects.equals(this.vipIntfIp6, objSeVipInterfaceList.vipIntfIp6);
 }
 
 @Override

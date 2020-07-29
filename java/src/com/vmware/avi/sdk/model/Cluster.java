@@ -195,8 +195,8 @@ public boolean equals(java.lang.Object o) {
   Objects.equals(this.name, objCluster.name)&&
   Objects.equals(this.virtualIp, objCluster.virtualIp)&&
   Objects.equals(this.nodes, objCluster.nodes)&&
-  Objects.equals(this.tenantRef, objCluster.tenantRef)&&
-  Objects.equals(this.rejoinNodesAutomatically, objCluster.rejoinNodesAutomatically);
+  Objects.equals(this.rejoinNodesAutomatically, objCluster.rejoinNodesAutomatically)&&
+  Objects.equals(this.tenantRef, objCluster.tenantRef);
 }
 
 @Override

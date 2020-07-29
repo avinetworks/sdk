@@ -661,34 +661,34 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrVcenterRuntime objVIMgrVcenterRuntime = (VIMgrVcenterRuntime) o;
-  return   Objects.equals(this.discEndTime, objVIMgrVcenterRuntime.discEndTime)&&
-  Objects.equals(this.inventoryProgress, objVIMgrVcenterRuntime.inventoryProgress)&&
-  Objects.equals(this.discStartTime, objVIMgrVcenterRuntime.discStartTime)&&
-  Objects.equals(this.vcenterUrl, objVIMgrVcenterRuntime.vcenterUrl)&&
+  return   Objects.equals(this.type, objVIMgrVcenterRuntime.type)&&
   Objects.equals(this.uuid, objVIMgrVcenterRuntime.uuid)&&
-  Objects.equals(this.numNws, objVIMgrVcenterRuntime.numNws)&&
-  Objects.equals(this.cloudRef, objVIMgrVcenterRuntime.cloudRef)&&
-  Objects.equals(this.privilege, objVIMgrVcenterRuntime.privilege)&&
-  Objects.equals(this.progress, objVIMgrVcenterRuntime.progress)&&
-  Objects.equals(this.numClusters, objVIMgrVcenterRuntime.numClusters)&&
-  Objects.equals(this.numDcs, objVIMgrVcenterRuntime.numDcs)&&
-  Objects.equals(this.apiVersion, objVIMgrVcenterRuntime.apiVersion)&&
-  Objects.equals(this.discoveredDatacenter, objVIMgrVcenterRuntime.discoveredDatacenter)&&
+  Objects.equals(this.name, objVIMgrVcenterRuntime.name)&&
+  Objects.equals(this.vcenterUrl, objVIMgrVcenterRuntime.vcenterUrl)&&
   Objects.equals(this.username, objVIMgrVcenterRuntime.username)&&
-  Objects.equals(this.inventoryState, objVIMgrVcenterRuntime.inventoryState)&&
-  Objects.equals(this.vcenterFullname, objVIMgrVcenterRuntime.vcenterFullname)&&
-  Objects.equals(this.vcenterConnected, objVIMgrVcenterRuntime.vcenterConnected)&&
-  Objects.equals(this.datacenterRefs, objVIMgrVcenterRuntime.datacenterRefs)&&
-  Objects.equals(this.numVcenterReqPending, objVIMgrVcenterRuntime.numVcenterReqPending)&&
   Objects.equals(this.password, objVIMgrVcenterRuntime.password)&&
+  Objects.equals(this.datacenterRefs, objVIMgrVcenterRuntime.datacenterRefs)&&
+  Objects.equals(this.privilege, objVIMgrVcenterRuntime.privilege)&&
+  Objects.equals(this.inventoryState, objVIMgrVcenterRuntime.inventoryState)&&
+  Objects.equals(this.discoveredDatacenter, objVIMgrVcenterRuntime.discoveredDatacenter)&&
+  Objects.equals(this.progress, objVIMgrVcenterRuntime.progress)&&
+  Objects.equals(this.numDcs, objVIMgrVcenterRuntime.numDcs)&&
+  Objects.equals(this.numHosts, objVIMgrVcenterRuntime.numHosts)&&
+  Objects.equals(this.numClusters, objVIMgrVcenterRuntime.numClusters)&&
+  Objects.equals(this.numVms, objVIMgrVcenterRuntime.numVms)&&
+  Objects.equals(this.numNws, objVIMgrVcenterRuntime.numNws)&&
+  Objects.equals(this.numVcenterReqPending, objVIMgrVcenterRuntime.numVcenterReqPending)&&
+  Objects.equals(this.discStartTime, objVIMgrVcenterRuntime.discStartTime)&&
+  Objects.equals(this.discEndTime, objVIMgrVcenterRuntime.discEndTime)&&
+  Objects.equals(this.managementNetwork, objVIMgrVcenterRuntime.managementNetwork)&&
+  Objects.equals(this.inventoryProgress, objVIMgrVcenterRuntime.inventoryProgress)&&
   Objects.equals(this.apicMode, objVIMgrVcenterRuntime.apicMode)&&
   Objects.equals(this.vcenterTemplateSeLocation, objVIMgrVcenterRuntime.vcenterTemplateSeLocation)&&
-  Objects.equals(this.numVms, objVIMgrVcenterRuntime.numVms)&&
-  Objects.equals(this.managementNetwork, objVIMgrVcenterRuntime.managementNetwork)&&
-  Objects.equals(this.name, objVIMgrVcenterRuntime.name)&&
-  Objects.equals(this.type, objVIMgrVcenterRuntime.type)&&
+  Objects.equals(this.apiVersion, objVIMgrVcenterRuntime.apiVersion)&&
+  Objects.equals(this.vcenterFullname, objVIMgrVcenterRuntime.vcenterFullname)&&
+  Objects.equals(this.vcenterConnected, objVIMgrVcenterRuntime.vcenterConnected)&&
   Objects.equals(this.tenantRef, objVIMgrVcenterRuntime.tenantRef)&&
-  Objects.equals(this.numHosts, objVIMgrVcenterRuntime.numHosts);
+  Objects.equals(this.cloudRef, objVIMgrVcenterRuntime.cloudRef);
 }
 
 @Override

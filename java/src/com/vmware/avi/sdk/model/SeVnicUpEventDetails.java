@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeVnicUpEventDetails objSeVnicUpEventDetails = (SeVnicUpEventDetails) o;
-  return   Objects.equals(this.mac, objSeVnicUpEventDetails.mac)&&
+  return   Objects.equals(this.seRef, objSeVnicUpEventDetails.seRef)&&
+  Objects.equals(this.ifName, objSeVnicUpEventDetails.ifName)&&
   Objects.equals(this.linuxName, objSeVnicUpEventDetails.linuxName)&&
-  Objects.equals(this.seRef, objSeVnicUpEventDetails.seRef)&&
-  Objects.equals(this.ifName, objSeVnicUpEventDetails.ifName);
+  Objects.equals(this.mac, objSeVnicUpEventDetails.mac);
 }
 
 @Override

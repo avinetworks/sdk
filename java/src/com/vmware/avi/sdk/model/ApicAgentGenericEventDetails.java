@@ -332,17 +332,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ApicAgentGenericEventDetails objApicAgentGenericEventDetails = (ApicAgentGenericEventDetails) o;
-  return   Objects.equals(this.serviceEngineVnics, objApicAgentGenericEventDetails.serviceEngineVnics)&&
-  Objects.equals(this.vnicNetworkAttachment, objApicAgentGenericEventDetails.vnicNetworkAttachment)&&
-  Objects.equals(this.tenantName, objApicAgentGenericEventDetails.tenantName)&&
+  return   Objects.equals(this.vsUuid, objApicAgentGenericEventDetails.vsUuid)&&
   Objects.equals(this.vsName, objApicAgentGenericEventDetails.vsName)&&
-  Objects.equals(this.tenantUuid, objApicAgentGenericEventDetails.tenantUuid)&&
-  Objects.equals(this.lifCifAttachment, objApicAgentGenericEventDetails.lifCifAttachment)&&
-  Objects.equals(this.vsUuid, objApicAgentGenericEventDetails.vsUuid)&&
   Objects.equals(this.lifs, objApicAgentGenericEventDetails.lifs)&&
-  Objects.equals(this.seUuid, objApicAgentGenericEventDetails.seUuid)&&
+  Objects.equals(this.serviceEngineVnics, objApicAgentGenericEventDetails.serviceEngineVnics)&&
+  Objects.equals(this.networks, objApicAgentGenericEventDetails.networks)&&
   Objects.equals(this.contractGraphs, objApicAgentGenericEventDetails.contractGraphs)&&
-  Objects.equals(this.networks, objApicAgentGenericEventDetails.networks);
+  Objects.equals(this.seUuid, objApicAgentGenericEventDetails.seUuid)&&
+  Objects.equals(this.tenantUuid, objApicAgentGenericEventDetails.tenantUuid)&&
+  Objects.equals(this.tenantName, objApicAgentGenericEventDetails.tenantName)&&
+  Objects.equals(this.lifCifAttachment, objApicAgentGenericEventDetails.lifCifAttachment)&&
+  Objects.equals(this.vnicNetworkAttachment, objApicAgentGenericEventDetails.vnicNetworkAttachment);
 }
 
 @Override

@@ -217,12 +217,12 @@ public boolean equals(java.lang.Object o) {
   }
   StringGroup objStringGroup = (StringGroup) o;
   return   Objects.equals(this.uuid, objStringGroup.uuid)&&
-  Objects.equals(this.description, objStringGroup.description)&&
+  Objects.equals(this.name, objStringGroup.name)&&
   Objects.equals(this.kv, objStringGroup.kv)&&
-  Objects.equals(this.longestMatch, objStringGroup.longestMatch)&&
   Objects.equals(this.type, objStringGroup.type)&&
-  Objects.equals(this.tenantRef, objStringGroup.tenantRef)&&
-  Objects.equals(this.name, objStringGroup.name);
+  Objects.equals(this.longestMatch, objStringGroup.longestMatch)&&
+  Objects.equals(this.description, objStringGroup.description)&&
+  Objects.equals(this.tenantRef, objStringGroup.tenantRef);
 }
 
 @Override

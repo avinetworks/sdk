@@ -341,18 +341,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DockerUCPSetup objDockerUCPSetup = (DockerUCPSetup) o;
-  return   Objects.equals(this.missingHosts, objDockerUCPSetup.missingHosts)&&
-  Objects.equals(this.failedHosts, objDockerUCPSetup.failedHosts)&&
+  return   Objects.equals(this.ccId, objDockerUCPSetup.ccId)&&
+  Objects.equals(this.ucpNodes, objDockerUCPSetup.ucpNodes)&&
+  Objects.equals(this.dockerUcpAccess, objDockerUCPSetup.dockerUcpAccess)&&
+  Objects.equals(this.fleetEndpoint, objDockerUCPSetup.fleetEndpoint)&&
   Objects.equals(this.seDeployMethodAccess, objDockerUCPSetup.seDeployMethodAccess)&&
   Objects.equals(this.reason, objDockerUCPSetup.reason)&&
   Objects.equals(this.version, objDockerUCPSetup.version)&&
-  Objects.equals(this.hosts, objDockerUCPSetup.hosts)&&
-  Objects.equals(this.fleetEndpoint, objDockerUCPSetup.fleetEndpoint)&&
-  Objects.equals(this.newHosts, objDockerUCPSetup.newHosts)&&
   Objects.equals(this.seName, objDockerUCPSetup.seName)&&
-  Objects.equals(this.ccId, objDockerUCPSetup.ccId)&&
-  Objects.equals(this.ucpNodes, objDockerUCPSetup.ucpNodes)&&
-  Objects.equals(this.dockerUcpAccess, objDockerUCPSetup.dockerUcpAccess);
+  Objects.equals(this.hosts, objDockerUCPSetup.hosts)&&
+  Objects.equals(this.newHosts, objDockerUCPSetup.newHosts)&&
+  Objects.equals(this.missingHosts, objDockerUCPSetup.missingHosts)&&
+  Objects.equals(this.failedHosts, objDockerUCPSetup.failedHosts);
 }
 
 @Override

@@ -121,10 +121,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CookieMatch objCookieMatch = (CookieMatch) o;
-  return   Objects.equals(this.matchCase, objCookieMatch.matchCase)&&
+  return   Objects.equals(this.matchCriteria, objCookieMatch.matchCriteria)&&
   Objects.equals(this.name, objCookieMatch.name)&&
-  Objects.equals(this.value, objCookieMatch.value)&&
-  Objects.equals(this.matchCriteria, objCookieMatch.matchCriteria);
+  Objects.equals(this.matchCase, objCookieMatch.matchCase)&&
+  Objects.equals(this.value, objCookieMatch.value);
 }
 
 @Override

@@ -302,16 +302,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsInfobloxProfile objIpamDnsInfobloxProfile = (IpamDnsInfobloxProfile) o;
-  return   Objects.equals(this.username, objIpamDnsInfobloxProfile.username)&&
-  Objects.equals(this.usableAllocSubnets, objIpamDnsInfobloxProfile.usableAllocSubnets)&&
-  Objects.equals(this.networkView, objIpamDnsInfobloxProfile.networkView)&&
-  Objects.equals(this.usableDomains, objIpamDnsInfobloxProfile.usableDomains)&&
-  Objects.equals(this.wapiVersion, objIpamDnsInfobloxProfile.wapiVersion)&&
-  Objects.equals(this.usableSubnets, objIpamDnsInfobloxProfile.usableSubnets)&&
-  Objects.equals(this.dnsView, objIpamDnsInfobloxProfile.dnsView)&&
-  Objects.equals(this.extensibleAttributes, objIpamDnsInfobloxProfile.extensibleAttributes)&&
+  return   Objects.equals(this.ipAddress, objIpamDnsInfobloxProfile.ipAddress)&&
+  Objects.equals(this.username, objIpamDnsInfobloxProfile.username)&&
   Objects.equals(this.password, objIpamDnsInfobloxProfile.password)&&
-  Objects.equals(this.ipAddress, objIpamDnsInfobloxProfile.ipAddress);
+  Objects.equals(this.wapiVersion, objIpamDnsInfobloxProfile.wapiVersion)&&
+  Objects.equals(this.dnsView, objIpamDnsInfobloxProfile.dnsView)&&
+  Objects.equals(this.networkView, objIpamDnsInfobloxProfile.networkView)&&
+  Objects.equals(this.usableSubnets, objIpamDnsInfobloxProfile.usableSubnets)&&
+  Objects.equals(this.usableDomains, objIpamDnsInfobloxProfile.usableDomains)&&
+  Objects.equals(this.extensibleAttributes, objIpamDnsInfobloxProfile.extensibleAttributes)&&
+  Objects.equals(this.usableAllocSubnets, objIpamDnsInfobloxProfile.usableAllocSubnets);
 }
 
 @Override

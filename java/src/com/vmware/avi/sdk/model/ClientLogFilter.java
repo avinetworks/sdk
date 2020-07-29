@@ -183,12 +183,12 @@ public boolean equals(java.lang.Object o) {
   }
   ClientLogFilter objClientLogFilter = (ClientLogFilter) o;
   return   Objects.equals(this.index, objClientLogFilter.index)&&
-  Objects.equals(this.clientIp, objClientLogFilter.clientIp)&&
   Objects.equals(this.name, objClientLogFilter.name)&&
-  Objects.equals(this.enabled, objClientLogFilter.enabled)&&
+  Objects.equals(this.clientIp, objClientLogFilter.clientIp)&&
+  Objects.equals(this.allHeaders, objClientLogFilter.allHeaders)&&
   Objects.equals(this.uri, objClientLogFilter.uri)&&
-  Objects.equals(this.duration, objClientLogFilter.duration)&&
-  Objects.equals(this.allHeaders, objClientLogFilter.allHeaders);
+  Objects.equals(this.enabled, objClientLogFilter.enabled)&&
+  Objects.equals(this.duration, objClientLogFilter.duration);
 }
 
 @Override

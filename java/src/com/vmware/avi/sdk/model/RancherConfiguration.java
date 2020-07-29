@@ -693,33 +693,33 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RancherConfiguration objRancherConfiguration = (RancherConfiguration) o;
-  return   Objects.equals(this.eastWestPlacementSubnet, objRancherConfiguration.eastWestPlacementSubnet)&&
-  Objects.equals(this.enableEventSubscription, objRancherConfiguration.enableEventSubscription)&&
-  Objects.equals(this.nuageController, objRancherConfiguration.nuageController)&&
-  Objects.equals(this.feproxyVipsEnableProxyArp, objRancherConfiguration.feproxyVipsEnableProxyArp)&&
-  Objects.equals(this.disableAutoBackendServiceSync, objRancherConfiguration.disableAutoBackendServiceSync)&&
-  Objects.equals(this.containerPortMatchHttpService, objRancherConfiguration.containerPortMatchHttpService)&&
-  Objects.equals(this.fleetEndpoint, objRancherConfiguration.fleetEndpoint)&&
-  Objects.equals(this.sshUserRef, objRancherConfiguration.sshUserRef)&&
-  Objects.equals(this.seVolume, objRancherConfiguration.seVolume)&&
-  Objects.equals(this.httpContainerPorts, objRancherConfiguration.httpContainerPorts)&&
-  Objects.equals(this.seExcludeAttributes, objRancherConfiguration.seExcludeAttributes)&&
-  Objects.equals(this.rancherServers, objRancherConfiguration.rancherServers)&&
-  Objects.equals(this.seDeploymentMethod, objRancherConfiguration.seDeploymentMethod)&&
-  Objects.equals(this.dockerRegistrySe, objRancherConfiguration.dockerRegistrySe)&&
-  Objects.equals(this.sshSeDeployment, objRancherConfiguration.sshSeDeployment)&&
-  Objects.equals(this.feproxyContainerPortAsService, objRancherConfiguration.feproxyContainerPortAsService)&&
-  Objects.equals(this.useControllerImage, objRancherConfiguration.useControllerImage)&&
-  Objects.equals(this.coredumpDirectory, objRancherConfiguration.coredumpDirectory)&&
-  Objects.equals(this.disableAutoFrontendServiceSync, objRancherConfiguration.disableAutoFrontendServiceSync)&&
-  Objects.equals(this.seIncludeAttributes, objRancherConfiguration.seIncludeAttributes)&&
-  Objects.equals(this.appSyncFrequency, objRancherConfiguration.appSyncFrequency)&&
+  return   Objects.equals(this.rancherServers, objRancherConfiguration.rancherServers)&&
   Objects.equals(this.accessKey, objRancherConfiguration.accessKey)&&
-  Objects.equals(this.servicesAccessibleAllInterfaces, objRancherConfiguration.servicesAccessibleAllInterfaces)&&
-  Objects.equals(this.seSpawnRate, objRancherConfiguration.seSpawnRate)&&
   Objects.equals(this.secretKey, objRancherConfiguration.secretKey)&&
+  Objects.equals(this.containerPortMatchHttpService, objRancherConfiguration.containerPortMatchHttpService)&&
+  Objects.equals(this.httpContainerPorts, objRancherConfiguration.httpContainerPorts)&&
+  Objects.equals(this.eastWestPlacementSubnet, objRancherConfiguration.eastWestPlacementSubnet)&&
+  Objects.equals(this.seDeploymentMethod, objRancherConfiguration.seDeploymentMethod)&&
+  Objects.equals(this.fleetEndpoint, objRancherConfiguration.fleetEndpoint)&&
+  Objects.equals(this.dockerRegistrySe, objRancherConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.seSpawnRate, objRancherConfiguration.seSpawnRate)&&
+  Objects.equals(this.appSyncFrequency, objRancherConfiguration.appSyncFrequency)&&
+  Objects.equals(this.disableAutoSeCreation, objRancherConfiguration.disableAutoSeCreation)&&
+  Objects.equals(this.disableAutoFrontendServiceSync, objRancherConfiguration.disableAutoFrontendServiceSync)&&
+  Objects.equals(this.disableAutoBackendServiceSync, objRancherConfiguration.disableAutoBackendServiceSync)&&
   Objects.equals(this.useContainerIpPort, objRancherConfiguration.useContainerIpPort)&&
-  Objects.equals(this.disableAutoSeCreation, objRancherConfiguration.disableAutoSeCreation);
+  Objects.equals(this.seVolume, objRancherConfiguration.seVolume)&&
+  Objects.equals(this.coredumpDirectory, objRancherConfiguration.coredumpDirectory)&&
+  Objects.equals(this.sshSeDeployment, objRancherConfiguration.sshSeDeployment)&&
+  Objects.equals(this.enableEventSubscription, objRancherConfiguration.enableEventSubscription)&&
+  Objects.equals(this.feproxyContainerPortAsService, objRancherConfiguration.feproxyContainerPortAsService)&&
+  Objects.equals(this.servicesAccessibleAllInterfaces, objRancherConfiguration.servicesAccessibleAllInterfaces)&&
+  Objects.equals(this.feproxyVipsEnableProxyArp, objRancherConfiguration.feproxyVipsEnableProxyArp)&&
+  Objects.equals(this.seExcludeAttributes, objRancherConfiguration.seExcludeAttributes)&&
+  Objects.equals(this.seIncludeAttributes, objRancherConfiguration.seIncludeAttributes)&&
+  Objects.equals(this.nuageController, objRancherConfiguration.nuageController)&&
+  Objects.equals(this.useControllerImage, objRancherConfiguration.useControllerImage)&&
+  Objects.equals(this.sshUserRef, objRancherConfiguration.sshUserRef);
 }
 
 @Override

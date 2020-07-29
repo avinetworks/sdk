@@ -175,12 +175,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Service objService = (Service) o;
-  return   Objects.equals(this.overrideNetworkProfileRef, objService.overrideNetworkProfileRef)&&
-  Objects.equals(this.portRangeEnd, objService.portRangeEnd)&&
+  return   Objects.equals(this.port, objService.port)&&
   Objects.equals(this.enableSsl, objService.enableSsl)&&
-  Objects.equals(this.enableHttp2, objService.enableHttp2)&&
+  Objects.equals(this.overrideNetworkProfileRef, objService.overrideNetworkProfileRef)&&
+  Objects.equals(this.portRangeEnd, objService.portRangeEnd)&&
   Objects.equals(this.overrideApplicationProfileRef, objService.overrideApplicationProfileRef)&&
-  Objects.equals(this.port, objService.port);
+  Objects.equals(this.enableHttp2, objService.enableHttp2);
 }
 
 @Override

@@ -112,8 +112,8 @@ public boolean equals(java.lang.Object o) {
   }
   URIInfo objURIInfo = (URIInfo) o;
   return   Objects.equals(this.uriHits, objURIInfo.uriHits)&&
-  Objects.equals(this.paramInfo, objURIInfo.paramInfo)&&
-  Objects.equals(this.uriKey, objURIInfo.uriKey);
+  Objects.equals(this.uriKey, objURIInfo.uriKey)&&
+  Objects.equals(this.paramInfo, objURIInfo.paramInfo);
 }
 
 @Override

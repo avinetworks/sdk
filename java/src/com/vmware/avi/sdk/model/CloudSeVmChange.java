@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudSeVmChange objCloudSeVmChange = (CloudSeVmChange) o;
-  return   Objects.equals(this.vtype, objCloudSeVmChange.vtype)&&
+  return   Objects.equals(this.ccId, objCloudSeVmChange.ccId)&&
+  Objects.equals(this.vtype, objCloudSeVmChange.vtype)&&
   Objects.equals(this.seVmUuid, objCloudSeVmChange.seVmUuid)&&
-  Objects.equals(this.errorString, objCloudSeVmChange.errorString)&&
-  Objects.equals(this.ccId, objCloudSeVmChange.ccId);
+  Objects.equals(this.errorString, objCloudSeVmChange.errorString);
 }
 
 @Override

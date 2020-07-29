@@ -306,17 +306,17 @@ public boolean equals(java.lang.Object o) {
   }
   AnomalyEventDetails objAnomalyEventDetails = (AnomalyEventDetails) o;
   return   Objects.equals(this.deviation, objAnomalyEventDetails.deviation)&&
-  Objects.equals(this.poolName, objAnomalyEventDetails.poolName)&&
-  Objects.equals(this.objType, objAnomalyEventDetails.objType)&&
-  Objects.equals(this.metricId, objAnomalyEventDetails.metricId)&&
-  Objects.equals(this.models, objAnomalyEventDetails.models)&&
   Objects.equals(this.value, objAnomalyEventDetails.value)&&
-  Objects.equals(this.server, objAnomalyEventDetails.server)&&
+  Objects.equals(this.metricTimestamp, objAnomalyEventDetails.metricTimestamp)&&
+  Objects.equals(this.model, objAnomalyEventDetails.model)&&
+  Objects.equals(this.metricId, objAnomalyEventDetails.metricId)&&
   Objects.equals(this.priority, objAnomalyEventDetails.priority)&&
   Objects.equals(this.nodeId, objAnomalyEventDetails.nodeId)&&
-  Objects.equals(this.metricTimestamp, objAnomalyEventDetails.metricTimestamp)&&
+  Objects.equals(this.objType, objAnomalyEventDetails.objType)&&
+  Objects.equals(this.server, objAnomalyEventDetails.server)&&
   Objects.equals(this.poolUuid, objAnomalyEventDetails.poolUuid)&&
-  Objects.equals(this.model, objAnomalyEventDetails.model);
+  Objects.equals(this.poolName, objAnomalyEventDetails.poolName)&&
+  Objects.equals(this.models, objAnomalyEventDetails.models);
 }
 
 @Override

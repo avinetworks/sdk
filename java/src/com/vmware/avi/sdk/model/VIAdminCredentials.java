@@ -139,10 +139,10 @@ public boolean equals(java.lang.Object o) {
   }
   VIAdminCredentials objVIAdminCredentials = (VIAdminCredentials) o;
   return   Objects.equals(this.vcenterUrl, objVIAdminCredentials.vcenterUrl)&&
-  Objects.equals(this.privilege, objVIAdminCredentials.privilege)&&
-  Objects.equals(this.password, objVIAdminCredentials.password)&&
   Objects.equals(this.name, objVIAdminCredentials.name)&&
-  Objects.equals(this.viMgrToken, objVIAdminCredentials.viMgrToken);
+  Objects.equals(this.password, objVIAdminCredentials.password)&&
+  Objects.equals(this.viMgrToken, objVIAdminCredentials.viMgrToken)&&
+  Objects.equals(this.privilege, objVIAdminCredentials.privilege);
 }
 
 @Override

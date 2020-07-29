@@ -192,13 +192,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PoolDeploymentFailureInfo objPoolDeploymentFailureInfo = (PoolDeploymentFailureInfo) o;
-  return   Objects.equals(this.ratio, objPoolDeploymentFailureInfo.ratio)&&
-  Objects.equals(this.uuid, objPoolDeploymentFailureInfo.uuid)&&
+  return   Objects.equals(this.uuid, objPoolDeploymentFailureInfo.uuid)&&
+  Objects.equals(this.ratio, objPoolDeploymentFailureInfo.ratio)&&
+  Objects.equals(this.currInServicePoolRef, objPoolDeploymentFailureInfo.currInServicePoolRef)&&
   Objects.equals(this.results, objPoolDeploymentFailureInfo.results)&&
   Objects.equals(this.webhookResult, objPoolDeploymentFailureInfo.webhookResult)&&
-  Objects.equals(this.currInServicePoolName, objPoolDeploymentFailureInfo.currInServicePoolName)&&
   Objects.equals(this.webhookReason, objPoolDeploymentFailureInfo.webhookReason)&&
-  Objects.equals(this.currInServicePoolRef, objPoolDeploymentFailureInfo.currInServicePoolRef);
+  Objects.equals(this.currInServicePoolName, objPoolDeploymentFailureInfo.currInServicePoolName);
 }
 
 @Override

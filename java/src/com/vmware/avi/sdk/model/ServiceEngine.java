@@ -54,7 +54,7 @@ public class ServiceEngine extends AviRestResource  {
     private vNIC mgmtVnic = null;
 
     @JsonProperty("name")
-    private String name = "vm name unknown";
+    private String name = "VM name unknown";
 
     @JsonProperty("resources")
     private SeResources resources = null;
@@ -314,7 +314,7 @@ public class ServiceEngine extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Name of the object.
-   * Default value when not specified in API or module is interpreted by Avi Controller as vm name unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
    * @return name
    */
   public String getName() {
@@ -324,7 +324,7 @@ public class ServiceEngine extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Name of the object.
-   * Default value when not specified in API or module is interpreted by Avi Controller as vm name unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
    * @param name set the name.
    */
   public void setName(String  name) {
@@ -430,23 +430,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServiceEngine objServiceEngine = (ServiceEngine) o;
-  return   Objects.equals(this.containerMode, objServiceEngine.containerMode)&&
-  Objects.equals(this.enableState, objServiceEngine.enableState)&&
-  Objects.equals(this.uuid, objServiceEngine.uuid)&&
-  Objects.equals(this.mgmtVnic, objServiceEngine.mgmtVnic)&&
-  Objects.equals(this.hypervisor, objServiceEngine.hypervisor)&&
-  Objects.equals(this.controllerCreated, objServiceEngine.controllerCreated)&&
-  Objects.equals(this.dataVnics, objServiceEngine.dataVnics)&&
-  Objects.equals(this.hostRef, objServiceEngine.hostRef)&&
-  Objects.equals(this.cloudRef, objServiceEngine.cloudRef)&&
-  Objects.equals(this.containerType, objServiceEngine.containerType)&&
-  Objects.equals(this.availabilityZone, objServiceEngine.availabilityZone)&&
-  Objects.equals(this.controllerIp, objServiceEngine.controllerIp)&&
-  Objects.equals(this.flavor, objServiceEngine.flavor)&&
-  Objects.equals(this.seGroupRef, objServiceEngine.seGroupRef)&&
+  return   Objects.equals(this.uuid, objServiceEngine.uuid)&&
+  Objects.equals(this.name, objServiceEngine.name)&&
   Objects.equals(this.tenantRef, objServiceEngine.tenantRef)&&
+  Objects.equals(this.cloudRef, objServiceEngine.cloudRef)&&
+  Objects.equals(this.mgmtVnic, objServiceEngine.mgmtVnic)&&
   Objects.equals(this.resources, objServiceEngine.resources)&&
-  Objects.equals(this.name, objServiceEngine.name);
+  Objects.equals(this.dataVnics, objServiceEngine.dataVnics)&&
+  Objects.equals(this.controllerIp, objServiceEngine.controllerIp)&&
+  Objects.equals(this.hostRef, objServiceEngine.hostRef)&&
+  Objects.equals(this.controllerCreated, objServiceEngine.controllerCreated)&&
+  Objects.equals(this.seGroupRef, objServiceEngine.seGroupRef)&&
+  Objects.equals(this.containerMode, objServiceEngine.containerMode)&&
+  Objects.equals(this.flavor, objServiceEngine.flavor)&&
+  Objects.equals(this.hypervisor, objServiceEngine.hypervisor)&&
+  Objects.equals(this.availabilityZone, objServiceEngine.availabilityZone)&&
+  Objects.equals(this.enableState, objServiceEngine.enableState)&&
+  Objects.equals(this.containerType, objServiceEngine.containerType);
 }
 
 @Override

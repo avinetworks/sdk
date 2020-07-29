@@ -99,8 +99,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsQueryTypeMatch objDnsQueryTypeMatch = (DnsQueryTypeMatch) o;
-  return   Objects.equals(this.queryType, objDnsQueryTypeMatch.queryType)&&
-  Objects.equals(this.matchCriteria, objDnsQueryTypeMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objDnsQueryTypeMatch.matchCriteria)&&
+  Objects.equals(this.queryType, objDnsQueryTypeMatch.queryType);
 }
 
 @Override

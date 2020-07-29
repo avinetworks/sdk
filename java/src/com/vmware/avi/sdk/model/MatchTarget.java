@@ -252,15 +252,15 @@ public boolean equals(java.lang.Object o) {
   }
   MatchTarget objMatchTarget = (MatchTarget) o;
   return   Objects.equals(this.clientIp, objMatchTarget.clientIp)&&
-  Objects.equals(this.protocol, objMatchTarget.protocol)&&
-  Objects.equals(this.hdrs, objMatchTarget.hdrs)&&
-  Objects.equals(this.hostHdr, objMatchTarget.hostHdr)&&
   Objects.equals(this.vsPort, objMatchTarget.vsPort)&&
+  Objects.equals(this.protocol, objMatchTarget.protocol)&&
+  Objects.equals(this.method, objMatchTarget.method)&&
   Objects.equals(this.version, objMatchTarget.version)&&
-  Objects.equals(this.cookie, objMatchTarget.cookie)&&
-  Objects.equals(this.query, objMatchTarget.query)&&
   Objects.equals(this.path, objMatchTarget.path)&&
-  Objects.equals(this.method, objMatchTarget.method);
+  Objects.equals(this.query, objMatchTarget.query)&&
+  Objects.equals(this.hdrs, objMatchTarget.hdrs)&&
+  Objects.equals(this.cookie, objMatchTarget.cookie)&&
+  Objects.equals(this.hostHdr, objMatchTarget.hostHdr);
 }
 
 @Override

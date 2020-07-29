@@ -305,18 +305,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CaptureIPC objCaptureIPC = (CaptureIPC) o;
-  return   Objects.equals(this.vsHb, objCaptureIPC.vsHb)&&
-  Objects.equals(this.flowProbeAll, objCaptureIPC.flowProbeAll)&&
-  Objects.equals(this.flowMirrorAll, objCaptureIPC.flowMirrorAll)&&
+  return   Objects.equals(this.flowProbe, objCaptureIPC.flowProbe)&&
   Objects.equals(this.flowDelProbe, objCaptureIPC.flowDelProbe)&&
-  Objects.equals(this.ipcBatched, objCaptureIPC.ipcBatched)&&
-  Objects.equals(this.ipcTxRes, objCaptureIPC.ipcTxRes)&&
-  Objects.equals(this.flowProbe, objCaptureIPC.flowProbe)&&
-  Objects.equals(this.ipcTxReq, objCaptureIPC.ipcTxReq)&&
+  Objects.equals(this.flowProbeAll, objCaptureIPC.flowProbeAll)&&
+  Objects.equals(this.vsHb, objCaptureIPC.vsHb)&&
+  Objects.equals(this.flowMirrorAdd, objCaptureIPC.flowMirrorAdd)&&
+  Objects.equals(this.flowMirrorDel, objCaptureIPC.flowMirrorDel)&&
+  Objects.equals(this.flowMirrorAll, objCaptureIPC.flowMirrorAll)&&
   Objects.equals(this.ipcRxReq, objCaptureIPC.ipcRxReq)&&
   Objects.equals(this.ipcRxRes, objCaptureIPC.ipcRxRes)&&
-  Objects.equals(this.flowMirrorDel, objCaptureIPC.flowMirrorDel)&&
-  Objects.equals(this.flowMirrorAdd, objCaptureIPC.flowMirrorAdd);
+  Objects.equals(this.ipcTxReq, objCaptureIPC.ipcTxReq)&&
+  Objects.equals(this.ipcTxRes, objCaptureIPC.ipcTxRes)&&
+  Objects.equals(this.ipcBatched, objCaptureIPC.ipcBatched);
 }
 
 @Override

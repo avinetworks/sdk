@@ -135,9 +135,9 @@ public boolean equals(java.lang.Object o) {
   }
   MicroServiceContainer objMicroServiceContainer = (MicroServiceContainer) o;
   return   Objects.equals(this.ip, objMicroServiceContainer.ip)&&
-  Objects.equals(this.host, objMicroServiceContainer.host)&&
-  Objects.equals(this.containerId, objMicroServiceContainer.containerId)&&
   Objects.equals(this.port, objMicroServiceContainer.port)&&
+  Objects.equals(this.containerId, objMicroServiceContainer.containerId)&&
+  Objects.equals(this.host, objMicroServiceContainer.host)&&
   Objects.equals(this.taskId, objMicroServiceContainer.taskId);
 }
 

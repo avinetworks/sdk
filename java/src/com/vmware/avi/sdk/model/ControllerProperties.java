@@ -185,8 +185,14 @@ public class ControllerProperties extends AviRestResource  {
     @JsonProperty("upgrade_dns_ttl")
     private Integer upgradeDnsTtl = 5;
 
+    @JsonProperty("upgrade_fat_se_lease_time")
+    private Integer upgradeFatSeLeaseTime = 1200;
+
     @JsonProperty("upgrade_lease_time")
-    private Integer upgradeLeaseTime = 360;
+    private Integer upgradeLeaseTime = 600;
+
+    @JsonProperty("upgrade_se_per_vs_scale_ops_txn_time")
+    private Integer upgradeSePerVsScaleOpsTxnTime = 3;
 
     @JsonProperty("url")
     private String url = "url";
@@ -1443,8 +1449,31 @@ public class ControllerProperties extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Placeholder for description of property upgrade_lease_time of obj type controllerproperties field type str  type integer.
-   * Default value when not specified in API or module is interpreted by Avi Controller as 360.
+   * Amount of time controller waits for a large-sized se (>=128gb memory) to reconnect after it is rebooted during upgrade.
+   * Field introduced in 18.2.10, 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 1200.
+   * @return upgradeFatSeLeaseTime
+   */
+  public Integer getUpgradeFatSeLeaseTime() {
+    return upgradeFatSeLeaseTime;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * Amount of time controller waits for a large-sized se (>=128gb memory) to reconnect after it is rebooted during upgrade.
+   * Field introduced in 18.2.10, 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 1200.
+   * @param upgradeFatSeLeaseTime set the upgradeFatSeLeaseTime.
+   */
+  public void setUpgradeFatSeLeaseTime(Integer  upgradeFatSeLeaseTime) {
+    this.upgradeFatSeLeaseTime = upgradeFatSeLeaseTime;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * Amount of time controller waits for a regular-sized se (<128gb memory) to reconnect after it is rebooted during upgrade.
+   * Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 600.
    * @return upgradeLeaseTime
    */
   public Integer getUpgradeLeaseTime() {
@@ -1453,12 +1482,39 @@ public class ControllerProperties extends AviRestResource  {
 
   /**
    * This is the setter method to the attribute.
-   * Placeholder for description of property upgrade_lease_time of obj type controllerproperties field type str  type integer.
-   * Default value when not specified in API or module is interpreted by Avi Controller as 360.
+   * Amount of time controller waits for a regular-sized se (<128gb memory) to reconnect after it is rebooted during upgrade.
+   * Starting 18.2.10/20.1.1, the default time has increased from 360 seconds to 600 seconds.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 600.
    * @param upgradeLeaseTime set the upgradeLeaseTime.
    */
   public void setUpgradeLeaseTime(Integer  upgradeLeaseTime) {
     this.upgradeLeaseTime = upgradeLeaseTime;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * This parameter defines the upper-bound value of the vs scale-in or vs scale-out operation executed in the sescalein and sescale context.
+   * User can tweak this parameter to a higher value if the segroup gets suspended due to sescalein or sescaleout timeout failure typically associated
+   * with high number of vs(es) scaled out.
+   * Field introduced in 18.2.10, 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 3.
+   * @return upgradeSePerVsScaleOpsTxnTime
+   */
+  public Integer getUpgradeSePerVsScaleOpsTxnTime() {
+    return upgradeSePerVsScaleOpsTxnTime;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * This parameter defines the upper-bound value of the vs scale-in or vs scale-out operation executed in the sescalein and sescale context.
+   * User can tweak this parameter to a higher value if the segroup gets suspended due to sescalein or sescaleout timeout failure typically associated
+   * with high number of vs(es) scaled out.
+   * Field introduced in 18.2.10, 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as 3.
+   * @param upgradeSePerVsScaleOpsTxnTime set the upgradeSePerVsScaleOpsTxnTime.
+   */
+  public void setUpgradeSePerVsScaleOpsTxnTime(Integer  upgradeSePerVsScaleOpsTxnTime) {
+    this.upgradeSePerVsScaleOpsTxnTime = upgradeSePerVsScaleOpsTxnTime;
   }
 /**
    * This is the getter method this will return the attribute value.
@@ -1776,77 +1832,79 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerProperties objControllerProperties = (ControllerProperties) o;
-  return   Objects.equals(this.vsSePingFail, objControllerProperties.vsSePingFail)&&
-  Objects.equals(this.sharedSslCertificates, objControllerProperties.sharedSslCertificates)&&
-  Objects.equals(this.portalToken, objControllerProperties.portalToken)&&
-  Objects.equals(this.warmstartSeReconnectWaitTime, objControllerProperties.warmstartSeReconnectWaitTime)&&
-  Objects.equals(this.persistenceKeyRotatePeriod, objControllerProperties.persistenceKeyRotatePeriod)&&
-  Objects.equals(this.unresponsiveSeReboot, objControllerProperties.unresponsiveSeReboot)&&
-  Objects.equals(this.attachIpRetryInterval, objControllerProperties.attachIpRetryInterval)&&
-  Objects.equals(this.vsSeVnicFail, objControllerProperties.vsSeVnicFail)&&
-  Objects.equals(this.secureChannelSeTokenTimeout, objControllerProperties.secureChannelSeTokenTimeout)&&
-  Objects.equals(this.attachIpRetryLimit, objControllerProperties.attachIpRetryLimit)&&
-  Objects.equals(this.defaultMinimumApiTimeout, objControllerProperties.defaultMinimumApiTimeout)&&
-  Objects.equals(this.seVnicCooldown, objControllerProperties.seVnicCooldown)&&
-  Objects.equals(this.vnicOpFailTime, objControllerProperties.vnicOpFailTime)&&
-  Objects.equals(this.vsKeyRotatePeriod, objControllerProperties.vsKeyRotatePeriod)&&
-  Objects.equals(this.enableMemoryBalancer, objControllerProperties.enableMemoryBalancer)&&
-  Objects.equals(this.maxDeadSeInGrp, objControllerProperties.maxDeadSeInGrp)&&
-  Objects.equals(this.seupgradeFabricPoolSize, objControllerProperties.seupgradeFabricPoolSize)&&
-  Objects.equals(this.cleanupExpiredAuthtokenTimeoutPeriod, objControllerProperties.cleanupExpiredAuthtokenTimeoutPeriod)&&
-  Objects.equals(this.maxPcapPerTenant, objControllerProperties.maxPcapPerTenant)&&
-  Objects.equals(this.seupgradeSegroupMinDeadTimeout, objControllerProperties.seupgradeSegroupMinDeadTimeout)&&
-  Objects.equals(this.uuid, objControllerProperties.uuid)&&
-  Objects.equals(this.upgradeLeaseTime, objControllerProperties.upgradeLeaseTime)&&
-  Objects.equals(this.permissionScopedSharedAdminNetworks, objControllerProperties.permissionScopedSharedAdminNetworks)&&
-  Objects.equals(this.maxSeSpawnIntervalDelay, objControllerProperties.maxSeSpawnIntervalDelay)&&
-  Objects.equals(this.warmstartVsResyncWaitTime, objControllerProperties.warmstartVsResyncWaitTime)&&
-  Objects.equals(this.editSystemLimits, objControllerProperties.editSystemLimits)&&
-  Objects.equals(this.seCreateTimeout, objControllerProperties.seCreateTimeout)&&
-  Objects.equals(this.queryHostFail, objControllerProperties.queryHostFail)&&
-  Objects.equals(this.vsApicScaleoutTimeout, objControllerProperties.vsApicScaleoutTimeout)&&
-  Objects.equals(this.bmUseAnsible, objControllerProperties.bmUseAnsible)&&
-  Objects.equals(this.processPkiProfileTimeoutPeriod, objControllerProperties.processPkiProfileTimeoutPeriod)&&
-  Objects.equals(this.seOfflineDel, objControllerProperties.seOfflineDel)&&
-  Objects.equals(this.vsSeBootupFail, objControllerProperties.vsSeBootupFail)&&
-  Objects.equals(this.upgradeDnsTtl, objControllerProperties.upgradeDnsTtl)&&
-  Objects.equals(this.fatalErrorLeaseTime, objControllerProperties.fatalErrorLeaseTime)&&
-  Objects.equals(this.portalRequestRateLimit, objControllerProperties.portalRequestRateLimit)&&
-  Objects.equals(this.apiPerfLoggingThreshold, objControllerProperties.apiPerfLoggingThreshold)&&
-  Objects.equals(this.allowIpForwarding, objControllerProperties.allowIpForwarding)&&
-  Objects.equals(this.vsSeAttachIpFail, objControllerProperties.vsSeAttachIpFail)&&
-  Objects.equals(this.allowAdminNetworkUpdates, objControllerProperties.allowAdminNetworkUpdates)&&
-  Objects.equals(this.maxSeqVnicFailures, objControllerProperties.maxSeqVnicFailures)&&
-  Objects.equals(this.allowUnauthenticatedNodes, objControllerProperties.allowUnauthenticatedNodes)&&
-  Objects.equals(this.allowUnauthenticatedApis, objControllerProperties.allowUnauthenticatedApis)&&
-  Objects.equals(this.seupgradeCopyPoolSize, objControllerProperties.seupgradeCopyPoolSize)&&
-  Objects.equals(this.cloudReconcile, objControllerProperties.cloudReconcile)&&
-  Objects.equals(this.vsScaleoutReadyCheckInterval, objControllerProperties.vsScaleoutReadyCheckInterval)&&
-  Objects.equals(this.vsAwaitingSeTimeout, objControllerProperties.vsAwaitingSeTimeout)&&
-  Objects.equals(this.seFromMarketplace, objControllerProperties.seFromMarketplace)&&
-  Objects.equals(this.portalRequestBurstLimit, objControllerProperties.portalRequestBurstLimit)&&
-  Objects.equals(this.clusterIpGratuitousArpPeriod, objControllerProperties.clusterIpGratuitousArpPeriod)&&
-  Objects.equals(this.processLockedUseraccountsTimeoutPeriod, objControllerProperties.processLockedUseraccountsTimeoutPeriod)&&
-  Objects.equals(this.consistencyCheckTimeoutPeriod, objControllerProperties.consistencyCheckTimeoutPeriod)&&
-  Objects.equals(this.fileObjectCleanupPeriod, objControllerProperties.fileObjectCleanupPeriod)&&
-  Objects.equals(this.dnsRefreshPeriod, objControllerProperties.dnsRefreshPeriod)&&
+  return   Objects.equals(this.uuid, objControllerProperties.uuid)&&
   Objects.equals(this.dummy, objControllerProperties.dummy)&&
-  Objects.equals(this.maxSeqAttachIpFailures, objControllerProperties.maxSeqAttachIpFailures)&&
-  Objects.equals(this.cleanupSessionsTimeoutPeriod, objControllerProperties.cleanupSessionsTimeoutPeriod)&&
-  Objects.equals(this.secureChannelCleanupTimeout, objControllerProperties.secureChannelCleanupTimeout)&&
-  Objects.equals(this.sslCertificateExpiryWarningDays, objControllerProperties.sslCertificateExpiryWarningDays)&&
-  Objects.equals(this.vsSeVnicIpFail, objControllerProperties.vsSeVnicIpFail)&&
-  Objects.equals(this.secureChannelControllerTokenTimeout, objControllerProperties.secureChannelControllerTokenTimeout)&&
-  Objects.equals(this.vsSeCreateFail, objControllerProperties.vsSeCreateFail)&&
-  Objects.equals(this.apiIdleTimeout, objControllerProperties.apiIdleTimeout)&&
+  Objects.equals(this.unresponsiveSeReboot, objControllerProperties.unresponsiveSeReboot)&&
   Objects.equals(this.crashedSeReboot, objControllerProperties.crashedSeReboot)&&
-  Objects.equals(this.appviewxCompatMode, objControllerProperties.appviewxCompatMode)&&
-  Objects.equals(this.safenetHsmVersion, objControllerProperties.safenetHsmVersion)&&
-  Objects.equals(this.enableApiSharding, objControllerProperties.enableApiSharding)&&
-  Objects.equals(this.seFailoverAttemptInterval, objControllerProperties.seFailoverAttemptInterval)&&
-  Objects.equals(this.federatedDatastoreCleanupDuration, objControllerProperties.federatedDatastoreCleanupDuration)&&
+  Objects.equals(this.seOfflineDel, objControllerProperties.seOfflineDel)&&
+  Objects.equals(this.vsSeCreateFail, objControllerProperties.vsSeCreateFail)&&
+  Objects.equals(this.vsSeVnicFail, objControllerProperties.vsSeVnicFail)&&
+  Objects.equals(this.vsSeBootupFail, objControllerProperties.vsSeBootupFail)&&
+  Objects.equals(this.seVnicCooldown, objControllerProperties.seVnicCooldown)&&
+  Objects.equals(this.vsSeVnicIpFail, objControllerProperties.vsSeVnicIpFail)&&
+  Objects.equals(this.fatalErrorLeaseTime, objControllerProperties.fatalErrorLeaseTime)&&
+  Objects.equals(this.upgradeLeaseTime, objControllerProperties.upgradeLeaseTime)&&
+  Objects.equals(this.queryHostFail, objControllerProperties.queryHostFail)&&
+  Objects.equals(this.vnicOpFailTime, objControllerProperties.vnicOpFailTime)&&
+  Objects.equals(this.dnsRefreshPeriod, objControllerProperties.dnsRefreshPeriod)&&
+  Objects.equals(this.seCreateTimeout, objControllerProperties.seCreateTimeout)&&
+  Objects.equals(this.maxDeadSeInGrp, objControllerProperties.maxDeadSeInGrp)&&
   Objects.equals(this.deadSeDetectionTimer, objControllerProperties.deadSeDetectionTimer)&&
-  Objects.equals(this.seSpawnRetryInterval, objControllerProperties.seSpawnRetryInterval);
+  Objects.equals(this.apiIdleTimeout, objControllerProperties.apiIdleTimeout)&&
+  Objects.equals(this.allowUnauthenticatedNodes, objControllerProperties.allowUnauthenticatedNodes)&&
+  Objects.equals(this.clusterIpGratuitousArpPeriod, objControllerProperties.clusterIpGratuitousArpPeriod)&&
+  Objects.equals(this.vsKeyRotatePeriod, objControllerProperties.vsKeyRotatePeriod)&&
+  Objects.equals(this.secureChannelControllerTokenTimeout, objControllerProperties.secureChannelControllerTokenTimeout)&&
+  Objects.equals(this.secureChannelSeTokenTimeout, objControllerProperties.secureChannelSeTokenTimeout)&&
+  Objects.equals(this.maxSeqVnicFailures, objControllerProperties.maxSeqVnicFailures)&&
+  Objects.equals(this.vsAwaitingSeTimeout, objControllerProperties.vsAwaitingSeTimeout)&&
+  Objects.equals(this.vsApicScaleoutTimeout, objControllerProperties.vsApicScaleoutTimeout)&&
+  Objects.equals(this.secureChannelCleanupTimeout, objControllerProperties.secureChannelCleanupTimeout)&&
+  Objects.equals(this.attachIpRetryInterval, objControllerProperties.attachIpRetryInterval)&&
+  Objects.equals(this.attachIpRetryLimit, objControllerProperties.attachIpRetryLimit)&&
+  Objects.equals(this.persistenceKeyRotatePeriod, objControllerProperties.persistenceKeyRotatePeriod)&&
+  Objects.equals(this.allowUnauthenticatedApis, objControllerProperties.allowUnauthenticatedApis)&&
+  Objects.equals(this.warmstartSeReconnectWaitTime, objControllerProperties.warmstartSeReconnectWaitTime)&&
+  Objects.equals(this.vsSePingFail, objControllerProperties.vsSePingFail)&&
+  Objects.equals(this.seFailoverAttemptInterval, objControllerProperties.seFailoverAttemptInterval)&&
+  Objects.equals(this.maxPcapPerTenant, objControllerProperties.maxPcapPerTenant)&&
+  Objects.equals(this.sslCertificateExpiryWarningDays, objControllerProperties.sslCertificateExpiryWarningDays)&&
+  Objects.equals(this.seupgradeFabricPoolSize, objControllerProperties.seupgradeFabricPoolSize)&&
+  Objects.equals(this.seupgradeSegroupMinDeadTimeout, objControllerProperties.seupgradeSegroupMinDeadTimeout)&&
+  Objects.equals(this.allowIpForwarding, objControllerProperties.allowIpForwarding)&&
+  Objects.equals(this.appviewxCompatMode, objControllerProperties.appviewxCompatMode)&&
+  Objects.equals(this.upgradeDnsTtl, objControllerProperties.upgradeDnsTtl)&&
+  Objects.equals(this.portalToken, objControllerProperties.portalToken)&&
+  Objects.equals(this.bmUseAnsible, objControllerProperties.bmUseAnsible)&&
+  Objects.equals(this.vsSeAttachIpFail, objControllerProperties.vsSeAttachIpFail)&&
+  Objects.equals(this.maxSeqAttachIpFailures, objControllerProperties.maxSeqAttachIpFailures)&&
+  Objects.equals(this.safenetHsmVersion, objControllerProperties.safenetHsmVersion)&&
+  Objects.equals(this.cleanupExpiredAuthtokenTimeoutPeriod, objControllerProperties.cleanupExpiredAuthtokenTimeoutPeriod)&&
+  Objects.equals(this.cleanupSessionsTimeoutPeriod, objControllerProperties.cleanupSessionsTimeoutPeriod)&&
+  Objects.equals(this.consistencyCheckTimeoutPeriod, objControllerProperties.consistencyCheckTimeoutPeriod)&&
+  Objects.equals(this.processLockedUseraccountsTimeoutPeriod, objControllerProperties.processLockedUseraccountsTimeoutPeriod)&&
+  Objects.equals(this.processPkiProfileTimeoutPeriod, objControllerProperties.processPkiProfileTimeoutPeriod)&&
+  Objects.equals(this.enableMemoryBalancer, objControllerProperties.enableMemoryBalancer)&&
+  Objects.equals(this.warmstartVsResyncWaitTime, objControllerProperties.warmstartVsResyncWaitTime)&&
+  Objects.equals(this.apiPerfLoggingThreshold, objControllerProperties.apiPerfLoggingThreshold)&&
+  Objects.equals(this.seFromMarketplace, objControllerProperties.seFromMarketplace)&&
+  Objects.equals(this.cloudReconcile, objControllerProperties.cloudReconcile)&&
+  Objects.equals(this.enableApiSharding, objControllerProperties.enableApiSharding)&&
+  Objects.equals(this.vsScaleoutReadyCheckInterval, objControllerProperties.vsScaleoutReadyCheckInterval)&&
+  Objects.equals(this.sharedSslCertificates, objControllerProperties.sharedSslCertificates)&&
+  Objects.equals(this.defaultMinimumApiTimeout, objControllerProperties.defaultMinimumApiTimeout)&&
+  Objects.equals(this.seupgradeCopyPoolSize, objControllerProperties.seupgradeCopyPoolSize)&&
+  Objects.equals(this.permissionScopedSharedAdminNetworks, objControllerProperties.permissionScopedSharedAdminNetworks)&&
+  Objects.equals(this.allowAdminNetworkUpdates, objControllerProperties.allowAdminNetworkUpdates)&&
+  Objects.equals(this.seSpawnRetryInterval, objControllerProperties.seSpawnRetryInterval)&&
+  Objects.equals(this.maxSeSpawnIntervalDelay, objControllerProperties.maxSeSpawnIntervalDelay)&&
+  Objects.equals(this.portalRequestRateLimit, objControllerProperties.portalRequestRateLimit)&&
+  Objects.equals(this.portalRequestBurstLimit, objControllerProperties.portalRequestBurstLimit)&&
+  Objects.equals(this.federatedDatastoreCleanupDuration, objControllerProperties.federatedDatastoreCleanupDuration)&&
+  Objects.equals(this.editSystemLimits, objControllerProperties.editSystemLimits)&&
+  Objects.equals(this.fileObjectCleanupPeriod, objControllerProperties.fileObjectCleanupPeriod)&&
+  Objects.equals(this.upgradeFatSeLeaseTime, objControllerProperties.upgradeFatSeLeaseTime)&&
+  Objects.equals(this.upgradeSePerVsScaleOpsTxnTime, objControllerProperties.upgradeSePerVsScaleOpsTxnTime);
 }
 
 @Override
@@ -1909,7 +1967,9 @@ public String toString() {
         sb.append("    sslCertificateExpiryWarningDays: ").append(toIndentedString(sslCertificateExpiryWarningDays)).append("\n");
         sb.append("    unresponsiveSeReboot: ").append(toIndentedString(unresponsiveSeReboot)).append("\n");
         sb.append("    upgradeDnsTtl: ").append(toIndentedString(upgradeDnsTtl)).append("\n");
+        sb.append("    upgradeFatSeLeaseTime: ").append(toIndentedString(upgradeFatSeLeaseTime)).append("\n");
         sb.append("    upgradeLeaseTime: ").append(toIndentedString(upgradeLeaseTime)).append("\n");
+        sb.append("    upgradeSePerVsScaleOpsTxnTime: ").append(toIndentedString(upgradeSePerVsScaleOpsTxnTime)).append("\n");
             sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
         sb.append("    vnicOpFailTime: ").append(toIndentedString(vnicOpFailTime)).append("\n");
         sb.append("    vsApicScaleoutTimeout: ").append(toIndentedString(vsApicScaleoutTimeout)).append("\n");

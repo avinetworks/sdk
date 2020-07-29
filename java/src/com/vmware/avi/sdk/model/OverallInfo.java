@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OverallInfo objOverallInfo = (OverallInfo) o;
-  return   Objects.equals(this.available, objOverallInfo.available)&&
-  Objects.equals(this.path, objOverallInfo.path)&&
+  return   Objects.equals(this.path, objOverallInfo.path)&&
+  Objects.equals(this.size, objOverallInfo.size)&&
   Objects.equals(this.used, objOverallInfo.used)&&
-  Objects.equals(this.freePercent, objOverallInfo.freePercent)&&
-  Objects.equals(this.size, objOverallInfo.size);
+  Objects.equals(this.available, objOverallInfo.available)&&
+  Objects.equals(this.freePercent, objOverallInfo.freePercent);
 }
 
 @Override

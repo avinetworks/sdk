@@ -146,10 +146,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SubnetRuntime objSubnetRuntime = (SubnetRuntime) o;
-  return   Objects.equals(this.totalIpCount, objSubnetRuntime.totalIpCount)&&
-  Objects.equals(this.usedIpCount, objSubnetRuntime.usedIpCount)&&
-  Objects.equals(this.prefix, objSubnetRuntime.prefix)&&
+  return   Objects.equals(this.prefix, objSubnetRuntime.prefix)&&
   Objects.equals(this.ipAlloced, objSubnetRuntime.ipAlloced)&&
+  Objects.equals(this.totalIpCount, objSubnetRuntime.totalIpCount)&&
+  Objects.equals(this.usedIpCount, objSubnetRuntime.usedIpCount)&&
   Objects.equals(this.freeIpCount, objSubnetRuntime.freeIpCount);
 }
 

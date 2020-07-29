@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsEdnsOption objDnsEdnsOption = (DnsEdnsOption) o;
-  return   Objects.equals(this.scopePrefixLen, objDnsEdnsOption.scopePrefixLen)&&
-  Objects.equals(this.code, objDnsEdnsOption.code)&&
-  Objects.equals(this.subnetIp, objDnsEdnsOption.subnetIp)&&
+  return   Objects.equals(this.code, objDnsEdnsOption.code)&&
+  Objects.equals(this.addrFamily, objDnsEdnsOption.addrFamily)&&
   Objects.equals(this.sourcePrefixLen, objDnsEdnsOption.sourcePrefixLen)&&
-  Objects.equals(this.addrFamily, objDnsEdnsOption.addrFamily);
+  Objects.equals(this.scopePrefixLen, objDnsEdnsOption.scopePrefixLen)&&
+  Objects.equals(this.subnetIp, objDnsEdnsOption.subnetIp);
 }
 
 @Override

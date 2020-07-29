@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LicenseDetails objLicenseDetails = (LicenseDetails) o;
-  return   Objects.equals(this.licenseType, objLicenseDetails.licenseType)&&
-  Objects.equals(this.licenseId, objLicenseDetails.licenseId)&&
+  return   Objects.equals(this.name, objLicenseDetails.name)&&
   Objects.equals(this.expiryAt, objLicenseDetails.expiryAt)&&
-  Objects.equals(this.name, objLicenseDetails.name)&&
-  Objects.equals(this.backendServers, objLicenseDetails.backendServers);
+  Objects.equals(this.backendServers, objLicenseDetails.backendServers)&&
+  Objects.equals(this.licenseId, objLicenseDetails.licenseId)&&
+  Objects.equals(this.licenseType, objLicenseDetails.licenseType);
 }
 
 @Override

@@ -129,10 +129,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPNetworkConfig objGCPNetworkConfig = (GCPNetworkConfig) o;
-  return   Objects.equals(this.oneArm, objGCPNetworkConfig.oneArm)&&
-  Objects.equals(this.twoArm, objGCPNetworkConfig.twoArm)&&
-  Objects.equals(this.config, objGCPNetworkConfig.config)&&
-  Objects.equals(this.inband, objGCPNetworkConfig.inband);
+  return   Objects.equals(this.config, objGCPNetworkConfig.config)&&
+  Objects.equals(this.inband, objGCPNetworkConfig.inband)&&
+  Objects.equals(this.oneArm, objGCPNetworkConfig.oneArm)&&
+  Objects.equals(this.twoArm, objGCPNetworkConfig.twoArm);
 }
 
 @Override

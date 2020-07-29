@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SamlSettings objSamlSettings = (SamlSettings) o;
-  return   Objects.equals(this.sp, objSamlSettings.sp)&&
-  Objects.equals(this.idp, objSamlSettings.idp);
+  return   Objects.equals(this.idp, objSamlSettings.idp)&&
+  Objects.equals(this.sp, objSamlSettings.sp);
 }
 
 @Override

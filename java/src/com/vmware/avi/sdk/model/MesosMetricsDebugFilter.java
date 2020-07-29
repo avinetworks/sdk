@@ -117,10 +117,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MesosMetricsDebugFilter objMesosMetricsDebugFilter = (MesosMetricsDebugFilter) o;
-  return   Objects.equals(this.mesosSlave, objMesosMetricsDebugFilter.mesosSlave)&&
-  Objects.equals(this.metricsCollectionFrq, objMesosMetricsDebugFilter.metricsCollectionFrq)&&
+  return   Objects.equals(this.metricEntity, objMesosMetricsDebugFilter.metricEntity)&&
   Objects.equals(this.mesosMaster, objMesosMetricsDebugFilter.mesosMaster)&&
-  Objects.equals(this.metricEntity, objMesosMetricsDebugFilter.metricEntity);
+  Objects.equals(this.mesosSlave, objMesosMetricsDebugFilter.mesosSlave)&&
+  Objects.equals(this.metricsCollectionFrq, objMesosMetricsDebugFilter.metricsCollectionFrq);
 }
 
 @Override

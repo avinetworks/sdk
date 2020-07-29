@@ -168,11 +168,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrControllerRuntime objVIMgrControllerRuntime = (VIMgrControllerRuntime) o;
-  return   Objects.equals(this.uuid, objVIMgrControllerRuntime.uuid)&&
+  return   Objects.equals(this.type, objVIMgrControllerRuntime.type)&&
+  Objects.equals(this.uuid, objVIMgrControllerRuntime.uuid)&&
+  Objects.equals(this.name, objVIMgrControllerRuntime.name)&&
   Objects.equals(this.vnics, objVIMgrControllerRuntime.vnics)&&
-  Objects.equals(this.type, objVIMgrControllerRuntime.type)&&
-  Objects.equals(this.tenantRef, objVIMgrControllerRuntime.tenantRef)&&
-  Objects.equals(this.name, objVIMgrControllerRuntime.name);
+  Objects.equals(this.tenantRef, objVIMgrControllerRuntime.tenantRef);
 }
 
 @Override

@@ -219,13 +219,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafPSMLog objWafPSMLog = (WafPSMLog) o;
-  return   Objects.equals(this.matches, objWafPSMLog.matches)&&
-  Objects.equals(this.actions, objWafPSMLog.actions)&&
+  return   Objects.equals(this.groupUuid, objWafPSMLog.groupUuid)&&
   Objects.equals(this.groupName, objWafPSMLog.groupName)&&
-  Objects.equals(this.ruleName, objWafPSMLog.ruleName)&&
   Objects.equals(this.location, objWafPSMLog.location)&&
-  Objects.equals(this.groupUuid, objWafPSMLog.groupUuid)&&
-  Objects.equals(this.ruleId, objWafPSMLog.ruleId);
+  Objects.equals(this.ruleId, objWafPSMLog.ruleId)&&
+  Objects.equals(this.ruleName, objWafPSMLog.ruleName)&&
+  Objects.equals(this.matches, objWafPSMLog.matches)&&
+  Objects.equals(this.actions, objWafPSMLog.actions);
 }
 
 @Override

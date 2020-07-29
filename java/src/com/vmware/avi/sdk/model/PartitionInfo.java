@@ -93,8 +93,8 @@ public boolean equals(java.lang.Object o) {
   }
   PartitionInfo objPartitionInfo = (PartitionInfo) o;
   return   Objects.equals(this.path, objPartitionInfo.path)&&
-  Objects.equals(this.quota, objPartitionInfo.quota)&&
-  Objects.equals(this.size, objPartitionInfo.size);
+  Objects.equals(this.size, objPartitionInfo.size)&&
+  Objects.equals(this.quota, objPartitionInfo.quota);
 }
 
 @Override

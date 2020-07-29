@@ -212,13 +212,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugVirtualServiceCapture objDebugVirtualServiceCapture = (DebugVirtualServiceCapture) o;
-  return   Objects.equals(this.pcapNg, objDebugVirtualServiceCapture.pcapNg)&&
-  Objects.equals(this.pktSize, objDebugVirtualServiceCapture.pktSize)&&
-  Objects.equals(this.enableSslSessionKeyCapture, objDebugVirtualServiceCapture.enableSslSessionKeyCapture)&&
-  Objects.equals(this.captureFileSize, objDebugVirtualServiceCapture.captureFileSize)&&
-  Objects.equals(this.fileCount, objDebugVirtualServiceCapture.fileCount)&&
+  return   Objects.equals(this.pktSize, objDebugVirtualServiceCapture.pktSize)&&
   Objects.equals(this.duration, objDebugVirtualServiceCapture.duration)&&
-  Objects.equals(this.numPkts, objDebugVirtualServiceCapture.numPkts);
+  Objects.equals(this.numPkts, objDebugVirtualServiceCapture.numPkts)&&
+  Objects.equals(this.enableSslSessionKeyCapture, objDebugVirtualServiceCapture.enableSslSessionKeyCapture)&&
+  Objects.equals(this.pcapNg, objDebugVirtualServiceCapture.pcapNg)&&
+  Objects.equals(this.captureFileSize, objDebugVirtualServiceCapture.captureFileSize)&&
+  Objects.equals(this.fileCount, objDebugVirtualServiceCapture.fileCount);
 }
 
 @Override

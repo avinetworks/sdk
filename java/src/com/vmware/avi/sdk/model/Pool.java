@@ -212,6 +212,9 @@ public class Pool extends AviRestResource  {
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
 
+    @JsonProperty("tier1_lr")
+    private String tier1Lr = null;
+
     @JsonProperty("url")
     private String url = "url";
 
@@ -1051,7 +1054,7 @@ public class Pool extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Degree of non-affinity for core afffinity based server selection.
+   * Degree of non-affinity for core affinity based server selection.
    * Allowed values are 1-65535.
    * Field introduced in 17.1.3.
    * Default value when not specified in API or module is interpreted by Avi Controller as 2.
@@ -1063,7 +1066,7 @@ public class Pool extends AviRestResource  {
 
   /**
    * This is the setter method to the attribute.
-   * Degree of non-affinity for core afffinity based server selection.
+   * Degree of non-affinity for core affinity based server selection.
    * Allowed values are 1-65535.
    * Field introduced in 17.1.3.
    * Default value when not specified in API or module is interpreted by Avi Controller as 2.
@@ -1313,7 +1316,7 @@ public class Pool extends AviRestResource  {
    * This is the getter method this will return the attribute value.
    * Manually select the networks and subnets used to provide reachability to the pool's servers.
    * Specify the subnet using the following syntax  10-1-1-0/24.
-   * Use static routes in vrf configuration when pool servers are not directly connected butroutable from the service engine.
+   * Use static routes in vrf configuration when pool servers are not directly connected but routable from the service engine.
    * @return placementNetworks
    */
   public List<PlacementNetwork> getPlacementNetworks() {
@@ -1324,7 +1327,7 @@ public class Pool extends AviRestResource  {
    * This is the setter method. this will set the placementNetworks
    * Manually select the networks and subnets used to provide reachability to the pool's servers.
    * Specify the subnet using the following syntax  10-1-1-0/24.
-   * Use static routes in vrf configuration when pool servers are not directly connected butroutable from the service engine.
+   * Use static routes in vrf configuration when pool servers are not directly connected but routable from the service engine.
    * @return placementNetworks
    */
   public void setPlacementNetworks(List<PlacementNetwork>  placementNetworks) {
@@ -1335,7 +1338,7 @@ public class Pool extends AviRestResource  {
    * This is the setter method this will set the placementNetworks
    * Manually select the networks and subnets used to provide reachability to the pool's servers.
    * Specify the subnet using the following syntax  10-1-1-0/24.
-   * Use static routes in vrf configuration when pool servers are not directly connected butroutable from the service engine.
+   * Use static routes in vrf configuration when pool servers are not directly connected but routable from the service engine.
    * @return placementNetworks
    */
   public Pool addPlacementNetworksItem(PlacementNetwork placementNetworksItem) {
@@ -1716,6 +1719,26 @@ public class Pool extends AviRestResource  {
   public void setTenantRef(String  tenantRef) {
     this.tenantRef = tenantRef;
   }
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * This tier1_lr field should be set same as virtualservice associated for nsx-t.
+   * Field introduced in 20.1.1.
+   * @return tier1Lr
+   */
+  public String getTier1Lr() {
+    return tier1Lr;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * This tier1_lr field should be set same as virtualservice associated for nsx-t.
+   * Field introduced in 20.1.1.
+   * @param tier1Lr set the tier1Lr.
+   */
+  public void setTier1Lr(String  tier1Lr) {
+    this.tier1Lr = tier1Lr;
+  }
 /**
    * This is the getter method this will return the attribute value.
    * Avi controller URL of the object.
@@ -1808,74 +1831,75 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Pool objPool = (Pool) o;
-  return   Objects.equals(this.lbAlgorithm, objPool.lbAlgorithm)&&
-  Objects.equals(this.useServicePort, objPool.useServicePort)&&
-  Objects.equals(this.serverAutoScale, objPool.serverAutoScale)&&
-  Objects.equals(this.applicationPersistenceProfileRef, objPool.applicationPersistenceProfileRef)&&
-  Objects.equals(this.hostCheckEnabled, objPool.hostCheckEnabled)&&
-  Objects.equals(this.connPoolProperties, objPool.connPoolProperties)&&
-  Objects.equals(this.rewriteHostHeaderToSni, objPool.rewriteHostHeaderToSni)&&
-  Objects.equals(this.deleteServerOnDnsRefresh, objPool.deleteServerOnDnsRefresh)&&
-  Objects.equals(this.capacityEstimation, objPool.capacityEstimation)&&
-  Objects.equals(this.maxConnRatePerServer, objPool.maxConnRatePerServer)&&
-  Objects.equals(this.servers, objPool.servers)&&
-  Objects.equals(this.fewestTasksFeedbackDelay, objPool.fewestTasksFeedbackDelay)&&
-  Objects.equals(this.rewriteHostHeaderToServerName, objPool.rewriteHostHeaderToServerName)&&
-  Objects.equals(this.createdBy, objPool.createdBy)&&
-  Objects.equals(this.abPool, objPool.abPool)&&
-  Objects.equals(this.capacityEstimationTtfbThresh, objPool.capacityEstimationTtfbThresh)&&
-  Objects.equals(this.failAction, objPool.failAction)&&
-  Objects.equals(this.apicEpgName, objPool.apicEpgName)&&
-  Objects.equals(this.networks, objPool.networks)&&
-  Objects.equals(this.lbAlgorithmHash, objPool.lbAlgorithmHash)&&
-  Objects.equals(this.autoscaleLaunchConfigRef, objPool.autoscaleLaunchConfigRef)&&
-  Objects.equals(this.lookupServerByName, objPool.lookupServerByName)&&
-  Objects.equals(this.uuid, objPool.uuid)&&
-  Objects.equals(this.serverName, objPool.serverName)&&
-  Objects.equals(this.minServersUp, objPool.minServersUp)&&
-  Objects.equals(this.domainName, objPool.domainName)&&
-  Objects.equals(this.connectionRampDuration, objPool.connectionRampDuration)&&
-  Objects.equals(this.eastWest, objPool.eastWest)&&
-  Objects.equals(this.placementNetworks, objPool.placementNetworks)&&
-  Objects.equals(this.serverReselect, objPool.serverReselect)&&
-  Objects.equals(this.analyticsProfileRef, objPool.analyticsProfileRef)&&
-  Objects.equals(this.enableHttp2, objPool.enableHttp2)&&
-  Objects.equals(this.nsxSecuritygroup, objPool.nsxSecuritygroup)&&
-  Objects.equals(this.aPool, objPool.aPool)&&
-  Objects.equals(this.lbAlgorithmCoreNonaffinity, objPool.lbAlgorithmCoreNonaffinity)&&
-  Objects.equals(this.minHealthMonitorsUp, objPool.minHealthMonitorsUp)&&
-  Objects.equals(this.pkiProfileRef, objPool.pkiProfileRef)&&
-  Objects.equals(this.autoscalePolicyRef, objPool.autoscalePolicyRef)&&
-  Objects.equals(this.inlineHealthMonitor, objPool.inlineHealthMonitor)&&
-  Objects.equals(this.defaultServerPort, objPool.defaultServerPort)&&
-  Objects.equals(this.description, objPool.description)&&
-  Objects.equals(this.requestQueueDepth, objPool.requestQueueDepth)&&
-  Objects.equals(this.ipaddrgroupRef, objPool.ipaddrgroupRef)&&
-  Objects.equals(this.gracefulDisableTimeout, objPool.gracefulDisableTimeout)&&
-  Objects.equals(this.sslKeyAndCertificateRef, objPool.sslKeyAndCertificateRef)&&
-  Objects.equals(this.abPriority, objPool.abPriority)&&
-  Objects.equals(this.routingPool, objPool.routingPool)&&
-  Objects.equals(this.vrfRef, objPool.vrfRef)&&
-  Objects.equals(this.serverCount, objPool.serverCount)&&
-  Objects.equals(this.sniEnabled, objPool.sniEnabled)&&
-  Objects.equals(this.serverTimeout, objPool.serverTimeout)&&
-  Objects.equals(this.requestQueueEnabled, objPool.requestQueueEnabled)&&
+  return   Objects.equals(this.uuid, objPool.uuid)&&
   Objects.equals(this.name, objPool.name)&&
+  Objects.equals(this.defaultServerPort, objPool.defaultServerPort)&&
+  Objects.equals(this.gracefulDisableTimeout, objPool.gracefulDisableTimeout)&&
+  Objects.equals(this.connectionRampDuration, objPool.connectionRampDuration)&&
   Objects.equals(this.maxConcurrentConnectionsPerServer, objPool.maxConcurrentConnectionsPerServer)&&
-  Objects.equals(this.ignoreServerPort, objPool.ignoreServerPort)&&
-  Objects.equals(this.serviceMetadata, objPool.serviceMetadata)&&
-  Objects.equals(this.prstHdrName, objPool.prstHdrName)&&
-  Objects.equals(this.enabled, objPool.enabled)&&
-  Objects.equals(this.autoscaleNetworks, objPool.autoscaleNetworks)&&
   Objects.equals(this.healthMonitorRefs, objPool.healthMonitorRefs)&&
+  Objects.equals(this.servers, objPool.servers)&&
+  Objects.equals(this.serverCount, objPool.serverCount)&&
+  Objects.equals(this.lbAlgorithm, objPool.lbAlgorithm)&&
+  Objects.equals(this.lbAlgorithmHash, objPool.lbAlgorithmHash)&&
   Objects.equals(this.lbAlgorithmConsistentHashHdr, objPool.lbAlgorithmConsistentHashHdr)&&
+  Objects.equals(this.networks, objPool.networks)&&
+  Objects.equals(this.placementNetworks, objPool.placementNetworks)&&
+  Objects.equals(this.applicationPersistenceProfileRef, objPool.applicationPersistenceProfileRef)&&
   Objects.equals(this.sslProfileRef, objPool.sslProfileRef)&&
+  Objects.equals(this.inlineHealthMonitor, objPool.inlineHealthMonitor)&&
+  Objects.equals(this.useServicePort, objPool.useServicePort)&&
+  Objects.equals(this.failAction, objPool.failAction)&&
+  Objects.equals(this.capacityEstimation, objPool.capacityEstimation)&&
+  Objects.equals(this.capacityEstimationTtfbThresh, objPool.capacityEstimationTtfbThresh)&&
+  Objects.equals(this.pkiProfileRef, objPool.pkiProfileRef)&&
+  Objects.equals(this.sslKeyAndCertificateRef, objPool.sslKeyAndCertificateRef)&&
+  Objects.equals(this.serverAutoScale, objPool.serverAutoScale)&&
+  Objects.equals(this.prstHdrName, objPool.prstHdrName)&&
+  Objects.equals(this.apicEpgName, objPool.apicEpgName)&&
+  Objects.equals(this.autoscaleNetworks, objPool.autoscaleNetworks)&&
+  Objects.equals(this.autoscalePolicyRef, objPool.autoscalePolicyRef)&&
+  Objects.equals(this.autoscaleLaunchConfigRef, objPool.autoscaleLaunchConfigRef)&&
+  Objects.equals(this.vrfRef, objPool.vrfRef)&&
+  Objects.equals(this.ipaddrgroupRef, objPool.ipaddrgroupRef)&&
+  Objects.equals(this.fewestTasksFeedbackDelay, objPool.fewestTasksFeedbackDelay)&&
+  Objects.equals(this.enabled, objPool.enabled)&&
+  Objects.equals(this.maxConnRatePerServer, objPool.maxConnRatePerServer)&&
+  Objects.equals(this.eastWest, objPool.eastWest)&&
+  Objects.equals(this.createdBy, objPool.createdBy)&&
   Objects.equals(this.cloudConfigCksum, objPool.cloudConfigCksum)&&
-  Objects.equals(this.analyticsPolicy, objPool.analyticsPolicy)&&
+  Objects.equals(this.requestQueueEnabled, objPool.requestQueueEnabled)&&
+  Objects.equals(this.requestQueueDepth, objPool.requestQueueDepth)&&
+  Objects.equals(this.abPool, objPool.abPool)&&
+  Objects.equals(this.serverReselect, objPool.serverReselect)&&
+  Objects.equals(this.aPool, objPool.aPool)&&
+  Objects.equals(this.abPriority, objPool.abPriority)&&
+  Objects.equals(this.hostCheckEnabled, objPool.hostCheckEnabled)&&
+  Objects.equals(this.domainName, objPool.domainName)&&
+  Objects.equals(this.sniEnabled, objPool.sniEnabled)&&
+  Objects.equals(this.serverName, objPool.serverName)&&
+  Objects.equals(this.rewriteHostHeaderToSni, objPool.rewriteHostHeaderToSni)&&
+  Objects.equals(this.rewriteHostHeaderToServerName, objPool.rewriteHostHeaderToServerName)&&
+  Objects.equals(this.nsxSecuritygroup, objPool.nsxSecuritygroup)&&
   Objects.equals(this.externalAutoscaleGroups, objPool.externalAutoscaleGroups)&&
-  Objects.equals(this.cloudRef, objPool.cloudRef)&&
+  Objects.equals(this.lbAlgorithmCoreNonaffinity, objPool.lbAlgorithmCoreNonaffinity)&&
+  Objects.equals(this.gslbSpEnabled, objPool.gslbSpEnabled)&&
+  Objects.equals(this.lookupServerByName, objPool.lookupServerByName)&&
+  Objects.equals(this.analyticsProfileRef, objPool.analyticsProfileRef)&&
+  Objects.equals(this.analyticsPolicy, objPool.analyticsPolicy)&&
+  Objects.equals(this.serviceMetadata, objPool.serviceMetadata)&&
+  Objects.equals(this.description, objPool.description)&&
   Objects.equals(this.tenantRef, objPool.tenantRef)&&
-  Objects.equals(this.gslbSpEnabled, objPool.gslbSpEnabled);
+  Objects.equals(this.cloudRef, objPool.cloudRef)&&
+  Objects.equals(this.minServersUp, objPool.minServersUp)&&
+  Objects.equals(this.minHealthMonitorsUp, objPool.minHealthMonitorsUp)&&
+  Objects.equals(this.serverTimeout, objPool.serverTimeout)&&
+  Objects.equals(this.connPoolProperties, objPool.connPoolProperties)&&
+  Objects.equals(this.deleteServerOnDnsRefresh, objPool.deleteServerOnDnsRefresh)&&
+  Objects.equals(this.enableHttp2, objPool.enableHttp2)&&
+  Objects.equals(this.ignoreServerPort, objPool.ignoreServerPort)&&
+  Objects.equals(this.routingPool, objPool.routingPool)&&
+  Objects.equals(this.tier1Lr, objPool.tier1Lr);
 }
 
 @Override
@@ -1947,6 +1971,7 @@ public String toString() {
         sb.append("    sslKeyAndCertificateRef: ").append(toIndentedString(sslKeyAndCertificateRef)).append("\n");
         sb.append("    sslProfileRef: ").append(toIndentedString(sslProfileRef)).append("\n");
         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
+        sb.append("    tier1Lr: ").append(toIndentedString(tier1Lr)).append("\n");
             sb.append("    useServicePort: ").append(toIndentedString(useServicePort)).append("\n");
         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
         sb.append("    vrfRef: ").append(toIndentedString(vrfRef)).append("\n");

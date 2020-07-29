@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbGeoDbFile objGslbGeoDbFile = (GslbGeoDbFile) o;
-  return   Objects.equals(this.timestamp, objGslbGeoDbFile.timestamp)&&
-  Objects.equals(this.checksum, objGslbGeoDbFile.checksum)&&
+  return   Objects.equals(this.filename, objGslbGeoDbFile.filename)&&
   Objects.equals(this.format, objGslbGeoDbFile.format)&&
-  Objects.equals(this.fileId, objGslbGeoDbFile.fileId)&&
-  Objects.equals(this.filename, objGslbGeoDbFile.filename);
+  Objects.equals(this.timestamp, objGslbGeoDbFile.timestamp)&&
+  Objects.equals(this.checksum, objGslbGeoDbFile.checksum)&&
+  Objects.equals(this.fileId, objGslbGeoDbFile.fileId);
 }
 
 @Override

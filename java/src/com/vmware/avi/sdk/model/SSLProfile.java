@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SSLProfile extends AviRestResource  {
     @JsonProperty("accepted_ciphers")
-    private String acceptedCiphers = "aes:3des:rc4";
+    private String acceptedCiphers = "AES:3DES:RC4";
 
     @JsonProperty("accepted_versions")
     private List<SSLVersion> acceptedVersions = null;
@@ -27,7 +27,7 @@ public class SSLProfile extends AviRestResource  {
     private List<String> cipherEnums = null;
 
     @JsonProperty("ciphersuites")
-    private String ciphersuites = "tls_aes_256_gcm_sha384:tls_chacha20_poly1305_sha256:tls_aes_128_gcm_sha256";
+    private String ciphersuites = "TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256";
 
     @JsonProperty("description")
     private String description = null;
@@ -76,7 +76,7 @@ public class SSLProfile extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Ciphers suites represented as defined by U(http://www.openssl.org/docs/apps/ciphers.html).
-   * Default value when not specified in API or module is interpreted by Avi Controller as aes:3des:rc4.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AES:3DES:RC4.
    * @return acceptedCiphers
    */
   public String getAcceptedCiphers() {
@@ -86,7 +86,7 @@ public class SSLProfile extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Ciphers suites represented as defined by U(http://www.openssl.org/docs/apps/ciphers.html).
-   * Default value when not specified in API or module is interpreted by Avi Controller as aes:3des:rc4.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AES:3DES:RC4.
    * @param acceptedCiphers set the acceptedCiphers.
    */
   public void setAcceptedCiphers(String  acceptedCiphers) {
@@ -173,7 +173,7 @@ public class SSLProfile extends AviRestResource  {
    * Tls 1.3 ciphers suites represented as defined by u(https //www.openssl.org/docs/manmaster/man1/ciphers.html).
    * Field introduced in 18.2.6.
    * Default value when not specified in API or module is interpreted by Avi Controller as
-   * tls_aes_256_gcm_sha384:tls_chacha20_poly1305_sha256:tls_aes_128_gcm_sha256.
+   * TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256.
    * @return ciphersuites
    */
   public String getCiphersuites() {
@@ -185,7 +185,7 @@ public class SSLProfile extends AviRestResource  {
    * Tls 1.3 ciphers suites represented as defined by u(https //www.openssl.org/docs/manmaster/man1/ciphers.html).
    * Field introduced in 18.2.6.
    * Default value when not specified in API or module is interpreted by Avi Controller as
-   * tls_aes_256_gcm_sha384:tls_chacha20_poly1305_sha256:tls_aes_128_gcm_sha256.
+   * TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256.
    * @param ciphersuites set the ciphersuites.
    */
   public void setCiphersuites(String  ciphersuites) {
@@ -485,23 +485,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLProfile objSSLProfile = (SSLProfile) o;
-  return   Objects.equals(this.sslSessionTimeout, objSSLProfile.sslSessionTimeout)&&
-  Objects.equals(this.acceptedCiphers, objSSLProfile.acceptedCiphers)&&
-  Objects.equals(this.preferClientCipherOrdering, objSSLProfile.preferClientCipherOrdering)&&
-  Objects.equals(this.uuid, objSSLProfile.uuid)&&
-  Objects.equals(this.tags, objSSLProfile.tags)&&
-  Objects.equals(this.type, objSSLProfile.type)&&
-  Objects.equals(this.description, objSSLProfile.description)&&
+  return   Objects.equals(this.uuid, objSSLProfile.uuid)&&
+  Objects.equals(this.name, objSSLProfile.name)&&
   Objects.equals(this.acceptedVersions, objSSLProfile.acceptedVersions)&&
-  Objects.equals(this.enableSslSessionReuse, objSSLProfile.enableSslSessionReuse)&&
+  Objects.equals(this.acceptedCiphers, objSSLProfile.acceptedCiphers)&&
   Objects.equals(this.cipherEnums, objSSLProfile.cipherEnums)&&
+  Objects.equals(this.tags, objSSLProfile.tags)&&
+  Objects.equals(this.sslRating, objSSLProfile.sslRating)&&
   Objects.equals(this.sendCloseNotify, objSSLProfile.sendCloseNotify)&&
   Objects.equals(this.dhparam, objSSLProfile.dhparam)&&
-  Objects.equals(this.enableEarlyData, objSSLProfile.enableEarlyData)&&
-  Objects.equals(this.sslRating, objSSLProfile.sslRating)&&
-  Objects.equals(this.tenantRef, objSSLProfile.tenantRef)&&
+  Objects.equals(this.preferClientCipherOrdering, objSSLProfile.preferClientCipherOrdering)&&
+  Objects.equals(this.enableSslSessionReuse, objSSLProfile.enableSslSessionReuse)&&
+  Objects.equals(this.sslSessionTimeout, objSSLProfile.sslSessionTimeout)&&
+  Objects.equals(this.type, objSSLProfile.type)&&
   Objects.equals(this.ciphersuites, objSSLProfile.ciphersuites)&&
-  Objects.equals(this.name, objSSLProfile.name);
+  Objects.equals(this.enableEarlyData, objSSLProfile.enableEarlyData)&&
+  Objects.equals(this.description, objSSLProfile.description)&&
+  Objects.equals(this.tenantRef, objSSLProfile.tenantRef);
 }
 
 @Override

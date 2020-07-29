@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
   }
   OpenStackIpChange objOpenStackIpChange = (OpenStackIpChange) o;
   return   Objects.equals(this.ip, objOpenStackIpChange.ip)&&
-  Objects.equals(this.errorString, objOpenStackIpChange.errorString)&&
   Objects.equals(this.seVmUuid, objOpenStackIpChange.seVmUuid)&&
+  Objects.equals(this.portUuid, objOpenStackIpChange.portUuid)&&
   Objects.equals(this.macAddr, objOpenStackIpChange.macAddr)&&
-  Objects.equals(this.portUuid, objOpenStackIpChange.portUuid);
+  Objects.equals(this.errorString, objOpenStackIpChange.errorString);
 }
 
 @Override

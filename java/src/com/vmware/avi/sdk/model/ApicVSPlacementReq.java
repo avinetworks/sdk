@@ -179,12 +179,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ApicVSPlacementReq objApicVSPlacementReq = (ApicVSPlacementReq) o;
-  return   Objects.equals(this.vgrp, objApicVSPlacementReq.vgrp)&&
+  return   Objects.equals(this.vdev, objApicVSPlacementReq.vdev)&&
   Objects.equals(this.graph, objApicVSPlacementReq.graph)&&
-  Objects.equals(this.vdev, objApicVSPlacementReq.vdev)&&
-  Objects.equals(this.networkRel, objApicVSPlacementReq.networkRel)&&
+  Objects.equals(this.tenantName, objApicVSPlacementReq.tenantName)&&
   Objects.equals(this.lifs, objApicVSPlacementReq.lifs)&&
-  Objects.equals(this.tenantName, objApicVSPlacementReq.tenantName);
+  Objects.equals(this.vgrp, objApicVSPlacementReq.vgrp)&&
+  Objects.equals(this.networkRel, objApicVSPlacementReq.networkRel);
 }
 
 @Override

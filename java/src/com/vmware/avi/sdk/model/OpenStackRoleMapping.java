@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackRoleMapping objOpenStackRoleMapping = (OpenStackRoleMapping) o;
-  return   Objects.equals(this.aviRole, objOpenStackRoleMapping.aviRole)&&
-  Objects.equals(this.osRole, objOpenStackRoleMapping.osRole);
+  return   Objects.equals(this.osRole, objOpenStackRoleMapping.osRole)&&
+  Objects.equals(this.aviRole, objOpenStackRoleMapping.aviRole);
 }
 
 @Override

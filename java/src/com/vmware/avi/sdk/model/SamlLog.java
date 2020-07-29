@@ -209,13 +209,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SamlLog objSamlLog = (SamlLog) o;
-  return   Objects.equals(this.samlAuthnRuleMatch, objSamlLog.samlAuthnRuleMatch)&&
-  Objects.equals(this.samlAttributeLists, objSamlLog.samlAttributeLists)&&
-  Objects.equals(this.isSamlAuthenticationUsed, objSamlLog.isSamlAuthenticationUsed)&&
-  Objects.equals(this.userid, objSamlLog.userid)&&
-  Objects.equals(this.samlAuthStatus, objSamlLog.samlAuthStatus)&&
+  return   Objects.equals(this.isSamlAuthenticationUsed, objSamlLog.isSamlAuthenticationUsed)&&
+  Objects.equals(this.samlAuthnRuleMatch, objSamlLog.samlAuthnRuleMatch)&&
   Objects.equals(this.samlAuthzRuleMatch, objSamlLog.samlAuthzRuleMatch)&&
-  Objects.equals(this.samlSessionCookieExpired, objSamlLog.samlSessionCookieExpired);
+  Objects.equals(this.samlAuthStatus, objSamlLog.samlAuthStatus)&&
+  Objects.equals(this.samlSessionCookieExpired, objSamlLog.samlSessionCookieExpired)&&
+  Objects.equals(this.userid, objSamlLog.userid)&&
+  Objects.equals(this.samlAttributeLists, objSamlLog.samlAttributeLists);
 }
 
 @Override

@@ -165,10 +165,10 @@ public boolean equals(java.lang.Object o) {
   }
   ErrorPageBody objErrorPageBody = (ErrorPageBody) o;
   return   Objects.equals(this.uuid, objErrorPageBody.uuid)&&
-  Objects.equals(this.format, objErrorPageBody.format)&&
-  Objects.equals(this.errorPageBody, objErrorPageBody.errorPageBody)&&
+  Objects.equals(this.name, objErrorPageBody.name)&&
   Objects.equals(this.tenantRef, objErrorPageBody.tenantRef)&&
-  Objects.equals(this.name, objErrorPageBody.name);
+  Objects.equals(this.errorPageBody, objErrorPageBody.errorPageBody)&&
+  Objects.equals(this.format, objErrorPageBody.format);
 }
 
 @Override

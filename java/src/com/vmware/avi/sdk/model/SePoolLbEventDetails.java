@@ -142,11 +142,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SePoolLbEventDetails objSePoolLbEventDetails = (SePoolLbEventDetails) o;
-  return   Objects.equals(this.srcUuid, objSePoolLbEventDetails.srcUuid)&&
-  Objects.equals(this.virtualService, objSePoolLbEventDetails.virtualService)&&
+  return   Objects.equals(this.pool, objSePoolLbEventDetails.pool)&&
   Objects.equals(this.reason, objSePoolLbEventDetails.reason)&&
   Objects.equals(this.failureCode, objSePoolLbEventDetails.failureCode)&&
-  Objects.equals(this.pool, objSePoolLbEventDetails.pool);
+  Objects.equals(this.virtualService, objSePoolLbEventDetails.virtualService)&&
+  Objects.equals(this.srcUuid, objSePoolLbEventDetails.srcUuid);
 }
 
 @Override

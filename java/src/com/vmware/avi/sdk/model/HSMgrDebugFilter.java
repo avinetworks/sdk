@@ -157,12 +157,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMgrDebugFilter objHSMgrDebugFilter = (HSMgrDebugFilter) o;
-  return   Objects.equals(this.period, objHSMgrDebugFilter.period)&&
+  return   Objects.equals(this.metricEntity, objHSMgrDebugFilter.metricEntity)&&
   Objects.equals(this.entity, objHSMgrDebugFilter.entity)&&
-  Objects.equals(this.skipHsDbWrites, objHSMgrDebugFilter.skipHsDbWrites)&&
-  Objects.equals(this.server, objHSMgrDebugFilter.server)&&
   Objects.equals(this.pool, objHSMgrDebugFilter.pool)&&
-  Objects.equals(this.metricEntity, objHSMgrDebugFilter.metricEntity);
+  Objects.equals(this.server, objHSMgrDebugFilter.server)&&
+  Objects.equals(this.period, objHSMgrDebugFilter.period)&&
+  Objects.equals(this.skipHsDbWrites, objHSMgrDebugFilter.skipHsDbWrites);
 }
 
 @Override

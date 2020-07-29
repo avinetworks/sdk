@@ -99,8 +99,8 @@ public boolean equals(java.lang.Object o) {
   }
   RetryPlacementParams objRetryPlacementParams = (RetryPlacementParams) o;
   return   Objects.equals(this.uuid, objRetryPlacementParams.uuid)&&
-  Objects.equals(this.allEastWest, objRetryPlacementParams.allEastWest)&&
-  Objects.equals(this.vipId, objRetryPlacementParams.vipId);
+  Objects.equals(this.vipId, objRetryPlacementParams.vipId)&&
+  Objects.equals(this.allEastWest, objRetryPlacementParams.allEastWest);
 }
 
 @Override

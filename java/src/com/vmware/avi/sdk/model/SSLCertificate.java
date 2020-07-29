@@ -444,25 +444,25 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLCertificate objSSLCertificate = (SSLCertificate) o;
-  return   Objects.equals(this.subjectAltNames, objSSLCertificate.subjectAltNames)&&
-  Objects.equals(this.publicKey, objSSLCertificate.publicKey)&&
+  return   Objects.equals(this.version, objSSLCertificate.version)&&
+  Objects.equals(this.serialNumber, objSSLCertificate.serialNumber)&&
   Objects.equals(this.selfSigned, objSSLCertificate.selfSigned)&&
+  Objects.equals(this.issuer, objSSLCertificate.issuer)&&
+  Objects.equals(this.subject, objSSLCertificate.subject)&&
+  Objects.equals(this.keyParams, objSSLCertificate.keyParams)&&
+  Objects.equals(this.publicKey, objSSLCertificate.publicKey)&&
+  Objects.equals(this.signatureAlgorithm, objSSLCertificate.signatureAlgorithm)&&
+  Objects.equals(this.signature, objSSLCertificate.signature)&&
+  Objects.equals(this.notBefore, objSSLCertificate.notBefore)&&
+  Objects.equals(this.notAfter, objSSLCertificate.notAfter)&&
   Objects.equals(this.certificate, objSSLCertificate.certificate)&&
   Objects.equals(this.certificateSigningRequest, objSSLCertificate.certificateSigningRequest)&&
-  Objects.equals(this.notAfter, objSSLCertificate.notAfter)&&
+  Objects.equals(this.text, objSSLCertificate.text)&&
   Objects.equals(this.fingerprint, objSSLCertificate.fingerprint)&&
-  Objects.equals(this.signature, objSSLCertificate.signature)&&
-  Objects.equals(this.daysUntilExpire, objSSLCertificate.daysUntilExpire)&&
   Objects.equals(this.expiryStatus, objSSLCertificate.expiryStatus)&&
   Objects.equals(this.chainVerified, objSSLCertificate.chainVerified)&&
-  Objects.equals(this.version, objSSLCertificate.version)&&
-  Objects.equals(this.text, objSSLCertificate.text)&&
-  Objects.equals(this.signatureAlgorithm, objSSLCertificate.signatureAlgorithm)&&
-  Objects.equals(this.keyParams, objSSLCertificate.keyParams)&&
-  Objects.equals(this.serialNumber, objSSLCertificate.serialNumber)&&
-  Objects.equals(this.issuer, objSSLCertificate.issuer)&&
-  Objects.equals(this.notBefore, objSSLCertificate.notBefore)&&
-  Objects.equals(this.subject, objSSLCertificate.subject);
+  Objects.equals(this.subjectAltNames, objSSLCertificate.subjectAltNames)&&
+  Objects.equals(this.daysUntilExpire, objSSLCertificate.daysUntilExpire);
 }
 
 @Override

@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SysTestEmailParams objSysTestEmailParams = (SysTestEmailParams) o;
-  return   Objects.equals(this.text, objSysTestEmailParams.text)&&
+  return   Objects.equals(this.toEmails, objSysTestEmailParams.toEmails)&&
   Objects.equals(this.ccEmails, objSysTestEmailParams.ccEmails)&&
-  Objects.equals(this.toEmails, objSysTestEmailParams.toEmails)&&
-  Objects.equals(this.subject, objSysTestEmailParams.subject);
+  Objects.equals(this.subject, objSysTestEmailParams.subject)&&
+  Objects.equals(this.text, objSysTestEmailParams.text);
 }
 
 @Override

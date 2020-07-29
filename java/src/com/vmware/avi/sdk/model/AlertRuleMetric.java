@@ -96,9 +96,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertRuleMetric objAlertRuleMetric = (AlertRuleMetric) o;
-  return   Objects.equals(this.duration, objAlertRuleMetric.duration)&&
+  return   Objects.equals(this.metricId, objAlertRuleMetric.metricId)&&
   Objects.equals(this.metricThreshold, objAlertRuleMetric.metricThreshold)&&
-  Objects.equals(this.metricId, objAlertRuleMetric.metricId);
+  Objects.equals(this.duration, objAlertRuleMetric.duration);
 }
 
 @Override

@@ -24,7 +24,7 @@ public class SeList  {
     private Boolean atCurrVer = null;
 
     @JsonProperty("attach_ip_status")
-    private String attachIpStatus = "programming network reachability to the virtual service ip in the cloud";
+    private String attachIpStatus = "Programming Network reachability to the Virtual Service IP in the Cloud";
 
     @JsonProperty("attach_ip_success")
     private Boolean attachIpSuccess = false;
@@ -158,8 +158,8 @@ public class SeList  {
    * This is the getter method this will return the attribute value.
    * This field indicates the status of programming network reachability to the virtual service ip in the cloud.
    * Field introduced in 17.2.3.
-   * Default value when not specified in API or module is interpreted by Avi Controller as programming network reachability to the virtual service ip
-   * in the cloud.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Programming Network reachability to the Virtual Service IP
+   * in the Cloud.
    * @return attachIpStatus
    */
   public String getAttachIpStatus() {
@@ -170,8 +170,8 @@ public class SeList  {
    * This is the setter method to the attribute.
    * This field indicates the status of programming network reachability to the virtual service ip in the cloud.
    * Field introduced in 17.2.3.
-   * Default value when not specified in API or module is interpreted by Avi Controller as programming network reachability to the virtual service ip
-   * in the cloud.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Programming Network reachability to the Virtual Service IP
+   * in the Cloud.
    * @param attachIpStatus set the attachIpStatus.
    */
   public void setAttachIpStatus(String  attachIpStatus) {
@@ -792,37 +792,37 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeList objSeList = (SeList) o;
-  return   Objects.equals(this.vipIntfMac, objSeList.vipIntfMac)&&
-  Objects.equals(this.attachIpStatus, objSeList.attachIpStatus)&&
-  Objects.equals(this.secIdx, objSeList.secIdx)&&
-  Objects.equals(this.snatIp, objSeList.snatIp)&&
-  Objects.equals(this.geoDownload, objSeList.geoDownload)&&
-  Objects.equals(this.vlanId, objSeList.vlanId)&&
-  Objects.equals(this.scaleoutInProgress, objSeList.scaleoutInProgress)&&
-  Objects.equals(this.scaleinInProgress, objSeList.scaleinInProgress)&&
-  Objects.equals(this.geodbDownload, objSeList.geodbDownload)&&
-  Objects.equals(this.vipIntfList, objSeList.vipIntfList)&&
-  Objects.equals(this.version, objSeList.version)&&
-  Objects.equals(this.memory, objSeList.memory)&&
-  Objects.equals(this.vip6SubnetMask, objSeList.vip6SubnetMask)&&
-  Objects.equals(this.vnic, objSeList.vnic)&&
-  Objects.equals(this.vipIntfIp, objSeList.vipIntfIp)&&
-  Objects.equals(this.downloadSelistOnly, objSeList.downloadSelistOnly)&&
-  Objects.equals(this.adminDownRequested, objSeList.adminDownRequested)&&
-  Objects.equals(this.incarnation, objSeList.incarnation)&&
-  Objects.equals(this.isStandby, objSeList.isStandby)&&
-  Objects.equals(this.vipSubnetMask, objSeList.vipSubnetMask)&&
-  Objects.equals(this.atCurrVer, objSeList.atCurrVer)&&
-  Objects.equals(this.seRef, objSeList.seRef)&&
-  Objects.equals(this.floatingIntfIp, objSeList.floatingIntfIp)&&
-  Objects.equals(this.pendingDownload, objSeList.pendingDownload)&&
-  Objects.equals(this.attachIpSuccess, objSeList.attachIpSuccess)&&
-  Objects.equals(this.isPortchannel, objSeList.isPortchannel)&&
-  Objects.equals(this.deleteInProgress, objSeList.deleteInProgress)&&
+  return   Objects.equals(this.seRef, objSeList.seRef)&&
   Objects.equals(this.isPrimary, objSeList.isPrimary)&&
-  Objects.equals(this.vcpus, objSeList.vcpus)&&
+  Objects.equals(this.isStandby, objSeList.isStandby)&&
   Objects.equals(this.isConnected, objSeList.isConnected)&&
-  Objects.equals(this.gslbDownload, objSeList.gslbDownload);
+  Objects.equals(this.deleteInProgress, objSeList.deleteInProgress)&&
+  Objects.equals(this.vcpus, objSeList.vcpus)&&
+  Objects.equals(this.memory, objSeList.memory)&&
+  Objects.equals(this.vipIntfMac, objSeList.vipIntfMac)&&
+  Objects.equals(this.vipSubnetMask, objSeList.vipSubnetMask)&&
+  Objects.equals(this.vnic, objSeList.vnic)&&
+  Objects.equals(this.pendingDownload, objSeList.pendingDownload)&&
+  Objects.equals(this.secIdx, objSeList.secIdx)&&
+  Objects.equals(this.downloadSelistOnly, objSeList.downloadSelistOnly)&&
+  Objects.equals(this.vlanId, objSeList.vlanId)&&
+  Objects.equals(this.snatIp, objSeList.snatIp)&&
+  Objects.equals(this.vipIntfIp, objSeList.vipIntfIp)&&
+  Objects.equals(this.vipIntfList, objSeList.vipIntfList)&&
+  Objects.equals(this.floatingIntfIp, objSeList.floatingIntfIp)&&
+  Objects.equals(this.isPortchannel, objSeList.isPortchannel)&&
+  Objects.equals(this.scaleinInProgress, objSeList.scaleinInProgress)&&
+  Objects.equals(this.adminDownRequested, objSeList.adminDownRequested)&&
+  Objects.equals(this.atCurrVer, objSeList.atCurrVer)&&
+  Objects.equals(this.version, objSeList.version)&&
+  Objects.equals(this.gslbDownload, objSeList.gslbDownload)&&
+  Objects.equals(this.geoDownload, objSeList.geoDownload)&&
+  Objects.equals(this.geodbDownload, objSeList.geodbDownload)&&
+  Objects.equals(this.attachIpSuccess, objSeList.attachIpSuccess)&&
+  Objects.equals(this.attachIpStatus, objSeList.attachIpStatus)&&
+  Objects.equals(this.vip6SubnetMask, objSeList.vip6SubnetMask)&&
+  Objects.equals(this.incarnation, objSeList.incarnation)&&
+  Objects.equals(this.scaleoutInProgress, objSeList.scaleoutInProgress);
 }
 
 @Override

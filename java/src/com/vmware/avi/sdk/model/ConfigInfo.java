@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigInfo objConfigInfo = (ConfigInfo) o;
-  return   Objects.equals(this.queue, objConfigInfo.queue)&&
+  return   Objects.equals(this.state, objConfigInfo.state)&&
   Objects.equals(this.writerCount, objConfigInfo.writerCount)&&
-  Objects.equals(this.state, objConfigInfo.state)&&
-  Objects.equals(this.readerCount, objConfigInfo.readerCount);
+  Objects.equals(this.readerCount, objConfigInfo.readerCount)&&
+  Objects.equals(this.queue, objConfigInfo.queue);
 }
 
 @Override

@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SwitchoverFailEventDetails objSwitchoverFailEventDetails = (SwitchoverFailEventDetails) o;
-  return   Objects.equals(this.ip, objSwitchoverFailEventDetails.ip)&&
+  return   Objects.equals(this.vsUuid, objSwitchoverFailEventDetails.vsUuid)&&
+  Objects.equals(this.vsName, objSwitchoverFailEventDetails.vsName)&&
   Objects.equals(this.fromSeName, objSwitchoverFailEventDetails.fromSeName)&&
-  Objects.equals(this.vsUuid, objSwitchoverFailEventDetails.vsUuid)&&
   Objects.equals(this.reason, objSwitchoverFailEventDetails.reason)&&
-  Objects.equals(this.ip6, objSwitchoverFailEventDetails.ip6)&&
-  Objects.equals(this.vsName, objSwitchoverFailEventDetails.vsName);
+  Objects.equals(this.ip, objSwitchoverFailEventDetails.ip)&&
+  Objects.equals(this.ip6, objSwitchoverFailEventDetails.ip6);
 }
 
 @Override

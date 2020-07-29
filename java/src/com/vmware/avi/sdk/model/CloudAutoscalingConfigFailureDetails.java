@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudAutoscalingConfigFailureDetails objCloudAutoscalingConfigFailureDetails = (CloudAutoscalingConfigFailureDetails) o;
-  return   Objects.equals(this.errorString, objCloudAutoscalingConfigFailureDetails.errorString)&&
-  Objects.equals(this.ccId, objCloudAutoscalingConfigFailureDetails.ccId);
+  return   Objects.equals(this.ccId, objCloudAutoscalingConfigFailureDetails.ccId)&&
+  Objects.equals(this.errorString, objCloudAutoscalingConfigFailureDetails.errorString);
 }
 
 @Override

@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SnmpConfiguration objSnmpConfiguration = (SnmpConfiguration) o;
-  return   Objects.equals(this.sysLocation, objSnmpConfiguration.sysLocation)&&
-  Objects.equals(this.community, objSnmpConfiguration.community)&&
+  return   Objects.equals(this.community, objSnmpConfiguration.community)&&
+  Objects.equals(this.sysLocation, objSnmpConfiguration.sysLocation)&&
+  Objects.equals(this.sysContact, objSnmpConfiguration.sysContact)&&
   Objects.equals(this.version, objSnmpConfiguration.version)&&
-  Objects.equals(this.largeTrapPayload, objSnmpConfiguration.largeTrapPayload)&&
   Objects.equals(this.snmpV3Config, objSnmpConfiguration.snmpV3Config)&&
-  Objects.equals(this.sysContact, objSnmpConfiguration.sysContact);
+  Objects.equals(this.largeTrapPayload, objSnmpConfiguration.largeTrapPayload);
 }
 
 @Override

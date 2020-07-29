@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPSecurityAction objHTTPSecurityAction = (HTTPSecurityAction) o;
-  return   Objects.equals(this.httpsPort, objHTTPSecurityAction.httpsPort)&&
+  return   Objects.equals(this.action, objHTTPSecurityAction.action)&&
   Objects.equals(this.statusCode, objHTTPSecurityAction.statusCode)&&
-  Objects.equals(this.rateLimit, objHTTPSecurityAction.rateLimit)&&
-  Objects.equals(this.rateProfile, objHTTPSecurityAction.rateProfile)&&
+  Objects.equals(this.httpsPort, objHTTPSecurityAction.httpsPort)&&
   Objects.equals(this.file, objHTTPSecurityAction.file)&&
-  Objects.equals(this.action, objHTTPSecurityAction.action);
+  Objects.equals(this.rateLimit, objHTTPSecurityAction.rateLimit)&&
+  Objects.equals(this.rateProfile, objHTTPSecurityAction.rateProfile);
 }
 
 @Override

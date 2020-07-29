@@ -259,16 +259,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerAutoScaleInInfo objServerAutoScaleInInfo = (ServerAutoScaleInInfo) o;
-  return   Objects.equals(this.load, objServerAutoScaleInInfo.load)&&
-  Objects.equals(this.scaleinServerCandidates, objServerAutoScaleInInfo.scaleinServerCandidates)&&
-  Objects.equals(this.numServersUp, objServerAutoScaleInInfo.numServersUp)&&
-  Objects.equals(this.alertconfigRef, objServerAutoScaleInInfo.alertconfigRef)&&
-  Objects.equals(this.availableCapacity, objServerAutoScaleInInfo.availableCapacity)&&
-  Objects.equals(this.reasonCode, objServerAutoScaleInInfo.reasonCode)&&
-  Objects.equals(this.alertconfigName, objServerAutoScaleInInfo.alertconfigName)&&
-  Objects.equals(this.reason, objServerAutoScaleInInfo.reason)&&
+  return   Objects.equals(this.poolRef, objServerAutoScaleInInfo.poolRef)&&
   Objects.equals(this.numScaleinServers, objServerAutoScaleInInfo.numScaleinServers)&&
-  Objects.equals(this.poolRef, objServerAutoScaleInInfo.poolRef);
+  Objects.equals(this.numServersUp, objServerAutoScaleInInfo.numServersUp)&&
+  Objects.equals(this.reason, objServerAutoScaleInInfo.reason)&&
+  Objects.equals(this.reasonCode, objServerAutoScaleInInfo.reasonCode)&&
+  Objects.equals(this.load, objServerAutoScaleInInfo.load)&&
+  Objects.equals(this.availableCapacity, objServerAutoScaleInInfo.availableCapacity)&&
+  Objects.equals(this.scaleinServerCandidates, objServerAutoScaleInInfo.scaleinServerCandidates)&&
+  Objects.equals(this.alertconfigRef, objServerAutoScaleInInfo.alertconfigRef)&&
+  Objects.equals(this.alertconfigName, objServerAutoScaleInInfo.alertconfigName);
 }
 
 @Override

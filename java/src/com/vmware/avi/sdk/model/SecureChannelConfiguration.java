@@ -98,8 +98,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecureChannelConfiguration objSecureChannelConfiguration = (SecureChannelConfiguration) o;
-  return   Objects.equals(this.bypassSecureChannelMustChecks, objSecureChannelConfiguration.bypassSecureChannelMustChecks)&&
-  Objects.equals(this.sslkeyandcertificateRefs, objSecureChannelConfiguration.sslkeyandcertificateRefs);
+  return   Objects.equals(this.sslkeyandcertificateRefs, objSecureChannelConfiguration.sslkeyandcertificateRefs)&&
+  Objects.equals(this.bypassSecureChannelMustChecks, objSecureChannelConfiguration.bypassSecureChannelMustChecks);
 }
 
 @Override

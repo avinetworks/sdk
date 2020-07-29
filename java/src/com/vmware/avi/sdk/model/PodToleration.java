@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PodToleration objPodToleration = (PodToleration) o;
-  return   Objects.equals(this.operator, objPodToleration.operator)&&
-  Objects.equals(this.tolerationSeconds, objPodToleration.tolerationSeconds)&&
+  return   Objects.equals(this.key, objPodToleration.key)&&
   Objects.equals(this.value, objPodToleration.value)&&
-  Objects.equals(this.key, objPodToleration.key)&&
-  Objects.equals(this.effect, objPodToleration.effect);
+  Objects.equals(this.effect, objPodToleration.effect)&&
+  Objects.equals(this.operator, objPodToleration.operator)&&
+  Objects.equals(this.tolerationSeconds, objPodToleration.tolerationSeconds);
 }
 
 @Override

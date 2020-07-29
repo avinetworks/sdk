@@ -199,12 +199,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecureChannelAvailableLocalIPs objSecureChannelAvailableLocalIPs = (SecureChannelAvailableLocalIPs) o;
-  return   Objects.equals(this.end, objSecureChannelAvailableLocalIPs.end)&&
-  Objects.equals(this.uuid, objSecureChannelAvailableLocalIPs.uuid)&&
-  Objects.equals(this.start, objSecureChannelAvailableLocalIPs.start)&&
+  return   Objects.equals(this.uuid, objSecureChannelAvailableLocalIPs.uuid)&&
+  Objects.equals(this.name, objSecureChannelAvailableLocalIPs.name)&&
   Objects.equals(this.freeIps, objSecureChannelAvailableLocalIPs.freeIps)&&
-  Objects.equals(this.freeControllerIps, objSecureChannelAvailableLocalIPs.freeControllerIps)&&
-  Objects.equals(this.name, objSecureChannelAvailableLocalIPs.name);
+  Objects.equals(this.start, objSecureChannelAvailableLocalIPs.start)&&
+  Objects.equals(this.end, objSecureChannelAvailableLocalIPs.end)&&
+  Objects.equals(this.freeControllerIps, objSecureChannelAvailableLocalIPs.freeControllerIps);
 }
 
 @Override

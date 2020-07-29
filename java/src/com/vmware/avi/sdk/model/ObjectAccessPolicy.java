@@ -156,10 +156,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ObjectAccessPolicy objObjectAccessPolicy = (ObjectAccessPolicy) o;
-  return   Objects.equals(this.rules, objObjectAccessPolicy.rules)&&
-  Objects.equals(this.tenantRef, objObjectAccessPolicy.tenantRef)&&
-  Objects.equals(this.uuid, objObjectAccessPolicy.uuid)&&
-  Objects.equals(this.name, objObjectAccessPolicy.name);
+  return   Objects.equals(this.uuid, objObjectAccessPolicy.uuid)&&
+  Objects.equals(this.name, objObjectAccessPolicy.name)&&
+  Objects.equals(this.rules, objObjectAccessPolicy.rules)&&
+  Objects.equals(this.tenantRef, objObjectAccessPolicy.tenantRef);
 }
 
 @Override

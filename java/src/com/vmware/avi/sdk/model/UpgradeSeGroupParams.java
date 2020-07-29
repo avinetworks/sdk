@@ -167,10 +167,10 @@ public boolean equals(java.lang.Object o) {
   }
   UpgradeSeGroupParams objUpgradeSeGroupParams = (UpgradeSeGroupParams) o;
   return   Objects.equals(this.imageRef, objUpgradeSeGroupParams.imageRef)&&
-  Objects.equals(this.skipWarnings, objUpgradeSeGroupParams.skipWarnings)&&
-  Objects.equals(this.seGroupRefs, objUpgradeSeGroupParams.seGroupRefs)&&
   Objects.equals(this.sePatchRef, objUpgradeSeGroupParams.sePatchRef)&&
-  Objects.equals(this.seGroupOptions, objUpgradeSeGroupParams.seGroupOptions);
+  Objects.equals(this.seGroupOptions, objUpgradeSeGroupParams.seGroupOptions)&&
+  Objects.equals(this.seGroupRefs, objUpgradeSeGroupParams.seGroupRefs)&&
+  Objects.equals(this.skipWarnings, objUpgradeSeGroupParams.skipWarnings);
 }
 
 @Override

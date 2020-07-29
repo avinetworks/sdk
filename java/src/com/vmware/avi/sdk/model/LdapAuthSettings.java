@@ -245,15 +245,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LdapAuthSettings objLdapAuthSettings = (LdapAuthSettings) o;
-  return   Objects.equals(this.securityMode, objLdapAuthSettings.securityMode)&&
-  Objects.equals(this.settings, objLdapAuthSettings.settings)&&
-  Objects.equals(this.bindAsAdministrator, objLdapAuthSettings.bindAsAdministrator)&&
-  Objects.equals(this.server, objLdapAuthSettings.server)&&
-  Objects.equals(this.userBind, objLdapAuthSettings.userBind)&&
-  Objects.equals(this.fullNameAttribute, objLdapAuthSettings.fullNameAttribute)&&
+  return   Objects.equals(this.server, objLdapAuthSettings.server)&&
+  Objects.equals(this.port, objLdapAuthSettings.port)&&
+  Objects.equals(this.securityMode, objLdapAuthSettings.securityMode)&&
   Objects.equals(this.baseDn, objLdapAuthSettings.baseDn)&&
+  Objects.equals(this.bindAsAdministrator, objLdapAuthSettings.bindAsAdministrator)&&
+  Objects.equals(this.settings, objLdapAuthSettings.settings)&&
+  Objects.equals(this.userBind, objLdapAuthSettings.userBind)&&
   Objects.equals(this.emailAttribute, objLdapAuthSettings.emailAttribute)&&
-  Objects.equals(this.port, objLdapAuthSettings.port);
+  Objects.equals(this.fullNameAttribute, objLdapAuthSettings.fullNameAttribute);
 }
 
 @Override

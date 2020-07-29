@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LicenseInfo objLicenseInfo = (LicenseInfo) o;
-  return   Objects.equals(this.tier, objLicenseInfo.tier)&&
+  return   Objects.equals(this.uuid, objLicenseInfo.uuid)&&
+  Objects.equals(this.tenantUuid, objLicenseInfo.tenantUuid)&&
+  Objects.equals(this.tier, objLicenseInfo.tier)&&
   Objects.equals(this.serviceCores, objLicenseInfo.serviceCores)&&
-  Objects.equals(this.lastUpdated, objLicenseInfo.lastUpdated)&&
-  Objects.equals(this.uuid, objLicenseInfo.uuid)&&
-  Objects.equals(this.tenantUuid, objLicenseInfo.tenantUuid);
+  Objects.equals(this.lastUpdated, objLicenseInfo.lastUpdated);
 }
 
 @Override

@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UDPFastPathProfile objUDPFastPathProfile = (UDPFastPathProfile) o;
-  return   Objects.equals(this.dsrProfile, objUDPFastPathProfile.dsrProfile)&&
+  return   Objects.equals(this.sessionIdleTimeout, objUDPFastPathProfile.sessionIdleTimeout)&&
   Objects.equals(this.perPktLoadbalance, objUDPFastPathProfile.perPktLoadbalance)&&
   Objects.equals(this.snat, objUDPFastPathProfile.snat)&&
-  Objects.equals(this.sessionIdleTimeout, objUDPFastPathProfile.sessionIdleTimeout);
+  Objects.equals(this.dsrProfile, objUDPFastPathProfile.dsrProfile);
 }
 
 @Override

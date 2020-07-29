@@ -463,24 +463,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IcapRequestLog objIcapRequestLog = (IcapRequestLog) o;
-  return   Objects.equals(this.poolName, objIcapRequestLog.poolName)&&
-  Objects.equals(this.completeBodySent, objIcapRequestLog.completeBodySent)&&
-  Objects.equals(this.httpResponseCode, objIcapRequestLog.httpResponseCode)&&
-  Objects.equals(this.serverIp, objIcapRequestLog.serverIp)&&
-  Objects.equals(this.latency, objIcapRequestLog.latency)&&
-  Objects.equals(this.modifiedContentLength, objIcapRequestLog.modifiedContentLength)&&
-  Objects.equals(this.icapAbsoluteUri, objIcapRequestLog.icapAbsoluteUri)&&
-  Objects.equals(this.reason, objIcapRequestLog.reason)&&
-  Objects.equals(this.action, objIcapRequestLog.action)&&
-  Objects.equals(this.icapHeadersSentToServer, objIcapRequestLog.icapHeadersSentToServer)&&
-  Objects.equals(this.httpMethod, objIcapRequestLog.httpMethod)&&
-  Objects.equals(this.threatDescription, objIcapRequestLog.threatDescription)&&
-  Objects.equals(this.icapResponseCode, objIcapRequestLog.icapResponseCode)&&
+  return   Objects.equals(this.icapResponseCode, objIcapRequestLog.icapResponseCode)&&
   Objects.equals(this.icapMethod, objIcapRequestLog.icapMethod)&&
-  Objects.equals(this.threatId, objIcapRequestLog.threatId)&&
-  Objects.equals(this.sourcePort, objIcapRequestLog.sourcePort)&&
+  Objects.equals(this.httpResponseCode, objIcapRequestLog.httpResponseCode)&&
+  Objects.equals(this.httpMethod, objIcapRequestLog.httpMethod)&&
+  Objects.equals(this.icapAbsoluteUri, objIcapRequestLog.icapAbsoluteUri)&&
+  Objects.equals(this.completeBodySent, objIcapRequestLog.completeBodySent)&&
+  Objects.equals(this.modifiedContentLength, objIcapRequestLog.modifiedContentLength)&&
+  Objects.equals(this.poolName, objIcapRequestLog.poolName)&&
   Objects.equals(this.poolUuid, objIcapRequestLog.poolUuid)&&
-  Objects.equals(this.icapHeadersReceivedFromServer, objIcapRequestLog.icapHeadersReceivedFromServer);
+  Objects.equals(this.serverIp, objIcapRequestLog.serverIp)&&
+  Objects.equals(this.sourcePort, objIcapRequestLog.sourcePort)&&
+  Objects.equals(this.latency, objIcapRequestLog.latency)&&
+  Objects.equals(this.icapHeadersSentToServer, objIcapRequestLog.icapHeadersSentToServer)&&
+  Objects.equals(this.icapHeadersReceivedFromServer, objIcapRequestLog.icapHeadersReceivedFromServer)&&
+  Objects.equals(this.action, objIcapRequestLog.action)&&
+  Objects.equals(this.reason, objIcapRequestLog.reason)&&
+  Objects.equals(this.threatId, objIcapRequestLog.threatId)&&
+  Objects.equals(this.threatDescription, objIcapRequestLog.threatDescription);
 }
 
 @Override

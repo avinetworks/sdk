@@ -238,15 +238,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PaaRequestLog objPaaRequestLog = (PaaRequestLog) o;
-  return   Objects.equals(this.poolName, objPaaRequestLog.poolName)&&
-  Objects.equals(this.serversTried, objPaaRequestLog.serversTried)&&
+  return   Objects.equals(this.responseCode, objPaaRequestLog.responseCode)&&
   Objects.equals(this.httpVersion, objPaaRequestLog.httpVersion)&&
-  Objects.equals(this.responseCode, objPaaRequestLog.responseCode)&&
-  Objects.equals(this.headersSentToServer, objPaaRequestLog.headersSentToServer)&&
-  Objects.equals(this.uriPath, objPaaRequestLog.uriPath)&&
-  Objects.equals(this.serverIp, objPaaRequestLog.serverIp)&&
   Objects.equals(this.method, objPaaRequestLog.method)&&
-  Objects.equals(this.headersReceivedFromServer, objPaaRequestLog.headersReceivedFromServer);
+  Objects.equals(this.uriPath, objPaaRequestLog.uriPath)&&
+  Objects.equals(this.poolName, objPaaRequestLog.poolName)&&
+  Objects.equals(this.serverIp, objPaaRequestLog.serverIp)&&
+  Objects.equals(this.headersSentToServer, objPaaRequestLog.headersSentToServer)&&
+  Objects.equals(this.headersReceivedFromServer, objPaaRequestLog.headersReceivedFromServer)&&
+  Objects.equals(this.serversTried, objPaaRequestLog.serversTried);
 }
 
 @Override

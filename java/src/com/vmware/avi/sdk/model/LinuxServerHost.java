@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LinuxServerHost objLinuxServerHost = (LinuxServerHost) o;
-  return   Objects.equals(this.hostAttr, objLinuxServerHost.hostAttr)&&
-  Objects.equals(this.seGroupRef, objLinuxServerHost.seGroupRef)&&
-  Objects.equals(this.hostIp, objLinuxServerHost.hostIp)&&
-  Objects.equals(this.nodeAvailabilityZone, objLinuxServerHost.nodeAvailabilityZone);
+  return   Objects.equals(this.hostIp, objLinuxServerHost.hostIp)&&
+  Objects.equals(this.hostAttr, objLinuxServerHost.hostAttr)&&
+  Objects.equals(this.nodeAvailabilityZone, objLinuxServerHost.nodeAvailabilityZone)&&
+  Objects.equals(this.seGroupRef, objLinuxServerHost.seGroupRef);
 }
 
 @Override

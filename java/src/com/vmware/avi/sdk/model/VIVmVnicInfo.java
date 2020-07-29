@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIVmVnicInfo objVIVmVnicInfo = (VIVmVnicInfo) o;
-  return   Objects.equals(this.vcenterPortgroup, objVIVmVnicInfo.vcenterPortgroup)&&
-  Objects.equals(this.macAddr, objVIVmVnicInfo.macAddr)&&
-  Objects.equals(this.vcenterVnicNw, objVIVmVnicInfo.vcenterVnicNw);
+  return   Objects.equals(this.macAddr, objVIVmVnicInfo.macAddr)&&
+  Objects.equals(this.vcenterVnicNw, objVIVmVnicInfo.vcenterVnicNw)&&
+  Objects.equals(this.vcenterPortgroup, objVIVmVnicInfo.vcenterPortgroup);
 }
 
 @Override

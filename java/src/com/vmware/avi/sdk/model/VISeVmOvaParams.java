@@ -54,7 +54,7 @@ public class VISeVmOvaParams  {
     private String vcenterHost = null;
 
     @JsonProperty("vcenter_internal")
-    private String vcenterInternal = "unified admin";
+    private String vcenterInternal = "UNIFIED ADMIN";
 
     @JsonProperty("vcenter_mem_reserv")
     private Boolean vcenterMemReserv = false;
@@ -315,7 +315,7 @@ public class VISeVmOvaParams  {
   /**
    * This is the getter method this will return the attribute value.
    * Placeholder for description of property vcenter_internal of obj type visevmovaparams field type str  type string.
-   * Default value when not specified in API or module is interpreted by Avi Controller as unified admin.
+   * Default value when not specified in API or module is interpreted by Avi Controller as UNIFIED ADMIN.
    * @return vcenterInternal
    */
   public String getVcenterInternal() {
@@ -325,7 +325,7 @@ public class VISeVmOvaParams  {
   /**
    * This is the setter method to the attribute.
    * Placeholder for description of property vcenter_internal of obj type visevmovaparams field type str  type string.
-   * Default value when not specified in API or module is interpreted by Avi Controller as unified admin.
+   * Default value when not specified in API or module is interpreted by Avi Controller as UNIFIED ADMIN.
    * @param vcenterInternal set the vcenterInternal.
    */
   public void setVcenterInternal(String  vcenterInternal) {
@@ -495,26 +495,26 @@ public boolean equals(java.lang.Object o) {
   }
   VISeVmOvaParams objVISeVmOvaParams = (VISeVmOvaParams) o;
   return   Objects.equals(this.sevmName, objVISeVmOvaParams.sevmName)&&
-  Objects.equals(this.vcenterSeDiskSizeKb, objVISeVmOvaParams.vcenterSeDiskSizeKb)&&
-  Objects.equals(this.vcenterDsMode, objVISeVmOvaParams.vcenterDsMode)&&
-  Objects.equals(this.vcenterNumMem, objVISeVmOvaParams.vcenterNumMem)&&
-  Objects.equals(this.vcenterOpaqueNwid, objVISeVmOvaParams.vcenterOpaqueNwid)&&
-  Objects.equals(this.vcenterDsInclude, objVISeVmOvaParams.vcenterDsInclude)&&
-  Objects.equals(this.singleSocketAffinity, objVISeVmOvaParams.singleSocketAffinity)&&
-  Objects.equals(this.vcenterOvfPath, objVISeVmOvaParams.vcenterOvfPath)&&
   Objects.equals(this.controllerIpAddr, objVISeVmOvaParams.controllerIpAddr)&&
   Objects.equals(this.rmCookie, objVISeVmOvaParams.rmCookie)&&
   Objects.equals(this.vcenterHost, objVISeVmOvaParams.vcenterHost)&&
-  Objects.equals(this.vcenterInternal, objVISeVmOvaParams.vcenterInternal)&&
-  Objects.equals(this.controllerClusterUuid, objVISeVmOvaParams.controllerClusterUuid)&&
-  Objects.equals(this.vcenterDsInfo, objVISeVmOvaParams.vcenterDsInfo)&&
+  Objects.equals(this.vcenterOvfPath, objVISeVmOvaParams.vcenterOvfPath)&&
   Objects.equals(this.vcenterNumSeCores, objVISeVmOvaParams.vcenterNumSeCores)&&
-  Objects.equals(this.vcenterMemReserv, objVISeVmOvaParams.vcenterMemReserv)&&
   Objects.equals(this.vcenterCpuReserv, objVISeVmOvaParams.vcenterCpuReserv)&&
+  Objects.equals(this.vcenterNumMem, objVISeVmOvaParams.vcenterNumMem)&&
+  Objects.equals(this.vcenterMemReserv, objVISeVmOvaParams.vcenterMemReserv)&&
   Objects.equals(this.vcenterVmFolder, objVISeVmOvaParams.vcenterVmFolder)&&
   Objects.equals(this.vcenterSeMgmtNw, objVISeVmOvaParams.vcenterSeMgmtNw)&&
+  Objects.equals(this.vcenterDsInfo, objVISeVmOvaParams.vcenterDsInfo)&&
+  Objects.equals(this.vcenterDsInclude, objVISeVmOvaParams.vcenterDsInclude)&&
+  Objects.equals(this.vcenterDsMode, objVISeVmOvaParams.vcenterDsMode)&&
+  Objects.equals(this.vcenterInternal, objVISeVmOvaParams.vcenterInternal)&&
+  Objects.equals(this.mode, objVISeVmOvaParams.mode)&&
   Objects.equals(this.seAuthToken, objVISeVmOvaParams.seAuthToken)&&
-  Objects.equals(this.mode, objVISeVmOvaParams.mode);
+  Objects.equals(this.vcenterSeDiskSizeKb, objVISeVmOvaParams.vcenterSeDiskSizeKb)&&
+  Objects.equals(this.controllerClusterUuid, objVISeVmOvaParams.controllerClusterUuid)&&
+  Objects.equals(this.singleSocketAffinity, objVISeVmOvaParams.singleSocketAffinity)&&
+  Objects.equals(this.vcenterOpaqueNwid, objVISeVmOvaParams.vcenterOpaqueNwid);
 }
 
 @Override

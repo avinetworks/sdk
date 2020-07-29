@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   KeyValue objKeyValue = (KeyValue) o;
-  return   Objects.equals(this.value, objKeyValue.value)&&
-  Objects.equals(this.key, objKeyValue.key);
+  return   Objects.equals(this.key, objKeyValue.key)&&
+  Objects.equals(this.value, objKeyValue.value);
 }
 
 @Override

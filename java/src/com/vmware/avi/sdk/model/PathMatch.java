@@ -150,10 +150,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PathMatch objPathMatch = (PathMatch) o;
-  return   Objects.equals(this.matchCase, objPathMatch.matchCase)&&
-  Objects.equals(this.stringGroupRefs, objPathMatch.stringGroupRefs)&&
+  return   Objects.equals(this.matchCriteria, objPathMatch.matchCriteria)&&
+  Objects.equals(this.matchCase, objPathMatch.matchCase)&&
   Objects.equals(this.matchStr, objPathMatch.matchStr)&&
-  Objects.equals(this.matchCriteria, objPathMatch.matchCriteria);
+  Objects.equals(this.stringGroupRefs, objPathMatch.stringGroupRefs);
 }
 
 @Override

@@ -332,19 +332,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudConnectorUser objCloudConnectorUser = (CloudConnectorUser) o;
-  return   Objects.equals(this.publicKey, objCloudConnectorUser.publicKey)&&
+  return   Objects.equals(this.uuid, objCloudConnectorUser.uuid)&&
+  Objects.equals(this.name, objCloudConnectorUser.name)&&
   Objects.equals(this.privateKey, objCloudConnectorUser.privateKey)&&
-  Objects.equals(this.ociCredentials, objCloudConnectorUser.ociCredentials)&&
-  Objects.equals(this.uuid, objCloudConnectorUser.uuid)&&
-  Objects.equals(this.vcenterCredentials, objCloudConnectorUser.vcenterCredentials)&&
-  Objects.equals(this.tencentCredentials, objCloudConnectorUser.tencentCredentials)&&
-  Objects.equals(this.gcpCredentials, objCloudConnectorUser.gcpCredentials)&&
-  Objects.equals(this.azureServiceprincipal, objCloudConnectorUser.azureServiceprincipal)&&
-  Objects.equals(this.azureUserpass, objCloudConnectorUser.azureUserpass)&&
-  Objects.equals(this.nsxtCredentials, objCloudConnectorUser.nsxtCredentials)&&
+  Objects.equals(this.publicKey, objCloudConnectorUser.publicKey)&&
   Objects.equals(this.password, objCloudConnectorUser.password)&&
-  Objects.equals(this.tenantRef, objCloudConnectorUser.tenantRef)&&
-  Objects.equals(this.name, objCloudConnectorUser.name);
+  Objects.equals(this.azureUserpass, objCloudConnectorUser.azureUserpass)&&
+  Objects.equals(this.azureServiceprincipal, objCloudConnectorUser.azureServiceprincipal)&&
+  Objects.equals(this.ociCredentials, objCloudConnectorUser.ociCredentials)&&
+  Objects.equals(this.gcpCredentials, objCloudConnectorUser.gcpCredentials)&&
+  Objects.equals(this.tencentCredentials, objCloudConnectorUser.tencentCredentials)&&
+  Objects.equals(this.nsxtCredentials, objCloudConnectorUser.nsxtCredentials)&&
+  Objects.equals(this.vcenterCredentials, objCloudConnectorUser.vcenterCredentials)&&
+  Objects.equals(this.tenantRef, objCloudConnectorUser.tenantRef);
 }
 
 @Override

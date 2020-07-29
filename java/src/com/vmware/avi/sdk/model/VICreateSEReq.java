@@ -189,12 +189,12 @@ public boolean equals(java.lang.Object o) {
   }
   VICreateSEReq objVICreateSEReq = (VICreateSEReq) o;
   return   Objects.equals(this.seParams, objVICreateSEReq.seParams)&&
-  Objects.equals(this.cloudUuid, objVICreateSEReq.cloudUuid)&&
-  Objects.equals(this.vcenterVnicPortgroups, objVICreateSEReq.vcenterVnicPortgroups)&&
   Objects.equals(this.cookie, objVICreateSEReq.cookie)&&
-  Objects.equals(this.seGrpUuid, objVICreateSEReq.seGrpUuid)&&
   Objects.equals(this.vcenterAdmin, objVICreateSEReq.vcenterAdmin)&&
-  Objects.equals(this.tenantUuid, objVICreateSEReq.tenantUuid);
+  Objects.equals(this.vcenterVnicPortgroups, objVICreateSEReq.vcenterVnicPortgroups)&&
+  Objects.equals(this.seGrpUuid, objVICreateSEReq.seGrpUuid)&&
+  Objects.equals(this.tenantUuid, objVICreateSEReq.tenantUuid)&&
+  Objects.equals(this.cloudUuid, objVICreateSEReq.cloudUuid);
 }
 
 @Override

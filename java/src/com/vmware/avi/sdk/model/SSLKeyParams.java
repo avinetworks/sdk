@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLKeyParams objSSLKeyParams = (SSLKeyParams) o;
-  return   Objects.equals(this.ecParams, objSSLKeyParams.ecParams)&&
+  return   Objects.equals(this.algorithm, objSSLKeyParams.algorithm)&&
   Objects.equals(this.rsaParams, objSSLKeyParams.rsaParams)&&
-  Objects.equals(this.algorithm, objSSLKeyParams.algorithm);
+  Objects.equals(this.ecParams, objSSLKeyParams.ecParams);
 }
 
 @Override

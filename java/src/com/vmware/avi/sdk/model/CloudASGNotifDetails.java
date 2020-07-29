@@ -123,10 +123,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudASGNotifDetails objCloudASGNotifDetails = (CloudASGNotifDetails) o;
-  return   Objects.equals(this.poolRef, objCloudASGNotifDetails.poolRef)&&
+  return   Objects.equals(this.ccId, objCloudASGNotifDetails.ccId)&&
   Objects.equals(this.asgName, objCloudASGNotifDetails.asgName)&&
   Objects.equals(this.errorString, objCloudASGNotifDetails.errorString)&&
-  Objects.equals(this.ccId, objCloudASGNotifDetails.ccId);
+  Objects.equals(this.poolRef, objCloudASGNotifDetails.poolRef);
 }
 
 @Override

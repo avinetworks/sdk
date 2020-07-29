@@ -167,12 +167,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsInitialPlacementEventDetails objVsInitialPlacementEventDetails = (VsInitialPlacementEventDetails) o;
-  return   Objects.equals(this.rpcStatus, objVsInitialPlacementEventDetails.rpcStatus)&&
+  return   Objects.equals(this.vsUuid, objVsInitialPlacementEventDetails.vsUuid)&&
   Objects.equals(this.seRequested, objVsInitialPlacementEventDetails.seRequested)&&
-  Objects.equals(this.ip, objVsInitialPlacementEventDetails.ip)&&
+  Objects.equals(this.seAssigned, objVsInitialPlacementEventDetails.seAssigned)&&
+  Objects.equals(this.rpcStatus, objVsInitialPlacementEventDetails.rpcStatus)&&
   Objects.equals(this.errorMessage, objVsInitialPlacementEventDetails.errorMessage)&&
-  Objects.equals(this.vsUuid, objVsInitialPlacementEventDetails.vsUuid)&&
-  Objects.equals(this.seAssigned, objVsInitialPlacementEventDetails.seAssigned);
+  Objects.equals(this.ip, objVsInitialPlacementEventDetails.ip);
 }
 
 @Override

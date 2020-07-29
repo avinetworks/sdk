@@ -183,12 +183,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMSafenetLuna objHSMSafenetLuna = (HSMSafenetLuna) o;
-  return   Objects.equals(this.useDedicatedNetwork, objHSMSafenetLuna.useDedicatedNetwork)&&
-  Objects.equals(this.haGroupNum, objHSMSafenetLuna.haGroupNum)&&
-  Objects.equals(this.server, objHSMSafenetLuna.server)&&
-  Objects.equals(this.nodeInfo, objHSMSafenetLuna.nodeInfo)&&
+  return   Objects.equals(this.server, objHSMSafenetLuna.server)&&
   Objects.equals(this.isHa, objHSMSafenetLuna.isHa)&&
-  Objects.equals(this.serverPem, objHSMSafenetLuna.serverPem);
+  Objects.equals(this.haGroupNum, objHSMSafenetLuna.haGroupNum)&&
+  Objects.equals(this.nodeInfo, objHSMSafenetLuna.nodeInfo)&&
+  Objects.equals(this.serverPem, objHSMSafenetLuna.serverPem)&&
+  Objects.equals(this.useDedicatedNetwork, objHSMSafenetLuna.useDedicatedNetwork);
 }
 
 @Override

@@ -178,22 +178,29 @@ public class AviApi {
 	public <T> JSONObject get(String path, Map<String, String> params, HashMap<String, String> userHeaders)
 			throws AviApiException {
 		try {
+			JSONObject jsonObject = null;
 			LOGGER.info("__INIT__ Inside executing GET..");
 			String getUrl = path;
 			if (params != null) {
 				getUrl = buildApiParams(path, params);
 			}
-			JSONObject jsonObject = null;
+			HttpEntity requestEntity = null;
+			if (userHeaders != null) {
+				HttpHeaders headers = setHeaders(userHeaders);
+				requestEntity = new HttpEntity(headers);
+			}
 			if (path.contains("/")) {
-				String response = restTemplate.getForObject(getUrl, String.class);
-				jsonObject = new JSONObject(response);
+				ResponseEntity<String> response = restTemplate.exchange(getUrl, HttpMethod.GET, requestEntity,
+						String.class);
+				jsonObject = new JSONObject(response.getBody());
 			} else {
-				AviApiResponse result = restTemplate.getForObject(getUrl, AviApiResponse.class);
-				jsonObject = new JSONObject(result);
+				ResponseEntity<AviApiResponse> response = restTemplate.exchange(getUrl, HttpMethod.GET, requestEntity,
+						AviApiResponse.class);
+				jsonObject = new JSONObject(response.getBody());
 			}
 			LOGGER.info("__DONE__Executing GET is completed..");
 			return jsonObject;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
@@ -217,14 +224,14 @@ public class AviApi {
 		return this.put(path, body, null);
 	}
 
-	public <T> ResponseEntity<T> put(T aviObj, String objectUUid)
-			throws JSONException, AviApiException, IOException {
+	public <T> ResponseEntity<T> put(T aviObj, String objectUUid) throws JSONException, AviApiException, IOException {
 		LOGGER.info("__INIT__ Inside executing PUT..");
 		String path = aviObj.getClass().getSimpleName().toLowerCase();
 		String getUrl = path + "/" + objectUUid;
 
 		HttpEntity<T> requestEntity = new HttpEntity<T>(aviObj);
-		ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity, aviObj.getClass());
+		ResponseEntity<T> response = (ResponseEntity<T>) restTemplate.exchange(getUrl, HttpMethod.PUT, requestEntity,
+				aviObj.getClass());
 		LOGGER.info("__DONE__Executing PUT is completed..");
 		return response;
 	}
@@ -268,7 +275,7 @@ public class AviApi {
 			throws AviApiException {
 		try {
 			LOGGER.info("__INIT__ Inside executing PUT..");
-			
+
 			String objectUuid = body.get("uuid").toString();
 			String putUrl = path.toLowerCase().concat("/" + objectUuid);
 			HttpEntity<String> requestEntity;
@@ -327,7 +334,7 @@ public class AviApi {
 			throws AviApiException {
 		try {
 			LOGGER.info("__INIT__ Inside executing POST..");
-			
+
 			HttpEntity<String> requestEntity;
 			if (userHeaders != null) {
 				HttpHeaders headers = setHeaders(userHeaders);
@@ -418,7 +425,7 @@ public class AviApi {
 	 * @param fileUploadUri is uri where we have to upload file
 	 * @throws Exception
 	 */
-	public void fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {	
+	public void fileUpload(String uri, String filePath, String fileUploadUri) throws Exception {
 		CloseableHttpClient httpClient = null;
 		try {
 			httpClient = AviRestUtils.buildHttpClient(this.aviCredentials);
@@ -454,8 +461,7 @@ public class AviApi {
 			e.printStackTrace(pw);
 			LOGGER.severe("Exception in postFileUpload : " + e.getMessage() + sw.toString());
 			throw new AviApiException(e);
-		} 
-		finally {
+		} finally {
 			if (null != httpClient) {
 				try {
 					httpClient.close();

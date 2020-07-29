@@ -197,12 +197,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FlowtableProfile objFlowtableProfile = (FlowtableProfile) o;
-  return   Objects.equals(this.tcpConnectionSetupTimeout, objFlowtableProfile.tcpConnectionSetupTimeout)&&
+  return   Objects.equals(this.udpIdleTimeout, objFlowtableProfile.udpIdleTimeout)&&
+  Objects.equals(this.tcpConnectionSetupTimeout, objFlowtableProfile.tcpConnectionSetupTimeout)&&
   Objects.equals(this.tcpIdleTimeout, objFlowtableProfile.tcpIdleTimeout)&&
+  Objects.equals(this.tcpHalfClosedTimeout, objFlowtableProfile.tcpHalfClosedTimeout)&&
   Objects.equals(this.tcpClosedTimeout, objFlowtableProfile.tcpClosedTimeout)&&
-  Objects.equals(this.tcpResetTimeout, objFlowtableProfile.tcpResetTimeout)&&
-  Objects.equals(this.udpIdleTimeout, objFlowtableProfile.udpIdleTimeout)&&
-  Objects.equals(this.tcpHalfClosedTimeout, objFlowtableProfile.tcpHalfClosedTimeout);
+  Objects.equals(this.tcpResetTimeout, objFlowtableProfile.tcpResetTimeout);
 }
 
 @Override

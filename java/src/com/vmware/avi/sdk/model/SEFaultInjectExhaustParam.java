@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SEFaultInjectExhaustParam objSEFaultInjectExhaustParam = (SEFaultInjectExhaustParam) o;
-  return   Objects.equals(this.leak, objSEFaultInjectExhaustParam.leak)&&
-  Objects.equals(this.num, objSEFaultInjectExhaustParam.num);
+  return   Objects.equals(this.num, objSEFaultInjectExhaustParam.num)&&
+  Objects.equals(this.leak, objSEFaultInjectExhaustParam.leak);
 }
 
 @Override

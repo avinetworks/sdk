@@ -111,9 +111,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CCScaleSetNotifDetails objCCScaleSetNotifDetails = (CCScaleSetNotifDetails) o;
-  return   Objects.equals(this.scalesetNames, objCCScaleSetNotifDetails.scalesetNames)&&
-  Objects.equals(this.reason, objCCScaleSetNotifDetails.reason)&&
-  Objects.equals(this.ccId, objCCScaleSetNotifDetails.ccId);
+  return   Objects.equals(this.ccId, objCCScaleSetNotifDetails.ccId)&&
+  Objects.equals(this.scalesetNames, objCCScaleSetNotifDetails.scalesetNames)&&
+  Objects.equals(this.reason, objCCScaleSetNotifDetails.reason);
 }
 
 @Override

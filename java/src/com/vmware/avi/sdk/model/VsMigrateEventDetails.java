@@ -209,14 +209,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsMigrateEventDetails objVsMigrateEventDetails = (VsMigrateEventDetails) o;
-  return   Objects.equals(this.rpcStatus, objVsMigrateEventDetails.rpcStatus)&&
+  return   Objects.equals(this.vsUuid, objVsMigrateEventDetails.vsUuid)&&
   Objects.equals(this.seRequested, objVsMigrateEventDetails.seRequested)&&
+  Objects.equals(this.seAssigned, objVsMigrateEventDetails.seAssigned)&&
+  Objects.equals(this.rpcStatus, objVsMigrateEventDetails.rpcStatus)&&
+  Objects.equals(this.errorMessage, objVsMigrateEventDetails.errorMessage)&&
   Objects.equals(this.scaleStatus, objVsMigrateEventDetails.scaleStatus)&&
   Objects.equals(this.ip, objVsMigrateEventDetails.ip)&&
-  Objects.equals(this.errorMessage, objVsMigrateEventDetails.errorMessage)&&
-  Objects.equals(this.vsUuid, objVsMigrateEventDetails.vsUuid)&&
-  Objects.equals(this.ip6, objVsMigrateEventDetails.ip6)&&
-  Objects.equals(this.seAssigned, objVsMigrateEventDetails.seAssigned);
+  Objects.equals(this.ip6, objVsMigrateEventDetails.ip6);
 }
 
 @Override

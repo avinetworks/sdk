@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMThalesNetHsm objHSMThalesNetHsm = (HSMThalesNetHsm) o;
-  return   Objects.equals(this.remotePort, objHSMThalesNetHsm.remotePort)&&
-  Objects.equals(this.priority, objHSMThalesNetHsm.priority)&&
-  Objects.equals(this.keyhash, objHSMThalesNetHsm.keyhash)&&
-  Objects.equals(this.moduleId, objHSMThalesNetHsm.moduleId)&&
+  return   Objects.equals(this.remoteIp, objHSMThalesNetHsm.remoteIp)&&
+  Objects.equals(this.remotePort, objHSMThalesNetHsm.remotePort)&&
   Objects.equals(this.esn, objHSMThalesNetHsm.esn)&&
-  Objects.equals(this.remoteIp, objHSMThalesNetHsm.remoteIp);
+  Objects.equals(this.moduleId, objHSMThalesNetHsm.moduleId)&&
+  Objects.equals(this.keyhash, objHSMThalesNetHsm.keyhash)&&
+  Objects.equals(this.priority, objHSMThalesNetHsm.priority);
 }
 
 @Override

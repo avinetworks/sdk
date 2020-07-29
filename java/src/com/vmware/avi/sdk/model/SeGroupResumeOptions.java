@@ -106,8 +106,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeGroupResumeOptions objSeGroupResumeOptions = (SeGroupResumeOptions) o;
-  return   Objects.equals(this.skipSuspended, objSeGroupResumeOptions.skipSuspended)&&
-  Objects.equals(this.actionOnError, objSeGroupResumeOptions.actionOnError)&&
+  return   Objects.equals(this.actionOnError, objSeGroupResumeOptions.actionOnError)&&
+  Objects.equals(this.skipSuspended, objSeGroupResumeOptions.skipSuspended)&&
   Objects.equals(this.disruptive, objSeGroupResumeOptions.disruptive);
 }
 

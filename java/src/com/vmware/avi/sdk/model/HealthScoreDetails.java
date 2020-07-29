@@ -331,20 +331,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthScoreDetails objHealthScoreDetails = (HealthScoreDetails) o;
-  return   Objects.equals(this.resourcesPenalty, objHealthScoreDetails.resourcesPenalty)&&
-  Objects.equals(this.subResourcePrefix, objHealthScoreDetails.subResourcePrefix)&&
-  Objects.equals(this.anomalyReason, objHealthScoreDetails.anomalyReason)&&
-  Objects.equals(this.performanceReason, objHealthScoreDetails.performanceReason)&&
-  Objects.equals(this.timestamp, objHealthScoreDetails.timestamp)&&
-  Objects.equals(this.performanceScore, objHealthScoreDetails.performanceScore)&&
-  Objects.equals(this.anomalyPenalty, objHealthScoreDetails.anomalyPenalty)&&
-  Objects.equals(this.value, objHealthScoreDetails.value)&&
-  Objects.equals(this.reason, objHealthScoreDetails.reason)&&
-  Objects.equals(this.securityPenalty, objHealthScoreDetails.securityPenalty)&&
-  Objects.equals(this.step, objHealthScoreDetails.step)&&
-  Objects.equals(this.securityReason, objHealthScoreDetails.securityReason)&&
+  return   Objects.equals(this.value, objHealthScoreDetails.value)&&
   Objects.equals(this.previousValue, objHealthScoreDetails.previousValue)&&
-  Objects.equals(this.resourcesReason, objHealthScoreDetails.resourcesReason);
+  Objects.equals(this.timestamp, objHealthScoreDetails.timestamp)&&
+  Objects.equals(this.reason, objHealthScoreDetails.reason)&&
+  Objects.equals(this.anomalyPenalty, objHealthScoreDetails.anomalyPenalty)&&
+  Objects.equals(this.anomalyReason, objHealthScoreDetails.anomalyReason)&&
+  Objects.equals(this.resourcesPenalty, objHealthScoreDetails.resourcesPenalty)&&
+  Objects.equals(this.resourcesReason, objHealthScoreDetails.resourcesReason)&&
+  Objects.equals(this.performanceScore, objHealthScoreDetails.performanceScore)&&
+  Objects.equals(this.performanceReason, objHealthScoreDetails.performanceReason)&&
+  Objects.equals(this.securityPenalty, objHealthScoreDetails.securityPenalty)&&
+  Objects.equals(this.securityReason, objHealthScoreDetails.securityReason)&&
+  Objects.equals(this.subResourcePrefix, objHealthScoreDetails.subResourcePrefix)&&
+  Objects.equals(this.step, objHealthScoreDetails.step);
 }
 
 @Override

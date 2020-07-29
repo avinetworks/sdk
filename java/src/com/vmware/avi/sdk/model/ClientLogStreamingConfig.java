@@ -222,13 +222,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClientLogStreamingConfig objClientLogStreamingConfig = (ClientLogStreamingConfig) o;
-  return   Objects.equals(this.externalServerPort, objClientLogStreamingConfig.externalServerPort)&&
+  return   Objects.equals(this.externalServer, objClientLogStreamingConfig.externalServer)&&
+  Objects.equals(this.externalServerPort, objClientLogStreamingConfig.externalServerPort)&&
   Objects.equals(this.protocol, objClientLogStreamingConfig.protocol)&&
-  Objects.equals(this.syslogConfig, objClientLogStreamingConfig.syslogConfig)&&
-  Objects.equals(this.formatConfig, objClientLogStreamingConfig.formatConfig)&&
-  Objects.equals(this.maxLogsPerSecond, objClientLogStreamingConfig.maxLogsPerSecond)&&
   Objects.equals(this.logTypesToSend, objClientLogStreamingConfig.logTypesToSend)&&
-  Objects.equals(this.externalServer, objClientLogStreamingConfig.externalServer);
+  Objects.equals(this.maxLogsPerSecond, objClientLogStreamingConfig.maxLogsPerSecond)&&
+  Objects.equals(this.syslogConfig, objClientLogStreamingConfig.syslogConfig)&&
+  Objects.equals(this.formatConfig, objClientLogStreamingConfig.formatConfig);
 }
 
 @Override

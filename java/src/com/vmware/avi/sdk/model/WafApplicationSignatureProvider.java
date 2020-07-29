@@ -283,15 +283,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafApplicationSignatureProvider objWafApplicationSignatureProvider = (WafApplicationSignatureProvider) o;
-  return   Objects.equals(this.signatures, objWafApplicationSignatureProvider.signatures)&&
-  Objects.equals(this.uuid, objWafApplicationSignatureProvider.uuid)&&
-  Objects.equals(this.lastCheckForUpdatesError, objWafApplicationSignatureProvider.lastCheckForUpdatesError)&&
+  return   Objects.equals(this.uuid, objWafApplicationSignatureProvider.uuid)&&
+  Objects.equals(this.name, objWafApplicationSignatureProvider.name)&&
+  Objects.equals(this.tenantRef, objWafApplicationSignatureProvider.tenantRef)&&
   Objects.equals(this.rulesetVersion, objWafApplicationSignatureProvider.rulesetVersion)&&
   Objects.equals(this.availableApplications, objWafApplicationSignatureProvider.availableApplications)&&
+  Objects.equals(this.signatures, objWafApplicationSignatureProvider.signatures)&&
   Objects.equals(this.lastSuccessfulCheckForUpdates, objWafApplicationSignatureProvider.lastSuccessfulCheckForUpdates)&&
   Objects.equals(this.lastFailedCheckForUpdates, objWafApplicationSignatureProvider.lastFailedCheckForUpdates)&&
-  Objects.equals(this.tenantRef, objWafApplicationSignatureProvider.tenantRef)&&
-  Objects.equals(this.name, objWafApplicationSignatureProvider.name);
+  Objects.equals(this.lastCheckForUpdatesError, objWafApplicationSignatureProvider.lastCheckForUpdatesError);
 }
 
 @Override

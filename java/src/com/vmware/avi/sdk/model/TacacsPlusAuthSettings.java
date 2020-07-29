@@ -168,11 +168,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TacacsPlusAuthSettings objTacacsPlusAuthSettings = (TacacsPlusAuthSettings) o;
-  return   Objects.equals(this.authorizationAttrs, objTacacsPlusAuthSettings.authorizationAttrs)&&
-  Objects.equals(this.password, objTacacsPlusAuthSettings.password)&&
+  return   Objects.equals(this.server, objTacacsPlusAuthSettings.server)&&
   Objects.equals(this.port, objTacacsPlusAuthSettings.port)&&
+  Objects.equals(this.password, objTacacsPlusAuthSettings.password)&&
   Objects.equals(this.service, objTacacsPlusAuthSettings.service)&&
-  Objects.equals(this.server, objTacacsPlusAuthSettings.server);
+  Objects.equals(this.authorizationAttrs, objTacacsPlusAuthSettings.authorizationAttrs);
 }
 
 @Override

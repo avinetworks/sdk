@@ -117,10 +117,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPClientAuthenticationParams objHTTPClientAuthenticationParams = (HTTPClientAuthenticationParams) o;
-  return   Objects.equals(this.realm, objHTTPClientAuthenticationParams.realm)&&
+  return   Objects.equals(this.type, objHTTPClientAuthenticationParams.type)&&
+  Objects.equals(this.requestUriPath, objHTTPClientAuthenticationParams.requestUriPath)&&
   Objects.equals(this.authProfileRef, objHTTPClientAuthenticationParams.authProfileRef)&&
-  Objects.equals(this.type, objHTTPClientAuthenticationParams.type)&&
-  Objects.equals(this.requestUriPath, objHTTPClientAuthenticationParams.requestUriPath);
+  Objects.equals(this.realm, objHTTPClientAuthenticationParams.realm);
 }
 
 @Override

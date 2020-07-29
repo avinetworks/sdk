@@ -192,13 +192,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPTwoArmMode objGCPTwoArmMode = (GCPTwoArmMode) o;
-  return   Objects.equals(this.frontendDataVpcProjectId, objGCPTwoArmMode.frontendDataVpcProjectId)&&
-  Objects.equals(this.backendDataVpcNetworkName, objGCPTwoArmMode.backendDataVpcNetworkName)&&
-  Objects.equals(this.frontendDataVpcNetworkName, objGCPTwoArmMode.frontendDataVpcNetworkName)&&
+  return   Objects.equals(this.frontendDataVpcSubnetName, objGCPTwoArmMode.frontendDataVpcSubnetName)&&
+  Objects.equals(this.frontendDataVpcProjectId, objGCPTwoArmMode.frontendDataVpcProjectId)&&
   Objects.equals(this.managementVpcSubnetName, objGCPTwoArmMode.managementVpcSubnetName)&&
-  Objects.equals(this.managementVpcNetworkName, objGCPTwoArmMode.managementVpcNetworkName)&&
   Objects.equals(this.backendDataVpcSubnetName, objGCPTwoArmMode.backendDataVpcSubnetName)&&
-  Objects.equals(this.frontendDataVpcSubnetName, objGCPTwoArmMode.frontendDataVpcSubnetName);
+  Objects.equals(this.frontendDataVpcNetworkName, objGCPTwoArmMode.frontendDataVpcNetworkName)&&
+  Objects.equals(this.managementVpcNetworkName, objGCPTwoArmMode.managementVpcNetworkName)&&
+  Objects.equals(this.backendDataVpcNetworkName, objGCPTwoArmMode.backendDataVpcNetworkName);
 }
 
 @Override

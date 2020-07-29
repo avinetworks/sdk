@@ -176,13 +176,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackLbProvAuditCheck objOpenStackLbProvAuditCheck = (OpenStackLbProvAuditCheck) o;
-  return   Objects.equals(this.detail, objOpenStackLbProvAuditCheck.detail)&&
-  Objects.equals(this.elapsed, objOpenStackLbProvAuditCheck.elapsed)&&
-  Objects.equals(this.result, objOpenStackLbProvAuditCheck.result)&&
-  Objects.equals(this.ccId, objOpenStackLbProvAuditCheck.ccId)&&
+  return   Objects.equals(this.ccId, objOpenStackLbProvAuditCheck.ccId)&&
   Objects.equals(this.id, objOpenStackLbProvAuditCheck.id)&&
   Objects.equals(this.tenant, objOpenStackLbProvAuditCheck.tenant)&&
-  Objects.equals(this.user, objOpenStackLbProvAuditCheck.user);
+  Objects.equals(this.user, objOpenStackLbProvAuditCheck.user)&&
+  Objects.equals(this.result, objOpenStackLbProvAuditCheck.result)&&
+  Objects.equals(this.detail, objOpenStackLbProvAuditCheck.detail)&&
+  Objects.equals(this.elapsed, objOpenStackLbProvAuditCheck.elapsed);
 }
 
 @Override

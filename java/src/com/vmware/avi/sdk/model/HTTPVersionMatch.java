@@ -88,8 +88,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPVersionMatch objHTTPVersionMatch = (HTTPVersionMatch) o;
-  return   Objects.equals(this.versions, objHTTPVersionMatch.versions)&&
-  Objects.equals(this.matchCriteria, objHTTPVersionMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objHTTPVersionMatch.matchCriteria)&&
+  Objects.equals(this.versions, objHTTPVersionMatch.versions);
 }
 
 @Override

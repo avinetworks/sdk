@@ -100,9 +100,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbServiceDownResponse objGslbServiceDownResponse = (GslbServiceDownResponse) o;
-  return   Objects.equals(this.fallbackIp6, objGslbServiceDownResponse.fallbackIp6)&&
-  Objects.equals(this.type, objGslbServiceDownResponse.type)&&
-  Objects.equals(this.fallbackIp, objGslbServiceDownResponse.fallbackIp);
+  return   Objects.equals(this.type, objGslbServiceDownResponse.type)&&
+  Objects.equals(this.fallbackIp, objGslbServiceDownResponse.fallbackIp)&&
+  Objects.equals(this.fallbackIp6, objGslbServiceDownResponse.fallbackIp6);
 }
 
 @Override

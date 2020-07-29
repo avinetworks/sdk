@@ -24,7 +24,7 @@ public class HealthMonitorSIP  {
     private String sipRequestCode = "SIP_OPTIONS";
 
     @JsonProperty("sip_response")
-    private String sipResponse = "sip/2.0";
+    private String sipResponse = "SIP/2.0";
 
 
 
@@ -85,7 +85,7 @@ public class HealthMonitorSIP  {
    * Match for a keyword in the first 2kb of the server header and body response.
    * By default, it matches for sip/2.0.
    * Field introduced in 17.2.8, 18.1.3, 18.2.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as sip/2.0.
+   * Default value when not specified in API or module is interpreted by Avi Controller as SIP/2.0.
    * @return sipResponse
    */
   public String getSipResponse() {
@@ -97,7 +97,7 @@ public class HealthMonitorSIP  {
    * Match for a keyword in the first 2kb of the server header and body response.
    * By default, it matches for sip/2.0.
    * Field introduced in 17.2.8, 18.1.3, 18.2.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as sip/2.0.
+   * Default value when not specified in API or module is interpreted by Avi Controller as SIP/2.0.
    * @param sipResponse set the sipResponse.
    */
   public void setSipResponse(String  sipResponse) {
@@ -114,9 +114,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorSIP objHealthMonitorSIP = (HealthMonitorSIP) o;
-  return   Objects.equals(this.sipMonitorTransport, objHealthMonitorSIP.sipMonitorTransport)&&
-  Objects.equals(this.sipRequestCode, objHealthMonitorSIP.sipRequestCode)&&
-  Objects.equals(this.sipResponse, objHealthMonitorSIP.sipResponse);
+  return   Objects.equals(this.sipRequestCode, objHealthMonitorSIP.sipRequestCode)&&
+  Objects.equals(this.sipResponse, objHealthMonitorSIP.sipResponse)&&
+  Objects.equals(this.sipMonitorTransport, objHealthMonitorSIP.sipMonitorTransport);
 }
 
 @Override

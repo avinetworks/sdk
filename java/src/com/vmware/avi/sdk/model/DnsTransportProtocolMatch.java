@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsTransportProtocolMatch objDnsTransportProtocolMatch = (DnsTransportProtocolMatch) o;
-  return   Objects.equals(this.protocol, objDnsTransportProtocolMatch.protocol)&&
-  Objects.equals(this.matchCriteria, objDnsTransportProtocolMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objDnsTransportProtocolMatch.matchCriteria)&&
+  Objects.equals(this.protocol, objDnsTransportProtocolMatch.protocol);
 }
 
 @Override

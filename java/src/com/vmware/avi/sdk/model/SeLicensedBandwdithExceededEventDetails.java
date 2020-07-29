@@ -73,8 +73,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeLicensedBandwdithExceededEventDetails objSeLicensedBandwdithExceededEventDetails = (SeLicensedBandwdithExceededEventDetails) o;
-  return   Objects.equals(this.numPktsDropped, objSeLicensedBandwdithExceededEventDetails.numPktsDropped)&&
-  Objects.equals(this.seRef, objSeLicensedBandwdithExceededEventDetails.seRef);
+  return   Objects.equals(this.seRef, objSeLicensedBandwdithExceededEventDetails.seRef)&&
+  Objects.equals(this.numPktsDropped, objSeLicensedBandwdithExceededEventDetails.numPktsDropped);
 }
 
 @Override

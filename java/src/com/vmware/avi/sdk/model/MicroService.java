@@ -275,16 +275,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MicroService objMicroService = (MicroService) o;
-  return   Objects.equals(this.orchestratorName, objMicroService.orchestratorName)&&
-  Objects.equals(this.ipList, objMicroService.ipList)&&
-  Objects.equals(this.description, objMicroService.description)&&
-  Objects.equals(this.createdBy, objMicroService.createdBy)&&
+  return   Objects.equals(this.uuid, objMicroService.uuid)&&
   Objects.equals(this.name, objMicroService.name)&&
-  Objects.equals(this.cloudConfigCksum, objMicroService.cloudConfigCksum)&&
+  Objects.equals(this.orchestratorName, objMicroService.orchestratorName)&&
   Objects.equals(this.applicationName, objMicroService.applicationName)&&
-  Objects.equals(this.tenantRef, objMicroService.tenantRef)&&
+  Objects.equals(this.ipList, objMicroService.ipList)&&
   Objects.equals(this.containers, objMicroService.containers)&&
-  Objects.equals(this.uuid, objMicroService.uuid);
+  Objects.equals(this.createdBy, objMicroService.createdBy)&&
+  Objects.equals(this.cloudConfigCksum, objMicroService.cloudConfigCksum)&&
+  Objects.equals(this.description, objMicroService.description)&&
+  Objects.equals(this.tenantRef, objMicroService.tenantRef);
 }
 
 @Override

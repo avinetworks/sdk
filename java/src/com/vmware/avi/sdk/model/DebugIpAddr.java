@@ -128,9 +128,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugIpAddr objDebugIpAddr = (DebugIpAddr) o;
-  return   Objects.equals(this.ranges, objDebugIpAddr.ranges)&&
-  Objects.equals(this.prefixes, objDebugIpAddr.prefixes)&&
-  Objects.equals(this.addrs, objDebugIpAddr.addrs);
+  return   Objects.equals(this.addrs, objDebugIpAddr.addrs)&&
+  Objects.equals(this.ranges, objDebugIpAddr.ranges)&&
+  Objects.equals(this.prefixes, objDebugIpAddr.prefixes);
 }
 
 @Override

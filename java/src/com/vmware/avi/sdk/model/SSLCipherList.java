@@ -125,8 +125,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLCipherList objSSLCipherList = (SSLCipherList) o;
-  return   Objects.equals(this.unidentifiedCiphers, objSSLCipherList.unidentifiedCiphers)&&
-  Objects.equals(this.identifiedCiphers, objSSLCipherList.identifiedCiphers);
+  return   Objects.equals(this.identifiedCiphers, objSSLCipherList.identifiedCiphers)&&
+  Objects.equals(this.unidentifiedCiphers, objSSLCipherList.unidentifiedCiphers);
 }
 
 @Override

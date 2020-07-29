@@ -242,15 +242,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNode objClusterNode = (ClusterNode) o;
-  return   Objects.equals(this.vmName, objClusterNode.vmName)&&
-  Objects.equals(this.name, objClusterNode.name)&&
+  return   Objects.equals(this.name, objClusterNode.name)&&
   Objects.equals(this.ip, objClusterNode.ip)&&
-  Objects.equals(this.vmMor, objClusterNode.vmMor)&&
   Objects.equals(this.vmUuid, objClusterNode.vmUuid)&&
+  Objects.equals(this.vmName, objClusterNode.vmName)&&
+  Objects.equals(this.vmMor, objClusterNode.vmMor)&&
   Objects.equals(this.vmHostname, objClusterNode.vmHostname)&&
-  Objects.equals(this.password, objClusterNode.password)&&
   Objects.equals(this.publicIpOrName, objClusterNode.publicIpOrName)&&
-  Objects.equals(this.categories, objClusterNode.categories);
+  Objects.equals(this.categories, objClusterNode.categories)&&
+  Objects.equals(this.password, objClusterNode.password);
 }
 
 @Override

@@ -108,9 +108,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPVIPAllocation objGCPVIPAllocation = (GCPVIPAllocation) o;
-  return   Objects.equals(this.routes, objGCPVIPAllocation.routes)&&
-  Objects.equals(this.ilb, objGCPVIPAllocation.ilb)&&
-  Objects.equals(this.mode, objGCPVIPAllocation.mode);
+  return   Objects.equals(this.mode, objGCPVIPAllocation.mode)&&
+  Objects.equals(this.routes, objGCPVIPAllocation.routes)&&
+  Objects.equals(this.ilb, objGCPVIPAllocation.ilb);
 }
 
 @Override

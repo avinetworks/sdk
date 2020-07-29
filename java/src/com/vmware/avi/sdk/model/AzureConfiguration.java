@@ -324,17 +324,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureConfiguration objAzureConfiguration = (AzureConfiguration) o;
-  return   Objects.equals(this.useManagedDisks, objAzureConfiguration.useManagedDisks)&&
-  Objects.equals(this.availabilityZones, objAzureConfiguration.availabilityZones)&&
-  Objects.equals(this.resourceGroup, objAzureConfiguration.resourceGroup)&&
-  Objects.equals(this.useEnhancedHa, objAzureConfiguration.useEnhancedHa)&&
+  return   Objects.equals(this.subscriptionId, objAzureConfiguration.subscriptionId)&&
   Objects.equals(this.cloudCredentialsRef, objAzureConfiguration.cloudCredentialsRef)&&
-  Objects.equals(this.useAzureDns, objAzureConfiguration.useAzureDns)&&
   Objects.equals(this.location, objAzureConfiguration.location)&&
-  Objects.equals(this.desId, objAzureConfiguration.desId)&&
   Objects.equals(this.networkInfo, objAzureConfiguration.networkInfo)&&
-  Objects.equals(this.subscriptionId, objAzureConfiguration.subscriptionId)&&
-  Objects.equals(this.useStandardAlb, objAzureConfiguration.useStandardAlb);
+  Objects.equals(this.resourceGroup, objAzureConfiguration.resourceGroup)&&
+  Objects.equals(this.useAzureDns, objAzureConfiguration.useAzureDns)&&
+  Objects.equals(this.useEnhancedHa, objAzureConfiguration.useEnhancedHa)&&
+  Objects.equals(this.useManagedDisks, objAzureConfiguration.useManagedDisks)&&
+  Objects.equals(this.availabilityZones, objAzureConfiguration.availabilityZones)&&
+  Objects.equals(this.useStandardAlb, objAzureConfiguration.useStandardAlb)&&
+  Objects.equals(this.desId, objAzureConfiguration.desId);
 }
 
 @Override

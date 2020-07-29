@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLClientRequestHeader objSSLClientRequestHeader = (SSLClientRequestHeader) o;
-  return   Objects.equals(this.requestHeaderValue, objSSLClientRequestHeader.requestHeaderValue)&&
-  Objects.equals(this.requestHeader, objSSLClientRequestHeader.requestHeader);
+  return   Objects.equals(this.requestHeader, objSSLClientRequestHeader.requestHeader)&&
+  Objects.equals(this.requestHeaderValue, objSSLClientRequestHeader.requestHeaderValue);
 }
 
 @Override

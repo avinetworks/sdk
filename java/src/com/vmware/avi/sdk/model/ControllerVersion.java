@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerVersion objControllerVersion = (ControllerVersion) o;
-  return   Objects.equals(this.version, objControllerVersion.version)&&
-  Objects.equals(this.name, objControllerVersion.name)&&
+  return   Objects.equals(this.name, objControllerVersion.name)&&
+  Objects.equals(this.version, objControllerVersion.version)&&
   Objects.equals(this.patch, objControllerVersion.patch);
 }
 

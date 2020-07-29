@@ -23,8 +23,8 @@ public class ALBServicesConfig extends AviRestResource  {
     @JsonProperty("feature_opt_in_status")
     private PortalFeatureOptIn featureOptInStatus = null;
 
-    @JsonProperty("ip_reputation_sync_interval")
-    private Integer ipReputationSyncInterval = 60;
+    @JsonProperty("ip_reputation_config")
+    private IpReputationConfig ipReputationConfig = null;
 
     @JsonProperty("polling_interval")
     private Integer pollingInterval = 10;
@@ -41,8 +41,8 @@ public class ALBServicesConfig extends AviRestResource  {
     @JsonProperty("url")
     private String url = "url";
 
-    @JsonProperty("use_system_proxy")
-    private Boolean useSystemProxy = true;
+    @JsonProperty("use_split_proxy")
+    private Boolean useSplitProxy = false;
 
     @JsonProperty("uuid")
     private String uuid = null;
@@ -91,26 +91,22 @@ public class ALBServicesConfig extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Ip reputation db sync interval in minutes.
-   * Allowed values are 2-1440.
+   * Default values to be used for ip reputation sync.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as 60.
-   * @return ipReputationSyncInterval
+   * @return ipReputationConfig
    */
-  public Integer getIpReputationSyncInterval() {
-    return ipReputationSyncInterval;
+  public IpReputationConfig getIpReputationConfig() {
+    return ipReputationConfig;
   }
 
   /**
    * This is the setter method to the attribute.
-   * Ip reputation db sync interval in minutes.
-   * Allowed values are 2-1440.
+   * Default values to be used for ip reputation sync.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as 60.
-   * @param ipReputationSyncInterval set the ipReputationSyncInterval.
+   * @param ipReputationConfig set the ipReputationConfig.
    */
-  public void setIpReputationSyncInterval(Integer  ipReputationSyncInterval) {
-    this.ipReputationSyncInterval = ipReputationSyncInterval;
+  public void setIpReputationConfig(IpReputationConfig ipReputationConfig) {
+    this.ipReputationConfig = ipReputationConfig;
   }
 
   /**
@@ -216,24 +212,24 @@ public class ALBServicesConfig extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * By default, use system proxy configurationif false, use split proxy configuration.
+   * By default, use system proxy configuration.if true, use split proxy configuration.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @return useSystemProxy
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @return useSplitProxy
    */
-  public Boolean getUseSystemProxy() {
-    return useSystemProxy;
+  public Boolean getUseSplitProxy() {
+    return useSplitProxy;
   }
 
   /**
    * This is the setter method to the attribute.
-   * By default, use system proxy configurationif false, use split proxy configuration.
+   * By default, use system proxy configuration.if true, use split proxy configuration.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as true.
-   * @param useSystemProxy set the useSystemProxy.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @param useSplitProxy set the useSplitProxy.
    */
-  public void setUseSystemProxy(Boolean  useSystemProxy) {
-    this.useSystemProxy = useSystemProxy;
+  public void setUseSplitProxy(Boolean  useSplitProxy) {
+    this.useSplitProxy = useSplitProxy;
   }
 
   /**
@@ -265,14 +261,14 @@ public boolean equals(java.lang.Object o) {
   }
   ALBServicesConfig objALBServicesConfig = (ALBServicesConfig) o;
   return   Objects.equals(this.uuid, objALBServicesConfig.uuid)&&
-  Objects.equals(this.ipReputationSyncInterval, objALBServicesConfig.ipReputationSyncInterval)&&
-  Objects.equals(this.proactiveSupportDefaults, objALBServicesConfig.proactiveSupportDefaults)&&
   Objects.equals(this.portalUrl, objALBServicesConfig.portalUrl)&&
-  Objects.equals(this.featureOptInStatus, objALBServicesConfig.featureOptInStatus)&&
-  Objects.equals(this.splitProxyConfiguration, objALBServicesConfig.splitProxyConfiguration)&&
+  Objects.equals(this.pollingInterval, objALBServicesConfig.pollingInterval)&&
   Objects.equals(this.assetContact, objALBServicesConfig.assetContact)&&
-  Objects.equals(this.useSystemProxy, objALBServicesConfig.useSystemProxy)&&
-  Objects.equals(this.pollingInterval, objALBServicesConfig.pollingInterval);
+  Objects.equals(this.featureOptInStatus, objALBServicesConfig.featureOptInStatus)&&
+  Objects.equals(this.proactiveSupportDefaults, objALBServicesConfig.proactiveSupportDefaults)&&
+  Objects.equals(this.useSplitProxy, objALBServicesConfig.useSplitProxy)&&
+  Objects.equals(this.splitProxyConfiguration, objALBServicesConfig.splitProxyConfiguration)&&
+  Objects.equals(this.ipReputationConfig, objALBServicesConfig.ipReputationConfig);
 }
 
 @Override
@@ -281,12 +277,12 @@ public String toString() {
   sb.append("class ALBServicesConfig {\n");
       sb.append("    assetContact: ").append(toIndentedString(assetContact)).append("\n");
         sb.append("    featureOptInStatus: ").append(toIndentedString(featureOptInStatus)).append("\n");
-        sb.append("    ipReputationSyncInterval: ").append(toIndentedString(ipReputationSyncInterval)).append("\n");
+        sb.append("    ipReputationConfig: ").append(toIndentedString(ipReputationConfig)).append("\n");
         sb.append("    pollingInterval: ").append(toIndentedString(pollingInterval)).append("\n");
         sb.append("    portalUrl: ").append(toIndentedString(portalUrl)).append("\n");
         sb.append("    proactiveSupportDefaults: ").append(toIndentedString(proactiveSupportDefaults)).append("\n");
         sb.append("    splitProxyConfiguration: ").append(toIndentedString(splitProxyConfiguration)).append("\n");
-            sb.append("    useSystemProxy: ").append(toIndentedString(useSystemProxy)).append("\n");
+            sb.append("    useSplitProxy: ").append(toIndentedString(useSplitProxy)).append("\n");
         sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
       sb.append("}");
   return sb.toString();

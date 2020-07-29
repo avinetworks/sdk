@@ -274,16 +274,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerSizingLimits objControllerSizingLimits = (ControllerSizingLimits) o;
-  return   Objects.equals(this.controllerSizingCloudLimits, objControllerSizingLimits.controllerSizingCloudLimits)&&
-  Objects.equals(this.numServiceengines, objControllerSizingLimits.numServiceengines)&&
-  Objects.equals(this.numVirtualservicesRtMetrics, objControllerSizingLimits.numVirtualservicesRtMetrics)&&
+  return   Objects.equals(this.flavor, objControllerSizingLimits.flavor)&&
   Objects.equals(this.numVirtualservices, objControllerSizingLimits.numVirtualservices)&&
-  Objects.equals(this.numServers, objControllerSizingLimits.numServers)&&
-  Objects.equals(this.numTenants, objControllerSizingLimits.numTenants)&&
-  Objects.equals(this.numVrfs, objControllerSizingLimits.numVrfs)&&
+  Objects.equals(this.numVirtualservicesRtMetrics, objControllerSizingLimits.numVirtualservicesRtMetrics)&&
   Objects.equals(this.numEastWestVirtualservices, objControllerSizingLimits.numEastWestVirtualservices)&&
-  Objects.equals(this.flavor, objControllerSizingLimits.flavor)&&
-  Objects.equals(this.numClouds, objControllerSizingLimits.numClouds);
+  Objects.equals(this.numServers, objControllerSizingLimits.numServers)&&
+  Objects.equals(this.numServiceengines, objControllerSizingLimits.numServiceengines)&&
+  Objects.equals(this.numVrfs, objControllerSizingLimits.numVrfs)&&
+  Objects.equals(this.numClouds, objControllerSizingLimits.numClouds)&&
+  Objects.equals(this.numTenants, objControllerSizingLimits.numTenants)&&
+  Objects.equals(this.controllerSizingCloudLimits, objControllerSizingLimits.controllerSizingCloudLimits);
 }
 
 @Override

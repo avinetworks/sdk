@@ -93,8 +93,8 @@ public boolean equals(java.lang.Object o) {
   }
   ServerId objServerId = (ServerId) o;
   return   Objects.equals(this.ip, objServerId.ip)&&
-  Objects.equals(this.externalUuid, objServerId.externalUuid)&&
-  Objects.equals(this.port, objServerId.port);
+  Objects.equals(this.port, objServerId.port)&&
+  Objects.equals(this.externalUuid, objServerId.externalUuid);
 }
 
 @Override

@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeIpfailureEventDetails objSeIpfailureEventDetails = (SeIpfailureEventDetails) o;
-  return   Objects.equals(this.mac, objSeIpfailureEventDetails.mac)&&
+  return   Objects.equals(this.seRef, objSeIpfailureEventDetails.seRef)&&
+  Objects.equals(this.vnicName, objSeIpfailureEventDetails.vnicName)&&
   Objects.equals(this.networkUuid, objSeIpfailureEventDetails.networkUuid)&&
-  Objects.equals(this.seRef, objSeIpfailureEventDetails.seRef)&&
-  Objects.equals(this.vnicName, objSeIpfailureEventDetails.vnicName);
+  Objects.equals(this.mac, objSeIpfailureEventDetails.mac);
 }
 
 @Override

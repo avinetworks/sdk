@@ -213,13 +213,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BuildInfo objBuildInfo = (BuildInfo) o;
-  return   Objects.equals(this.product, objBuildInfo.product)&&
-  Objects.equals(this.version, objBuildInfo.version)&&
-  Objects.equals(this.minVersion, objBuildInfo.minVersion)&&
-  Objects.equals(this.buildNo, objBuildInfo.buildNo)&&
-  Objects.equals(this.patchVersion, objBuildInfo.patchVersion)&&
+  return   Objects.equals(this.date, objBuildInfo.date)&&
   Objects.equals(this.tag, objBuildInfo.tag)&&
-  Objects.equals(this.date, objBuildInfo.date)&&
+  Objects.equals(this.version, objBuildInfo.version)&&
+  Objects.equals(this.buildNo, objBuildInfo.buildNo)&&
+  Objects.equals(this.minVersion, objBuildInfo.minVersion)&&
+  Objects.equals(this.patchVersion, objBuildInfo.patchVersion)&&
+  Objects.equals(this.product, objBuildInfo.product)&&
   Objects.equals(this.productName, objBuildInfo.productName);
 }
 

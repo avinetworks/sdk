@@ -77,8 +77,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SEBandwidthLimit objSEBandwidthLimit = (SEBandwidthLimit) o;
-  return   Objects.equals(this.count, objSEBandwidthLimit.count)&&
-  Objects.equals(this.type, objSEBandwidthLimit.type);
+  return   Objects.equals(this.type, objSEBandwidthLimit.type)&&
+  Objects.equals(this.count, objSEBandwidthLimit.count);
 }
 
 @Override

@@ -157,12 +157,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AWSLogin objAWSLogin = (AWSLogin) o;
-  return   Objects.equals(this.useIamRoles, objAWSLogin.useIamRoles)&&
-  Objects.equals(this.region, objAWSLogin.region)&&
+  return   Objects.equals(this.accessKeyId, objAWSLogin.accessKeyId)&&
   Objects.equals(this.secretAccessKey, objAWSLogin.secretAccessKey)&&
-  Objects.equals(this.accessKeyId, objAWSLogin.accessKeyId)&&
-  Objects.equals(this.iamAssumeRole, objAWSLogin.iamAssumeRole)&&
-  Objects.equals(this.vpcId, objAWSLogin.vpcId);
+  Objects.equals(this.region, objAWSLogin.region)&&
+  Objects.equals(this.vpcId, objAWSLogin.vpcId)&&
+  Objects.equals(this.useIamRoles, objAWSLogin.useIamRoles)&&
+  Objects.equals(this.iamAssumeRole, objAWSLogin.iamAssumeRole);
 }
 
 @Override

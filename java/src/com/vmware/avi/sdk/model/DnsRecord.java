@@ -505,22 +505,22 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRecord objDnsRecord = (DnsRecord) o;
-  return   Objects.equals(this.wildcardMatch, objDnsRecord.wildcardMatch)&&
-  Objects.equals(this.algorithm, objDnsRecord.algorithm)&&
-  Objects.equals(this.numRecordsInResponse, objDnsRecord.numRecordsInResponse)&&
+  return   Objects.equals(this.fqdn, objDnsRecord.fqdn)&&
   Objects.equals(this.type, objDnsRecord.type)&&
-  Objects.equals(this.fqdn, objDnsRecord.fqdn)&&
-  Objects.equals(this.metadata, objDnsRecord.metadata)&&
-  Objects.equals(this.cname, objDnsRecord.cname)&&
-  Objects.equals(this.txtRecords, objDnsRecord.txtRecords)&&
-  Objects.equals(this.serviceLocator, objDnsRecord.serviceLocator)&&
   Objects.equals(this.ttl, objDnsRecord.ttl)&&
-  Objects.equals(this.ip6Address, objDnsRecord.ip6Address)&&
-  Objects.equals(this.delegated, objDnsRecord.delegated)&&
-  Objects.equals(this.ns, objDnsRecord.ns)&&
   Objects.equals(this.ipAddress, objDnsRecord.ipAddress)&&
+  Objects.equals(this.serviceLocator, objDnsRecord.serviceLocator)&&
+  Objects.equals(this.cname, objDnsRecord.cname)&&
+  Objects.equals(this.ns, objDnsRecord.ns)&&
+  Objects.equals(this.numRecordsInResponse, objDnsRecord.numRecordsInResponse)&&
+  Objects.equals(this.algorithm, objDnsRecord.algorithm)&&
+  Objects.equals(this.wildcardMatch, objDnsRecord.wildcardMatch)&&
+  Objects.equals(this.delegated, objDnsRecord.delegated)&&
+  Objects.equals(this.ip6Address, objDnsRecord.ip6Address)&&
+  Objects.equals(this.description, objDnsRecord.description)&&
+  Objects.equals(this.metadata, objDnsRecord.metadata)&&
   Objects.equals(this.mxRecords, objDnsRecord.mxRecords)&&
-  Objects.equals(this.description, objDnsRecord.description);
+  Objects.equals(this.txtRecords, objDnsRecord.txtRecords);
 }
 
 @Override

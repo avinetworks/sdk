@@ -138,8 +138,8 @@ public boolean equals(java.lang.Object o) {
   }
   RateLimiter objRateLimiter = (RateLimiter) o;
   return   Objects.equals(this.count, objRateLimiter.count)&&
-  Objects.equals(this.burstSz, objRateLimiter.burstSz)&&
   Objects.equals(this.period, objRateLimiter.period)&&
+  Objects.equals(this.burstSz, objRateLimiter.burstSz)&&
   Objects.equals(this.name, objRateLimiter.name);
 }
 

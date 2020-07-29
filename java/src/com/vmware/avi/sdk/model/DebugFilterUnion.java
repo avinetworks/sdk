@@ -312,19 +312,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugFilterUnion objDebugFilterUnion = (DebugFilterUnion) o;
-  return   Objects.equals(this.mesosMetricsDebugFilter, objDebugFilterUnion.mesosMetricsDebugFilter)&&
-  Objects.equals(this.cloudConnectorDebugFilter, objDebugFilterUnion.cloudConnectorDebugFilter)&&
-  Objects.equals(this.seRpcProxyFilter, objDebugFilterUnion.seRpcProxyFilter)&&
-  Objects.equals(this.securitymgrDebugFilter, objDebugFilterUnion.securitymgrDebugFilter)&&
-  Objects.equals(this.metricsDebugFilter, objDebugFilterUnion.metricsDebugFilter)&&
-  Objects.equals(this.alertDebugFilter, objDebugFilterUnion.alertDebugFilter)&&
+  return   Objects.equals(this.type, objDebugFilterUnion.type)&&
   Objects.equals(this.seMgrDebugFilter, objDebugFilterUnion.seMgrDebugFilter)&&
-  Objects.equals(this.stateCacheMgrDebugFilter, objDebugFilterUnion.stateCacheMgrDebugFilter)&&
-  Objects.equals(this.metricsapiSrvDebugFilter, objDebugFilterUnion.metricsapiSrvDebugFilter)&&
-  Objects.equals(this.autoscaleMgrDebugFilter, objDebugFilterUnion.autoscaleMgrDebugFilter)&&
-  Objects.equals(this.type, objDebugFilterUnion.type)&&
   Objects.equals(this.vsDebugFilter, objDebugFilterUnion.vsDebugFilter)&&
-  Objects.equals(this.hsDebugFilter, objDebugFilterUnion.hsDebugFilter);
+  Objects.equals(this.metricsDebugFilter, objDebugFilterUnion.metricsDebugFilter)&&
+  Objects.equals(this.hsDebugFilter, objDebugFilterUnion.hsDebugFilter)&&
+  Objects.equals(this.alertDebugFilter, objDebugFilterUnion.alertDebugFilter)&&
+  Objects.equals(this.autoscaleMgrDebugFilter, objDebugFilterUnion.autoscaleMgrDebugFilter)&&
+  Objects.equals(this.cloudConnectorDebugFilter, objDebugFilterUnion.cloudConnectorDebugFilter)&&
+  Objects.equals(this.mesosMetricsDebugFilter, objDebugFilterUnion.mesosMetricsDebugFilter)&&
+  Objects.equals(this.stateCacheMgrDebugFilter, objDebugFilterUnion.stateCacheMgrDebugFilter)&&
+  Objects.equals(this.seRpcProxyFilter, objDebugFilterUnion.seRpcProxyFilter)&&
+  Objects.equals(this.metricsapiSrvDebugFilter, objDebugFilterUnion.metricsapiSrvDebugFilter)&&
+  Objects.equals(this.securitymgrDebugFilter, objDebugFilterUnion.securitymgrDebugFilter);
 }
 
 @Override

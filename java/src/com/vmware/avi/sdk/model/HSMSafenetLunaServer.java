@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMSafenetLunaServer objHSMSafenetLunaServer = (HSMSafenetLunaServer) o;
-  return   Objects.equals(this.serverCert, objHSMSafenetLunaServer.serverCert)&&
+  return   Objects.equals(this.remoteIp, objHSMSafenetLunaServer.remoteIp)&&
+  Objects.equals(this.serverCert, objHSMSafenetLunaServer.serverCert)&&
   Objects.equals(this.partitionPasswd, objHSMSafenetLunaServer.partitionPasswd)&&
   Objects.equals(this.partitionSerialNumber, objHSMSafenetLunaServer.partitionSerialNumber)&&
-  Objects.equals(this.index, objHSMSafenetLunaServer.index)&&
-  Objects.equals(this.remoteIp, objHSMSafenetLunaServer.remoteIp);
+  Objects.equals(this.index, objHSMSafenetLunaServer.index);
 }
 
 @Override

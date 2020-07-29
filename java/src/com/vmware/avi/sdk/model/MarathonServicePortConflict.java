@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MarathonServicePortConflict objMarathonServicePortConflict = (MarathonServicePortConflict) o;
-  return   Objects.equals(this.appName, objMarathonServicePortConflict.appName)&&
+  return   Objects.equals(this.ccId, objMarathonServicePortConflict.ccId)&&
   Objects.equals(this.marathonUrl, objMarathonServicePortConflict.marathonUrl)&&
   Objects.equals(this.port, objMarathonServicePortConflict.port)&&
-  Objects.equals(this.ccId, objMarathonServicePortConflict.ccId);
+  Objects.equals(this.appName, objMarathonServicePortConflict.appName);
 }
 
 @Override

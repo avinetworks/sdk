@@ -161,10 +161,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DiskUsage objDiskUsage = (DiskUsage) o;
-  return   Objects.equals(this.seDiskFree, objDiskUsage.seDiskFree)&&
-  Objects.equals(this.cntlrDiskUsage, objDiskUsage.cntlrDiskUsage)&&
+  return   Objects.equals(this.cntlrDiskUsage, objDiskUsage.cntlrDiskUsage)&&
+  Objects.equals(this.cntlrDiskFree, objDiskUsage.cntlrDiskFree)&&
   Objects.equals(this.seDiskUsage, objDiskUsage.seDiskUsage)&&
-  Objects.equals(this.cntlrDiskFree, objDiskUsage.cntlrDiskFree);
+  Objects.equals(this.seDiskFree, objDiskUsage.seDiskFree);
 }
 
 @Override

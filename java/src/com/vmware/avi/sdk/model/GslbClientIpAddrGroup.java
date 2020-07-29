@@ -164,10 +164,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbClientIpAddrGroup objGslbClientIpAddrGroup = (GslbClientIpAddrGroup) o;
-  return   Objects.equals(this.ranges, objGslbClientIpAddrGroup.ranges)&&
-  Objects.equals(this.prefixes, objGslbClientIpAddrGroup.prefixes)&&
-  Objects.equals(this.type, objGslbClientIpAddrGroup.type)&&
-  Objects.equals(this.addrs, objGslbClientIpAddrGroup.addrs);
+  return   Objects.equals(this.type, objGslbClientIpAddrGroup.type)&&
+  Objects.equals(this.addrs, objGslbClientIpAddrGroup.addrs)&&
+  Objects.equals(this.ranges, objGslbClientIpAddrGroup.ranges)&&
+  Objects.equals(this.prefixes, objGslbClientIpAddrGroup.prefixes);
 }
 
 @Override

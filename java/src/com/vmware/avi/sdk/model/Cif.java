@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Cif objCif = (Cif) o;
-  return   Objects.equals(this.adapter, objCif.adapter)&&
+  return   Objects.equals(this.cif, objCif.cif)&&
+  Objects.equals(this.seUuid, objCif.seUuid)&&
   Objects.equals(this.macAddress, objCif.macAddress)&&
-  Objects.equals(this.cif, objCif.cif)&&
-  Objects.equals(this.resources, objCif.resources)&&
-  Objects.equals(this.seUuid, objCif.seUuid);
+  Objects.equals(this.adapter, objCif.adapter)&&
+  Objects.equals(this.resources, objCif.resources);
 }
 
 @Override

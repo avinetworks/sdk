@@ -300,17 +300,17 @@ public boolean equals(java.lang.Object o) {
   }
   SeUpgradeEvents objSeUpgradeEvents = (SeUpgradeEvents) o;
   return   Objects.equals(this.task, objSeUpgradeEvents.task)&&
-  Objects.equals(this.numSeGroup, objSeUpgradeEvents.numSeGroup)&&
-  Objects.equals(this.trafficStatus, objSeUpgradeEvents.trafficStatus)&&
-  Objects.equals(this.reason, objSeUpgradeEvents.reason)&&
-  Objects.equals(this.toSeRef, objSeUpgradeEvents.toSeRef)&&
-  Objects.equals(this.seGroupHaMode, objSeUpgradeEvents.seGroupHaMode)&&
   Objects.equals(this.vsRef, objSeUpgradeEvents.vsRef)&&
-  Objects.equals(this.seRef, objSeUpgradeEvents.seRef)&&
-  Objects.equals(this.numVs, objSeUpgradeEvents.numVs)&&
-  Objects.equals(this.numSe, objSeUpgradeEvents.numSe)&&
   Objects.equals(this.seGroupRef, objSeUpgradeEvents.seGroupRef)&&
-  Objects.equals(this.fromSeRef, objSeUpgradeEvents.fromSeRef);
+  Objects.equals(this.seGroupHaMode, objSeUpgradeEvents.seGroupHaMode)&&
+  Objects.equals(this.seRef, objSeUpgradeEvents.seRef)&&
+  Objects.equals(this.fromSeRef, objSeUpgradeEvents.fromSeRef)&&
+  Objects.equals(this.toSeRef, objSeUpgradeEvents.toSeRef)&&
+  Objects.equals(this.numSeGroup, objSeUpgradeEvents.numSeGroup)&&
+  Objects.equals(this.numSe, objSeUpgradeEvents.numSe)&&
+  Objects.equals(this.numVs, objSeUpgradeEvents.numVs)&&
+  Objects.equals(this.trafficStatus, objSeUpgradeEvents.trafficStatus)&&
+  Objects.equals(this.reason, objSeUpgradeEvents.reason);
 }
 
 @Override

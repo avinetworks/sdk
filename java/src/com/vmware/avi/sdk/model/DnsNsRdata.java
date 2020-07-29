@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsNsRdata objDnsNsRdata = (DnsNsRdata) o;
-  return   Objects.equals(this.ip6Address, objDnsNsRdata.ip6Address)&&
+  return   Objects.equals(this.nsname, objDnsNsRdata.nsname)&&
   Objects.equals(this.ipAddress, objDnsNsRdata.ipAddress)&&
-  Objects.equals(this.nsname, objDnsNsRdata.nsname);
+  Objects.equals(this.ip6Address, objDnsNsRdata.ip6Address);
 }
 
 @Override

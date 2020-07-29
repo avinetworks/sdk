@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsGeoLocationMatch objDnsGeoLocationMatch = (DnsGeoLocationMatch) o;
-  return   Objects.equals(this.geolocationName, objDnsGeoLocationMatch.geolocationName)&&
+  return   Objects.equals(this.matchCriteria, objDnsGeoLocationMatch.matchCriteria)&&
   Objects.equals(this.useEdnsClientSubnetIp, objDnsGeoLocationMatch.useEdnsClientSubnetIp)&&
-  Objects.equals(this.geolocationTag, objDnsGeoLocationMatch.geolocationTag)&&
-  Objects.equals(this.matchCriteria, objDnsGeoLocationMatch.matchCriteria);
+  Objects.equals(this.geolocationName, objDnsGeoLocationMatch.geolocationName)&&
+  Objects.equals(this.geolocationTag, objDnsGeoLocationMatch.geolocationTag);
 }
 
 @Override

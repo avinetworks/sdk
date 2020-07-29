@@ -175,12 +175,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertEmailConfig objAlertEmailConfig = (AlertEmailConfig) o;
-  return   Objects.equals(this.toEmails, objAlertEmailConfig.toEmails)&&
-  Objects.equals(this.description, objAlertEmailConfig.description)&&
-  Objects.equals(this.ccEmails, objAlertEmailConfig.ccEmails)&&
+  return   Objects.equals(this.uuid, objAlertEmailConfig.uuid)&&
   Objects.equals(this.name, objAlertEmailConfig.name)&&
-  Objects.equals(this.tenantRef, objAlertEmailConfig.tenantRef)&&
-  Objects.equals(this.uuid, objAlertEmailConfig.uuid);
+  Objects.equals(this.toEmails, objAlertEmailConfig.toEmails)&&
+  Objects.equals(this.ccEmails, objAlertEmailConfig.ccEmails)&&
+  Objects.equals(this.description, objAlertEmailConfig.description)&&
+  Objects.equals(this.tenantRef, objAlertEmailConfig.tenantRef);
 }
 
 @Override

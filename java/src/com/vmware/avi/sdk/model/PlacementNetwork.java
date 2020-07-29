@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PlacementNetwork objPlacementNetwork = (PlacementNetwork) o;
-  return   Objects.equals(this.subnet, objPlacementNetwork.subnet)&&
-  Objects.equals(this.networkRef, objPlacementNetwork.networkRef);
+  return   Objects.equals(this.networkRef, objPlacementNetwork.networkRef)&&
+  Objects.equals(this.subnet, objPlacementNetwork.subnet);
 }
 
 @Override

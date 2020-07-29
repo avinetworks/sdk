@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafExcludeListEntry objWafExcludeListEntry = (WafExcludeListEntry) o;
-  return   Objects.equals(this.description, objWafExcludeListEntry.description)&&
-  Objects.equals(this.matchElementCriteria, objWafExcludeListEntry.matchElementCriteria)&&
-  Objects.equals(this.clientSubnet, objWafExcludeListEntry.clientSubnet)&&
-  Objects.equals(this.matchElement, objWafExcludeListEntry.matchElement)&&
+  return   Objects.equals(this.clientSubnet, objWafExcludeListEntry.clientSubnet)&&
   Objects.equals(this.uriPath, objWafExcludeListEntry.uriPath)&&
-  Objects.equals(this.uriMatchCriteria, objWafExcludeListEntry.uriMatchCriteria);
+  Objects.equals(this.matchElement, objWafExcludeListEntry.matchElement)&&
+  Objects.equals(this.uriMatchCriteria, objWafExcludeListEntry.uriMatchCriteria)&&
+  Objects.equals(this.matchElementCriteria, objWafExcludeListEntry.matchElementCriteria)&&
+  Objects.equals(this.description, objWafExcludeListEntry.description);
 }
 
 @Override

@@ -366,18 +366,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BgpProfile objBgpProfile = (BgpProfile) o;
-  return   Objects.equals(this.keepaliveInterval, objBgpProfile.keepaliveInterval)&&
-  Objects.equals(this.peers, objBgpProfile.peers)&&
-  Objects.equals(this.ipCommunities, objBgpProfile.ipCommunities)&&
-  Objects.equals(this.localAs, objBgpProfile.localAs)&&
-  Objects.equals(this.community, objBgpProfile.community)&&
+  return   Objects.equals(this.localAs, objBgpProfile.localAs)&&
   Objects.equals(this.ibgp, objBgpProfile.ibgp)&&
-  Objects.equals(this.sendCommunity, objBgpProfile.sendCommunity)&&
-  Objects.equals(this.localPreference, objBgpProfile.localPreference)&&
-  Objects.equals(this.shutdown, objBgpProfile.shutdown)&&
-  Objects.equals(this.routingOptions, objBgpProfile.routingOptions)&&
+  Objects.equals(this.peers, objBgpProfile.peers)&&
+  Objects.equals(this.keepaliveInterval, objBgpProfile.keepaliveInterval)&&
   Objects.equals(this.holdTime, objBgpProfile.holdTime)&&
-  Objects.equals(this.numAsPathPrepend, objBgpProfile.numAsPathPrepend);
+  Objects.equals(this.sendCommunity, objBgpProfile.sendCommunity)&&
+  Objects.equals(this.community, objBgpProfile.community)&&
+  Objects.equals(this.ipCommunities, objBgpProfile.ipCommunities)&&
+  Objects.equals(this.localPreference, objBgpProfile.localPreference)&&
+  Objects.equals(this.numAsPathPrepend, objBgpProfile.numAsPathPrepend)&&
+  Objects.equals(this.routingOptions, objBgpProfile.routingOptions)&&
+  Objects.equals(this.shutdown, objBgpProfile.shutdown);
 }
 
 @Override

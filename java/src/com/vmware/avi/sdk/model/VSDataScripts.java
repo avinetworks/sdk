@@ -73,8 +73,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VSDataScripts objVSDataScripts = (VSDataScripts) o;
-  return   Objects.equals(this.vsDatascriptSetRef, objVSDataScripts.vsDatascriptSetRef)&&
-  Objects.equals(this.index, objVSDataScripts.index);
+  return   Objects.equals(this.index, objVSDataScripts.index)&&
+  Objects.equals(this.vsDatascriptSetRef, objVSDataScripts.vsDatascriptSetRef);
 }
 
 @Override

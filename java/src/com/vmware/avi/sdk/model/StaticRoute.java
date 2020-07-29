@@ -23,6 +23,9 @@ public class StaticRoute  {
     @JsonProperty("if_name")
     private String ifName = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("next_hop")
     private IpAddr nextHop = null;
 
@@ -72,6 +75,39 @@ public class StaticRoute  {
    */
   public void setIfName(String  ifName) {
     this.ifName = ifName;
+  }
+  /**
+   * This is the getter method this will return the attribute value.
+   * Labels associated with this route.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public List<KeyValue> getLabels() {
+    return labels;
+  }
+
+  /**
+   * This is the setter method. this will set the labels
+   * Labels associated with this route.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public void setLabels(List<KeyValue>  labels) {
+    this.labels = labels;
+  }
+
+  /**
+   * This is the setter method this will set the labels
+   * Labels associated with this route.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public StaticRoute addLabelsItem(KeyValue labelsItem) {
+    if (this.labels == null) {
+      this.labels = new ArrayList<KeyValue>();
+    }
+    this.labels.add(labelsItem);
+    return this;
   }
 
   /**
@@ -138,11 +174,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   StaticRoute objStaticRoute = (StaticRoute) o;
-  return   Objects.equals(this.routeId, objStaticRoute.routeId)&&
-  Objects.equals(this.prefix, objStaticRoute.prefix)&&
+  return   Objects.equals(this.prefix, objStaticRoute.prefix)&&
   Objects.equals(this.nextHop, objStaticRoute.nextHop)&&
   Objects.equals(this.ifName, objStaticRoute.ifName)&&
-  Objects.equals(this.disableGatewayMonitor, objStaticRoute.disableGatewayMonitor);
+  Objects.equals(this.routeId, objStaticRoute.routeId)&&
+  Objects.equals(this.disableGatewayMonitor, objStaticRoute.disableGatewayMonitor)&&
+  Objects.equals(this.labels, objStaticRoute.labels);
 }
 
 @Override
@@ -151,6 +188,7 @@ public String toString() {
   sb.append("class StaticRoute {\n");
       sb.append("    disableGatewayMonitor: ").append(toIndentedString(disableGatewayMonitor)).append("\n");
         sb.append("    ifName: ").append(toIndentedString(ifName)).append("\n");
+        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
         sb.append("    nextHop: ").append(toIndentedString(nextHop)).append("\n");
         sb.append("    prefix: ").append(toIndentedString(prefix)).append("\n");
         sb.append("    routeId: ").append(toIndentedString(routeId)).append("\n");

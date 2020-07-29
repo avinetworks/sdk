@@ -254,15 +254,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UserActivity objUserActivity = (UserActivity) o;
-  return   Objects.equals(this.lastPasswordUpdate, objUserActivity.lastPasswordUpdate)&&
-  Objects.equals(this.failedLoginAttempts, objUserActivity.failedLoginAttempts)&&
-  Objects.equals(this.uuid, objUserActivity.uuid)&&
-  Objects.equals(this.lastLoginTimestamp, objUserActivity.lastLoginTimestamp)&&
-  Objects.equals(this.lastLoginIp, objUserActivity.lastLoginIp)&&
+  return   Objects.equals(this.uuid, objUserActivity.uuid)&&
+  Objects.equals(this.name, objUserActivity.name)&&
   Objects.equals(this.previousPassword, objUserActivity.previousPassword)&&
+  Objects.equals(this.failedLoginAttempts, objUserActivity.failedLoginAttempts)&&
+  Objects.equals(this.lastLoginIp, objUserActivity.lastLoginIp)&&
+  Objects.equals(this.lastLoginTimestamp, objUserActivity.lastLoginTimestamp)&&
   Objects.equals(this.loggedIn, objUserActivity.loggedIn)&&
   Objects.equals(this.concurrentSessions, objUserActivity.concurrentSessions)&&
-  Objects.equals(this.name, objUserActivity.name);
+  Objects.equals(this.lastPasswordUpdate, objUserActivity.lastPasswordUpdate);
 }
 
 @Override

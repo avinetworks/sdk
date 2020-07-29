@@ -131,10 +131,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeRuntimeCompressionProperties objSeRuntimeCompressionProperties = (SeRuntimeCompressionProperties) o;
-  return   Objects.equals(this.mobileStr, objSeRuntimeCompressionProperties.mobileStr)&&
-  Objects.equals(this.minLength, objSeRuntimeCompressionProperties.minLength)&&
+  return   Objects.equals(this.minLength, objSeRuntimeCompressionProperties.minLength)&&
+  Objects.equals(this.maxLowRtt, objSeRuntimeCompressionProperties.maxLowRtt)&&
   Objects.equals(this.minHighRtt, objSeRuntimeCompressionProperties.minHighRtt)&&
-  Objects.equals(this.maxLowRtt, objSeRuntimeCompressionProperties.maxLowRtt);
+  Objects.equals(this.mobileStr, objSeRuntimeCompressionProperties.mobileStr);
 }
 
 @Override

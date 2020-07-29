@@ -242,6 +242,9 @@ public class ServiceEngineGroup extends AviRestResource  {
     @JsonProperty("iptables")
     private List<IptableRuleSet> iptables = null;
 
+    @JsonProperty("labels")
+    private List<KeyValue> labels = null;
+
     @JsonProperty("least_load_core_selection")
     private Boolean leastLoadCoreSelection = true;
 
@@ -438,7 +441,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Integer seMtu = null;
 
     @JsonProperty("se_name_prefix")
-    private String seNamePrefix = "avi";
+    private String seNamePrefix = "Avi";
 
     @JsonProperty("se_pcap_lookahead")
     private Boolean sePcapLookahead = false;
@@ -573,7 +576,7 @@ public class ServiceEngineGroup extends AviRestResource  {
     private Boolean vcenterDatastoresInclude = false;
 
     @JsonProperty("vcenter_folder")
-    private String vcenterFolder = "avisefolder";
+    private String vcenterFolder = "AviSeFolder";
 
     @JsonProperty("vcenter_hosts")
     private VcenterHosts vcenterHosts = null;
@@ -1156,7 +1159,6 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Compress ip rules into a single subnet based ip rule for each north-south ipam subnet configured in pcap mode in openshift/kubernetes node.
-   * Requires se reboot.
    * Field introduced in 18.2.9, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as true.
    * @return compressIpRulesForEachNsSubnet
@@ -1168,7 +1170,6 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Compress ip rules into a single subnet based ip rule for each north-south ipam subnet configured in pcap mode in openshift/kubernetes node.
-   * Requires se reboot.
    * Field introduced in 18.2.9, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as true.
    * @param compressIpRulesForEachNsSubnet set the compressIpRulesForEachNsSubnet.
@@ -2405,6 +2406,39 @@ public class ServiceEngineGroup extends AviRestResource  {
       this.iptables = new ArrayList<IptableRuleSet>();
     }
     this.iptables.add(iptablesItem);
+    return this;
+  }
+  /**
+   * This is the getter method this will return the attribute value.
+   * Labels associated with this se group.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public List<KeyValue> getLabels() {
+    return labels;
+  }
+
+  /**
+   * This is the setter method. this will set the labels
+   * Labels associated with this se group.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public void setLabels(List<KeyValue>  labels) {
+    this.labels = labels;
+  }
+
+  /**
+   * This is the setter method this will set the labels
+   * Labels associated with this se group.
+   * Field introduced in 20.1.1.
+   * @return labels
+   */
+  public ServiceEngineGroup addLabelsItem(KeyValue labelsItem) {
+    if (this.labels == null) {
+      this.labels = new ArrayList<KeyValue>();
+    }
+    this.labels.add(labelsItem);
     return this;
   }
 
@@ -3899,7 +3933,7 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Prefix to use for virtual machine name of service engines.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avi.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Avi.
    * @return seNamePrefix
    */
   public String getSeNamePrefix() {
@@ -3909,7 +3943,7 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Prefix to use for virtual machine name of service engines.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avi.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Avi.
    * @param seNamePrefix set the seNamePrefix.
    */
   public void setSeNamePrefix(String  seNamePrefix) {
@@ -4978,7 +5012,7 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Folder to place all the service engine virtual machines in vcenter.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avisefolder.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AviSeFolder.
    * @return vcenterFolder
    */
   public String getVcenterFolder() {
@@ -4988,7 +5022,7 @@ public class ServiceEngineGroup extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Folder to place all the service engine virtual machines in vcenter.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avisefolder.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AviSeFolder.
    * @param vcenterFolder set the vcenterFolder.
    */
   public void setVcenterFolder(String  vcenterFolder) {
@@ -5384,208 +5418,209 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServiceEngineGroup objServiceEngineGroup = (ServiceEngineGroup) o;
-  return   Objects.equals(this.natFlowTcpClosedTimeout, objServiceEngineGroup.natFlowTcpClosedTimeout)&&
-  Objects.equals(this.udfLogThrottle, objServiceEngineGroup.udfLogThrottle)&&
-  Objects.equals(this.pcapTxMode, objServiceEngineGroup.pcapTxMode)&&
-  Objects.equals(this.disableTso, objServiceEngineGroup.disableTso)&&
-  Objects.equals(this.hostAttributeValue, objServiceEngineGroup.hostAttributeValue)&&
-  Objects.equals(this.asyncSsl, objServiceEngineGroup.asyncSsl)&&
-  Objects.equals(this.seNamePrefix, objServiceEngineGroup.seNamePrefix)&&
-  Objects.equals(this.enableGratarpPermanent, objServiceEngineGroup.enableGratarpPermanent)&&
-  Objects.equals(this.autoRedistributeActiveStandbyLoad, objServiceEngineGroup.autoRedistributeActiveStandbyLoad)&&
-  Objects.equals(this.disableSeMemoryCheck, objServiceEngineGroup.disableSeMemoryCheck)&&
-  Objects.equals(this.disableAviSecuritygroups, objServiceEngineGroup.disableAviSecuritygroups)&&
-  Objects.equals(this.selfSeElection, objServiceEngineGroup.selfSeElection)&&
-  Objects.equals(this.natFlowUdpNoresponseTimeout, objServiceEngineGroup.natFlowUdpNoresponseTimeout)&&
-  Objects.equals(this.freeListSize, objServiceEngineGroup.freeListSize)&&
-  Objects.equals(this.seMtu, objServiceEngineGroup.seMtu)&&
-  Objects.equals(this.bgpStateUpdateInterval, objServiceEngineGroup.bgpStateUpdateInterval)&&
-  Objects.equals(this.uuid, objServiceEngineGroup.uuid)&&
-  Objects.equals(this.vsScaleinTimeout, objServiceEngineGroup.vsScaleinTimeout)&&
-  Objects.equals(this.maxPublicIpsPerLb, objServiceEngineGroup.maxPublicIpsPerLb)&&
-  Objects.equals(this.seDpMaxHbVersion, objServiceEngineGroup.seDpMaxHbVersion)&&
-  Objects.equals(this.distributeVnics, objServiceEngineGroup.distributeVnics)&&
-  Objects.equals(this.seUdpEncapIpc, objServiceEngineGroup.seUdpEncapIpc)&&
-  Objects.equals(this.minCpuUsage, objServiceEngineGroup.minCpuUsage)&&
-  Objects.equals(this.customSecuritygroupsData, objServiceEngineGroup.customSecuritygroupsData)&&
-  Objects.equals(this.vcenterClusters, objServiceEngineGroup.vcenterClusters)&&
-  Objects.equals(this.seRumSamplingNavInterval, objServiceEngineGroup.seRumSamplingNavInterval)&&
-  Objects.equals(this.maxRulesPerLb, objServiceEngineGroup.maxRulesPerLb)&&
-  Objects.equals(this.iptables, objServiceEngineGroup.iptables)&&
-  Objects.equals(this.numDispatcherCores, objServiceEngineGroup.numDispatcherCores)&&
-  Objects.equals(this.seDpVnicQueueStallTimeout, objServiceEngineGroup.seDpVnicQueueStallTimeout)&&
-  Objects.equals(this.connectionMemoryPercentage, objServiceEngineGroup.connectionMemoryPercentage)&&
-  Objects.equals(this.serviceIpSubnets, objServiceEngineGroup.serviceIpSubnets)&&
-  Objects.equals(this.placementMode, objServiceEngineGroup.placementMode)&&
-  Objects.equals(this.maxScaleoutPerVs, objServiceEngineGroup.maxScaleoutPerVs)&&
-  Objects.equals(this.seVnicTxSwQueueSize, objServiceEngineGroup.seVnicTxSwQueueSize)&&
-  Objects.equals(this.enableRouting, objServiceEngineGroup.enableRouting)&&
-  Objects.equals(this.wafMempool, objServiceEngineGroup.wafMempool)&&
-  Objects.equals(this.significantLogThrottle, objServiceEngineGroup.significantLogThrottle)&&
-  Objects.equals(this.natFlowTcpHandshakeTimeout, objServiceEngineGroup.natFlowTcpHandshakeTimeout)&&
-  Objects.equals(this.perApp, objServiceEngineGroup.perApp)&&
-  Objects.equals(this.sePcapLookahead, objServiceEngineGroup.sePcapLookahead)&&
-  Objects.equals(this.vcenterDatastoresInclude, objServiceEngineGroup.vcenterDatastoresInclude)&&
-  Objects.equals(this.compressIpRulesForEachNsSubnet, objServiceEngineGroup.compressIpRulesForEachNsSubnet)&&
-  Objects.equals(this.instanceFlavor, objServiceEngineGroup.instanceFlavor)&&
-  Objects.equals(this.wafLearningMemory, objServiceEngineGroup.wafLearningMemory)&&
-  Objects.equals(this.cloudRef, objServiceEngineGroup.cloudRef)&&
+  return   Objects.equals(this.uuid, objServiceEngineGroup.uuid)&&
   Objects.equals(this.name, objServiceEngineGroup.name)&&
-  Objects.equals(this.instanceFlavorInfo, objServiceEngineGroup.instanceFlavorInfo)&&
-  Objects.equals(this.appCacheThreshold, objServiceEngineGroup.appCacheThreshold)&&
-  Objects.equals(this.maxSe, objServiceEngineGroup.maxSe)&&
-  Objects.equals(this.licenseType, objServiceEngineGroup.licenseType)&&
-  Objects.equals(this.seFlowProbeTimer, objServiceEngineGroup.seFlowProbeTimer)&&
-  Objects.equals(this.seDosProfile, objServiceEngineGroup.seDosProfile)&&
-  Objects.equals(this.tenantRef, objServiceEngineGroup.tenantRef)&&
-  Objects.equals(this.maxNumSeDps, objServiceEngineGroup.maxNumSeDps)&&
-  Objects.equals(this.datascriptTimeout, objServiceEngineGroup.datascriptTimeout)&&
-  Objects.equals(this.hardwaresecuritymodulegroupRef, objServiceEngineGroup.hardwaresecuritymodulegroupRef)&&
-  Objects.equals(this.vcenterHosts, objServiceEngineGroup.vcenterHosts)&&
-  Objects.equals(this.vcpusPerSe, objServiceEngineGroup.vcpusPerSe)&&
-  Objects.equals(this.cpuSocketAffinity, objServiceEngineGroup.cpuSocketAffinity)&&
-  Objects.equals(this.vcenters, objServiceEngineGroup.vcenters)&&
-  Objects.equals(this.realtimeSeMetrics, objServiceEngineGroup.realtimeSeMetrics)&&
-  Objects.equals(this.configDebugsOnAllCores, objServiceEngineGroup.configDebugsOnAllCores)&&
-  Objects.equals(this.seDpdkPmd, objServiceEngineGroup.seDpdkPmd)&&
-  Objects.equals(this.memoryForConfigUpdate, objServiceEngineGroup.memoryForConfigUpdate)&&
-  Objects.equals(this.customTag, objServiceEngineGroup.customTag)&&
-  Objects.equals(this.seDpVnicQueueStallEventSleep, objServiceEngineGroup.seDpVnicQueueStallEventSleep)&&
-  Objects.equals(this.seRumSamplingResInterval, objServiceEngineGroup.seRumSamplingResInterval)&&
-  Objects.equals(this.seRouting, objServiceEngineGroup.seRouting)&&
-  Objects.equals(this.nonSignificantLogThrottle, objServiceEngineGroup.nonSignificantLogThrottle)&&
-  Objects.equals(this.shmMinimumConfigMemory, objServiceEngineGroup.shmMinimumConfigMemory)&&
-  Objects.equals(this.extraSharedConfigMemory, objServiceEngineGroup.extraSharedConfigMemory)&&
-  Objects.equals(this.rebootOnPanic, objServiceEngineGroup.rebootOnPanic)&&
-  Objects.equals(this.sePcapPktSz, objServiceEngineGroup.sePcapPktSz)&&
-  Objects.equals(this.vcenterDatastores, objServiceEngineGroup.vcenterDatastores)&&
-  Objects.equals(this.seSbThreads, objServiceEngineGroup.seSbThreads)&&
-  Objects.equals(this.activeStandby, objServiceEngineGroup.activeStandby)&&
-  Objects.equals(this.wafLearningInterval, objServiceEngineGroup.wafLearningInterval)&&
-  Objects.equals(this.autoRebalanceCapacityPerSe, objServiceEngineGroup.autoRebalanceCapacityPerSe)&&
-  Objects.equals(this.serviceIp6Subnets, objServiceEngineGroup.serviceIp6Subnets)&&
-  Objects.equals(this.rebootOnStop, objServiceEngineGroup.rebootOnStop)&&
-  Objects.equals(this.seProbePort, objServiceEngineGroup.seProbePort)&&
-  Objects.equals(this.extraConfigMultiplier, objServiceEngineGroup.extraConfigMultiplier)&&
-  Objects.equals(this.seDpVnicRestartOnQueueStallCount, objServiceEngineGroup.seDpVnicRestartOnQueueStallCount)&&
-  Objects.equals(this.asyncSslThreads, objServiceEngineGroup.asyncSslThreads)&&
-  Objects.equals(this.natFlowTcpHalfClosedTimeout, objServiceEngineGroup.natFlowTcpHalfClosedTimeout)&&
-  Objects.equals(this.transientSharedMemoryMax, objServiceEngineGroup.transientSharedMemoryMax)&&
-  Objects.equals(this.vcenterFolder, objServiceEngineGroup.vcenterFolder)&&
-  Objects.equals(this.natFlowTcpEstablishedTimeout, objServiceEngineGroup.natFlowTcpEstablishedTimeout)&&
-  Objects.equals(this.floatingIntfIp, objServiceEngineGroup.floatingIntfIp)&&
-  Objects.equals(this.useHyperthreadedCores, objServiceEngineGroup.useHyperthreadedCores)&&
-  Objects.equals(this.heapMinimumConfigMemory, objServiceEngineGroup.heapMinimumConfigMemory)&&
-  Objects.equals(this.advertiseBackendNetworks, objServiceEngineGroup.advertiseBackendNetworks)&&
-  Objects.equals(this.sslPreprocessSniHostname, objServiceEngineGroup.sslPreprocessSniHostname)&&
-  Objects.equals(this.allowBurst, objServiceEngineGroup.allowBurst)&&
-  Objects.equals(this.maxCpuUsage, objServiceEngineGroup.maxCpuUsage)&&
-  Objects.equals(this.minScaleoutPerVs, objServiceEngineGroup.minScaleoutPerVs)&&
-  Objects.equals(this.vssPlacement, objServiceEngineGroup.vssPlacement)&&
-  Objects.equals(this.bufferSe, objServiceEngineGroup.bufferSe)&&
-  Objects.equals(this.memReserve, objServiceEngineGroup.memReserve)&&
-  Objects.equals(this.vcenterDatastoreMode, objServiceEngineGroup.vcenterDatastoreMode)&&
-  Objects.equals(this.enableHsmPriming, objServiceEngineGroup.enableHsmPriming)&&
-  Objects.equals(this.autoRebalanceCriteria, objServiceEngineGroup.autoRebalanceCriteria)&&
-  Objects.equals(this.leastLoadCoreSelection, objServiceEngineGroup.leastLoadCoreSelection)&&
-  Objects.equals(this.aggressiveFailureDetection, objServiceEngineGroup.aggressiveFailureDetection)&&
-  Objects.equals(this.seVnicTxSwQueueFlushFrequency, objServiceEngineGroup.seVnicTxSwQueueFlushFrequency)&&
-  Objects.equals(this.algo, objServiceEngineGroup.algo)&&
-  Objects.equals(this.seBandwidthType, objServiceEngineGroup.seBandwidthType)&&
-  Objects.equals(this.additionalConfigMemory, objServiceEngineGroup.additionalConfigMemory)&&
-  Objects.equals(this.vsSeScaleoutAdditionalWaitTime, objServiceEngineGroup.vsSeScaleoutAdditionalWaitTime)&&
-  Objects.equals(this.seKniBurstFactor, objServiceEngineGroup.seKniBurstFactor)&&
-  Objects.equals(this.ingressAccessData, objServiceEngineGroup.ingressAccessData)&&
-  Objects.equals(this.acceleratedNetworking, objServiceEngineGroup.acceleratedNetworking)&&
-  Objects.equals(this.enableVipOnAllInterfaces, objServiceEngineGroup.enableVipOnAllInterfaces)&&
-  Objects.equals(this.natFlowUdpResponseTimeout, objServiceEngineGroup.natFlowUdpResponseTimeout)&&
-  Objects.equals(this.vsScaleoutTimeout, objServiceEngineGroup.vsScaleoutTimeout)&&
-  Objects.equals(this.availabilityZoneRefs, objServiceEngineGroup.availabilityZoneRefs)&&
-  Objects.equals(this.autoRebalance, objServiceEngineGroup.autoRebalance)&&
-  Objects.equals(this.dataNetworkId, objServiceEngineGroup.dataNetworkId)&&
-  Objects.equals(this.minSe, objServiceEngineGroup.minSe)&&
-  Objects.equals(this.seTunnelMode, objServiceEngineGroup.seTunnelMode)&&
-  Objects.equals(this.memoryPerSe, objServiceEngineGroup.memoryPerSe)&&
-  Objects.equals(this.seTunnelUdpPort, objServiceEngineGroup.seTunnelUdpPort)&&
-  Objects.equals(this.disableGro, objServiceEngineGroup.disableGro)&&
-  Objects.equals(this.mgmtSubnet, objServiceEngineGroup.mgmtSubnet)&&
-  Objects.equals(this.seFlowProbeRetries, objServiceEngineGroup.seFlowProbeRetries)&&
-  Objects.equals(this.seLro, objServiceEngineGroup.seLro)&&
-  Objects.equals(this.ephemeralPortrangeEnd, objServiceEngineGroup.ephemeralPortrangeEnd)&&
-  Objects.equals(this.haMode, objServiceEngineGroup.haMode)&&
-  Objects.equals(this.enablePcapTxRing, objServiceEngineGroup.enablePcapTxRing)&&
-  Objects.equals(this.seRemotePuntUdpPort, objServiceEngineGroup.seRemotePuntUdpPort)&&
-  Objects.equals(this.ingressAccessMgmt, objServiceEngineGroup.ingressAccessMgmt)&&
-  Objects.equals(this.sePcapPktCount, objServiceEngineGroup.sePcapPktCount)&&
-  Objects.equals(this.distributeQueues, objServiceEngineGroup.distributeQueues)&&
-  Objects.equals(this.vsSeScaleoutReadyTimeout, objServiceEngineGroup.vsSeScaleoutReadyTimeout)&&
-  Objects.equals(this.seDpVnicStallSeRestartWindow, objServiceEngineGroup.seDpVnicStallSeRestartWindow)&&
-  Objects.equals(this.archiveShmLimit, objServiceEngineGroup.archiveShmLimit)&&
-  Objects.equals(this.maxVsPerSe, objServiceEngineGroup.maxVsPerSe)&&
-  Objects.equals(this.gratarpPermanentPeriodicity, objServiceEngineGroup.gratarpPermanentPeriodicity)&&
-  Objects.equals(this.seDpVnicQueueStallThreshold, objServiceEngineGroup.seDpVnicQueueStallThreshold)&&
-  Objects.equals(this.maxMemoryPerMempool, objServiceEngineGroup.maxMemoryPerMempool)&&
-  Objects.equals(this.osReservedMemory, objServiceEngineGroup.osReservedMemory)&&
-  Objects.equals(this.openstackMgmtNetworkUuid, objServiceEngineGroup.openstackMgmtNetworkUuid)&&
-  Objects.equals(this.nLogStreamingThreads, objServiceEngineGroup.nLogStreamingThreads)&&
-  Objects.equals(this.resyncTimeInterval, objServiceEngineGroup.resyncTimeInterval)&&
-  Objects.equals(this.coreShmAppCache, objServiceEngineGroup.coreShmAppCache)&&
-  Objects.equals(this.useStandardAlb, objServiceEngineGroup.useStandardAlb)&&
-  Objects.equals(this.seVsHbMaxPktsInBatch, objServiceEngineGroup.seVsHbMaxPktsInBatch)&&
-  Objects.equals(this.appCachePercent, objServiceEngineGroup.appCachePercent)&&
-  Objects.equals(this.seSbDedicatedCore, objServiceEngineGroup.seSbDedicatedCore)&&
-  Objects.equals(this.hostAttributeKey, objServiceEngineGroup.hostAttributeKey)&&
-  Objects.equals(this.seIpcUdpPort, objServiceEngineGroup.seIpcUdpPort)&&
-  Objects.equals(this.hypervisor, objServiceEngineGroup.hypervisor)&&
-  Objects.equals(this.cpuReserve, objServiceEngineGroup.cpuReserve)&&
-  Objects.equals(this.ephemeralPortrangeStart, objServiceEngineGroup.ephemeralPortrangeStart)&&
-  Objects.equals(this.maxQueuesPerVnic, objServiceEngineGroup.maxQueuesPerVnic)&&
-  Objects.equals(this.enableVmac, objServiceEngineGroup.enableVmac)&&
-  Objects.equals(this.maxConcurrentExternalHm, objServiceEngineGroup.maxConcurrentExternalHm)&&
-  Objects.equals(this.openstackMgmtNetworkName, objServiceEngineGroup.openstackMgmtNetworkName)&&
-  Objects.equals(this.sePcapReinitThreshold, objServiceEngineGroup.sePcapReinitThreshold)&&
-  Objects.equals(this.hmOnStandby, objServiceEngineGroup.hmOnStandby)&&
-  Objects.equals(this.diskPerSe, objServiceEngineGroup.diskPerSe)&&
-  Objects.equals(this.seRumSamplingResPercent, objServiceEngineGroup.seRumSamplingResPercent)&&
-  Objects.equals(this.minimumRequiredConfigMemory, objServiceEngineGroup.minimumRequiredConfigMemory)&&
-  Objects.equals(this.customSecuritygroupsMgmt, objServiceEngineGroup.customSecuritygroupsMgmt)&&
-  Objects.equals(this.seTracertPortRange, objServiceEngineGroup.seTracertPortRange)&&
-  Objects.equals(this.floatingIntfIpSe2, objServiceEngineGroup.floatingIntfIpSe2)&&
-  Objects.equals(this.logDisksz, objServiceEngineGroup.logDisksz)&&
-  Objects.equals(this.seRlProp, objServiceEngineGroup.seRlProp)&&
-  Objects.equals(this.seFlowProbeRetryTimer, objServiceEngineGroup.seFlowProbeRetryTimer)&&
-  Objects.equals(this.seUseDpdk, objServiceEngineGroup.seUseDpdk)&&
-  Objects.equals(this.openstackAvailabilityZone, objServiceEngineGroup.openstackAvailabilityZone)&&
-  Objects.equals(this.autoRebalanceInterval, objServiceEngineGroup.autoRebalanceInterval)&&
-  Objects.equals(this.vipAsg, objServiceEngineGroup.vipAsg)&&
-  Objects.equals(this.ignoreRttThreshold, objServiceEngineGroup.ignoreRttThreshold)&&
-  Objects.equals(this.openstackAvailabilityZones, objServiceEngineGroup.openstackAvailabilityZones)&&
-  Objects.equals(this.appLearningMemoryPercent, objServiceEngineGroup.appLearningMemoryPercent)&&
-  Objects.equals(this.disableCsumOffloads, objServiceEngineGroup.disableCsumOffloads)&&
-  Objects.equals(this.numFlowCoresSumChangesToIgnore, objServiceEngineGroup.numFlowCoresSumChangesToIgnore)&&
-  Objects.equals(this.seThreadMultiplier, objServiceEngineGroup.seThreadMultiplier)&&
-  Objects.equals(this.seTxBatchSize, objServiceEngineGroup.seTxBatchSize)&&
-  Objects.equals(this.enableMultiLb, objServiceEngineGroup.enableMultiLb)&&
-  Objects.equals(this.sePcapReinitFrequency, objServiceEngineGroup.sePcapReinitFrequency)&&
   Objects.equals(this.description, objServiceEngineGroup.description)&&
-  Objects.equals(this.vsScaleinTimeoutForUpgrade, objServiceEngineGroup.vsScaleinTimeoutForUpgrade)&&
+  Objects.equals(this.tenantRef, objServiceEngineGroup.tenantRef)&&
+  Objects.equals(this.maxVsPerSe, objServiceEngineGroup.maxVsPerSe)&&
+  Objects.equals(this.minScaleoutPerVs, objServiceEngineGroup.minScaleoutPerVs)&&
+  Objects.equals(this.maxScaleoutPerVs, objServiceEngineGroup.maxScaleoutPerVs)&&
+  Objects.equals(this.maxSe, objServiceEngineGroup.maxSe)&&
+  Objects.equals(this.vcpusPerSe, objServiceEngineGroup.vcpusPerSe)&&
+  Objects.equals(this.memoryPerSe, objServiceEngineGroup.memoryPerSe)&&
+  Objects.equals(this.diskPerSe, objServiceEngineGroup.diskPerSe)&&
+  Objects.equals(this.maxCpuUsage, objServiceEngineGroup.maxCpuUsage)&&
+  Objects.equals(this.minCpuUsage, objServiceEngineGroup.minCpuUsage)&&
   Objects.equals(this.seDeprovisionDelay, objServiceEngineGroup.seDeprovisionDelay)&&
-  Objects.equals(this.seVsHbMaxVsInPkt, objServiceEngineGroup.seVsHbMaxVsInPkt)&&
-  Objects.equals(this.seRumSamplingNavPercent, objServiceEngineGroup.seRumSamplingNavPercent)&&
-  Objects.equals(this.minimumConnectionMemory, objServiceEngineGroup.minimumConnectionMemory)&&
-  Objects.equals(this.licenseTier, objServiceEngineGroup.licenseTier)&&
-  Objects.equals(this.flowTableNewSynMaxEntries, objServiceEngineGroup.flowTableNewSynMaxEntries)&&
-  Objects.equals(this.hostGatewayMonitor, objServiceEngineGroup.hostGatewayMonitor)&&
-  Objects.equals(this.sePcapQdiscBypass, objServiceEngineGroup.sePcapQdiscBypass)&&
-  Objects.equals(this.mgmtNetworkRef, objServiceEngineGroup.mgmtNetworkRef)&&
-  Objects.equals(this.distributeLoadActiveStandby, objServiceEngineGroup.distributeLoadActiveStandby)&&
-  Objects.equals(this.seHyperthreadedMode, objServiceEngineGroup.seHyperthreadedMode)&&
-  Objects.equals(this.vsSwitchoverTimeout, objServiceEngineGroup.vsSwitchoverTimeout)&&
-  Objects.equals(this.wafMempoolSize, objServiceEngineGroup.wafMempoolSize)&&
-  Objects.equals(this.dedicatedDispatcherCore, objServiceEngineGroup.dedicatedDispatcherCore)&&
-  Objects.equals(this.coreShmAppLearning, objServiceEngineGroup.coreShmAppLearning)&&
+  Objects.equals(this.autoRebalance, objServiceEngineGroup.autoRebalance)&&
+  Objects.equals(this.seNamePrefix, objServiceEngineGroup.seNamePrefix)&&
   Objects.equals(this.vsHostRedundancy, objServiceEngineGroup.vsHostRedundancy)&&
-  Objects.equals(this.vssPlacementEnabled, objServiceEngineGroup.vssPlacementEnabled);
+  Objects.equals(this.vcenterFolder, objServiceEngineGroup.vcenterFolder)&&
+  Objects.equals(this.vcenterDatastores, objServiceEngineGroup.vcenterDatastores)&&
+  Objects.equals(this.vcenterDatastoresInclude, objServiceEngineGroup.vcenterDatastoresInclude)&&
+  Objects.equals(this.vcenterDatastoreMode, objServiceEngineGroup.vcenterDatastoreMode)&&
+  Objects.equals(this.vcenterClusters, objServiceEngineGroup.vcenterClusters)&&
+  Objects.equals(this.vcenterHosts, objServiceEngineGroup.vcenterHosts)&&
+  Objects.equals(this.openstackAvailabilityZone, objServiceEngineGroup.openstackAvailabilityZone)&&
+  Objects.equals(this.cpuReserve, objServiceEngineGroup.cpuReserve)&&
+  Objects.equals(this.memReserve, objServiceEngineGroup.memReserve)&&
+  Objects.equals(this.mgmtNetworkRef, objServiceEngineGroup.mgmtNetworkRef)&&
+  Objects.equals(this.mgmtSubnet, objServiceEngineGroup.mgmtSubnet)&&
+  Objects.equals(this.haMode, objServiceEngineGroup.haMode)&&
+  Objects.equals(this.algo, objServiceEngineGroup.algo)&&
+  Objects.equals(this.bufferSe, objServiceEngineGroup.bufferSe)&&
+  Objects.equals(this.activeStandby, objServiceEngineGroup.activeStandby)&&
+  Objects.equals(this.placementMode, objServiceEngineGroup.placementMode)&&
+  Objects.equals(this.openstackMgmtNetworkName, objServiceEngineGroup.openstackMgmtNetworkName)&&
+  Objects.equals(this.openstackMgmtNetworkUuid, objServiceEngineGroup.openstackMgmtNetworkUuid)&&
+  Objects.equals(this.instanceFlavor, objServiceEngineGroup.instanceFlavor)&&
+  Objects.equals(this.hypervisor, objServiceEngineGroup.hypervisor)&&
+  Objects.equals(this.seDosProfile, objServiceEngineGroup.seDosProfile)&&
+  Objects.equals(this.autoRebalanceInterval, objServiceEngineGroup.autoRebalanceInterval)&&
+  Objects.equals(this.aggressiveFailureDetection, objServiceEngineGroup.aggressiveFailureDetection)&&
+  Objects.equals(this.realtimeSeMetrics, objServiceEngineGroup.realtimeSeMetrics)&&
+  Objects.equals(this.vsScaleoutTimeout, objServiceEngineGroup.vsScaleoutTimeout)&&
+  Objects.equals(this.vsScaleinTimeout, objServiceEngineGroup.vsScaleinTimeout)&&
+  Objects.equals(this.hardwaresecuritymodulegroupRef, objServiceEngineGroup.hardwaresecuritymodulegroupRef)&&
+  Objects.equals(this.connectionMemoryPercentage, objServiceEngineGroup.connectionMemoryPercentage)&&
+  Objects.equals(this.extraConfigMultiplier, objServiceEngineGroup.extraConfigMultiplier)&&
+  Objects.equals(this.vsScaleinTimeoutForUpgrade, objServiceEngineGroup.vsScaleinTimeoutForUpgrade)&&
+  Objects.equals(this.hostAttributeKey, objServiceEngineGroup.hostAttributeKey)&&
+  Objects.equals(this.hostAttributeValue, objServiceEngineGroup.hostAttributeValue)&&
+  Objects.equals(this.logDisksz, objServiceEngineGroup.logDisksz)&&
+  Objects.equals(this.osReservedMemory, objServiceEngineGroup.osReservedMemory)&&
+  Objects.equals(this.floatingIntfIp, objServiceEngineGroup.floatingIntfIp)&&
+  Objects.equals(this.hmOnStandby, objServiceEngineGroup.hmOnStandby)&&
+  Objects.equals(this.perApp, objServiceEngineGroup.perApp)&&
+  Objects.equals(this.enableVmac, objServiceEngineGroup.enableVmac)&&
+  Objects.equals(this.distributeLoadActiveStandby, objServiceEngineGroup.distributeLoadActiveStandby)&&
+  Objects.equals(this.autoRedistributeActiveStandbyLoad, objServiceEngineGroup.autoRedistributeActiveStandbyLoad)&&
+  Objects.equals(this.floatingIntfIpSe2, objServiceEngineGroup.floatingIntfIpSe2)&&
+  Objects.equals(this.customTag, objServiceEngineGroup.customTag)&&
+  Objects.equals(this.dedicatedDispatcherCore, objServiceEngineGroup.dedicatedDispatcherCore)&&
+  Objects.equals(this.cpuSocketAffinity, objServiceEngineGroup.cpuSocketAffinity)&&
+  Objects.equals(this.numFlowCoresSumChangesToIgnore, objServiceEngineGroup.numFlowCoresSumChangesToIgnore)&&
+  Objects.equals(this.leastLoadCoreSelection, objServiceEngineGroup.leastLoadCoreSelection)&&
+  Objects.equals(this.extraSharedConfigMemory, objServiceEngineGroup.extraSharedConfigMemory)&&
+  Objects.equals(this.seTunnelMode, objServiceEngineGroup.seTunnelMode)&&
+  Objects.equals(this.openstackAvailabilityZones, objServiceEngineGroup.openstackAvailabilityZones)&&
+  Objects.equals(this.serviceIpSubnets, objServiceEngineGroup.serviceIpSubnets)&&
+  Objects.equals(this.seVsHbMaxVsInPkt, objServiceEngineGroup.seVsHbMaxVsInPkt)&&
+  Objects.equals(this.seVsHbMaxPktsInBatch, objServiceEngineGroup.seVsHbMaxPktsInBatch)&&
+  Objects.equals(this.autoRebalanceCriteria, objServiceEngineGroup.autoRebalanceCriteria)&&
+  Objects.equals(this.cloudRef, objServiceEngineGroup.cloudRef)&&
+  Objects.equals(this.iptables, objServiceEngineGroup.iptables)&&
+  Objects.equals(this.enableRouting, objServiceEngineGroup.enableRouting)&&
+  Objects.equals(this.advertiseBackendNetworks, objServiceEngineGroup.advertiseBackendNetworks)&&
+  Objects.equals(this.enableVipOnAllInterfaces, objServiceEngineGroup.enableVipOnAllInterfaces)&&
+  Objects.equals(this.seThreadMultiplier, objServiceEngineGroup.seThreadMultiplier)&&
+  Objects.equals(this.asyncSsl, objServiceEngineGroup.asyncSsl)&&
+  Objects.equals(this.asyncSslThreads, objServiceEngineGroup.asyncSslThreads)&&
+  Objects.equals(this.seUdpEncapIpc, objServiceEngineGroup.seUdpEncapIpc)&&
+  Objects.equals(this.seIpcUdpPort, objServiceEngineGroup.seIpcUdpPort)&&
+  Objects.equals(this.seRemotePuntUdpPort, objServiceEngineGroup.seRemotePuntUdpPort)&&
+  Objects.equals(this.seTunnelUdpPort, objServiceEngineGroup.seTunnelUdpPort)&&
+  Objects.equals(this.customSecuritygroupsMgmt, objServiceEngineGroup.customSecuritygroupsMgmt)&&
+  Objects.equals(this.customSecuritygroupsData, objServiceEngineGroup.customSecuritygroupsData)&&
+  Objects.equals(this.archiveShmLimit, objServiceEngineGroup.archiveShmLimit)&&
+  Objects.equals(this.significantLogThrottle, objServiceEngineGroup.significantLogThrottle)&&
+  Objects.equals(this.udfLogThrottle, objServiceEngineGroup.udfLogThrottle)&&
+  Objects.equals(this.nonSignificantLogThrottle, objServiceEngineGroup.nonSignificantLogThrottle)&&
+  Objects.equals(this.ingressAccessMgmt, objServiceEngineGroup.ingressAccessMgmt)&&
+  Objects.equals(this.ingressAccessData, objServiceEngineGroup.ingressAccessData)&&
+  Objects.equals(this.seSbDedicatedCore, objServiceEngineGroup.seSbDedicatedCore)&&
+  Objects.equals(this.seProbePort, objServiceEngineGroup.seProbePort)&&
+  Objects.equals(this.seSbThreads, objServiceEngineGroup.seSbThreads)&&
+  Objects.equals(this.ignoreRttThreshold, objServiceEngineGroup.ignoreRttThreshold)&&
+  Objects.equals(this.wafMempool, objServiceEngineGroup.wafMempool)&&
+  Objects.equals(this.wafMempoolSize, objServiceEngineGroup.wafMempoolSize)&&
+  Objects.equals(this.seBandwidthType, objServiceEngineGroup.seBandwidthType)&&
+  Objects.equals(this.licenseType, objServiceEngineGroup.licenseType)&&
+  Objects.equals(this.licenseTier, objServiceEngineGroup.licenseTier)&&
+  Objects.equals(this.allowBurst, objServiceEngineGroup.allowBurst)&&
+  Objects.equals(this.autoRebalanceCapacityPerSe, objServiceEngineGroup.autoRebalanceCapacityPerSe)&&
+  Objects.equals(this.hostGatewayMonitor, objServiceEngineGroup.hostGatewayMonitor)&&
+  Objects.equals(this.vssPlacement, objServiceEngineGroup.vssPlacement)&&
+  Objects.equals(this.flowTableNewSynMaxEntries, objServiceEngineGroup.flowTableNewSynMaxEntries)&&
+  Objects.equals(this.minimumRequiredConfigMemory, objServiceEngineGroup.minimumRequiredConfigMemory)&&
+  Objects.equals(this.disableCsumOffloads, objServiceEngineGroup.disableCsumOffloads)&&
+  Objects.equals(this.disableGro, objServiceEngineGroup.disableGro)&&
+  Objects.equals(this.disableTso, objServiceEngineGroup.disableTso)&&
+  Objects.equals(this.enableHsmPriming, objServiceEngineGroup.enableHsmPriming)&&
+  Objects.equals(this.serviceIp6Subnets, objServiceEngineGroup.serviceIp6Subnets)&&
+  Objects.equals(this.seTracertPortRange, objServiceEngineGroup.seTracertPortRange)&&
+  Objects.equals(this.distributeQueues, objServiceEngineGroup.distributeQueues)&&
+  Objects.equals(this.additionalConfigMemory, objServiceEngineGroup.additionalConfigMemory)&&
+  Objects.equals(this.vssPlacementEnabled, objServiceEngineGroup.vssPlacementEnabled)&&
+  Objects.equals(this.enableMultiLb, objServiceEngineGroup.enableMultiLb)&&
+  Objects.equals(this.nLogStreamingThreads, objServiceEngineGroup.nLogStreamingThreads)&&
+  Objects.equals(this.freeListSize, objServiceEngineGroup.freeListSize)&&
+  Objects.equals(this.maxRulesPerLb, objServiceEngineGroup.maxRulesPerLb)&&
+  Objects.equals(this.maxPublicIpsPerLb, objServiceEngineGroup.maxPublicIpsPerLb)&&
+  Objects.equals(this.wafLearningMemory, objServiceEngineGroup.wafLearningMemory)&&
+  Objects.equals(this.wafLearningInterval, objServiceEngineGroup.wafLearningInterval)&&
+  Objects.equals(this.selfSeElection, objServiceEngineGroup.selfSeElection)&&
+  Objects.equals(this.vipAsg, objServiceEngineGroup.vipAsg)&&
+  Objects.equals(this.minimumConnectionMemory, objServiceEngineGroup.minimumConnectionMemory)&&
+  Objects.equals(this.shmMinimumConfigMemory, objServiceEngineGroup.shmMinimumConfigMemory)&&
+  Objects.equals(this.heapMinimumConfigMemory, objServiceEngineGroup.heapMinimumConfigMemory)&&
+  Objects.equals(this.disableSeMemoryCheck, objServiceEngineGroup.disableSeMemoryCheck)&&
+  Objects.equals(this.memoryForConfigUpdate, objServiceEngineGroup.memoryForConfigUpdate)&&
+  Objects.equals(this.numDispatcherCores, objServiceEngineGroup.numDispatcherCores)&&
+  Objects.equals(this.sslPreprocessSniHostname, objServiceEngineGroup.sslPreprocessSniHostname)&&
+  Objects.equals(this.seDpdkPmd, objServiceEngineGroup.seDpdkPmd)&&
+  Objects.equals(this.seUseDpdk, objServiceEngineGroup.seUseDpdk)&&
+  Objects.equals(this.minSe, objServiceEngineGroup.minSe)&&
+  Objects.equals(this.sePcapReinitFrequency, objServiceEngineGroup.sePcapReinitFrequency)&&
+  Objects.equals(this.sePcapReinitThreshold, objServiceEngineGroup.sePcapReinitThreshold)&&
+  Objects.equals(this.ephemeralPortrangeStart, objServiceEngineGroup.ephemeralPortrangeStart)&&
+  Objects.equals(this.ephemeralPortrangeEnd, objServiceEngineGroup.ephemeralPortrangeEnd)&&
+  Objects.equals(this.disableAviSecuritygroups, objServiceEngineGroup.disableAviSecuritygroups)&&
+  Objects.equals(this.seFlowProbeRetries, objServiceEngineGroup.seFlowProbeRetries)&&
+  Objects.equals(this.seFlowProbeTimer, objServiceEngineGroup.seFlowProbeTimer)&&
+  Objects.equals(this.vsSwitchoverTimeout, objServiceEngineGroup.vsSwitchoverTimeout)&&
+  Objects.equals(this.configDebugsOnAllCores, objServiceEngineGroup.configDebugsOnAllCores)&&
+  Objects.equals(this.acceleratedNetworking, objServiceEngineGroup.acceleratedNetworking)&&
+  Objects.equals(this.vsSeScaleoutReadyTimeout, objServiceEngineGroup.vsSeScaleoutReadyTimeout)&&
+  Objects.equals(this.vsSeScaleoutAdditionalWaitTime, objServiceEngineGroup.vsSeScaleoutAdditionalWaitTime)&&
+  Objects.equals(this.bgpStateUpdateInterval, objServiceEngineGroup.bgpStateUpdateInterval)&&
+  Objects.equals(this.maxMemoryPerMempool, objServiceEngineGroup.maxMemoryPerMempool)&&
+  Objects.equals(this.appCachePercent, objServiceEngineGroup.appCachePercent)&&
+  Objects.equals(this.seRouting, objServiceEngineGroup.seRouting)&&
+  Objects.equals(this.useStandardAlb, objServiceEngineGroup.useStandardAlb)&&
+  Objects.equals(this.appLearningMemoryPercent, objServiceEngineGroup.appLearningMemoryPercent)&&
+  Objects.equals(this.datascriptTimeout, objServiceEngineGroup.datascriptTimeout)&&
+  Objects.equals(this.rebootOnStop, objServiceEngineGroup.rebootOnStop)&&
+  Objects.equals(this.dataNetworkId, objServiceEngineGroup.dataNetworkId)&&
+  Objects.equals(this.sePcapLookahead, objServiceEngineGroup.sePcapLookahead)&&
+  Objects.equals(this.enableGratarpPermanent, objServiceEngineGroup.enableGratarpPermanent)&&
+  Objects.equals(this.gratarpPermanentPeriodicity, objServiceEngineGroup.gratarpPermanentPeriodicity)&&
+  Objects.equals(this.rebootOnPanic, objServiceEngineGroup.rebootOnPanic)&&
+  Objects.equals(this.seFlowProbeRetryTimer, objServiceEngineGroup.seFlowProbeRetryTimer)&&
+  Objects.equals(this.natFlowUdpNoresponseTimeout, objServiceEngineGroup.natFlowUdpNoresponseTimeout)&&
+  Objects.equals(this.natFlowUdpResponseTimeout, objServiceEngineGroup.natFlowUdpResponseTimeout)&&
+  Objects.equals(this.natFlowTcpHandshakeTimeout, objServiceEngineGroup.natFlowTcpHandshakeTimeout)&&
+  Objects.equals(this.natFlowTcpEstablishedTimeout, objServiceEngineGroup.natFlowTcpEstablishedTimeout)&&
+  Objects.equals(this.natFlowTcpHalfClosedTimeout, objServiceEngineGroup.natFlowTcpHalfClosedTimeout)&&
+  Objects.equals(this.natFlowTcpClosedTimeout, objServiceEngineGroup.natFlowTcpClosedTimeout)&&
+  Objects.equals(this.seLro, objServiceEngineGroup.seLro)&&
+  Objects.equals(this.seTxBatchSize, objServiceEngineGroup.seTxBatchSize)&&
+  Objects.equals(this.sePcapPktSz, objServiceEngineGroup.sePcapPktSz)&&
+  Objects.equals(this.sePcapPktCount, objServiceEngineGroup.sePcapPktCount)&&
+  Objects.equals(this.distributeVnics, objServiceEngineGroup.distributeVnics)&&
+  Objects.equals(this.seDpVnicQueueStallEventSleep, objServiceEngineGroup.seDpVnicQueueStallEventSleep)&&
+  Objects.equals(this.seDpVnicQueueStallTimeout, objServiceEngineGroup.seDpVnicQueueStallTimeout)&&
+  Objects.equals(this.seDpVnicQueueStallThreshold, objServiceEngineGroup.seDpVnicQueueStallThreshold)&&
+  Objects.equals(this.seDpVnicRestartOnQueueStallCount, objServiceEngineGroup.seDpVnicRestartOnQueueStallCount)&&
+  Objects.equals(this.seDpVnicStallSeRestartWindow, objServiceEngineGroup.seDpVnicStallSeRestartWindow)&&
+  Objects.equals(this.enablePcapTxRing, objServiceEngineGroup.enablePcapTxRing)&&
+  Objects.equals(this.sePcapQdiscBypass, objServiceEngineGroup.sePcapQdiscBypass)&&
+  Objects.equals(this.seRumSamplingNavPercent, objServiceEngineGroup.seRumSamplingNavPercent)&&
+  Objects.equals(this.seRumSamplingResPercent, objServiceEngineGroup.seRumSamplingResPercent)&&
+  Objects.equals(this.seRumSamplingNavInterval, objServiceEngineGroup.seRumSamplingNavInterval)&&
+  Objects.equals(this.seRumSamplingResInterval, objServiceEngineGroup.seRumSamplingResInterval)&&
+  Objects.equals(this.seKniBurstFactor, objServiceEngineGroup.seKniBurstFactor)&&
+  Objects.equals(this.maxQueuesPerVnic, objServiceEngineGroup.maxQueuesPerVnic)&&
+  Objects.equals(this.seRlProp, objServiceEngineGroup.seRlProp)&&
+  Objects.equals(this.appCacheThreshold, objServiceEngineGroup.appCacheThreshold)&&
+  Objects.equals(this.maxConcurrentExternalHm, objServiceEngineGroup.maxConcurrentExternalHm)&&
+  Objects.equals(this.seMtu, objServiceEngineGroup.seMtu)&&
+  Objects.equals(this.coreShmAppLearning, objServiceEngineGroup.coreShmAppLearning)&&
+  Objects.equals(this.coreShmAppCache, objServiceEngineGroup.coreShmAppCache)&&
+  Objects.equals(this.pcapTxMode, objServiceEngineGroup.pcapTxMode)&&
+  Objects.equals(this.seDpMaxHbVersion, objServiceEngineGroup.seDpMaxHbVersion)&&
+  Objects.equals(this.maxNumSeDps, objServiceEngineGroup.maxNumSeDps)&&
+  Objects.equals(this.resyncTimeInterval, objServiceEngineGroup.resyncTimeInterval)&&
+  Objects.equals(this.useHyperthreadedCores, objServiceEngineGroup.useHyperthreadedCores)&&
+  Objects.equals(this.seHyperthreadedMode, objServiceEngineGroup.seHyperthreadedMode)&&
+  Objects.equals(this.compressIpRulesForEachNsSubnet, objServiceEngineGroup.compressIpRulesForEachNsSubnet)&&
+  Objects.equals(this.availabilityZoneRefs, objServiceEngineGroup.availabilityZoneRefs)&&
+  Objects.equals(this.vcenters, objServiceEngineGroup.vcenters)&&
+  Objects.equals(this.seVnicTxSwQueueSize, objServiceEngineGroup.seVnicTxSwQueueSize)&&
+  Objects.equals(this.seVnicTxSwQueueFlushFrequency, objServiceEngineGroup.seVnicTxSwQueueFlushFrequency)&&
+  Objects.equals(this.transientSharedMemoryMax, objServiceEngineGroup.transientSharedMemoryMax)&&
+  Objects.equals(this.instanceFlavorInfo, objServiceEngineGroup.instanceFlavorInfo)&&
+  Objects.equals(this.labels, objServiceEngineGroup.labels);
 }
 
 @Override
@@ -5667,6 +5702,7 @@ public String toString() {
         sb.append("    instanceFlavor: ").append(toIndentedString(instanceFlavor)).append("\n");
         sb.append("    instanceFlavorInfo: ").append(toIndentedString(instanceFlavorInfo)).append("\n");
         sb.append("    iptables: ").append(toIndentedString(iptables)).append("\n");
+        sb.append("    labels: ").append(toIndentedString(labels)).append("\n");
         sb.append("    leastLoadCoreSelection: ").append(toIndentedString(leastLoadCoreSelection)).append("\n");
         sb.append("    licenseTier: ").append(toIndentedString(licenseTier)).append("\n");
         sb.append("    licenseType: ").append(toIndentedString(licenseType)).append("\n");

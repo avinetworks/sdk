@@ -120,8 +120,8 @@ public boolean equals(java.lang.Object o) {
   }
   IpAddrPort objIpAddrPort = (IpAddrPort) o;
   return   Objects.equals(this.ip, objIpAddrPort.ip)&&
-  Objects.equals(this.hostname, objIpAddrPort.hostname)&&
   Objects.equals(this.port, objIpAddrPort.port)&&
+  Objects.equals(this.hostname, objIpAddrPort.hostname)&&
   Objects.equals(this.name, objIpAddrPort.name);
 }
 

@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PGDeploymentRuleResult objPGDeploymentRuleResult = (PGDeploymentRuleResult) o;
-  return   Objects.equals(this.metricValue, objPGDeploymentRuleResult.metricValue)&&
-  Objects.equals(this.rule, objPGDeploymentRuleResult.rule)&&
+  return   Objects.equals(this.rule, objPGDeploymentRuleResult.rule)&&
+  Objects.equals(this.metricValue, objPGDeploymentRuleResult.metricValue)&&
   Objects.equals(this.result, objPGDeploymentRuleResult.result);
 }
 

@@ -157,10 +157,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafPSMLocation objWafPSMLocation = (WafPSMLocation) o;
-  return   Objects.equals(this.rules, objWafPSMLocation.rules)&&
-  Objects.equals(this.index, objWafPSMLocation.index)&&
+  return   Objects.equals(this.index, objWafPSMLocation.index)&&
   Objects.equals(this.name, objWafPSMLocation.name)&&
   Objects.equals(this.match, objWafPSMLocation.match)&&
+  Objects.equals(this.rules, objWafPSMLocation.rules)&&
   Objects.equals(this.description, objWafPSMLocation.description);
 }
 

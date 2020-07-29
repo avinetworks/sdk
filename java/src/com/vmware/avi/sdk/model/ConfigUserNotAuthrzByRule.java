@@ -18,13 +18,13 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConfigUserNotAuthrzByRule  {
     @JsonProperty("policies")
-    private String policies = "no policies";
+    private String policies = "No Policies";
 
     @JsonProperty("roles")
-    private String roles = "no roles";
+    private String roles = "No Roles";
 
     @JsonProperty("tenants")
-    private String tenants = "no tenants";
+    private String tenants = "No Tenants";
 
     @JsonProperty("user")
     private String user = null;
@@ -35,7 +35,7 @@ public class ConfigUserNotAuthrzByRule  {
    * This is the getter method this will return the attribute value.
    * Comma separated list of policies assigned to the user.
    * Field introduced in 18.2.7, 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no policies.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Policies.
    * @return policies
    */
   public String getPolicies() {
@@ -46,7 +46,7 @@ public class ConfigUserNotAuthrzByRule  {
    * This is the setter method to the attribute.
    * Comma separated list of policies assigned to the user.
    * Field introduced in 18.2.7, 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no policies.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Policies.
    * @param policies set the policies.
    */
   public void setPolicies(String  policies) {
@@ -56,7 +56,7 @@ public class ConfigUserNotAuthrzByRule  {
   /**
    * This is the getter method this will return the attribute value.
    * Assigned roles.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no roles.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Roles.
    * @return roles
    */
   public String getRoles() {
@@ -66,7 +66,7 @@ public class ConfigUserNotAuthrzByRule  {
   /**
    * This is the setter method to the attribute.
    * Assigned roles.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no roles.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Roles.
    * @param roles set the roles.
    */
   public void setRoles(String  roles) {
@@ -76,7 +76,7 @@ public class ConfigUserNotAuthrzByRule  {
   /**
    * This is the getter method this will return the attribute value.
    * Assigned tenants.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no tenants.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Tenants.
    * @return tenants
    */
   public String getTenants() {
@@ -86,7 +86,7 @@ public class ConfigUserNotAuthrzByRule  {
   /**
    * This is the setter method to the attribute.
    * Assigned tenants.
-   * Default value when not specified in API or module is interpreted by Avi Controller as no tenants.
+   * Default value when not specified in API or module is interpreted by Avi Controller as No Tenants.
    * @param tenants set the tenants.
    */
   public void setTenants(String  tenants) {
@@ -121,10 +121,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUserNotAuthrzByRule objConfigUserNotAuthrzByRule = (ConfigUserNotAuthrzByRule) o;
-  return   Objects.equals(this.policies, objConfigUserNotAuthrzByRule.policies)&&
+  return   Objects.equals(this.user, objConfigUserNotAuthrzByRule.user)&&
+  Objects.equals(this.roles, objConfigUserNotAuthrzByRule.roles)&&
   Objects.equals(this.tenants, objConfigUserNotAuthrzByRule.tenants)&&
-  Objects.equals(this.user, objConfigUserNotAuthrzByRule.user)&&
-  Objects.equals(this.roles, objConfigUserNotAuthrzByRule.roles);
+  Objects.equals(this.policies, objConfigUserNotAuthrzByRule.policies);
 }
 
 @Override

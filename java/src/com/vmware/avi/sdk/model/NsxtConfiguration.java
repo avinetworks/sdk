@@ -17,6 +17,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NsxtConfiguration  {
+    @JsonProperty("automate_dfw_rules")
+    private Boolean automateDfwRules = false;
+
     @JsonProperty("domain_id")
     private String domainId = "default";
 
@@ -42,6 +45,28 @@ public class NsxtConfiguration  {
     private String transportZone = null;
 
 
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * Automatically create dfw rules for virtualservice in nsx-t manager.
+   * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @return automateDfwRules
+   */
+  public Boolean getAutomateDfwRules() {
+    return automateDfwRules;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * Automatically create dfw rules for virtualservice in nsx-t manager.
+   * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @param automateDfwRules set the automateDfwRules.
+   */
+  public void setAutomateDfwRules(Boolean  automateDfwRules) {
+    this.automateDfwRules = automateDfwRules;
+  }
 
   /**
    * This is the getter method this will return the attribute value.
@@ -223,21 +248,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NsxtConfiguration objNsxtConfiguration = (NsxtConfiguration) o;
-  return   Objects.equals(this.enforcementpointId, objNsxtConfiguration.enforcementpointId)&&
+  return   Objects.equals(this.nsxtUrl, objNsxtConfiguration.nsxtUrl)&&
+  Objects.equals(this.nsxtCredentialsRef, objNsxtConfiguration.nsxtCredentialsRef)&&
+  Objects.equals(this.transportZone, objNsxtConfiguration.transportZone)&&
+  Objects.equals(this.siteId, objNsxtConfiguration.siteId)&&
+  Objects.equals(this.enforcementpointId, objNsxtConfiguration.enforcementpointId)&&
+  Objects.equals(this.domainId, objNsxtConfiguration.domainId)&&
   Objects.equals(this.managementSegment, objNsxtConfiguration.managementSegment)&&
   Objects.equals(this.tier1SegmentConfig, objNsxtConfiguration.tier1SegmentConfig)&&
-  Objects.equals(this.nsxtUrl, objNsxtConfiguration.nsxtUrl)&&
-  Objects.equals(this.siteId, objNsxtConfiguration.siteId)&&
-  Objects.equals(this.transportZone, objNsxtConfiguration.transportZone)&&
-  Objects.equals(this.nsxtCredentialsRef, objNsxtConfiguration.nsxtCredentialsRef)&&
-  Objects.equals(this.domainId, objNsxtConfiguration.domainId);
+  Objects.equals(this.automateDfwRules, objNsxtConfiguration.automateDfwRules);
 }
 
 @Override
 public String toString() {
   StringBuilder sb = new StringBuilder();
   sb.append("class NsxtConfiguration {\n");
-      sb.append("    domainId: ").append(toIndentedString(domainId)).append("\n");
+      sb.append("    automateDfwRules: ").append(toIndentedString(automateDfwRules)).append("\n");
+        sb.append("    domainId: ").append(toIndentedString(domainId)).append("\n");
         sb.append("    enforcementpointId: ").append(toIndentedString(enforcementpointId)).append("\n");
         sb.append("    managementSegment: ").append(toIndentedString(managementSegment)).append("\n");
         sb.append("    nsxtCredentialsRef: ").append(toIndentedString(nsxtCredentialsRef)).append("\n");

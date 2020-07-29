@@ -246,14 +246,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LinuxServerConfiguration objLinuxServerConfiguration = (LinuxServerConfiguration) o;
-  return   Objects.equals(this.seSysDiskSizeGb, objLinuxServerConfiguration.seSysDiskSizeGb)&&
-  Objects.equals(this.seInbandMgmt, objLinuxServerConfiguration.seInbandMgmt)&&
+  return   Objects.equals(this.sshAttr, objLinuxServerConfiguration.sshAttr)&&
+  Objects.equals(this.dockerRegistrySe, objLinuxServerConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.hosts, objLinuxServerConfiguration.hosts)&&
   Objects.equals(this.seSysDiskPath, objLinuxServerConfiguration.seSysDiskPath)&&
+  Objects.equals(this.seSysDiskSizeGb, objLinuxServerConfiguration.seSysDiskSizeGb)&&
   Objects.equals(this.seLogDiskPath, objLinuxServerConfiguration.seLogDiskPath)&&
   Objects.equals(this.seLogDiskSizeGb, objLinuxServerConfiguration.seLogDiskSizeGb)&&
-  Objects.equals(this.hosts, objLinuxServerConfiguration.hosts)&&
-  Objects.equals(this.sshAttr, objLinuxServerConfiguration.sshAttr)&&
-  Objects.equals(this.dockerRegistrySe, objLinuxServerConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.seInbandMgmt, objLinuxServerConfiguration.seInbandMgmt)&&
   Objects.equals(this.sshUserRef, objLinuxServerConfiguration.sshUserRef);
 }
 

@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbServiceStatus objGslbServiceStatus = (GslbServiceStatus) o;
-  return   Objects.equals(this.details, objGslbServiceStatus.details)&&
-  Objects.equals(this.gsRuntime, objGslbServiceStatus.gsRuntime)&&
-  Objects.equals(this.uuid, objGslbServiceStatus.uuid)&&
-  Objects.equals(this.name, objGslbServiceStatus.name);
+  return   Objects.equals(this.uuid, objGslbServiceStatus.uuid)&&
+  Objects.equals(this.name, objGslbServiceStatus.name)&&
+  Objects.equals(this.details, objGslbServiceStatus.details)&&
+  Objects.equals(this.gsRuntime, objGslbServiceStatus.gsRuntime);
 }
 
 @Override

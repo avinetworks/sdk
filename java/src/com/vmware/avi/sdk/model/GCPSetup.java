@@ -302,19 +302,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPSetup objGCPSetup = (GCPSetup) o;
-  return   Objects.equals(this.subnet, objGCPSetup.subnet)&&
+  return   Objects.equals(this.ccId, objGCPSetup.ccId)&&
+  Objects.equals(this.project, objGCPSetup.project)&&
   Objects.equals(this.network, objGCPSetup.network)&&
   Objects.equals(this.zone, objGCPSetup.zone)&&
-  Objects.equals(this.vsName, objGCPSetup.vsName)&&
   Objects.equals(this.hostname, objGCPSetup.hostname)&&
-  Objects.equals(this.vsUuid, objGCPSetup.vsUuid)&&
-  Objects.equals(this.nhopIp, objGCPSetup.nhopIp)&&
-  Objects.equals(this.routeName, objGCPSetup.routeName)&&
-  Objects.equals(this.project, objGCPSetup.project)&&
+  Objects.equals(this.subnet, objGCPSetup.subnet)&&
   Objects.equals(this.vip, objGCPSetup.vip)&&
-  Objects.equals(this.reason, objGCPSetup.reason)&&
+  Objects.equals(this.nhopIp, objGCPSetup.nhopIp)&&
   Objects.equals(this.nhopInst, objGCPSetup.nhopInst)&&
-  Objects.equals(this.ccId, objGCPSetup.ccId);
+  Objects.equals(this.vsUuid, objGCPSetup.vsUuid)&&
+  Objects.equals(this.routeName, objGCPSetup.routeName)&&
+  Objects.equals(this.reason, objGCPSetup.reason)&&
+  Objects.equals(this.vsName, objGCPSetup.vsName);
 }
 
 @Override

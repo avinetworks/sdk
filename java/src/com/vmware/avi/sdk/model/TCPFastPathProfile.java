@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TCPFastPathProfile objTCPFastPathProfile = (TCPFastPathProfile) o;
-  return   Objects.equals(this.dsrProfile, objTCPFastPathProfile.dsrProfile)&&
-  Objects.equals(this.sessionIdleTimeout, objTCPFastPathProfile.sessionIdleTimeout)&&
-  Objects.equals(this.enableSynProtection, objTCPFastPathProfile.enableSynProtection);
+  return   Objects.equals(this.sessionIdleTimeout, objTCPFastPathProfile.sessionIdleTimeout)&&
+  Objects.equals(this.enableSynProtection, objTCPFastPathProfile.enableSynProtection)&&
+  Objects.equals(this.dsrProfile, objTCPFastPathProfile.dsrProfile);
 }
 
 @Override

@@ -244,15 +244,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecureChannelMapping objSecureChannelMapping = (SecureChannelMapping) o;
-  return   Objects.equals(this.status, objSecureChannelMapping.status)&&
-  Objects.equals(this.uuid, objSecureChannelMapping.uuid)&&
+  return   Objects.equals(this.uuid, objSecureChannelMapping.uuid)&&
+  Objects.equals(this.name, objSecureChannelMapping.name)&&
   Objects.equals(this.localIp, objSecureChannelMapping.localIp)&&
   Objects.equals(this.ip, objSecureChannelMapping.ip)&&
-  Objects.equals(this.pubKeyPem, objSecureChannelMapping.pubKeyPem)&&
-  Objects.equals(this.isController, objSecureChannelMapping.isController)&&
+  Objects.equals(this.status, objSecureChannelMapping.status)&&
   Objects.equals(this.markedForDelete, objSecureChannelMapping.markedForDelete)&&
+  Objects.equals(this.isController, objSecureChannelMapping.isController)&&
   Objects.equals(this.pubKey, objSecureChannelMapping.pubKey)&&
-  Objects.equals(this.name, objSecureChannelMapping.name);
+  Objects.equals(this.pubKeyPem, objSecureChannelMapping.pubKeyPem);
 }
 
 @Override

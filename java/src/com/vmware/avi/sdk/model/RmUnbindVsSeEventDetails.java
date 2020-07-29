@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmUnbindVsSeEventDetails objRmUnbindVsSeEventDetails = (RmUnbindVsSeEventDetails) o;
-  return   Objects.equals(this.vsName, objRmUnbindVsSeEventDetails.vsName)&&
-  Objects.equals(this.vsUuid, objRmUnbindVsSeEventDetails.vsUuid)&&
+  return   Objects.equals(this.vsUuid, objRmUnbindVsSeEventDetails.vsUuid)&&
+  Objects.equals(this.vsName, objRmUnbindVsSeEventDetails.vsName)&&
+  Objects.equals(this.seName, objRmUnbindVsSeEventDetails.seName)&&
   Objects.equals(this.reason, objRmUnbindVsSeEventDetails.reason)&&
-  Objects.equals(this.ip6, objRmUnbindVsSeEventDetails.ip6)&&
   Objects.equals(this.ip, objRmUnbindVsSeEventDetails.ip)&&
-  Objects.equals(this.seName, objRmUnbindVsSeEventDetails.seName);
+  Objects.equals(this.ip6, objRmUnbindVsSeEventDetails.ip6);
 }
 
 @Override

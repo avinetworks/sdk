@@ -194,11 +194,11 @@ public boolean equals(java.lang.Object o) {
   }
   SSOPolicy objSSOPolicy = (SSOPolicy) o;
   return   Objects.equals(this.uuid, objSSOPolicy.uuid)&&
+  Objects.equals(this.name, objSSOPolicy.name)&&
   Objects.equals(this.authenticationPolicy, objSSOPolicy.authenticationPolicy)&&
   Objects.equals(this.authorizationPolicy, objSSOPolicy.authorizationPolicy)&&
   Objects.equals(this.type, objSSOPolicy.type)&&
-  Objects.equals(this.tenantRef, objSSOPolicy.tenantRef)&&
-  Objects.equals(this.name, objSSOPolicy.name);
+  Objects.equals(this.tenantRef, objSSOPolicy.tenantRef);
 }
 
 @Override

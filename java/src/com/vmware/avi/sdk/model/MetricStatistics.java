@@ -222,15 +222,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricStatistics objMetricStatistics = (MetricStatistics) o;
-  return   Objects.equals(this.min, objMetricStatistics.min)&&
-  Objects.equals(this.trend, objMetricStatistics.trend)&&
-  Objects.equals(this.max, objMetricStatistics.max)&&
-  Objects.equals(this.sum, objMetricStatistics.sum)&&
-  Objects.equals(this.maxTs, objMetricStatistics.maxTs)&&
+  return   Objects.equals(this.mean, objMetricStatistics.mean)&&
+  Objects.equals(this.min, objMetricStatistics.min)&&
   Objects.equals(this.minTs, objMetricStatistics.minTs)&&
+  Objects.equals(this.max, objMetricStatistics.max)&&
+  Objects.equals(this.maxTs, objMetricStatistics.maxTs)&&
+  Objects.equals(this.trend, objMetricStatistics.trend)&&
   Objects.equals(this.numSamples, objMetricStatistics.numSamples)&&
   Objects.equals(this.lastSample, objMetricStatistics.lastSample)&&
-  Objects.equals(this.mean, objMetricStatistics.mean);
+  Objects.equals(this.sum, objMetricStatistics.sum);
 }
 
 @Override

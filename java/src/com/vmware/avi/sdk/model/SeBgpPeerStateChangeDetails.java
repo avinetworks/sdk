@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeBgpPeerStateChangeDetails objSeBgpPeerStateChangeDetails = (SeBgpPeerStateChangeDetails) o;
-  return   Objects.equals(this.vrfName, objSeBgpPeerStateChangeDetails.vrfName)&&
+  return   Objects.equals(this.peerIp, objSeBgpPeerStateChangeDetails.peerIp)&&
   Objects.equals(this.peerState, objSeBgpPeerStateChangeDetails.peerState)&&
-  Objects.equals(this.peerIp, objSeBgpPeerStateChangeDetails.peerIp);
+  Objects.equals(this.vrfName, objSeBgpPeerStateChangeDetails.vrfName);
 }
 
 @Override

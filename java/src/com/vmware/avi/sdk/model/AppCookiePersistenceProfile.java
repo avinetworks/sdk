@@ -97,8 +97,8 @@ public boolean equals(java.lang.Object o) {
   }
   AppCookiePersistenceProfile objAppCookiePersistenceProfile = (AppCookiePersistenceProfile) o;
   return   Objects.equals(this.prstHdrName, objAppCookiePersistenceProfile.prstHdrName)&&
-  Objects.equals(this.encryptionKey, objAppCookiePersistenceProfile.encryptionKey)&&
-  Objects.equals(this.timeout, objAppCookiePersistenceProfile.timeout);
+  Objects.equals(this.timeout, objAppCookiePersistenceProfile.timeout)&&
+  Objects.equals(this.encryptionKey, objAppCookiePersistenceProfile.encryptionKey);
 }
 
 @Override

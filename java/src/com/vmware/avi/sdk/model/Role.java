@@ -145,10 +145,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Role objRole = (Role) o;
-  return   Objects.equals(this.privileges, objRole.privileges)&&
-  Objects.equals(this.tenantRef, objRole.tenantRef)&&
-  Objects.equals(this.uuid, objRole.uuid)&&
-  Objects.equals(this.name, objRole.name);
+  return   Objects.equals(this.uuid, objRole.uuid)&&
+  Objects.equals(this.name, objRole.name)&&
+  Objects.equals(this.privileges, objRole.privileges)&&
+  Objects.equals(this.tenantRef, objRole.tenantRef);
 }
 
 @Override

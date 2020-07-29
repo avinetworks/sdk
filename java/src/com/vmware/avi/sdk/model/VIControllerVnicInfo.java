@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIControllerVnicInfo objVIControllerVnicInfo = (VIControllerVnicInfo) o;
-  return   Objects.equals(this.vnicIp, objVIControllerVnicInfo.vnicIp)&&
-  Objects.equals(this.portgroup, objVIControllerVnicInfo.portgroup);
+  return   Objects.equals(this.portgroup, objVIControllerVnicInfo.portgroup)&&
+  Objects.equals(this.vnicIp, objVIControllerVnicInfo.vnicIp);
 }
 
 @Override

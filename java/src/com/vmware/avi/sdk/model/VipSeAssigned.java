@@ -222,15 +222,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VipSeAssigned objVipSeAssigned = (VipSeAssigned) o;
-  return   Objects.equals(this.standby, objVipSeAssigned.standby)&&
-  Objects.equals(this.adminDownRequested, objVipSeAssigned.adminDownRequested)&&
+  return   Objects.equals(this.name, objVipSeAssigned.name)&&
   Objects.equals(this.primary, objVipSeAssigned.primary)&&
+  Objects.equals(this.standby, objVipSeAssigned.standby)&&
+  Objects.equals(this.connected, objVipSeAssigned.connected)&&
+  Objects.equals(this.scaleinInProgress, objVipSeAssigned.scaleinInProgress)&&
   Objects.equals(this.operStatus, objVipSeAssigned.operStatus)&&
   Objects.equals(this.snatIp, objVipSeAssigned.snatIp)&&
-  Objects.equals(this.connected, objVipSeAssigned.connected)&&
-  Objects.equals(this.ref, objVipSeAssigned.ref)&&
-  Objects.equals(this.scaleinInProgress, objVipSeAssigned.scaleinInProgress)&&
-  Objects.equals(this.name, objVipSeAssigned.name);
+  Objects.equals(this.adminDownRequested, objVipSeAssigned.adminDownRequested)&&
+  Objects.equals(this.ref, objVipSeAssigned.ref);
 }
 
 @Override

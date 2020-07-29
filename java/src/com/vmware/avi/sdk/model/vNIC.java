@@ -739,36 +739,36 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   vNIC objvNIC = (vNIC) o;
-  return   Objects.equals(this.networkRef, objvNIC.networkRef)&&
-  Objects.equals(this.dpDeletionDone, objvNIC.dpDeletionDone)&&
-  Objects.equals(this.linuxName, objvNIC.linuxName)&&
-  Objects.equals(this.vlanInterfaces, objvNIC.vlanInterfaces)&&
-  Objects.equals(this.vnicNetworks, objvNIC.vnicNetworks)&&
-  Objects.equals(this.aggregatorChgd, objvNIC.aggregatorChgd)&&
-  Objects.equals(this.portUuid, objvNIC.portUuid)&&
-  Objects.equals(this.mtu, objvNIC.mtu)&&
-  Objects.equals(this.networkName, objvNIC.networkName)&&
-  Objects.equals(this.vlanId, objvNIC.vlanId)&&
-  Objects.equals(this.deleteVnic, objvNIC.deleteVnic)&&
-  Objects.equals(this.isAsm, objvNIC.isAsm)&&
-  Objects.equals(this.isHsm, objvNIC.isHsm)&&
-  Objects.equals(this.pciId, objvNIC.pciId)&&
+  return   Objects.equals(this.ifName, objvNIC.ifName)&&
   Objects.equals(this.macAddress, objvNIC.macAddress)&&
-  Objects.equals(this.isAviInternalNetwork, objvNIC.isAviInternalNetwork)&&
-  Objects.equals(this.ip6AutocfgEnabled, objvNIC.ip6AutocfgEnabled)&&
-  Objects.equals(this.ifName, objvNIC.ifName)&&
-  Objects.equals(this.delPending, objvNIC.delPending)&&
   Objects.equals(this.connected, objvNIC.connected)&&
-  Objects.equals(this.members, objvNIC.members)&&
-  Objects.equals(this.vrfId, objvNIC.vrfId)&&
-  Objects.equals(this.vrfRef, objvNIC.vrfRef)&&
-  Objects.equals(this.linkUp, objvNIC.linkUp)&&
-  Objects.equals(this.isPortchannel, objvNIC.isPortchannel)&&
-  Objects.equals(this.canSeDpTakeover, objvNIC.canSeDpTakeover)&&
-  Objects.equals(this.adapter, objvNIC.adapter)&&
-  Objects.equals(this.enabled, objvNIC.enabled)&&
+  Objects.equals(this.isMgmt, objvNIC.isMgmt)&&
+  Objects.equals(this.networkRef, objvNIC.networkRef)&&
+  Objects.equals(this.networkName, objvNIC.networkName)&&
   Objects.equals(this.dhcpEnabled, objvNIC.dhcpEnabled)&&
-  Objects.equals(this.isMgmt, objvNIC.isMgmt);
+  Objects.equals(this.isAviInternalNetwork, objvNIC.isAviInternalNetwork)&&
+  Objects.equals(this.enabled, objvNIC.enabled)&&
+  Objects.equals(this.adapter, objvNIC.adapter)&&
+  Objects.equals(this.vlanId, objvNIC.vlanId)&&
+  Objects.equals(this.pciId, objvNIC.pciId)&&
+  Objects.equals(this.linuxName, objvNIC.linuxName)&&
+  Objects.equals(this.portUuid, objvNIC.portUuid)&&
+  Objects.equals(this.delPending, objvNIC.delPending)&&
+  Objects.equals(this.mtu, objvNIC.mtu)&&
+  Objects.equals(this.vnicNetworks, objvNIC.vnicNetworks)&&
+  Objects.equals(this.canSeDpTakeover, objvNIC.canSeDpTakeover)&&
+  Objects.equals(this.vrfRef, objvNIC.vrfRef)&&
+  Objects.equals(this.vrfId, objvNIC.vrfId)&&
+  Objects.equals(this.vlanInterfaces, objvNIC.vlanInterfaces)&&
+  Objects.equals(this.isPortchannel, objvNIC.isPortchannel)&&
+  Objects.equals(this.members, objvNIC.members)&&
+  Objects.equals(this.isHsm, objvNIC.isHsm)&&
+  Objects.equals(this.isAsm, objvNIC.isAsm)&&
+  Objects.equals(this.ip6AutocfgEnabled, objvNIC.ip6AutocfgEnabled)&&
+  Objects.equals(this.aggregatorChgd, objvNIC.aggregatorChgd)&&
+  Objects.equals(this.dpDeletionDone, objvNIC.dpDeletionDone)&&
+  Objects.equals(this.deleteVnic, objvNIC.deleteVnic)&&
+  Objects.equals(this.linkUp, objvNIC.linkUp);
 }
 
 @Override

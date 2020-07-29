@@ -294,17 +294,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CaptureFilters objCaptureFilters = (CaptureFilters) o;
-  return   Objects.equals(this.tcpFin, objCaptureFilters.tcpFin)&&
+  return   Objects.equals(this.captureIp, objCaptureFilters.captureIp)&&
+  Objects.equals(this.ethProto, objCaptureFilters.ethProto)&&
+  Objects.equals(this.ipProto, objCaptureFilters.ipProto)&&
+  Objects.equals(this.srcPort, objCaptureFilters.srcPort)&&
   Objects.equals(this.dstPortStart, objCaptureFilters.dstPortStart)&&
   Objects.equals(this.dstPortEnd, objCaptureFilters.dstPortEnd)&&
-  Objects.equals(this.srcPort, objCaptureFilters.srcPort)&&
-  Objects.equals(this.captureIpc, objCaptureFilters.captureIpc)&&
-  Objects.equals(this.tcpPush, objCaptureFilters.tcpPush)&&
-  Objects.equals(this.captureIp, objCaptureFilters.captureIp)&&
   Objects.equals(this.tcpSyn, objCaptureFilters.tcpSyn)&&
-  Objects.equals(this.ipProto, objCaptureFilters.ipProto)&&
   Objects.equals(this.tcpAck, objCaptureFilters.tcpAck)&&
-  Objects.equals(this.ethProto, objCaptureFilters.ethProto);
+  Objects.equals(this.tcpFin, objCaptureFilters.tcpFin)&&
+  Objects.equals(this.tcpPush, objCaptureFilters.tcpPush)&&
+  Objects.equals(this.captureIpc, objCaptureFilters.captureIpc);
 }
 
 @Override

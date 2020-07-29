@@ -222,13 +222,13 @@ public boolean equals(java.lang.Object o) {
   }
   Backup objBackup = (Backup) o;
   return   Objects.equals(this.uuid, objBackup.uuid)&&
-  Objects.equals(this.localFileUrl, objBackup.localFileUrl)&&
   Objects.equals(this.fileName, objBackup.fileName)&&
+  Objects.equals(this.timestamp, objBackup.timestamp)&&
+  Objects.equals(this.localFileUrl, objBackup.localFileUrl)&&
   Objects.equals(this.remoteFileUrl, objBackup.remoteFileUrl)&&
   Objects.equals(this.schedulerRef, objBackup.schedulerRef)&&
-  Objects.equals(this.timestamp, objBackup.timestamp)&&
-  Objects.equals(this.tenantRef, objBackup.tenantRef)&&
-  Objects.equals(this.backupConfigRef, objBackup.backupConfigRef);
+  Objects.equals(this.backupConfigRef, objBackup.backupConfigRef)&&
+  Objects.equals(this.tenantRef, objBackup.tenantRef);
 }
 
 @Override

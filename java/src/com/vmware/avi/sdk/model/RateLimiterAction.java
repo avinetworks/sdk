@@ -123,9 +123,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RateLimiterAction objRateLimiterAction = (RateLimiterAction) o;
-  return   Objects.equals(this.redirect, objRateLimiterAction.redirect)&&
+  return   Objects.equals(this.type, objRateLimiterAction.type)&&
+  Objects.equals(this.redirect, objRateLimiterAction.redirect)&&
   Objects.equals(this.statusCode, objRateLimiterAction.statusCode)&&
-  Objects.equals(this.type, objRateLimiterAction.type)&&
   Objects.equals(this.file, objRateLimiterAction.file);
 }
 

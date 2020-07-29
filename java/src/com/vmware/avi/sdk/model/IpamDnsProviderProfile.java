@@ -384,21 +384,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsProviderProfile objIpamDnsProviderProfile = (IpamDnsProviderProfile) o;
-  return   Objects.equals(this.azureProfile, objIpamDnsProviderProfile.azureProfile)&&
-  Objects.equals(this.openstackProfile, objIpamDnsProviderProfile.openstackProfile)&&
-  Objects.equals(this.uuid, objIpamDnsProviderProfile.uuid)&&
-  Objects.equals(this.gcpProfile, objIpamDnsProviderProfile.gcpProfile)&&
-  Objects.equals(this.infobloxProfile, objIpamDnsProviderProfile.infobloxProfile)&&
-  Objects.equals(this.internalProfile, objIpamDnsProviderProfile.internalProfile)&&
-  Objects.equals(this.ociProfile, objIpamDnsProviderProfile.ociProfile)&&
-  Objects.equals(this.customProfile, objIpamDnsProviderProfile.customProfile)&&
-  Objects.equals(this.proxyConfiguration, objIpamDnsProviderProfile.proxyConfiguration)&&
-  Objects.equals(this.awsProfile, objIpamDnsProviderProfile.awsProfile)&&
-  Objects.equals(this.allocateIpInVrf, objIpamDnsProviderProfile.allocateIpInVrf)&&
-  Objects.equals(this.tencentProfile, objIpamDnsProviderProfile.tencentProfile)&&
+  return   Objects.equals(this.uuid, objIpamDnsProviderProfile.uuid)&&
+  Objects.equals(this.name, objIpamDnsProviderProfile.name)&&
   Objects.equals(this.type, objIpamDnsProviderProfile.type)&&
-  Objects.equals(this.tenantRef, objIpamDnsProviderProfile.tenantRef)&&
-  Objects.equals(this.name, objIpamDnsProviderProfile.name);
+  Objects.equals(this.infobloxProfile, objIpamDnsProviderProfile.infobloxProfile)&&
+  Objects.equals(this.awsProfile, objIpamDnsProviderProfile.awsProfile)&&
+  Objects.equals(this.openstackProfile, objIpamDnsProviderProfile.openstackProfile)&&
+  Objects.equals(this.internalProfile, objIpamDnsProviderProfile.internalProfile)&&
+  Objects.equals(this.gcpProfile, objIpamDnsProviderProfile.gcpProfile)&&
+  Objects.equals(this.customProfile, objIpamDnsProviderProfile.customProfile)&&
+  Objects.equals(this.azureProfile, objIpamDnsProviderProfile.azureProfile)&&
+  Objects.equals(this.ociProfile, objIpamDnsProviderProfile.ociProfile)&&
+  Objects.equals(this.tencentProfile, objIpamDnsProviderProfile.tencentProfile)&&
+  Objects.equals(this.proxyConfiguration, objIpamDnsProviderProfile.proxyConfiguration)&&
+  Objects.equals(this.allocateIpInVrf, objIpamDnsProviderProfile.allocateIpInVrf)&&
+  Objects.equals(this.tenantRef, objIpamDnsProviderProfile.tenantRef);
 }
 
 @Override

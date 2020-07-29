@@ -299,16 +299,16 @@ public boolean equals(java.lang.Object o) {
   }
   ApplicationPersistenceProfile objApplicationPersistenceProfile = (ApplicationPersistenceProfile) o;
   return   Objects.equals(this.uuid, objApplicationPersistenceProfile.uuid)&&
-  Objects.equals(this.appCookiePersistenceProfile, objApplicationPersistenceProfile.appCookiePersistenceProfile)&&
-  Objects.equals(this.description, objApplicationPersistenceProfile.description)&&
+  Objects.equals(this.name, objApplicationPersistenceProfile.name)&&
   Objects.equals(this.serverHmDownRecovery, objApplicationPersistenceProfile.serverHmDownRecovery)&&
-  Objects.equals(this.isFederated, objApplicationPersistenceProfile.isFederated)&&
-  Objects.equals(this.httpCookiePersistenceProfile, objApplicationPersistenceProfile.httpCookiePersistenceProfile)&&
   Objects.equals(this.persistenceType, objApplicationPersistenceProfile.persistenceType)&&
   Objects.equals(this.ipPersistenceProfile, objApplicationPersistenceProfile.ipPersistenceProfile)&&
   Objects.equals(this.hdrPersistenceProfile, objApplicationPersistenceProfile.hdrPersistenceProfile)&&
-  Objects.equals(this.tenantRef, objApplicationPersistenceProfile.tenantRef)&&
-  Objects.equals(this.name, objApplicationPersistenceProfile.name);
+  Objects.equals(this.appCookiePersistenceProfile, objApplicationPersistenceProfile.appCookiePersistenceProfile)&&
+  Objects.equals(this.httpCookiePersistenceProfile, objApplicationPersistenceProfile.httpCookiePersistenceProfile)&&
+  Objects.equals(this.isFederated, objApplicationPersistenceProfile.isFederated)&&
+  Objects.equals(this.description, objApplicationPersistenceProfile.description)&&
+  Objects.equals(this.tenantRef, objApplicationPersistenceProfile.tenantRef);
 }
 
 @Override

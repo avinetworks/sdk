@@ -237,13 +237,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRrSet objDnsRrSet = (DnsRrSet) o;
-  return   Objects.equals(this.ip6Addresses, objDnsRrSet.ip6Addresses)&&
-  Objects.equals(this.ipAddresses, objDnsRrSet.ipAddresses)&&
-  Objects.equals(this.fqdn, objDnsRrSet.fqdn)&&
-  Objects.equals(this.cname, objDnsRrSet.cname)&&
-  Objects.equals(this.ttl, objDnsRrSet.ttl)&&
+  return   Objects.equals(this.fqdn, objDnsRrSet.fqdn)&&
   Objects.equals(this.type, objDnsRrSet.type)&&
-  Objects.equals(this.nses, objDnsRrSet.nses);
+  Objects.equals(this.ttl, objDnsRrSet.ttl)&&
+  Objects.equals(this.ipAddresses, objDnsRrSet.ipAddresses)&&
+  Objects.equals(this.cname, objDnsRrSet.cname)&&
+  Objects.equals(this.nses, objDnsRrSet.nses)&&
+  Objects.equals(this.ip6Addresses, objDnsRrSet.ip6Addresses);
 }
 
 @Override

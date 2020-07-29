@@ -128,9 +128,9 @@ public boolean equals(java.lang.Object o) {
   }
   PatchSystemParams objPatchSystemParams = (PatchSystemParams) o;
   return   Objects.equals(this.controllerPatchRef, objPatchSystemParams.controllerPatchRef)&&
-  Objects.equals(this.skipWarnings, objPatchSystemParams.skipWarnings)&&
   Objects.equals(this.sePatchRef, objPatchSystemParams.sePatchRef)&&
-  Objects.equals(this.seGroupOptions, objPatchSystemParams.seGroupOptions);
+  Objects.equals(this.seGroupOptions, objPatchSystemParams.seGroupOptions)&&
+  Objects.equals(this.skipWarnings, objPatchSystemParams.skipWarnings);
 }
 
 @Override

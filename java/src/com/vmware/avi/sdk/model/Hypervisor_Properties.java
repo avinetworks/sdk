@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Hypervisor_Properties objHypervisor_Properties = (Hypervisor_Properties) o;
-  return   Objects.equals(this.maxNics, objHypervisor_Properties.maxNics)&&
-  Objects.equals(this.maxIpsPerNic, objHypervisor_Properties.maxIpsPerNic)&&
-  Objects.equals(this.htype, objHypervisor_Properties.htype);
+  return   Objects.equals(this.htype, objHypervisor_Properties.htype)&&
+  Objects.equals(this.maxNics, objHypervisor_Properties.maxNics)&&
+  Objects.equals(this.maxIpsPerNic, objHypervisor_Properties.maxIpsPerNic);
 }
 
 @Override

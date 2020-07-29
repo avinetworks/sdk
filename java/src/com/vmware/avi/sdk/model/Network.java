@@ -397,20 +397,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Network objNetwork = (Network) o;
-  return   Objects.equals(this.vrfContextRef, objNetwork.vrfContextRef)&&
-  Objects.equals(this.configuredSubnets, objNetwork.configuredSubnets)&&
-  Objects.equals(this.uuid, objNetwork.uuid)&&
+  return   Objects.equals(this.uuid, objNetwork.uuid)&&
+  Objects.equals(this.name, objNetwork.name)&&
+  Objects.equals(this.vcenterDvs, objNetwork.vcenterDvs)&&
+  Objects.equals(this.vimgrnwRef, objNetwork.vimgrnwRef)&&
+  Objects.equals(this.dhcpEnabled, objNetwork.dhcpEnabled)&&
   Objects.equals(this.excludeDiscoveredSubnets, objNetwork.excludeDiscoveredSubnets)&&
+  Objects.equals(this.configuredSubnets, objNetwork.configuredSubnets)&&
+  Objects.equals(this.vrfContextRef, objNetwork.vrfContextRef)&&
+  Objects.equals(this.syncedFromSe, objNetwork.syncedFromSe)&&
+  Objects.equals(this.tenantRef, objNetwork.tenantRef)&&
+  Objects.equals(this.cloudRef, objNetwork.cloudRef)&&
   Objects.equals(this.ip6AutocfgEnabled, objNetwork.ip6AutocfgEnabled)&&
   Objects.equals(this.labels, objNetwork.labels)&&
-  Objects.equals(this.vimgrnwRef, objNetwork.vimgrnwRef)&&
-  Objects.equals(this.syncedFromSe, objNetwork.syncedFromSe)&&
-  Objects.equals(this.dhcpEnabled, objNetwork.dhcpEnabled)&&
-  Objects.equals(this.attrs, objNetwork.attrs)&&
-  Objects.equals(this.cloudRef, objNetwork.cloudRef)&&
-  Objects.equals(this.tenantRef, objNetwork.tenantRef)&&
-  Objects.equals(this.vcenterDvs, objNetwork.vcenterDvs)&&
-  Objects.equals(this.name, objNetwork.name);
+  Objects.equals(this.attrs, objNetwork.attrs);
 }
 
 @Override

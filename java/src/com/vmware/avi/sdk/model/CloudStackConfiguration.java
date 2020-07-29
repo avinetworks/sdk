@@ -180,13 +180,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudStackConfiguration objCloudStackConfiguration = (CloudStackConfiguration) o;
-  return   Objects.equals(this.mgmtNetworkName, objCloudStackConfiguration.mgmtNetworkName)&&
-  Objects.equals(this.apiUrl, objCloudStackConfiguration.apiUrl)&&
-  Objects.equals(this.hypervisor, objCloudStackConfiguration.hypervisor)&&
-  Objects.equals(this.cntrPublicIp, objCloudStackConfiguration.cntrPublicIp)&&
+  return   Objects.equals(this.apiUrl, objCloudStackConfiguration.apiUrl)&&
+  Objects.equals(this.accessKeyId, objCloudStackConfiguration.accessKeyId)&&
   Objects.equals(this.secretAccessKey, objCloudStackConfiguration.secretAccessKey)&&
+  Objects.equals(this.mgmtNetworkName, objCloudStackConfiguration.mgmtNetworkName)&&
   Objects.equals(this.mgmtNetworkUuid, objCloudStackConfiguration.mgmtNetworkUuid)&&
-  Objects.equals(this.accessKeyId, objCloudStackConfiguration.accessKeyId);
+  Objects.equals(this.cntrPublicIp, objCloudStackConfiguration.cntrPublicIp)&&
+  Objects.equals(this.hypervisor, objCloudStackConfiguration.hypervisor);
 }
 
 @Override

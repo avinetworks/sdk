@@ -324,17 +324,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPConfiguration objGCPConfiguration = (GCPConfiguration) o;
-  return   Objects.equals(this.gcsBucketName, objGCPConfiguration.gcsBucketName)&&
+  return   Objects.equals(this.cloudCredentialsRef, objGCPConfiguration.cloudCredentialsRef)&&
   Objects.equals(this.regionName, objGCPConfiguration.regionName)&&
-  Objects.equals(this.vipAllocationStrategy, objGCPConfiguration.vipAllocationStrategy)&&
-  Objects.equals(this.gcsProjectId, objGCPConfiguration.gcsProjectId)&&
-  Objects.equals(this.cloudCredentialsRef, objGCPConfiguration.cloudCredentialsRef)&&
   Objects.equals(this.zones, objGCPConfiguration.zones)&&
-  Objects.equals(this.matchSeGroupSubnet, objGCPConfiguration.matchSeGroupSubnet)&&
-  Objects.equals(this.encryptionKeyId, objGCPConfiguration.encryptionKeyId)&&
   Objects.equals(this.seProjectId, objGCPConfiguration.seProjectId)&&
+  Objects.equals(this.networkConfig, objGCPConfiguration.networkConfig)&&
   Objects.equals(this.firewallTargetTags, objGCPConfiguration.firewallTargetTags)&&
-  Objects.equals(this.networkConfig, objGCPConfiguration.networkConfig);
+  Objects.equals(this.matchSeGroupSubnet, objGCPConfiguration.matchSeGroupSubnet)&&
+  Objects.equals(this.gcsProjectId, objGCPConfiguration.gcsProjectId)&&
+  Objects.equals(this.gcsBucketName, objGCPConfiguration.gcsBucketName)&&
+  Objects.equals(this.encryptionKeyId, objGCPConfiguration.encryptionKeyId)&&
+  Objects.equals(this.vipAllocationStrategy, objGCPConfiguration.vipAllocationStrategy);
 }
 
 @Override

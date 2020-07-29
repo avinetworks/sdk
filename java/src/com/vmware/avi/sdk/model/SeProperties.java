@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeProperties objSeProperties = (SeProperties) o;
-  return   Objects.equals(this.seAgentProperties, objSeProperties.seAgentProperties)&&
-  Objects.equals(this.seRuntimeProperties, objSeProperties.seRuntimeProperties)&&
+  return   Objects.equals(this.uuid, objSeProperties.uuid)&&
   Objects.equals(this.seBootupProperties, objSeProperties.seBootupProperties)&&
-  Objects.equals(this.uuid, objSeProperties.uuid);
+  Objects.equals(this.seRuntimeProperties, objSeProperties.seRuntimeProperties)&&
+  Objects.equals(this.seAgentProperties, objSeProperties.seAgentProperties);
 }
 
 @Override

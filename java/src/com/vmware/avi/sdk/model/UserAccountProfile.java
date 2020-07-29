@@ -216,13 +216,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UserAccountProfile objUserAccountProfile = (UserAccountProfile) o;
-  return   Objects.equals(this.maxConcurrentSessions, objUserAccountProfile.maxConcurrentSessions)&&
-  Objects.equals(this.uuid, objUserAccountProfile.uuid)&&
-  Objects.equals(this.accountLockTimeout, objUserAccountProfile.accountLockTimeout)&&
-  Objects.equals(this.maxLoginFailureCount, objUserAccountProfile.maxLoginFailureCount)&&
+  return   Objects.equals(this.uuid, objUserAccountProfile.uuid)&&
+  Objects.equals(this.name, objUserAccountProfile.name)&&
   Objects.equals(this.maxPasswordHistoryCount, objUserAccountProfile.maxPasswordHistoryCount)&&
-  Objects.equals(this.credentialsTimeoutThreshold, objUserAccountProfile.credentialsTimeoutThreshold)&&
-  Objects.equals(this.name, objUserAccountProfile.name);
+  Objects.equals(this.maxLoginFailureCount, objUserAccountProfile.maxLoginFailureCount)&&
+  Objects.equals(this.accountLockTimeout, objUserAccountProfile.accountLockTimeout)&&
+  Objects.equals(this.maxConcurrentSessions, objUserAccountProfile.maxConcurrentSessions)&&
+  Objects.equals(this.credentialsTimeoutThreshold, objUserAccountProfile.credentialsTimeoutThreshold);
 }
 
 @Override

@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConnPoolProperties objConnPoolProperties = (ConnPoolProperties) o;
-  return   Objects.equals(this.upstreamConnpoolConnIdleTmo, objConnPoolProperties.upstreamConnpoolConnIdleTmo)&&
-  Objects.equals(this.upstreamConnpoolConnLifeTmo, objConnPoolProperties.upstreamConnpoolConnLifeTmo)&&
+  return   Objects.equals(this.upstreamConnpoolServerMaxCache, objConnPoolProperties.upstreamConnpoolServerMaxCache)&&
   Objects.equals(this.upstreamConnpoolConnMaxReuse, objConnPoolProperties.upstreamConnpoolConnMaxReuse)&&
-  Objects.equals(this.upstreamConnpoolServerMaxCache, objConnPoolProperties.upstreamConnpoolServerMaxCache);
+  Objects.equals(this.upstreamConnpoolConnIdleTmo, objConnPoolProperties.upstreamConnpoolConnIdleTmo)&&
+  Objects.equals(this.upstreamConnpoolConnLifeTmo, objConnPoolProperties.upstreamConnpoolConnLifeTmo);
 }
 
 @Override

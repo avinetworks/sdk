@@ -453,18 +453,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsServiceApplicationProfile objDnsServiceApplicationProfile = (DnsServiceApplicationProfile) o;
-  return   Objects.equals(this.dnsOverTcpEnabled, objDnsServiceApplicationProfile.dnsOverTcpEnabled)&&
+  return   Objects.equals(this.numDnsIp, objDnsServiceApplicationProfile.numDnsIp)&&
+  Objects.equals(this.ttl, objDnsServiceApplicationProfile.ttl)&&
   Objects.equals(this.errorResponse, objDnsServiceApplicationProfile.errorResponse)&&
-  Objects.equals(this.nameServer, objDnsServiceApplicationProfile.nameServer)&&
+  Objects.equals(this.domainNames, objDnsServiceApplicationProfile.domainNames)&&
+  Objects.equals(this.edns, objDnsServiceApplicationProfile.edns)&&
+  Objects.equals(this.ednsClientSubnetPrefixLen, objDnsServiceApplicationProfile.ednsClientSubnetPrefixLen)&&
+  Objects.equals(this.dnsOverTcpEnabled, objDnsServiceApplicationProfile.dnsOverTcpEnabled)&&
+  Objects.equals(this.aaaaEmptyResponse, objDnsServiceApplicationProfile.aaaaEmptyResponse)&&
   Objects.equals(this.ecsStrippingEnabled, objDnsServiceApplicationProfile.ecsStrippingEnabled)&&
   Objects.equals(this.authoritativeDomainNames, objDnsServiceApplicationProfile.authoritativeDomainNames)&&
-  Objects.equals(this.domainNames, objDnsServiceApplicationProfile.domainNames)&&
   Objects.equals(this.negativeCachingTtl, objDnsServiceApplicationProfile.negativeCachingTtl)&&
-  Objects.equals(this.aaaaEmptyResponse, objDnsServiceApplicationProfile.aaaaEmptyResponse)&&
-  Objects.equals(this.numDnsIp, objDnsServiceApplicationProfile.numDnsIp)&&
-  Objects.equals(this.ednsClientSubnetPrefixLen, objDnsServiceApplicationProfile.ednsClientSubnetPrefixLen)&&
-  Objects.equals(this.ttl, objDnsServiceApplicationProfile.ttl)&&
-  Objects.equals(this.edns, objDnsServiceApplicationProfile.edns)&&
+  Objects.equals(this.nameServer, objDnsServiceApplicationProfile.nameServer)&&
   Objects.equals(this.adminEmail, objDnsServiceApplicationProfile.adminEmail)&&
   Objects.equals(this.dnsZones, objDnsServiceApplicationProfile.dnsZones);
 }

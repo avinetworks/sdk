@@ -184,13 +184,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeGeoDbDetails objSeGeoDbDetails = (SeGeoDbDetails) o;
-  return   Objects.equals(this.vipId, objSeGeoDbDetails.vipId)&&
-  Objects.equals(this.geoDbProfileName, objSeGeoDbDetails.geoDbProfileName)&&
-  Objects.equals(this.fileName, objSeGeoDbDetails.fileName)&&
+  return   Objects.equals(this.seRef, objSeGeoDbDetails.seRef)&&
   Objects.equals(this.virtualService, objSeGeoDbDetails.virtualService)&&
-  Objects.equals(this.geoDbProfileRef, objSeGeoDbDetails.geoDbProfileRef)&&
   Objects.equals(this.reason, objSeGeoDbDetails.reason)&&
-  Objects.equals(this.seRef, objSeGeoDbDetails.seRef);
+  Objects.equals(this.vipId, objSeGeoDbDetails.vipId)&&
+  Objects.equals(this.geoDbProfileRef, objSeGeoDbDetails.geoDbProfileRef)&&
+  Objects.equals(this.geoDbProfileName, objSeGeoDbDetails.geoDbProfileName)&&
+  Objects.equals(this.fileName, objSeGeoDbDetails.fileName);
 }
 
 @Override

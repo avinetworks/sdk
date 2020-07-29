@@ -454,21 +454,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IcapProfile objIcapProfile = (IcapProfile) o;
-  return   Objects.equals(this.responseTimeout, objIcapProfile.responseTimeout)&&
-  Objects.equals(this.enablePreview, objIcapProfile.enablePreview)&&
+  return   Objects.equals(this.uuid, objIcapProfile.uuid)&&
+  Objects.equals(this.name, objIcapProfile.name)&&
+  Objects.equals(this.tenantRef, objIcapProfile.tenantRef)&&
+  Objects.equals(this.cloudRef, objIcapProfile.cloudRef)&&
+  Objects.equals(this.description, objIcapProfile.description)&&
   Objects.equals(this.poolGroupRef, objIcapProfile.poolGroupRef)&&
   Objects.equals(this.vendor, objIcapProfile.vendor)&&
-  Objects.equals(this.description, objIcapProfile.description)&&
-  Objects.equals(this.name, objIcapProfile.name)&&
-  Objects.equals(this.bufferSizeExceedAction, objIcapProfile.bufferSizeExceedAction)&&
-  Objects.equals(this.slowResponseWarningThreshold, objIcapProfile.slowResponseWarningThreshold)&&
-  Objects.equals(this.cloudRef, objIcapProfile.cloudRef)&&
   Objects.equals(this.serviceUri, objIcapProfile.serviceUri)&&
   Objects.equals(this.bufferSize, objIcapProfile.bufferSize)&&
-  Objects.equals(this.failAction, objIcapProfile.failAction)&&
+  Objects.equals(this.bufferSizeExceedAction, objIcapProfile.bufferSizeExceedAction)&&
+  Objects.equals(this.enablePreview, objIcapProfile.enablePreview)&&
   Objects.equals(this.previewSize, objIcapProfile.previewSize)&&
-  Objects.equals(this.tenantRef, objIcapProfile.tenantRef)&&
-  Objects.equals(this.uuid, objIcapProfile.uuid);
+  Objects.equals(this.responseTimeout, objIcapProfile.responseTimeout)&&
+  Objects.equals(this.slowResponseWarningThreshold, objIcapProfile.slowResponseWarningThreshold)&&
+  Objects.equals(this.failAction, objIcapProfile.failAction);
 }
 
 @Override

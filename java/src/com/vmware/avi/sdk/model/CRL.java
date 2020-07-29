@@ -276,17 +276,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CRL objCRL = (CRL) o;
-  return   Objects.equals(this.body, objCRL.body)&&
-  Objects.equals(this.distinguishedName, objCRL.distinguishedName)&&
-  Objects.equals(this.text, objCRL.text)&&
-  Objects.equals(this.serverUrl, objCRL.serverUrl)&&
+  return   Objects.equals(this.serverUrl, objCRL.serverUrl)&&
+  Objects.equals(this.body, objCRL.body)&&
   Objects.equals(this.lastUpdate, objCRL.lastUpdate)&&
-  Objects.equals(this.lastRefreshed, objCRL.lastRefreshed)&&
-  Objects.equals(this.etag, objCRL.etag)&&
-  Objects.equals(this.fingerprint, objCRL.fingerprint)&&
-  Objects.equals(this.commonName, objCRL.commonName)&&
   Objects.equals(this.nextUpdate, objCRL.nextUpdate)&&
-  Objects.equals(this.updateInterval, objCRL.updateInterval);
+  Objects.equals(this.updateInterval, objCRL.updateInterval)&&
+  Objects.equals(this.etag, objCRL.etag)&&
+  Objects.equals(this.text, objCRL.text)&&
+  Objects.equals(this.commonName, objCRL.commonName)&&
+  Objects.equals(this.fingerprint, objCRL.fingerprint)&&
+  Objects.equals(this.distinguishedName, objCRL.distinguishedName)&&
+  Objects.equals(this.lastRefreshed, objCRL.lastRefreshed);
 }
 
 @Override

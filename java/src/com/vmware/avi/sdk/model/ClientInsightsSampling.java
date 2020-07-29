@@ -93,8 +93,8 @@ public boolean equals(java.lang.Object o) {
   }
   ClientInsightsSampling objClientInsightsSampling = (ClientInsightsSampling) o;
   return   Objects.equals(this.skipUris, objClientInsightsSampling.skipUris)&&
-  Objects.equals(this.clientIp, objClientInsightsSampling.clientIp)&&
-  Objects.equals(this.sampleUris, objClientInsightsSampling.sampleUris);
+  Objects.equals(this.sampleUris, objClientInsightsSampling.sampleUris)&&
+  Objects.equals(this.clientIp, objClientInsightsSampling.clientIp);
 }
 
 @Override

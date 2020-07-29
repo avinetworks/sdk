@@ -407,20 +407,20 @@ public boolean equals(java.lang.Object o) {
   }
   PoolGroup objPoolGroup = (PoolGroup) o;
   return   Objects.equals(this.uuid, objPoolGroup.uuid)&&
-  Objects.equals(this.implicitPriorityLabels, objPoolGroup.implicitPriorityLabels)&&
-  Objects.equals(this.description, objPoolGroup.description)&&
-  Objects.equals(this.createdBy, objPoolGroup.createdBy)&&
-  Objects.equals(this.cloudRef, objPoolGroup.cloudRef)&&
+  Objects.equals(this.name, objPoolGroup.name)&&
   Objects.equals(this.members, objPoolGroup.members)&&
-  Objects.equals(this.deploymentPolicyRef, objPoolGroup.deploymentPolicyRef)&&
-  Objects.equals(this.cloudConfigCksum, objPoolGroup.cloudConfigCksum)&&
-  Objects.equals(this.enableHttp2, objPoolGroup.enableHttp2)&&
-  Objects.equals(this.minServers, objPoolGroup.minServers)&&
   Objects.equals(this.priorityLabelsRef, objPoolGroup.priorityLabelsRef)&&
+  Objects.equals(this.minServers, objPoolGroup.minServers)&&
+  Objects.equals(this.deploymentPolicyRef, objPoolGroup.deploymentPolicyRef)&&
   Objects.equals(this.failAction, objPoolGroup.failAction)&&
+  Objects.equals(this.implicitPriorityLabels, objPoolGroup.implicitPriorityLabels)&&
   Objects.equals(this.serviceMetadata, objPoolGroup.serviceMetadata)&&
+  Objects.equals(this.createdBy, objPoolGroup.createdBy)&&
+  Objects.equals(this.cloudConfigCksum, objPoolGroup.cloudConfigCksum)&&
+  Objects.equals(this.description, objPoolGroup.description)&&
   Objects.equals(this.tenantRef, objPoolGroup.tenantRef)&&
-  Objects.equals(this.name, objPoolGroup.name);
+  Objects.equals(this.cloudRef, objPoolGroup.cloudRef)&&
+  Objects.equals(this.enableHttp2, objPoolGroup.enableHttp2);
 }
 
 @Override

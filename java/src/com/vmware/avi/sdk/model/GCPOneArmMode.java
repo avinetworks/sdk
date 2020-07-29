@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPOneArmMode objGCPOneArmMode = (GCPOneArmMode) o;
-  return   Objects.equals(this.dataVpcProjectId, objGCPOneArmMode.dataVpcProjectId)&&
+  return   Objects.equals(this.dataVpcSubnetName, objGCPOneArmMode.dataVpcSubnetName)&&
+  Objects.equals(this.dataVpcProjectId, objGCPOneArmMode.dataVpcProjectId)&&
+  Objects.equals(this.managementVpcSubnetName, objGCPOneArmMode.managementVpcSubnetName)&&
   Objects.equals(this.dataVpcNetworkName, objGCPOneArmMode.dataVpcNetworkName)&&
-  Objects.equals(this.managementVpcNetworkName, objGCPOneArmMode.managementVpcNetworkName)&&
-  Objects.equals(this.dataVpcSubnetName, objGCPOneArmMode.dataVpcSubnetName)&&
-  Objects.equals(this.managementVpcSubnetName, objGCPOneArmMode.managementVpcSubnetName);
+  Objects.equals(this.managementVpcNetworkName, objGCPOneArmMode.managementVpcNetworkName);
 }
 
 @Override

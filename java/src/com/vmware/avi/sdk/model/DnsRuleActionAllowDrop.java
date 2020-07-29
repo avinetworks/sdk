@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRuleActionAllowDrop objDnsRuleActionAllowDrop = (DnsRuleActionAllowDrop) o;
-  return   Objects.equals(this.resetConn, objDnsRuleActionAllowDrop.resetConn)&&
-  Objects.equals(this.allow, objDnsRuleActionAllowDrop.allow);
+  return   Objects.equals(this.allow, objDnsRuleActionAllowDrop.allow)&&
+  Objects.equals(this.resetConn, objDnsRuleActionAllowDrop.resetConn);
 }
 
 @Override

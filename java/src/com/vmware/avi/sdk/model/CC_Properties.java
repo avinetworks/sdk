@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CC_Properties objCC_Properties = (CC_Properties) o;
-  return   Objects.equals(this.rpcQueueSize, objCC_Properties.rpcQueueSize)&&
-  Objects.equals(this.rpcPollInterval, objCC_Properties.rpcPollInterval);
+  return   Objects.equals(this.rpcPollInterval, objCC_Properties.rpcPollInterval)&&
+  Objects.equals(this.rpcQueueSize, objCC_Properties.rpcQueueSize);
 }
 
 @Override

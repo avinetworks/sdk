@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertMgrDebugFilter objAlertMgrDebugFilter = (AlertMgrDebugFilter) o;
-  return   Objects.equals(this.cfgUuid, objAlertMgrDebugFilter.cfgUuid)&&
-  Objects.equals(this.alertUuid, objAlertMgrDebugFilter.alertUuid)&&
-  Objects.equals(this.alertObjid, objAlertMgrDebugFilter.alertObjid);
+  return   Objects.equals(this.alertUuid, objAlertMgrDebugFilter.alertUuid)&&
+  Objects.equals(this.alertObjid, objAlertMgrDebugFilter.alertObjid)&&
+  Objects.equals(this.cfgUuid, objAlertMgrDebugFilter.cfgUuid);
 }
 
 @Override

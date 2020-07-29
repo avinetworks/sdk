@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpAddr objIpAddr = (IpAddr) o;
-  return   Objects.equals(this.type, objIpAddr.type)&&
-  Objects.equals(this.addr, objIpAddr.addr);
+  return   Objects.equals(this.addr, objIpAddr.addr)&&
+  Objects.equals(this.type, objIpAddr.type);
 }
 
 @Override

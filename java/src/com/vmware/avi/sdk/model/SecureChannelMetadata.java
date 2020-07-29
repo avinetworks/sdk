@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecureChannelMetadata objSecureChannelMetadata = (SecureChannelMetadata) o;
-  return   Objects.equals(this.val, objSecureChannelMetadata.val)&&
-  Objects.equals(this.key, objSecureChannelMetadata.key);
+  return   Objects.equals(this.key, objSecureChannelMetadata.key)&&
+  Objects.equals(this.val, objSecureChannelMetadata.val);
 }
 
 @Override

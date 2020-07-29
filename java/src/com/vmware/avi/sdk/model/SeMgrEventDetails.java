@@ -368,21 +368,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeMgrEventDetails objSeMgrEventDetails = (SeMgrEventDetails) o;
-  return   Objects.equals(this.vcpus, objSeMgrEventDetails.vcpus)&&
-  Objects.equals(this.name, objSeMgrEventDetails.name)&&
+  return   Objects.equals(this.name, objSeMgrEventDetails.name)&&
+  Objects.equals(this.reason, objSeMgrEventDetails.reason)&&
+  Objects.equals(this.hostUuid, objSeMgrEventDetails.hostUuid)&&
+  Objects.equals(this.hostName, objSeMgrEventDetails.hostName)&&
+  Objects.equals(this.vsUuid, objSeMgrEventDetails.vsUuid)&&
+  Objects.equals(this.vsName, objSeMgrEventDetails.vsName)&&
+  Objects.equals(this.vcpus, objSeMgrEventDetails.vcpus)&&
+  Objects.equals(this.memory, objSeMgrEventDetails.memory)&&
+  Objects.equals(this.seGrpUuid, objSeMgrEventDetails.seGrpUuid)&&
+  Objects.equals(this.seGrpName, objSeMgrEventDetails.seGrpName)&&
+  Objects.equals(this.cloudUuid, objSeMgrEventDetails.cloudUuid)&&
   Objects.equals(this.cloudName, objSeMgrEventDetails.cloudName)&&
   Objects.equals(this.enableState, objSeMgrEventDetails.enableState)&&
-  Objects.equals(this.reason, objSeMgrEventDetails.reason)&&
-  Objects.equals(this.vsUuid, objSeMgrEventDetails.vsUuid)&&
-  Objects.equals(this.seGrpName, objSeMgrEventDetails.seGrpName)&&
-  Objects.equals(this.vsName, objSeMgrEventDetails.vsName)&&
-  Objects.equals(this.hostName, objSeMgrEventDetails.hostName)&&
-  Objects.equals(this.memory, objSeMgrEventDetails.memory)&&
-  Objects.equals(this.gcpInfo, objSeMgrEventDetails.gcpInfo)&&
   Objects.equals(this.migrateState, objSeMgrEventDetails.migrateState)&&
-  Objects.equals(this.hostUuid, objSeMgrEventDetails.hostUuid)&&
-  Objects.equals(this.cloudUuid, objSeMgrEventDetails.cloudUuid)&&
-  Objects.equals(this.seGrpUuid, objSeMgrEventDetails.seGrpUuid);
+  Objects.equals(this.gcpInfo, objSeMgrEventDetails.gcpInfo);
 }
 
 @Override

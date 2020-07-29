@@ -69,7 +69,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
     private OCSPConfig ocspConfig = null;
 
     @JsonProperty("ocsp_error_status")
-    private String ocspErrorStatus = null;
+    private String ocspErrorStatus = "OCSP_ERR_CERTSTATUS_DISABLED";
 
     @JsonProperty("ocsp_responder_url_list_from_certs")
     private List<String> ocspResponderUrlListFromCerts = null;
@@ -451,6 +451,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
    * OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
    * OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
    * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as OCSP_ERR_CERTSTATUS_DISABLED.
    * @return ocspErrorStatus
    */
   public String getOcspErrorStatus() {
@@ -466,6 +467,7 @@ public class SSLKeyAndCertificate extends AviRestResource  {
    * OCSP_ERR_CERTSTATUS_ISSUER_REVOKED, OCSP_ERR_CERTSTATUS_PARSE_CERT, OCSP_ERR_CERTSTATUS_HTTP_REQ, OCSP_ERR_CERTSTATUS_URL_LIST,
    * OCSP_ERR_CERTSTATUS_HTTP_SEND, OCSP_ERR_CERTSTATUS_HTTP_RECV, OCSP_ERR_CERTSTATUS_HTTP_RESP.
    * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as OCSP_ERR_CERTSTATUS_DISABLED.
    * @param ocspErrorStatus set the ocspErrorStatus.
    */
   public void setOcspErrorStatus(String  ocspErrorStatus) {
@@ -626,30 +628,30 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLKeyAndCertificate objSSLKeyAndCertificate = (SSLKeyAndCertificate) o;
-  return   Objects.equals(this.hardwaresecuritymodulegroupRef, objSSLKeyAndCertificate.hardwaresecuritymodulegroupRef)&&
-  Objects.equals(this.keyBase64, objSSLKeyAndCertificate.keyBase64)&&
-  Objects.equals(this.ocspResponseInfo, objSSLKeyAndCertificate.ocspResponseInfo)&&
-  Objects.equals(this.ocspErrorStatus, objSSLKeyAndCertificate.ocspErrorStatus)&&
-  Objects.equals(this.certificateBase64, objSSLKeyAndCertificate.certificateBase64)&&
-  Objects.equals(this.keyParams, objSSLKeyAndCertificate.keyParams)&&
-  Objects.equals(this.enableOcspStapling, objSSLKeyAndCertificate.enableOcspStapling)&&
-  Objects.equals(this.uuid, objSSLKeyAndCertificate.uuid)&&
-  Objects.equals(this.certificate, objSSLKeyAndCertificate.certificate)&&
-  Objects.equals(this.enckeyName, objSSLKeyAndCertificate.enckeyName)&&
-  Objects.equals(this.ocspConfig, objSSLKeyAndCertificate.ocspConfig)&&
-  Objects.equals(this.createdBy, objSSLKeyAndCertificate.createdBy)&&
-  Objects.equals(this.certificateManagementProfileRef, objSSLKeyAndCertificate.certificateManagementProfileRef)&&
-  Objects.equals(this.type, objSSLKeyAndCertificate.type)&&
-  Objects.equals(this.status, objSSLKeyAndCertificate.status)&&
-  Objects.equals(this.format, objSSLKeyAndCertificate.format)&&
-  Objects.equals(this.key, objSSLKeyAndCertificate.key)&&
-  Objects.equals(this.ocspResponderUrlListFromCerts, objSSLKeyAndCertificate.ocspResponderUrlListFromCerts)&&
-  Objects.equals(this.enckeyBase64, objSSLKeyAndCertificate.enckeyBase64)&&
+  return   Objects.equals(this.uuid, objSSLKeyAndCertificate.uuid)&&
   Objects.equals(this.name, objSSLKeyAndCertificate.name)&&
-  Objects.equals(this.dynamicParams, objSSLKeyAndCertificate.dynamicParams)&&
-  Objects.equals(this.keyPassphrase, objSSLKeyAndCertificate.keyPassphrase)&&
+  Objects.equals(this.type, objSSLKeyAndCertificate.type)&&
+  Objects.equals(this.certificate, objSSLKeyAndCertificate.certificate)&&
+  Objects.equals(this.keyParams, objSSLKeyAndCertificate.keyParams)&&
+  Objects.equals(this.key, objSSLKeyAndCertificate.key)&&
+  Objects.equals(this.status, objSSLKeyAndCertificate.status)&&
   Objects.equals(this.caCerts, objSSLKeyAndCertificate.caCerts)&&
-  Objects.equals(this.tenantRef, objSSLKeyAndCertificate.tenantRef);
+  Objects.equals(this.enckeyBase64, objSSLKeyAndCertificate.enckeyBase64)&&
+  Objects.equals(this.enckeyName, objSSLKeyAndCertificate.enckeyName)&&
+  Objects.equals(this.hardwaresecuritymodulegroupRef, objSSLKeyAndCertificate.hardwaresecuritymodulegroupRef)&&
+  Objects.equals(this.tenantRef, objSSLKeyAndCertificate.tenantRef)&&
+  Objects.equals(this.certificateManagementProfileRef, objSSLKeyAndCertificate.certificateManagementProfileRef)&&
+  Objects.equals(this.dynamicParams, objSSLKeyAndCertificate.dynamicParams)&&
+  Objects.equals(this.createdBy, objSSLKeyAndCertificate.createdBy)&&
+  Objects.equals(this.format, objSSLKeyAndCertificate.format)&&
+  Objects.equals(this.keyPassphrase, objSSLKeyAndCertificate.keyPassphrase)&&
+  Objects.equals(this.certificateBase64, objSSLKeyAndCertificate.certificateBase64)&&
+  Objects.equals(this.keyBase64, objSSLKeyAndCertificate.keyBase64)&&
+  Objects.equals(this.enableOcspStapling, objSSLKeyAndCertificate.enableOcspStapling)&&
+  Objects.equals(this.ocspResponderUrlListFromCerts, objSSLKeyAndCertificate.ocspResponderUrlListFromCerts)&&
+  Objects.equals(this.ocspConfig, objSSLKeyAndCertificate.ocspConfig)&&
+  Objects.equals(this.ocspResponseInfo, objSSLKeyAndCertificate.ocspResponseInfo)&&
+  Objects.equals(this.ocspErrorStatus, objSSLKeyAndCertificate.ocspErrorStatus);
 }
 
 @Override

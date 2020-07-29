@@ -245,14 +245,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecurityPolicy objSecurityPolicy = (SecurityPolicy) o;
-  return   Objects.equals(this.dnsAttacks, objSecurityPolicy.dnsAttacks)&&
-  Objects.equals(this.uuid, objSecurityPolicy.uuid)&&
-  Objects.equals(this.description, objSecurityPolicy.description)&&
-  Objects.equals(this.dnsPolicyIndex, objSecurityPolicy.dnsPolicyIndex)&&
-  Objects.equals(this.networkSecurityPolicyIndex, objSecurityPolicy.networkSecurityPolicyIndex)&&
+  return   Objects.equals(this.uuid, objSecurityPolicy.uuid)&&
+  Objects.equals(this.name, objSecurityPolicy.name)&&
   Objects.equals(this.operMode, objSecurityPolicy.operMode)&&
-  Objects.equals(this.tenantRef, objSecurityPolicy.tenantRef)&&
-  Objects.equals(this.name, objSecurityPolicy.name);
+  Objects.equals(this.dnsAttacks, objSecurityPolicy.dnsAttacks)&&
+  Objects.equals(this.networkSecurityPolicyIndex, objSecurityPolicy.networkSecurityPolicyIndex)&&
+  Objects.equals(this.dnsPolicyIndex, objSecurityPolicy.dnsPolicyIndex)&&
+  Objects.equals(this.description, objSecurityPolicy.description)&&
+  Objects.equals(this.tenantRef, objSecurityPolicy.tenantRef);
 }
 
 @Override

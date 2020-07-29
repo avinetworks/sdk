@@ -1275,50 +1275,50 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeGroupStatus objSeGroupStatus = (SeGroupStatus) o;
-  return   Objects.equals(this.seWithVsNotScaledout, objSeGroupStatus.seWithVsNotScaledout)&&
-  Objects.equals(this.vsMigrateInProgressRef, objSeGroupStatus.vsMigrateInProgressRef)&&
-  Objects.equals(this.seAlreadyUpgradedAtStart, objSeGroupStatus.seAlreadyUpgradedAtStart)&&
-  Objects.equals(this.numVsDisrupted, objSeGroupStatus.numVsDisrupted)&&
-  Objects.equals(this.seRebootInProgressRef, objSeGroupStatus.seRebootInProgressRef)&&
-  Objects.equals(this.disruptedVsRef, objSeGroupStatus.disruptedVsRef)&&
-  Objects.equals(this.seDisconnectedAtStart, objSeGroupStatus.seDisconnectedAtStart)&&
-  Objects.equals(this.duration, objSeGroupStatus.duration)&&
-  Objects.equals(this.numSe, objSeGroupStatus.numSe)&&
-  Objects.equals(this.seUpgradeErrors, objSeGroupStatus.seUpgradeErrors)&&
-  Objects.equals(this.seIpMissingAtStart, objSeGroupStatus.seIpMissingAtStart)&&
-  Objects.equals(this.seUpgradeNotStarted, objSeGroupStatus.seUpgradeNotStarted)&&
-  Objects.equals(this.requestTime, objSeGroupStatus.requestTime)&&
-  Objects.equals(this.vsScaleinInProgressRef, objSeGroupStatus.vsScaleinInProgressRef)&&
-  Objects.equals(this.trafficStatus, objSeGroupStatus.trafficStatus)&&
-  Objects.equals(this.numSeWithVsScaledout, objSeGroupStatus.numSeWithVsScaledout)&&
-  Objects.equals(this.haMode, objSeGroupStatus.haMode)&&
-  Objects.equals(this.enqueueTime, objSeGroupStatus.enqueueTime)&&
-  Objects.equals(this.controllerVersion, objSeGroupStatus.controllerVersion)&&
-  Objects.equals(this.state, objSeGroupStatus.state)&&
-  Objects.equals(this.vsScaleoutInProgressRef, objSeGroupStatus.vsScaleoutInProgressRef)&&
-  Objects.equals(this.progress, objSeGroupStatus.progress)&&
-  Objects.equals(this.seUpgradeSkipSuspended, objSeGroupStatus.seUpgradeSkipSuspended)&&
-  Objects.equals(this.seGroupUuid, objSeGroupStatus.seGroupUuid)&&
-  Objects.equals(this.numVs, objSeGroupStatus.numVs)&&
-  Objects.equals(this.startTime, objSeGroupStatus.startTime)&&
-  Objects.equals(this.worker, objSeGroupStatus.worker)&&
+  return   Objects.equals(this.seGroupUuid, objSeGroupStatus.seGroupUuid)&&
   Objects.equals(this.seGroupName, objSeGroupStatus.seGroupName)&&
+  Objects.equals(this.haMode, objSeGroupStatus.haMode)&&
+  Objects.equals(this.numSe, objSeGroupStatus.numSe)&&
+  Objects.equals(this.numVs, objSeGroupStatus.numVs)&&
+  Objects.equals(this.trafficStatus, objSeGroupStatus.trafficStatus)&&
   Objects.equals(this.reason, objSeGroupStatus.reason)&&
-  Objects.equals(this.seUpgradeInProgress, objSeGroupStatus.seUpgradeInProgress)&&
-  Objects.equals(this.vsErrors, objSeGroupStatus.vsErrors)&&
-  Objects.equals(this.inProgress, objSeGroupStatus.inProgress)&&
-  Objects.equals(this.seUpgradeSuspended, objSeGroupStatus.seUpgradeSuspended)&&
-  Objects.equals(this.seWithVsScaledout, objSeGroupStatus.seWithVsScaledout)&&
-  Objects.equals(this.seWithNoVs, objSeGroupStatus.seWithNoVs)&&
-  Objects.equals(this.thread, objSeGroupStatus.thread)&&
-  Objects.equals(this.notes, objSeGroupStatus.notes)&&
-  Objects.equals(this.numSeWithVsNotScaledout, objSeGroupStatus.numSeWithVsNotScaledout)&&
-  Objects.equals(this.seUpgradeCompleted, objSeGroupStatus.seUpgradeCompleted)&&
-  Objects.equals(this.endTime, objSeGroupStatus.endTime)&&
-  Objects.equals(this.seUpgradeFailed, objSeGroupStatus.seUpgradeFailed)&&
-  Objects.equals(this.sePoweredoffAtStart, objSeGroupStatus.sePoweredoffAtStart)&&
   Objects.equals(this.tenantRef, objSeGroupStatus.tenantRef)&&
-  Objects.equals(this.numSeWithNoVs, objSeGroupStatus.numSeWithNoVs);
+  Objects.equals(this.progress, objSeGroupStatus.progress)&&
+  Objects.equals(this.requestTime, objSeGroupStatus.requestTime)&&
+  Objects.equals(this.enqueueTime, objSeGroupStatus.enqueueTime)&&
+  Objects.equals(this.startTime, objSeGroupStatus.startTime)&&
+  Objects.equals(this.endTime, objSeGroupStatus.endTime)&&
+  Objects.equals(this.duration, objSeGroupStatus.duration)&&
+  Objects.equals(this.state, objSeGroupStatus.state)&&
+  Objects.equals(this.notes, objSeGroupStatus.notes)&&
+  Objects.equals(this.worker, objSeGroupStatus.worker)&&
+  Objects.equals(this.thread, objSeGroupStatus.thread)&&
+  Objects.equals(this.numVsDisrupted, objSeGroupStatus.numVsDisrupted)&&
+  Objects.equals(this.disruptedVsRef, objSeGroupStatus.disruptedVsRef)&&
+  Objects.equals(this.numSeWithNoVs, objSeGroupStatus.numSeWithNoVs)&&
+  Objects.equals(this.seWithNoVs, objSeGroupStatus.seWithNoVs)&&
+  Objects.equals(this.numSeWithVsNotScaledout, objSeGroupStatus.numSeWithVsNotScaledout)&&
+  Objects.equals(this.seWithVsNotScaledout, objSeGroupStatus.seWithVsNotScaledout)&&
+  Objects.equals(this.numSeWithVsScaledout, objSeGroupStatus.numSeWithVsScaledout)&&
+  Objects.equals(this.seWithVsScaledout, objSeGroupStatus.seWithVsScaledout)&&
+  Objects.equals(this.seRebootInProgressRef, objSeGroupStatus.seRebootInProgressRef)&&
+  Objects.equals(this.vsScaleoutInProgressRef, objSeGroupStatus.vsScaleoutInProgressRef)&&
+  Objects.equals(this.vsScaleinInProgressRef, objSeGroupStatus.vsScaleinInProgressRef)&&
+  Objects.equals(this.vsMigrateInProgressRef, objSeGroupStatus.vsMigrateInProgressRef)&&
+  Objects.equals(this.seUpgradeSuspended, objSeGroupStatus.seUpgradeSuspended)&&
+  Objects.equals(this.seUpgradeSkipSuspended, objSeGroupStatus.seUpgradeSkipSuspended)&&
+  Objects.equals(this.inProgress, objSeGroupStatus.inProgress)&&
+  Objects.equals(this.controllerVersion, objSeGroupStatus.controllerVersion)&&
+  Objects.equals(this.seUpgradeNotStarted, objSeGroupStatus.seUpgradeNotStarted)&&
+  Objects.equals(this.seUpgradeInProgress, objSeGroupStatus.seUpgradeInProgress)&&
+  Objects.equals(this.seUpgradeCompleted, objSeGroupStatus.seUpgradeCompleted)&&
+  Objects.equals(this.seDisconnectedAtStart, objSeGroupStatus.seDisconnectedAtStart)&&
+  Objects.equals(this.sePoweredoffAtStart, objSeGroupStatus.sePoweredoffAtStart)&&
+  Objects.equals(this.seAlreadyUpgradedAtStart, objSeGroupStatus.seAlreadyUpgradedAtStart)&&
+  Objects.equals(this.seIpMissingAtStart, objSeGroupStatus.seIpMissingAtStart)&&
+  Objects.equals(this.seUpgradeFailed, objSeGroupStatus.seUpgradeFailed)&&
+  Objects.equals(this.seUpgradeErrors, objSeGroupStatus.seUpgradeErrors)&&
+  Objects.equals(this.vsErrors, objSeGroupStatus.vsErrors);
 }
 
 @Override

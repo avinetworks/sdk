@@ -102,9 +102,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafDataFile objWafDataFile = (WafDataFile) o;
-  return   Objects.equals(this.type, objWafDataFile.type)&&
+  return   Objects.equals(this.name, objWafDataFile.name)&&
   Objects.equals(this.data, objWafDataFile.data)&&
-  Objects.equals(this.name, objWafDataFile.name);
+  Objects.equals(this.type, objWafDataFile.type);
 }
 
 @Override

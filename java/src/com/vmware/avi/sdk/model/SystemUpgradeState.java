@@ -320,19 +320,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SystemUpgradeState objSystemUpgradeState = (SystemUpgradeState) o;
-  return   Objects.equals(this.controllerState, objSystemUpgradeState.controllerState)&&
-  Objects.equals(this.patchType, objSystemUpgradeState.patchType)&&
+  return   Objects.equals(this.inProgress, objSystemUpgradeState.inProgress)&&
   Objects.equals(this.rollback, objSystemUpgradeState.rollback)&&
-  Objects.equals(this.fromVersion, objSystemUpgradeState.fromVersion)&&
-  Objects.equals(this.startTime, objSystemUpgradeState.startTime)&&
-  Objects.equals(this.isPatch, objSystemUpgradeState.isPatch)&&
+  Objects.equals(this.controllerState, objSystemUpgradeState.controllerState)&&
   Objects.equals(this.seState, objSystemUpgradeState.seState)&&
-  Objects.equals(this.toVersion, objSystemUpgradeState.toVersion)&&
-  Objects.equals(this.reason, objSystemUpgradeState.reason)&&
+  Objects.equals(this.startTime, objSystemUpgradeState.startTime)&&
   Objects.equals(this.endTime, objSystemUpgradeState.endTime)&&
   Objects.equals(this.duration, objSystemUpgradeState.duration)&&
-  Objects.equals(this.inProgress, objSystemUpgradeState.inProgress)&&
-  Objects.equals(this.result, objSystemUpgradeState.result);
+  Objects.equals(this.fromVersion, objSystemUpgradeState.fromVersion)&&
+  Objects.equals(this.toVersion, objSystemUpgradeState.toVersion)&&
+  Objects.equals(this.result, objSystemUpgradeState.result)&&
+  Objects.equals(this.reason, objSystemUpgradeState.reason)&&
+  Objects.equals(this.isPatch, objSystemUpgradeState.isPatch)&&
+  Objects.equals(this.patchType, objSystemUpgradeState.patchType);
 }
 
 @Override

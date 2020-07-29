@@ -129,9 +129,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbDnsSeInfo objGslbDnsSeInfo = (GslbDnsSeInfo) o;
-  return   Objects.equals(this.ip, objGslbDnsSeInfo.ip)&&
+  return   Objects.equals(this.uuid, objGslbDnsSeInfo.uuid)&&
+  Objects.equals(this.ip, objGslbDnsSeInfo.ip)&&
   Objects.equals(this.fdDownload, objGslbDnsSeInfo.fdDownload)&&
-  Objects.equals(this.uuid, objGslbDnsSeInfo.uuid)&&
   Objects.equals(this.fdInfo, objGslbDnsSeInfo.fdInfo);
 }
 

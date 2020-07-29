@@ -117,10 +117,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CustomParams objCustomParams = (CustomParams) o;
-  return   Objects.equals(this.isDynamic, objCustomParams.isDynamic)&&
+  return   Objects.equals(this.name, objCustomParams.name)&&
+  Objects.equals(this.value, objCustomParams.value)&&
   Objects.equals(this.isSensitive, objCustomParams.isSensitive)&&
-  Objects.equals(this.name, objCustomParams.name)&&
-  Objects.equals(this.value, objCustomParams.value);
+  Objects.equals(this.isDynamic, objCustomParams.isDynamic);
 }
 
 @Override

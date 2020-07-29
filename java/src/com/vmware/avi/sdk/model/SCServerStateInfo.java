@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SCServerStateInfo objSCServerStateInfo = (SCServerStateInfo) o;
-  return   Objects.equals(this.operStatus, objSCServerStateInfo.operStatus)&&
+  return   Objects.equals(this.serverIp, objSCServerStateInfo.serverIp)&&
   Objects.equals(this.serverPort, objSCServerStateInfo.serverPort)&&
-  Objects.equals(this.serverIp, objSCServerStateInfo.serverIp);
+  Objects.equals(this.operStatus, objSCServerStateInfo.operStatus);
 }
 
 @Override

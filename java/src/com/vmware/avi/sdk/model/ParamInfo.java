@@ -147,10 +147,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ParamInfo objParamInfo = (ParamInfo) o;
-  return   Objects.equals(this.paramSizeClasses, objParamInfo.paramSizeClasses)&&
-  Objects.equals(this.paramHits, objParamInfo.paramHits)&&
+  return   Objects.equals(this.paramHits, objParamInfo.paramHits)&&
   Objects.equals(this.paramKey, objParamInfo.paramKey)&&
-  Objects.equals(this.paramTypeClasses, objParamInfo.paramTypeClasses);
+  Objects.equals(this.paramTypeClasses, objParamInfo.paramTypeClasses)&&
+  Objects.equals(this.paramSizeClasses, objParamInfo.paramSizeClasses);
 }
 
 @Override

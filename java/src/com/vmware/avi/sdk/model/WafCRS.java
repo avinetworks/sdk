@@ -247,13 +247,13 @@ public boolean equals(java.lang.Object o) {
   }
   WafCRS objWafCRS = (WafCRS) o;
   return   Objects.equals(this.uuid, objWafCRS.uuid)&&
-  Objects.equals(this.releaseDate, objWafCRS.releaseDate)&&
-  Objects.equals(this.name, objWafCRS.name)&&
   Objects.equals(this.version, objWafCRS.version)&&
+  Objects.equals(this.releaseDate, objWafCRS.releaseDate)&&
+  Objects.equals(this.description, objWafCRS.description)&&
   Objects.equals(this.groups, objWafCRS.groups)&&
-  Objects.equals(this.integrity, objWafCRS.integrity)&&
+  Objects.equals(this.name, objWafCRS.name)&&
   Objects.equals(this.tenantRef, objWafCRS.tenantRef)&&
-  Objects.equals(this.description, objWafCRS.description);
+  Objects.equals(this.integrity, objWafCRS.integrity);
 }
 
 @Override

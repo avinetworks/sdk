@@ -175,12 +175,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SamlServiceProviderNode objSamlServiceProviderNode = (SamlServiceProviderNode) o;
-  return   Objects.equals(this.entityId, objSamlServiceProviderNode.entityId)&&
-  Objects.equals(this.name, objSamlServiceProviderNode.name)&&
+  return   Objects.equals(this.name, objSamlServiceProviderNode.name)&&
+  Objects.equals(this.entityId, objSamlServiceProviderNode.entityId)&&
+  Objects.equals(this.singleSignonUrl, objSamlServiceProviderNode.singleSignonUrl)&&
   Objects.equals(this.signingCert, objSamlServiceProviderNode.signingCert)&&
-  Objects.equals(this.signingSslKeyAndCertificateRef, objSamlServiceProviderNode.signingSslKeyAndCertificateRef)&&
   Objects.equals(this.signingKey, objSamlServiceProviderNode.signingKey)&&
-  Objects.equals(this.singleSignonUrl, objSamlServiceProviderNode.singleSignonUrl);
+  Objects.equals(this.signingSslKeyAndCertificateRef, objSamlServiceProviderNode.signingSslKeyAndCertificateRef);
 }
 
 @Override

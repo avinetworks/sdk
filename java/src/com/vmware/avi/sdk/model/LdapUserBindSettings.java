@@ -128,9 +128,9 @@ public boolean equals(java.lang.Object o) {
   }
   LdapUserBindSettings objLdapUserBindSettings = (LdapUserBindSettings) o;
   return   Objects.equals(this.dnTemplate, objLdapUserBindSettings.dnTemplate)&&
-  Objects.equals(this.userAttributes, objLdapUserBindSettings.userAttributes)&&
   Objects.equals(this.token, objLdapUserBindSettings.token)&&
-  Objects.equals(this.userIdAttribute, objLdapUserBindSettings.userIdAttribute);
+  Objects.equals(this.userIdAttribute, objLdapUserBindSettings.userIdAttribute)&&
+  Objects.equals(this.userAttributes, objLdapUserBindSettings.userAttributes);
 }
 
 @Override

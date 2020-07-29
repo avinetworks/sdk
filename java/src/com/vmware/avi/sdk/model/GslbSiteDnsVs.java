@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSiteDnsVs objGslbSiteDnsVs = (GslbSiteDnsVs) o;
-  return   Objects.equals(this.domainNames, objGslbSiteDnsVs.domainNames)&&
-  Objects.equals(this.dnsVsUuid, objGslbSiteDnsVs.dnsVsUuid);
+  return   Objects.equals(this.dnsVsUuid, objGslbSiteDnsVs.dnsVsUuid)&&
+  Objects.equals(this.domainNames, objGslbSiteDnsVs.domainNames);
 }
 
 @Override

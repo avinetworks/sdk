@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmRebootSeEventDetails objRmRebootSeEventDetails = (RmRebootSeEventDetails) o;
-  return   Objects.equals(this.seName, objRmRebootSeEventDetails.seName)&&
-  Objects.equals(this.reason, objRmRebootSeEventDetails.reason);
+  return   Objects.equals(this.reason, objRmRebootSeEventDetails.reason)&&
+  Objects.equals(this.seName, objRmRebootSeEventDetails.seName);
 }
 
 @Override

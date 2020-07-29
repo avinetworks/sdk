@@ -157,11 +157,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPSecurityRule objHTTPSecurityRule = (HTTPSecurityRule) o;
-  return   Objects.equals(this.index, objHTTPSecurityRule.index)&&
+  return   Objects.equals(this.name, objHTTPSecurityRule.name)&&
+  Objects.equals(this.index, objHTTPSecurityRule.index)&&
   Objects.equals(this.enable, objHTTPSecurityRule.enable)&&
-  Objects.equals(this.name, objHTTPSecurityRule.name)&&
-  Objects.equals(this.action, objHTTPSecurityRule.action)&&
   Objects.equals(this.match, objHTTPSecurityRule.match)&&
+  Objects.equals(this.action, objHTTPSecurityRule.action)&&
   Objects.equals(this.log, objHTTPSecurityRule.log);
 }
 

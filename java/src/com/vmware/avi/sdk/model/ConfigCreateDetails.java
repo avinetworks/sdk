@@ -197,14 +197,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigCreateDetails objConfigCreateDetails = (ConfigCreateDetails) o;
-  return   Objects.equals(this.status, objConfigCreateDetails.status)&&
-  Objects.equals(this.requestData, objConfigCreateDetails.requestData)&&
-  Objects.equals(this.resourceName, objConfigCreateDetails.resourceName)&&
-  Objects.equals(this.resourceData, objConfigCreateDetails.resourceData)&&
-  Objects.equals(this.errorMessage, objConfigCreateDetails.errorMessage)&&
+  return   Objects.equals(this.path, objConfigCreateDetails.path)&&
   Objects.equals(this.user, objConfigCreateDetails.user)&&
-  Objects.equals(this.path, objConfigCreateDetails.path)&&
-  Objects.equals(this.resourceType, objConfigCreateDetails.resourceType);
+  Objects.equals(this.status, objConfigCreateDetails.status)&&
+  Objects.equals(this.resourceType, objConfigCreateDetails.resourceType)&&
+  Objects.equals(this.resourceName, objConfigCreateDetails.resourceName)&&
+  Objects.equals(this.requestData, objConfigCreateDetails.requestData)&&
+  Objects.equals(this.errorMessage, objConfigCreateDetails.errorMessage)&&
+  Objects.equals(this.resourceData, objConfigCreateDetails.resourceData);
 }
 
 @Override

@@ -119,10 +119,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UpgradeTask objUpgradeTask = (UpgradeTask) o;
-  return   Objects.equals(this.duration, objUpgradeTask.duration)&&
+  return   Objects.equals(this.task, objUpgradeTask.task)&&
   Objects.equals(this.startTime, objUpgradeTask.startTime)&&
-  Objects.equals(this.task, objUpgradeTask.task)&&
-  Objects.equals(this.endTime, objUpgradeTask.endTime);
+  Objects.equals(this.endTime, objUpgradeTask.endTime)&&
+  Objects.equals(this.duration, objUpgradeTask.duration);
 }
 
 @Override

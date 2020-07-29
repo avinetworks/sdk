@@ -176,13 +176,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackLbPluginOp objOpenStackLbPluginOp = (OpenStackLbPluginOp) o;
-  return   Objects.equals(this.prov, objOpenStackLbPluginOp.prov)&&
-  Objects.equals(this.detail, objOpenStackLbPluginOp.detail)&&
-  Objects.equals(this.elapsed, objOpenStackLbPluginOp.elapsed)&&
+  return   Objects.equals(this.ccId, objOpenStackLbPluginOp.ccId)&&
+  Objects.equals(this.id, objOpenStackLbPluginOp.id)&&
+  Objects.equals(this.prov, objOpenStackLbPluginOp.prov)&&
   Objects.equals(this.command, objOpenStackLbPluginOp.command)&&
   Objects.equals(this.result, objOpenStackLbPluginOp.result)&&
-  Objects.equals(this.id, objOpenStackLbPluginOp.id)&&
-  Objects.equals(this.ccId, objOpenStackLbPluginOp.ccId);
+  Objects.equals(this.detail, objOpenStackLbPluginOp.detail)&&
+  Objects.equals(this.elapsed, objOpenStackLbPluginOp.elapsed);
 }
 
 @Override

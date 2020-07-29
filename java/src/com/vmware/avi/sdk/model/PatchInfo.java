@@ -111,9 +111,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PatchInfo objPatchInfo = (PatchInfo) o;
-  return   Objects.equals(this.rebootList, objPatchInfo.rebootList)&&
+  return   Objects.equals(this.reboot, objPatchInfo.reboot)&&
   Objects.equals(this.patchType, objPatchInfo.patchType)&&
-  Objects.equals(this.reboot, objPatchInfo.reboot);
+  Objects.equals(this.rebootList, objPatchInfo.rebootList);
 }
 
 @Override

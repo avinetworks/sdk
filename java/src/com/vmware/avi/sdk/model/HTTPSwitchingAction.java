@@ -165,12 +165,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPSwitchingAction objHTTPSwitchingAction = (HTTPSwitchingAction) o;
-  return   Objects.equals(this.poolGroupRef, objHTTPSwitchingAction.poolGroupRef)&&
+  return   Objects.equals(this.action, objHTTPSwitchingAction.action)&&
+  Objects.equals(this.poolRef, objHTTPSwitchingAction.poolRef)&&
   Objects.equals(this.statusCode, objHTTPSwitchingAction.statusCode)&&
-  Objects.equals(this.server, objHTTPSwitchingAction.server)&&
   Objects.equals(this.file, objHTTPSwitchingAction.file)&&
-  Objects.equals(this.action, objHTTPSwitchingAction.action)&&
-  Objects.equals(this.poolRef, objHTTPSwitchingAction.poolRef);
+  Objects.equals(this.server, objHTTPSwitchingAction.server)&&
+  Objects.equals(this.poolGroupRef, objHTTPSwitchingAction.poolGroupRef);
 }
 
 @Override

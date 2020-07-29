@@ -106,9 +106,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbPoolRuntime objGslbPoolRuntime = (GslbPoolRuntime) o;
-  return   Objects.equals(this.operStatus, objGslbPoolRuntime.operStatus)&&
-  Objects.equals(this.name, objGslbPoolRuntime.name)&&
-  Objects.equals(this.members, objGslbPoolRuntime.members);
+  return   Objects.equals(this.name, objGslbPoolRuntime.name)&&
+  Objects.equals(this.members, objGslbPoolRuntime.members)&&
+  Objects.equals(this.operStatus, objGslbPoolRuntime.operStatus);
 }
 
 @Override

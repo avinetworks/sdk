@@ -145,10 +145,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthProfileHTTPClientParams objAuthProfileHTTPClientParams = (AuthProfileHTTPClientParams) o;
-  return   Objects.equals(this.groupMemberIsFullDn, objAuthProfileHTTPClientParams.groupMemberIsFullDn)&&
+  return   Objects.equals(this.requestHeader, objAuthProfileHTTPClientParams.requestHeader)&&
   Objects.equals(this.cacheExpirationTime, objAuthProfileHTTPClientParams.cacheExpirationTime)&&
   Objects.equals(this.requireUserGroups, objAuthProfileHTTPClientParams.requireUserGroups)&&
-  Objects.equals(this.requestHeader, objAuthProfileHTTPClientParams.requestHeader);
+  Objects.equals(this.groupMemberIsFullDn, objAuthProfileHTTPClientParams.groupMemberIsFullDn);
 }
 
 @Override

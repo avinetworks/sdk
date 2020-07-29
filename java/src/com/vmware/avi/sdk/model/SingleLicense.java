@@ -35,6 +35,9 @@ public class SingleLicense  {
     @JsonProperty("enforced_params")
     private List<String> enforcedParams = null;
 
+    @JsonProperty("expired")
+    private Boolean expired = false;
+
     @JsonProperty("last_update")
     private String lastUpdate = null;
 
@@ -206,6 +209,28 @@ public class SingleLicense  {
     }
     this.enforcedParams.add(enforcedParamsItem);
     return this;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * Flag to track license expiry.
+   * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @return expired
+   */
+  public Boolean getExpired() {
+    return expired;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * Flag to track license expiry.
+   * Field introduced in 20.1.1.
+   * Default value when not specified in API or module is interpreted by Avi Controller as false.
+   * @param expired set the expired.
+   */
+  public void setExpired(Boolean  expired) {
+    this.expired = expired;
   }
 
   /**
@@ -525,27 +550,28 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SingleLicense objSingleLicense = (SingleLicense) o;
-  return   Objects.equals(this.validUntil, objSingleLicense.validUntil)&&
-  Objects.equals(this.serviceCores, objSingleLicense.serviceCores)&&
-  Objects.equals(this.serialKey, objSingleLicense.serialKey)&&
-  Objects.equals(this.licenseTier, objSingleLicense.licenseTier)&&
-  Objects.equals(this.licenseName, objSingleLicense.licenseName)&&
-  Objects.equals(this.tierType, objSingleLicense.tierType)&&
-  Objects.equals(this.maxSes, objSingleLicense.maxSes)&&
-  Objects.equals(this.cpuCores, objSingleLicense.cpuCores)&&
-  Objects.equals(this.lastUpdate, objSingleLicense.lastUpdate)&&
-  Objects.equals(this.burstCores, objSingleLicense.burstCores)&&
-  Objects.equals(this.createdOn, objSingleLicense.createdOn)&&
-  Objects.equals(this.version, objSingleLicense.version)&&
+  return   Objects.equals(this.licenseName, objSingleLicense.licenseName)&&
   Objects.equals(this.startOn, objSingleLicense.startOn)&&
-  Objects.equals(this.sockets, objSingleLicense.sockets)&&
-  Objects.equals(this.licenseString, objSingleLicense.licenseString)&&
-  Objects.equals(this.licenseType, objSingleLicense.licenseType)&&
+  Objects.equals(this.validUntil, objSingleLicense.validUntil)&&
+  Objects.equals(this.customerName, objSingleLicense.customerName)&&
   Objects.equals(this.cores, objSingleLicense.cores)&&
-  Objects.equals(this.enforcedParams, objSingleLicense.enforcedParams)&&
+  Objects.equals(this.maxSes, objSingleLicense.maxSes)&&
+  Objects.equals(this.licenseTier, objSingleLicense.licenseTier)&&
+  Objects.equals(this.licenseString, objSingleLicense.licenseString)&&
   Objects.equals(this.licenseId, objSingleLicense.licenseId)&&
+  Objects.equals(this.version, objSingleLicense.version)&&
+  Objects.equals(this.createdOn, objSingleLicense.createdOn)&&
+  Objects.equals(this.lastUpdate, objSingleLicense.lastUpdate)&&
+  Objects.equals(this.licenseType, objSingleLicense.licenseType)&&
+  Objects.equals(this.enforcedParams, objSingleLicense.enforcedParams)&&
+  Objects.equals(this.sockets, objSingleLicense.sockets)&&
   Objects.equals(this.seBandwidthLimits, objSingleLicense.seBandwidthLimits)&&
-  Objects.equals(this.customerName, objSingleLicense.customerName);
+  Objects.equals(this.tierType, objSingleLicense.tierType)&&
+  Objects.equals(this.burstCores, objSingleLicense.burstCores)&&
+  Objects.equals(this.serialKey, objSingleLicense.serialKey)&&
+  Objects.equals(this.serviceCores, objSingleLicense.serviceCores)&&
+  Objects.equals(this.cpuCores, objSingleLicense.cpuCores)&&
+  Objects.equals(this.expired, objSingleLicense.expired);
 }
 
 @Override
@@ -558,6 +584,7 @@ public String toString() {
         sb.append("    createdOn: ").append(toIndentedString(createdOn)).append("\n");
         sb.append("    customerName: ").append(toIndentedString(customerName)).append("\n");
         sb.append("    enforcedParams: ").append(toIndentedString(enforcedParams)).append("\n");
+        sb.append("    expired: ").append(toIndentedString(expired)).append("\n");
         sb.append("    lastUpdate: ").append(toIndentedString(lastUpdate)).append("\n");
         sb.append("    licenseId: ").append(toIndentedString(licenseId)).append("\n");
         sb.append("    licenseName: ").append(toIndentedString(licenseName)).append("\n");

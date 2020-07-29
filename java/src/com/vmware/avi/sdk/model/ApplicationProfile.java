@@ -388,21 +388,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ApplicationProfile objApplicationProfile = (ApplicationProfile) o;
-  return   Objects.equals(this.tcpAppProfile, objApplicationProfile.tcpAppProfile)&&
-  Objects.equals(this.uuid, objApplicationProfile.uuid)&&
-  Objects.equals(this.preserveClientIp, objApplicationProfile.preserveClientIp)&&
-  Objects.equals(this.description, objApplicationProfile.description)&&
-  Objects.equals(this.preserveDestIpPort, objApplicationProfile.preserveDestIpPort)&&
-  Objects.equals(this.sipServiceProfile, objApplicationProfile.sipServiceProfile)&&
+  return   Objects.equals(this.uuid, objApplicationProfile.uuid)&&
+  Objects.equals(this.name, objApplicationProfile.name)&&
+  Objects.equals(this.type, objApplicationProfile.type)&&
   Objects.equals(this.httpProfile, objApplicationProfile.httpProfile)&&
-  Objects.equals(this.preserveClientPort, objApplicationProfile.preserveClientPort)&&
+  Objects.equals(this.dosRlProfile, objApplicationProfile.dosRlProfile)&&
+  Objects.equals(this.tcpAppProfile, objApplicationProfile.tcpAppProfile)&&
   Objects.equals(this.dnsServiceProfile, objApplicationProfile.dnsServiceProfile)&&
+  Objects.equals(this.preserveClientIp, objApplicationProfile.preserveClientIp)&&
+  Objects.equals(this.preserveClientPort, objApplicationProfile.preserveClientPort)&&
+  Objects.equals(this.sipServiceProfile, objApplicationProfile.sipServiceProfile)&&
   Objects.equals(this.cloudConfigCksum, objApplicationProfile.cloudConfigCksum)&&
   Objects.equals(this.createdBy, objApplicationProfile.createdBy)&&
-  Objects.equals(this.dosRlProfile, objApplicationProfile.dosRlProfile)&&
-  Objects.equals(this.type, objApplicationProfile.type)&&
-  Objects.equals(this.tenantRef, objApplicationProfile.tenantRef)&&
-  Objects.equals(this.name, objApplicationProfile.name);
+  Objects.equals(this.preserveDestIpPort, objApplicationProfile.preserveDestIpPort)&&
+  Objects.equals(this.description, objApplicationProfile.description)&&
+  Objects.equals(this.tenantRef, objApplicationProfile.tenantRef);
 }
 
 @Override

@@ -331,16 +331,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsAzureProfile objIpamDnsAzureProfile = (IpamDnsAzureProfile) o;
-  return   Objects.equals(this.resourceGroup, objIpamDnsAzureProfile.resourceGroup)&&
+  return   Objects.equals(this.subscriptionId, objIpamDnsAzureProfile.subscriptionId)&&
+  Objects.equals(this.azureUserpass, objIpamDnsAzureProfile.azureUserpass)&&
+  Objects.equals(this.azureServiceprincipal, objIpamDnsAzureProfile.azureServiceprincipal)&&
+  Objects.equals(this.virtualNetworkIds, objIpamDnsAzureProfile.virtualNetworkIds)&&
+  Objects.equals(this.resourceGroup, objIpamDnsAzureProfile.resourceGroup)&&
+  Objects.equals(this.usableNetworkUuids, objIpamDnsAzureProfile.usableNetworkUuids)&&
   Objects.equals(this.useEnhancedHa, objIpamDnsAzureProfile.useEnhancedHa)&&
   Objects.equals(this.usableDomains, objIpamDnsAzureProfile.usableDomains)&&
-  Objects.equals(this.usableNetworkUuids, objIpamDnsAzureProfile.usableNetworkUuids)&&
-  Objects.equals(this.egressServiceSubnets, objIpamDnsAzureProfile.egressServiceSubnets)&&
   Objects.equals(this.useStandardAlb, objIpamDnsAzureProfile.useStandardAlb)&&
-  Objects.equals(this.azureServiceprincipal, objIpamDnsAzureProfile.azureServiceprincipal)&&
-  Objects.equals(this.azureUserpass, objIpamDnsAzureProfile.azureUserpass)&&
-  Objects.equals(this.subscriptionId, objIpamDnsAzureProfile.subscriptionId)&&
-  Objects.equals(this.virtualNetworkIds, objIpamDnsAzureProfile.virtualNetworkIds);
+  Objects.equals(this.egressServiceSubnets, objIpamDnsAzureProfile.egressServiceSubnets);
 }
 
 @Override

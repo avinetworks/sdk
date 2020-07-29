@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsEvStatus objVsEvStatus = (VsEvStatus) o;
-  return   Objects.equals(this.notes, objVsEvStatus.notes)&&
-  Objects.equals(this.request, objVsEvStatus.request)&&
-  Objects.equals(this.result, objVsEvStatus.result);
+  return   Objects.equals(this.request, objVsEvStatus.request)&&
+  Objects.equals(this.result, objVsEvStatus.result)&&
+  Objects.equals(this.notes, objVsEvStatus.notes);
 }
 
 @Override

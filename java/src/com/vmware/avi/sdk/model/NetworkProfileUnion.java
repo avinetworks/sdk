@@ -140,11 +140,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkProfileUnion objNetworkProfileUnion = (NetworkProfileUnion) o;
-  return   Objects.equals(this.tcpFastPathProfile, objNetworkProfileUnion.tcpFastPathProfile)&&
+  return   Objects.equals(this.type, objNetworkProfileUnion.type)&&
   Objects.equals(this.tcpProxyProfile, objNetworkProfileUnion.tcpProxyProfile)&&
-  Objects.equals(this.type, objNetworkProfileUnion.type)&&
-  Objects.equals(this.udpProxyProfile, objNetworkProfileUnion.udpProxyProfile)&&
-  Objects.equals(this.udpFastPathProfile, objNetworkProfileUnion.udpFastPathProfile);
+  Objects.equals(this.tcpFastPathProfile, objNetworkProfileUnion.tcpFastPathProfile)&&
+  Objects.equals(this.udpFastPathProfile, objNetworkProfileUnion.udpFastPathProfile)&&
+  Objects.equals(this.udpProxyProfile, objNetworkProfileUnion.udpProxyProfile);
 }
 
 @Override

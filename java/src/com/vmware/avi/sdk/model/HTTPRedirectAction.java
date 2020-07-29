@@ -166,11 +166,11 @@ public boolean equals(java.lang.Object o) {
   }
   HTTPRedirectAction objHTTPRedirectAction = (HTTPRedirectAction) o;
   return   Objects.equals(this.protocol, objHTTPRedirectAction.protocol)&&
-  Objects.equals(this.statusCode, objHTTPRedirectAction.statusCode)&&
   Objects.equals(this.host, objHTTPRedirectAction.host)&&
-  Objects.equals(this.keepQuery, objHTTPRedirectAction.keepQuery)&&
+  Objects.equals(this.port, objHTTPRedirectAction.port)&&
   Objects.equals(this.path, objHTTPRedirectAction.path)&&
-  Objects.equals(this.port, objHTTPRedirectAction.port);
+  Objects.equals(this.keepQuery, objHTTPRedirectAction.keepQuery)&&
+  Objects.equals(this.statusCode, objHTTPRedirectAction.statusCode);
 }
 
 @Override

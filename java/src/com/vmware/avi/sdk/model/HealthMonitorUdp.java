@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorUdp objHealthMonitorUdp = (HealthMonitorUdp) o;
-  return   Objects.equals(this.maintenanceResponse, objHealthMonitorUdp.maintenanceResponse)&&
-  Objects.equals(this.udpRequest, objHealthMonitorUdp.udpRequest)&&
-  Objects.equals(this.udpResponse, objHealthMonitorUdp.udpResponse);
+  return   Objects.equals(this.udpRequest, objHealthMonitorUdp.udpRequest)&&
+  Objects.equals(this.udpResponse, objHealthMonitorUdp.udpResponse)&&
+  Objects.equals(this.maintenanceResponse, objHealthMonitorUdp.maintenanceResponse);
 }
 
 @Override

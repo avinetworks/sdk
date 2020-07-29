@@ -74,7 +74,7 @@ public class SeUpgradeParams extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Field deprecated in 18.2.10.
+   * Field deprecated in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @return force
    */
@@ -84,7 +84,7 @@ public class SeUpgradeParams extends AviRestResource  {
 
   /**
    * This is the setter method to the attribute.
-   * Field deprecated in 18.2.10.
+   * Field deprecated in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @param force set the force.
    */
@@ -253,7 +253,7 @@ public class SeUpgradeParams extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Field deprecated in 18.2.10.
+   * Field deprecated in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @return test
    */
@@ -263,7 +263,7 @@ public class SeUpgradeParams extends AviRestResource  {
 
   /**
    * This is the setter method to the attribute.
-   * Field deprecated in 18.2.10.
+   * Field deprecated in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @param test set the test.
    */
@@ -299,17 +299,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeUpgradeParams objSeUpgradeParams = (SeUpgradeParams) o;
-  return   Objects.equals(this.patchRollback, objSeUpgradeParams.patchRollback)&&
+  return   Objects.equals(this.uuid, objSeUpgradeParams.uuid)&&
+  Objects.equals(this.force, objSeUpgradeParams.force)&&
+  Objects.equals(this.disruptive, objSeUpgradeParams.disruptive)&&
+  Objects.equals(this.test, objSeUpgradeParams.test)&&
   Objects.equals(this.rollback, objSeUpgradeParams.rollback)&&
   Objects.equals(this.suspendOnFailure, objSeUpgradeParams.suspendOnFailure)&&
   Objects.equals(this.patch, objSeUpgradeParams.patch)&&
-  Objects.equals(this.disruptive, objSeUpgradeParams.disruptive)&&
-  Objects.equals(this.resumeFromSuspend, objSeUpgradeParams.resumeFromSuspend)&&
-  Objects.equals(this.skipSuspended, objSeUpgradeParams.skipSuspended)&&
-  Objects.equals(this.test, objSeUpgradeParams.test)&&
-  Objects.equals(this.force, objSeUpgradeParams.force)&&
   Objects.equals(this.seGroupRefs, objSeUpgradeParams.seGroupRefs)&&
-  Objects.equals(this.uuid, objSeUpgradeParams.uuid);
+  Objects.equals(this.patchRollback, objSeUpgradeParams.patchRollback)&&
+  Objects.equals(this.resumeFromSuspend, objSeUpgradeParams.resumeFromSuspend)&&
+  Objects.equals(this.skipSuspended, objSeUpgradeParams.skipSuspended);
 }
 
 @Override

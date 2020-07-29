@@ -185,12 +185,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Webhook objWebhook = (Webhook) o;
-  return   Objects.equals(this.description, objWebhook.description)&&
+  return   Objects.equals(this.uuid, objWebhook.uuid)&&
   Objects.equals(this.name, objWebhook.name)&&
-  Objects.equals(this.verificationToken, objWebhook.verificationToken)&&
   Objects.equals(this.callbackUrl, objWebhook.callbackUrl)&&
-  Objects.equals(this.tenantRef, objWebhook.tenantRef)&&
-  Objects.equals(this.uuid, objWebhook.uuid);
+  Objects.equals(this.verificationToken, objWebhook.verificationToken)&&
+  Objects.equals(this.description, objWebhook.description)&&
+  Objects.equals(this.tenantRef, objWebhook.tenantRef);
 }
 
 @Override

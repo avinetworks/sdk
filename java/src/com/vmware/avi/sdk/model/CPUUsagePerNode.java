@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CPUUsagePerNode objCPUUsagePerNode = (CPUUsagePerNode) o;
-  return   Objects.equals(this.cpuInfo, objCPUUsagePerNode.cpuInfo)&&
-  Objects.equals(this.name, objCPUUsagePerNode.name);
+  return   Objects.equals(this.name, objCPUUsagePerNode.name)&&
+  Objects.equals(this.cpuInfo, objCPUUsagePerNode.cpuInfo);
 }
 
 @Override

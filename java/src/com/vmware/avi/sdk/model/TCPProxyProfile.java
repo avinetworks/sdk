@@ -578,27 +578,27 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TCPProxyProfile objTCPProxyProfile = (TCPProxyProfile) o;
-  return   Objects.equals(this.receiveWindow, objTCPProxyProfile.receiveWindow)&&
-  Objects.equals(this.timeWaitDelay, objTCPProxyProfile.timeWaitDelay)&&
-  Objects.equals(this.ccAlgo, objTCPProxyProfile.ccAlgo)&&
-  Objects.equals(this.naglesAlgorithm, objTCPProxyProfile.naglesAlgorithm)&&
+  return   Objects.equals(this.automatic, objTCPProxyProfile.automatic)&&
+  Objects.equals(this.idleConnectionType, objTCPProxyProfile.idleConnectionType)&&
   Objects.equals(this.idleConnectionTimeout, objTCPProxyProfile.idleConnectionTimeout)&&
   Objects.equals(this.ignoreTimeWait, objTCPProxyProfile.ignoreTimeWait)&&
-  Objects.equals(this.maxSegmentSize, objTCPProxyProfile.maxSegmentSize)&&
+  Objects.equals(this.timeWaitDelay, objTCPProxyProfile.timeWaitDelay)&&
+  Objects.equals(this.maxRetransmissions, objTCPProxyProfile.maxRetransmissions)&&
+  Objects.equals(this.maxSynRetransmissions, objTCPProxyProfile.maxSynRetransmissions)&&
+  Objects.equals(this.receiveWindow, objTCPProxyProfile.receiveWindow)&&
   Objects.equals(this.useInterfaceMtu, objTCPProxyProfile.useInterfaceMtu)&&
-  Objects.equals(this.keepaliveInHalfcloseState, objTCPProxyProfile.keepaliveInHalfcloseState)&&
-  Objects.equals(this.idleConnectionType, objTCPProxyProfile.idleConnectionType)&&
+  Objects.equals(this.maxSegmentSize, objTCPProxyProfile.maxSegmentSize)&&
+  Objects.equals(this.naglesAlgorithm, objTCPProxyProfile.naglesAlgorithm)&&
+  Objects.equals(this.ipDscp, objTCPProxyProfile.ipDscp)&&
+  Objects.equals(this.ccAlgo, objTCPProxyProfile.ccAlgo)&&
   Objects.equals(this.aggressiveCongestionAvoidance, objTCPProxyProfile.aggressiveCongestionAvoidance)&&
+  Objects.equals(this.reorderThreshold, objTCPProxyProfile.reorderThreshold)&&
+  Objects.equals(this.minRexmtTimeout, objTCPProxyProfile.minRexmtTimeout)&&
   Objects.equals(this.slowStartScalingFactor, objTCPProxyProfile.slowStartScalingFactor)&&
   Objects.equals(this.congestionRecoveryScalingFactor, objTCPProxyProfile.congestionRecoveryScalingFactor)&&
-  Objects.equals(this.minRexmtTimeout, objTCPProxyProfile.minRexmtTimeout)&&
-  Objects.equals(this.autoWindowGrowth, objTCPProxyProfile.autoWindowGrowth)&&
   Objects.equals(this.reassemblyQueueSize, objTCPProxyProfile.reassemblyQueueSize)&&
-  Objects.equals(this.reorderThreshold, objTCPProxyProfile.reorderThreshold)&&
-  Objects.equals(this.maxRetransmissions, objTCPProxyProfile.maxRetransmissions)&&
-  Objects.equals(this.ipDscp, objTCPProxyProfile.ipDscp)&&
-  Objects.equals(this.automatic, objTCPProxyProfile.automatic)&&
-  Objects.equals(this.maxSynRetransmissions, objTCPProxyProfile.maxSynRetransmissions);
+  Objects.equals(this.keepaliveInHalfcloseState, objTCPProxyProfile.keepaliveInHalfcloseState)&&
+  Objects.equals(this.autoWindowGrowth, objTCPProxyProfile.autoWindowGrowth);
 }
 
 @Override

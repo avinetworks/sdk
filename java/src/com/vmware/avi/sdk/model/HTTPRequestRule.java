@@ -253,16 +253,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPRequestRule objHTTPRequestRule = (HTTPRequestRule) o;
-  return   Objects.equals(this.index, objHTTPRequestRule.index)&&
+  return   Objects.equals(this.name, objHTTPRequestRule.name)&&
+  Objects.equals(this.index, objHTTPRequestRule.index)&&
   Objects.equals(this.enable, objHTTPRequestRule.enable)&&
-  Objects.equals(this.name, objHTTPRequestRule.name)&&
-  Objects.equals(this.rewriteUrlAction, objHTTPRequestRule.rewriteUrlAction)&&
-  Objects.equals(this.switchingAction, objHTTPRequestRule.switchingAction)&&
+  Objects.equals(this.match, objHTTPRequestRule.match)&&
   Objects.equals(this.redirectAction, objHTTPRequestRule.redirectAction)&&
   Objects.equals(this.hdrAction, objHTTPRequestRule.hdrAction)&&
-  Objects.equals(this.allHeaders, objHTTPRequestRule.allHeaders)&&
-  Objects.equals(this.match, objHTTPRequestRule.match)&&
-  Objects.equals(this.log, objHTTPRequestRule.log);
+  Objects.equals(this.rewriteUrlAction, objHTTPRequestRule.rewriteUrlAction)&&
+  Objects.equals(this.switchingAction, objHTTPRequestRule.switchingAction)&&
+  Objects.equals(this.log, objHTTPRequestRule.log)&&
+  Objects.equals(this.allHeaders, objHTTPRequestRule.allHeaders);
 }
 
 @Override

@@ -818,39 +818,39 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VirtualServiceRuntime objVirtualServiceRuntime = (VirtualServiceRuntime) o;
-  return   Objects.equals(this.metricsMgrPort, objVirtualServiceRuntime.metricsMgrPort)&&
-  Objects.equals(this.onePlusOneHa, objVirtualServiceRuntime.onePlusOneHa)&&
-  Objects.equals(this.prevMetricsMgrPort, objVirtualServiceRuntime.prevMetricsMgrPort)&&
-  Objects.equals(this.isDnsVs, objVirtualServiceRuntime.isDnsVs)&&
-  Objects.equals(this.numAdditionalSe, objVirtualServiceRuntime.numAdditionalSe)&&
-  Objects.equals(this.vipRuntime, objVirtualServiceRuntime.vipRuntime)&&
-  Objects.equals(this.lastChangedTime, objVirtualServiceRuntime.lastChangedTime)&&
-  Objects.equals(this.markedForDelete, objVirtualServiceRuntime.markedForDelete)&&
-  Objects.equals(this.serversConfigured, objVirtualServiceRuntime.serversConfigured)&&
-  Objects.equals(this.lif, objVirtualServiceRuntime.lif)&&
+  return   Objects.equals(this.uuid, objVirtualServiceRuntime.uuid)&&
   Objects.equals(this.datapathDebug, objVirtualServiceRuntime.datapathDebug)&&
-  Objects.equals(this.uuid, objVirtualServiceRuntime.uuid)&&
-  Objects.equals(this.tlsTicketKey, objVirtualServiceRuntime.tlsTicketKey)&&
-  Objects.equals(this.eastWest, objVirtualServiceRuntime.eastWest)&&
-  Objects.equals(this.apicExtension, objVirtualServiceRuntime.apicExtension)&&
-  Objects.equals(this.redisDb, objVirtualServiceRuntime.redisDb)&&
-  Objects.equals(this.version, objVirtualServiceRuntime.version)&&
-  Objects.equals(this.gslbDnsUpdate, objVirtualServiceRuntime.gslbDnsUpdate)&&
+  Objects.equals(this.serversConfigured, objVirtualServiceRuntime.serversConfigured)&&
   Objects.equals(this.rulesConfigured, objVirtualServiceRuntime.rulesConfigured)&&
+  Objects.equals(this.onePlusOneHa, objVirtualServiceRuntime.onePlusOneHa)&&
+  Objects.equals(this.apicExtension, objVirtualServiceRuntime.apicExtension)&&
+  Objects.equals(this.lastChangedTime, objVirtualServiceRuntime.lastChangedTime)&&
+  Objects.equals(this.controllerIp, objVirtualServiceRuntime.controllerIp)&&
+  Objects.equals(this.prevControllerIp, objVirtualServiceRuntime.prevControllerIp)&&
+  Objects.equals(this.markedForDelete, objVirtualServiceRuntime.markedForDelete)&&
+  Objects.equals(this.metricsMgrPort, objVirtualServiceRuntime.metricsMgrPort)&&
+  Objects.equals(this.prevMetricsMgrPort, objVirtualServiceRuntime.prevMetricsMgrPort)&&
+  Objects.equals(this.manualPlacement, objVirtualServiceRuntime.manualPlacement)&&
   Objects.equals(this.vhChildVsRef, objVirtualServiceRuntime.vhChildVsRef)&&
-  Objects.equals(this.type, objVirtualServiceRuntime.type)&&
+  Objects.equals(this.redisIp, objVirtualServiceRuntime.redisIp)&&
   Objects.equals(this.redisPort, objVirtualServiceRuntime.redisPort)&&
+  Objects.equals(this.redisDb, objVirtualServiceRuntime.redisDb)&&
+  Objects.equals(this.tlsTicketKey, objVirtualServiceRuntime.tlsTicketKey)&&
+  Objects.equals(this.lif, objVirtualServiceRuntime.lif)&&
+  Objects.equals(this.type, objVirtualServiceRuntime.type)&&
+  Objects.equals(this.eastWest, objVirtualServiceRuntime.eastWest)&&
+  Objects.equals(this.numAdditionalSe, objVirtualServiceRuntime.numAdditionalSe)&&
+  Objects.equals(this.gslbDnsUpdate, objVirtualServiceRuntime.gslbDnsUpdate)&&
+  Objects.equals(this.isDnsVs, objVirtualServiceRuntime.isDnsVs)&&
+  Objects.equals(this.ipamDnsRecords, objVirtualServiceRuntime.ipamDnsRecords)&&
+  Objects.equals(this.version, objVirtualServiceRuntime.version)&&
+  Objects.equals(this.vipRuntime, objVirtualServiceRuntime.vipRuntime)&&
+  Objects.equals(this.gslbDnsGeoUpdate, objVirtualServiceRuntime.gslbDnsGeoUpdate)&&
+  Objects.equals(this.selfSeElection, objVirtualServiceRuntime.selfSeElection)&&
+  Objects.equals(this.vsUpdatePending, objVirtualServiceRuntime.vsUpdatePending)&&
   Objects.equals(this.keyRotationCount, objVirtualServiceRuntime.keyRotationCount)&&
   Objects.equals(this.lastKeyRotationTime, objVirtualServiceRuntime.lastKeyRotationTime)&&
-  Objects.equals(this.prevControllerIp, objVirtualServiceRuntime.prevControllerIp)&&
-  Objects.equals(this.selfSeElection, objVirtualServiceRuntime.selfSeElection)&&
-  Objects.equals(this.manualPlacement, objVirtualServiceRuntime.manualPlacement)&&
-  Objects.equals(this.vsUpdatePending, objVirtualServiceRuntime.vsUpdatePending)&&
-  Objects.equals(this.secMgrInfo, objVirtualServiceRuntime.secMgrInfo)&&
-  Objects.equals(this.redisIp, objVirtualServiceRuntime.redisIp)&&
-  Objects.equals(this.controllerIp, objVirtualServiceRuntime.controllerIp)&&
-  Objects.equals(this.gslbDnsGeoUpdate, objVirtualServiceRuntime.gslbDnsGeoUpdate)&&
-  Objects.equals(this.ipamDnsRecords, objVirtualServiceRuntime.ipamDnsRecords);
+  Objects.equals(this.secMgrInfo, objVirtualServiceRuntime.secMgrInfo);
 }
 
 @Override

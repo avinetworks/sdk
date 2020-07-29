@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VersionInfo objVersionInfo = (VersionInfo) o;
-  return   Objects.equals(this.dsName, objVersionInfo.dsName)&&
+  return   Objects.equals(this.uuid, objVersionInfo.uuid)&&
+  Objects.equals(this.name, objVersionInfo.name)&&
   Objects.equals(this.ops, objVersionInfo.ops)&&
-  Objects.equals(this.uuid, objVersionInfo.uuid)&&
-  Objects.equals(this.name, objVersionInfo.name);
+  Objects.equals(this.dsName, objVersionInfo.dsName);
 }
 
 @Override

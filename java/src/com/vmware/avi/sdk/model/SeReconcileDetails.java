@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeReconcileDetails objSeReconcileDetails = (SeReconcileDetails) o;
-  return   Objects.equals(this.tier, objSeReconcileDetails.tier)&&
-  Objects.equals(this.newServiceCores, objSeReconcileDetails.newServiceCores)&&
+  return   Objects.equals(this.seUuid, objSeReconcileDetails.seUuid)&&
+  Objects.equals(this.tenantUuid, objSeReconcileDetails.tenantUuid)&&
+  Objects.equals(this.tier, objSeReconcileDetails.tier)&&
   Objects.equals(this.oldServiceCores, objSeReconcileDetails.oldServiceCores)&&
-  Objects.equals(this.seUuid, objSeReconcileDetails.seUuid)&&
-  Objects.equals(this.tenantUuid, objSeReconcileDetails.tenantUuid);
+  Objects.equals(this.newServiceCores, objSeReconcileDetails.newServiceCores);
 }
 
 @Override

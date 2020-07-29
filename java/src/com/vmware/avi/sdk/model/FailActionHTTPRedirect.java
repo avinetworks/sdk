@@ -138,11 +138,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FailActionHTTPRedirect objFailActionHTTPRedirect = (FailActionHTTPRedirect) o;
-  return   Objects.equals(this.path, objFailActionHTTPRedirect.path)&&
+  return   Objects.equals(this.protocol, objFailActionHTTPRedirect.protocol)&&
   Objects.equals(this.host, objFailActionHTTPRedirect.host)&&
-  Objects.equals(this.protocol, objFailActionHTTPRedirect.protocol)&&
-  Objects.equals(this.statusCode, objFailActionHTTPRedirect.statusCode)&&
-  Objects.equals(this.query, objFailActionHTTPRedirect.query);
+  Objects.equals(this.path, objFailActionHTTPRedirect.path)&&
+  Objects.equals(this.query, objFailActionHTTPRedirect.query)&&
+  Objects.equals(this.statusCode, objFailActionHTTPRedirect.statusCode);
 }
 
 @Override

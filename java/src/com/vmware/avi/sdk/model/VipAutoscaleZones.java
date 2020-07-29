@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VipAutoscaleZones objVipAutoscaleZones = (VipAutoscaleZones) o;
-  return   Objects.equals(this.subnetUuid, objVipAutoscaleZones.subnetUuid)&&
-  Objects.equals(this.fipCapable, objVipAutoscaleZones.fipCapable)&&
-  Objects.equals(this.availabilityZone, objVipAutoscaleZones.availabilityZone);
+  return   Objects.equals(this.availabilityZone, objVipAutoscaleZones.availabilityZone)&&
+  Objects.equals(this.subnetUuid, objVipAutoscaleZones.subnetUuid)&&
+  Objects.equals(this.fipCapable, objVipAutoscaleZones.fipCapable);
 }
 
 @Override

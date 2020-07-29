@@ -106,9 +106,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudTenantsDeleted objCloudTenantsDeleted = (CloudTenantsDeleted) o;
-  return   Objects.equals(this.vtype, objCloudTenantsDeleted.vtype)&&
-  Objects.equals(this.tenants, objCloudTenantsDeleted.tenants)&&
-  Objects.equals(this.ccId, objCloudTenantsDeleted.ccId);
+  return   Objects.equals(this.ccId, objCloudTenantsDeleted.ccId)&&
+  Objects.equals(this.vtype, objCloudTenantsDeleted.vtype)&&
+  Objects.equals(this.tenants, objCloudTenantsDeleted.tenants);
 }
 
 @Override

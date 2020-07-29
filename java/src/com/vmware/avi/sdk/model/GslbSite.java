@@ -507,23 +507,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSite objGslbSite = (GslbSite) o;
-  return   Objects.equals(this.username, objGslbSite.username)&&
-  Objects.equals(this.dnsVsUuids, objGslbSite.dnsVsUuids)&&
-  Objects.equals(this.ratio, objGslbSite.ratio)&&
+  return   Objects.equals(this.clusterUuid, objGslbSite.clusterUuid)&&
   Objects.equals(this.name, objGslbSite.name)&&
+  Objects.equals(this.address, objGslbSite.address)&&
   Objects.equals(this.ipAddresses, objGslbSite.ipAddresses)&&
-  Objects.equals(this.enabled, objGslbSite.enabled)&&
+  Objects.equals(this.port, objGslbSite.port)&&
+  Objects.equals(this.username, objGslbSite.username)&&
+  Objects.equals(this.password, objGslbSite.password)&&
+  Objects.equals(this.dnsVsUuids, objGslbSite.dnsVsUuids)&&
   Objects.equals(this.memberType, objGslbSite.memberType)&&
+  Objects.equals(this.enabled, objGslbSite.enabled)&&
   Objects.equals(this.location, objGslbSite.location)&&
   Objects.equals(this.hmProxies, objGslbSite.hmProxies)&&
-  Objects.equals(this.address, objGslbSite.address)&&
-  Objects.equals(this.clusterUuid, objGslbSite.clusterUuid)&&
+  Objects.equals(this.ratio, objGslbSite.ratio)&&
   Objects.equals(this.dnsVses, objGslbSite.dnsVses)&&
+  Objects.equals(this.uuid, objGslbSite.uuid)&&
   Objects.equals(this.hmShardEnabled, objGslbSite.hmShardEnabled)&&
-  Objects.equals(this.password, objGslbSite.password)&&
-  Objects.equals(this.port, objGslbSite.port)&&
-  Objects.equals(this.suspendMode, objGslbSite.suspendMode)&&
-  Objects.equals(this.uuid, objGslbSite.uuid);
+  Objects.equals(this.suspendMode, objGslbSite.suspendMode);
 }
 
 @Override

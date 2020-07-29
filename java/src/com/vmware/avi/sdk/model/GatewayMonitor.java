@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GatewayMonitor objGatewayMonitor = (GatewayMonitor) o;
-  return   Objects.equals(this.gatewayMonitorSuccessThreshold, objGatewayMonitor.gatewayMonitorSuccessThreshold)&&
-  Objects.equals(this.subnet, objGatewayMonitor.subnet)&&
-  Objects.equals(this.gatewayIp, objGatewayMonitor.gatewayIp)&&
+  return   Objects.equals(this.gatewayIp, objGatewayMonitor.gatewayIp)&&
+  Objects.equals(this.gatewayMonitorInterval, objGatewayMonitor.gatewayMonitorInterval)&&
   Objects.equals(this.gatewayMonitorFailThreshold, objGatewayMonitor.gatewayMonitorFailThreshold)&&
-  Objects.equals(this.gatewayMonitorInterval, objGatewayMonitor.gatewayMonitorInterval);
+  Objects.equals(this.gatewayMonitorSuccessThreshold, objGatewayMonitor.gatewayMonitorSuccessThreshold)&&
+  Objects.equals(this.subnet, objGatewayMonitor.subnet);
 }
 
 @Override

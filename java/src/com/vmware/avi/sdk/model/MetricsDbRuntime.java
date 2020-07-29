@@ -197,13 +197,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDbRuntime objMetricsDbRuntime = (MetricsDbRuntime) o;
-  return   Objects.equals(this.dbNumClientResp, objMetricsDbRuntime.dbNumClientResp)&&
-  Objects.equals(this.dbNumDbResp, objMetricsDbRuntime.dbNumDbResp)&&
-  Objects.equals(this.dbRumQueries, objMetricsDbRuntime.dbRumQueries)&&
+  return   Objects.equals(this.dbNumClientQueries, objMetricsDbRuntime.dbNumClientQueries)&&
   Objects.equals(this.dbNumDbQueries, objMetricsDbRuntime.dbNumDbQueries)&&
-  Objects.equals(this.dbNumClientQueries, objMetricsDbRuntime.dbNumClientQueries)&&
-  Objects.equals(this.dbQueueSize, objMetricsDbRuntime.dbQueueSize)&&
   Objects.equals(this.dbNumOom, objMetricsDbRuntime.dbNumOom)&&
+  Objects.equals(this.dbNumDbResp, objMetricsDbRuntime.dbNumDbResp)&&
+  Objects.equals(this.dbNumClientResp, objMetricsDbRuntime.dbNumClientResp)&&
+  Objects.equals(this.dbQueueSize, objMetricsDbRuntime.dbQueueSize)&&
+  Objects.equals(this.dbRumQueries, objMetricsDbRuntime.dbRumQueries)&&
   Objects.equals(this.dbRumRows, objMetricsDbRuntime.dbRumRows);
 }
 

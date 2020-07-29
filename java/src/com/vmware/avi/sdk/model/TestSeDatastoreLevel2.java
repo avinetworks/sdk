@@ -150,10 +150,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TestSeDatastoreLevel2 objTestSeDatastoreLevel2 = (TestSeDatastoreLevel2) o;
-  return   Objects.equals(this.testSeDatastoreLevel3Refs, objTestSeDatastoreLevel2.testSeDatastoreLevel3Refs)&&
-  Objects.equals(this.tenantRef, objTestSeDatastoreLevel2.tenantRef)&&
-  Objects.equals(this.uuid, objTestSeDatastoreLevel2.uuid)&&
-  Objects.equals(this.name, objTestSeDatastoreLevel2.name);
+  return   Objects.equals(this.uuid, objTestSeDatastoreLevel2.uuid)&&
+  Objects.equals(this.name, objTestSeDatastoreLevel2.name)&&
+  Objects.equals(this.testSeDatastoreLevel3Refs, objTestSeDatastoreLevel2.testSeDatastoreLevel3Refs)&&
+  Objects.equals(this.tenantRef, objTestSeDatastoreLevel2.tenantRef);
 }
 
 @Override

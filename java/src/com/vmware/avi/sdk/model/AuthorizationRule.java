@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthorizationRule objAuthorizationRule = (AuthorizationRule) o;
-  return   Objects.equals(this.action, objAuthorizationRule.action)&&
+  return   Objects.equals(this.name, objAuthorizationRule.name)&&
   Objects.equals(this.index, objAuthorizationRule.index)&&
   Objects.equals(this.enable, objAuthorizationRule.enable)&&
-  Objects.equals(this.name, objAuthorizationRule.name)&&
-  Objects.equals(this.match, objAuthorizationRule.match);
+  Objects.equals(this.match, objAuthorizationRule.match)&&
+  Objects.equals(this.action, objAuthorizationRule.action);
 }
 
 @Override

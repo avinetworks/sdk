@@ -112,9 +112,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsZone objDnsZone = (DnsZone) o;
-  return   Objects.equals(this.adminEmail, objDnsZone.adminEmail)&&
-  Objects.equals(this.domainName, objDnsZone.domainName)&&
-  Objects.equals(this.nameServer, objDnsZone.nameServer);
+  return   Objects.equals(this.domainName, objDnsZone.domainName)&&
+  Objects.equals(this.nameServer, objDnsZone.nameServer)&&
+  Objects.equals(this.adminEmail, objDnsZone.adminEmail);
 }
 
 @Override

@@ -118,9 +118,9 @@ public boolean equals(java.lang.Object o) {
   }
   MesosSeResources objMesosSeResources = (MesosSeResources) o;
   return   Objects.equals(this.attributeKey, objMesosSeResources.attributeKey)&&
-  Objects.equals(this.memory, objMesosSeResources.memory)&&
+  Objects.equals(this.attributeValue, objMesosSeResources.attributeValue)&&
   Objects.equals(this.cpu, objMesosSeResources.cpu)&&
-  Objects.equals(this.attributeValue, objMesosSeResources.attributeValue);
+  Objects.equals(this.memory, objMesosSeResources.memory);
 }
 
 @Override

@@ -181,12 +181,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudVnicChange objCloudVnicChange = (CloudVnicChange) o;
-  return   Objects.equals(this.vtype, objCloudVnicChange.vtype)&&
-  Objects.equals(this.errorString, objCloudVnicChange.errorString)&&
+  return   Objects.equals(this.ccId, objCloudVnicChange.ccId)&&
+  Objects.equals(this.vtype, objCloudVnicChange.vtype)&&
   Objects.equals(this.seVmUuid, objCloudVnicChange.seVmUuid)&&
-  Objects.equals(this.macAddrs, objCloudVnicChange.macAddrs)&&
   Objects.equals(this.vnics, objCloudVnicChange.vnics)&&
-  Objects.equals(this.ccId, objCloudVnicChange.ccId);
+  Objects.equals(this.macAddrs, objCloudVnicChange.macAddrs)&&
+  Objects.equals(this.errorString, objCloudVnicChange.errorString);
 }
 
 @Override

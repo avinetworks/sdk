@@ -239,16 +239,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IptableRule objIptableRule = (IptableRule) o;
-  return   Objects.equals(this.dnatIp, objIptableRule.dnatIp)&&
+  return   Objects.equals(this.srcIp, objIptableRule.srcIp)&&
+  Objects.equals(this.dstIp, objIptableRule.dstIp)&&
   Objects.equals(this.srcPort, objIptableRule.srcPort)&&
+  Objects.equals(this.dstPort, objIptableRule.dstPort)&&
   Objects.equals(this.proto, objIptableRule.proto)&&
   Objects.equals(this.inputInterface, objIptableRule.inputInterface)&&
   Objects.equals(this.outputInterface, objIptableRule.outputInterface)&&
-  Objects.equals(this.srcIp, objIptableRule.srcIp)&&
-  Objects.equals(this.tag, objIptableRule.tag)&&
-  Objects.equals(this.dstPort, objIptableRule.dstPort)&&
   Objects.equals(this.action, objIptableRule.action)&&
-  Objects.equals(this.dstIp, objIptableRule.dstIp);
+  Objects.equals(this.dnatIp, objIptableRule.dnatIp)&&
+  Objects.equals(this.tag, objIptableRule.tag);
 }
 
 @Override

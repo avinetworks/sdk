@@ -155,10 +155,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafApplicationSignatures objWafApplicationSignatures = (WafApplicationSignatures) o;
-  return   Objects.equals(this.rulesetVersion, objWafApplicationSignatures.rulesetVersion)&&
-  Objects.equals(this.rules, objWafApplicationSignatures.rules)&&
+  return   Objects.equals(this.providerRef, objWafApplicationSignatures.providerRef)&&
+  Objects.equals(this.rulesetVersion, objWafApplicationSignatures.rulesetVersion)&&
   Objects.equals(this.selectedApplications, objWafApplicationSignatures.selectedApplications)&&
-  Objects.equals(this.providerRef, objWafApplicationSignatures.providerRef);
+  Objects.equals(this.rules, objWafApplicationSignatures.rules);
 }
 
 @Override

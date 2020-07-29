@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthMatchGroupMembership objAuthMatchGroupMembership = (AuthMatchGroupMembership) o;
-  return   Objects.equals(this.groups, objAuthMatchGroupMembership.groups)&&
-  Objects.equals(this.criteria, objAuthMatchGroupMembership.criteria);
+  return   Objects.equals(this.criteria, objAuthMatchGroupMembership.criteria)&&
+  Objects.equals(this.groups, objAuthMatchGroupMembership.groups);
 }
 
 @Override

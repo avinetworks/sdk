@@ -344,21 +344,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConnErrorInfo objConnErrorInfo = (ConnErrorInfo) o;
-  return   Objects.equals(this.serverRetransmits, objConnErrorInfo.serverRetransmits)&&
-  Objects.equals(this.numSynRetransmit, objConnErrorInfo.numSynRetransmit)&&
-  Objects.equals(this.rxPkts, objConnErrorInfo.rxPkts)&&
-  Objects.equals(this.serverZeroWindowSizeEvents, objConnErrorInfo.serverZeroWindowSizeEvents)&&
-  Objects.equals(this.timeouts, objConnErrorInfo.timeouts)&&
-  Objects.equals(this.serverNumWindowShrink, objConnErrorInfo.serverNumWindowShrink)&&
-  Objects.equals(this.zeroWindowSizeEvents, objConnErrorInfo.zeroWindowSizeEvents)&&
-  Objects.equals(this.numWindowShrink, objConnErrorInfo.numWindowShrink)&&
-  Objects.equals(this.serverTxPkts, objConnErrorInfo.serverTxPkts)&&
-  Objects.equals(this.serverOutOfOrders, objConnErrorInfo.serverOutOfOrders)&&
-  Objects.equals(this.serverRxPkts, objConnErrorInfo.serverRxPkts)&&
+  return   Objects.equals(this.outOfOrders, objConnErrorInfo.outOfOrders)&&
   Objects.equals(this.retransmits, objConnErrorInfo.retransmits)&&
+  Objects.equals(this.timeouts, objConnErrorInfo.timeouts)&&
+  Objects.equals(this.rxPkts, objConnErrorInfo.rxPkts)&&
   Objects.equals(this.txPkts, objConnErrorInfo.txPkts)&&
+  Objects.equals(this.zeroWindowSizeEvents, objConnErrorInfo.zeroWindowSizeEvents)&&
+  Objects.equals(this.serverOutOfOrders, objConnErrorInfo.serverOutOfOrders)&&
+  Objects.equals(this.serverRetransmits, objConnErrorInfo.serverRetransmits)&&
   Objects.equals(this.serverTimeouts, objConnErrorInfo.serverTimeouts)&&
-  Objects.equals(this.outOfOrders, objConnErrorInfo.outOfOrders);
+  Objects.equals(this.serverRxPkts, objConnErrorInfo.serverRxPkts)&&
+  Objects.equals(this.serverTxPkts, objConnErrorInfo.serverTxPkts)&&
+  Objects.equals(this.serverZeroWindowSizeEvents, objConnErrorInfo.serverZeroWindowSizeEvents)&&
+  Objects.equals(this.numWindowShrink, objConnErrorInfo.numWindowShrink)&&
+  Objects.equals(this.serverNumWindowShrink, objConnErrorInfo.serverNumWindowShrink)&&
+  Objects.equals(this.numSynRetransmit, objConnErrorInfo.numSynRetransmit);
 }
 
 @Override

@@ -245,14 +245,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeAgentStateCacheProperties objSeAgentStateCacheProperties = (SeAgentStateCacheProperties) o;
-  return   Objects.equals(this.scThreadQBatchDequeueLimit, objSeAgentStateCacheProperties.scThreadQBatchDequeueLimit)&&
-  Objects.equals(this.scBatchBufferFlushLimit, objSeAgentStateCacheProperties.scBatchBufferFlushLimit)&&
-  Objects.equals(this.scThreadQMaxSize, objSeAgentStateCacheProperties.scThreadQMaxSize)&&
+  return   Objects.equals(this.scStatesFlushInterval, objSeAgentStateCacheProperties.scStatesFlushInterval)&&
   Objects.equals(this.scStreamCheckInterval, objSeAgentStateCacheProperties.scStreamCheckInterval)&&
-  Objects.equals(this.scStateRingBatchDequeueLimit, objSeAgentStateCacheProperties.scStateRingBatchDequeueLimit)&&
-  Objects.equals(this.scStatesFlushInterval, objSeAgentStateCacheProperties.scStatesFlushInterval)&&
   Objects.equals(this.scThreadSleepInterval, objSeAgentStateCacheProperties.scThreadSleepInterval)&&
-  Objects.equals(this.scShardCleanupMaxTime, objSeAgentStateCacheProperties.scShardCleanupMaxTime);
+  Objects.equals(this.scThreadQMaxSize, objSeAgentStateCacheProperties.scThreadQMaxSize)&&
+  Objects.equals(this.scThreadQBatchDequeueLimit, objSeAgentStateCacheProperties.scThreadQBatchDequeueLimit)&&
+  Objects.equals(this.scStateRingBatchDequeueLimit, objSeAgentStateCacheProperties.scStateRingBatchDequeueLimit)&&
+  Objects.equals(this.scShardCleanupMaxTime, objSeAgentStateCacheProperties.scShardCleanupMaxTime)&&
+  Objects.equals(this.scBatchBufferFlushLimit, objSeAgentStateCacheProperties.scBatchBufferFlushLimit);
 }
 
 @Override

@@ -120,7 +120,7 @@ public class Image extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Mandatory controller patch name that is applied along with this base image.
-   * Field introduced in 18.2.10.
+   * Field introduced in 18.2.10, 20.1.1.
    * @return controllerPatchName
    */
   public String getControllerPatchName() {
@@ -130,7 +130,7 @@ public class Image extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Mandatory controller patch name that is applied along with this base image.
-   * Field introduced in 18.2.10.
+   * Field introduced in 18.2.10, 20.1.1.
    * @param controllerPatchName set the controllerPatchName.
    */
   public void setControllerPatchName(String  controllerPatchName) {
@@ -220,7 +220,7 @@ public class Image extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Mandatory serviceengine patch name that is applied along with this base image.
-   * Field introduced in 18.2.10.
+   * Field introduced in 18.2.10, 20.1.1.
    * @return sePatchName
    */
   public String getSePatchName() {
@@ -230,7 +230,7 @@ public class Image extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Mandatory serviceengine patch name that is applied along with this base image.
-   * Field introduced in 18.2.10.
+   * Field introduced in 18.2.10, 20.1.1.
    * @param sePatchName set the sePatchName.
    */
   public void setSePatchName(String  sePatchName) {
@@ -396,20 +396,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Image objImage = (Image) o;
-  return   Objects.equals(this.status, objImage.status)&&
-  Objects.equals(this.seInfo, objImage.seInfo)&&
-  Objects.equals(this.uuid, objImage.uuid)&&
-  Objects.equals(this.controllerPatchName, objImage.controllerPatchName)&&
-  Objects.equals(this.controllerPatchUuid, objImage.controllerPatchUuid)&&
-  Objects.equals(this.migrations, objImage.migrations)&&
-  Objects.equals(this.cloudInfoValues, objImage.cloudInfoValues)&&
-  Objects.equals(this.uberBundle, objImage.uberBundle)&&
+  return   Objects.equals(this.uuid, objImage.uuid)&&
+  Objects.equals(this.name, objImage.name)&&
   Objects.equals(this.controllerInfo, objImage.controllerInfo)&&
-  Objects.equals(this.sePatchName, objImage.sePatchName)&&
-  Objects.equals(this.sePatchUuid, objImage.sePatchUuid)&&
+  Objects.equals(this.seInfo, objImage.seInfo)&&
+  Objects.equals(this.migrations, objImage.migrations)&&
   Objects.equals(this.type, objImage.type)&&
-  Objects.equals(this.tenantRef, objImage.tenantRef)&&
-  Objects.equals(this.name, objImage.name);
+  Objects.equals(this.status, objImage.status)&&
+  Objects.equals(this.uberBundle, objImage.uberBundle)&&
+  Objects.equals(this.controllerPatchUuid, objImage.controllerPatchUuid)&&
+  Objects.equals(this.sePatchUuid, objImage.sePatchUuid)&&
+  Objects.equals(this.cloudInfoValues, objImage.cloudInfoValues)&&
+  Objects.equals(this.controllerPatchName, objImage.controllerPatchName)&&
+  Objects.equals(this.sePatchName, objImage.sePatchName)&&
+  Objects.equals(this.tenantRef, objImage.tenantRef);
 }
 
 @Override

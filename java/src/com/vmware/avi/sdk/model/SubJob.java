@@ -23,6 +23,9 @@ public class SubJob  {
     @JsonProperty("metadata")
     private String metadata = null;
 
+    @JsonProperty("num_retries")
+    private Integer numRetries = null;
+
     @JsonProperty("type")
     private String type = null;
 
@@ -66,6 +69,26 @@ public class SubJob  {
 
   /**
    * This is the getter method this will return the attribute value.
+   * Number of times the sub job is rescheduled.
+   * Field introduced in 20.1.1.
+   * @return numRetries
+   */
+  public Integer getNumRetries() {
+    return numRetries;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * Number of times the sub job is rescheduled.
+   * Field introduced in 20.1.1.
+   * @param numRetries set the numRetries.
+   */
+  public void setNumRetries(Integer  numRetries) {
+    this.numRetries = numRetries;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
    * Enum options - JOB_TYPE_VS_FULL_LOGS, JOB_TYPE_VS_UDF, JOB_TYPE_VS_METRICS_RT, JOB_TYPE_SSL_CERT, JOB_TYPE_DEBUGVS_PKT_CAPTURE,
    * JOB_TYPE_CONSISTENCY_CHECK, JOB_TYPE_TECHSUPPORT, JOB_TYPE_PKI_PROFILE, JOB_TYPE_NSP_RULE, JOB_TYPE_SEGROUP_METRICS_RT, JOB_TYPE_POSTGRES_STATUS,
    * JOB_TYPE_VS_ROTATE_KEYS, JOB_TYPE_POOL_DNS, JOB_TYPE_GSLB_SERVICE, JOB_TYPE_APP_PERSISTENCE, JOB_TYPE_PROCESS_LOCKED_USER_ACCOUNTS,
@@ -102,7 +125,8 @@ public boolean equals(java.lang.Object o) {
   SubJob objSubJob = (SubJob) o;
   return   Objects.equals(this.type, objSubJob.type)&&
   Objects.equals(this.expiresAt, objSubJob.expiresAt)&&
-  Objects.equals(this.metadata, objSubJob.metadata);
+  Objects.equals(this.metadata, objSubJob.metadata)&&
+  Objects.equals(this.numRetries, objSubJob.numRetries);
 }
 
 @Override
@@ -111,6 +135,7 @@ public String toString() {
   sb.append("class SubJob {\n");
       sb.append("    expiresAt: ").append(toIndentedString(expiresAt)).append("\n");
         sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
+        sb.append("    numRetries: ").append(toIndentedString(numRetries)).append("\n");
         sb.append("    type: ").append(toIndentedString(type)).append("\n");
       sb.append("}");
   return sb.toString();

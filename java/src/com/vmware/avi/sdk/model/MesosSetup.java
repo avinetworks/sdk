@@ -329,18 +329,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MesosSetup objMesosSetup = (MesosSetup) o;
-  return   Objects.equals(this.mesosUrl, objMesosSetup.mesosUrl)&&
-  Objects.equals(this.missingHosts, objMesosSetup.missingHosts)&&
-  Objects.equals(this.failedHosts, objMesosSetup.failedHosts)&&
-  Objects.equals(this.seDeployMethodAccess, objMesosSetup.seDeployMethodAccess)&&
+  return   Objects.equals(this.ccId, objMesosSetup.ccId)&&
+  Objects.equals(this.mesosUrl, objMesosSetup.mesosUrl)&&
   Objects.equals(this.mesosAccess, objMesosSetup.mesosAccess)&&
+  Objects.equals(this.fleetEndpoint, objMesosSetup.fleetEndpoint)&&
+  Objects.equals(this.seDeployMethodAccess, objMesosSetup.seDeployMethodAccess)&&
   Objects.equals(this.reason, objMesosSetup.reason)&&
   Objects.equals(this.version, objMesosSetup.version)&&
-  Objects.equals(this.hosts, objMesosSetup.hosts)&&
-  Objects.equals(this.fleetEndpoint, objMesosSetup.fleetEndpoint)&&
-  Objects.equals(this.newHosts, objMesosSetup.newHosts)&&
   Objects.equals(this.seName, objMesosSetup.seName)&&
-  Objects.equals(this.ccId, objMesosSetup.ccId);
+  Objects.equals(this.hosts, objMesosSetup.hosts)&&
+  Objects.equals(this.newHosts, objMesosSetup.newHosts)&&
+  Objects.equals(this.missingHosts, objMesosSetup.missingHosts)&&
+  Objects.equals(this.failedHosts, objMesosSetup.failedHosts);
 }
 
 @Override

@@ -77,8 +77,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDimensionData objMetricsDimensionData = (MetricsDimensionData) o;
-  return   Objects.equals(this.dimensionId, objMetricsDimensionData.dimensionId)&&
-  Objects.equals(this.dimension, objMetricsDimensionData.dimension);
+  return   Objects.equals(this.dimension, objMetricsDimensionData.dimension)&&
+  Objects.equals(this.dimensionId, objMetricsDimensionData.dimensionId);
 }
 
 @Override

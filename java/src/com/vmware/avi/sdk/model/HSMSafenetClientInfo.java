@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMSafenetClientInfo objHSMSafenetClientInfo = (HSMSafenetClientInfo) o;
-  return   Objects.equals(this.clientIp, objHSMSafenetClientInfo.clientIp)&&
-  Objects.equals(this.clientPrivKey, objHSMSafenetClientInfo.clientPrivKey)&&
-  Objects.equals(this.sessionMajorNumber, objHSMSafenetClientInfo.sessionMajorNumber)&&
-  Objects.equals(this.sessionMinorNumber, objHSMSafenetClientInfo.sessionMinorNumber)&&
+  return   Objects.equals(this.clientPrivKey, objHSMSafenetClientInfo.clientPrivKey)&&
+  Objects.equals(this.clientCert, objHSMSafenetClientInfo.clientCert)&&
+  Objects.equals(this.clientIp, objHSMSafenetClientInfo.clientIp)&&
   Objects.equals(this.chrystokiConf, objHSMSafenetClientInfo.chrystokiConf)&&
-  Objects.equals(this.clientCert, objHSMSafenetClientInfo.clientCert);
+  Objects.equals(this.sessionMajorNumber, objHSMSafenetClientInfo.sessionMajorNumber)&&
+  Objects.equals(this.sessionMinorNumber, objHSMSafenetClientInfo.sessionMinorNumber);
 }
 
 @Override

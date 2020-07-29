@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   StateCacheMgrDebugFilter objStateCacheMgrDebugFilter = (StateCacheMgrDebugFilter) o;
-  return   Objects.equals(this.poolRef, objStateCacheMgrDebugFilter.poolRef)&&
-  Objects.equals(this.vsRef, objStateCacheMgrDebugFilter.vsRef);
+  return   Objects.equals(this.vsRef, objStateCacheMgrDebugFilter.vsRef)&&
+  Objects.equals(this.poolRef, objStateCacheMgrDebugFilter.poolRef);
 }
 
 @Override

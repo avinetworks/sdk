@@ -77,8 +77,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SamlAuthzRuleMatch objSamlAuthzRuleMatch = (SamlAuthzRuleMatch) o;
-  return   Objects.equals(this.samlAuthzMatchedRuleAction, objSamlAuthzRuleMatch.samlAuthzMatchedRuleAction)&&
-  Objects.equals(this.samlAuthzMatchedRuleName, objSamlAuthzRuleMatch.samlAuthzMatchedRuleName);
+  return   Objects.equals(this.samlAuthzMatchedRuleName, objSamlAuthzRuleMatch.samlAuthzMatchedRuleName)&&
+  Objects.equals(this.samlAuthzMatchedRuleAction, objSamlAuthzRuleMatch.samlAuthzMatchedRuleAction);
 }
 
 @Override

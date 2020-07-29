@@ -262,7 +262,7 @@ public class CloudFlavor  {
    * Default value when not specified in API or module is interpreted by Avi Controller as true.
    * @return publics
    */
-  public Boolean getPublic() {
+  public Boolean getPublics() {
     return publics;
   }
 
@@ -272,7 +272,7 @@ public class CloudFlavor  {
    * Default value when not specified in API or module is interpreted by Avi Controller as true.
    * @param publics set the publics.
    */
-  public void setPublic(Boolean  publics) {
+  public void setPublics(Boolean  publics) {
     this.publics = publics;
   }
 
@@ -322,19 +322,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudFlavor objCloudFlavor = (CloudFlavor) o;
-  return   Objects.equals(this.maxNics, objCloudFlavor.maxNics)&&
-  Objects.equals(this.maxIp6SPerNic, objCloudFlavor.maxIp6SPerNic)&&
-  Objects.equals(this.cost, objCloudFlavor.cost)&&
+  return   Objects.equals(this.id, objCloudFlavor.id)&&
   Objects.equals(this.name, objCloudFlavor.name)&&
-  Objects.equals(this.diskGb, objCloudFlavor.diskGb)&&
-  Objects.equals(this.maxIpsPerNic, objCloudFlavor.maxIpsPerNic)&&
   Objects.equals(this.ramMb, objCloudFlavor.ramMb)&&
-  Objects.equals(this.id, objCloudFlavor.id)&&
+  Objects.equals(this.diskGb, objCloudFlavor.diskGb)&&
   Objects.equals(this.vcpus, objCloudFlavor.vcpus)&&
-  Objects.equals(this.meta, objCloudFlavor.meta)&&
-  Objects.equals(this.isRecommended, objCloudFlavor.isRecommended)&&
   Objects.equals(this.publics, objCloudFlavor.publics)&&
-  Objects.equals(this.enhancedNw, objCloudFlavor.enhancedNw);
+  Objects.equals(this.maxNics, objCloudFlavor.maxNics)&&
+  Objects.equals(this.maxIpsPerNic, objCloudFlavor.maxIpsPerNic)&&
+  Objects.equals(this.enhancedNw, objCloudFlavor.enhancedNw)&&
+  Objects.equals(this.meta, objCloudFlavor.meta)&&
+  Objects.equals(this.cost, objCloudFlavor.cost)&&
+  Objects.equals(this.maxIp6SPerNic, objCloudFlavor.maxIp6SPerNic)&&
+  Objects.equals(this.isRecommended, objCloudFlavor.isRecommended);
 }
 
 @Override

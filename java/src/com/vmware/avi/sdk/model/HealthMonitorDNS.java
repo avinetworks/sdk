@@ -156,9 +156,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorDNS objHealthMonitorDNS = (HealthMonitorDNS) o;
-  return   Objects.equals(this.qtype, objHealthMonitorDNS.qtype)&&
+  return   Objects.equals(this.queryName, objHealthMonitorDNS.queryName)&&
+  Objects.equals(this.qtype, objHealthMonitorDNS.qtype)&&
   Objects.equals(this.rcode, objHealthMonitorDNS.rcode)&&
-  Objects.equals(this.queryName, objHealthMonitorDNS.queryName)&&
   Objects.equals(this.responseString, objHealthMonitorDNS.responseString)&&
   Objects.equals(this.recordType, objHealthMonitorDNS.recordType);
 }

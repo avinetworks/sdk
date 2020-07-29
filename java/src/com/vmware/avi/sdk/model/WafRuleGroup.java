@@ -202,10 +202,10 @@ public boolean equals(java.lang.Object o) {
   }
   WafRuleGroup objWafRuleGroup = (WafRuleGroup) o;
   return   Objects.equals(this.index, objWafRuleGroup.index)&&
-  Objects.equals(this.enable, objWafRuleGroup.enable)&&
   Objects.equals(this.name, objWafRuleGroup.name)&&
-  Objects.equals(this.excludeList, objWafRuleGroup.excludeList)&&
+  Objects.equals(this.enable, objWafRuleGroup.enable)&&
   Objects.equals(this.rules, objWafRuleGroup.rules)&&
+  Objects.equals(this.excludeList, objWafRuleGroup.excludeList)&&
   Objects.equals(this.forceDetection, objWafRuleGroup.forceDetection);
 }
 

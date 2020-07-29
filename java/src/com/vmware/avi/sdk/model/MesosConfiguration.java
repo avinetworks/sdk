@@ -920,42 +920,42 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MesosConfiguration objMesosConfiguration = (MesosConfiguration) o;
-  return   Objects.equals(this.useVipsForEastWestServices, objMesosConfiguration.useVipsForEastWestServices)&&
+  return   Objects.equals(this.marathonConfigurations, objMesosConfiguration.marathonConfigurations)&&
+  Objects.equals(this.mesosUrl, objMesosConfiguration.mesosUrl)&&
+  Objects.equals(this.vip, objMesosConfiguration.vip)&&
+  Objects.equals(this.useBridgeIpAsVip, objMesosConfiguration.useBridgeIpAsVip)&&
+  Objects.equals(this.containerPortMatchHttpService, objMesosConfiguration.containerPortMatchHttpService)&&
+  Objects.equals(this.httpContainerPorts, objMesosConfiguration.httpContainerPorts)&&
   Objects.equals(this.eastWestPlacementSubnet, objMesosConfiguration.eastWestPlacementSubnet)&&
+  Objects.equals(this.seDeploymentMethod, objMesosConfiguration.seDeploymentMethod)&&
+  Objects.equals(this.useControllerImage, objMesosConfiguration.useControllerImage)&&
+  Objects.equals(this.marathonSeDeployment, objMesosConfiguration.marathonSeDeployment)&&
+  Objects.equals(this.fleetEndpoint, objMesosConfiguration.fleetEndpoint)&&
+  Objects.equals(this.dockerRegistrySe, objMesosConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.seSpawnRate, objMesosConfiguration.seSpawnRate)&&
+  Objects.equals(this.appSyncFrequency, objMesosConfiguration.appSyncFrequency)&&
+  Objects.equals(this.disableAutoSeCreation, objMesosConfiguration.disableAutoSeCreation)&&
+  Objects.equals(this.disableAutoFrontendServiceSync, objMesosConfiguration.disableAutoFrontendServiceSync)&&
+  Objects.equals(this.disableAutoBackendServiceSync, objMesosConfiguration.disableAutoBackendServiceSync)&&
+  Objects.equals(this.useContainerIpPort, objMesosConfiguration.useContainerIpPort)&&
+  Objects.equals(this.feproxyRoutePublish, objMesosConfiguration.feproxyRoutePublish)&&
+  Objects.equals(this.feproxyBridgeName, objMesosConfiguration.feproxyBridgeName)&&
+  Objects.equals(this.seResources, objMesosConfiguration.seResources)&&
+  Objects.equals(this.seVolume, objMesosConfiguration.seVolume)&&
+  Objects.equals(this.coredumpDirectory, objMesosConfiguration.coredumpDirectory)&&
+  Objects.equals(this.sshSeDeployment, objMesosConfiguration.sshSeDeployment)&&
   Objects.equals(this.enableEventSubscription, objMesosConfiguration.enableEventSubscription)&&
   Objects.equals(this.nuageController, objMesosConfiguration.nuageController)&&
-  Objects.equals(this.feproxyVipsEnableProxyArp, objMesosConfiguration.feproxyVipsEnableProxyArp)&&
-  Objects.equals(this.disableAutoBackendServiceSync, objMesosConfiguration.disableAutoBackendServiceSync)&&
-  Objects.equals(this.feproxyBridgeName, objMesosConfiguration.feproxyBridgeName)&&
-  Objects.equals(this.vip, objMesosConfiguration.vip)&&
-  Objects.equals(this.containerPortMatchHttpService, objMesosConfiguration.containerPortMatchHttpService)&&
-  Objects.equals(this.fleetEndpoint, objMesosConfiguration.fleetEndpoint)&&
-  Objects.equals(this.sshUserRef, objMesosConfiguration.sshUserRef)&&
-  Objects.equals(this.seVolume, objMesosConfiguration.seVolume)&&
-  Objects.equals(this.httpContainerPorts, objMesosConfiguration.httpContainerPorts)&&
-  Objects.equals(this.seExcludeAttributes, objMesosConfiguration.seExcludeAttributes)&&
-  Objects.equals(this.seDeploymentMethod, objMesosConfiguration.seDeploymentMethod)&&
-  Objects.equals(this.nodeAvailabilityZoneLabel, objMesosConfiguration.nodeAvailabilityZoneLabel)&&
-  Objects.equals(this.dockerRegistrySe, objMesosConfiguration.dockerRegistrySe)&&
-  Objects.equals(this.feproxyRoutePublish, objMesosConfiguration.feproxyRoutePublish)&&
-  Objects.equals(this.sshSeDeployment, objMesosConfiguration.sshSeDeployment)&&
-  Objects.equals(this.feproxyContainerPortAsService, objMesosConfiguration.feproxyContainerPortAsService)&&
-  Objects.equals(this.useControllerImage, objMesosConfiguration.useControllerImage)&&
-  Objects.equals(this.disableAutoGsSync, objMesosConfiguration.disableAutoGsSync)&&
-  Objects.equals(this.useBridgeIpAsVip, objMesosConfiguration.useBridgeIpAsVip)&&
-  Objects.equals(this.coredumpDirectory, objMesosConfiguration.coredumpDirectory)&&
-  Objects.equals(this.disableAutoFrontendServiceSync, objMesosConfiguration.disableAutoFrontendServiceSync)&&
-  Objects.equals(this.seResources, objMesosConfiguration.seResources)&&
-  Objects.equals(this.seIncludeAttributes, objMesosConfiguration.seIncludeAttributes)&&
-  Objects.equals(this.appSyncFrequency, objMesosConfiguration.appSyncFrequency)&&
-  Objects.equals(this.mesosUrl, objMesosConfiguration.mesosUrl)&&
-  Objects.equals(this.marathonConfigurations, objMesosConfiguration.marathonConfigurations)&&
-  Objects.equals(this.marathonSeDeployment, objMesosConfiguration.marathonSeDeployment)&&
-  Objects.equals(this.servicesAccessibleAllInterfaces, objMesosConfiguration.servicesAccessibleAllInterfaces)&&
-  Objects.equals(this.seSpawnRate, objMesosConfiguration.seSpawnRate)&&
   Objects.equals(this.allVsesAreFeproxy, objMesosConfiguration.allVsesAreFeproxy)&&
-  Objects.equals(this.useContainerIpPort, objMesosConfiguration.useContainerIpPort)&&
-  Objects.equals(this.disableAutoSeCreation, objMesosConfiguration.disableAutoSeCreation);
+  Objects.equals(this.feproxyContainerPortAsService, objMesosConfiguration.feproxyContainerPortAsService)&&
+  Objects.equals(this.servicesAccessibleAllInterfaces, objMesosConfiguration.servicesAccessibleAllInterfaces)&&
+  Objects.equals(this.feproxyVipsEnableProxyArp, objMesosConfiguration.feproxyVipsEnableProxyArp)&&
+  Objects.equals(this.seExcludeAttributes, objMesosConfiguration.seExcludeAttributes)&&
+  Objects.equals(this.seIncludeAttributes, objMesosConfiguration.seIncludeAttributes)&&
+  Objects.equals(this.sshUserRef, objMesosConfiguration.sshUserRef)&&
+  Objects.equals(this.nodeAvailabilityZoneLabel, objMesosConfiguration.nodeAvailabilityZoneLabel)&&
+  Objects.equals(this.disableAutoGsSync, objMesosConfiguration.disableAutoGsSync)&&
+  Objects.equals(this.useVipsForEastWestServices, objMesosConfiguration.useVipsForEastWestServices);
 }
 
 @Override

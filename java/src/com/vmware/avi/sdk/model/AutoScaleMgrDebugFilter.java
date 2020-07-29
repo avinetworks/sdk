@@ -100,9 +100,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AutoScaleMgrDebugFilter objAutoScaleMgrDebugFilter = (AutoScaleMgrDebugFilter) o;
-  return   Objects.equals(this.enableAwsAutoscaleIntegration, objAutoScaleMgrDebugFilter.enableAwsAutoscaleIntegration)&&
-  Objects.equals(this.poolRef, objAutoScaleMgrDebugFilter.poolRef)&&
-  Objects.equals(this.intelligentAutoscalePeriod, objAutoScaleMgrDebugFilter.intelligentAutoscalePeriod);
+  return   Objects.equals(this.poolRef, objAutoScaleMgrDebugFilter.poolRef)&&
+  Objects.equals(this.intelligentAutoscalePeriod, objAutoScaleMgrDebugFilter.intelligentAutoscalePeriod)&&
+  Objects.equals(this.enableAwsAutoscaleIntegration, objAutoScaleMgrDebugFilter.enableAwsAutoscaleIntegration);
 }
 
 @Override

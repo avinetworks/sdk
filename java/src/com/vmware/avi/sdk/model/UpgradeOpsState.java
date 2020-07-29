@@ -105,8 +105,8 @@ public boolean equals(java.lang.Object o) {
   }
   UpgradeOpsState objUpgradeOpsState = (UpgradeOpsState) o;
   return   Objects.equals(this.state, objUpgradeOpsState.state)&&
-  Objects.equals(this.reason, objUpgradeOpsState.reason)&&
-  Objects.equals(this.lastChangedTime, objUpgradeOpsState.lastChangedTime);
+  Objects.equals(this.lastChangedTime, objUpgradeOpsState.lastChangedTime)&&
+  Objects.equals(this.reason, objUpgradeOpsState.reason);
 }
 
 @Override

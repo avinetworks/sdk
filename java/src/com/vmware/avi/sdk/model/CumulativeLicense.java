@@ -206,12 +206,12 @@ public boolean equals(java.lang.Object o) {
   }
   CumulativeLicense objCumulativeLicense = (CumulativeLicense) o;
   return   Objects.equals(this.tierType, objCumulativeLicense.tierType)&&
-  Objects.equals(this.maxSes, objCumulativeLicense.maxSes)&&
-  Objects.equals(this.serviceCores, objCumulativeLicense.serviceCores)&&
-  Objects.equals(this.burstCores, objCumulativeLicense.burstCores)&&
+  Objects.equals(this.seBandwidthLimits, objCumulativeLicense.seBandwidthLimits)&&
   Objects.equals(this.cores, objCumulativeLicense.cores)&&
   Objects.equals(this.sockets, objCumulativeLicense.sockets)&&
-  Objects.equals(this.seBandwidthLimits, objCumulativeLicense.seBandwidthLimits);
+  Objects.equals(this.maxSes, objCumulativeLicense.maxSes)&&
+  Objects.equals(this.burstCores, objCumulativeLicense.burstCores)&&
+  Objects.equals(this.serviceCores, objCumulativeLicense.serviceCores);
 }
 
 @Override

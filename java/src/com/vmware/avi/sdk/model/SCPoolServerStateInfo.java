@@ -194,9 +194,9 @@ public boolean equals(java.lang.Object o) {
   return   Objects.equals(this.uuid, objSCPoolServerStateInfo.uuid)&&
   Objects.equals(this.poolId, objSCPoolServerStateInfo.poolId)&&
   Objects.equals(this.isServer, objSCPoolServerStateInfo.isServer)&&
+  Objects.equals(this.serverStates, objSCPoolServerStateInfo.serverStates)&&
   Objects.equals(this.operStatus, objSCPoolServerStateInfo.operStatus)&&
-  Objects.equals(this.tenantRef, objSCPoolServerStateInfo.tenantRef)&&
-  Objects.equals(this.serverStates, objSCPoolServerStateInfo.serverStates);
+  Objects.equals(this.tenantRef, objSCPoolServerStateInfo.tenantRef);
 }
 
 @Override

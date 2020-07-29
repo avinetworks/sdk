@@ -88,8 +88,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CRSDeploymentFailure objCRSDeploymentFailure = (CRSDeploymentFailure) o;
-  return   Objects.equals(this.message, objCRSDeploymentFailure.message)&&
-  Objects.equals(this.crsInfo, objCRSDeploymentFailure.crsInfo);
+  return   Objects.equals(this.crsInfo, objCRSDeploymentFailure.crsInfo)&&
+  Objects.equals(this.message, objCRSDeploymentFailure.message);
 }
 
 @Override

@@ -143,10 +143,10 @@ public boolean equals(java.lang.Object o) {
   }
   ServerAutoScaleFailedInfo objServerAutoScaleFailedInfo = (ServerAutoScaleFailedInfo) o;
   return   Objects.equals(this.poolRef, objServerAutoScaleFailedInfo.poolRef)&&
-  Objects.equals(this.reason, objServerAutoScaleFailedInfo.reason)&&
-  Objects.equals(this.reasonCode, objServerAutoScaleFailedInfo.reasonCode)&&
   Objects.equals(this.numScaleinServers, objServerAutoScaleFailedInfo.numScaleinServers)&&
-  Objects.equals(this.numServersUp, objServerAutoScaleFailedInfo.numServersUp);
+  Objects.equals(this.numServersUp, objServerAutoScaleFailedInfo.numServersUp)&&
+  Objects.equals(this.reason, objServerAutoScaleFailedInfo.reason)&&
+  Objects.equals(this.reasonCode, objServerAutoScaleFailedInfo.reasonCode);
 }
 
 @Override

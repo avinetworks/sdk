@@ -423,22 +423,22 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerLimits objControllerLimits = (ControllerLimits) o;
-  return   Objects.equals(this.defaultRoutesPerVrfcontext, objControllerLimits.defaultRoutesPerVrfcontext)&&
-  Objects.equals(this.poolsPerVirtualservice, objControllerLimits.poolsPerVirtualservice)&&
-  Objects.equals(this.controllerCloudLimits, objControllerLimits.controllerCloudLimits)&&
+  return   Objects.equals(this.poolsPerVirtualservice, objControllerLimits.poolsPerVirtualservice)&&
   Objects.equals(this.poolgroupsPerVirtualservice, objControllerLimits.poolgroupsPerVirtualservice)&&
-  Objects.equals(this.vsL2Scaleout, objControllerLimits.vsL2Scaleout)&&
+  Objects.equals(this.certificatesPerVirtualservice, objControllerLimits.certificatesPerVirtualservice)&&
   Objects.equals(this.poolsPerPoolgroup, objControllerLimits.poolsPerPoolgroup)&&
   Objects.equals(this.rulesPerHttppolicy, objControllerLimits.rulesPerHttppolicy)&&
-  Objects.equals(this.vsBgpScaleout, objControllerLimits.vsBgpScaleout)&&
-  Objects.equals(this.serversPerPool, objControllerLimits.serversPerPool)&&
-  Objects.equals(this.stringsPerStringgroup, objControllerLimits.stringsPerStringgroup)&&
-  Objects.equals(this.controllerSizingLimits, objControllerLimits.controllerSizingLimits)&&
   Objects.equals(this.rulesPerNetworksecuritypolicy, objControllerLimits.rulesPerNetworksecuritypolicy)&&
-  Objects.equals(this.sniChildrenPerParent, objControllerLimits.sniChildrenPerParent)&&
+  Objects.equals(this.serversPerPool, objControllerLimits.serversPerPool)&&
   Objects.equals(this.routesPerVrfcontext, objControllerLimits.routesPerVrfcontext)&&
+  Objects.equals(this.defaultRoutesPerVrfcontext, objControllerLimits.defaultRoutesPerVrfcontext)&&
+  Objects.equals(this.sniChildrenPerParent, objControllerLimits.sniChildrenPerParent)&&
   Objects.equals(this.ipsPerIpgroup, objControllerLimits.ipsPerIpgroup)&&
-  Objects.equals(this.certificatesPerVirtualservice, objControllerLimits.certificatesPerVirtualservice);
+  Objects.equals(this.stringsPerStringgroup, objControllerLimits.stringsPerStringgroup)&&
+  Objects.equals(this.vsL2Scaleout, objControllerLimits.vsL2Scaleout)&&
+  Objects.equals(this.vsBgpScaleout, objControllerLimits.vsBgpScaleout)&&
+  Objects.equals(this.controllerSizingLimits, objControllerLimits.controllerSizingLimits)&&
+  Objects.equals(this.controllerCloudLimits, objControllerLimits.controllerCloudLimits);
 }
 
 @Override

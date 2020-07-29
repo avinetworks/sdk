@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   L4Rule objL4Rule = (L4Rule) o;
-  return   Objects.equals(this.action, objL4Rule.action)&&
+  return   Objects.equals(this.name, objL4Rule.name)&&
   Objects.equals(this.index, objL4Rule.index)&&
   Objects.equals(this.enable, objL4Rule.enable)&&
-  Objects.equals(this.name, objL4Rule.name)&&
-  Objects.equals(this.match, objL4Rule.match);
+  Objects.equals(this.match, objL4Rule.match)&&
+  Objects.equals(this.action, objL4Rule.action);
 }
 
 @Override

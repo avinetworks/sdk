@@ -158,9 +158,9 @@ public boolean equals(java.lang.Object o) {
   SnmpV3UserParams objSnmpV3UserParams = (SnmpV3UserParams) o;
   return   Objects.equals(this.username, objSnmpV3UserParams.username)&&
   Objects.equals(this.authType, objSnmpV3UserParams.authType)&&
-  Objects.equals(this.privPassphrase, objSnmpV3UserParams.privPassphrase)&&
   Objects.equals(this.authPassphrase, objSnmpV3UserParams.authPassphrase)&&
-  Objects.equals(this.privType, objSnmpV3UserParams.privType);
+  Objects.equals(this.privType, objSnmpV3UserParams.privType)&&
+  Objects.equals(this.privPassphrase, objSnmpV3UserParams.privPassphrase);
 }
 
 @Override

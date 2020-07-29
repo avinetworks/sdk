@@ -123,8 +123,8 @@ public boolean equals(java.lang.Object o) {
   RateLimiterEventDetails objRateLimiterEventDetails = (RateLimiterEventDetails) o;
   return   Objects.equals(this.status, objRateLimiterEventDetails.status)&&
   Objects.equals(this.rlResourceType, objRateLimiterEventDetails.rlResourceType)&&
-  Objects.equals(this.errorMessage, objRateLimiterEventDetails.errorMessage)&&
-  Objects.equals(this.rlResourceName, objRateLimiterEventDetails.rlResourceName);
+  Objects.equals(this.rlResourceName, objRateLimiterEventDetails.rlResourceName)&&
+  Objects.equals(this.errorMessage, objRateLimiterEventDetails.errorMessage);
 }
 
 @Override

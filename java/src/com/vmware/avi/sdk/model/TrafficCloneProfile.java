@@ -201,10 +201,10 @@ public boolean equals(java.lang.Object o) {
   TrafficCloneProfile objTrafficCloneProfile = (TrafficCloneProfile) o;
   return   Objects.equals(this.uuid, objTrafficCloneProfile.uuid)&&
   Objects.equals(this.name, objTrafficCloneProfile.name)&&
+  Objects.equals(this.cloneServers, objTrafficCloneProfile.cloneServers)&&
   Objects.equals(this.preserveClientIp, objTrafficCloneProfile.preserveClientIp)&&
   Objects.equals(this.tenantRef, objTrafficCloneProfile.tenantRef)&&
-  Objects.equals(this.cloudRef, objTrafficCloneProfile.cloudRef)&&
-  Objects.equals(this.cloneServers, objTrafficCloneProfile.cloneServers);
+  Objects.equals(this.cloudRef, objTrafficCloneProfile.cloudRef);
 }
 
 @Override

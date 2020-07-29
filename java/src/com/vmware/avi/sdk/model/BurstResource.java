@@ -165,12 +165,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BurstResource objBurstResource = (BurstResource) o;
-  return   Objects.equals(this.licenseTier, objBurstResource.licenseTier)&&
-  Objects.equals(this.lastAlertTime, objBurstResource.lastAlertTime)&&
-  Objects.equals(this.seCookie, objBurstResource.seCookie)&&
-  Objects.equals(this.startTime, objBurstResource.startTime)&&
+  return   Objects.equals(this.seCookie, objBurstResource.seCookie)&&
   Objects.equals(this.seUuid, objBurstResource.seUuid)&&
-  Objects.equals(this.accountedLicenseId, objBurstResource.accountedLicenseId);
+  Objects.equals(this.startTime, objBurstResource.startTime)&&
+  Objects.equals(this.accountedLicenseId, objBurstResource.accountedLicenseId)&&
+  Objects.equals(this.lastAlertTime, objBurstResource.lastAlertTime)&&
+  Objects.equals(this.licenseTier, objBurstResource.licenseTier);
 }
 
 @Override

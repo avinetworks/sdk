@@ -411,18 +411,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VSDataScriptSet objVSDataScriptSet = (VSDataScriptSet) o;
-  return   Objects.equals(this.datascript, objVSDataScriptSet.datascript)&&
-  Objects.equals(this.uuid, objVSDataScriptSet.uuid)&&
-  Objects.equals(this.protocolParserRefs, objVSDataScriptSet.protocolParserRefs)&&
-  Objects.equals(this.poolGroupRefs, objVSDataScriptSet.poolGroupRefs)&&
+  return   Objects.equals(this.uuid, objVSDataScriptSet.uuid)&&
+  Objects.equals(this.name, objVSDataScriptSet.name)&&
+  Objects.equals(this.datascript, objVSDataScriptSet.datascript)&&
   Objects.equals(this.poolRefs, objVSDataScriptSet.poolRefs)&&
-  Objects.equals(this.description, objVSDataScriptSet.description)&&
-  Objects.equals(this.createdBy, objVSDataScriptSet.createdBy)&&
-  Objects.equals(this.stringGroupRefs, objVSDataScriptSet.stringGroupRefs)&&
-  Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters)&&
+  Objects.equals(this.poolGroupRefs, objVSDataScriptSet.poolGroupRefs)&&
   Objects.equals(this.ipgroupRefs, objVSDataScriptSet.ipgroupRefs)&&
+  Objects.equals(this.stringGroupRefs, objVSDataScriptSet.stringGroupRefs)&&
+  Objects.equals(this.createdBy, objVSDataScriptSet.createdBy)&&
+  Objects.equals(this.protocolParserRefs, objVSDataScriptSet.protocolParserRefs)&&
+  Objects.equals(this.description, objVSDataScriptSet.description)&&
   Objects.equals(this.tenantRef, objVSDataScriptSet.tenantRef)&&
-  Objects.equals(this.name, objVSDataScriptSet.name);
+  Objects.equals(this.rateLimiters, objVSDataScriptSet.rateLimiters);
 }
 
 @Override

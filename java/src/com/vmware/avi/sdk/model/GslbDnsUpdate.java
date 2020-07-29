@@ -237,12 +237,12 @@ public boolean equals(java.lang.Object o) {
   }
   GslbDnsUpdate objGslbDnsUpdate = (GslbDnsUpdate) o;
   return   Objects.equals(this.uuid, objGslbDnsUpdate.uuid)&&
-  Objects.equals(this.gslbServiceUuids, objGslbDnsUpdate.gslbServiceUuids)&&
-  Objects.equals(this.gslbGeoDbProfileUuids, objGslbDnsUpdate.gslbGeoDbProfileUuids)&&
-  Objects.equals(this.objInfo, objGslbDnsUpdate.objInfo)&&
   Objects.equals(this.sendInterval, objGslbDnsUpdate.sendInterval)&&
+  Objects.equals(this.clearOnMaxRetries, objGslbDnsUpdate.clearOnMaxRetries)&&
+  Objects.equals(this.objInfo, objGslbDnsUpdate.objInfo)&&
   Objects.equals(this.gslbUuids, objGslbDnsUpdate.gslbUuids)&&
-  Objects.equals(this.clearOnMaxRetries, objGslbDnsUpdate.clearOnMaxRetries);
+  Objects.equals(this.gslbServiceUuids, objGslbDnsUpdate.gslbServiceUuids)&&
+  Objects.equals(this.gslbGeoDbProfileUuids, objGslbDnsUpdate.gslbGeoDbProfileUuids);
 }
 
 @Override

@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   EventCache objEventCache = (EventCache) o;
-  return   Objects.equals(this.exceptions, objEventCache.exceptions)&&
-  Objects.equals(this.dnsState, objEventCache.dnsState);
+  return   Objects.equals(this.dnsState, objEventCache.dnsState)&&
+  Objects.equals(this.exceptions, objEventCache.exceptions);
 }
 
 @Override

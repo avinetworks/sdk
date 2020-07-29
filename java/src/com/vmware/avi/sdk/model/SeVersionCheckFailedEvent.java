@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeVersionCheckFailedEvent objSeVersionCheckFailedEvent = (SeVersionCheckFailedEvent) o;
-  return   Objects.equals(this.seVersion, objSeVersionCheckFailedEvent.seVersion)&&
-  Objects.equals(this.seUuid, objSeVersionCheckFailedEvent.seUuid)&&
+  return   Objects.equals(this.seUuid, objSeVersionCheckFailedEvent.seUuid)&&
+  Objects.equals(this.seVersion, objSeVersionCheckFailedEvent.seVersion)&&
   Objects.equals(this.controllerVersion, objSeVersionCheckFailedEvent.controllerVersion);
 }
 

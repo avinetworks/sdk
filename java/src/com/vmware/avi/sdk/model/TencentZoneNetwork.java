@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TencentZoneNetwork objTencentZoneNetwork = (TencentZoneNetwork) o;
-  return   Objects.equals(this.usableSubnetId, objTencentZoneNetwork.usableSubnetId)&&
-  Objects.equals(this.availabilityZone, objTencentZoneNetwork.availabilityZone);
+  return   Objects.equals(this.availabilityZone, objTencentZoneNetwork.availabilityZone)&&
+  Objects.equals(this.usableSubnetId, objTencentZoneNetwork.usableSubnetId);
 }
 
 @Override

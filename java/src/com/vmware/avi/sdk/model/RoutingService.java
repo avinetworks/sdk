@@ -334,17 +334,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RoutingService objRoutingService = (RoutingService) o;
-  return   Objects.equals(this.natPolicyRef, objRoutingService.natPolicyRef)&&
-  Objects.equals(this.gracefulRestart, objRoutingService.gracefulRestart)&&
-  Objects.equals(this.enableVipOnAllInterfaces, objRoutingService.enableVipOnAllInterfaces)&&
-  Objects.equals(this.enableRouting, objRoutingService.enableRouting)&&
-  Objects.equals(this.enableAutoGateway, objRoutingService.enableAutoGateway)&&
+  return   Objects.equals(this.enableRouting, objRoutingService.enableRouting)&&
   Objects.equals(this.routingByLinuxIpstack, objRoutingService.routingByLinuxIpstack)&&
   Objects.equals(this.floatingIntfIp, objRoutingService.floatingIntfIp)&&
-  Objects.equals(this.advertiseBackendNetworks, objRoutingService.advertiseBackendNetworks)&&
   Objects.equals(this.floatingIntfIpSe2, objRoutingService.floatingIntfIpSe2)&&
   Objects.equals(this.enableVmac, objRoutingService.enableVmac)&&
-  Objects.equals(this.flowtableProfile, objRoutingService.flowtableProfile);
+  Objects.equals(this.enableVipOnAllInterfaces, objRoutingService.enableVipOnAllInterfaces)&&
+  Objects.equals(this.advertiseBackendNetworks, objRoutingService.advertiseBackendNetworks)&&
+  Objects.equals(this.natPolicyRef, objRoutingService.natPolicyRef)&&
+  Objects.equals(this.flowtableProfile, objRoutingService.flowtableProfile)&&
+  Objects.equals(this.gracefulRestart, objRoutingService.gracefulRestart)&&
+  Objects.equals(this.enableAutoGateway, objRoutingService.enableAutoGateway);
 }
 
 @Override

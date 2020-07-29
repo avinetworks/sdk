@@ -139,8 +139,8 @@ public boolean equals(java.lang.Object o) {
   OpenStackVnicChange objOpenStackVnicChange = (OpenStackVnicChange) o;
   return   Objects.equals(this.seVmUuid, objOpenStackVnicChange.seVmUuid)&&
   Objects.equals(this.networks, objOpenStackVnicChange.networks)&&
-  Objects.equals(this.errorString, objOpenStackVnicChange.errorString)&&
-  Objects.equals(this.macAddrs, objOpenStackVnicChange.macAddrs);
+  Objects.equals(this.macAddrs, objOpenStackVnicChange.macAddrs)&&
+  Objects.equals(this.errorString, objOpenStackVnicChange.errorString);
 }
 
 @Override

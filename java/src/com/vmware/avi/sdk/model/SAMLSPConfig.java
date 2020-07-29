@@ -208,7 +208,7 @@ public class SAMLSPConfig  {
    * This is the getter method this will return the attribute value.
    * By enabling this field idp can control how long the sp session can exist through the sessionnotonorafter field in the authnstatement of saml
    * response.
-   * Field introduced in 18.2.7.
+   * Field introduced in 20.1.1.
    * @return useIdpSessionTimeout
    */
   public Boolean getUseIdpSessionTimeout() {
@@ -219,7 +219,7 @@ public class SAMLSPConfig  {
    * This is the setter method to the attribute.
    * By enabling this field idp can control how long the sp session can exist through the sessionnotonorafter field in the authnstatement of saml
    * response.
-   * Field introduced in 18.2.7.
+   * Field introduced in 20.1.1.
    * @param useIdpSessionTimeout set the useIdpSessionTimeout.
    */
   public void setUseIdpSessionTimeout(Boolean  useIdpSessionTimeout) {
@@ -237,13 +237,13 @@ public boolean equals(java.lang.Object o) {
   }
   SAMLSPConfig objSAMLSPConfig = (SAMLSPConfig) o;
   return   Objects.equals(this.entityId, objSAMLSPConfig.entityId)&&
+  Objects.equals(this.singleSignonUrl, objSAMLSPConfig.singleSignonUrl)&&
   Objects.equals(this.spMetadata, objSAMLSPConfig.spMetadata)&&
+  Objects.equals(this.key, objSAMLSPConfig.key)&&
+  Objects.equals(this.cookieTimeout, objSAMLSPConfig.cookieTimeout)&&
   Objects.equals(this.cookieName, objSAMLSPConfig.cookieName)&&
   Objects.equals(this.signingSslKeyAndCertificateRef, objSAMLSPConfig.signingSslKeyAndCertificateRef)&&
-  Objects.equals(this.useIdpSessionTimeout, objSAMLSPConfig.useIdpSessionTimeout)&&
-  Objects.equals(this.singleSignonUrl, objSAMLSPConfig.singleSignonUrl)&&
-  Objects.equals(this.key, objSAMLSPConfig.key)&&
-  Objects.equals(this.cookieTimeout, objSAMLSPConfig.cookieTimeout);
+  Objects.equals(this.useIdpSessionTimeout, objSAMLSPConfig.useIdpSessionTimeout);
 }
 
 @Override

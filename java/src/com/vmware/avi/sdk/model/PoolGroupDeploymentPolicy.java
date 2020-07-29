@@ -318,17 +318,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PoolGroupDeploymentPolicy objPoolGroupDeploymentPolicy = (PoolGroupDeploymentPolicy) o;
-  return   Objects.equals(this.targetTestTrafficRatio, objPoolGroupDeploymentPolicy.targetTestTrafficRatio)&&
-  Objects.equals(this.evaluationDuration, objPoolGroupDeploymentPolicy.evaluationDuration)&&
-  Objects.equals(this.uuid, objPoolGroupDeploymentPolicy.uuid)&&
+  return   Objects.equals(this.uuid, objPoolGroupDeploymentPolicy.uuid)&&
+  Objects.equals(this.name, objPoolGroupDeploymentPolicy.name)&&
+  Objects.equals(this.scheme, objPoolGroupDeploymentPolicy.scheme)&&
   Objects.equals(this.testTrafficRatioRampup, objPoolGroupDeploymentPolicy.testTrafficRatioRampup)&&
+  Objects.equals(this.rules, objPoolGroupDeploymentPolicy.rules)&&
+  Objects.equals(this.webhookRef, objPoolGroupDeploymentPolicy.webhookRef)&&
+  Objects.equals(this.evaluationDuration, objPoolGroupDeploymentPolicy.evaluationDuration)&&
+  Objects.equals(this.targetTestTrafficRatio, objPoolGroupDeploymentPolicy.targetTestTrafficRatio)&&
   Objects.equals(this.autoDisableOldProdPools, objPoolGroupDeploymentPolicy.autoDisableOldProdPools)&&
   Objects.equals(this.description, objPoolGroupDeploymentPolicy.description)&&
-  Objects.equals(this.webhookRef, objPoolGroupDeploymentPolicy.webhookRef)&&
-  Objects.equals(this.rules, objPoolGroupDeploymentPolicy.rules)&&
-  Objects.equals(this.scheme, objPoolGroupDeploymentPolicy.scheme)&&
-  Objects.equals(this.tenantRef, objPoolGroupDeploymentPolicy.tenantRef)&&
-  Objects.equals(this.name, objPoolGroupDeploymentPolicy.name);
+  Objects.equals(this.tenantRef, objPoolGroupDeploymentPolicy.tenantRef);
 }
 
 @Override

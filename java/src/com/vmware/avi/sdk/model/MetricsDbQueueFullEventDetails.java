@@ -176,12 +176,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDbQueueFullEventDetails objMetricsDbQueueFullEventDetails = (MetricsDbQueueFullEventDetails) o;
-  return   Objects.equals(this.instanceport, objMetricsDbQueueFullEventDetails.instanceport)&&
+  return   Objects.equals(this.low, objMetricsDbQueueFullEventDetails.low)&&
+  Objects.equals(this.high, objMetricsDbQueueFullEventDetails.high)&&
   Objects.equals(this.watermark, objMetricsDbQueueFullEventDetails.watermark)&&
   Objects.equals(this.nodeid, objMetricsDbQueueFullEventDetails.nodeid)&&
+  Objects.equals(this.instanceport, objMetricsDbQueueFullEventDetails.instanceport)&&
   Objects.equals(this.period, objMetricsDbQueueFullEventDetails.period)&&
-  Objects.equals(this.high, objMetricsDbQueueFullEventDetails.high)&&
-  Objects.equals(this.low, objMetricsDbQueueFullEventDetails.low)&&
   Objects.equals(this.runtime, objMetricsDbQueueFullEventDetails.runtime);
 }
 

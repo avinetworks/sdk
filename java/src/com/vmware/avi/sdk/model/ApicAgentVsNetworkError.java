@@ -113,9 +113,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ApicAgentVsNetworkError objApicAgentVsNetworkError = (ApicAgentVsNetworkError) o;
-  return   Objects.equals(this.poolName, objApicAgentVsNetworkError.poolName)&&
-  Objects.equals(this.vsName, objApicAgentVsNetworkError.vsName)&&
+  return   Objects.equals(this.vsName, objApicAgentVsNetworkError.vsName)&&
   Objects.equals(this.vsNetwork, objApicAgentVsNetworkError.vsNetwork)&&
+  Objects.equals(this.poolName, objApicAgentVsNetworkError.poolName)&&
   Objects.equals(this.poolNetwork, objApicAgentVsNetworkError.poolNetwork);
 }
 

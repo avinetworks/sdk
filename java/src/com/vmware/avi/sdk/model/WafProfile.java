@@ -194,12 +194,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafProfile objWafProfile = (WafProfile) o;
-  return   Objects.equals(this.files, objWafProfile.files)&&
-  Objects.equals(this.description, objWafProfile.description)&&
+  return   Objects.equals(this.uuid, objWafProfile.uuid)&&
   Objects.equals(this.name, objWafProfile.name)&&
-  Objects.equals(this.config, objWafProfile.config)&&
+  Objects.equals(this.description, objWafProfile.description)&&
   Objects.equals(this.tenantRef, objWafProfile.tenantRef)&&
-  Objects.equals(this.uuid, objWafProfile.uuid);
+  Objects.equals(this.config, objWafProfile.config)&&
+  Objects.equals(this.files, objWafProfile.files);
 }
 
 @Override

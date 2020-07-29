@@ -125,8 +125,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmSeIpFailEventDetails objRmSeIpFailEventDetails = (RmSeIpFailEventDetails) o;
-  return   Objects.equals(this.seName, objRmSeIpFailEventDetails.seName)&&
-  Objects.equals(this.reason, objRmSeIpFailEventDetails.reason)&&
+  return   Objects.equals(this.reason, objRmSeIpFailEventDetails.reason)&&
+  Objects.equals(this.seName, objRmSeIpFailEventDetails.seName)&&
   Objects.equals(this.hostName, objRmSeIpFailEventDetails.hostName)&&
   Objects.equals(this.networks, objRmSeIpFailEventDetails.networks);
 }

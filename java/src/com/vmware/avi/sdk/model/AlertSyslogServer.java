@@ -223,14 +223,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertSyslogServer objAlertSyslogServer = (AlertSyslogServer) o;
-  return   Objects.equals(this.tlsEnable, objAlertSyslogServer.tlsEnable)&&
+  return   Objects.equals(this.syslogServer, objAlertSyslogServer.syslogServer)&&
+  Objects.equals(this.syslogServerPort, objAlertSyslogServer.syslogServerPort)&&
   Objects.equals(this.udp, objAlertSyslogServer.udp)&&
   Objects.equals(this.format, objAlertSyslogServer.format)&&
+  Objects.equals(this.tlsEnable, objAlertSyslogServer.tlsEnable)&&
   Objects.equals(this.sslKeyAndCertificateRef, objAlertSyslogServer.sslKeyAndCertificateRef)&&
   Objects.equals(this.pkiprofileRef, objAlertSyslogServer.pkiprofileRef)&&
-  Objects.equals(this.anonAuth, objAlertSyslogServer.anonAuth)&&
-  Objects.equals(this.syslogServerPort, objAlertSyslogServer.syslogServerPort)&&
-  Objects.equals(this.syslogServer, objAlertSyslogServer.syslogServer);
+  Objects.equals(this.anonAuth, objAlertSyslogServer.anonAuth);
 }
 
 @Override

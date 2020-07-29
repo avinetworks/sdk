@@ -335,17 +335,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RateLimiterProfile objRateLimiterProfile = (RateLimiterProfile) o;
-  return   Objects.equals(this.uriFailedRequestsRateLimit, objRateLimiterProfile.uriFailedRequestsRateLimit)&&
-  Objects.equals(this.clientIpScannersRequestsRateLimit, objRateLimiterProfile.clientIpScannersRequestsRateLimit)&&
-  Objects.equals(this.customRequestsRateLimit, objRateLimiterProfile.customRequestsRateLimit)&&
-  Objects.equals(this.clientIpToUriFailedRequestsRateLimit, objRateLimiterProfile.clientIpToUriFailedRequestsRateLimit)&&
-  Objects.equals(this.clientIpToUriRequestsRateLimit, objRateLimiterProfile.clientIpToUriRequestsRateLimit)&&
-  Objects.equals(this.uriRequestsRateLimit, objRateLimiterProfile.uriRequestsRateLimit)&&
-  Objects.equals(this.uriScannersRequestsRateLimit, objRateLimiterProfile.uriScannersRequestsRateLimit)&&
+  return   Objects.equals(this.clientIpConnectionsRateLimit, objRateLimiterProfile.clientIpConnectionsRateLimit)&&
   Objects.equals(this.clientIpRequestsRateLimit, objRateLimiterProfile.clientIpRequestsRateLimit)&&
+  Objects.equals(this.uriRequestsRateLimit, objRateLimiterProfile.uriRequestsRateLimit)&&
+  Objects.equals(this.clientIpToUriRequestsRateLimit, objRateLimiterProfile.clientIpToUriRequestsRateLimit)&&
   Objects.equals(this.clientIpFailedRequestsRateLimit, objRateLimiterProfile.clientIpFailedRequestsRateLimit)&&
-  Objects.equals(this.clientIpConnectionsRateLimit, objRateLimiterProfile.clientIpConnectionsRateLimit)&&
-  Objects.equals(this.httpHeaderRateLimits, objRateLimiterProfile.httpHeaderRateLimits);
+  Objects.equals(this.uriFailedRequestsRateLimit, objRateLimiterProfile.uriFailedRequestsRateLimit)&&
+  Objects.equals(this.clientIpToUriFailedRequestsRateLimit, objRateLimiterProfile.clientIpToUriFailedRequestsRateLimit)&&
+  Objects.equals(this.clientIpScannersRequestsRateLimit, objRateLimiterProfile.clientIpScannersRequestsRateLimit)&&
+  Objects.equals(this.uriScannersRequestsRateLimit, objRateLimiterProfile.uriScannersRequestsRateLimit)&&
+  Objects.equals(this.httpHeaderRateLimits, objRateLimiterProfile.httpHeaderRateLimits)&&
+  Objects.equals(this.customRequestsRateLimit, objRateLimiterProfile.customRequestsRateLimit);
 }
 
 @Override

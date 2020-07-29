@@ -127,8 +127,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorSSLAttributes objHealthMonitorSSLAttributes = (HealthMonitorSSLAttributes) o;
-  return   Objects.equals(this.pkiProfileRef, objHealthMonitorSSLAttributes.pkiProfileRef)&&
-  Objects.equals(this.sslProfileRef, objHealthMonitorSSLAttributes.sslProfileRef)&&
+  return   Objects.equals(this.sslProfileRef, objHealthMonitorSSLAttributes.sslProfileRef)&&
+  Objects.equals(this.pkiProfileRef, objHealthMonitorSSLAttributes.pkiProfileRef)&&
   Objects.equals(this.sslKeyAndCertificateRef, objHealthMonitorSSLAttributes.sslKeyAndCertificateRef)&&
   Objects.equals(this.serverName, objHealthMonitorSSLAttributes.serverName);
 }

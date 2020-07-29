@@ -156,11 +156,11 @@ public boolean equals(java.lang.Object o) {
   }
   IpamDnsOpenstackProfile objIpamDnsOpenstackProfile = (IpamDnsOpenstackProfile) o;
   return   Objects.equals(this.username, objIpamDnsOpenstackProfile.username)&&
-  Objects.equals(this.region, objIpamDnsOpenstackProfile.region)&&
-  Objects.equals(this.vipNetworkName, objIpamDnsOpenstackProfile.vipNetworkName)&&
-  Objects.equals(this.keystoneHost, objIpamDnsOpenstackProfile.keystoneHost)&&
   Objects.equals(this.password, objIpamDnsOpenstackProfile.password)&&
-  Objects.equals(this.tenant, objIpamDnsOpenstackProfile.tenant);
+  Objects.equals(this.tenant, objIpamDnsOpenstackProfile.tenant)&&
+  Objects.equals(this.keystoneHost, objIpamDnsOpenstackProfile.keystoneHost)&&
+  Objects.equals(this.vipNetworkName, objIpamDnsOpenstackProfile.vipNetworkName)&&
+  Objects.equals(this.region, objIpamDnsOpenstackProfile.region);
 }
 
 @Override

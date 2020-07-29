@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthAttributeMatch objAuthAttributeMatch = (AuthAttributeMatch) o;
-  return   Objects.equals(this.attributeValueList, objAuthAttributeMatch.attributeValueList)&&
-  Objects.equals(this.attributeName, objAuthAttributeMatch.attributeName);
+  return   Objects.equals(this.attributeName, objAuthAttributeMatch.attributeName)&&
+  Objects.equals(this.attributeValueList, objAuthAttributeMatch.attributeValueList);
 }
 
 @Override

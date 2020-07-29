@@ -134,10 +134,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthorizationMatch objAuthorizationMatch = (AuthorizationMatch) o;
-  return   Objects.equals(this.path, objAuthorizationMatch.path)&&
+  return   Objects.equals(this.attrMatches, objAuthorizationMatch.attrMatches)&&
+  Objects.equals(this.path, objAuthorizationMatch.path)&&
   Objects.equals(this.hostHdr, objAuthorizationMatch.hostHdr)&&
-  Objects.equals(this.method, objAuthorizationMatch.method)&&
-  Objects.equals(this.attrMatches, objAuthorizationMatch.attrMatches);
+  Objects.equals(this.method, objAuthorizationMatch.method);
 }
 
 @Override

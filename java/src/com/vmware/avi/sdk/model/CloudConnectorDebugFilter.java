@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudConnectorDebugFilter objCloudConnectorDebugFilter = (CloudConnectorDebugFilter) o;
-  return   Objects.equals(this.disableSeReboot, objCloudConnectorDebugFilter.disableSeReboot)&&
-  Objects.equals(this.seId, objCloudConnectorDebugFilter.seId)&&
-  Objects.equals(this.appId, objCloudConnectorDebugFilter.appId);
+  return   Objects.equals(this.seId, objCloudConnectorDebugFilter.seId)&&
+  Objects.equals(this.appId, objCloudConnectorDebugFilter.appId)&&
+  Objects.equals(this.disableSeReboot, objCloudConnectorDebugFilter.disableSeReboot);
 }
 
 @Override

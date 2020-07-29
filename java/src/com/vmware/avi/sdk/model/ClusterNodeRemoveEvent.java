@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNodeRemoveEvent objClusterNodeRemoveEvent = (ClusterNodeRemoveEvent) o;
-  return   Objects.equals(this.ip, objClusterNodeRemoveEvent.ip)&&
-  Objects.equals(this.role, objClusterNodeRemoveEvent.role)&&
-  Objects.equals(this.nodeName, objClusterNodeRemoveEvent.nodeName);
+  return   Objects.equals(this.nodeName, objClusterNodeRemoveEvent.nodeName)&&
+  Objects.equals(this.ip, objClusterNodeRemoveEvent.ip)&&
+  Objects.equals(this.role, objClusterNodeRemoveEvent.role);
 }
 
 @Override

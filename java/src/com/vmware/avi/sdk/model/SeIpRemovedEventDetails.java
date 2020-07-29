@@ -220,15 +220,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeIpRemovedEventDetails objSeIpRemovedEventDetails = (SeIpRemovedEventDetails) o;
-  return   Objects.equals(this.networkUuid, objSeIpRemovedEventDetails.networkUuid)&&
-  Objects.equals(this.ip, objSeIpRemovedEventDetails.ip)&&
-  Objects.equals(this.linuxName, objSeIpRemovedEventDetails.linuxName)&&
-  Objects.equals(this.mask, objSeIpRemovedEventDetails.mask)&&
+  return   Objects.equals(this.seRef, objSeIpRemovedEventDetails.seRef)&&
   Objects.equals(this.ifName, objSeIpRemovedEventDetails.ifName)&&
-  Objects.equals(this.mac, objSeIpRemovedEventDetails.mac)&&
-  Objects.equals(this.seRef, objSeIpRemovedEventDetails.seRef)&&
+  Objects.equals(this.linuxName, objSeIpRemovedEventDetails.linuxName)&&
+  Objects.equals(this.ip, objSeIpRemovedEventDetails.ip)&&
+  Objects.equals(this.mask, objSeIpRemovedEventDetails.mask)&&
+  Objects.equals(this.mode, objSeIpRemovedEventDetails.mode)&&
   Objects.equals(this.ns, objSeIpRemovedEventDetails.ns)&&
-  Objects.equals(this.mode, objSeIpRemovedEventDetails.mode);
+  Objects.equals(this.networkUuid, objSeIpRemovedEventDetails.networkUuid)&&
+  Objects.equals(this.mac, objSeIpRemovedEventDetails.mac);
 }
 
 @Override

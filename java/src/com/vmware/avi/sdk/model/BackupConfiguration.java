@@ -380,21 +380,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BackupConfiguration objBackupConfiguration = (BackupConfiguration) o;
-  return   Objects.equals(this.awsAccessKey, objBackupConfiguration.awsAccessKey)&&
-  Objects.equals(this.uuid, objBackupConfiguration.uuid)&&
-  Objects.equals(this.uploadToS3, objBackupConfiguration.uploadToS3)&&
-  Objects.equals(this.awsBucketId, objBackupConfiguration.awsBucketId)&&
-  Objects.equals(this.remoteHostname, objBackupConfiguration.remoteHostname)&&
-  Objects.equals(this.backupPassphrase, objBackupConfiguration.backupPassphrase)&&
-  Objects.equals(this.awsSecretAccess, objBackupConfiguration.awsSecretAccess)&&
-  Objects.equals(this.uploadToRemoteHost, objBackupConfiguration.uploadToRemoteHost)&&
+  return   Objects.equals(this.uuid, objBackupConfiguration.uuid)&&
+  Objects.equals(this.name, objBackupConfiguration.name)&&
   Objects.equals(this.saveLocal, objBackupConfiguration.saveLocal)&&
   Objects.equals(this.maximumBackupsStored, objBackupConfiguration.maximumBackupsStored)&&
+  Objects.equals(this.uploadToRemoteHost, objBackupConfiguration.uploadToRemoteHost)&&
   Objects.equals(this.sshUserRef, objBackupConfiguration.sshUserRef)&&
-  Objects.equals(this.backupFilePrefix, objBackupConfiguration.backupFilePrefix)&&
-  Objects.equals(this.tenantRef, objBackupConfiguration.tenantRef)&&
   Objects.equals(this.remoteDirectory, objBackupConfiguration.remoteDirectory)&&
-  Objects.equals(this.name, objBackupConfiguration.name);
+  Objects.equals(this.remoteHostname, objBackupConfiguration.remoteHostname)&&
+  Objects.equals(this.backupPassphrase, objBackupConfiguration.backupPassphrase)&&
+  Objects.equals(this.backupFilePrefix, objBackupConfiguration.backupFilePrefix)&&
+  Objects.equals(this.uploadToS3, objBackupConfiguration.uploadToS3)&&
+  Objects.equals(this.awsAccessKey, objBackupConfiguration.awsAccessKey)&&
+  Objects.equals(this.awsSecretAccess, objBackupConfiguration.awsSecretAccess)&&
+  Objects.equals(this.awsBucketId, objBackupConfiguration.awsBucketId)&&
+  Objects.equals(this.tenantRef, objBackupConfiguration.tenantRef);
 }
 
 @Override

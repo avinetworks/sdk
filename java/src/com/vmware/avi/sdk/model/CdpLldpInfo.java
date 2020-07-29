@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CdpLldpInfo objCdpLldpInfo = (CdpLldpInfo) o;
-  return   Objects.equals(this.systemName, objCdpLldpInfo.systemName)&&
-  Objects.equals(this.switchInfoType, objCdpLldpInfo.switchInfoType)&&
-  Objects.equals(this.chassis, objCdpLldpInfo.chassis)&&
+  return   Objects.equals(this.switchInfoType, objCdpLldpInfo.switchInfoType)&&
   Objects.equals(this.device, objCdpLldpInfo.device)&&
+  Objects.equals(this.chassis, objCdpLldpInfo.chassis)&&
+  Objects.equals(this.port, objCdpLldpInfo.port)&&
   Objects.equals(this.mgmtaddr, objCdpLldpInfo.mgmtaddr)&&
-  Objects.equals(this.port, objCdpLldpInfo.port);
+  Objects.equals(this.systemName, objCdpLldpInfo.systemName);
 }
 
 @Override

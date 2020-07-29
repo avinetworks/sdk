@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   L4RuleProtocolMatch objL4RuleProtocolMatch = (L4RuleProtocolMatch) o;
-  return   Objects.equals(this.protocol, objL4RuleProtocolMatch.protocol)&&
-  Objects.equals(this.matchCriteria, objL4RuleProtocolMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objL4RuleProtocolMatch.matchCriteria)&&
+  Objects.equals(this.protocol, objL4RuleProtocolMatch.protocol);
 }
 
 @Override

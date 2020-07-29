@@ -146,10 +146,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   QueryMatch objQueryMatch = (QueryMatch) o;
-  return   Objects.equals(this.matchCase, objQueryMatch.matchCase)&&
-  Objects.equals(this.stringGroupRefs, objQueryMatch.stringGroupRefs)&&
+  return   Objects.equals(this.matchCriteria, objQueryMatch.matchCriteria)&&
+  Objects.equals(this.matchCase, objQueryMatch.matchCase)&&
   Objects.equals(this.matchStr, objQueryMatch.matchStr)&&
-  Objects.equals(this.matchCriteria, objQueryMatch.matchCriteria);
+  Objects.equals(this.stringGroupRefs, objQueryMatch.stringGroupRefs);
 }
 
 @Override

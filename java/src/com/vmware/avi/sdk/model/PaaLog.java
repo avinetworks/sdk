@@ -111,9 +111,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PaaLog objPaaLog = (PaaLog) o;
-  return   Objects.equals(this.cacheHit, objPaaLog.cacheHit)&&
-  Objects.equals(this.requestLogs, objPaaLog.requestLogs)&&
-  Objects.equals(this.clientRequestBodySent, objPaaLog.clientRequestBodySent);
+  return   Objects.equals(this.clientRequestBodySent, objPaaLog.clientRequestBodySent)&&
+  Objects.equals(this.cacheHit, objPaaLog.cacheHit)&&
+  Objects.equals(this.requestLogs, objPaaLog.requestLogs);
 }
 
 @Override

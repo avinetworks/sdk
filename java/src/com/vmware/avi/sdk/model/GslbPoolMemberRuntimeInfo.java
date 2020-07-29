@@ -523,26 +523,26 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbPoolMemberRuntimeInfo objGslbPoolMemberRuntimeInfo = (GslbPoolMemberRuntimeInfo) o;
-  return   Objects.equals(this.operStatus, objGslbPoolMemberRuntimeInfo.operStatus)&&
-  Objects.equals(this.vserverL7Metrics, objGslbPoolMemberRuntimeInfo.vserverL7Metrics)&&
-  Objects.equals(this.ipv6ValueToSe, objGslbPoolMemberRuntimeInfo.ipv6ValueToSe)&&
-  Objects.equals(this.gsUuid, objGslbPoolMemberRuntimeInfo.gsUuid)&&
-  Objects.equals(this.siteName, objGslbPoolMemberRuntimeInfo.siteName)&&
-  Objects.equals(this.vserverL4Metrics, objGslbPoolMemberRuntimeInfo.vserverL4Metrics)&&
-  Objects.equals(this.controllerStatus, objGslbPoolMemberRuntimeInfo.controllerStatus)&&
-  Objects.equals(this.ip, objGslbPoolMemberRuntimeInfo.ip)&&
+  return   Objects.equals(this.gsUuid, objGslbPoolMemberRuntimeInfo.gsUuid)&&
   Objects.equals(this.gsName, objGslbPoolMemberRuntimeInfo.gsName)&&
-  Objects.equals(this.vipType, objGslbPoolMemberRuntimeInfo.vipType)&&
-  Objects.equals(this.vsUuid, objGslbPoolMemberRuntimeInfo.vsUuid)&&
-  Objects.equals(this.fqdn, objGslbPoolMemberRuntimeInfo.fqdn)&&
-  Objects.equals(this.services, objGslbPoolMemberRuntimeInfo.services)&&
-  Objects.equals(this.vsName, objGslbPoolMemberRuntimeInfo.vsName)&&
-  Objects.equals(this.ipValueToSe, objGslbPoolMemberRuntimeInfo.ipValueToSe)&&
-  Objects.equals(this.spPools, objGslbPoolMemberRuntimeInfo.spPools)&&
   Objects.equals(this.clusterUuid, objGslbPoolMemberRuntimeInfo.clusterUuid)&&
+  Objects.equals(this.siteName, objGslbPoolMemberRuntimeInfo.siteName)&&
+  Objects.equals(this.vsUuid, objGslbPoolMemberRuntimeInfo.vsUuid)&&
+  Objects.equals(this.vsName, objGslbPoolMemberRuntimeInfo.vsName)&&
+  Objects.equals(this.fqdn, objGslbPoolMemberRuntimeInfo.fqdn)&&
+  Objects.equals(this.ip, objGslbPoolMemberRuntimeInfo.ip)&&
+  Objects.equals(this.operIps, objGslbPoolMemberRuntimeInfo.operIps)&&
+  Objects.equals(this.vipType, objGslbPoolMemberRuntimeInfo.vipType)&&
+  Objects.equals(this.services, objGslbPoolMemberRuntimeInfo.services)&&
+  Objects.equals(this.ipValueToSe, objGslbPoolMemberRuntimeInfo.ipValueToSe)&&
   Objects.equals(this.appType, objGslbPoolMemberRuntimeInfo.appType)&&
+  Objects.equals(this.spPools, objGslbPoolMemberRuntimeInfo.spPools)&&
+  Objects.equals(this.ipv6ValueToSe, objGslbPoolMemberRuntimeInfo.ipv6ValueToSe)&&
+  Objects.equals(this.operStatus, objGslbPoolMemberRuntimeInfo.operStatus)&&
+  Objects.equals(this.controllerStatus, objGslbPoolMemberRuntimeInfo.controllerStatus)&&
   Objects.equals(this.datapathStatus, objGslbPoolMemberRuntimeInfo.datapathStatus)&&
-  Objects.equals(this.operIps, objGslbPoolMemberRuntimeInfo.operIps);
+  Objects.equals(this.vserverL4Metrics, objGslbPoolMemberRuntimeInfo.vserverL4Metrics)&&
+  Objects.equals(this.vserverL7Metrics, objGslbPoolMemberRuntimeInfo.vserverL7Metrics);
 }
 
 @Override

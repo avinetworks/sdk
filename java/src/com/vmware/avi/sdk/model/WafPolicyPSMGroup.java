@@ -290,15 +290,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafPolicyPSMGroup objWafPolicyPSMGroup = (WafPolicyPSMGroup) o;
-  return   Objects.equals(this.enable, objWafPolicyPSMGroup.enable)&&
-  Objects.equals(this.uuid, objWafPolicyPSMGroup.uuid)&&
-  Objects.equals(this.description, objWafPolicyPSMGroup.description)&&
-  Objects.equals(this.locations, objWafPolicyPSMGroup.locations)&&
-  Objects.equals(this.isLearningGroup, objWafPolicyPSMGroup.isLearningGroup)&&
-  Objects.equals(this.hitAction, objWafPolicyPSMGroup.hitAction)&&
+  return   Objects.equals(this.uuid, objWafPolicyPSMGroup.uuid)&&
   Objects.equals(this.tenantRef, objWafPolicyPSMGroup.tenantRef)&&
+  Objects.equals(this.name, objWafPolicyPSMGroup.name)&&
+  Objects.equals(this.enable, objWafPolicyPSMGroup.enable)&&
+  Objects.equals(this.locations, objWafPolicyPSMGroup.locations)&&
+  Objects.equals(this.hitAction, objWafPolicyPSMGroup.hitAction)&&
   Objects.equals(this.missAction, objWafPolicyPSMGroup.missAction)&&
-  Objects.equals(this.name, objWafPolicyPSMGroup.name);
+  Objects.equals(this.description, objWafPolicyPSMGroup.description)&&
+  Objects.equals(this.isLearningGroup, objWafPolicyPSMGroup.isLearningGroup);
 }
 
 @Override

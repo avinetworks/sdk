@@ -326,19 +326,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ResponseMatchTarget objResponseMatchTarget = (ResponseMatchTarget) o;
-  return   Objects.equals(this.status, objResponseMatchTarget.status)&&
-  Objects.equals(this.clientIp, objResponseMatchTarget.clientIp)&&
-  Objects.equals(this.protocol, objResponseMatchTarget.protocol)&&
-  Objects.equals(this.hdrs, objResponseMatchTarget.hdrs)&&
-  Objects.equals(this.locHdr, objResponseMatchTarget.locHdr)&&
-  Objects.equals(this.rspHdrs, objResponseMatchTarget.rspHdrs)&&
-  Objects.equals(this.hostHdr, objResponseMatchTarget.hostHdr)&&
+  return   Objects.equals(this.clientIp, objResponseMatchTarget.clientIp)&&
   Objects.equals(this.vsPort, objResponseMatchTarget.vsPort)&&
+  Objects.equals(this.protocol, objResponseMatchTarget.protocol)&&
+  Objects.equals(this.method, objResponseMatchTarget.method)&&
   Objects.equals(this.version, objResponseMatchTarget.version)&&
-  Objects.equals(this.cookie, objResponseMatchTarget.cookie)&&
-  Objects.equals(this.query, objResponseMatchTarget.query)&&
   Objects.equals(this.path, objResponseMatchTarget.path)&&
-  Objects.equals(this.method, objResponseMatchTarget.method);
+  Objects.equals(this.query, objResponseMatchTarget.query)&&
+  Objects.equals(this.hdrs, objResponseMatchTarget.hdrs)&&
+  Objects.equals(this.cookie, objResponseMatchTarget.cookie)&&
+  Objects.equals(this.hostHdr, objResponseMatchTarget.hostHdr)&&
+  Objects.equals(this.locHdr, objResponseMatchTarget.locHdr)&&
+  Objects.equals(this.status, objResponseMatchTarget.status)&&
+  Objects.equals(this.rspHdrs, objResponseMatchTarget.rspHdrs);
 }
 
 @Override

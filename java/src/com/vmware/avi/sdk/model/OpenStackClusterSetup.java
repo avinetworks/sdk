@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackClusterSetup objOpenStackClusterSetup = (OpenStackClusterSetup) o;
-  return   Objects.equals(this.errorString, objOpenStackClusterSetup.errorString)&&
-  Objects.equals(this.authUrl, objOpenStackClusterSetup.authUrl)&&
-  Objects.equals(this.privilege, objOpenStackClusterSetup.privilege)&&
+  return   Objects.equals(this.ccId, objOpenStackClusterSetup.ccId)&&
   Objects.equals(this.keystoneHost, objOpenStackClusterSetup.keystoneHost)&&
   Objects.equals(this.adminTenant, objOpenStackClusterSetup.adminTenant)&&
-  Objects.equals(this.ccId, objOpenStackClusterSetup.ccId);
+  Objects.equals(this.privilege, objOpenStackClusterSetup.privilege)&&
+  Objects.equals(this.errorString, objOpenStackClusterSetup.errorString)&&
+  Objects.equals(this.authUrl, objOpenStackClusterSetup.authUrl);
 }
 
 @Override

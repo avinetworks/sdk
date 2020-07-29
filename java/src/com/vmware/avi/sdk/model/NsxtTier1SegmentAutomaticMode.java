@@ -113,8 +113,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NsxtTier1SegmentAutomaticMode objNsxtTier1SegmentAutomaticMode = (NsxtTier1SegmentAutomaticMode) o;
-  return   Objects.equals(this.nsxtSegmentSubnet, objNsxtTier1SegmentAutomaticMode.nsxtSegmentSubnet)&&
-  Objects.equals(this.tier1LrIds, objNsxtTier1SegmentAutomaticMode.tier1LrIds)&&
+  return   Objects.equals(this.tier1LrIds, objNsxtTier1SegmentAutomaticMode.tier1LrIds)&&
+  Objects.equals(this.nsxtSegmentSubnet, objNsxtTier1SegmentAutomaticMode.nsxtSegmentSubnet)&&
   Objects.equals(this.numSePerSegment, objNsxtTier1SegmentAutomaticMode.numSePerSegment);
 }
 

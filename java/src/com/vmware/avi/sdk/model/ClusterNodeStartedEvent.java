@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNodeStartedEvent objClusterNodeStartedEvent = (ClusterNodeStartedEvent) o;
-  return   Objects.equals(this.ip, objClusterNodeStartedEvent.ip)&&
-  Objects.equals(this.nodeName, objClusterNodeStartedEvent.nodeName);
+  return   Objects.equals(this.nodeName, objClusterNodeStartedEvent.nodeName)&&
+  Objects.equals(this.ip, objClusterNodeStartedEvent.ip);
 }
 
 @Override

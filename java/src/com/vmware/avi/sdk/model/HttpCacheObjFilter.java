@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HttpCacheObjFilter objHttpCacheObjFilter = (HttpCacheObjFilter) o;
-  return   Objects.equals(this.rawKey, objHttpCacheObjFilter.rawKey)&&
+  return   Objects.equals(this.type, objHttpCacheObjFilter.type)&&
+  Objects.equals(this.key, objHttpCacheObjFilter.key)&&
+  Objects.equals(this.rawKey, objHttpCacheObjFilter.rawKey)&&
   Objects.equals(this.resourceName, objHttpCacheObjFilter.resourceName)&&
-  Objects.equals(this.type, objHttpCacheObjFilter.type)&&
-  Objects.equals(this.resourceType, objHttpCacheObjFilter.resourceType)&&
-  Objects.equals(this.key, objHttpCacheObjFilter.key);
+  Objects.equals(this.resourceType, objHttpCacheObjFilter.resourceType);
 }
 
 @Override

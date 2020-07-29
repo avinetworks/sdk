@@ -239,13 +239,13 @@ public boolean equals(java.lang.Object o) {
   }
   MarathonConfiguration objMarathonConfiguration = (MarathonConfiguration) o;
   return   Objects.equals(this.marathonUrl, objMarathonConfiguration.marathonUrl)&&
-  Objects.equals(this.marathonPassword, objMarathonConfiguration.marathonPassword)&&
-  Objects.equals(this.privatePortRange, objMarathonConfiguration.privatePortRange)&&
-  Objects.equals(this.useTokenAuth, objMarathonConfiguration.useTokenAuth)&&
   Objects.equals(this.marathonUsername, objMarathonConfiguration.marathonUsername)&&
+  Objects.equals(this.marathonPassword, objMarathonConfiguration.marathonPassword)&&
   Objects.equals(this.publicPortRange, objMarathonConfiguration.publicPortRange)&&
-  Objects.equals(this.vsNameTagFramework, objMarathonConfiguration.vsNameTagFramework)&&
+  Objects.equals(this.privatePortRange, objMarathonConfiguration.privatePortRange)&&
   Objects.equals(this.frameworkTag, objMarathonConfiguration.frameworkTag)&&
+  Objects.equals(this.vsNameTagFramework, objMarathonConfiguration.vsNameTagFramework)&&
+  Objects.equals(this.useTokenAuth, objMarathonConfiguration.useTokenAuth)&&
   Objects.equals(this.tenant, objMarathonConfiguration.tenant);
 }
 

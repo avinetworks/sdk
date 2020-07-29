@@ -218,15 +218,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LicenseTransactionDetails objLicenseTransactionDetails = (LicenseTransactionDetails) o;
-  return   Objects.equals(this.description, objLicenseTransactionDetails.description)&&
-  Objects.equals(this.overdraft, objLicenseTransactionDetails.overdraft)&&
-  Objects.equals(this.id, objLicenseTransactionDetails.id)&&
+  return   Objects.equals(this.id, objLicenseTransactionDetails.id)&&
   Objects.equals(this.cookie, objLicenseTransactionDetails.cookie)&&
+  Objects.equals(this.tenantUuid, objLicenseTransactionDetails.tenantUuid)&&
   Objects.equals(this.tier, objLicenseTransactionDetails.tier)&&
-  Objects.equals(this.licensedServiceCores, objLicenseTransactionDetails.licensedServiceCores)&&
   Objects.equals(this.operation, objLicenseTransactionDetails.operation)&&
   Objects.equals(this.serviceCores, objLicenseTransactionDetails.serviceCores)&&
-  Objects.equals(this.tenantUuid, objLicenseTransactionDetails.tenantUuid);
+  Objects.equals(this.licensedServiceCores, objLicenseTransactionDetails.licensedServiceCores)&&
+  Objects.equals(this.overdraft, objLicenseTransactionDetails.overdraft)&&
+  Objects.equals(this.description, objLicenseTransactionDetails.description);
 }
 
 @Override

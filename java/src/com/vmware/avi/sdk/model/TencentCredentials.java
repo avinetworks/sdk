@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TencentCredentials objTencentCredentials = (TencentCredentials) o;
-  return   Objects.equals(this.secretKey, objTencentCredentials.secretKey)&&
-  Objects.equals(this.secretId, objTencentCredentials.secretId);
+  return   Objects.equals(this.secretId, objTencentCredentials.secretId)&&
+  Objects.equals(this.secretKey, objTencentCredentials.secretKey);
 }
 
 @Override
