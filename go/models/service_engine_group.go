@@ -236,6 +236,9 @@ type ServiceEngineGroup struct {
 	// Iptable Rules.
 	Iptables []*IptableRuleSet `json:"iptables,omitempty"`
 
+	// Labels associated with this SE group. Field introduced in 20.1.1.
+	Labels []*KeyValue `json:"labels,omitempty"`
+
 	// Select core with least load for new flow.
 	LeastLoadCoreSelection *bool `json:"least_load_core_selection,omitempty"`
 
