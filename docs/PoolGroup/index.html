@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure poolgroup <key> - show poolgroup <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,12 +257,14 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "deployment_policy_ref" : "aeiou",
     "priority_labels_ref" : "aeiou",
     "service_metadata" : "aeiou",
     "description" : "aeiou",
+    "enable_http2" : true,
     "created_by" : "aeiou",
     "implicit_priority_labels" : true,
     "uuid" : "aeiou",
@@ -357,6 +359,7 @@ font-style: italic;
   "priority_labels_ref" : "aeiou",
   "service_metadata" : "aeiou",
   "description" : "aeiou",
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "implicit_priority_labels" : true,
   "uuid" : "aeiou",
@@ -522,6 +525,7 @@ font-style: italic;
   "priority_labels_ref" : "aeiou",
   "service_metadata" : "aeiou",
   "description" : "aeiou",
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "implicit_priority_labels" : true,
   "uuid" : "aeiou",
@@ -627,6 +631,7 @@ font-style: italic;
   "priority_labels_ref" : "aeiou",
   "service_metadata" : "aeiou",
   "description" : "aeiou",
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "implicit_priority_labels" : true,
   "uuid" : "aeiou",
@@ -732,6 +737,7 @@ font-style: italic;
   "priority_labels_ref" : "aeiou",
   "service_metadata" : "aeiou",
   "description" : "aeiou",
+  "enable_http2" : true,
   "created_by" : "aeiou",
   "implicit_priority_labels" : true,
   "uuid" : "aeiou",
@@ -851,6 +857,7 @@ font-style: italic;
 <div class="param">created_by (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the user who created the object. </div>
 <div class="param">deployment_policy_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> When setup autoscale manager will automatically promote new pools into production when deployment goals are met. It is a reference to an object of type PoolGroupDeploymentPolicy. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Description of Pool Group. </div>
+<div class="param">enable_http2 (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable HTTP/2 for traffic from VirtualService to all the backend servers in all the pools configured under this PoolGroup. Field introduced in 20.1.1. </div>
 <div class="param">fail_action (optional)</div><div class="param-desc"><span class="param-type"><a href="#FailAction">FailAction</a></span> Enable an action - Close Connection, HTTP Redirect, or Local HTTP Response - when a pool group failure happens. By default, a connection will be closed, in case the pool group experiences a failure. </div>
 <div class="param">implicit_priority_labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Whether an implicit set of priority labels is generated. Field introduced in 17.1.9,17.2.3. </div>
 <div class="param">members (optional)</div><div class="param-desc"><span class="param-type"><a href="#PoolGroupMember">array[PoolGroupMember]</a></span> List of pool group members object of type PoolGroupMember. </div>
@@ -868,6 +875,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#PoolGroup">array[PoolGroup]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

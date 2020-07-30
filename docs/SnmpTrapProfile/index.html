@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure snmptrapprofile <key> - show snmptrapprofile <key> - test alerttestsnmptrap <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,6 +254,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "trap_servers" : [ {
@@ -791,6 +792,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#SnmpTrapProfile">array[SnmpTrapProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -807,7 +809,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SnmpV3UserParams">SnmpV3UserParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">auth_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 authentication passphrase. Field introduced in 17.2.3. </div>
-<div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3. </div>
+<div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA, SNMP_V3_AUTH_SHA_224, SNMP_V3_AUTH_SHA_256, SNMP_V3_AUTH_SHA_384, SNMP_V3_AUTH_SHA_512. Field introduced in 17.2.3. </div>
 <div class="param">priv_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy passphrase. Field introduced in 17.2.3. </div>
 <div class="param">priv_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3. </div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3. </div>

@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure ipamdnsproviderprofile <key> - show ipamdnsproviderprofile <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "aws_profile" : {
@@ -1296,8 +1297,8 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="InfobloxSubnet">InfobloxSubnet</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv4 subnet to use for Infoblox allocation. Field introduced in 18.2.8. </div>
-<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet to use for Infoblox allocation. Field introduced in 18.2.8. </div>
+      <div class="param">subnet (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv4 subnet to use for Infoblox allocation. Field introduced in 18.2.8, 20.1.1. </div>
+<div class="param">subnet6 (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> IPv6 subnet to use for Infoblox allocation. Field introduced in 18.2.8, 20.1.1. </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1372,11 +1373,11 @@ font-style: italic;
     <h3 class="field-label"><a name="IpamDnsInfobloxProfile">IpamDnsInfobloxProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">dns_view (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> DNS view. </div>
-<div class="param">extensible_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomParams">array[CustomParams]</a></span> Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7. </div>
+<div class="param">extensible_attributes (optional)</div><div class="param-desc"><span class="param-type"><a href="#CustomParams">array[CustomParams]</a></span> Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">ip_address </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Address of Infoblox appliance. </div>
 <div class="param">network_view (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network view. </div>
 <div class="param">password </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Password for API access for Infoblox appliance. </div>
-<div class="param">usable_alloc_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#InfobloxSubnet">array[InfobloxSubnet]</a></span> Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8. </div>
+<div class="param">usable_alloc_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#InfobloxSubnet">array[InfobloxSubnet]</a></span> Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8, 20.1.1. </div>
 <div class="param">usable_domains (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Usable domains to pick from Infoblox. </div>
 <div class="param">usable_subnets (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">array[IpAddrPrefix]</a></span> This field is deprecated, use usable_alloc_subnets instead. Field deprecated in 18.2.8. </div>
 <div class="param">username </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Username for API access for Infoblox appliance. </div>
@@ -1440,6 +1441,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#IpamDnsProviderProfile">array[IpamDnsProviderProfile]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

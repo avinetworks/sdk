@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure vrfcontext <key> - show vrfcontext <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -257,6 +257,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "static_routes" : [ {
@@ -264,8 +265,14 @@ font-style: italic;
       "disable_gateway_monitor" : true,
       "next_hop" : "",
       "prefix" : "",
-      "if_name" : "aeiou"
+      "if_name" : "aeiou",
+      "labels" : [ "" ]
     } ],
+    "bfd_profile" : {
+      "mintx" : 123,
+      "minrx" : 123,
+      "multi" : 123
+    },
     "gateway_mon" : [ {
       "subnet" : "",
       "gateway_monitor_fail_threshold" : 123,
@@ -281,6 +288,7 @@ font-style: italic;
       "command_buffer_interval" : 123,
       "command_buffer_size" : 123
     },
+    "lldp_enable" : true,
     "uuid" : "aeiou",
     "url" : "aeiou",
     "_last_modified" : "aeiou",
@@ -309,6 +317,7 @@ font-style: italic;
         },
         "keepalive_interval" : 123,
         "hold_time" : 123,
+        "label" : "aeiou",
         "connect_timer" : 123,
         "local_as" : 123,
         "advertise_vip" : true,
@@ -325,7 +334,17 @@ font-style: italic;
       } ],
       "hold_time" : 123,
       "community" : [ "aeiou" ],
+      "local_preference" : 123,
       "local_as" : 123,
+      "num_as_path_prepend" : 123,
+      "routing_options" : [ {
+        "learn_routes" : true,
+        "advertise_default_route" : true,
+        "max_learn_limit" : 123,
+        "learn_only_default_route" : true,
+        "label" : "aeiou",
+        "advertise_learned_routes" : true
+      } ],
       "shutdown" : true
     },
     "cloud_ref" : "aeiou",
@@ -396,8 +415,14 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
+  "bfd_profile" : {
+    "mintx" : 123,
+    "minrx" : 123,
+    "multi" : 123
+  },
   "gateway_mon" : [ {
     "subnet" : "",
     "gateway_monitor_fail_threshold" : 123,
@@ -413,6 +438,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -441,6 +467,7 @@ font-style: italic;
       },
       "keepalive_interval" : 123,
       "hold_time" : 123,
+      "label" : "aeiou",
       "connect_timer" : 123,
       "local_as" : 123,
       "advertise_vip" : true,
@@ -457,7 +484,17 @@ font-style: italic;
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
+    "local_preference" : 123,
     "local_as" : 123,
+    "num_as_path_prepend" : 123,
+    "routing_options" : [ {
+      "learn_routes" : true,
+      "advertise_default_route" : true,
+      "max_learn_limit" : 123,
+      "learn_only_default_route" : true,
+      "label" : "aeiou",
+      "advertise_learned_routes" : true
+    } ],
     "shutdown" : true
   },
   "cloud_ref" : "aeiou",
@@ -599,8 +636,14 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
+  "bfd_profile" : {
+    "mintx" : 123,
+    "minrx" : 123,
+    "multi" : 123
+  },
   "gateway_mon" : [ {
     "subnet" : "",
     "gateway_monitor_fail_threshold" : 123,
@@ -616,6 +659,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -644,6 +688,7 @@ font-style: italic;
       },
       "keepalive_interval" : 123,
       "hold_time" : 123,
+      "label" : "aeiou",
       "connect_timer" : 123,
       "local_as" : 123,
       "advertise_vip" : true,
@@ -660,7 +705,17 @@ font-style: italic;
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
+    "local_preference" : 123,
     "local_as" : 123,
+    "num_as_path_prepend" : 123,
+    "routing_options" : [ {
+      "learn_routes" : true,
+      "advertise_default_route" : true,
+      "max_learn_limit" : 123,
+      "learn_only_default_route" : true,
+      "label" : "aeiou",
+      "advertise_learned_routes" : true
+    } ],
     "shutdown" : true
   },
   "cloud_ref" : "aeiou",
@@ -742,8 +797,14 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
+  "bfd_profile" : {
+    "mintx" : 123,
+    "minrx" : 123,
+    "multi" : 123
+  },
   "gateway_mon" : [ {
     "subnet" : "",
     "gateway_monitor_fail_threshold" : 123,
@@ -759,6 +820,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -787,6 +849,7 @@ font-style: italic;
       },
       "keepalive_interval" : 123,
       "hold_time" : 123,
+      "label" : "aeiou",
       "connect_timer" : 123,
       "local_as" : 123,
       "advertise_vip" : true,
@@ -803,7 +866,17 @@ font-style: italic;
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
+    "local_preference" : 123,
     "local_as" : 123,
+    "num_as_path_prepend" : 123,
+    "routing_options" : [ {
+      "learn_routes" : true,
+      "advertise_default_route" : true,
+      "max_learn_limit" : 123,
+      "learn_only_default_route" : true,
+      "label" : "aeiou",
+      "advertise_learned_routes" : true
+    } ],
     "shutdown" : true
   },
   "cloud_ref" : "aeiou",
@@ -885,8 +958,14 @@ font-style: italic;
     "disable_gateway_monitor" : true,
     "next_hop" : "",
     "prefix" : "",
-    "if_name" : "aeiou"
+    "if_name" : "aeiou",
+    "labels" : [ "" ]
   } ],
+  "bfd_profile" : {
+    "mintx" : 123,
+    "minrx" : 123,
+    "multi" : 123
+  },
   "gateway_mon" : [ {
     "subnet" : "",
     "gateway_monitor_fail_threshold" : 123,
@@ -902,6 +981,7 @@ font-style: italic;
     "command_buffer_interval" : 123,
     "command_buffer_size" : 123
   },
+  "lldp_enable" : true,
   "uuid" : "aeiou",
   "url" : "aeiou",
   "_last_modified" : "aeiou",
@@ -930,6 +1010,7 @@ font-style: italic;
       },
       "keepalive_interval" : 123,
       "hold_time" : 123,
+      "label" : "aeiou",
       "connect_timer" : 123,
       "local_as" : 123,
       "advertise_vip" : true,
@@ -946,7 +1027,17 @@ font-style: italic;
     } ],
     "hold_time" : 123,
     "community" : [ "aeiou" ],
+    "local_preference" : 123,
     "local_as" : 123,
+    "num_as_path_prepend" : 123,
+    "routing_options" : [ {
+      "learn_routes" : true,
+      "advertise_default_route" : true,
+      "max_learn_limit" : 123,
+      "learn_only_default_route" : true,
+      "label" : "aeiou",
+      "advertise_learned_routes" : true
+    } ],
     "shutdown" : true
   },
   "cloud_ref" : "aeiou",
@@ -983,8 +1074,10 @@ font-style: italic;
 
   <h2>Table of Contents</h2>
   <ol>
+    <li><a href="#BfdProfile"><code>BfdProfile</code></a></li>
     <li><a href="#BgpPeer"><code>BgpPeer</code></a></li>
     <li><a href="#BgpProfile"><code>BgpProfile</code></a></li>
+    <li><a href="#BgpRoutingOptions"><code>BgpRoutingOptions</code></a></li>
     <li><a href="#DebugVrf"><code>DebugVrf</code></a></li>
     <li><a href="#DebugVrfContext"><code>DebugVrfContext</code></a></li>
     <li><a href="#GatewayMonitor"><code>GatewayMonitor</code></a></li>
@@ -999,6 +1092,14 @@ font-style: italic;
   </ol>
 
   <div class="model">
+    <h3 class="field-label"><a name="BfdProfile">BfdProfile</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">minrx (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default required minimum receive interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1. format: int32</div>
+<div class="param">mintx (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default desired minimum transmit interval (in ms) used in BFD. Allowed values are 500-4000000. Field introduced in 20.1.1. format: int32</div>
+<div class="param">multi (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Default detection multiplier used in BFD. Allowed values are 3-255. Field introduced in 20.1.1. format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="BgpPeer">BgpPeer</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">advertise_snat_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise SNAT IP to this Peer. </div>
@@ -1009,6 +1110,7 @@ font-style: italic;
 <div class="param">ebgp_multihop (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> TTL for multihop ebgp Peer. Allowed values are 0-255. Field introduced in 17.1.3. format: int32</div>
 <div class="param">hold_time (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Hold time for this Peer. Allowed values are 3-7200. format: int32</div>
 <div class="param">keepalive_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Keepalive interval for this Peer. Allowed values are 0-3600. format: int32</div>
+<div class="param">label (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Label used to enable learning and/or advertisement of routes to this peer. Field introduced in 20.1.1. </div>
 <div class="param">local_as (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Local AS to use for this ebgp peer. If specified, this will override the local AS configured at the VRF level. Allowed values are 1-4294967295. Field introduced in 17.1.6,17.2.2. format: int32</div>
 <div class="param">md5_secret (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Peer Autonomous System Md5 Digest Secret Key. </div>
 <div class="param">network_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Network providing reachability for Peer. It is a reference to an object of type Network. </div>
@@ -1029,9 +1131,23 @@ font-style: italic;
 <div class="param">ip_communities (optional)</div><div class="param-desc"><span class="param-type"><a href="#IpCommunity">array[IpCommunity]</a></span> Communities per IP address range. Field introduced in 17.1.3. </div>
 <div class="param">keepalive_interval (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Keepalive interval for Peers. Allowed values are 0-3600. format: int32</div>
 <div class="param">local_as </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Local Autonomous System ID. Allowed values are 1-4294967295. format: int32</div>
+<div class="param">local_preference (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> LOCAL_PREF to be used for routes advertised. Applicable only over iBGP. Field introduced in 20.1.1. format: int32</div>
+<div class="param">num_as_path_prepend (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the local AS should be prepended additionally. Allowed values are 1-10. Field introduced in 20.1.1. format: int32</div>
 <div class="param">peers (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpPeer">array[BgpPeer]</a></span> BGP Peers. </div>
+<div class="param">routing_options (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpRoutingOptions">array[BgpRoutingOptions]</a></span> Learning and advertising options for BGP peers. Field introduced in 20.1.1. </div>
 <div class="param">send_community (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Send community attribute to all peers. Field introduced in 17.1.2. </div>
 <div class="param">shutdown (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Shutdown the bgp. Field introduced in 17.2.4. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="BgpRoutingOptions">BgpRoutingOptions</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">advertise_default_route (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise self as default router to the BGP peer. Field introduced in 20.1.1. </div>
+<div class="param">advertise_learned_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Advertise the learned routes to the BGP peer. Field introduced in 20.1.1. </div>
+<div class="param">label </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Features are applied to peers matching this label. Field introduced in 20.1.1. </div>
+<div class="param">learn_only_default_route (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Learn only default route from the BGP peer. Field introduced in 20.1.1. </div>
+<div class="param">learn_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Learn routes from the BGP peer. Field introduced in 20.1.1. </div>
+<div class="param">max_learn_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of routes that can be learned from a BGP peer. Allowed values are 50-250. Field introduced in 20.1.1. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1101,6 +1217,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">disable_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Disable the gateway monitor for default gateway. They are monitored by default. Field introduced in 17.1.1. </div>
 <div class="param">if_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> if_name of StaticRoute. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Labels associated with this route. Field introduced in 20.1.1. </div>
 <div class="param">next_hop </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Placeholder for description of property next_hop of obj type StaticRoute field type str  type object </div>
 <div class="param">prefix </div><div class="param-desc"><span class="param-type"><a href="#IpAddrPrefix">IpAddrPrefix</a></span> Placeholder for description of property prefix of obj type StaticRoute field type str  type object </div>
 <div class="param">route_id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> route_id of StaticRoute. </div>
@@ -1110,13 +1227,15 @@ font-style: italic;
     <h3 class="field-label"><a name="VrfContext">VrfContext</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
+<div class="param">bfd_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#BfdProfile">BfdProfile</a></span> BFD configuration profile. Field introduced in 20.1.1. </div>
 <div class="param">bgp_profile (optional)</div><div class="param-desc"><span class="param-type"><a href="#BgpProfile">BgpProfile</a></span> Bgp Local and Peer Info. </div>
 <div class="param">cloud_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Cloud. </div>
 <div class="param">debugvrfcontext (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVrfContext">DebugVrfContext</a></span> Configure debug flags for VRF. Field introduced in 17.1.1. </div>
 <div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User defined description for the object. </div>
 <div class="param">gateway_mon (optional)</div><div class="param-desc"><span class="param-type"><a href="#GatewayMonitor">array[GatewayMonitor]</a></span> Configure ping based heartbeat check for gateway in service engines of vrf. </div>
 <div class="param">internal_gateway_monitor (optional)</div><div class="param-desc"><span class="param-type"><a href="#InternalGatewayMonitor">InternalGatewayMonitor</a></span> Configure ping based heartbeat check for all default gateways in service engines of vrf. Field introduced in 17.1.1. </div>
-<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7. </div>
+<div class="param">labels (optional)</div><div class="param-desc"><span class="param-type"><a href="#KeyValue">array[KeyValue]</a></span> Key/value labels which can be used for Object Access Policy permission scoping. Field introduced in 18.2.7, 20.1.1. </div>
+<div class="param">lldp_enable (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable LLDP. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">static_routes (optional)</div><div class="param-desc"><span class="param-type"><a href="#StaticRoute">array[StaticRoute]</a></span> Placeholder for description of property static_routes of obj type VrfContext field type str  type object </div>
 <div class="param">system_default (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property system_default of obj type VrfContext field type str  type boolean </div>
@@ -1130,6 +1249,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#VrfContext">array[VrfContext]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

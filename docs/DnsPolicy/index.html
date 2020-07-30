@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure dnspolicy <key> - show dnspolicy <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "tenant_ref" : "aeiou",
@@ -308,6 +309,15 @@ font-style: italic;
         "pool_switching" : {
           "pool_ref" : "aeiou",
           "pool_group_ref" : "aeiou"
+        },
+        "dns_rate_limiter" : {
+          "rate_limiter_object" : {
+            "period" : 123,
+            "count" : 123,
+            "name" : "aeiou",
+            "burst_sz" : 123
+          },
+          "action" : ""
         },
         "gslb_site_selection" : {
           "site_name" : "aeiou",
@@ -467,6 +477,15 @@ font-style: italic;
       "pool_switching" : {
         "pool_ref" : "aeiou",
         "pool_group_ref" : "aeiou"
+      },
+      "dns_rate_limiter" : {
+        "rate_limiter_object" : {
+          "period" : 123,
+          "count" : 123,
+          "name" : "aeiou",
+          "burst_sz" : 123
+        },
+        "action" : ""
       },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
@@ -698,6 +717,15 @@ font-style: italic;
         "pool_ref" : "aeiou",
         "pool_group_ref" : "aeiou"
       },
+      "dns_rate_limiter" : {
+        "rate_limiter_object" : {
+          "period" : 123,
+          "count" : 123,
+          "name" : "aeiou",
+          "burst_sz" : 123
+        },
+        "action" : ""
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -867,6 +895,15 @@ font-style: italic;
       "pool_switching" : {
         "pool_ref" : "aeiou",
         "pool_group_ref" : "aeiou"
+      },
+      "dns_rate_limiter" : {
+        "rate_limiter_object" : {
+          "period" : 123,
+          "count" : 123,
+          "name" : "aeiou",
+          "burst_sz" : 123
+        },
+        "action" : ""
       },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
@@ -1038,6 +1075,15 @@ font-style: italic;
         "pool_ref" : "aeiou",
         "pool_group_ref" : "aeiou"
       },
+      "dns_rate_limiter" : {
+        "rate_limiter_object" : {
+          "period" : 123,
+          "count" : 123,
+          "name" : "aeiou",
+          "burst_sz" : 123
+        },
+        "action" : ""
+      },
       "gslb_site_selection" : {
         "site_name" : "aeiou",
         "fallback_site_names" : [ "aeiou" ],
@@ -1124,6 +1170,7 @@ font-style: italic;
     <li><a href="#DnsPolicyApiResponse"><code>DnsPolicyApiResponse</code></a></li>
     <li><a href="#DnsQueryNameMatch"><code>DnsQueryNameMatch</code></a></li>
     <li><a href="#DnsQueryTypeMatch"><code>DnsQueryTypeMatch</code></a></li>
+    <li><a href="#DnsRateLimiter"><code>DnsRateLimiter</code></a></li>
     <li><a href="#DnsRateProfile"><code>DnsRateProfile</code></a></li>
     <li><a href="#DnsRrSet"><code>DnsRrSet</code></a></li>
     <li><a href="#DnsRule"><code>DnsRule</code></a></li>
@@ -1140,6 +1187,7 @@ font-style: italic;
     <li><a href="#IpAddrMatch"><code>IpAddrMatch</code></a></li>
     <li><a href="#IpAddrPrefix"><code>IpAddrPrefix</code></a></li>
     <li><a href="#IpAddrRange"><code>IpAddrRange</code></a></li>
+    <li><a href="#RateLimiter"><code>RateLimiter</code></a></li>
   </ol>
 
   <div class="model">
@@ -1202,6 +1250,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#DnsPolicy">array[DnsPolicy]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1220,13 +1269,20 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3 class="field-label"><a name="DnsRateLimiter">DnsRateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#DnsRuleRLAction">DnsRuleRLAction</a></span> Action to perform upon rate limiting. Field introduced in 20.1.1. </div>
+<div class="param">rate_limiter_object </div><div class="param-desc"><span class="param-type"><a href="#RateLimiter">RateLimiter</a></span> Rate limiting object. Field introduced in 20.1.1. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3 class="field-label"><a name="DnsRateProfile">DnsRateProfile</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#DnsRuleRLAction">DnsRuleRLAction</a></span> Action to perform upon rate limiting. Field introduced in 18.2.5. </div>
-<div class="param">burst_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be rate limited instantaneously. Field introduced in 18.2.5. format: int32</div>
-<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets per second. Allowed values are 1-4294967295. Special values are 0- &#39;unlimited&#39;. Field introduced in 18.2.5. format: int32</div>
-<div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. Field introduced in 18.2.5. </div>
-<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field introduced in 18.2.5. format: int32</div>
+      <div class="param">action </div><div class="param-desc"><span class="param-type"><a href="#DnsRuleRLAction">DnsRuleRLAction</a></span> Action to perform upon rate limiting. Field deprecated in 20.1.1. Field introduced in 18.2.5. </div>
+<div class="param">burst_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets to be rate limited instantaneously. Field deprecated in 20.1.1. Field introduced in 18.2.5. format: int32</div>
+<div class="param">count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections or requests or packets per second. It is deprecated because of adoption of new shared rate limiter protobuf. Allowed values are 1-4294967295. Special values are 0- &#39;unlimited&#39;. Field deprecated in 20.1.1. Field introduced in 18.2.5. format: int32</div>
+<div class="param">fine_grain (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable fine granularity. Field deprecated in 20.1.1. Field introduced in 18.2.5. </div>
+<div class="param">period (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-300. Field deprecated in 20.1.1. Field introduced in 18.2.5. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1256,7 +1312,8 @@ font-style: italic;
     <h3 class="field-label"><a name="DnsRuleAction">DnsRuleAction</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">allow (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionAllowDrop">DnsRuleActionAllowDrop</a></span> Allow or drop the DNS query. Field introduced in 17.1.1. </div>
-<div class="param">dns_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRateProfile">DnsRateProfile</a></span> Rate limit the DNS requests. Field introduced in 18.2.5. </div>
+<div class="param">dns_rate_limit (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRateProfile">DnsRateProfile</a></span> Rate limits the DNS requests. Field deprecated in 20.1.1. Field introduced in 18.2.5. </div>
+<div class="param">dns_rate_limiter (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRateLimiter">DnsRateLimiter</a></span> Rate limits the DNS requests. Field introduced in 20.1.1. </div>
 <div class="param">gslb_site_selection (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionGslbSiteSelection">DnsRuleActionGslbSiteSelection</a></span> Select a specific GSLB site for the DNS query. This action should be used only when GSLB services have been configured for the DNS virtual service. Field introduced in 17.1.5. </div>
 <div class="param">pool_switching (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionPoolSwitching">DnsRuleActionPoolSwitching</a></span> Select a pool or pool group for the passthrough DNS query which cannot be served locally but could be served by upstream servers. Field introduced in 18.1.3, 17.2.12. </div>
 <div class="param">response (optional)</div><div class="param-desc"><span class="param-type"><a href="#DnsRuleActionResponse">DnsRuleActionResponse</a></span> Generate a response for the DNS query. Field introduced in 17.1.1. </div>
@@ -1353,6 +1410,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">begin </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Starting IP address of the range. </div>
 <div class="param">end </div><div class="param-desc"><span class="param-type"><a href="#IpAddr">IpAddr</a></span> Ending IP address of the range. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="RateLimiter">RateLimiter</a> <a class="up" href="#__Models">Up</a></h3>
+    <div class="field-items">
+      <div class="param">burst_sz (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9. </div>
+<div class="param">period </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

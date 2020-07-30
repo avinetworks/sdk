@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - debug serviceengine <key> - show debug serviceengine <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -254,10 +254,12 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "capture_params" : {
       "duration" : 123,
+      "file_count" : 123,
       "pcap_ng" : true,
       "enable_ssl_session_key_capture" : true,
       "pkt_size" : 123,
@@ -273,6 +275,8 @@ font-style: italic;
       "sub_module" : "aeiou",
       "log_every_n" : 123
     } ],
+    "selogagent_debug" : "",
+    "enable_kdump" : true,
     "flags" : [ {
       "flag" : "aeiou"
     } ],
@@ -286,6 +290,7 @@ font-style: italic;
       "se_shm_malloc_fail_type" : 123,
       "se_shm_malloc_fail_frequency" : 123,
       "faults" : [ {
+        "num_skips" : 123,
         "fault_name" : "aeiou",
         "arg" : 123456789,
         "function_name" : "aeiou",
@@ -397,6 +402,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -412,6 +418,8 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "selogagent_debug" : "",
+  "enable_kdump" : true,
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -425,6 +433,7 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123,
     "faults" : [ {
+      "num_skips" : 123,
       "fault_name" : "aeiou",
       "arg" : 123456789,
       "function_name" : "aeiou",
@@ -659,6 +668,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -674,6 +684,8 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "selogagent_debug" : "",
+  "enable_kdump" : true,
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -687,6 +699,7 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123,
     "faults" : [ {
+      "num_skips" : 123,
       "fault_name" : "aeiou",
       "arg" : 123456789,
       "function_name" : "aeiou",
@@ -809,6 +822,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -824,6 +838,8 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "selogagent_debug" : "",
+  "enable_kdump" : true,
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -837,6 +853,7 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123,
     "faults" : [ {
+      "num_skips" : 123,
       "fault_name" : "aeiou",
       "arg" : 123456789,
       "function_name" : "aeiou",
@@ -959,6 +976,7 @@ font-style: italic;
     <pre class="example"><code>{
   "capture_params" : {
     "duration" : 123,
+    "file_count" : 123,
     "pcap_ng" : true,
     "enable_ssl_session_key_capture" : true,
     "pkt_size" : 123,
@@ -974,6 +992,8 @@ font-style: italic;
     "sub_module" : "aeiou",
     "log_every_n" : 123
   } ],
+  "selogagent_debug" : "",
+  "enable_kdump" : true,
   "flags" : [ {
     "flag" : "aeiou"
   } ],
@@ -987,6 +1007,7 @@ font-style: italic;
     "se_shm_malloc_fail_type" : 123,
     "se_shm_malloc_fail_frequency" : 123,
     "faults" : [ {
+      "num_skips" : 123,
       "fault_name" : "aeiou",
       "arg" : 123456789,
       "function_name" : "aeiou",
@@ -1157,7 +1178,7 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="DebugSeFault">DebugSeFault</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">faults (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeFault">array[SeFault]</a></span> Set of faults to enable/disable. Field introduced in 18.2.7. </div>
+      <div class="param">faults (optional)</div><div class="param-desc"><span class="param-type"><a href="#SeFault">array[SeFault]</a></span> Set of faults to enable/disable. Field introduced in 20.1.1. </div>
 <div class="param">se_malloc_fail_frequency (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail SE malloc type at this frequency. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_malloc_fail_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Fail this SE malloc type. Field introduced in 18.1.2. format: int32</div>
 <div class="param">se_mbuf_cl_sanity (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Toggle assert on mbuf cluster sanity check fail. Field introduced in 17.2.13,18.1.3,18.2.1. </div>
@@ -1176,10 +1197,12 @@ font-style: italic;
 <div class="param">capture_params (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugVirtualServiceCapture">DebugVirtualServiceCapture</a></span> Params for SE pcap. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
 <div class="param">cpu_shares (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeCpuShares">array[DebugSeCpuShares]</a></span> Placeholder for description of property cpu_shares of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">debug_ip (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugIpAddr">DebugIpAddr</a></span> Per packet IP filter for Service Engine PCAP. Matches with source and destination address. Field introduced in 17.2.14,18.1.5,18.2.1. </div>
+<div class="param">enable_kdump (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enables the use of kdump on SE. Requires SE Reboot. Applicable only in case of VM Based deployments. Field introduced in 18.2.10, 20.1.1. </div>
 <div class="param">fault (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeFault">DebugSeFault</a></span> Params for SE fault injection. Field introduced in 18.1.2. </div>
 <div class="param">flags (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeDataplane">array[DebugSeDataplane]</a></span> Placeholder for description of property flags of obj type DebugServiceEngine field type str  type object </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the object. </div>
 <div class="param">seagent_debug (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeAgent">array[DebugSeAgent]</a></span> Placeholder for description of property seagent_debug of obj type DebugServiceEngine field type str  type object </div>
+<div class="param">selogagent_debug (optional)</div><div class="param-desc"><span class="param-type"><a href="#DebugSeAgent">DebugSeAgent</a></span> Debug knob for se_log_agent process. Field introduced in 20.1.1. </div>
 <div class="param">tenant_ref (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  It is a reference to an object of type Tenant. </div>
 <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> url </div>
 <div class="param">uuid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Unique object identifier of the object. </div>
@@ -1190,6 +1213,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#DebugServiceEngine">array[DebugServiceEngine]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -1198,6 +1222,7 @@ font-style: italic;
       <div class="param">capture_file_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#CaptureFileSize">CaptureFileSize</a></span> Maximum allowed size of PCAP Capture File per SE. Max(absolute_size, percentage_size) will be final value. Set both to 0 for avi default size. DOS, IPC and DROP pcaps not applicaple. Field introduced in 18.2.8. </div>
 <div class="param">duration (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of minutes to capture packets. Use 0 to capture until manually stopped. Special values are 0 - &#39;infinite&#39;. format: int32</div>
 <div class="param">enable_ssl_session_key_capture (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable SSL session key capture. Field introduced in 18.2.3. </div>
+<div class="param">file_count (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of files to maintain for SE pcap file rotation.file count set to 1 indicates no rotate. Allowed values are 1-10. Field introduced in 20.1.1. format: int32</div>
 <div class="param">num_pkts (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Total number of packets to capture. format: int32</div>
 <div class="param">pcap_ng (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable PcapNg for packet capture. Field introduced in 18.2.5. </div>
 <div class="param">pkt_size (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of bytes of each packet to capture. Use 0 to capture the entire packet. Allowed values are 64-1514. Special values are 0 - &#39;full capture&#39;. format: int32</div>
@@ -1227,10 +1252,11 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="SeFault">SeFault</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">arg (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Optional 64 bit unsigned integer that can be used within the enabled fault. Field introduced in 18.2.7. format: int64</div>
-<div class="param">fault_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the target fault. Field introduced in 18.2.7. </div>
-<div class="param">function_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the function that contains the target fault. Field introduced in 18.2.7. </div>
-<div class="param">num_executions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 18.2.7. format: int32</div>
+      <div class="param">arg (optional)</div><div class="param-desc"><span class="param-type"><a href="#long">Long</a></span> Optional 64 bit unsigned integer that can be used within the enabled fault. Field introduced in 20.1.1. format: int64</div>
+<div class="param">fault_name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the target fault. Field introduced in 20.1.1. </div>
+<div class="param">function_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the function that contains the target fault. Field introduced in 20.1.1. </div>
+<div class="param">num_executions (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the fault should be executed. Allowed values are 1-4294967295. Field introduced in 20.1.1. format: int32</div>
+<div class="param">num_skips (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of times the fault should be skipped before executing. Field introduced in 18.2.9. format: int32</div>
     </div>  <!-- field-items -->
   </div>
   </body>

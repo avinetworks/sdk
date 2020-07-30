@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - configure systemconfiguration - show systemconfiguration - test systememail ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -370,6 +370,7 @@ font-style: italic;
     "sslprofile_ref" : "aeiou",
     "allow_basic_authentication" : true
   },
+  "fips_mode" : true,
   "dns_configuration" : {
     "search_domain" : "aeiou",
     "server_list" : [ {
@@ -564,6 +565,7 @@ font-style: italic;
     "sslprofile_ref" : "aeiou",
     "allow_basic_authentication" : true
   },
+  "fips_mode" : true,
   "dns_configuration" : {
     "search_domain" : "aeiou",
     "server_list" : [ {
@@ -758,6 +760,7 @@ font-style: italic;
     "sslprofile_ref" : "aeiou",
     "allow_basic_authentication" : true
   },
+  "fips_mode" : true,
   "dns_configuration" : {
     "search_domain" : "aeiou",
     "server_list" : [ {
@@ -889,15 +892,15 @@ font-style: italic;
   <div class="model">
     <h3 class="field-label"><a name="AuthMappingRule">AuthMappingRule</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
-      <div class="param">assign_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7. </div>
+      <div class="param">assign_policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">assign_role (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. </div>
 <div class="param">assign_tenant (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. </div>
 <div class="param">attribute_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthMatchAttribute">AuthMatchAttribute</a></span> Placeholder for description of property attribute_match of obj type AuthMappingRule field type str  type object </div>
 <div class="param">group_match (optional)</div><div class="param-desc"><span class="param-type"><a href="#AuthMatchGroupMembership">AuthMatchGroupMembership</a></span> Placeholder for description of property group_match of obj type AuthMappingRule field type str  type object </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Number of index. format: int32</div>
 <div class="param">is_superuser (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean </div>
-<div class="param">object_access_policy_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7. </div>
-<div class="param">policy_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name for Object Access Policy assignment. Field introduced in 18.2.7. </div>
+<div class="param">object_access_policy_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7, 20.1.1. </div>
+<div class="param">policy_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Attribute name for Object Access Policy assignment. Field introduced in 18.2.7, 20.1.1. </div>
 <div class="param">role_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> role_attribute_name of AuthMappingRule. </div>
 <div class="param">role_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  It is a reference to an object of type Role. </div>
 <div class="param">tenant_attribute_name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> tenant_attribute_name of AuthMappingRule. </div>
@@ -1067,7 +1070,7 @@ font-style: italic;
     <h3 class="field-label"><a name="SnmpV3UserParams">SnmpV3UserParams</a> <a class="up" href="#__Models">Up</a></h3>
     <div class="field-items">
       <div class="param">auth_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 authentication passphrase. Field introduced in 17.2.3. </div>
-<div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3. </div>
+<div class="param">auth_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA, SNMP_V3_AUTH_SHA_224, SNMP_V3_AUTH_SHA_256, SNMP_V3_AUTH_SHA_384, SNMP_V3_AUTH_SHA_512. Field introduced in 17.2.3. </div>
 <div class="param">priv_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy passphrase. Field introduced in 17.2.3. </div>
 <div class="param">priv_type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP V3 privacy setting. Enum options - SNMP_V3_PRIV_DES, SNMP_V3_PRIV_AES. Field introduced in 17.2.3. </div>
 <div class="param">username (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> SNMP username to be used by SNMP clients for performing SNMP walk. Field introduced in 17.2.3. </div>
@@ -1087,11 +1090,12 @@ font-style: italic;
     <div class="field-items">
       <div class="param">_last_modified (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> UNIX time since epoch in microseconds. Units(MICROSECONDS). </div>
 <div class="param">admin_auth_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#AdminAuthConfiguration">AdminAuthConfiguration</a></span> Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object </div>
-<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5. </div>
+<div class="param">default_license_tier (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5. </div>
 <div class="param">dns_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#DNSConfiguration">DNSConfiguration</a></span> Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object </div>
 <div class="param">dns_virtualservice_refs (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> DNS virtualservices hosting FQDN records for applications across Avi Vantage. If no virtualservices are provided, Avi Vantage will provide DNS services for configured applications. Switching back to Avi Vantage from DNS virtualservices is not allowed. It is a reference to an object of type VirtualService. </div>
 <div class="param">docker_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Placeholder for description of property docker_mode of obj type SystemConfiguration field type str  type boolean </div>
 <div class="param">email_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#EmailConfiguration">EmailConfiguration</a></span> Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object </div>
+<div class="param">fips_mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Enable FIPS mode. Field introduced in 20.1.1. </div>
 <div class="param">global_tenant_config (optional)</div><div class="param-desc"><span class="param-type"><a href="#TenantConfiguration">TenantConfiguration</a></span> Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object </div>
 <div class="param">linux_configuration (optional)</div><div class="param-desc"><span class="param-type"><a href="#LinuxConfiguration">LinuxConfiguration</a></span> Placeholder for description of property linux_configuration of obj type SystemConfiguration field type str  type object </div>
 <div class="param">mgmt_ip_access_control (optional)</div><div class="param-desc"><span class="param-type"><a href="#MgmtIpAccessControl">MgmtIpAccessControl</a></span> Configure Ip Access control for controller to restrict open access. </div>
@@ -1112,6 +1116,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#SystemConfiguration">array[SystemConfiguration]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">

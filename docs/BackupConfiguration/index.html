@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show backupconfiguration <key> - configure backupconfiguration <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "backup_passphrase" : "aeiou",
@@ -686,7 +687,7 @@ font-style: italic;
 <div class="param">aws_bucket_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS bucket. Field introduced in 18.2.3. </div>
 <div class="param">aws_secret_access (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> AWS Secret Access Key. Field introduced in 18.2.3. </div>
 <div class="param">backup_file_prefix (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Prefix of the exported configuration file. Field introduced in 17.1.1. </div>
-<div class="param">backup_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Passphrase of backup configuration. </div>
+<div class="param">backup_passphrase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Default passphrase for configuration export and periodic backup. </div>
 <div class="param">maximum_backups_stored (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> Rotate the backup files based on this count. Allowed values are 1-20. format: int32</div>
 <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of backup configuration. </div>
 <div class="param">remote_directory (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Directory at remote destination with write permission for ssh user. </div>
@@ -705,6 +706,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#BackupConfiguration">array[BackupConfiguration]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   </body>

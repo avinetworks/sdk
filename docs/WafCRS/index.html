@@ -183,7 +183,7 @@ font-style: italic;
     <div class="app-desc">CLI ``` - show wafcrs <key> - configure wafcrs <key> ``` </div>
     <div class="app-desc">More information: <a href="https://avinetworks.com/contact-us">https://avinetworks.com/contact-us</a></div>
     <div class="app-desc">Contact Info: <a href="support@avinetworks.com">support@avinetworks.com</a></div>
-    <div class="app-desc">Version: 18.2.8</div>
+    <div class="app-desc">Version: 20.1.1</div>
     <div class="app-desc">BasePath:/api</div>
     <div class="license-info">All rights reserved</div>
     <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
@@ -253,6 +253,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "next" : "aeiou",
   "count" : 123,
   "results" : [ {
     "integrity" : "aeiou",
@@ -267,9 +268,11 @@ font-style: italic;
       "index" : 123,
       "rules" : [ {
         "mode" : "aeiou",
+        "phase" : "aeiou",
         "rule_id" : "aeiou",
         "force_detection" : true,
         "enable" : true,
+        "is_sensitive" : true,
         "name" : "aeiou",
         "index" : 123,
         "rule" : "aeiou",
@@ -364,9 +367,11 @@ font-style: italic;
     "index" : 123,
     "rules" : [ {
       "mode" : "aeiou",
+      "phase" : "aeiou",
       "rule_id" : "aeiou",
       "force_detection" : true,
       "enable" : true,
+      "is_sensitive" : true,
       "name" : "aeiou",
       "index" : 123,
       "rule" : "aeiou",
@@ -532,9 +537,11 @@ font-style: italic;
     "index" : 123,
     "rules" : [ {
       "mode" : "aeiou",
+      "phase" : "aeiou",
       "rule_id" : "aeiou",
       "force_detection" : true,
       "enable" : true,
+      "is_sensitive" : true,
       "name" : "aeiou",
       "index" : 123,
       "rule" : "aeiou",
@@ -640,9 +647,11 @@ font-style: italic;
     "index" : 123,
     "rules" : [ {
       "mode" : "aeiou",
+      "phase" : "aeiou",
       "rule_id" : "aeiou",
       "force_detection" : true,
       "enable" : true,
+      "is_sensitive" : true,
       "name" : "aeiou",
       "index" : 123,
       "rule" : "aeiou",
@@ -748,9 +757,11 @@ font-style: italic;
     "index" : 123,
     "rules" : [ {
       "mode" : "aeiou",
+      "phase" : "aeiou",
       "rule_id" : "aeiou",
       "force_detection" : true,
       "enable" : true,
+      "is_sensitive" : true,
       "name" : "aeiou",
       "index" : 123,
       "rule" : "aeiou",
@@ -848,6 +859,7 @@ font-style: italic;
     <div class="field-items">
       <div class="param">count </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
 <div class="param">results </div><div class="param-desc"><span class="param-type"><a href="#WafCRS">array[WafCRS]</a></span>  </div>
+<div class="param">next (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -875,8 +887,10 @@ font-style: italic;
 <div class="param">exclude_list (optional)</div><div class="param-desc"><span class="param-type"><a href="#WafExcludeListEntry">array[WafExcludeListEntry]</a></span> Exclude list for the WAF rule. The fields in the exclude list entry are logically and&#39;ed to deduce the exclusion criteria. If there are multiple excludelist entries, it will be &#39;logical or&#39; of them. Field introduced in 17.2.3. </div>
 <div class="param">force_detection (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> When set to &#39;true&#39;, this rule will not cause &#39;deny&#39; or &#39;redirect&#39; actions to run, even if WAF Policy is set to enforcement mode. The behavior would be as if this rule operated in detection mode regardless of WAF Policy setting. Field deprecated in 18.1.5. Field introduced in 18.1.4. </div>
 <div class="param">index </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  Field introduced in 17.2.1. format: int32</div>
+<div class="param">is_sensitive (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> The rule field is sensitive and will not be displayed. Field introduced in 20.1.1. </div>
 <div class="param">mode (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1. </div>
 <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> User-friendly optional name for a rule. Field introduced in 17.2.1. </div>
+<div class="param">phase (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The execution phase where this rule will be executed. Enum options - WAF_PHASE_CONNECTION, WAF_PHASE_REQUEST_HEADER, WAF_PHASE_REQUEST_BODY, WAF_PHASE_RESPONSE_HEADER, WAF_PHASE_RESPONSE_BODY, WAF_PHASE_LOGGING. Field introduced in 20.1.1. </div>
 <div class="param">rule </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Rule as per Modsec language. Field introduced in 17.2.1. </div>
 <div class="param">rule_id (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Identifier (id) for a rule per Modsec language. All SecRule and SecAction directives require an id. It is extracted from the id action in a ModSec rule. Rules within a single WAF Policy are required to have unique rule_ids. Field introduced in 17.2.2. </div>
 <div class="param">tags (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span> Tags for WAF rule as per Modsec language. They are extracted from the tag action in a ModSec rule. Field introduced in 18.1.3. </div>
