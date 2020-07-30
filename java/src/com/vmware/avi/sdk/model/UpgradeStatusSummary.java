@@ -433,22 +433,22 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UpgradeStatusSummary objUpgradeStatusSummary = (UpgradeStatusSummary) o;
-  return   Objects.equals(this.enableRollback, objUpgradeStatusSummary.enableRollback)&&
-  Objects.equals(this.uuid, objUpgradeStatusSummary.uuid)&&
-  Objects.equals(this.objCloudRef, objUpgradeStatusSummary.objCloudRef)&&
-  Objects.equals(this.startTime, objUpgradeStatusSummary.startTime)&&
-  Objects.equals(this.state, objUpgradeStatusSummary.state)&&
-  Objects.equals(this.upgradeOps, objUpgradeStatusSummary.upgradeOps)&&
-  Objects.equals(this.enablePatchRollback, objUpgradeStatusSummary.enablePatchRollback)&&
+  return   Objects.equals(this.uuid, objUpgradeStatusSummary.uuid)&&
+  Objects.equals(this.name, objUpgradeStatusSummary.name)&&
   Objects.equals(this.nodeType, objUpgradeStatusSummary.nodeType)&&
+  Objects.equals(this.upgradeOps, objUpgradeStatusSummary.upgradeOps)&&
   Objects.equals(this.version, objUpgradeStatusSummary.version)&&
-  Objects.equals(this.endTime, objUpgradeStatusSummary.endTime)&&
-  Objects.equals(this.patchImageRef, objUpgradeStatusSummary.patchImageRef)&&
   Objects.equals(this.imageRef, objUpgradeStatusSummary.imageRef)&&
+  Objects.equals(this.patchImageRef, objUpgradeStatusSummary.patchImageRef)&&
+  Objects.equals(this.state, objUpgradeStatusSummary.state)&&
+  Objects.equals(this.startTime, objUpgradeStatusSummary.startTime)&&
+  Objects.equals(this.endTime, objUpgradeStatusSummary.endTime)&&
+  Objects.equals(this.enableRollback, objUpgradeStatusSummary.enableRollback)&&
+  Objects.equals(this.enablePatchRollback, objUpgradeStatusSummary.enablePatchRollback)&&
+  Objects.equals(this.totalTasks, objUpgradeStatusSummary.totalTasks)&&
   Objects.equals(this.tasksCompleted, objUpgradeStatusSummary.tasksCompleted)&&
   Objects.equals(this.tenantRef, objUpgradeStatusSummary.tenantRef)&&
-  Objects.equals(this.totalTasks, objUpgradeStatusSummary.totalTasks)&&
-  Objects.equals(this.name, objUpgradeStatusSummary.name);
+  Objects.equals(this.objCloudRef, objUpgradeStatusSummary.objCloudRef);
 }
 
 @Override

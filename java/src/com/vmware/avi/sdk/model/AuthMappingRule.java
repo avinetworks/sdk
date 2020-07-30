@@ -357,18 +357,18 @@ public boolean equals(java.lang.Object o) {
   }
   AuthMappingRule objAuthMappingRule = (AuthMappingRule) o;
   return   Objects.equals(this.index, objAuthMappingRule.index)&&
-  Objects.equals(this.roleRefs, objAuthMappingRule.roleRefs)&&
-  Objects.equals(this.attributeMatch, objAuthMappingRule.attributeMatch)&&
-  Objects.equals(this.roleAttributeName, objAuthMappingRule.roleAttributeName)&&
-  Objects.equals(this.assignTenant, objAuthMappingRule.assignTenant)&&
-  Objects.equals(this.policyAttributeName, objAuthMappingRule.policyAttributeName)&&
-  Objects.equals(this.isSuperuser, objAuthMappingRule.isSuperuser)&&
   Objects.equals(this.groupMatch, objAuthMappingRule.groupMatch)&&
-  Objects.equals(this.assignPolicy, objAuthMappingRule.assignPolicy)&&
+  Objects.equals(this.attributeMatch, objAuthMappingRule.attributeMatch)&&
+  Objects.equals(this.assignTenant, objAuthMappingRule.assignTenant)&&
   Objects.equals(this.tenantAttributeName, objAuthMappingRule.tenantAttributeName)&&
-  Objects.equals(this.objectAccessPolicyRefs, objAuthMappingRule.objectAccessPolicyRefs)&&
   Objects.equals(this.tenantRefs, objAuthMappingRule.tenantRefs)&&
-  Objects.equals(this.assignRole, objAuthMappingRule.assignRole);
+  Objects.equals(this.assignRole, objAuthMappingRule.assignRole)&&
+  Objects.equals(this.roleAttributeName, objAuthMappingRule.roleAttributeName)&&
+  Objects.equals(this.roleRefs, objAuthMappingRule.roleRefs)&&
+  Objects.equals(this.isSuperuser, objAuthMappingRule.isSuperuser)&&
+  Objects.equals(this.assignPolicy, objAuthMappingRule.assignPolicy)&&
+  Objects.equals(this.policyAttributeName, objAuthMappingRule.policyAttributeName)&&
+  Objects.equals(this.objectAccessPolicyRefs, objAuthMappingRule.objectAccessPolicyRefs);
 }
 
 @Override

@@ -121,8 +121,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugSeAgent objDebugSeAgent = (DebugSeAgent) o;
-  return   Objects.equals(this.traceLevel, objDebugSeAgent.traceLevel)&&
-  Objects.equals(this.subModule, objDebugSeAgent.subModule)&&
+  return   Objects.equals(this.subModule, objDebugSeAgent.subModule)&&
+  Objects.equals(this.traceLevel, objDebugSeAgent.traceLevel)&&
   Objects.equals(this.logLevel, objDebugSeAgent.logLevel)&&
   Objects.equals(this.logEveryN, objDebugSeAgent.logEveryN);
 }

@@ -117,8 +117,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRuleActionGslbSiteSelection objDnsRuleActionGslbSiteSelection = (DnsRuleActionGslbSiteSelection) o;
-  return   Objects.equals(this.isSitePreferred, objDnsRuleActionGslbSiteSelection.isSitePreferred)&&
-  Objects.equals(this.siteName, objDnsRuleActionGslbSiteSelection.siteName)&&
+  return   Objects.equals(this.siteName, objDnsRuleActionGslbSiteSelection.siteName)&&
+  Objects.equals(this.isSitePreferred, objDnsRuleActionGslbSiteSelection.isSitePreferred)&&
   Objects.equals(this.fallbackSiteNames, objDnsRuleActionGslbSiteSelection.fallbackSiteNames);
 }
 

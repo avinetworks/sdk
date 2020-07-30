@@ -98,8 +98,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthenticationMatch objAuthenticationMatch = (AuthenticationMatch) o;
-  return   Objects.equals(this.path, objAuthenticationMatch.path)&&
-  Objects.equals(this.clientIp, objAuthenticationMatch.clientIp)&&
+  return   Objects.equals(this.clientIp, objAuthenticationMatch.clientIp)&&
+  Objects.equals(this.path, objAuthenticationMatch.path)&&
   Objects.equals(this.hostHdr, objAuthenticationMatch.hostHdr);
 }
 

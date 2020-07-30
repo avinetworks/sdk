@@ -113,8 +113,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpCommunity objIpCommunity = (IpCommunity) o;
-  return   Objects.equals(this.ipEnd, objIpCommunity.ipEnd)&&
-  Objects.equals(this.ipBegin, objIpCommunity.ipBegin)&&
+  return   Objects.equals(this.ipBegin, objIpCommunity.ipBegin)&&
+  Objects.equals(this.ipEnd, objIpCommunity.ipEnd)&&
   Objects.equals(this.community, objIpCommunity.community);
 }
 

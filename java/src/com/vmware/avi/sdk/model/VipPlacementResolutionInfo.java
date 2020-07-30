@@ -105,8 +105,8 @@ public boolean equals(java.lang.Object o) {
   }
   VipPlacementResolutionInfo objVipPlacementResolutionInfo = (VipPlacementResolutionInfo) o;
   return   Objects.equals(this.ip, objVipPlacementResolutionInfo.ip)&&
-  Objects.equals(this.networks, objVipPlacementResolutionInfo.networks)&&
-  Objects.equals(this.poolUuid, objVipPlacementResolutionInfo.poolUuid);
+  Objects.equals(this.poolUuid, objVipPlacementResolutionInfo.poolUuid)&&
+  Objects.equals(this.networks, objVipPlacementResolutionInfo.networks);
 }
 
 @Override

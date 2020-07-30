@@ -199,14 +199,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHmEventVsDetails objSeHmEventVsDetails = (SeHmEventVsDetails) o;
-  return   Objects.equals(this.srcUuid, objSeHmEventVsDetails.srcUuid)&&
-  Objects.equals(this.vipId, objSeHmEventVsDetails.vipId)&&
-  Objects.equals(this.virtualService, objSeHmEventVsDetails.virtualService)&&
-  Objects.equals(this.vipAddress, objSeHmEventVsDetails.vipAddress)&&
-  Objects.equals(this.vip6Address, objSeHmEventVsDetails.vip6Address)&&
+  return   Objects.equals(this.virtualService, objSeHmEventVsDetails.virtualService)&&
   Objects.equals(this.reason, objSeHmEventVsDetails.reason)&&
+  Objects.equals(this.seName, objSeHmEventVsDetails.seName)&&
   Objects.equals(this.haReason, objSeHmEventVsDetails.haReason)&&
-  Objects.equals(this.seName, objSeHmEventVsDetails.seName);
+  Objects.equals(this.srcUuid, objSeHmEventVsDetails.srcUuid)&&
+  Objects.equals(this.vipId, objSeHmEventVsDetails.vipId)&&
+  Objects.equals(this.vipAddress, objSeHmEventVsDetails.vipAddress)&&
+  Objects.equals(this.vip6Address, objSeHmEventVsDetails.vip6Address);
 }
 
 @Override

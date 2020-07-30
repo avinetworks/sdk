@@ -228,13 +228,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SamlServiceProviderSettings objSamlServiceProviderSettings = (SamlServiceProviderSettings) o;
-  return   Objects.equals(this.orgName, objSamlServiceProviderSettings.orgName)&&
+  return   Objects.equals(this.samlEntityType, objSamlServiceProviderSettings.samlEntityType)&&
+  Objects.equals(this.fqdn, objSamlServiceProviderSettings.fqdn)&&
+  Objects.equals(this.spNodes, objSamlServiceProviderSettings.spNodes)&&
+  Objects.equals(this.orgName, objSamlServiceProviderSettings.orgName)&&
   Objects.equals(this.orgDisplayName, objSamlServiceProviderSettings.orgDisplayName)&&
   Objects.equals(this.orgUrl, objSamlServiceProviderSettings.orgUrl)&&
   Objects.equals(this.techContactName, objSamlServiceProviderSettings.techContactName)&&
-  Objects.equals(this.fqdn, objSamlServiceProviderSettings.fqdn)&&
-  Objects.equals(this.samlEntityType, objSamlServiceProviderSettings.samlEntityType)&&
-  Objects.equals(this.spNodes, objSamlServiceProviderSettings.spNodes)&&
   Objects.equals(this.techContactEmail, objSamlServiceProviderSettings.techContactEmail);
 }
 

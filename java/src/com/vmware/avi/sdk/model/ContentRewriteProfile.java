@@ -166,11 +166,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ContentRewriteProfile objContentRewriteProfile = (ContentRewriteProfile) o;
-  return   Objects.equals(this.responseRewriteEnabled, objContentRewriteProfile.responseRewriteEnabled)&&
+  return   Objects.equals(this.rewritableContentRef, objContentRewriteProfile.rewritableContentRef)&&
   Objects.equals(this.requestRewriteEnabled, objContentRewriteProfile.requestRewriteEnabled)&&
+  Objects.equals(this.responseRewriteEnabled, objContentRewriteProfile.responseRewriteEnabled)&&
   Objects.equals(this.reqMatchReplacePair, objContentRewriteProfile.reqMatchReplacePair)&&
-  Objects.equals(this.rspMatchReplacePair, objContentRewriteProfile.rspMatchReplacePair)&&
-  Objects.equals(this.rewritableContentRef, objContentRewriteProfile.rewritableContentRef);
+  Objects.equals(this.rspMatchReplacePair, objContentRewriteProfile.rspMatchReplacePair);
 }
 
 @Override

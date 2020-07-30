@@ -365,18 +365,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpAddrGroup objIpAddrGroup = (IpAddrGroup) o;
-  return   Objects.equals(this.prefixes, objIpAddrGroup.prefixes)&&
-  Objects.equals(this.uuid, objIpAddrGroup.uuid)&&
-  Objects.equals(this.description, objIpAddrGroup.description)&&
-  Objects.equals(this.tenantRef, objIpAddrGroup.tenantRef)&&
-  Objects.equals(this.marathonServicePort, objIpAddrGroup.marathonServicePort)&&
-  Objects.equals(this.apicEpgName, objIpAddrGroup.apicEpgName)&&
-  Objects.equals(this.ranges, objIpAddrGroup.ranges)&&
+  return   Objects.equals(this.uuid, objIpAddrGroup.uuid)&&
+  Objects.equals(this.name, objIpAddrGroup.name)&&
   Objects.equals(this.addrs, objIpAddrGroup.addrs)&&
+  Objects.equals(this.ranges, objIpAddrGroup.ranges)&&
+  Objects.equals(this.prefixes, objIpAddrGroup.prefixes)&&
   Objects.equals(this.countryCodes, objIpAddrGroup.countryCodes)&&
-  Objects.equals(this.marathonAppName, objIpAddrGroup.marathonAppName)&&
+  Objects.equals(this.apicEpgName, objIpAddrGroup.apicEpgName)&&
   Objects.equals(this.ipPorts, objIpAddrGroup.ipPorts)&&
-  Objects.equals(this.name, objIpAddrGroup.name);
+  Objects.equals(this.marathonAppName, objIpAddrGroup.marathonAppName)&&
+  Objects.equals(this.marathonServicePort, objIpAddrGroup.marathonServicePort)&&
+  Objects.equals(this.description, objIpAddrGroup.description)&&
+  Objects.equals(this.tenantRef, objIpAddrGroup.tenantRef);
 }
 
 @Override

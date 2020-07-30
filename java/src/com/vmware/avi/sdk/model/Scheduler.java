@@ -319,18 +319,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Scheduler objScheduler = (Scheduler) o;
-  return   Objects.equals(this.startDateTime, objScheduler.startDateTime)&&
-  Objects.equals(this.backupConfigRef, objScheduler.backupConfigRef)&&
-  Objects.equals(this.uuid, objScheduler.uuid)&&
-  Objects.equals(this.enabled, objScheduler.enabled)&&
-  Objects.equals(this.frequencyUnit, objScheduler.frequencyUnit)&&
+  return   Objects.equals(this.uuid, objScheduler.uuid)&&
   Objects.equals(this.name, objScheduler.name)&&
-  Objects.equals(this.frequency, objScheduler.frequency)&&
-  Objects.equals(this.schedulerAction, objScheduler.schedulerAction)&&
+  Objects.equals(this.enabled, objScheduler.enabled)&&
+  Objects.equals(this.runMode, objScheduler.runMode)&&
+  Objects.equals(this.startDateTime, objScheduler.startDateTime)&&
   Objects.equals(this.endDateTime, objScheduler.endDateTime)&&
+  Objects.equals(this.frequency, objScheduler.frequency)&&
+  Objects.equals(this.frequencyUnit, objScheduler.frequencyUnit)&&
+  Objects.equals(this.backupConfigRef, objScheduler.backupConfigRef)&&
   Objects.equals(this.runScriptRef, objScheduler.runScriptRef)&&
-  Objects.equals(this.tenantRef, objScheduler.tenantRef)&&
-  Objects.equals(this.runMode, objScheduler.runMode);
+  Objects.equals(this.schedulerAction, objScheduler.schedulerAction)&&
+  Objects.equals(this.tenantRef, objScheduler.tenantRef);
 }
 
 @Override

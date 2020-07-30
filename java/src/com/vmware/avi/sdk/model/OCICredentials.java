@@ -121,8 +121,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OCICredentials objOCICredentials = (OCICredentials) o;
-  return   Objects.equals(this.keyContent, objOCICredentials.keyContent)&&
-  Objects.equals(this.user, objOCICredentials.user)&&
+  return   Objects.equals(this.user, objOCICredentials.user)&&
+  Objects.equals(this.keyContent, objOCICredentials.keyContent)&&
   Objects.equals(this.passPhrase, objOCICredentials.passPhrase)&&
   Objects.equals(this.fingerprint, objOCICredentials.fingerprint);
 }

@@ -249,16 +249,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerConfig objServerConfig = (ServerConfig) o;
-  return   Objects.equals(this.isEnabled, objServerConfig.isEnabled)&&
-  Objects.equals(this.lastState, objServerConfig.lastState)&&
-  Objects.equals(this.ipAddr, objServerConfig.ipAddr)&&
-  Objects.equals(this.hostname, objServerConfig.hostname)&&
-  Objects.equals(this.propogateState, objServerConfig.propogateState)&&
-  Objects.equals(this.operStatus, objServerConfig.operStatus)&&
-  Objects.equals(this.location, objServerConfig.location)&&
+  return   Objects.equals(this.ipAddr, objServerConfig.ipAddr)&&
+  Objects.equals(this.port, objServerConfig.port)&&
+  Objects.equals(this.isEnabled, objServerConfig.isEnabled)&&
   Objects.equals(this.defPort, objServerConfig.defPort)&&
+  Objects.equals(this.operStatus, objServerConfig.operStatus)&&
+  Objects.equals(this.lastState, objServerConfig.lastState)&&
   Objects.equals(this.timerExists, objServerConfig.timerExists)&&
-  Objects.equals(this.port, objServerConfig.port);
+  Objects.equals(this.location, objServerConfig.location)&&
+  Objects.equals(this.hostname, objServerConfig.hostname)&&
+  Objects.equals(this.propogateState, objServerConfig.propogateState);
 }
 
 @Override

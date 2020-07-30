@@ -24,7 +24,7 @@ public class StreamingSyslogConfig  {
     private Integer filteredLogSeverity = 5;
 
     @JsonProperty("hostname")
-    private String hostname = "avivantage";
+    private String hostname = "AviVantage";
 
     @JsonProperty("non_significant_log_severity")
     private Integer nonSignificantLogSeverity = 6;
@@ -89,7 +89,7 @@ public class StreamingSyslogConfig  {
    * String to use as the hostname in the syslog messages.
    * This string can contain only printable ascii characters (hex 21 to hex 7e; no space allowed).
    * Field introduced in 18.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avivantage.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AviVantage.
    * @return hostname
    */
   public String getHostname() {
@@ -101,7 +101,7 @@ public class StreamingSyslogConfig  {
    * String to use as the hostname in the syslog messages.
    * This string can contain only printable ascii characters (hex 21 to hex 7e; no space allowed).
    * Field introduced in 18.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as avivantage.
+   * Default value when not specified in API or module is interpreted by Avi Controller as AviVantage.
    * @param hostname set the hostname.
    */
   public void setHostname(String  hostname) {
@@ -170,11 +170,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   StreamingSyslogConfig objStreamingSyslogConfig = (StreamingSyslogConfig) o;
-  return   Objects.equals(this.significantLogSeverity, objStreamingSyslogConfig.significantLogSeverity)&&
+  return   Objects.equals(this.facility, objStreamingSyslogConfig.facility)&&
+  Objects.equals(this.significantLogSeverity, objStreamingSyslogConfig.significantLogSeverity)&&
   Objects.equals(this.filteredLogSeverity, objStreamingSyslogConfig.filteredLogSeverity)&&
-  Objects.equals(this.hostname, objStreamingSyslogConfig.hostname)&&
   Objects.equals(this.nonSignificantLogSeverity, objStreamingSyslogConfig.nonSignificantLogSeverity)&&
-  Objects.equals(this.facility, objStreamingSyslogConfig.facility);
+  Objects.equals(this.hostname, objStreamingSyslogConfig.hostname);
 }
 
 @Override

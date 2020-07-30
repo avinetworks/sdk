@@ -221,14 +221,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDerivationData objMetricsDerivationData = (MetricsDerivationData) o;
-  return   Objects.equals(this.resultHasAdditionalFields, objMetricsDerivationData.resultHasAdditionalFields)&&
-  Objects.equals(this.secondOrderDerivation, objMetricsDerivationData.secondOrderDerivation)&&
-  Objects.equals(this.skipBackendDerivation, objMetricsDerivationData.skipBackendDerivation)&&
-  Objects.equals(this.joinTables, objMetricsDerivationData.joinTables)&&
-  Objects.equals(this.excludeDerivedMetric, objMetricsDerivationData.excludeDerivedMetric)&&
+  return   Objects.equals(this.metricIds, objMetricsDerivationData.metricIds)&&
   Objects.equals(this.derivationFn, objMetricsDerivationData.derivationFn)&&
   Objects.equals(this.includeDerivationMetrics, objMetricsDerivationData.includeDerivationMetrics)&&
-  Objects.equals(this.metricIds, objMetricsDerivationData.metricIds);
+  Objects.equals(this.excludeDerivedMetric, objMetricsDerivationData.excludeDerivedMetric)&&
+  Objects.equals(this.resultHasAdditionalFields, objMetricsDerivationData.resultHasAdditionalFields)&&
+  Objects.equals(this.joinTables, objMetricsDerivationData.joinTables)&&
+  Objects.equals(this.skipBackendDerivation, objMetricsDerivationData.skipBackendDerivation)&&
+  Objects.equals(this.secondOrderDerivation, objMetricsDerivationData.secondOrderDerivation);
 }
 
 @Override

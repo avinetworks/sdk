@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LinuxConfiguration objLinuxConfiguration = (LinuxConfiguration) o;
-  return   Objects.equals(this.banner, objLinuxConfiguration.banner)&&
-  Objects.equals(this.cisMode, objLinuxConfiguration.cisMode)&&
-  Objects.equals(this.motd, objLinuxConfiguration.motd);
+  return   Objects.equals(this.motd, objLinuxConfiguration.motd)&&
+  Objects.equals(this.banner, objLinuxConfiguration.banner)&&
+  Objects.equals(this.cisMode, objLinuxConfiguration.cisMode);
 }
 
 @Override

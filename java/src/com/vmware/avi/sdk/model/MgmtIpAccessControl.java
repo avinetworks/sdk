@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MgmtIpAccessControl objMgmtIpAccessControl = (MgmtIpAccessControl) o;
-  return   Objects.equals(this.sysintAccess, objMgmtIpAccessControl.sysintAccess)&&
-  Objects.equals(this.snmpAccess, objMgmtIpAccessControl.snmpAccess)&&
+  return   Objects.equals(this.sshAccess, objMgmtIpAccessControl.sshAccess)&&
   Objects.equals(this.apiAccess, objMgmtIpAccessControl.apiAccess)&&
-  Objects.equals(this.sshAccess, objMgmtIpAccessControl.sshAccess)&&
-  Objects.equals(this.shellServerAccess, objMgmtIpAccessControl.shellServerAccess);
+  Objects.equals(this.shellServerAccess, objMgmtIpAccessControl.shellServerAccess)&&
+  Objects.equals(this.snmpAccess, objMgmtIpAccessControl.snmpAccess)&&
+  Objects.equals(this.sysintAccess, objMgmtIpAccessControl.sysintAccess);
 }
 
 @Override

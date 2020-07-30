@@ -201,14 +201,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeResources objSeResources = (SeResources) o;
-  return   Objects.equals(this.hypervisorMode, objSeResources.hypervisorMode)&&
-  Objects.equals(this.coresPerSocket, objSeResources.coresPerSocket)&&
-  Objects.equals(this.numVcpus, objSeResources.numVcpus)&&
-  Objects.equals(this.numDatapathProcesses, objSeResources.numDatapathProcesses)&&
-  Objects.equals(this.hyperThreading, objSeResources.hyperThreading)&&
+  return   Objects.equals(this.numVcpus, objSeResources.numVcpus)&&
   Objects.equals(this.memory, objSeResources.memory)&&
   Objects.equals(this.disk, objSeResources.disk)&&
-  Objects.equals(this.sockets, objSeResources.sockets);
+  Objects.equals(this.hyperThreading, objSeResources.hyperThreading)&&
+  Objects.equals(this.sockets, objSeResources.sockets)&&
+  Objects.equals(this.coresPerSocket, objSeResources.coresPerSocket)&&
+  Objects.equals(this.hypervisorMode, objSeResources.hypervisorMode)&&
+  Objects.equals(this.numDatapathProcesses, objSeResources.numDatapathProcesses);
 }
 
 @Override

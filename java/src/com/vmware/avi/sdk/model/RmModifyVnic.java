@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmModifyVnic objRmModifyVnic = (RmModifyVnic) o;
-  return   Objects.equals(this.networkName, objRmModifyVnic.networkName)&&
+  return   Objects.equals(this.macAddr, objRmModifyVnic.macAddr)&&
   Objects.equals(this.networkUuid, objRmModifyVnic.networkUuid)&&
-  Objects.equals(this.macAddr, objRmModifyVnic.macAddr);
+  Objects.equals(this.networkName, objRmModifyVnic.networkName);
 }
 
 @Override

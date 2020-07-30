@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudClusterVip objCloudClusterVip = (CloudClusterVip) o;
-  return   Objects.equals(this.ip, objCloudClusterVip.ip)&&
+  return   Objects.equals(this.ccId, objCloudClusterVip.ccId)&&
   Objects.equals(this.vtype, objCloudClusterVip.vtype)&&
   Objects.equals(this.errorString, objCloudClusterVip.errorString)&&
-  Objects.equals(this.ccId, objCloudClusterVip.ccId);
+  Objects.equals(this.ip, objCloudClusterVip.ip);
 }
 
 @Override

@@ -130,9 +130,9 @@ public boolean equals(java.lang.Object o) {
   }
   VipAutoscalePolicy objVipAutoscalePolicy = (VipAutoscalePolicy) o;
   return   Objects.equals(this.minSize, objVipAutoscalePolicy.minSize)&&
-  Objects.equals(this.suspend, objVipAutoscalePolicy.suspend)&&
   Objects.equals(this.maxSize, objVipAutoscalePolicy.maxSize)&&
-  Objects.equals(this.dnsCooldown, objVipAutoscalePolicy.dnsCooldown);
+  Objects.equals(this.dnsCooldown, objVipAutoscalePolicy.dnsCooldown)&&
+  Objects.equals(this.suspend, objVipAutoscalePolicy.suspend);
 }
 
 @Override

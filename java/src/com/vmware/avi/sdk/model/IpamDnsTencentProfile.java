@@ -178,11 +178,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsTencentProfile objIpamDnsTencentProfile = (IpamDnsTencentProfile) o;
-  return   Objects.equals(this.zones, objIpamDnsTencentProfile.zones)&&
-  Objects.equals(this.vpcId, objIpamDnsTencentProfile.vpcId)&&
-  Objects.equals(this.region, objIpamDnsTencentProfile.region)&&
+  return   Objects.equals(this.vpcId, objIpamDnsTencentProfile.vpcId)&&
   Objects.equals(this.cloudCredentialsRef, objIpamDnsTencentProfile.cloudCredentialsRef)&&
-  Objects.equals(this.usableSubnetIds, objIpamDnsTencentProfile.usableSubnetIds);
+  Objects.equals(this.usableSubnetIds, objIpamDnsTencentProfile.usableSubnetIds)&&
+  Objects.equals(this.zones, objIpamDnsTencentProfile.zones)&&
+  Objects.equals(this.region, objIpamDnsTencentProfile.region);
 }
 
 @Override

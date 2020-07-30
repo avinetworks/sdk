@@ -222,13 +222,13 @@ public boolean equals(java.lang.Object o) {
   }
   UpgradeOpsEntry objUpgradeOpsEntry = (UpgradeOpsEntry) o;
   return   Objects.equals(this.uuid, objUpgradeOpsEntry.uuid)&&
+  Objects.equals(this.name, objUpgradeOpsEntry.name)&&
   Objects.equals(this.upgradeOps, objUpgradeOpsEntry.upgradeOps)&&
   Objects.equals(this.nodeType, objUpgradeOpsEntry.nodeType)&&
-  Objects.equals(this.objCloudRef, objUpgradeOpsEntry.objCloudRef)&&
   Objects.equals(this.params, objUpgradeOpsEntry.params)&&
   Objects.equals(this.upgradeInfo, objUpgradeOpsEntry.upgradeInfo)&&
   Objects.equals(this.tenantRef, objUpgradeOpsEntry.tenantRef)&&
-  Objects.equals(this.name, objUpgradeOpsEntry.name);
+  Objects.equals(this.objCloudRef, objUpgradeOpsEntry.objCloudRef);
 }
 
 @Override

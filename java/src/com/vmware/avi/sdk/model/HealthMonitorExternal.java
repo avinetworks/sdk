@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitorExternal objHealthMonitorExternal = (HealthMonitorExternal) o;
-  return   Objects.equals(this.commandCode, objHealthMonitorExternal.commandCode)&&
-  Objects.equals(this.commandVariables, objHealthMonitorExternal.commandVariables)&&
+  return   Objects.equals(this.commandPath, objHealthMonitorExternal.commandPath)&&
   Objects.equals(this.commandParameters, objHealthMonitorExternal.commandParameters)&&
-  Objects.equals(this.commandPath, objHealthMonitorExternal.commandPath);
+  Objects.equals(this.commandCode, objHealthMonitorExternal.commandCode)&&
+  Objects.equals(this.commandVariables, objHealthMonitorExternal.commandVariables);
 }
 
 @Override

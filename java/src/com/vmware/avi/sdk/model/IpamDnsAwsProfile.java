@@ -384,19 +384,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsAwsProfile objIpamDnsAwsProfile = (IpamDnsAwsProfile) o;
-  return   Objects.equals(this.useIamRoles, objIpamDnsAwsProfile.useIamRoles)&&
-  Objects.equals(this.publishVipToPublicZone, objIpamDnsAwsProfile.publishVipToPublicZone)&&
-  Objects.equals(this.usableDomains, objIpamDnsAwsProfile.usableDomains)&&
-  Objects.equals(this.egressServiceSubnets, objIpamDnsAwsProfile.egressServiceSubnets)&&
-  Objects.equals(this.region, objIpamDnsAwsProfile.region)&&
-  Objects.equals(this.ttl, objIpamDnsAwsProfile.ttl)&&
-  Objects.equals(this.secretAccessKey, objIpamDnsAwsProfile.secretAccessKey)&&
-  Objects.equals(this.zones, objIpamDnsAwsProfile.zones)&&
+  return   Objects.equals(this.region, objIpamDnsAwsProfile.region)&&
   Objects.equals(this.vpc, objIpamDnsAwsProfile.vpc)&&
-  Objects.equals(this.accessKeyId, objIpamDnsAwsProfile.accessKeyId)&&
-  Objects.equals(this.iamAssumeRole, objIpamDnsAwsProfile.iamAssumeRole)&&
   Objects.equals(this.vpcId, objIpamDnsAwsProfile.vpcId)&&
-  Objects.equals(this.usableNetworkUuids, objIpamDnsAwsProfile.usableNetworkUuids);
+  Objects.equals(this.useIamRoles, objIpamDnsAwsProfile.useIamRoles)&&
+  Objects.equals(this.accessKeyId, objIpamDnsAwsProfile.accessKeyId)&&
+  Objects.equals(this.secretAccessKey, objIpamDnsAwsProfile.secretAccessKey)&&
+  Objects.equals(this.usableNetworkUuids, objIpamDnsAwsProfile.usableNetworkUuids)&&
+  Objects.equals(this.usableDomains, objIpamDnsAwsProfile.usableDomains)&&
+  Objects.equals(this.iamAssumeRole, objIpamDnsAwsProfile.iamAssumeRole)&&
+  Objects.equals(this.zones, objIpamDnsAwsProfile.zones)&&
+  Objects.equals(this.ttl, objIpamDnsAwsProfile.ttl)&&
+  Objects.equals(this.publishVipToPublicZone, objIpamDnsAwsProfile.publishVipToPublicZone)&&
+  Objects.equals(this.egressServiceSubnets, objIpamDnsAwsProfile.egressServiceSubnets);
 }
 
 @Override

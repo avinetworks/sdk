@@ -184,13 +184,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CfgState objCfgState = (CfgState) o;
-  return   Objects.equals(this.status, objCfgState.status)&&
-  Objects.equals(this.uuid, objCfgState.uuid)&&
+  return   Objects.equals(this.uuid, objCfgState.uuid)&&
+  Objects.equals(this.cfgVersion, objCfgState.cfgVersion)&&
+  Objects.equals(this.cfgVersionInFlight, objCfgState.cfgVersionInFlight)&&
+  Objects.equals(this.status, objCfgState.status)&&
   Objects.equals(this.reason, objCfgState.reason)&&
   Objects.equals(this.siteUuid, objCfgState.siteUuid)&&
-  Objects.equals(this.cfgVersionInFlight, objCfgState.cfgVersionInFlight)&&
-  Objects.equals(this.lastChangedTime, objCfgState.lastChangedTime)&&
-  Objects.equals(this.cfgVersion, objCfgState.cfgVersion);
+  Objects.equals(this.lastChangedTime, objCfgState.lastChangedTime);
 }
 
 @Override

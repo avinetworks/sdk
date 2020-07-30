@@ -129,9 +129,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbDnsGeoUpdate objGslbDnsGeoUpdate = (GslbDnsGeoUpdate) o;
-  return   Objects.equals(this.seList, objGslbDnsGeoUpdate.seList)&&
-  Objects.equals(this.objInfo, objGslbDnsGeoUpdate.objInfo)&&
-  Objects.equals(this.ops, objGslbDnsGeoUpdate.ops);
+  return   Objects.equals(this.ops, objGslbDnsGeoUpdate.ops)&&
+  Objects.equals(this.seList, objGslbDnsGeoUpdate.seList)&&
+  Objects.equals(this.objInfo, objGslbDnsGeoUpdate.objInfo);
 }
 
 @Override

@@ -225,13 +225,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ErrorPageProfile objErrorPageProfile = (ErrorPageProfile) o;
-  return   Objects.equals(this.appName, objErrorPageProfile.appName)&&
+  return   Objects.equals(this.uuid, objErrorPageProfile.uuid)&&
   Objects.equals(this.name, objErrorPageProfile.name)&&
-  Objects.equals(this.errorPages, objErrorPageProfile.errorPages)&&
-  Objects.equals(this.companyName, objErrorPageProfile.companyName)&&
-  Objects.equals(this.hostName, objErrorPageProfile.hostName)&&
   Objects.equals(this.tenantRef, objErrorPageProfile.tenantRef)&&
-  Objects.equals(this.uuid, objErrorPageProfile.uuid);
+  Objects.equals(this.companyName, objErrorPageProfile.companyName)&&
+  Objects.equals(this.appName, objErrorPageProfile.appName)&&
+  Objects.equals(this.hostName, objErrorPageProfile.hostName)&&
+  Objects.equals(this.errorPages, objErrorPageProfile.errorPages);
 }
 
 @Override

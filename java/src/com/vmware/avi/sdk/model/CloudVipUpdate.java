@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudVipUpdate objCloudVipUpdate = (CloudVipUpdate) o;
-  return   Objects.equals(this.vsUuid, objCloudVipUpdate.vsUuid)&&
+  return   Objects.equals(this.ccId, objCloudVipUpdate.ccId)&&
   Objects.equals(this.vtype, objCloudVipUpdate.vtype)&&
-  Objects.equals(this.errorString, objCloudVipUpdate.errorString)&&
-  Objects.equals(this.ccId, objCloudVipUpdate.ccId);
+  Objects.equals(this.vsUuid, objCloudVipUpdate.vsUuid)&&
+  Objects.equals(this.errorString, objCloudVipUpdate.errorString);
 }
 
 @Override

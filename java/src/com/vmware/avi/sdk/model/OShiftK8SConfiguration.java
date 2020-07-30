@@ -1659,66 +1659,66 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OShiftK8SConfiguration objOShiftK8SConfiguration = (OShiftK8SConfiguration) o;
-  return   Objects.equals(this.syncNotReadyAddresses, objOShiftK8SConfiguration.syncNotReadyAddresses)&&
-  Objects.equals(this.eastWestPlacementSubnet, objOShiftK8SConfiguration.eastWestPlacementSubnet)&&
-  Objects.equals(this.enableEventSubscription, objOShiftK8SConfiguration.enableEventSubscription)&&
-  Objects.equals(this.nuageController, objOShiftK8SConfiguration.nuageController)&&
-  Objects.equals(this.seRestartForce, objOShiftK8SConfiguration.seRestartForce)&&
-  Objects.equals(this.persistentVolumeClaim, objOShiftK8SConfiguration.persistentVolumeClaim)&&
-  Objects.equals(this.sePriorityClass, objOShiftK8SConfiguration.sePriorityClass)&&
-  Objects.equals(this.feproxyVipsEnableProxyArp, objOShiftK8SConfiguration.feproxyVipsEnableProxyArp)&&
-  Objects.equals(this.useResourceDefinitionAsSsot, objOShiftK8SConfiguration.useResourceDefinitionAsSsot)&&
-  Objects.equals(this.disableAutoBackendServiceSync, objOShiftK8SConfiguration.disableAutoBackendServiceSync)&&
-  Objects.equals(this.nsIncludeAttributes, objOShiftK8SConfiguration.nsIncludeAttributes)&&
-  Objects.equals(this.containerPortMatchHttpService, objOShiftK8SConfiguration.containerPortMatchHttpService)&&
-  Objects.equals(this.fleetEndpoint, objOShiftK8SConfiguration.fleetEndpoint)&&
-  Objects.equals(this.dockerEndpoint, objOShiftK8SConfiguration.dockerEndpoint)&&
-  Objects.equals(this.defaultSharedVirtualservice, objOShiftK8SConfiguration.defaultSharedVirtualservice)&&
-  Objects.equals(this.routesShareVirtualservice, objOShiftK8SConfiguration.routesShareVirtualservice)&&
-  Objects.equals(this.sshUserRef, objOShiftK8SConfiguration.sshUserRef)&&
-  Objects.equals(this.seVolume, objOShiftK8SConfiguration.seVolume)&&
-  Objects.equals(this.ingExcludeAttributes, objOShiftK8SConfiguration.ingExcludeAttributes)&&
-  Objects.equals(this.httpContainerPorts, objOShiftK8SConfiguration.httpContainerPorts)&&
-  Objects.equals(this.seExcludeAttributes, objOShiftK8SConfiguration.seExcludeAttributes)&&
-  Objects.equals(this.sePodTolerations, objOShiftK8SConfiguration.sePodTolerations)&&
-  Objects.equals(this.enableRouteIngressHardening, objOShiftK8SConfiguration.enableRouteIngressHardening)&&
-  Objects.equals(this.servicePortMatchHttpService, objOShiftK8SConfiguration.servicePortMatchHttpService)&&
-  Objects.equals(this.l4HealthMonitoring, objOShiftK8SConfiguration.l4HealthMonitoring)&&
-  Objects.equals(this.autoAssignFqdn, objOShiftK8SConfiguration.autoAssignFqdn)&&
-  Objects.equals(this.seDeploymentMethod, objOShiftK8SConfiguration.seDeploymentMethod)&&
-  Objects.equals(this.sdnOverlay, objOShiftK8SConfiguration.sdnOverlay)&&
-  Objects.equals(this.useServiceClusterIpAsEwVip, objOShiftK8SConfiguration.useServiceClusterIpAsEwVip)&&
-  Objects.equals(this.clusterTag, objOShiftK8SConfiguration.clusterTag)&&
-  Objects.equals(this.numShards, objOShiftK8SConfiguration.numShards)&&
-  Objects.equals(this.dockerRegistrySe, objOShiftK8SConfiguration.dockerRegistrySe)&&
-  Objects.equals(this.ingIncludeAttributes, objOShiftK8SConfiguration.ingIncludeAttributes)&&
-  Objects.equals(this.vipDefaultGateway, objOShiftK8SConfiguration.vipDefaultGateway)&&
-  Objects.equals(this.seNamespace, objOShiftK8SConfiguration.seNamespace)&&
-  Objects.equals(this.sshSeDeployment, objOShiftK8SConfiguration.sshSeDeployment)&&
-  Objects.equals(this.useSchedulingDisabledNodes, objOShiftK8SConfiguration.useSchedulingDisabledNodes)&&
-  Objects.equals(this.serviceAccountToken, objOShiftK8SConfiguration.serviceAccountToken)&&
-  Objects.equals(this.useControllerImage, objOShiftK8SConfiguration.useControllerImage)&&
-  Objects.equals(this.disableAutoGsSync, objOShiftK8SConfiguration.disableAutoGsSync)&&
-  Objects.equals(this.coredumpDirectory, objOShiftK8SConfiguration.coredumpDirectory)&&
-  Objects.equals(this.disableAutoFrontendServiceSync, objOShiftK8SConfiguration.disableAutoFrontendServiceSync)&&
-  Objects.equals(this.nodeAvailabilityZoneLabel, objOShiftK8SConfiguration.nodeAvailabilityZoneLabel)&&
-  Objects.equals(this.seIncludeAttributes, objOShiftK8SConfiguration.seIncludeAttributes)&&
-  Objects.equals(this.masterNodes, objOShiftK8SConfiguration.masterNodes)&&
-  Objects.equals(this.appSyncFrequency, objOShiftK8SConfiguration.appSyncFrequency)&&
-  Objects.equals(this.secureEgressMode, objOShiftK8SConfiguration.secureEgressMode)&&
-  Objects.equals(this.defaultServiceAsEastWestService, objOShiftK8SConfiguration.defaultServiceAsEastWestService)&&
-  Objects.equals(this.overrideServicePorts, objOShiftK8SConfiguration.overrideServicePorts)&&
-  Objects.equals(this.seRestartBatchSize, objOShiftK8SConfiguration.seRestartBatchSize)&&
-  Objects.equals(this.aviBridgeSubnet, objOShiftK8SConfiguration.aviBridgeSubnet)&&
+  return   Objects.equals(this.masterNodes, objOShiftK8SConfiguration.masterNodes)&&
   Objects.equals(this.clientTlsKeyAndCertificateRef, objOShiftK8SConfiguration.clientTlsKeyAndCertificateRef)&&
-  Objects.equals(this.sharedVirtualserviceNamespace, objOShiftK8SConfiguration.sharedVirtualserviceNamespace)&&
-  Objects.equals(this.seSpawnRate, objOShiftK8SConfiguration.seSpawnRate)&&
-  Objects.equals(this.nsExcludeAttributes, objOShiftK8SConfiguration.nsExcludeAttributes)&&
-  Objects.equals(this.routes, objOShiftK8SConfiguration.routes)&&
-  Objects.equals(this.seImagePullSecret, objOShiftK8SConfiguration.seImagePullSecret)&&
   Objects.equals(this.caTlsKeyAndCertificateRef, objOShiftK8SConfiguration.caTlsKeyAndCertificateRef)&&
+  Objects.equals(this.aviBridgeSubnet, objOShiftK8SConfiguration.aviBridgeSubnet)&&
+  Objects.equals(this.containerPortMatchHttpService, objOShiftK8SConfiguration.containerPortMatchHttpService)&&
+  Objects.equals(this.httpContainerPorts, objOShiftK8SConfiguration.httpContainerPorts)&&
+  Objects.equals(this.eastWestPlacementSubnet, objOShiftK8SConfiguration.eastWestPlacementSubnet)&&
+  Objects.equals(this.seDeploymentMethod, objOShiftK8SConfiguration.seDeploymentMethod)&&
+  Objects.equals(this.fleetEndpoint, objOShiftK8SConfiguration.fleetEndpoint)&&
+  Objects.equals(this.dockerRegistrySe, objOShiftK8SConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.seSpawnRate, objOShiftK8SConfiguration.seSpawnRate)&&
+  Objects.equals(this.appSyncFrequency, objOShiftK8SConfiguration.appSyncFrequency)&&
+  Objects.equals(this.disableAutoSeCreation, objOShiftK8SConfiguration.disableAutoSeCreation)&&
+  Objects.equals(this.disableAutoFrontendServiceSync, objOShiftK8SConfiguration.disableAutoFrontendServiceSync)&&
+  Objects.equals(this.disableAutoBackendServiceSync, objOShiftK8SConfiguration.disableAutoBackendServiceSync)&&
+  Objects.equals(this.seVolume, objOShiftK8SConfiguration.seVolume)&&
+  Objects.equals(this.coredumpDirectory, objOShiftK8SConfiguration.coredumpDirectory)&&
+  Objects.equals(this.sshSeDeployment, objOShiftK8SConfiguration.sshSeDeployment)&&
+  Objects.equals(this.enableEventSubscription, objOShiftK8SConfiguration.enableEventSubscription)&&
+  Objects.equals(this.feproxyVipsEnableProxyArp, objOShiftK8SConfiguration.feproxyVipsEnableProxyArp)&&
+  Objects.equals(this.seExcludeAttributes, objOShiftK8SConfiguration.seExcludeAttributes)&&
+  Objects.equals(this.seIncludeAttributes, objOShiftK8SConfiguration.seIncludeAttributes)&&
+  Objects.equals(this.nuageController, objOShiftK8SConfiguration.nuageController)&&
+  Objects.equals(this.useServiceClusterIpAsEwVip, objOShiftK8SConfiguration.useServiceClusterIpAsEwVip)&&
+  Objects.equals(this.defaultServiceAsEastWestService, objOShiftK8SConfiguration.defaultServiceAsEastWestService)&&
+  Objects.equals(this.sdnOverlay, objOShiftK8SConfiguration.sdnOverlay)&&
+  Objects.equals(this.useControllerImage, objOShiftK8SConfiguration.useControllerImage)&&
+  Objects.equals(this.serviceAccountToken, objOShiftK8SConfiguration.serviceAccountToken)&&
+  Objects.equals(this.useSchedulingDisabledNodes, objOShiftK8SConfiguration.useSchedulingDisabledNodes)&&
+  Objects.equals(this.l4HealthMonitoring, objOShiftK8SConfiguration.l4HealthMonitoring)&&
+  Objects.equals(this.sshUserRef, objOShiftK8SConfiguration.sshUserRef)&&
+  Objects.equals(this.routesShareVirtualservice, objOShiftK8SConfiguration.routesShareVirtualservice)&&
+  Objects.equals(this.defaultSharedVirtualservice, objOShiftK8SConfiguration.defaultSharedVirtualservice)&&
+  Objects.equals(this.nodeAvailabilityZoneLabel, objOShiftK8SConfiguration.nodeAvailabilityZoneLabel)&&
+  Objects.equals(this.secureEgressMode, objOShiftK8SConfiguration.secureEgressMode)&&
+  Objects.equals(this.disableAutoGsSync, objOShiftK8SConfiguration.disableAutoGsSync)&&
+  Objects.equals(this.servicePortMatchHttpService, objOShiftK8SConfiguration.servicePortMatchHttpService)&&
+  Objects.equals(this.sharedVirtualserviceNamespace, objOShiftK8SConfiguration.sharedVirtualserviceNamespace)&&
+  Objects.equals(this.nsIncludeAttributes, objOShiftK8SConfiguration.nsIncludeAttributes)&&
+  Objects.equals(this.nsExcludeAttributes, objOShiftK8SConfiguration.nsExcludeAttributes)&&
+  Objects.equals(this.clusterTag, objOShiftK8SConfiguration.clusterTag)&&
+  Objects.equals(this.autoAssignFqdn, objOShiftK8SConfiguration.autoAssignFqdn)&&
+  Objects.equals(this.overrideServicePorts, objOShiftK8SConfiguration.overrideServicePorts)&&
+  Objects.equals(this.useResourceDefinitionAsSsot, objOShiftK8SConfiguration.useResourceDefinitionAsSsot)&&
+  Objects.equals(this.seImagePullSecret, objOShiftK8SConfiguration.seImagePullSecret)&&
+  Objects.equals(this.sePodTolerations, objOShiftK8SConfiguration.sePodTolerations)&&
+  Objects.equals(this.dockerEndpoint, objOShiftK8SConfiguration.dockerEndpoint)&&
+  Objects.equals(this.ingIncludeAttributes, objOShiftK8SConfiguration.ingIncludeAttributes)&&
+  Objects.equals(this.ingExcludeAttributes, objOShiftK8SConfiguration.ingExcludeAttributes)&&
+  Objects.equals(this.seRestartBatchSize, objOShiftK8SConfiguration.seRestartBatchSize)&&
+  Objects.equals(this.seRestartForce, objOShiftK8SConfiguration.seRestartForce)&&
+  Objects.equals(this.vipDefaultGateway, objOShiftK8SConfiguration.vipDefaultGateway)&&
+  Objects.equals(this.syncNotReadyAddresses, objOShiftK8SConfiguration.syncNotReadyAddresses)&&
+  Objects.equals(this.numShards, objOShiftK8SConfiguration.numShards)&&
   Objects.equals(this.shardPrefix, objOShiftK8SConfiguration.shardPrefix)&&
-  Objects.equals(this.disableAutoSeCreation, objOShiftK8SConfiguration.disableAutoSeCreation);
+  Objects.equals(this.sePriorityClass, objOShiftK8SConfiguration.sePriorityClass)&&
+  Objects.equals(this.routes, objOShiftK8SConfiguration.routes)&&
+  Objects.equals(this.enableRouteIngressHardening, objOShiftK8SConfiguration.enableRouteIngressHardening)&&
+  Objects.equals(this.seNamespace, objOShiftK8SConfiguration.seNamespace)&&
+  Objects.equals(this.persistentVolumeClaim, objOShiftK8SConfiguration.persistentVolumeClaim);
 }
 
 @Override

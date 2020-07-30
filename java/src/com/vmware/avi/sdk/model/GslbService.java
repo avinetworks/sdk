@@ -650,29 +650,29 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbService objGslbService = (GslbService) o;
-  return   Objects.equals(this.applicationPersistenceProfileRef, objGslbService.applicationPersistenceProfileRef)&&
+  return   Objects.equals(this.uuid, objGslbService.uuid)&&
+  Objects.equals(this.name, objGslbService.name)&&
   Objects.equals(this.domainNames, objGslbService.domainNames)&&
+  Objects.equals(this.groups, objGslbService.groups)&&
+  Objects.equals(this.numDnsIp, objGslbService.numDnsIp)&&
   Objects.equals(this.ttl, objGslbService.ttl)&&
-  Objects.equals(this.healthMonitorScope, objGslbService.healthMonitorScope)&&
-  Objects.equals(this.uuid, objGslbService.uuid)&&
   Objects.equals(this.downResponse, objGslbService.downResponse)&&
-  Objects.equals(this.createdBy, objGslbService.createdBy)&&
+  Objects.equals(this.healthMonitorRefs, objGslbService.healthMonitorRefs)&&
+  Objects.equals(this.controllerHealthStatusEnabled, objGslbService.controllerHealthStatusEnabled)&&
+  Objects.equals(this.healthMonitorScope, objGslbService.healthMonitorScope)&&
+  Objects.equals(this.enabled, objGslbService.enabled)&&
+  Objects.equals(this.useEdnsClientSubnet, objGslbService.useEdnsClientSubnet)&&
+  Objects.equals(this.wildcardMatch, objGslbService.wildcardMatch)&&
   Objects.equals(this.sitePersistenceEnabled, objGslbService.sitePersistenceEnabled)&&
+  Objects.equals(this.applicationPersistenceProfileRef, objGslbService.applicationPersistenceProfileRef)&&
   Objects.equals(this.poolAlgorithm, objGslbService.poolAlgorithm)&&
+  Objects.equals(this.minMembers, objGslbService.minMembers)&&
   Objects.equals(this.hmOff, objGslbService.hmOff)&&
   Objects.equals(this.resolveCname, objGslbService.resolveCname)&&
-  Objects.equals(this.description, objGslbService.description)&&
-  Objects.equals(this.wildcardMatch, objGslbService.wildcardMatch)&&
-  Objects.equals(this.useEdnsClientSubnet, objGslbService.useEdnsClientSubnet)&&
-  Objects.equals(this.groups, objGslbService.groups)&&
-  Objects.equals(this.controllerHealthStatusEnabled, objGslbService.controllerHealthStatusEnabled)&&
-  Objects.equals(this.name, objGslbService.name)&&
-  Objects.equals(this.enabled, objGslbService.enabled)&&
   Objects.equals(this.isFederated, objGslbService.isFederated)&&
-  Objects.equals(this.healthMonitorRefs, objGslbService.healthMonitorRefs)&&
-  Objects.equals(this.numDnsIp, objGslbService.numDnsIp)&&
-  Objects.equals(this.tenantRef, objGslbService.tenantRef)&&
-  Objects.equals(this.minMembers, objGslbService.minMembers);
+  Objects.equals(this.createdBy, objGslbService.createdBy)&&
+  Objects.equals(this.description, objGslbService.description)&&
+  Objects.equals(this.tenantRef, objGslbService.tenantRef);
 }
 
 @Override

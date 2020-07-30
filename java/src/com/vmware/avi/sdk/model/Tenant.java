@@ -177,12 +177,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Tenant objTenant = (Tenant) o;
-  return   Objects.equals(this.description, objTenant.description)&&
-  Objects.equals(this.uuid, objTenant.uuid)&&
-  Objects.equals(this.createdBy, objTenant.createdBy)&&
+  return   Objects.equals(this.uuid, objTenant.uuid)&&
   Objects.equals(this.name, objTenant.name)&&
   Objects.equals(this.local, objTenant.local)&&
-  Objects.equals(this.configSettings, objTenant.configSettings);
+  Objects.equals(this.description, objTenant.description)&&
+  Objects.equals(this.configSettings, objTenant.configSettings)&&
+  Objects.equals(this.createdBy, objTenant.createdBy);
 }
 
 @Override

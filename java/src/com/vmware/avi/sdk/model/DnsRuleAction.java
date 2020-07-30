@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRuleAction objDnsRuleAction = (DnsRuleAction) o;
-  return   Objects.equals(this.dnsRateLimiter, objDnsRuleAction.dnsRateLimiter)&&
-  Objects.equals(this.dnsRateLimit, objDnsRuleAction.dnsRateLimit)&&
-  Objects.equals(this.poolSwitching, objDnsRuleAction.poolSwitching)&&
+  return   Objects.equals(this.allow, objDnsRuleAction.allow)&&
+  Objects.equals(this.response, objDnsRuleAction.response)&&
   Objects.equals(this.gslbSiteSelection, objDnsRuleAction.gslbSiteSelection)&&
-  Objects.equals(this.allow, objDnsRuleAction.allow)&&
-  Objects.equals(this.response, objDnsRuleAction.response);
+  Objects.equals(this.poolSwitching, objDnsRuleAction.poolSwitching)&&
+  Objects.equals(this.dnsRateLimit, objDnsRuleAction.dnsRateLimit)&&
+  Objects.equals(this.dnsRateLimiter, objDnsRuleAction.dnsRateLimiter);
 }
 
 @Override

@@ -406,20 +406,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   APICLifsRuntime objAPICLifsRuntime = (APICLifsRuntime) o;
-  return   Objects.equals(this.subnet, objAPICLifsRuntime.subnet)&&
-  Objects.equals(this.autoAllocated, objAPICLifsRuntime.autoAllocated)&&
-  Objects.equals(this.uuid, objAPICLifsRuntime.uuid)&&
-  Objects.equals(this.multiVrf, objAPICLifsRuntime.multiVrf)&&
-  Objects.equals(this.tenantName, objAPICLifsRuntime.tenantName)&&
+  return   Objects.equals(this.uuid, objAPICLifsRuntime.uuid)&&
+  Objects.equals(this.name, objAPICLifsRuntime.name)&&
   Objects.equals(this.lifLabel, objAPICLifsRuntime.lifLabel)&&
-  Objects.equals(this.network, objAPICLifsRuntime.network)&&
+  Objects.equals(this.tenantName, objAPICLifsRuntime.tenantName)&&
   Objects.equals(this.vsUuid, objAPICLifsRuntime.vsUuid)&&
-  Objects.equals(this.seUuid, objAPICLifsRuntime.seUuid)&&
-  Objects.equals(this.transactionUuid, objAPICLifsRuntime.transactionUuid)&&
-  Objects.equals(this.contractGraphs, objAPICLifsRuntime.contractGraphs)&&
+  Objects.equals(this.network, objAPICLifsRuntime.network)&&
   Objects.equals(this.cifs, objAPICLifsRuntime.cifs)&&
-  Objects.equals(this.tenantRef, objAPICLifsRuntime.tenantRef)&&
-  Objects.equals(this.name, objAPICLifsRuntime.name);
+  Objects.equals(this.transactionUuid, objAPICLifsRuntime.transactionUuid)&&
+  Objects.equals(this.seUuid, objAPICLifsRuntime.seUuid)&&
+  Objects.equals(this.subnet, objAPICLifsRuntime.subnet)&&
+  Objects.equals(this.autoAllocated, objAPICLifsRuntime.autoAllocated)&&
+  Objects.equals(this.multiVrf, objAPICLifsRuntime.multiVrf)&&
+  Objects.equals(this.contractGraphs, objAPICLifsRuntime.contractGraphs)&&
+  Objects.equals(this.tenantRef, objAPICLifsRuntime.tenantRef);
 }
 
 @Override

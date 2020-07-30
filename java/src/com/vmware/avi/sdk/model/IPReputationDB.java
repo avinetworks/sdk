@@ -294,15 +294,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IPReputationDB objIPReputationDB = (IPReputationDB) o;
-  return   Objects.equals(this.vendor, objIPReputationDB.vendor)&&
-  Objects.equals(this.description, objIPReputationDB.description)&&
-  Objects.equals(this.incrementalFileRefs, objIPReputationDB.incrementalFileRefs)&&
-  Objects.equals(this.name, objIPReputationDB.name)&&
-  Objects.equals(this.version, objIPReputationDB.version)&&
-  Objects.equals(this.serviceStatus, objIPReputationDB.serviceStatus)&&
+  return   Objects.equals(this.uuid, objIPReputationDB.uuid)&&
   Objects.equals(this.tenantRef, objIPReputationDB.tenantRef)&&
+  Objects.equals(this.name, objIPReputationDB.name)&&
+  Objects.equals(this.description, objIPReputationDB.description)&&
   Objects.equals(this.baseFileRefs, objIPReputationDB.baseFileRefs)&&
-  Objects.equals(this.uuid, objIPReputationDB.uuid);
+  Objects.equals(this.incrementalFileRefs, objIPReputationDB.incrementalFileRefs)&&
+  Objects.equals(this.vendor, objIPReputationDB.vendor)&&
+  Objects.equals(this.version, objIPReputationDB.version)&&
+  Objects.equals(this.serviceStatus, objIPReputationDB.serviceStatus);
 }
 
 @Override

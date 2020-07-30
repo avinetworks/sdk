@@ -307,18 +307,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbServiceRuntime objGslbServiceRuntime = (GslbServiceRuntime) o;
-  return   Objects.equals(this.sendEvent, objGslbServiceRuntime.sendEvent)&&
-  Objects.equals(this.uuid, objGslbServiceRuntime.uuid)&&
-  Objects.equals(this.tenantName, objGslbServiceRuntime.tenantName)&&
+  return   Objects.equals(this.uuid, objGslbServiceRuntime.uuid)&&
+  Objects.equals(this.name, objGslbServiceRuntime.name)&&
+  Objects.equals(this.ldrState, objGslbServiceRuntime.ldrState)&&
   Objects.equals(this.flrState, objGslbServiceRuntime.flrState)&&
   Objects.equals(this.operStatus, objGslbServiceRuntime.operStatus)&&
-  Objects.equals(this.servicesState, objGslbServiceRuntime.servicesState)&&
   Objects.equals(this.groups, objGslbServiceRuntime.groups)&&
+  Objects.equals(this.servicesState, objGslbServiceRuntime.servicesState)&&
+  Objects.equals(this.tenantName, objGslbServiceRuntime.tenantName)&&
   Objects.equals(this.checksum, objGslbServiceRuntime.checksum)&&
   Objects.equals(this.spOperStatus, objGslbServiceRuntime.spOperStatus)&&
   Objects.equals(this.sendStatus, objGslbServiceRuntime.sendStatus)&&
-  Objects.equals(this.ldrState, objGslbServiceRuntime.ldrState)&&
-  Objects.equals(this.name, objGslbServiceRuntime.name);
+  Objects.equals(this.sendEvent, objGslbServiceRuntime.sendEvent);
 }
 
 @Override

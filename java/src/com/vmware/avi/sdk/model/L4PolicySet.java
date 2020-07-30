@@ -208,13 +208,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   L4PolicySet objL4PolicySet = (L4PolicySet) o;
-  return   Objects.equals(this.l4ConnectionPolicy, objL4PolicySet.l4ConnectionPolicy)&&
-  Objects.equals(this.uuid, objL4PolicySet.uuid)&&
-  Objects.equals(this.description, objL4PolicySet.description)&&
-  Objects.equals(this.createdBy, objL4PolicySet.createdBy)&&
+  return   Objects.equals(this.uuid, objL4PolicySet.uuid)&&
   Objects.equals(this.name, objL4PolicySet.name)&&
-  Objects.equals(this.tenantRef, objL4PolicySet.tenantRef)&&
-  Objects.equals(this.isInternalPolicy, objL4PolicySet.isInternalPolicy);
+  Objects.equals(this.l4ConnectionPolicy, objL4PolicySet.l4ConnectionPolicy)&&
+  Objects.equals(this.createdBy, objL4PolicySet.createdBy)&&
+  Objects.equals(this.isInternalPolicy, objL4PolicySet.isInternalPolicy)&&
+  Objects.equals(this.description, objL4PolicySet.description)&&
+  Objects.equals(this.tenantRef, objL4PolicySet.tenantRef);
 }
 
 @Override

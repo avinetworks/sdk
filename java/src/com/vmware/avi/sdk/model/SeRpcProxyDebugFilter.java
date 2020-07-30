@@ -99,8 +99,8 @@ public boolean equals(java.lang.Object o) {
   }
   SeRpcProxyDebugFilter objSeRpcProxyDebugFilter = (SeRpcProxyDebugFilter) o;
   return   Objects.equals(this.methodName, objSeRpcProxyDebugFilter.methodName)&&
-  Objects.equals(this.queue, objSeRpcProxyDebugFilter.queue)&&
-  Objects.equals(this.seUuid, objSeRpcProxyDebugFilter.seUuid);
+  Objects.equals(this.seUuid, objSeRpcProxyDebugFilter.seUuid)&&
+  Objects.equals(this.queue, objSeRpcProxyDebugFilter.queue);
 }
 
 @Override

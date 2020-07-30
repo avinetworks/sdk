@@ -324,19 +324,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ScaleStatus objScaleStatus = (ScaleStatus) o;
-  return   Objects.equals(this.endTimeStr, objScaleStatus.endTimeStr)&&
-  Objects.equals(this.reasonCodeString, objScaleStatus.reasonCodeString)&&
-  Objects.equals(this.actionSuccess, objScaleStatus.actionSuccess)&&
-  Objects.equals(this.startTimeStr, objScaleStatus.startTimeStr)&&
-  Objects.equals(this.reasonCode, objScaleStatus.reasonCode)&&
+  return   Objects.equals(this.state, objScaleStatus.state)&&
   Objects.equals(this.reason, objScaleStatus.reason)&&
-  Objects.equals(this.vipPlacementResolutionInfo, objScaleStatus.vipPlacementResolutionInfo)&&
+  Objects.equals(this.reasonCode, objScaleStatus.reasonCode)&&
   Objects.equals(this.scaleSe, objScaleStatus.scaleSe)&&
-  Objects.equals(this.state, objScaleStatus.state)&&
+  Objects.equals(this.numSeRequested, objScaleStatus.numSeRequested)&&
   Objects.equals(this.numSeAssigned, objScaleStatus.numSeAssigned)&&
+  Objects.equals(this.reasonCodeString, objScaleStatus.reasonCodeString)&&
+  Objects.equals(this.vipPlacementResolutionInfo, objScaleStatus.vipPlacementResolutionInfo)&&
+  Objects.equals(this.startTimeStr, objScaleStatus.startTimeStr)&&
+  Objects.equals(this.endTimeStr, objScaleStatus.endTimeStr)&&
   Objects.equals(this.action, objScaleStatus.action)&&
-  Objects.equals(this.placementReadFailCnt, objScaleStatus.placementReadFailCnt)&&
-  Objects.equals(this.numSeRequested, objScaleStatus.numSeRequested);
+  Objects.equals(this.actionSuccess, objScaleStatus.actionSuccess)&&
+  Objects.equals(this.placementReadFailCnt, objScaleStatus.placementReadFailCnt);
 }
 
 @Override

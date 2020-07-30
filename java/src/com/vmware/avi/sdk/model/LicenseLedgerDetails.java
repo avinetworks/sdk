@@ -180,10 +180,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LicenseLedgerDetails objLicenseLedgerDetails = (LicenseLedgerDetails) o;
-  return   Objects.equals(this.seInfos, objLicenseLedgerDetails.seInfos)&&
+  return   Objects.equals(this.uuid, objLicenseLedgerDetails.uuid)&&
   Objects.equals(this.tierUsages, objLicenseLedgerDetails.tierUsages)&&
-  Objects.equals(this.uuid, objLicenseLedgerDetails.uuid)&&
-  Objects.equals(this.escrowInfos, objLicenseLedgerDetails.escrowInfos);
+  Objects.equals(this.escrowInfos, objLicenseLedgerDetails.escrowInfos)&&
+  Objects.equals(this.seInfos, objLicenseLedgerDetails.seInfos);
 }
 
 @Override

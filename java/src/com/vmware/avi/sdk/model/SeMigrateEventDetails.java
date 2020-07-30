@@ -167,12 +167,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeMigrateEventDetails objSeMigrateEventDetails = (SeMigrateEventDetails) o;
-  return   Objects.equals(this.numVs, objSeMigrateEventDetails.numVs)&&
-  Objects.equals(this.vsName, objSeMigrateEventDetails.vsName)&&
+  return   Objects.equals(this.seUuid, objSeMigrateEventDetails.seUuid)&&
+  Objects.equals(this.seName, objSeMigrateEventDetails.seName)&&
   Objects.equals(this.vsUuid, objSeMigrateEventDetails.vsUuid)&&
-  Objects.equals(this.reason, objSeMigrateEventDetails.reason)&&
-  Objects.equals(this.seUuid, objSeMigrateEventDetails.seUuid)&&
-  Objects.equals(this.seName, objSeMigrateEventDetails.seName);
+  Objects.equals(this.vsName, objSeMigrateEventDetails.vsName)&&
+  Objects.equals(this.numVs, objSeMigrateEventDetails.numVs)&&
+  Objects.equals(this.reason, objSeMigrateEventDetails.reason);
 }
 
 @Override

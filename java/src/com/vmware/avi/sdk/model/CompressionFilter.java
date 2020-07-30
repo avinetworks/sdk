@@ -293,16 +293,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CompressionFilter objCompressionFilter = (CompressionFilter) o;
-  return   Objects.equals(this.index, objCompressionFilter.index)&&
+  return   Objects.equals(this.name, objCompressionFilter.name)&&
+  Objects.equals(this.index, objCompressionFilter.index)&&
+  Objects.equals(this.match, objCompressionFilter.match)&&
+  Objects.equals(this.ipAddrsRef, objCompressionFilter.ipAddrsRef)&&
+  Objects.equals(this.ipAddrs, objCompressionFilter.ipAddrs)&&
   Objects.equals(this.ipAddrRanges, objCompressionFilter.ipAddrRanges)&&
-  Objects.equals(this.name, objCompressionFilter.name)&&
-  Objects.equals(this.level, objCompressionFilter.level)&&
   Objects.equals(this.ipAddrPrefixes, objCompressionFilter.ipAddrPrefixes)&&
   Objects.equals(this.devicesRef, objCompressionFilter.devicesRef)&&
-  Objects.equals(this.ipAddrs, objCompressionFilter.ipAddrs)&&
   Objects.equals(this.userAgent, objCompressionFilter.userAgent)&&
-  Objects.equals(this.ipAddrsRef, objCompressionFilter.ipAddrsRef)&&
-  Objects.equals(this.match, objCompressionFilter.match);
+  Objects.equals(this.level, objCompressionFilter.level);
 }
 
 @Override

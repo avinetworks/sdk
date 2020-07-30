@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUserLogout objConfigUserLogout = (ConfigUserLogout) o;
-  return   Objects.equals(this.status, objConfigUserLogout.status)&&
+  return   Objects.equals(this.user, objConfigUserLogout.user)&&
+  Objects.equals(this.status, objConfigUserLogout.status)&&
   Objects.equals(this.clientIp, objConfigUserLogout.clientIp)&&
   Objects.equals(this.errorMessage, objConfigUserLogout.errorMessage)&&
-  Objects.equals(this.local, objConfigUserLogout.local)&&
-  Objects.equals(this.user, objConfigUserLogout.user);
+  Objects.equals(this.local, objConfigUserLogout.local);
 }
 
 @Override

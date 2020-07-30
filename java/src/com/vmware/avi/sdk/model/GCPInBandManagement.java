@@ -101,8 +101,8 @@ public boolean equals(java.lang.Object o) {
   }
   GCPInBandManagement objGCPInBandManagement = (GCPInBandManagement) o;
   return   Objects.equals(this.vpcSubnetName, objGCPInBandManagement.vpcSubnetName)&&
-  Objects.equals(this.vpcNetworkName, objGCPInBandManagement.vpcNetworkName)&&
-  Objects.equals(this.vpcProjectId, objGCPInBandManagement.vpcProjectId);
+  Objects.equals(this.vpcProjectId, objGCPInBandManagement.vpcProjectId)&&
+  Objects.equals(this.vpcNetworkName, objGCPInBandManagement.vpcNetworkName);
 }
 
 @Override

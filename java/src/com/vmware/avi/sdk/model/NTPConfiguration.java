@@ -128,9 +128,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NTPConfiguration objNTPConfiguration = (NTPConfiguration) o;
-  return   Objects.equals(this.ntpServers, objNTPConfiguration.ntpServers)&&
+  return   Objects.equals(this.ntpServerList, objNTPConfiguration.ntpServerList)&&
   Objects.equals(this.ntpAuthenticationKeys, objNTPConfiguration.ntpAuthenticationKeys)&&
-  Objects.equals(this.ntpServerList, objNTPConfiguration.ntpServerList);
+  Objects.equals(this.ntpServers, objNTPConfiguration.ntpServers);
 }
 
 @Override

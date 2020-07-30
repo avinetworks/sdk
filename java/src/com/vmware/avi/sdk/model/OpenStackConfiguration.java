@@ -1213,53 +1213,53 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackConfiguration objOpenStackConfiguration = (OpenStackConfiguration) o;
-  return   Objects.equals(this.wildcardAccess, objOpenStackConfiguration.wildcardAccess)&&
-  Objects.equals(this.nuageOrganization, objOpenStackConfiguration.nuageOrganization)&&
-  Objects.equals(this.nuageVirtualip, objOpenStackConfiguration.nuageVirtualip)&&
-  Objects.equals(this.contrailEndpoint, objOpenStackConfiguration.contrailEndpoint)&&
-  Objects.equals(this.allowedAddressPairs, objOpenStackConfiguration.allowedAddressPairs)&&
-  Objects.equals(this.useInternalEndpoints, objOpenStackConfiguration.useInternalEndpoints)&&
-  Objects.equals(this.hypervisorProperties, objOpenStackConfiguration.hypervisorProperties)&&
-  Objects.equals(this.customSeImageProperties, objOpenStackConfiguration.customSeImageProperties)&&
-  Objects.equals(this.authUrl, objOpenStackConfiguration.authUrl)&&
-  Objects.equals(this.useNuagevip, objOpenStackConfiguration.useNuagevip)&&
-  Objects.equals(this.securityGroups, objOpenStackConfiguration.securityGroups)&&
-  Objects.equals(this.adminTenant, objOpenStackConfiguration.adminTenant)&&
-  Objects.equals(this.nameOwner, objOpenStackConfiguration.nameOwner)&&
-  Objects.equals(this.nuagePassword, objOpenStackConfiguration.nuagePassword)&&
-  Objects.equals(this.mapAdminToCloudadmin, objOpenStackConfiguration.mapAdminToCloudadmin)&&
-  Objects.equals(this.privilege, objOpenStackConfiguration.privilege)&&
-  Objects.equals(this.freeFloatingips, objOpenStackConfiguration.freeFloatingips)&&
-  Objects.equals(this.usableNetworkUuids, objOpenStackConfiguration.usableNetworkUuids)&&
-  Objects.equals(this.configDrive, objOpenStackConfiguration.configDrive)&&
-  Objects.equals(this.username, objOpenStackConfiguration.username)&&
-  Objects.equals(this.roleMapping, objOpenStackConfiguration.roleMapping)&&
-  Objects.equals(this.nuageVsdHost, objOpenStackConfiguration.nuageVsdHost)&&
-  Objects.equals(this.insecure, objOpenStackConfiguration.insecure)&&
-  Objects.equals(this.mgmtNetworkName, objOpenStackConfiguration.mgmtNetworkName)&&
-  Objects.equals(this.tenantSe, objOpenStackConfiguration.tenantSe)&&
-  Objects.equals(this.adminTenantUuid, objOpenStackConfiguration.adminTenantUuid)&&
-  Objects.equals(this.provName, objOpenStackConfiguration.provName)&&
-  Objects.equals(this.nuageUsername, objOpenStackConfiguration.nuageUsername)&&
-  Objects.equals(this.portSecurity, objOpenStackConfiguration.portSecurity)&&
-  Objects.equals(this.keystoneHost, objOpenStackConfiguration.keystoneHost)&&
-  Objects.equals(this.intfSecIps, objOpenStackConfiguration.intfSecIps)&&
-  Objects.equals(this.antiAffinity, objOpenStackConfiguration.antiAffinity)&&
-  Objects.equals(this.providerVipNetworks, objOpenStackConfiguration.providerVipNetworks)&&
+  return   Objects.equals(this.username, objOpenStackConfiguration.username)&&
   Objects.equals(this.password, objOpenStackConfiguration.password)&&
+  Objects.equals(this.adminTenant, objOpenStackConfiguration.adminTenant)&&
+  Objects.equals(this.keystoneHost, objOpenStackConfiguration.keystoneHost)&&
+  Objects.equals(this.mgmtNetworkName, objOpenStackConfiguration.mgmtNetworkName)&&
+  Objects.equals(this.privilege, objOpenStackConfiguration.privilege)&&
   Objects.equals(this.useKeystoneAuth, objOpenStackConfiguration.useKeystoneAuth)&&
-  Objects.equals(this.contrailDisablePolicy, objOpenStackConfiguration.contrailDisablePolicy)&&
-  Objects.equals(this.importKeystoneTenants, objOpenStackConfiguration.importKeystoneTenants)&&
-  Objects.equals(this.neutronRbac, objOpenStackConfiguration.neutronRbac)&&
-  Objects.equals(this.contrailPlugin, objOpenStackConfiguration.contrailPlugin)&&
-  Objects.equals(this.hypervisor, objOpenStackConfiguration.hypervisor)&&
-  Objects.equals(this.region, objOpenStackConfiguration.region)&&
-  Objects.equals(this.nuagePort, objOpenStackConfiguration.nuagePort)&&
+  Objects.equals(this.provName, objOpenStackConfiguration.provName)&&
   Objects.equals(this.mgmtNetworkUuid, objOpenStackConfiguration.mgmtNetworkUuid)&&
-  Objects.equals(this.seGroupRef, objOpenStackConfiguration.seGroupRef)&&
-  Objects.equals(this.useAdminUrl, objOpenStackConfiguration.useAdminUrl)&&
+  Objects.equals(this.region, objOpenStackConfiguration.region)&&
+  Objects.equals(this.hypervisor, objOpenStackConfiguration.hypervisor)&&
+  Objects.equals(this.tenantSe, objOpenStackConfiguration.tenantSe)&&
+  Objects.equals(this.importKeystoneTenants, objOpenStackConfiguration.importKeystoneTenants)&&
+  Objects.equals(this.antiAffinity, objOpenStackConfiguration.antiAffinity)&&
+  Objects.equals(this.portSecurity, objOpenStackConfiguration.portSecurity)&&
+  Objects.equals(this.securityGroups, objOpenStackConfiguration.securityGroups)&&
+  Objects.equals(this.allowedAddressPairs, objOpenStackConfiguration.allowedAddressPairs)&&
+  Objects.equals(this.freeFloatingips, objOpenStackConfiguration.freeFloatingips)&&
   Objects.equals(this.imgFormat, objOpenStackConfiguration.imgFormat)&&
-  Objects.equals(this.externalNetworks, objOpenStackConfiguration.externalNetworks);
+  Objects.equals(this.useAdminUrl, objOpenStackConfiguration.useAdminUrl)&&
+  Objects.equals(this.roleMapping, objOpenStackConfiguration.roleMapping)&&
+  Objects.equals(this.useInternalEndpoints, objOpenStackConfiguration.useInternalEndpoints)&&
+  Objects.equals(this.adminTenantUuid, objOpenStackConfiguration.adminTenantUuid)&&
+  Objects.equals(this.configDrive, objOpenStackConfiguration.configDrive)&&
+  Objects.equals(this.authUrl, objOpenStackConfiguration.authUrl)&&
+  Objects.equals(this.insecure, objOpenStackConfiguration.insecure)&&
+  Objects.equals(this.intfSecIps, objOpenStackConfiguration.intfSecIps)&&
+  Objects.equals(this.externalNetworks, objOpenStackConfiguration.externalNetworks)&&
+  Objects.equals(this.neutronRbac, objOpenStackConfiguration.neutronRbac)&&
+  Objects.equals(this.mapAdminToCloudadmin, objOpenStackConfiguration.mapAdminToCloudadmin)&&
+  Objects.equals(this.usableNetworkUuids, objOpenStackConfiguration.usableNetworkUuids)&&
+  Objects.equals(this.wildcardAccess, objOpenStackConfiguration.wildcardAccess)&&
+  Objects.equals(this.hypervisorProperties, objOpenStackConfiguration.hypervisorProperties)&&
+  Objects.equals(this.seGroupRef, objOpenStackConfiguration.seGroupRef)&&
+  Objects.equals(this.nuageVsdHost, objOpenStackConfiguration.nuageVsdHost)&&
+  Objects.equals(this.nuagePort, objOpenStackConfiguration.nuagePort)&&
+  Objects.equals(this.nuageUsername, objOpenStackConfiguration.nuageUsername)&&
+  Objects.equals(this.nuagePassword, objOpenStackConfiguration.nuagePassword)&&
+  Objects.equals(this.nuageOrganization, objOpenStackConfiguration.nuageOrganization)&&
+  Objects.equals(this.useNuagevip, objOpenStackConfiguration.useNuagevip)&&
+  Objects.equals(this.nuageVirtualip, objOpenStackConfiguration.nuageVirtualip)&&
+  Objects.equals(this.contrailPlugin, objOpenStackConfiguration.contrailPlugin)&&
+  Objects.equals(this.contrailEndpoint, objOpenStackConfiguration.contrailEndpoint)&&
+  Objects.equals(this.nameOwner, objOpenStackConfiguration.nameOwner)&&
+  Objects.equals(this.providerVipNetworks, objOpenStackConfiguration.providerVipNetworks)&&
+  Objects.equals(this.contrailDisablePolicy, objOpenStackConfiguration.contrailDisablePolicy)&&
+  Objects.equals(this.customSeImageProperties, objOpenStackConfiguration.customSeImageProperties);
 }
 
 @Override

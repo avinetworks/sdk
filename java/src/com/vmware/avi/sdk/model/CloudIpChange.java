@@ -245,16 +245,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudIpChange objCloudIpChange = (CloudIpChange) o;
-  return   Objects.equals(this.ip6Mask, objCloudIpChange.ip6Mask)&&
+  return   Objects.equals(this.ccId, objCloudIpChange.ccId)&&
   Objects.equals(this.vtype, objCloudIpChange.vtype)&&
-  Objects.equals(this.portUuid, objCloudIpChange.portUuid)&&
-  Objects.equals(this.errorString, objCloudIpChange.errorString)&&
   Objects.equals(this.ip, objCloudIpChange.ip)&&
   Objects.equals(this.seVmUuid, objCloudIpChange.seVmUuid)&&
+  Objects.equals(this.portUuid, objCloudIpChange.portUuid)&&
+  Objects.equals(this.macAddr, objCloudIpChange.macAddr)&&
+  Objects.equals(this.errorString, objCloudIpChange.errorString)&&
   Objects.equals(this.ipMask, objCloudIpChange.ipMask)&&
   Objects.equals(this.ip6, objCloudIpChange.ip6)&&
-  Objects.equals(this.macAddr, objCloudIpChange.macAddr)&&
-  Objects.equals(this.ccId, objCloudIpChange.ccId);
+  Objects.equals(this.ip6Mask, objCloudIpChange.ip6Mask);
 }
 
 @Override

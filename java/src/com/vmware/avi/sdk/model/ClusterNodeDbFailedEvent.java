@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNodeDbFailedEvent objClusterNodeDbFailedEvent = (ClusterNodeDbFailedEvent) o;
-  return   Objects.equals(this.ip, objClusterNodeDbFailedEvent.ip)&&
-  Objects.equals(this.failureCount, objClusterNodeDbFailedEvent.failureCount)&&
-  Objects.equals(this.nodeName, objClusterNodeDbFailedEvent.nodeName);
+  return   Objects.equals(this.nodeName, objClusterNodeDbFailedEvent.nodeName)&&
+  Objects.equals(this.ip, objClusterNodeDbFailedEvent.ip)&&
+  Objects.equals(this.failureCount, objClusterNodeDbFailedEvent.failureCount);
 }
 
 @Override

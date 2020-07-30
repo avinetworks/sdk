@@ -157,10 +157,10 @@ public boolean equals(java.lang.Object o) {
   }
   ControllerPortalRegistration objControllerPortalRegistration = (ControllerPortalRegistration) o;
   return   Objects.equals(this.uuid, objControllerPortalRegistration.uuid)&&
-  Objects.equals(this.portalAuth, objControllerPortalRegistration.portalAuth)&&
-  Objects.equals(this.asset, objControllerPortalRegistration.asset)&&
+  Objects.equals(this.name, objControllerPortalRegistration.name)&&
   Objects.equals(this.tenantRef, objControllerPortalRegistration.tenantRef)&&
-  Objects.equals(this.name, objControllerPortalRegistration.name);
+  Objects.equals(this.portalAuth, objControllerPortalRegistration.portalAuth)&&
+  Objects.equals(this.asset, objControllerPortalRegistration.asset);
 }
 
 @Override

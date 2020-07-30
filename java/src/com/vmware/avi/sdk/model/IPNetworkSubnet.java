@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IPNetworkSubnet objIPNetworkSubnet = (IPNetworkSubnet) o;
-  return   Objects.equals(this.subnetUuid, objIPNetworkSubnet.subnetUuid)&&
+  return   Objects.equals(this.networkRef, objIPNetworkSubnet.networkRef)&&
   Objects.equals(this.subnet, objIPNetworkSubnet.subnet)&&
+  Objects.equals(this.subnetUuid, objIPNetworkSubnet.subnetUuid)&&
   Objects.equals(this.subnet6, objIPNetworkSubnet.subnet6)&&
-  Objects.equals(this.subnet6Uuid, objIPNetworkSubnet.subnet6Uuid)&&
-  Objects.equals(this.networkRef, objIPNetworkSubnet.networkRef);
+  Objects.equals(this.subnet6Uuid, objIPNetworkSubnet.subnet6Uuid);
 }
 
 @Override

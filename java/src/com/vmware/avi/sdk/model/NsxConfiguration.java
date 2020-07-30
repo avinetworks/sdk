@@ -148,11 +148,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NsxConfiguration objNsxConfiguration = (NsxConfiguration) o;
-  return   Objects.equals(this.nsxManagerPassword, objNsxConfiguration.nsxManagerPassword)&&
-  Objects.equals(this.nsxPollTime, objNsxConfiguration.nsxPollTime)&&
-  Objects.equals(this.nsxManagerName, objNsxConfiguration.nsxManagerName)&&
+  return   Objects.equals(this.nsxManagerName, objNsxConfiguration.nsxManagerName)&&
+  Objects.equals(this.nsxManagerUsername, objNsxConfiguration.nsxManagerUsername)&&
+  Objects.equals(this.nsxManagerPassword, objNsxConfiguration.nsxManagerPassword)&&
   Objects.equals(this.aviNsxPrefix, objNsxConfiguration.aviNsxPrefix)&&
-  Objects.equals(this.nsxManagerUsername, objNsxConfiguration.nsxManagerUsername);
+  Objects.equals(this.nsxPollTime, objNsxConfiguration.nsxPollTime);
 }
 
 @Override

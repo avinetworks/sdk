@@ -431,24 +431,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmSpawnSeEventDetails objRmSpawnSeEventDetails = (RmSpawnSeEventDetails) o;
-  return   Objects.equals(this.cloudUuid, objRmSpawnSeEventDetails.cloudUuid)&&
-  Objects.equals(this.seGrpUuid, objRmSpawnSeEventDetails.seGrpUuid)&&
-  Objects.equals(this.vcpus, objRmSpawnSeEventDetails.vcpus)&&
-  Objects.equals(this.cloudName, objRmSpawnSeEventDetails.cloudName)&&
-  Objects.equals(this.availabilityZone, objRmSpawnSeEventDetails.availabilityZone)&&
+  return   Objects.equals(this.seName, objRmSpawnSeEventDetails.seName)&&
   Objects.equals(this.seCookie, objRmSpawnSeEventDetails.seCookie)&&
-  Objects.equals(this.statusCode, objRmSpawnSeEventDetails.statusCode)&&
-  Objects.equals(this.vsUuid, objRmSpawnSeEventDetails.vsUuid)&&
-  Objects.equals(this.networkNames, objRmSpawnSeEventDetails.networkNames)&&
-  Objects.equals(this.networks, objRmSpawnSeEventDetails.networks)&&
-  Objects.equals(this.seGrpName, objRmSpawnSeEventDetails.seGrpName)&&
-  Objects.equals(this.reason, objRmSpawnSeEventDetails.reason)&&
-  Objects.equals(this.hostName, objRmSpawnSeEventDetails.hostName)&&
-  Objects.equals(this.memory, objRmSpawnSeEventDetails.memory)&&
-  Objects.equals(this.seName, objRmSpawnSeEventDetails.seName)&&
+  Objects.equals(this.seUuid, objRmSpawnSeEventDetails.seUuid)&&
   Objects.equals(this.hostUuid, objRmSpawnSeEventDetails.hostUuid)&&
+  Objects.equals(this.hostName, objRmSpawnSeEventDetails.hostName)&&
+  Objects.equals(this.availabilityZone, objRmSpawnSeEventDetails.availabilityZone)&&
+  Objects.equals(this.networks, objRmSpawnSeEventDetails.networks)&&
+  Objects.equals(this.statusCode, objRmSpawnSeEventDetails.statusCode)&&
+  Objects.equals(this.reason, objRmSpawnSeEventDetails.reason)&&
+  Objects.equals(this.vsUuid, objRmSpawnSeEventDetails.vsUuid)&&
   Objects.equals(this.vsName, objRmSpawnSeEventDetails.vsName)&&
-  Objects.equals(this.seUuid, objRmSpawnSeEventDetails.seUuid);
+  Objects.equals(this.networkNames, objRmSpawnSeEventDetails.networkNames)&&
+  Objects.equals(this.vcpus, objRmSpawnSeEventDetails.vcpus)&&
+  Objects.equals(this.memory, objRmSpawnSeEventDetails.memory)&&
+  Objects.equals(this.seGrpUuid, objRmSpawnSeEventDetails.seGrpUuid)&&
+  Objects.equals(this.seGrpName, objRmSpawnSeEventDetails.seGrpName)&&
+  Objects.equals(this.cloudUuid, objRmSpawnSeEventDetails.cloudUuid)&&
+  Objects.equals(this.cloudName, objRmSpawnSeEventDetails.cloudName);
 }
 
 @Override

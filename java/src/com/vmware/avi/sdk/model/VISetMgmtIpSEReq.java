@@ -201,14 +201,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VISetMgmtIpSEReq objVISetMgmtIpSEReq = (VISetMgmtIpSEReq) o;
-  return   Objects.equals(this.ipParams, objVISetMgmtIpSEReq.ipParams)&&
+  return   Objects.equals(this.cloudUuid, objVISetMgmtIpSEReq.cloudUuid)&&
+  Objects.equals(this.sevmUuid, objVISetMgmtIpSEReq.sevmUuid)&&
+  Objects.equals(this.ipParams, objVISetMgmtIpSEReq.ipParams)&&
+  Objects.equals(this.allVnicConnected, objVISetMgmtIpSEReq.allVnicConnected)&&
   Objects.equals(this.powerOn, objVISetMgmtIpSEReq.powerOn)&&
   Objects.equals(this.admin, objVISetMgmtIpSEReq.admin)&&
-  Objects.equals(this.allVnicConnected, objVISetMgmtIpSEReq.allVnicConnected)&&
-  Objects.equals(this.sevmUuid, objVISetMgmtIpSEReq.sevmUuid)&&
-  Objects.equals(this.rmCookie, objVISetMgmtIpSEReq.rmCookie)&&
   Objects.equals(this.dcUuid, objVISetMgmtIpSEReq.dcUuid)&&
-  Objects.equals(this.cloudUuid, objVISetMgmtIpSEReq.cloudUuid);
+  Objects.equals(this.rmCookie, objVISetMgmtIpSEReq.rmCookie);
 }
 
 @Override

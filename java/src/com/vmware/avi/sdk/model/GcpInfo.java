@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
   }
   GcpInfo objGcpInfo = (GcpInfo) o;
   return   Objects.equals(this.project, objGcpInfo.project)&&
-  Objects.equals(this.subnet, objGcpInfo.subnet)&&
-  Objects.equals(this.hostname, objGcpInfo.hostname)&&
+  Objects.equals(this.zone, objGcpInfo.zone)&&
   Objects.equals(this.network, objGcpInfo.network)&&
-  Objects.equals(this.zone, objGcpInfo.zone);
+  Objects.equals(this.subnet, objGcpInfo.subnet)&&
+  Objects.equals(this.hostname, objGcpInfo.hostname);
 }
 
 @Override

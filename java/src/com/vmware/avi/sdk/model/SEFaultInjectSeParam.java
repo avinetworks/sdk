@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SEFaultInjectSeParam objSEFaultInjectSeParam = (SEFaultInjectSeParam) o;
-  return   Objects.equals(this.core, objSEFaultInjectSeParam.core)&&
-  Objects.equals(this.seAgentFault, objSEFaultInjectSeParam.seAgentFault)&&
+  return   Objects.equals(this.seAgentFault, objSEFaultInjectSeParam.seAgentFault)&&
+  Objects.equals(this.seDpFault, objSEFaultInjectSeParam.seDpFault)&&
   Objects.equals(this.randomCore, objSEFaultInjectSeParam.randomCore)&&
-  Objects.equals(this.seDpFault, objSEFaultInjectSeParam.seDpFault);
+  Objects.equals(this.core, objSEFaultInjectSeParam.core);
 }
 
 @Override

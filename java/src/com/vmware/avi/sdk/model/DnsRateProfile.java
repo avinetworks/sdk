@@ -163,10 +163,10 @@ public boolean equals(java.lang.Object o) {
   }
   DnsRateProfile objDnsRateProfile = (DnsRateProfile) o;
   return   Objects.equals(this.count, objDnsRateProfile.count)&&
-  Objects.equals(this.action, objDnsRateProfile.action)&&
   Objects.equals(this.burstSize, objDnsRateProfile.burstSize)&&
   Objects.equals(this.period, objDnsRateProfile.period)&&
-  Objects.equals(this.fineGrain, objDnsRateProfile.fineGrain);
+  Objects.equals(this.fineGrain, objDnsRateProfile.fineGrain)&&
+  Objects.equals(this.action, objDnsRateProfile.action);
 }
 
 @Override

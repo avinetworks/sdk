@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AWSSetup objAWSSetup = (AWSSetup) o;
-  return   Objects.equals(this.errorString, objAWSSetup.errorString)&&
+  return   Objects.equals(this.ccId, objAWSSetup.ccId)&&
   Objects.equals(this.region, objAWSSetup.region)&&
   Objects.equals(this.accessKeyId, objAWSSetup.accessKeyId)&&
   Objects.equals(this.privilege, objAWSSetup.privilege)&&
-  Objects.equals(this.vpcId, objAWSSetup.vpcId)&&
-  Objects.equals(this.ccId, objAWSSetup.ccId);
+  Objects.equals(this.errorString, objAWSSetup.errorString)&&
+  Objects.equals(this.vpcId, objAWSSetup.vpcId);
 }
 
 @Override

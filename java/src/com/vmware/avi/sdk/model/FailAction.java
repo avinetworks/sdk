@@ -121,10 +121,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FailAction objFailAction = (FailAction) o;
-  return   Objects.equals(this.redirect, objFailAction.redirect)&&
-  Objects.equals(this.backupPool, objFailAction.backupPool)&&
+  return   Objects.equals(this.type, objFailAction.type)&&
+  Objects.equals(this.redirect, objFailAction.redirect)&&
   Objects.equals(this.localRsp, objFailAction.localRsp)&&
-  Objects.equals(this.type, objFailAction.type);
+  Objects.equals(this.backupPool, objFailAction.backupPool);
 }
 
 @Override

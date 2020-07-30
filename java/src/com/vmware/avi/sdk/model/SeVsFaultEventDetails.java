@@ -118,9 +118,9 @@ public boolean equals(java.lang.Object o) {
   }
   SeVsFaultEventDetails objSeVsFaultEventDetails = (SeVsFaultEventDetails) o;
   return   Objects.equals(this.virtualService, objSeVsFaultEventDetails.virtualService)&&
-  Objects.equals(this.faultReason, objSeVsFaultEventDetails.faultReason)&&
   Objects.equals(this.serviceEngine, objSeVsFaultEventDetails.serviceEngine)&&
-  Objects.equals(this.faultObject, objSeVsFaultEventDetails.faultObject);
+  Objects.equals(this.faultObject, objSeVsFaultEventDetails.faultObject)&&
+  Objects.equals(this.faultReason, objSeVsFaultEventDetails.faultReason);
 }
 
 @Override

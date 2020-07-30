@@ -185,10 +185,10 @@ public boolean equals(java.lang.Object o) {
   }
   AvailabilityZone objAvailabilityZone = (AvailabilityZone) o;
   return   Objects.equals(this.uuid, objAvailabilityZone.uuid)&&
-  Objects.equals(this.cloudRef, objAvailabilityZone.cloudRef)&&
+  Objects.equals(this.name, objAvailabilityZone.name)&&
   Objects.equals(this.vcenterRefs, objAvailabilityZone.vcenterRefs)&&
   Objects.equals(this.tenantRef, objAvailabilityZone.tenantRef)&&
-  Objects.equals(this.name, objAvailabilityZone.name);
+  Objects.equals(this.cloudRef, objAvailabilityZone.cloudRef);
 }
 
 @Override

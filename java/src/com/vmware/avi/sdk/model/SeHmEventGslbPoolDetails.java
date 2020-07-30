@@ -158,11 +158,11 @@ public boolean equals(java.lang.Object o) {
   }
   SeHmEventGslbPoolDetails objSeHmEventGslbPoolDetails = (SeHmEventGslbPoolDetails) o;
   return   Objects.equals(this.gslbService, objSeHmEventGslbPoolDetails.gslbService)&&
-  Objects.equals(this.srcUuid, objSeHmEventGslbPoolDetails.srcUuid)&&
   Objects.equals(this.gsgroup, objSeHmEventGslbPoolDetails.gsgroup)&&
+  Objects.equals(this.gsmember, objSeHmEventGslbPoolDetails.gsmember)&&
   Objects.equals(this.seName, objSeHmEventGslbPoolDetails.seName)&&
   Objects.equals(this.haReason, objSeHmEventGslbPoolDetails.haReason)&&
-  Objects.equals(this.gsmember, objSeHmEventGslbPoolDetails.gsmember);
+  Objects.equals(this.srcUuid, objSeHmEventGslbPoolDetails.srcUuid);
 }
 
 @Override

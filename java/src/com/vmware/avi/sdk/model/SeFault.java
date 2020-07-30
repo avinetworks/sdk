@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeFault objSeFault = (SeFault) o;
-  return   Objects.equals(this.numExecutions, objSeFault.numExecutions)&&
-  Objects.equals(this.numSkips, objSeFault.numSkips)&&
+  return   Objects.equals(this.faultName, objSeFault.faultName)&&
+  Objects.equals(this.functionName, objSeFault.functionName)&&
+  Objects.equals(this.numExecutions, objSeFault.numExecutions)&&
   Objects.equals(this.arg, objSeFault.arg)&&
-  Objects.equals(this.faultName, objSeFault.faultName)&&
-  Objects.equals(this.functionName, objSeFault.functionName);
+  Objects.equals(this.numSkips, objSeFault.numSkips);
 }
 
 @Override

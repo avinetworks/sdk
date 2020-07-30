@@ -101,8 +101,8 @@ public boolean equals(java.lang.Object o) {
   }
   HTTPHdrAction objHTTPHdrAction = (HTTPHdrAction) o;
   return   Objects.equals(this.action, objHTTPHdrAction.action)&&
-  Objects.equals(this.cookie, objHTTPHdrAction.cookie)&&
-  Objects.equals(this.hdr, objHTTPHdrAction.hdr);
+  Objects.equals(this.hdr, objHTTPHdrAction.hdr)&&
+  Objects.equals(this.cookie, objHTTPHdrAction.cookie);
 }
 
 @Override

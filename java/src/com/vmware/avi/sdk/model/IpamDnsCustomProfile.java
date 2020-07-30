@@ -160,10 +160,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsCustomProfile objIpamDnsCustomProfile = (IpamDnsCustomProfile) o;
-  return   Objects.equals(this.usableDomains, objIpamDnsCustomProfile.usableDomains)&&
+  return   Objects.equals(this.customIpamDnsProfileRef, objIpamDnsCustomProfile.customIpamDnsProfileRef)&&
+  Objects.equals(this.dynamicParams, objIpamDnsCustomProfile.dynamicParams)&&
   Objects.equals(this.usableSubnets, objIpamDnsCustomProfile.usableSubnets)&&
-  Objects.equals(this.customIpamDnsProfileRef, objIpamDnsCustomProfile.customIpamDnsProfileRef)&&
-  Objects.equals(this.dynamicParams, objIpamDnsCustomProfile.dynamicParams);
+  Objects.equals(this.usableDomains, objIpamDnsCustomProfile.usableDomains);
 }
 
 @Override

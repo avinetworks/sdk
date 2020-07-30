@@ -111,9 +111,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AWSASGDelete objAWSASGDelete = (AWSASGDelete) o;
-  return   Objects.equals(this.poolUuid, objAWSASGDelete.poolUuid)&&
+  return   Objects.equals(this.ccId, objAWSASGDelete.ccId)&&
   Objects.equals(this.asgs, objAWSASGDelete.asgs)&&
-  Objects.equals(this.ccId, objAWSASGDelete.ccId);
+  Objects.equals(this.poolUuid, objAWSASGDelete.poolUuid);
 }
 
 @Override

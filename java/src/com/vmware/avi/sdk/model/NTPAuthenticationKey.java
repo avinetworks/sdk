@@ -101,8 +101,8 @@ public boolean equals(java.lang.Object o) {
   }
   NTPAuthenticationKey objNTPAuthenticationKey = (NTPAuthenticationKey) o;
   return   Objects.equals(this.keyNumber, objNTPAuthenticationKey.keyNumber)&&
-  Objects.equals(this.key, objNTPAuthenticationKey.key)&&
-  Objects.equals(this.algorithm, objNTPAuthenticationKey.algorithm);
+  Objects.equals(this.algorithm, objNTPAuthenticationKey.algorithm)&&
+  Objects.equals(this.key, objNTPAuthenticationKey.key);
 }
 
 @Override

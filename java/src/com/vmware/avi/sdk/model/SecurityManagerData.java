@@ -154,10 +154,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecurityManagerData objSecurityManagerData = (SecurityManagerData) o;
-  return   Objects.equals(this.tenantRef, objSecurityManagerData.tenantRef)&&
+  return   Objects.equals(this.uuid, objSecurityManagerData.uuid)&&
   Objects.equals(this.appLearningInfo, objSecurityManagerData.appLearningInfo)&&
-  Objects.equals(this.uuid, objSecurityManagerData.uuid)&&
-  Objects.equals(this.name, objSecurityManagerData.name);
+  Objects.equals(this.name, objSecurityManagerData.name)&&
+  Objects.equals(this.tenantRef, objSecurityManagerData.tenantRef);
 }
 
 @Override

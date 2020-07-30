@@ -150,11 +150,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SensitiveFieldRule objSensitiveFieldRule = (SensitiveFieldRule) o;
-  return   Objects.equals(this.action, objSensitiveFieldRule.action)&&
+  return   Objects.equals(this.name, objSensitiveFieldRule.name)&&
   Objects.equals(this.index, objSensitiveFieldRule.index)&&
   Objects.equals(this.enabled, objSensitiveFieldRule.enabled)&&
-  Objects.equals(this.name, objSensitiveFieldRule.name)&&
-  Objects.equals(this.match, objSensitiveFieldRule.match);
+  Objects.equals(this.match, objSensitiveFieldRule.match)&&
+  Objects.equals(this.action, objSensitiveFieldRule.action);
 }
 
 @Override

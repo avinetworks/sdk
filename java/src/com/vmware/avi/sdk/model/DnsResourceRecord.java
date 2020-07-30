@@ -360,21 +360,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsResourceRecord objDnsResourceRecord = (DnsResourceRecord) o;
-  return   Objects.equals(this.addrIp, objDnsResourceRecord.addrIp)&&
-  Objects.equals(this.textRdata, objDnsResourceRecord.textRdata)&&
-  Objects.equals(this.siteName, objDnsResourceRecord.siteName)&&
-  Objects.equals(this.name, objDnsResourceRecord.name)&&
-  Objects.equals(this.dclass, objDnsResourceRecord.dclass)&&
-  Objects.equals(this.addr6IpStr, objDnsResourceRecord.addr6IpStr)&&
-  Objects.equals(this.priority, objDnsResourceRecord.priority)&&
-  Objects.equals(this.vsName, objDnsResourceRecord.vsName)&&
-  Objects.equals(this.cname, objDnsResourceRecord.cname)&&
-  Objects.equals(this.location, objDnsResourceRecord.location)&&
-  Objects.equals(this.nsname, objDnsResourceRecord.nsname)&&
+  return   Objects.equals(this.type, objDnsResourceRecord.type)&&
   Objects.equals(this.ttl, objDnsResourceRecord.ttl)&&
+  Objects.equals(this.dclass, objDnsResourceRecord.dclass)&&
+  Objects.equals(this.addrIp, objDnsResourceRecord.addrIp)&&
+  Objects.equals(this.nsname, objDnsResourceRecord.nsname)&&
+  Objects.equals(this.cname, objDnsResourceRecord.cname)&&
+  Objects.equals(this.port, objDnsResourceRecord.port)&&
+  Objects.equals(this.siteName, objDnsResourceRecord.siteName)&&
+  Objects.equals(this.vsName, objDnsResourceRecord.vsName)&&
+  Objects.equals(this.location, objDnsResourceRecord.location)&&
+  Objects.equals(this.addr6IpStr, objDnsResourceRecord.addr6IpStr)&&
   Objects.equals(this.mailServer, objDnsResourceRecord.mailServer)&&
-  Objects.equals(this.type, objDnsResourceRecord.type)&&
-  Objects.equals(this.port, objDnsResourceRecord.port);
+  Objects.equals(this.priority, objDnsResourceRecord.priority)&&
+  Objects.equals(this.textRdata, objDnsResourceRecord.textRdata)&&
+  Objects.equals(this.name, objDnsResourceRecord.name);
 }
 
 @Override

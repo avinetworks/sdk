@@ -198,12 +198,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsPolicy objDnsPolicy = (DnsPolicy) o;
-  return   Objects.equals(this.description, objDnsPolicy.description)&&
-  Objects.equals(this.createdBy, objDnsPolicy.createdBy)&&
+  return   Objects.equals(this.uuid, objDnsPolicy.uuid)&&
   Objects.equals(this.name, objDnsPolicy.name)&&
   Objects.equals(this.rule, objDnsPolicy.rule)&&
-  Objects.equals(this.tenantRef, objDnsPolicy.tenantRef)&&
-  Objects.equals(this.uuid, objDnsPolicy.uuid);
+  Objects.equals(this.createdBy, objDnsPolicy.createdBy)&&
+  Objects.equals(this.description, objDnsPolicy.description)&&
+  Objects.equals(this.tenantRef, objDnsPolicy.tenantRef);
 }
 
 @Override

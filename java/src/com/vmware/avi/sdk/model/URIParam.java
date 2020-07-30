@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   URIParam objURIParam = (URIParam) o;
-  return   Objects.equals(this.tokens, objURIParam.tokens)&&
-  Objects.equals(this.type, objURIParam.type);
+  return   Objects.equals(this.type, objURIParam.type)&&
+  Objects.equals(this.tokens, objURIParam.tokens);
 }
 
 @Override

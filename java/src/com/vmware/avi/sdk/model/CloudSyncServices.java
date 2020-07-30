@@ -151,11 +151,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudSyncServices objCloudSyncServices = (CloudSyncServices) o;
-  return   Objects.equals(this.vips, objCloudSyncServices.vips)&&
+  return   Objects.equals(this.ccId, objCloudSyncServices.ccId)&&
   Objects.equals(this.vtype, objCloudSyncServices.vtype)&&
   Objects.equals(this.seVmUuid, objCloudSyncServices.seVmUuid)&&
   Objects.equals(this.errorString, objCloudSyncServices.errorString)&&
-  Objects.equals(this.ccId, objCloudSyncServices.ccId);
+  Objects.equals(this.vips, objCloudSyncServices.vips);
 }
 
 @Override

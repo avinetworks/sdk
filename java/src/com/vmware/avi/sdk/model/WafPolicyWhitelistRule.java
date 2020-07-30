@@ -213,12 +213,12 @@ public boolean equals(java.lang.Object o) {
   }
   WafPolicyWhitelistRule objWafPolicyWhitelistRule = (WafPolicyWhitelistRule) o;
   return   Objects.equals(this.index, objWafPolicyWhitelistRule.index)&&
-  Objects.equals(this.enable, objWafPolicyWhitelistRule.enable)&&
   Objects.equals(this.name, objWafPolicyWhitelistRule.name)&&
-  Objects.equals(this.actions, objWafPolicyWhitelistRule.actions)&&
-  Objects.equals(this.samplingPercent, objWafPolicyWhitelistRule.samplingPercent)&&
+  Objects.equals(this.enable, objWafPolicyWhitelistRule.enable)&&
   Objects.equals(this.match, objWafPolicyWhitelistRule.match)&&
-  Objects.equals(this.description, objWafPolicyWhitelistRule.description);
+  Objects.equals(this.actions, objWafPolicyWhitelistRule.actions)&&
+  Objects.equals(this.description, objWafPolicyWhitelistRule.description)&&
+  Objects.equals(this.samplingPercent, objWafPolicyWhitelistRule.samplingPercent);
 }
 
 @Override

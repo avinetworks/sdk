@@ -239,16 +239,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerLicenseReconcileDetails objControllerLicenseReconcileDetails = (ControllerLicenseReconcileDetails) o;
-  return   Objects.equals(this.newRemainingServiceCores, objControllerLicenseReconcileDetails.newRemainingServiceCores)&&
-  Objects.equals(this.oldEscrowServiceCores, objControllerLicenseReconcileDetails.oldEscrowServiceCores)&&
-  Objects.equals(this.newAvailableServiceCores, objControllerLicenseReconcileDetails.newAvailableServiceCores)&&
-  Objects.equals(this.oldRemainingServiceCores, objControllerLicenseReconcileDetails.oldRemainingServiceCores)&&
-  Objects.equals(this.oldAvailableServiceCores, objControllerLicenseReconcileDetails.oldAvailableServiceCores)&&
-  Objects.equals(this.newEscrowServiceCores, objControllerLicenseReconcileDetails.newEscrowServiceCores)&&
-  Objects.equals(this.newConsumedServiceCores, objControllerLicenseReconcileDetails.newConsumedServiceCores)&&
+  return   Objects.equals(this.tenantUuid, objControllerLicenseReconcileDetails.tenantUuid)&&
   Objects.equals(this.tier, objControllerLicenseReconcileDetails.tier)&&
-  Objects.equals(this.tenantUuid, objControllerLicenseReconcileDetails.tenantUuid)&&
-  Objects.equals(this.oldConsumedServiceCores, objControllerLicenseReconcileDetails.oldConsumedServiceCores);
+  Objects.equals(this.oldAvailableServiceCores, objControllerLicenseReconcileDetails.oldAvailableServiceCores)&&
+  Objects.equals(this.newAvailableServiceCores, objControllerLicenseReconcileDetails.newAvailableServiceCores)&&
+  Objects.equals(this.oldConsumedServiceCores, objControllerLicenseReconcileDetails.oldConsumedServiceCores)&&
+  Objects.equals(this.newConsumedServiceCores, objControllerLicenseReconcileDetails.newConsumedServiceCores)&&
+  Objects.equals(this.oldRemainingServiceCores, objControllerLicenseReconcileDetails.oldRemainingServiceCores)&&
+  Objects.equals(this.newRemainingServiceCores, objControllerLicenseReconcileDetails.newRemainingServiceCores)&&
+  Objects.equals(this.oldEscrowServiceCores, objControllerLicenseReconcileDetails.oldEscrowServiceCores)&&
+  Objects.equals(this.newEscrowServiceCores, objControllerLicenseReconcileDetails.newEscrowServiceCores);
 }
 
 @Override

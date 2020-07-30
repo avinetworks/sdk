@@ -489,23 +489,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafLog objWafLog = (WafLog) o;
-  return   Objects.equals(this.status, objWafLog.status)&&
-  Objects.equals(this.latencyResponseBodyPhase, objWafLog.latencyResponseBodyPhase)&&
-  Objects.equals(this.psmExecuted, objWafLog.psmExecuted)&&
-  Objects.equals(this.whitelistLogs, objWafLog.whitelistLogs)&&
-  Objects.equals(this.applicationRulesConfigured, objWafLog.applicationRulesConfigured)&&
-  Objects.equals(this.applicationRuleLogs, objWafLog.applicationRuleLogs)&&
-  Objects.equals(this.applicationRulesExecuted, objWafLog.applicationRulesExecuted)&&
+  return   Objects.equals(this.ruleLogs, objWafLog.ruleLogs)&&
+  Objects.equals(this.status, objWafLog.status)&&
   Objects.equals(this.latencyRequestHeaderPhase, objWafLog.latencyRequestHeaderPhase)&&
   Objects.equals(this.latencyRequestBodyPhase, objWafLog.latencyRequestBodyPhase)&&
-  Objects.equals(this.psmConfigured, objWafLog.psmConfigured)&&
   Objects.equals(this.latencyResponseHeaderPhase, objWafLog.latencyResponseHeaderPhase)&&
-  Objects.equals(this.whitelistExecuted, objWafLog.whitelistExecuted)&&
+  Objects.equals(this.latencyResponseBodyPhase, objWafLog.latencyResponseBodyPhase)&&
   Objects.equals(this.rulesConfigured, objWafLog.rulesConfigured)&&
-  Objects.equals(this.ruleLogs, objWafLog.ruleLogs)&&
-  Objects.equals(this.whitelistConfigured, objWafLog.whitelistConfigured)&&
   Objects.equals(this.rulesExecuted, objWafLog.rulesExecuted)&&
-  Objects.equals(this.psmLogs, objWafLog.psmLogs);
+  Objects.equals(this.whitelistLogs, objWafLog.whitelistLogs)&&
+  Objects.equals(this.whitelistConfigured, objWafLog.whitelistConfigured)&&
+  Objects.equals(this.whitelistExecuted, objWafLog.whitelistExecuted)&&
+  Objects.equals(this.psmLogs, objWafLog.psmLogs)&&
+  Objects.equals(this.psmConfigured, objWafLog.psmConfigured)&&
+  Objects.equals(this.psmExecuted, objWafLog.psmExecuted)&&
+  Objects.equals(this.applicationRuleLogs, objWafLog.applicationRuleLogs)&&
+  Objects.equals(this.applicationRulesConfigured, objWafLog.applicationRulesConfigured)&&
+  Objects.equals(this.applicationRulesExecuted, objWafLog.applicationRulesExecuted);
 }
 
 @Override

@@ -116,6 +116,9 @@ public class VIMgrSEVMRuntime extends AviRestResource  {
     @JsonProperty("vcenter_datacenter_uuid")
     private String vcenterDatacenterUuid = null;
 
+    @JsonProperty("vcenter_instance_uuid")
+    private String vcenterInstanceUuid = null;
+
     @JsonProperty("vcenter_ref")
     private String vcenterRef = null;
 
@@ -760,6 +763,26 @@ public class VIMgrSEVMRuntime extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
+   * Serviceengine instance uuid from vcenter.
+   * Field introduced in 20.1.1.
+   * @return vcenterInstanceUuid
+   */
+  public String getVcenterInstanceUuid() {
+    return vcenterInstanceUuid;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * Serviceengine instance uuid from vcenter.
+   * Field introduced in 20.1.1.
+   * @param vcenterInstanceUuid set the vcenterInstanceUuid.
+   */
+  public void setVcenterInstanceUuid(String  vcenterInstanceUuid) {
+    this.vcenterInstanceUuid = vcenterInstanceUuid;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
    * Serviceengine belongs to vcenter.
    * It is a reference to an object of type vcenterserver.
    * Field introduced in 20.1.1.
@@ -938,47 +961,48 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrSEVMRuntime objVIMgrSEVMRuntime = (VIMgrSEVMRuntime) o;
-  return   Objects.equals(this.powerstate, objVIMgrSEVMRuntime.powerstate)&&
-  Objects.equals(this.vcenterVappname, objVIMgrSEVMRuntime.vcenterVappname)&&
-  Objects.equals(this.availabilityZone, objVIMgrSEVMRuntime.availabilityZone)&&
-  Objects.equals(this.discoveryStatus, objVIMgrSEVMRuntime.discoveryStatus)&&
-  Objects.equals(this.initVnics, objVIMgrSEVMRuntime.initVnics)&&
-  Objects.equals(this.managedObjectId, objVIMgrSEVMRuntime.managedObjectId)&&
-  Objects.equals(this.creationInProgress, objVIMgrSEVMRuntime.creationInProgress)&&
-  Objects.equals(this.vcenterUrl, objVIMgrSEVMRuntime.vcenterUrl)&&
-  Objects.equals(this.flavor, objVIMgrSEVMRuntime.flavor)&&
-  Objects.equals(this.memoryMb, objVIMgrSEVMRuntime.memoryMb)&&
+  return   Objects.equals(this.type, objVIMgrSEVMRuntime.type)&&
   Objects.equals(this.uuid, objVIMgrSEVMRuntime.uuid)&&
-  Objects.equals(this.vcenterVappvendor, objVIMgrSEVMRuntime.vcenterVappvendor)&&
-  Objects.equals(this.cloudRef, objVIMgrSEVMRuntime.cloudRef)&&
-  Objects.equals(this.vcenterRef, objVIMgrSEVMRuntime.vcenterRef)&&
-  Objects.equals(this.azureInfo, objVIMgrSEVMRuntime.azureInfo)&&
-  Objects.equals(this.vcenterDatacenterUuid, objVIMgrSEVMRuntime.vcenterDatacenterUuid)&&
-  Objects.equals(this.type, objVIMgrSEVMRuntime.type)&&
-  Objects.equals(this.connectionState, objVIMgrSEVMRuntime.connectionState)&&
-  Objects.equals(this.vcenterVmType, objVIMgrSEVMRuntime.vcenterVmType)&&
-  Objects.equals(this.diskGb, objVIMgrSEVMRuntime.diskGb)&&
-  Objects.equals(this.deletionInProgress, objVIMgrSEVMRuntime.deletionInProgress)&&
-  Objects.equals(this.serverGroupUuid, objVIMgrSEVMRuntime.serverGroupUuid)&&
-  Objects.equals(this.cloudName, objVIMgrSEVMRuntime.cloudName)&&
-  Objects.equals(this.host, objVIMgrSEVMRuntime.host)&&
-  Objects.equals(this.vcenterSeType, objVIMgrSEVMRuntime.vcenterSeType)&&
-  Objects.equals(this.guestNic, objVIMgrSEVMRuntime.guestNic)&&
-  Objects.equals(this.hostRef, objVIMgrSEVMRuntime.hostRef)&&
-  Objects.equals(this.segroupRef, objVIMgrSEVMRuntime.segroupRef)&&
-  Objects.equals(this.vcenterRmCookie, objVIMgrSEVMRuntime.vcenterRmCookie)&&
-  Objects.equals(this.hostid, objVIMgrSEVMRuntime.hostid)&&
   Objects.equals(this.name, objVIMgrSEVMRuntime.name)&&
-  Objects.equals(this.lastDiscovery, objVIMgrSEVMRuntime.lastDiscovery)&&
+  Objects.equals(this.managedObjectId, objVIMgrSEVMRuntime.managedObjectId)&&
+  Objects.equals(this.host, objVIMgrSEVMRuntime.host)&&
+  Objects.equals(this.powerstate, objVIMgrSEVMRuntime.powerstate)&&
+  Objects.equals(this.connectionState, objVIMgrSEVMRuntime.connectionState)&&
+  Objects.equals(this.vcenterDatacenterUuid, objVIMgrSEVMRuntime.vcenterDatacenterUuid)&&
+  Objects.equals(this.vcenterVmType, objVIMgrSEVMRuntime.vcenterVmType)&&
+  Objects.equals(this.vcenterVappname, objVIMgrSEVMRuntime.vcenterVappname)&&
+  Objects.equals(this.vcenterVappvendor, objVIMgrSEVMRuntime.vcenterVappvendor)&&
+  Objects.equals(this.vcenterTemplateVm, objVIMgrSEVMRuntime.vcenterTemplateVm)&&
+  Objects.equals(this.vcenterSeType, objVIMgrSEVMRuntime.vcenterSeType)&&
+  Objects.equals(this.creationInProgress, objVIMgrSEVMRuntime.creationInProgress)&&
+  Objects.equals(this.vcenterRmCookie, objVIMgrSEVMRuntime.vcenterRmCookie)&&
+  Objects.equals(this.controllerIpAddr, objVIMgrSEVMRuntime.controllerIpAddr)&&
+  Objects.equals(this.guestNic, objVIMgrSEVMRuntime.guestNic)&&
+  Objects.equals(this.initVnics, objVIMgrSEVMRuntime.initVnics)&&
+  Objects.equals(this.cloudName, objVIMgrSEVMRuntime.cloudName)&&
+  Objects.equals(this.flavor, objVIMgrSEVMRuntime.flavor)&&
   Objects.equals(this.hypervisor, objVIMgrSEVMRuntime.hypervisor)&&
   Objects.equals(this.securityGroupUuid, objVIMgrSEVMRuntime.securityGroupUuid)&&
-  Objects.equals(this.vcenterTemplateVm, objVIMgrSEVMRuntime.vcenterTemplateVm)&&
-  Objects.equals(this.controllerIpAddr, objVIMgrSEVMRuntime.controllerIpAddr)&&
-  Objects.equals(this.vcpus, objVIMgrSEVMRuntime.vcpus)&&
+  Objects.equals(this.serverGroupUuid, objVIMgrSEVMRuntime.serverGroupUuid)&&
+  Objects.equals(this.segroupRef, objVIMgrSEVMRuntime.segroupRef)&&
+  Objects.equals(this.lastDiscovery, objVIMgrSEVMRuntime.lastDiscovery)&&
+  Objects.equals(this.discoveryStatus, objVIMgrSEVMRuntime.discoveryStatus)&&
+  Objects.equals(this.discoveryResponse, objVIMgrSEVMRuntime.discoveryResponse)&&
+  Objects.equals(this.deletionInProgress, objVIMgrSEVMRuntime.deletionInProgress)&&
+  Objects.equals(this.hostid, objVIMgrSEVMRuntime.hostid)&&
   Objects.equals(this.controllerClusterUuid, objVIMgrSEVMRuntime.controllerClusterUuid)&&
+  Objects.equals(this.availabilityZone, objVIMgrSEVMRuntime.availabilityZone)&&
+  Objects.equals(this.hostRef, objVIMgrSEVMRuntime.hostRef)&&
+  Objects.equals(this.azureInfo, objVIMgrSEVMRuntime.azureInfo)&&
+  Objects.equals(this.diskGb, objVIMgrSEVMRuntime.diskGb)&&
+  Objects.equals(this.vcpus, objVIMgrSEVMRuntime.vcpus)&&
+  Objects.equals(this.memoryMb, objVIMgrSEVMRuntime.memoryMb)&&
   Objects.equals(this.cookie, objVIMgrSEVMRuntime.cookie)&&
+  Objects.equals(this.vcenterUrl, objVIMgrSEVMRuntime.vcenterUrl)&&
+  Objects.equals(this.vcenterRef, objVIMgrSEVMRuntime.vcenterRef)&&
+  Objects.equals(this.vcenterInstanceUuid, objVIMgrSEVMRuntime.vcenterInstanceUuid)&&
   Objects.equals(this.tenantRef, objVIMgrSEVMRuntime.tenantRef)&&
-  Objects.equals(this.discoveryResponse, objVIMgrSEVMRuntime.discoveryResponse);
+  Objects.equals(this.cloudRef, objVIMgrSEVMRuntime.cloudRef);
 }
 
 @Override
@@ -1017,6 +1041,7 @@ public String toString() {
         sb.append("    type: ").append(toIndentedString(type)).append("\n");
             sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
         sb.append("    vcenterDatacenterUuid: ").append(toIndentedString(vcenterDatacenterUuid)).append("\n");
+        sb.append("    vcenterInstanceUuid: ").append(toIndentedString(vcenterInstanceUuid)).append("\n");
         sb.append("    vcenterRef: ").append(toIndentedString(vcenterRef)).append("\n");
         sb.append("    vcenterRmCookie: ").append(toIndentedString(vcenterRmCookie)).append("\n");
         sb.append("    vcenterSeType: ").append(toIndentedString(vcenterSeType)).append("\n");

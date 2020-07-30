@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   L4RuleActionSelectPool objL4RuleActionSelectPool = (L4RuleActionSelectPool) o;
-  return   Objects.equals(this.poolRef, objL4RuleActionSelectPool.poolRef)&&
-  Objects.equals(this.poolGroupRef, objL4RuleActionSelectPool.poolGroupRef)&&
-  Objects.equals(this.actionType, objL4RuleActionSelectPool.actionType);
+  return   Objects.equals(this.actionType, objL4RuleActionSelectPool.actionType)&&
+  Objects.equals(this.poolRef, objL4RuleActionSelectPool.poolRef)&&
+  Objects.equals(this.poolGroupRef, objL4RuleActionSelectPool.poolGroupRef);
 }
 
 @Override

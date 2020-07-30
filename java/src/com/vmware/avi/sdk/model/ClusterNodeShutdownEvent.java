@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNodeShutdownEvent objClusterNodeShutdownEvent = (ClusterNodeShutdownEvent) o;
-  return   Objects.equals(this.ip, objClusterNodeShutdownEvent.ip)&&
-  Objects.equals(this.reason, objClusterNodeShutdownEvent.reason)&&
-  Objects.equals(this.nodeName, objClusterNodeShutdownEvent.nodeName);
+  return   Objects.equals(this.nodeName, objClusterNodeShutdownEvent.nodeName)&&
+  Objects.equals(this.ip, objClusterNodeShutdownEvent.ip)&&
+  Objects.equals(this.reason, objClusterNodeShutdownEvent.reason);
 }
 
 @Override

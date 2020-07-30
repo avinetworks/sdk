@@ -108,8 +108,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AdminAuthConfiguration objAdminAuthConfiguration = (AdminAuthConfiguration) o;
-  return   Objects.equals(this.mappingRules, objAdminAuthConfiguration.mappingRules)&&
-  Objects.equals(this.authProfileRef, objAdminAuthConfiguration.authProfileRef)&&
+  return   Objects.equals(this.authProfileRef, objAdminAuthConfiguration.authProfileRef)&&
+  Objects.equals(this.mappingRules, objAdminAuthConfiguration.mappingRules)&&
   Objects.equals(this.allowLocalUserLogin, objAdminAuthConfiguration.allowLocalUserLogin);
 }
 

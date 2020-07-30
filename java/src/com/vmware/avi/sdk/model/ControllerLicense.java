@@ -512,24 +512,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerLicense objControllerLicense = (ControllerLicense) o;
-  return   Objects.equals(this.validUntil, objControllerLicense.validUntil)&&
-  Objects.equals(this.serviceCores, objControllerLicense.serviceCores)&&
-  Objects.equals(this.activeBurstResources, objControllerLicense.activeBurstResources)&&
-  Objects.equals(this.licenseTier, objControllerLicense.licenseTier)&&
-  Objects.equals(this.uuid, objControllerLicense.uuid)&&
-  Objects.equals(this.licenseTiers, objControllerLicense.licenseTiers)&&
-  Objects.equals(this.maxSes, objControllerLicense.maxSes)&&
+  return   Objects.equals(this.uuid, objControllerLicense.uuid)&&
   Objects.equals(this.name, objControllerLicense.name)&&
-  Objects.equals(this.burstCores, objControllerLicense.burstCores)&&
   Objects.equals(this.startOn, objControllerLicense.startOn)&&
-  Objects.equals(this.expiredBurstResources, objControllerLicense.expiredBurstResources)&&
-  Objects.equals(this.licenses, objControllerLicense.licenses)&&
+  Objects.equals(this.validUntil, objControllerLicense.validUntil)&&
+  Objects.equals(this.customerName, objControllerLicense.customerName)&&
   Objects.equals(this.cores, objControllerLicense.cores)&&
+  Objects.equals(this.licenseTier, objControllerLicense.licenseTier)&&
+  Objects.equals(this.maxSes, objControllerLicense.maxSes)&&
+  Objects.equals(this.sockets, objControllerLicense.sockets)&&
+  Objects.equals(this.licenses, objControllerLicense.licenses)&&
+  Objects.equals(this.seBandwidthLimits, objControllerLicense.seBandwidthLimits)&&
+  Objects.equals(this.licenseTiers, objControllerLicense.licenseTiers)&&
+  Objects.equals(this.burstCores, objControllerLicense.burstCores)&&
+  Objects.equals(this.activeBurstResources, objControllerLicense.activeBurstResources)&&
+  Objects.equals(this.expiredBurstResources, objControllerLicense.expiredBurstResources)&&
   Objects.equals(this.licenseId, objControllerLicense.licenseId)&&
   Objects.equals(this.disableEnforcement, objControllerLicense.disableEnforcement)&&
-  Objects.equals(this.sockets, objControllerLicense.sockets)&&
-  Objects.equals(this.seBandwidthLimits, objControllerLicense.seBandwidthLimits)&&
-  Objects.equals(this.customerName, objControllerLicense.customerName);
+  Objects.equals(this.serviceCores, objControllerLicense.serviceCores);
 }
 
 @Override

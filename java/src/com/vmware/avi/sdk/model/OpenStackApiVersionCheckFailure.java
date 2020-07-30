@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OpenStackApiVersionCheckFailure objOpenStackApiVersionCheckFailure = (OpenStackApiVersionCheckFailure) o;
-  return   Objects.equals(this.ccName, objOpenStackApiVersionCheckFailure.ccName)&&
-  Objects.equals(this.errorString, objOpenStackApiVersionCheckFailure.errorString)&&
-  Objects.equals(this.ccId, objOpenStackApiVersionCheckFailure.ccId);
+  return   Objects.equals(this.ccId, objOpenStackApiVersionCheckFailure.ccId)&&
+  Objects.equals(this.ccName, objOpenStackApiVersionCheckFailure.ccName)&&
+  Objects.equals(this.errorString, objOpenStackApiVersionCheckFailure.errorString);
 }
 
 @Override

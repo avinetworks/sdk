@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NsxtSetup objNsxtSetup = (NsxtSetup) o;
-  return   Objects.equals(this.status, objNsxtSetup.status)&&
-  Objects.equals(this.reason, objNsxtSetup.reason)&&
+  return   Objects.equals(this.ccId, objNsxtSetup.ccId)&&
   Objects.equals(this.transportzoneId, objNsxtSetup.transportzoneId)&&
-  Objects.equals(this.ccId, objNsxtSetup.ccId);
+  Objects.equals(this.status, objNsxtSetup.status)&&
+  Objects.equals(this.reason, objNsxtSetup.reason);
 }
 
 @Override

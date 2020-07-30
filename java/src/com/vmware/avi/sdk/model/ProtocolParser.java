@@ -166,11 +166,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ProtocolParser objProtocolParser = (ProtocolParser) o;
-  return   Objects.equals(this.parserCode, objProtocolParser.parserCode)&&
-  Objects.equals(this.description, objProtocolParser.description)&&
+  return   Objects.equals(this.uuid, objProtocolParser.uuid)&&
   Objects.equals(this.name, objProtocolParser.name)&&
-  Objects.equals(this.tenantRef, objProtocolParser.tenantRef)&&
-  Objects.equals(this.uuid, objProtocolParser.uuid);
+  Objects.equals(this.parserCode, objProtocolParser.parserCode)&&
+  Objects.equals(this.description, objProtocolParser.description)&&
+  Objects.equals(this.tenantRef, objProtocolParser.tenantRef);
 }
 
 @Override

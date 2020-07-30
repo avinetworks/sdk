@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PGDeploymentRule objPGDeploymentRule = (PGDeploymentRule) o;
-  return   Objects.equals(this.operator, objPGDeploymentRule.operator)&&
-  Objects.equals(this.threshold, objPGDeploymentRule.threshold)&&
-  Objects.equals(this.metricId, objPGDeploymentRule.metricId);
+  return   Objects.equals(this.metricId, objPGDeploymentRule.metricId)&&
+  Objects.equals(this.operator, objPGDeploymentRule.operator)&&
+  Objects.equals(this.threshold, objPGDeploymentRule.threshold);
 }
 
 @Override

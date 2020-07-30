@@ -115,10 +115,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConnpoolFilter objConnpoolFilter = (ConnpoolFilter) o;
-  return   Objects.equals(this.ipAddr, objConnpoolFilter.ipAddr)&&
-  Objects.equals(this.type, objConnpoolFilter.type)&&
-  Objects.equals(this.port, objConnpoolFilter.port)&&
-  Objects.equals(this.ipMask, objConnpoolFilter.ipMask);
+  return   Objects.equals(this.type, objConnpoolFilter.type)&&
+  Objects.equals(this.ipAddr, objConnpoolFilter.ipAddr)&&
+  Objects.equals(this.ipMask, objConnpoolFilter.ipMask)&&
+  Objects.equals(this.port, objConnpoolFilter.port);
 }
 
 @Override

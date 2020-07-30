@@ -88,8 +88,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PortMatch objPortMatch = (PortMatch) o;
-  return   Objects.equals(this.ports, objPortMatch.ports)&&
-  Objects.equals(this.matchCriteria, objPortMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objPortMatch.matchCriteria)&&
+  Objects.equals(this.ports, objPortMatch.ports);
 }
 
 @Override

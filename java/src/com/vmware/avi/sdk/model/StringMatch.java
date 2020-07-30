@@ -123,9 +123,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   StringMatch objStringMatch = (StringMatch) o;
-  return   Objects.equals(this.stringGroupRefs, objStringMatch.stringGroupRefs)&&
+  return   Objects.equals(this.matchCriteria, objStringMatch.matchCriteria)&&
   Objects.equals(this.matchStr, objStringMatch.matchStr)&&
-  Objects.equals(this.matchCriteria, objStringMatch.matchCriteria);
+  Objects.equals(this.stringGroupRefs, objStringMatch.stringGroupRefs);
 }
 
 @Override

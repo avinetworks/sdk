@@ -205,13 +205,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UpgradeEvent objUpgradeEvent = (UpgradeEvent) o;
-  return   Objects.equals(this.status, objUpgradeEvent.status)&&
-  Objects.equals(this.ip, objUpgradeEvent.ip)&&
+  return   Objects.equals(this.ip, objUpgradeEvent.ip)&&
   Objects.equals(this.startTime, objUpgradeEvent.startTime)&&
-  Objects.equals(this.subTasks, objUpgradeEvent.subTasks)&&
   Objects.equals(this.endTime, objUpgradeEvent.endTime)&&
+  Objects.equals(this.status, objUpgradeEvent.status)&&
+  Objects.equals(this.message, objUpgradeEvent.message)&&
   Objects.equals(this.duration, objUpgradeEvent.duration)&&
-  Objects.equals(this.message, objUpgradeEvent.message);
+  Objects.equals(this.subTasks, objUpgradeEvent.subTasks);
 }
 
 @Override

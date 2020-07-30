@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLIgnoredDetails objSSLIgnoredDetails = (SSLIgnoredDetails) o;
-  return   Objects.equals(this.reason, objSSLIgnoredDetails.reason)&&
-  Objects.equals(this.name, objSSLIgnoredDetails.name);
+  return   Objects.equals(this.name, objSSLIgnoredDetails.name)&&
+  Objects.equals(this.reason, objSSLIgnoredDetails.reason);
 }
 
 @Override

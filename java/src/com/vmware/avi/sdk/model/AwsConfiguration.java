@@ -459,24 +459,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AwsConfiguration objAwsConfiguration = (AwsConfiguration) o;
-  return   Objects.equals(this.useIamRoles, objAwsConfiguration.useIamRoles)&&
-  Objects.equals(this.wildcardAccess, objAwsConfiguration.wildcardAccess)&&
-  Objects.equals(this.sqsEncryption, objAwsConfiguration.sqsEncryption)&&
-  Objects.equals(this.publishVipToPublicZone, objAwsConfiguration.publishVipToPublicZone)&&
-  Objects.equals(this.s3Encryption, objAwsConfiguration.s3Encryption)&&
-  Objects.equals(this.ebsEncryption, objAwsConfiguration.ebsEncryption)&&
-  Objects.equals(this.route53Integration, objAwsConfiguration.route53Integration)&&
-  Objects.equals(this.ttl, objAwsConfiguration.ttl)&&
-  Objects.equals(this.region, objAwsConfiguration.region)&&
-  Objects.equals(this.freeElasticips, objAwsConfiguration.freeElasticips)&&
+  return   Objects.equals(this.accessKeyId, objAwsConfiguration.accessKeyId)&&
   Objects.equals(this.secretAccessKey, objAwsConfiguration.secretAccessKey)&&
-  Objects.equals(this.zones, objAwsConfiguration.zones)&&
-  Objects.equals(this.asgPollInterval, objAwsConfiguration.asgPollInterval)&&
-  Objects.equals(this.useSnsSqs, objAwsConfiguration.useSnsSqs)&&
+  Objects.equals(this.region, objAwsConfiguration.region)&&
   Objects.equals(this.vpc, objAwsConfiguration.vpc)&&
-  Objects.equals(this.accessKeyId, objAwsConfiguration.accessKeyId)&&
+  Objects.equals(this.vpcId, objAwsConfiguration.vpcId)&&
+  Objects.equals(this.zones, objAwsConfiguration.zones)&&
+  Objects.equals(this.route53Integration, objAwsConfiguration.route53Integration)&&
+  Objects.equals(this.freeElasticips, objAwsConfiguration.freeElasticips)&&
+  Objects.equals(this.useIamRoles, objAwsConfiguration.useIamRoles)&&
   Objects.equals(this.iamAssumeRole, objAwsConfiguration.iamAssumeRole)&&
-  Objects.equals(this.vpcId, objAwsConfiguration.vpcId);
+  Objects.equals(this.ttl, objAwsConfiguration.ttl)&&
+  Objects.equals(this.wildcardAccess, objAwsConfiguration.wildcardAccess)&&
+  Objects.equals(this.useSnsSqs, objAwsConfiguration.useSnsSqs)&&
+  Objects.equals(this.asgPollInterval, objAwsConfiguration.asgPollInterval)&&
+  Objects.equals(this.ebsEncryption, objAwsConfiguration.ebsEncryption)&&
+  Objects.equals(this.s3Encryption, objAwsConfiguration.s3Encryption)&&
+  Objects.equals(this.sqsEncryption, objAwsConfiguration.sqsEncryption)&&
+  Objects.equals(this.publishVipToPublicZone, objAwsConfiguration.publishVipToPublicZone);
 }
 
 @Override

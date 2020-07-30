@@ -212,12 +212,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsInfo objDnsInfo = (DnsInfo) o;
-  return   Objects.equals(this.algorithm, objDnsInfo.algorithm)&&
-  Objects.equals(this.numRecordsInResponse, objDnsInfo.numRecordsInResponse)&&
-  Objects.equals(this.fqdn, objDnsInfo.fqdn)&&
-  Objects.equals(this.cname, objDnsInfo.cname)&&
+  return   Objects.equals(this.fqdn, objDnsInfo.fqdn)&&
   Objects.equals(this.ttl, objDnsInfo.ttl)&&
   Objects.equals(this.type, objDnsInfo.type)&&
+  Objects.equals(this.numRecordsInResponse, objDnsInfo.numRecordsInResponse)&&
+  Objects.equals(this.algorithm, objDnsInfo.algorithm)&&
+  Objects.equals(this.cname, objDnsInfo.cname)&&
   Objects.equals(this.metadata, objDnsInfo.metadata);
 }
 

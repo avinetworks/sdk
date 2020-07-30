@@ -342,16 +342,16 @@ public boolean equals(java.lang.Object o) {
   }
   WafRule objWafRule = (WafRule) o;
   return   Objects.equals(this.index, objWafRule.index)&&
-  Objects.equals(this.enable, objWafRule.enable)&&
   Objects.equals(this.name, objWafRule.name)&&
-  Objects.equals(this.excludeList, objWafRule.excludeList)&&
-  Objects.equals(this.isSensitive, objWafRule.isSensitive)&&
-  Objects.equals(this.tags, objWafRule.tags)&&
+  Objects.equals(this.ruleId, objWafRule.ruleId)&&
+  Objects.equals(this.enable, objWafRule.enable)&&
   Objects.equals(this.rule, objWafRule.rule)&&
-  Objects.equals(this.mode, objWafRule.mode)&&
-  Objects.equals(this.phase, objWafRule.phase)&&
+  Objects.equals(this.excludeList, objWafRule.excludeList)&&
+  Objects.equals(this.tags, objWafRule.tags)&&
   Objects.equals(this.forceDetection, objWafRule.forceDetection)&&
-  Objects.equals(this.ruleId, objWafRule.ruleId);
+  Objects.equals(this.mode, objWafRule.mode)&&
+  Objects.equals(this.isSensitive, objWafRule.isSensitive)&&
+  Objects.equals(this.phase, objWafRule.phase);
 }
 
 @Override

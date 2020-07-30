@@ -121,10 +121,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FeProxyRoutePublishConfig objFeProxyRoutePublishConfig = (FeProxyRoutePublishConfig) o;
-  return   Objects.equals(this.subnet, objFeProxyRoutePublishConfig.subnet)&&
+  return   Objects.equals(this.mode, objFeProxyRoutePublishConfig.mode)&&
   Objects.equals(this.token, objFeProxyRoutePublishConfig.token)&&
-  Objects.equals(this.publisherPort, objFeProxyRoutePublishConfig.publisherPort)&&
-  Objects.equals(this.mode, objFeProxyRoutePublishConfig.mode);
+  Objects.equals(this.subnet, objFeProxyRoutePublishConfig.subnet)&&
+  Objects.equals(this.publisherPort, objFeProxyRoutePublishConfig.publisherPort);
 }
 
 @Override

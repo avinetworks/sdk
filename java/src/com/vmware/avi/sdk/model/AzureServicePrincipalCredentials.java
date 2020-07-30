@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureServicePrincipalCredentials objAzureServicePrincipalCredentials = (AzureServicePrincipalCredentials) o;
-  return   Objects.equals(this.tenantId, objAzureServicePrincipalCredentials.tenantId)&&
-  Objects.equals(this.applicationId, objAzureServicePrincipalCredentials.applicationId)&&
-  Objects.equals(this.authenticationToken, objAzureServicePrincipalCredentials.authenticationToken);
+  return   Objects.equals(this.applicationId, objAzureServicePrincipalCredentials.applicationId)&&
+  Objects.equals(this.authenticationToken, objAzureServicePrincipalCredentials.authenticationToken)&&
+  Objects.equals(this.tenantId, objAzureServicePrincipalCredentials.tenantId);
 }
 
 @Override

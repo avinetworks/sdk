@@ -123,9 +123,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloneServer objCloneServer = (CloneServer) o;
-  return   Objects.equals(this.subnet, objCloneServer.subnet)&&
+  return   Objects.equals(this.ipAddress, objCloneServer.ipAddress)&&
   Objects.equals(this.mac, objCloneServer.mac)&&
-  Objects.equals(this.ipAddress, objCloneServer.ipAddress)&&
+  Objects.equals(this.subnet, objCloneServer.subnet)&&
   Objects.equals(this.networkRef, objCloneServer.networkRef);
 }
 

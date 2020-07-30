@@ -88,8 +88,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ImageCloudSpecificData objImageCloudSpecificData = (ImageCloudSpecificData) o;
-  return   Objects.equals(this.values, objImageCloudSpecificData.values)&&
-  Objects.equals(this.key, objImageCloudSpecificData.key);
+  return   Objects.equals(this.key, objImageCloudSpecificData.key)&&
+  Objects.equals(this.values, objImageCloudSpecificData.values);
 }
 
 @Override

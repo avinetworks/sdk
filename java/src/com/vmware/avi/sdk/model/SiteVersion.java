@@ -333,18 +333,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SiteVersion objSiteVersion = (SiteVersion) o;
-  return   Objects.equals(this.targetVersion, objSiteVersion.targetVersion)&&
-  Objects.equals(this.uuid, objSiteVersion.uuid)&&
-  Objects.equals(this.versionType, objSiteVersion.versionType)&&
-  Objects.equals(this.timeline, objSiteVersion.timeline)&&
-  Objects.equals(this.siteId, objSiteVersion.siteId)&&
+  return   Objects.equals(this.uuid, objSiteVersion.uuid)&&
+  Objects.equals(this.name, objSiteVersion.name)&&
   Objects.equals(this.datetime, objSiteVersion.datetime)&&
+  Objects.equals(this.siteId, objSiteVersion.siteId)&&
+  Objects.equals(this.versionType, objSiteVersion.versionType)&&
   Objects.equals(this.version, objSiteVersion.version)&&
+  Objects.equals(this.targetVersion, objSiteVersion.targetVersion)&&
   Objects.equals(this.prevTargetVersion, objSiteVersion.prevTargetVersion)&&
-  Objects.equals(this.tenantRef, objSiteVersion.tenantRef)&&
   Objects.equals(this.replicationState, objSiteVersion.replicationState)&&
+  Objects.equals(this.timeline, objSiteVersion.timeline)&&
   Objects.equals(this.targetTimeline, objSiteVersion.targetTimeline)&&
-  Objects.equals(this.name, objSiteVersion.name);
+  Objects.equals(this.tenantRef, objSiteVersion.tenantRef);
 }
 
 @Override

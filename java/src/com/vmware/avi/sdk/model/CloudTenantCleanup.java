@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudTenantCleanup objCloudTenantCleanup = (CloudTenantCleanup) o;
-  return   Objects.equals(this.name, objCloudTenantCleanup.name)&&
-  Objects.equals(this.numSvrgrp, objCloudTenantCleanup.numSvrgrp)&&
-  Objects.equals(this.numPorts, objCloudTenantCleanup.numPorts)&&
-  Objects.equals(this.numSecgrp, objCloudTenantCleanup.numSecgrp)&&
+  return   Objects.equals(this.id, objCloudTenantCleanup.id)&&
+  Objects.equals(this.name, objCloudTenantCleanup.name)&&
   Objects.equals(this.numSe, objCloudTenantCleanup.numSe)&&
-  Objects.equals(this.id, objCloudTenantCleanup.id);
+  Objects.equals(this.numSvrgrp, objCloudTenantCleanup.numSvrgrp)&&
+  Objects.equals(this.numSecgrp, objCloudTenantCleanup.numSecgrp)&&
+  Objects.equals(this.numPorts, objCloudTenantCleanup.numPorts);
 }
 
 @Override

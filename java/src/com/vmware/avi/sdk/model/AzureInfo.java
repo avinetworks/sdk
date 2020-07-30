@@ -213,14 +213,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureInfo objAzureInfo = (AzureInfo) o;
-  return   Objects.equals(this.faultDomain, objAzureInfo.faultDomain)&&
-  Objects.equals(this.availabilitySet, objAzureInfo.availabilitySet)&&
-  Objects.equals(this.name, objAzureInfo.name)&&
+  return   Objects.equals(this.vmUuid, objAzureInfo.vmUuid)&&
   Objects.equals(this.resourceGroup, objAzureInfo.resourceGroup)&&
-  Objects.equals(this.updateDomain, objAzureInfo.updateDomain)&&
+  Objects.equals(this.name, objAzureInfo.name)&&
   Objects.equals(this.subnetId, objAzureInfo.subnetId)&&
   Objects.equals(this.vnicId, objAzureInfo.vnicId)&&
-  Objects.equals(this.vmUuid, objAzureInfo.vmUuid);
+  Objects.equals(this.availabilitySet, objAzureInfo.availabilitySet)&&
+  Objects.equals(this.faultDomain, objAzureInfo.faultDomain)&&
+  Objects.equals(this.updateDomain, objAzureInfo.updateDomain);
 }
 
 @Override

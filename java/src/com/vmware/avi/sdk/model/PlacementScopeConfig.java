@@ -100,9 +100,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PlacementScopeConfig objPlacementScopeConfig = (PlacementScopeConfig) o;
-  return   Objects.equals(this.vcenterFolder, objPlacementScopeConfig.vcenterFolder)&&
-  Objects.equals(this.nsxtHosts, objPlacementScopeConfig.nsxtHosts)&&
-  Objects.equals(this.vcenterRef, objPlacementScopeConfig.vcenterRef);
+  return   Objects.equals(this.vcenterRef, objPlacementScopeConfig.vcenterRef)&&
+  Objects.equals(this.vcenterFolder, objPlacementScopeConfig.vcenterFolder)&&
+  Objects.equals(this.nsxtHosts, objPlacementScopeConfig.nsxtHosts);
 }
 
 @Override

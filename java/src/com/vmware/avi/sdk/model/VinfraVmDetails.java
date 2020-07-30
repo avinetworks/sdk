@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VinfraVmDetails objVinfraVmDetails = (VinfraVmDetails) o;
-  return   Objects.equals(this.datacenter, objVinfraVmDetails.datacenter)&&
-  Objects.equals(this.host, objVinfraVmDetails.host)&&
-  Objects.equals(this.name, objVinfraVmDetails.name);
+  return   Objects.equals(this.name, objVinfraVmDetails.name)&&
+  Objects.equals(this.datacenter, objVinfraVmDetails.datacenter)&&
+  Objects.equals(this.host, objVinfraVmDetails.host);
 }
 
 @Override

@@ -244,15 +244,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   LogControllerMapping objLogControllerMapping = (LogControllerMapping) o;
-  return   Objects.equals(this.metricsMgrPort, objLogControllerMapping.metricsMgrPort)&&
-  Objects.equals(this.nodeUuid, objLogControllerMapping.nodeUuid)&&
-  Objects.equals(this.uuid, objLogControllerMapping.uuid)&&
+  return   Objects.equals(this.uuid, objLogControllerMapping.uuid)&&
   Objects.equals(this.vsUuid, objLogControllerMapping.vsUuid)&&
-  Objects.equals(this.prevControllerIp, objLogControllerMapping.prevControllerIp)&&
   Objects.equals(this.controllerIp, objLogControllerMapping.controllerIp)&&
+  Objects.equals(this.prevControllerIp, objLogControllerMapping.prevControllerIp)&&
+  Objects.equals(this.metricsMgrPort, objLogControllerMapping.metricsMgrPort)&&
+  Objects.equals(this.prevMetricsMgrPort, objLogControllerMapping.prevMetricsMgrPort)&&
   Objects.equals(this.staticMapping, objLogControllerMapping.staticMapping)&&
-  Objects.equals(this.tenantRef, objLogControllerMapping.tenantRef)&&
-  Objects.equals(this.prevMetricsMgrPort, objLogControllerMapping.prevMetricsMgrPort);
+  Objects.equals(this.nodeUuid, objLogControllerMapping.nodeUuid)&&
+  Objects.equals(this.tenantRef, objLogControllerMapping.tenantRef);
 }
 
 @Override

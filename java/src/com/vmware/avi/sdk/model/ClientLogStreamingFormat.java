@@ -93,8 +93,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClientLogStreamingFormat objClientLogStreamingFormat = (ClientLogStreamingFormat) o;
-  return   Objects.equals(this.includedFields, objClientLogStreamingFormat.includedFields)&&
-  Objects.equals(this.format, objClientLogStreamingFormat.format);
+  return   Objects.equals(this.format, objClientLogStreamingFormat.format)&&
+  Objects.equals(this.includedFields, objClientLogStreamingFormat.includedFields);
 }
 
 @Override

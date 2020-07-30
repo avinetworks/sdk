@@ -153,9 +153,9 @@ public boolean equals(java.lang.Object o) {
   }
   IpamDnsInternalProfile objIpamDnsInternalProfile = (IpamDnsInternalProfile) o;
   return   Objects.equals(this.dnsServiceDomain, objIpamDnsInternalProfile.dnsServiceDomain)&&
+  Objects.equals(this.ttl, objIpamDnsInternalProfile.ttl)&&
   Objects.equals(this.dnsVirtualserviceRef, objIpamDnsInternalProfile.dnsVirtualserviceRef)&&
-  Objects.equals(this.usableNetworkRefs, objIpamDnsInternalProfile.usableNetworkRefs)&&
-  Objects.equals(this.ttl, objIpamDnsInternalProfile.ttl);
+  Objects.equals(this.usableNetworkRefs, objIpamDnsInternalProfile.usableNetworkRefs);
 }
 
 @Override

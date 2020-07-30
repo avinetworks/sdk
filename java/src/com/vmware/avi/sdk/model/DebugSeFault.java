@@ -240,14 +240,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugSeFault objDebugSeFault = (DebugSeFault) o;
-  return   Objects.equals(this.seShmMallocFailFrequency, objDebugSeFault.seShmMallocFailFrequency)&&
-  Objects.equals(this.seMallocFailType, objDebugSeFault.seMallocFailType)&&
-  Objects.equals(this.seMbufClSanity, objDebugSeFault.seMbufClSanity)&&
-  Objects.equals(this.seShmMallocFailType, objDebugSeFault.seShmMallocFailType)&&
+  return   Objects.equals(this.seMallocFailType, objDebugSeFault.seMallocFailType)&&
   Objects.equals(this.seMallocFailFrequency, objDebugSeFault.seMallocFailFrequency)&&
+  Objects.equals(this.seShmMallocFailType, objDebugSeFault.seShmMallocFailType)&&
+  Objects.equals(this.seShmMallocFailFrequency, objDebugSeFault.seShmMallocFailFrequency)&&
+  Objects.equals(this.seWafAllocFailFrequency, objDebugSeFault.seWafAllocFailFrequency)&&
   Objects.equals(this.seWafLearningAllocFailFrequency, objDebugSeFault.seWafLearningAllocFailFrequency)&&
-  Objects.equals(this.faults, objDebugSeFault.faults)&&
-  Objects.equals(this.seWafAllocFailFrequency, objDebugSeFault.seWafAllocFailFrequency);
+  Objects.equals(this.seMbufClSanity, objDebugSeFault.seMbufClSanity)&&
+  Objects.equals(this.faults, objDebugSeFault.faults);
 }
 
 @Override

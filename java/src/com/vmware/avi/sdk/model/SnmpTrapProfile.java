@@ -145,10 +145,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SnmpTrapProfile objSnmpTrapProfile = (SnmpTrapProfile) o;
-  return   Objects.equals(this.trapServers, objSnmpTrapProfile.trapServers)&&
-  Objects.equals(this.tenantRef, objSnmpTrapProfile.tenantRef)&&
-  Objects.equals(this.uuid, objSnmpTrapProfile.uuid)&&
-  Objects.equals(this.name, objSnmpTrapProfile.name);
+  return   Objects.equals(this.uuid, objSnmpTrapProfile.uuid)&&
+  Objects.equals(this.name, objSnmpTrapProfile.name)&&
+  Objects.equals(this.trapServers, objSnmpTrapProfile.trapServers)&&
+  Objects.equals(this.tenantRef, objSnmpTrapProfile.tenantRef);
 }
 
 @Override

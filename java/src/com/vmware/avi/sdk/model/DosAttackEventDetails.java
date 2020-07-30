@@ -207,12 +207,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DosAttackEventDetails objDosAttackEventDetails = (DosAttackEventDetails) o;
-  return   Objects.equals(this.srcIps, objDosAttackEventDetails.srcIps)&&
-  Objects.equals(this.attackCount, objDosAttackEventDetails.attackCount)&&
+  return   Objects.equals(this.attackCount, objDosAttackEventDetails.attackCount)&&
   Objects.equals(this.attack, objDosAttackEventDetails.attack)&&
-  Objects.equals(this.metaData, objDosAttackEventDetails.metaData)&&
+  Objects.equals(this.srcIps, objDosAttackEventDetails.srcIps)&&
   Objects.equals(this.urls, objDosAttackEventDetails.urls)&&
-  Objects.equals(this.ipgroupUuids, objDosAttackEventDetails.ipgroupUuids);
+  Objects.equals(this.ipgroupUuids, objDosAttackEventDetails.ipgroupUuids)&&
+  Objects.equals(this.metaData, objDosAttackEventDetails.metaData);
 }
 
 @Override

@@ -183,12 +183,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HSMAwsCloudHsm objHSMAwsCloudHsm = (HSMAwsCloudHsm) o;
-  return   Objects.equals(this.clientConfig, objHSMAwsCloudHsm.clientConfig)&&
-  Objects.equals(this.clusterCert, objHSMAwsCloudHsm.clusterCert)&&
-  Objects.equals(this.cryptoUserName, objHSMAwsCloudHsm.cryptoUserName)&&
-  Objects.equals(this.cryptoUserPassword, objHSMAwsCloudHsm.cryptoUserPassword)&&
+  return   Objects.equals(this.clusterCert, objHSMAwsCloudHsm.clusterCert)&&
   Objects.equals(this.hsmIp, objHSMAwsCloudHsm.hsmIp)&&
-  Objects.equals(this.mgmtConfig, objHSMAwsCloudHsm.mgmtConfig);
+  Objects.equals(this.clientConfig, objHSMAwsCloudHsm.clientConfig)&&
+  Objects.equals(this.mgmtConfig, objHSMAwsCloudHsm.mgmtConfig)&&
+  Objects.equals(this.cryptoUserName, objHSMAwsCloudHsm.cryptoUserName)&&
+  Objects.equals(this.cryptoUserPassword, objHSMAwsCloudHsm.cryptoUserPassword);
 }
 
 @Override

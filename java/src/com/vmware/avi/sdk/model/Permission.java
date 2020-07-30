@@ -77,8 +77,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Permission objPermission = (Permission) o;
-  return   Objects.equals(this.resource, objPermission.resource)&&
-  Objects.equals(this.type, objPermission.type);
+  return   Objects.equals(this.type, objPermission.type)&&
+  Objects.equals(this.resource, objPermission.resource);
 }
 
 @Override

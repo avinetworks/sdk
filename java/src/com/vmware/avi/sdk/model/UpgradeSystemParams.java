@@ -154,9 +154,9 @@ public boolean equals(java.lang.Object o) {
   UpgradeSystemParams objUpgradeSystemParams = (UpgradeSystemParams) o;
   return   Objects.equals(this.imageRef, objUpgradeSystemParams.imageRef)&&
   Objects.equals(this.controllerPatchRef, objUpgradeSystemParams.controllerPatchRef)&&
-  Objects.equals(this.skipWarnings, objUpgradeSystemParams.skipWarnings)&&
   Objects.equals(this.sePatchRef, objUpgradeSystemParams.sePatchRef)&&
-  Objects.equals(this.seGroupOptions, objUpgradeSystemParams.seGroupOptions);
+  Objects.equals(this.seGroupOptions, objUpgradeSystemParams.seGroupOptions)&&
+  Objects.equals(this.skipWarnings, objUpgradeSystemParams.skipWarnings);
 }
 
 @Override

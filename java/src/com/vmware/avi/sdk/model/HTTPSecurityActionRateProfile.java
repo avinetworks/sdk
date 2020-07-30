@@ -121,10 +121,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPSecurityActionRateProfile objHTTPSecurityActionRateProfile = (HTTPSecurityActionRateProfile) o;
-  return   Objects.equals(this.action, objHTTPSecurityActionRateProfile.action)&&
-  Objects.equals(this.rateLimiter, objHTTPSecurityActionRateProfile.rateLimiter)&&
-  Objects.equals(this.perUriPath, objHTTPSecurityActionRateProfile.perUriPath)&&
-  Objects.equals(this.perClientIp, objHTTPSecurityActionRateProfile.perClientIp);
+  return   Objects.equals(this.rateLimiter, objHTTPSecurityActionRateProfile.rateLimiter)&&
+  Objects.equals(this.action, objHTTPSecurityActionRateProfile.action)&&
+  Objects.equals(this.perClientIp, objHTTPSecurityActionRateProfile.perClientIp)&&
+  Objects.equals(this.perUriPath, objHTTPSecurityActionRateProfile.perUriPath);
 }
 
 @Override

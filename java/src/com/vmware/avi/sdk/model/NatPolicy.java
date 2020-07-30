@@ -198,12 +198,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NatPolicy objNatPolicy = (NatPolicy) o;
-  return   Objects.equals(this.description, objNatPolicy.description)&&
-  Objects.equals(this.createdBy, objNatPolicy.createdBy)&&
+  return   Objects.equals(this.uuid, objNatPolicy.uuid)&&
   Objects.equals(this.name, objNatPolicy.name)&&
   Objects.equals(this.rules, objNatPolicy.rules)&&
-  Objects.equals(this.tenantRef, objNatPolicy.tenantRef)&&
-  Objects.equals(this.uuid, objNatPolicy.uuid);
+  Objects.equals(this.createdBy, objNatPolicy.createdBy)&&
+  Objects.equals(this.description, objNatPolicy.description)&&
+  Objects.equals(this.tenantRef, objNatPolicy.tenantRef);
 }
 
 @Override

@@ -261,16 +261,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeMemoryLimitEventDetails objSeMemoryLimitEventDetails = (SeMemoryLimitEventDetails) o;
-  return   Objects.equals(this.shmConnUsage, objSeMemoryLimitEventDetails.shmConnUsage)&&
-  Objects.equals(this.heapConfigHardLimit, objSeMemoryLimitEventDetails.heapConfigHardLimit)&&
-  Objects.equals(this.heapConnUsage, objSeMemoryLimitEventDetails.heapConnUsage)&&
-  Objects.equals(this.shmConfigSoftLimit, objSeMemoryLimitEventDetails.shmConfigSoftLimit)&&
-  Objects.equals(this.seRef, objSeMemoryLimitEventDetails.seRef)&&
-  Objects.equals(this.heapConfigSoftLimit, objSeMemoryLimitEventDetails.heapConfigSoftLimit)&&
-  Objects.equals(this.shmConfigUsage, objSeMemoryLimitEventDetails.shmConfigUsage)&&
-  Objects.equals(this.shmConfigHardLimit, objSeMemoryLimitEventDetails.shmConfigHardLimit)&&
+  return   Objects.equals(this.seRef, objSeMemoryLimitEventDetails.seRef)&&
   Objects.equals(this.configMemoryStatus, objSeMemoryLimitEventDetails.configMemoryStatus)&&
-  Objects.equals(this.heapConfigUsage, objSeMemoryLimitEventDetails.heapConfigUsage);
+  Objects.equals(this.shmConnUsage, objSeMemoryLimitEventDetails.shmConnUsage)&&
+  Objects.equals(this.shmConfigUsage, objSeMemoryLimitEventDetails.shmConfigUsage)&&
+  Objects.equals(this.shmConfigSoftLimit, objSeMemoryLimitEventDetails.shmConfigSoftLimit)&&
+  Objects.equals(this.shmConfigHardLimit, objSeMemoryLimitEventDetails.shmConfigHardLimit)&&
+  Objects.equals(this.heapConnUsage, objSeMemoryLimitEventDetails.heapConnUsage)&&
+  Objects.equals(this.heapConfigUsage, objSeMemoryLimitEventDetails.heapConfigUsage)&&
+  Objects.equals(this.heapConfigSoftLimit, objSeMemoryLimitEventDetails.heapConfigSoftLimit)&&
+  Objects.equals(this.heapConfigHardLimit, objSeMemoryLimitEventDetails.heapConfigHardLimit);
 }
 
 @Override

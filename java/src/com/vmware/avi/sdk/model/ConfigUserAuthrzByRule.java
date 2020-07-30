@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUserAuthrzByRule objConfigUserAuthrzByRule = (ConfigUserAuthrzByRule) o;
-  return   Objects.equals(this.policies, objConfigUserAuthrzByRule.policies)&&
+  return   Objects.equals(this.user, objConfigUserAuthrzByRule.user)&&
+  Objects.equals(this.rule, objConfigUserAuthrzByRule.rule)&&
   Objects.equals(this.roles, objConfigUserAuthrzByRule.roles)&&
   Objects.equals(this.tenants, objConfigUserAuthrzByRule.tenants)&&
-  Objects.equals(this.user, objConfigUserAuthrzByRule.user)&&
-  Objects.equals(this.rule, objConfigUserAuthrzByRule.rule);
+  Objects.equals(this.policies, objConfigUserAuthrzByRule.policies);
 }
 
 @Override

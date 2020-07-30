@@ -168,11 +168,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbDnsInfo objGslbDnsInfo = (GslbDnsInfo) o;
-  return   Objects.equals(this.retryCount, objGslbDnsInfo.retryCount)&&
+  return   Objects.equals(this.dnsActive, objGslbDnsInfo.dnsActive)&&
+  Objects.equals(this.dnsVsStates, objGslbDnsInfo.dnsVsStates)&&
   Objects.equals(this.seTable, objGslbDnsInfo.seTable)&&
   Objects.equals(this.gsStatus, objGslbDnsInfo.gsStatus)&&
-  Objects.equals(this.dnsActive, objGslbDnsInfo.dnsActive)&&
-  Objects.equals(this.dnsVsStates, objGslbDnsInfo.dnsVsStates);
+  Objects.equals(this.retryCount, objGslbDnsInfo.retryCount);
 }
 
 @Override

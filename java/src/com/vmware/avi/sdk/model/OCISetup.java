@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OCISetup objOCISetup = (OCISetup) o;
-  return   Objects.equals(this.status, objOCISetup.status)&&
-  Objects.equals(this.vcnId, objOCISetup.vcnId)&&
-  Objects.equals(this.compartmentId, objOCISetup.compartmentId)&&
-  Objects.equals(this.reason, objOCISetup.reason)&&
+  return   Objects.equals(this.ccId, objOCISetup.ccId)&&
   Objects.equals(this.tenancy, objOCISetup.tenancy)&&
-  Objects.equals(this.ccId, objOCISetup.ccId);
+  Objects.equals(this.compartmentId, objOCISetup.compartmentId)&&
+  Objects.equals(this.vcnId, objOCISetup.vcnId)&&
+  Objects.equals(this.status, objOCISetup.status)&&
+  Objects.equals(this.reason, objOCISetup.reason);
 }
 
 @Override

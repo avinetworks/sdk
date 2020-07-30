@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   TenantConfiguration objTenantConfiguration = (TenantConfiguration) o;
-  return   Objects.equals(this.seInProviderContext, objTenantConfiguration.seInProviderContext)&&
-  Objects.equals(this.tenantAccessToProviderSe, objTenantConfiguration.tenantAccessToProviderSe)&&
-  Objects.equals(this.tenantVrf, objTenantConfiguration.tenantVrf);
+  return   Objects.equals(this.tenantVrf, objTenantConfiguration.tenantVrf)&&
+  Objects.equals(this.seInProviderContext, objTenantConfiguration.seInProviderContext)&&
+  Objects.equals(this.tenantAccessToProviderSe, objTenantConfiguration.tenantAccessToProviderSe);
 }
 
 @Override

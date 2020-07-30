@@ -81,8 +81,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsRealTimeUpdate objMetricsRealTimeUpdate = (MetricsRealTimeUpdate) o;
-  return   Objects.equals(this.duration, objMetricsRealTimeUpdate.duration)&&
-  Objects.equals(this.enabled, objMetricsRealTimeUpdate.enabled);
+  return   Objects.equals(this.enabled, objMetricsRealTimeUpdate.enabled)&&
+  Objects.equals(this.duration, objMetricsRealTimeUpdate.duration);
 }
 
 @Override

@@ -300,17 +300,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbRuntime objGslbRuntime = (GslbRuntime) o;
-  return   Objects.equals(this.dnsEnabled, objGslbRuntime.dnsEnabled)&&
-  Objects.equals(this.uuid, objGslbRuntime.uuid)&&
-  Objects.equals(this.deleteInProgress, objGslbRuntime.deleteInProgress)&&
-  Objects.equals(this.checksum, objGslbRuntime.checksum)&&
-  Objects.equals(this.thirdPartySites, objGslbRuntime.thirdPartySites)&&
-  Objects.equals(this.flrState, objGslbRuntime.flrState)&&
-  Objects.equals(this.site, objGslbRuntime.site)&&
-  Objects.equals(this.tenantName, objGslbRuntime.tenantName)&&
-  Objects.equals(this.eventCache, objGslbRuntime.eventCache)&&
+  return   Objects.equals(this.uuid, objGslbRuntime.uuid)&&
+  Objects.equals(this.name, objGslbRuntime.name)&&
   Objects.equals(this.ldrState, objGslbRuntime.ldrState)&&
-  Objects.equals(this.name, objGslbRuntime.name);
+  Objects.equals(this.flrState, objGslbRuntime.flrState)&&
+  Objects.equals(this.dnsEnabled, objGslbRuntime.dnsEnabled)&&
+  Objects.equals(this.site, objGslbRuntime.site)&&
+  Objects.equals(this.eventCache, objGslbRuntime.eventCache)&&
+  Objects.equals(this.thirdPartySites, objGslbRuntime.thirdPartySites)&&
+  Objects.equals(this.checksum, objGslbRuntime.checksum)&&
+  Objects.equals(this.deleteInProgress, objGslbRuntime.deleteInProgress)&&
+  Objects.equals(this.tenantName, objGslbRuntime.tenantName);
 }
 
 @Override

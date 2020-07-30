@@ -155,10 +155,10 @@ public boolean equals(java.lang.Object o) {
   }
   ServerAutoScaleInCompleteInfo objServerAutoScaleInCompleteInfo = (ServerAutoScaleInCompleteInfo) o;
   return   Objects.equals(this.poolRef, objServerAutoScaleInCompleteInfo.poolRef)&&
-  Objects.equals(this.reason, objServerAutoScaleInCompleteInfo.reason)&&
-  Objects.equals(this.reasonCode, objServerAutoScaleInCompleteInfo.reasonCode)&&
   Objects.equals(this.scaledInServers, objServerAutoScaleInCompleteInfo.scaledInServers)&&
-  Objects.equals(this.nscalein, objServerAutoScaleInCompleteInfo.nscalein);
+  Objects.equals(this.nscalein, objServerAutoScaleInCompleteInfo.nscalein)&&
+  Objects.equals(this.reason, objServerAutoScaleInCompleteInfo.reason)&&
+  Objects.equals(this.reasonCode, objServerAutoScaleInCompleteInfo.reasonCode);
 }
 
 @Override

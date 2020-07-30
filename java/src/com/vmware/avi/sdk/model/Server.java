@@ -534,7 +534,7 @@ public class Server  {
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @return statics
    */
-  public Boolean getStatic() {
+  public Boolean getStatics() {
     return statics;
   }
 
@@ -544,7 +544,7 @@ public class Server  {
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @param statics set the statics.
    */
-  public void setStatic(Boolean  statics) {
+  public void setStatics(Boolean  statics) {
     this.statics = statics;
   }
 
@@ -600,29 +600,29 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Server objServer = (Server) o;
-  return   Objects.equals(this.availabilityZone, objServer.availabilityZone)&&
-  Objects.equals(this.autoscalingGroupName, objServer.autoscalingGroupName)&&
-  Objects.equals(this.ip, objServer.ip)&&
-  Objects.equals(this.statics, objServer.statics)&&
-  Objects.equals(this.discoveredNetworkRef, objServer.discoveredNetworkRef)&&
-  Objects.equals(this.rewriteHostHeader, objServer.rewriteHostHeader)&&
+  return   Objects.equals(this.ip, objServer.ip)&&
   Objects.equals(this.port, objServer.port)&&
-  Objects.equals(this.ratio, objServer.ratio)&&
   Objects.equals(this.hostname, objServer.hostname)&&
-  Objects.equals(this.verifyNetwork, objServer.verifyNetwork)&&
-  Objects.equals(this.location, objServer.location)&&
-  Objects.equals(this.macAddress, objServer.macAddress)&&
-  Objects.equals(this.externalUuid, objServer.externalUuid)&&
-  Objects.equals(this.prstHdrVal, objServer.prstHdrVal)&&
-  Objects.equals(this.description, objServer.description)&&
-  Objects.equals(this.resolveServerByDns, objServer.resolveServerByDns)&&
-  Objects.equals(this.externalOrchestrationId, objServer.externalOrchestrationId)&&
-  Objects.equals(this.discoveredNetworks, objServer.discoveredNetworks)&&
   Objects.equals(this.enabled, objServer.enabled)&&
-  Objects.equals(this.discoveredSubnet, objServer.discoveredSubnet)&&
-  Objects.equals(this.serverNode, objServer.serverNode)&&
+  Objects.equals(this.ratio, objServer.ratio)&&
+  Objects.equals(this.vmRef, objServer.vmRef)&&
   Objects.equals(this.nwRef, objServer.nwRef)&&
-  Objects.equals(this.vmRef, objServer.vmRef);
+  Objects.equals(this.discoveredNetworkRef, objServer.discoveredNetworkRef)&&
+  Objects.equals(this.externalUuid, objServer.externalUuid)&&
+  Objects.equals(this.discoveredSubnet, objServer.discoveredSubnet)&&
+  Objects.equals(this.verifyNetwork, objServer.verifyNetwork)&&
+  Objects.equals(this.discoveredNetworks, objServer.discoveredNetworks)&&
+  Objects.equals(this.resolveServerByDns, objServer.resolveServerByDns)&&
+  Objects.equals(this.prstHdrVal, objServer.prstHdrVal)&&
+  Objects.equals(this.macAddress, objServer.macAddress)&&
+  Objects.equals(this.statics, objServer.statics)&&
+  Objects.equals(this.serverNode, objServer.serverNode)&&
+  Objects.equals(this.availabilityZone, objServer.availabilityZone)&&
+  Objects.equals(this.rewriteHostHeader, objServer.rewriteHostHeader)&&
+  Objects.equals(this.externalOrchestrationId, objServer.externalOrchestrationId)&&
+  Objects.equals(this.description, objServer.description)&&
+  Objects.equals(this.location, objServer.location)&&
+  Objects.equals(this.autoscalingGroupName, objServer.autoscalingGroupName);
 }
 
 @Override

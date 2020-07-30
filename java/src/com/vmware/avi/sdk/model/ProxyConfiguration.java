@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ProxyConfiguration objProxyConfiguration = (ProxyConfiguration) o;
-  return   Objects.equals(this.username, objProxyConfiguration.username)&&
-  Objects.equals(this.host, objProxyConfiguration.host)&&
-  Objects.equals(this.password, objProxyConfiguration.password)&&
-  Objects.equals(this.port, objProxyConfiguration.port);
+  return   Objects.equals(this.host, objProxyConfiguration.host)&&
+  Objects.equals(this.port, objProxyConfiguration.port)&&
+  Objects.equals(this.username, objProxyConfiguration.username)&&
+  Objects.equals(this.password, objProxyConfiguration.password);
 }
 
 @Override

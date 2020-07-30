@@ -113,9 +113,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIDeleteSEReq objVIDeleteSEReq = (VIDeleteSEReq) o;
-  return   Objects.equals(this.vcenterAdmin, objVIDeleteSEReq.vcenterAdmin)&&
+  return   Objects.equals(this.sevmUuid, objVIDeleteSEReq.sevmUuid)&&
   Objects.equals(this.segroupUuid, objVIDeleteSEReq.segroupUuid)&&
-  Objects.equals(this.sevmUuid, objVIDeleteSEReq.sevmUuid)&&
+  Objects.equals(this.vcenterAdmin, objVIDeleteSEReq.vcenterAdmin)&&
   Objects.equals(this.cloudUuid, objVIDeleteSEReq.cloudUuid);
 }
 

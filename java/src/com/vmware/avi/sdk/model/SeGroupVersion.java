@@ -98,8 +98,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeGroupVersion objSeGroupVersion = (SeGroupVersion) o;
-  return   Objects.equals(this.version, objSeGroupVersion.version)&&
-  Objects.equals(this.name, objSeGroupVersion.name)&&
+  return   Objects.equals(this.name, objSeGroupVersion.name)&&
+  Objects.equals(this.version, objSeGroupVersion.version)&&
   Objects.equals(this.patch, objSeGroupVersion.patch);
 }
 

@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIDeleteNetworkFilter objVIDeleteNetworkFilter = (VIDeleteNetworkFilter) o;
-  return   Objects.equals(this.vcenterUrl, objVIDeleteNetworkFilter.vcenterUrl)&&
-  Objects.equals(this.datacenter, objVIDeleteNetworkFilter.datacenter)&&
-  Objects.equals(this.networkUuid, objVIDeleteNetworkFilter.networkUuid)&&
-  Objects.equals(this.cloudUuid, objVIDeleteNetworkFilter.cloudUuid);
+  return   Objects.equals(this.networkUuid, objVIDeleteNetworkFilter.networkUuid)&&
+  Objects.equals(this.cloudUuid, objVIDeleteNetworkFilter.cloudUuid)&&
+  Objects.equals(this.vcenterUrl, objVIDeleteNetworkFilter.vcenterUrl)&&
+  Objects.equals(this.datacenter, objVIDeleteNetworkFilter.datacenter);
 }
 
 @Override

@@ -155,11 +155,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SwitchoverEventDetails objSwitchoverEventDetails = (SwitchoverEventDetails) o;
-  return   Objects.equals(this.toSeName, objSwitchoverEventDetails.toSeName)&&
-  Objects.equals(this.ip, objSwitchoverEventDetails.ip)&&
-  Objects.equals(this.fromSeName, objSwitchoverEventDetails.fromSeName)&&
+  return   Objects.equals(this.vsUuid, objSwitchoverEventDetails.vsUuid)&&
   Objects.equals(this.vsName, objSwitchoverEventDetails.vsName)&&
-  Objects.equals(this.vsUuid, objSwitchoverEventDetails.vsUuid)&&
+  Objects.equals(this.fromSeName, objSwitchoverEventDetails.fromSeName)&&
+  Objects.equals(this.toSeName, objSwitchoverEventDetails.toSeName)&&
+  Objects.equals(this.ip, objSwitchoverEventDetails.ip)&&
   Objects.equals(this.ip6, objSwitchoverEventDetails.ip6);
 }
 

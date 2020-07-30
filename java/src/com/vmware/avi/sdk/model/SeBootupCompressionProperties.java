@@ -167,11 +167,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeBootupCompressionProperties objSeBootupCompressionProperties = (SeBootupCompressionProperties) o;
-  return   Objects.equals(this.windowSize, objSeBootupCompressionProperties.windowSize)&&
+  return   Objects.equals(this.bufNum, objSeBootupCompressionProperties.bufNum)&&
   Objects.equals(this.bufSize, objSeBootupCompressionProperties.bufSize)&&
-  Objects.equals(this.levelAggressive, objSeBootupCompressionProperties.levelAggressive)&&
-  Objects.equals(this.bufNum, objSeBootupCompressionProperties.bufNum)&&
   Objects.equals(this.levelNormal, objSeBootupCompressionProperties.levelNormal)&&
+  Objects.equals(this.levelAggressive, objSeBootupCompressionProperties.levelAggressive)&&
+  Objects.equals(this.windowSize, objSeBootupCompressionProperties.windowSize)&&
   Objects.equals(this.hashSize, objSeBootupCompressionProperties.hashSize);
 }
 

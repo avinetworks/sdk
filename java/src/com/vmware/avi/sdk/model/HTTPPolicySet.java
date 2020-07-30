@@ -263,16 +263,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPPolicySet objHTTPPolicySet = (HTTPPolicySet) o;
-  return   Objects.equals(this.isInternalPolicy, objHTTPPolicySet.isInternalPolicy)&&
-  Objects.equals(this.uuid, objHTTPPolicySet.uuid)&&
-  Objects.equals(this.description, objHTTPPolicySet.description)&&
+  return   Objects.equals(this.uuid, objHTTPPolicySet.uuid)&&
+  Objects.equals(this.name, objHTTPPolicySet.name)&&
   Objects.equals(this.httpSecurityPolicy, objHTTPPolicySet.httpSecurityPolicy)&&
-  Objects.equals(this.cloudConfigCksum, objHTTPPolicySet.cloudConfigCksum)&&
-  Objects.equals(this.createdBy, objHTTPPolicySet.createdBy)&&
   Objects.equals(this.httpRequestPolicy, objHTTPPolicySet.httpRequestPolicy)&&
   Objects.equals(this.httpResponsePolicy, objHTTPPolicySet.httpResponsePolicy)&&
-  Objects.equals(this.tenantRef, objHTTPPolicySet.tenantRef)&&
-  Objects.equals(this.name, objHTTPPolicySet.name);
+  Objects.equals(this.createdBy, objHTTPPolicySet.createdBy)&&
+  Objects.equals(this.cloudConfigCksum, objHTTPPolicySet.cloudConfigCksum)&&
+  Objects.equals(this.isInternalPolicy, objHTTPPolicySet.isInternalPolicy)&&
+  Objects.equals(this.description, objHTTPPolicySet.description)&&
+  Objects.equals(this.tenantRef, objHTTPPolicySet.tenantRef);
 }
 
 @Override

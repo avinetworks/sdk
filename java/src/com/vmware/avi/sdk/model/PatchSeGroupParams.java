@@ -141,10 +141,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PatchSeGroupParams objPatchSeGroupParams = (PatchSeGroupParams) o;
-  return   Objects.equals(this.skipWarnings, objPatchSeGroupParams.skipWarnings)&&
+  return   Objects.equals(this.sePatchRef, objPatchSeGroupParams.sePatchRef)&&
+  Objects.equals(this.seGroupOptions, objPatchSeGroupParams.seGroupOptions)&&
   Objects.equals(this.seGroupRefs, objPatchSeGroupParams.seGroupRefs)&&
-  Objects.equals(this.sePatchRef, objPatchSeGroupParams.sePatchRef)&&
-  Objects.equals(this.seGroupOptions, objPatchSeGroupParams.seGroupOptions);
+  Objects.equals(this.skipWarnings, objPatchSeGroupParams.skipWarnings);
 }
 
 @Override

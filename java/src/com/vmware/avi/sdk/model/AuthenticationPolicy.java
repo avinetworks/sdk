@@ -288,14 +288,14 @@ public boolean equals(java.lang.Object o) {
   }
   AuthenticationPolicy objAuthenticationPolicy = (AuthenticationPolicy) o;
   return   Objects.equals(this.entityId, objAuthenticationPolicy.entityId)&&
-  Objects.equals(this.defaultAuthProfileRef, objAuthenticationPolicy.defaultAuthProfileRef)&&
-  Objects.equals(this.spMetadata, objAuthenticationPolicy.spMetadata)&&
-  Objects.equals(this.cookieName, objAuthenticationPolicy.cookieName)&&
   Objects.equals(this.singleSignonUrl, objAuthenticationPolicy.singleSignonUrl)&&
-  Objects.equals(this.authnRules, objAuthenticationPolicy.authnRules)&&
-  Objects.equals(this.key, objAuthenticationPolicy.key)&&
   Objects.equals(this.authProfileRef, objAuthenticationPolicy.authProfileRef)&&
-  Objects.equals(this.cookieTimeout, objAuthenticationPolicy.cookieTimeout);
+  Objects.equals(this.spMetadata, objAuthenticationPolicy.spMetadata)&&
+  Objects.equals(this.key, objAuthenticationPolicy.key)&&
+  Objects.equals(this.cookieTimeout, objAuthenticationPolicy.cookieTimeout)&&
+  Objects.equals(this.cookieName, objAuthenticationPolicy.cookieName)&&
+  Objects.equals(this.defaultAuthProfileRef, objAuthenticationPolicy.defaultAuthProfileRef)&&
+  Objects.equals(this.authnRules, objAuthenticationPolicy.authnRules);
 }
 
 @Override

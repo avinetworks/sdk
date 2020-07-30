@@ -93,8 +93,8 @@ public boolean equals(java.lang.Object o) {
   }
   HTTPRewriteURLAction objHTTPRewriteURLAction = (HTTPRewriteURLAction) o;
   return   Objects.equals(this.hostHdr, objHTTPRewriteURLAction.hostHdr)&&
-  Objects.equals(this.query, objHTTPRewriteURLAction.query)&&
-  Objects.equals(this.path, objHTTPRewriteURLAction.path);
+  Objects.equals(this.path, objHTTPRewriteURLAction.path)&&
+  Objects.equals(this.query, objHTTPRewriteURLAction.query);
 }
 
 @Override

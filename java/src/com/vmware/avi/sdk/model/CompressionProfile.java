@@ -160,11 +160,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CompressionProfile objCompressionProfile = (CompressionProfile) o;
-  return   Objects.equals(this.filter, objCompressionProfile.filter)&&
+  return   Objects.equals(this.compression, objCompressionProfile.compression)&&
+  Objects.equals(this.removeAcceptEncodingHeader, objCompressionProfile.removeAcceptEncodingHeader)&&
   Objects.equals(this.compressibleContentRef, objCompressionProfile.compressibleContentRef)&&
   Objects.equals(this.type, objCompressionProfile.type)&&
-  Objects.equals(this.compression, objCompressionProfile.compression)&&
-  Objects.equals(this.removeAcceptEncodingHeader, objCompressionProfile.removeAcceptEncodingHeader);
+  Objects.equals(this.filter, objCompressionProfile.filter);
 }
 
 @Override

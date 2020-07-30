@@ -408,21 +408,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FileObject objFileObject = (FileObject) o;
-  return   Objects.equals(this.readOnly, objFileObject.readOnly)&&
-  Objects.equals(this.restrictDownload, objFileObject.restrictDownload)&&
-  Objects.equals(this.uuid, objFileObject.uuid)&&
-  Objects.equals(this.created, objFileObject.created)&&
-  Objects.equals(this.checksum, objFileObject.checksum)&&
-  Objects.equals(this.description, objFileObject.description)&&
-  Objects.equals(this.isFederated, objFileObject.isFederated)&&
-  Objects.equals(this.expiresAt, objFileObject.expiresAt)&&
-  Objects.equals(this.name, objFileObject.name)&&
-  Objects.equals(this.version, objFileObject.version)&&
-  Objects.equals(this.compressed, objFileObject.compressed)&&
-  Objects.equals(this.path, objFileObject.path)&&
-  Objects.equals(this.type, objFileObject.type)&&
+  return   Objects.equals(this.uuid, objFileObject.uuid)&&
   Objects.equals(this.tenantRef, objFileObject.tenantRef)&&
-  Objects.equals(this.size, objFileObject.size);
+  Objects.equals(this.name, objFileObject.name)&&
+  Objects.equals(this.path, objFileObject.path)&&
+  Objects.equals(this.size, objFileObject.size)&&
+  Objects.equals(this.checksum, objFileObject.checksum)&&
+  Objects.equals(this.type, objFileObject.type)&&
+  Objects.equals(this.readOnly, objFileObject.readOnly)&&
+  Objects.equals(this.version, objFileObject.version)&&
+  Objects.equals(this.description, objFileObject.description)&&
+  Objects.equals(this.created, objFileObject.created)&&
+  Objects.equals(this.restrictDownload, objFileObject.restrictDownload)&&
+  Objects.equals(this.isFederated, objFileObject.isFederated)&&
+  Objects.equals(this.compressed, objFileObject.compressed)&&
+  Objects.equals(this.expiresAt, objFileObject.expiresAt);
 }
 
 @Override

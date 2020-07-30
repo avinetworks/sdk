@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AwsZoneNetwork objAwsZoneNetwork = (AwsZoneNetwork) o;
-  return   Objects.equals(this.usableNetworkUuids, objAwsZoneNetwork.usableNetworkUuids)&&
-  Objects.equals(this.availabilityZone, objAwsZoneNetwork.availabilityZone);
+  return   Objects.equals(this.availabilityZone, objAwsZoneNetwork.availabilityZone)&&
+  Objects.equals(this.usableNetworkUuids, objAwsZoneNetwork.usableNetworkUuids);
 }
 
 @Override

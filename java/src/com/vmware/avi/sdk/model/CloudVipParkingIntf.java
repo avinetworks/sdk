@@ -136,11 +136,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudVipParkingIntf objCloudVipParkingIntf = (CloudVipParkingIntf) o;
-  return   Objects.equals(this.subnetId, objCloudVipParkingIntf.subnetId)&&
+  return   Objects.equals(this.ccId, objCloudVipParkingIntf.ccId)&&
   Objects.equals(this.vtype, objCloudVipParkingIntf.vtype)&&
-  Objects.equals(this.errorString, objCloudVipParkingIntf.errorString)&&
+  Objects.equals(this.subnetId, objCloudVipParkingIntf.subnetId)&&
   Objects.equals(this.intfId, objCloudVipParkingIntf.intfId)&&
-  Objects.equals(this.ccId, objCloudVipParkingIntf.ccId);
+  Objects.equals(this.errorString, objCloudVipParkingIntf.errorString);
 }
 
 @Override

@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerScaleOutParams objServerScaleOutParams = (ServerScaleOutParams) o;
-  return   Objects.equals(this.reason, objServerScaleOutParams.reason)&&
-  Objects.equals(this.uuid, objServerScaleOutParams.uuid);
+  return   Objects.equals(this.uuid, objServerScaleOutParams.uuid)&&
+  Objects.equals(this.reason, objServerScaleOutParams.reason);
 }
 
 @Override

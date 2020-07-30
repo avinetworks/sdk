@@ -105,8 +105,8 @@ public boolean equals(java.lang.Object o) {
   }
   AzureUserPassCredentials objAzureUserPassCredentials = (AzureUserPassCredentials) o;
   return   Objects.equals(this.username, objAzureUserPassCredentials.username)&&
-  Objects.equals(this.tenantName, objAzureUserPassCredentials.tenantName)&&
-  Objects.equals(this.password, objAzureUserPassCredentials.password);
+  Objects.equals(this.password, objAzureUserPassCredentials.password)&&
+  Objects.equals(this.tenantName, objAzureUserPassCredentials.tenantName);
 }
 
 @Override

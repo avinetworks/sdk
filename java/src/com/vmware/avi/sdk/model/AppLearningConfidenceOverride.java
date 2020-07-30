@@ -129,10 +129,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AppLearningConfidenceOverride objAppLearningConfidenceOverride = (AppLearningConfidenceOverride) o;
-  return   Objects.equals(this.confidLowValue, objAppLearningConfidenceOverride.confidLowValue)&&
+  return   Objects.equals(this.confidVeryHighValue, objAppLearningConfidenceOverride.confidVeryHighValue)&&
+  Objects.equals(this.confidHighValue, objAppLearningConfidenceOverride.confidHighValue)&&
   Objects.equals(this.confidProbableValue, objAppLearningConfidenceOverride.confidProbableValue)&&
-  Objects.equals(this.confidVeryHighValue, objAppLearningConfidenceOverride.confidVeryHighValue)&&
-  Objects.equals(this.confidHighValue, objAppLearningConfidenceOverride.confidHighValue);
+  Objects.equals(this.confidLowValue, objAppLearningConfidenceOverride.confidLowValue);
 }
 
 @Override

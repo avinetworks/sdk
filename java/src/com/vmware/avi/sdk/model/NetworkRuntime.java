@@ -179,10 +179,10 @@ public boolean equals(java.lang.Object o) {
   }
   NetworkRuntime objNetworkRuntime = (NetworkRuntime) o;
   return   Objects.equals(this.uuid, objNetworkRuntime.uuid)&&
+  Objects.equals(this.name, objNetworkRuntime.name)&&
   Objects.equals(this.subnetRuntime, objNetworkRuntime.subnetRuntime)&&
   Objects.equals(this.seUuid, objNetworkRuntime.seUuid)&&
-  Objects.equals(this.tenantRef, objNetworkRuntime.tenantRef)&&
-  Objects.equals(this.name, objNetworkRuntime.name);
+  Objects.equals(this.tenantRef, objNetworkRuntime.tenantRef);
 }
 
 @Override

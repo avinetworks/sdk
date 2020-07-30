@@ -127,8 +127,8 @@ public boolean equals(java.lang.Object o) {
   UpgradeOpsParam objUpgradeOpsParam = (UpgradeOpsParam) o;
   return   Objects.equals(this.imageRef, objUpgradeOpsParam.imageRef)&&
   Objects.equals(this.patchRef, objUpgradeOpsParam.patchRef)&&
-  Objects.equals(this.seGroupResumeOptions, objUpgradeOpsParam.seGroupResumeOptions)&&
-  Objects.equals(this.seGroupOptions, objUpgradeOpsParam.seGroupOptions);
+  Objects.equals(this.seGroupOptions, objUpgradeOpsParam.seGroupOptions)&&
+  Objects.equals(this.seGroupResumeOptions, objUpgradeOpsParam.seGroupResumeOptions);
 }
 
 @Override

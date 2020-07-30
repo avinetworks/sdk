@@ -148,10 +148,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SnmpTrapServer objSnmpTrapServer = (SnmpTrapServer) o;
-  return   Objects.equals(this.version, objSnmpTrapServer.version)&&
-  Objects.equals(this.ipAddr, objSnmpTrapServer.ipAddr)&&
-  Objects.equals(this.user, objSnmpTrapServer.user)&&
+  return   Objects.equals(this.ipAddr, objSnmpTrapServer.ipAddr)&&
   Objects.equals(this.community, objSnmpTrapServer.community)&&
+  Objects.equals(this.version, objSnmpTrapServer.version)&&
+  Objects.equals(this.user, objSnmpTrapServer.user)&&
   Objects.equals(this.port, objSnmpTrapServer.port);
 }
 

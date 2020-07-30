@@ -953,50 +953,50 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSiteRuntimeStats objGslbSiteRuntimeStats = (GslbSiteRuntimeStats) o;
-  return   Objects.equals(this.numGsDelRxed, objGslbSiteRuntimeStats.numGsDelRxed)&&
-  Objects.equals(this.numOfBadResponses, objGslbSiteRuntimeStats.numOfBadResponses)&&
-  Objects.equals(this.numGlbDelTxed, objGslbSiteRuntimeStats.numGlbDelTxed)&&
-  Objects.equals(this.numOfEventsGenerated, objGslbSiteRuntimeStats.numOfEventsGenerated)&&
-  Objects.equals(this.numGeoUpdRxed, objGslbSiteRuntimeStats.numGeoUpdRxed)&&
-  Objects.equals(this.numGeoCrRxed, objGslbSiteRuntimeStats.numGeoCrRxed)&&
-  Objects.equals(this.numGsCrRxed, objGslbSiteRuntimeStats.numGsCrRxed)&&
-  Objects.equals(this.numGeoUpdTxed, objGslbSiteRuntimeStats.numGeoUpdTxed)&&
-  Objects.equals(this.numGhmDelTxed, objGslbSiteRuntimeStats.numGhmDelTxed)&&
-  Objects.equals(this.numGapUpdRxed, objGslbSiteRuntimeStats.numGapUpdRxed)&&
-  Objects.equals(this.numGapCrTxed, objGslbSiteRuntimeStats.numGapCrTxed)&&
-  Objects.equals(this.numGpkiUpdTxed, objGslbSiteRuntimeStats.numGpkiUpdTxed)&&
-  Objects.equals(this.numGpkiCrTxed, objGslbSiteRuntimeStats.numGpkiCrTxed)&&
-  Objects.equals(this.numGpkiDelTxed, objGslbSiteRuntimeStats.numGpkiDelTxed)&&
-  Objects.equals(this.numGlbUpdTxed, objGslbSiteRuntimeStats.numGlbUpdTxed)&&
+  return   Objects.equals(this.numGlbCrTxed, objGslbSiteRuntimeStats.numGlbCrTxed)&&
   Objects.equals(this.numGlbCrRxed, objGslbSiteRuntimeStats.numGlbCrRxed)&&
-  Objects.equals(this.numGsUpdRxed, objGslbSiteRuntimeStats.numGsUpdRxed)&&
-  Objects.equals(this.numHealthMsgsRxed, objGslbSiteRuntimeStats.numHealthMsgsRxed)&&
-  Objects.equals(this.numGapDelTxed, objGslbSiteRuntimeStats.numGapDelTxed)&&
-  Objects.equals(this.numFileDelTxed, objGslbSiteRuntimeStats.numFileDelTxed)&&
-  Objects.equals(this.numGsCrTxed, objGslbSiteRuntimeStats.numGsCrTxed)&&
-  Objects.equals(this.numGhmCrRxed, objGslbSiteRuntimeStats.numGhmCrRxed)&&
-  Objects.equals(this.numGapCrRxed, objGslbSiteRuntimeStats.numGapCrRxed)&&
-  Objects.equals(this.numGapUpdTxed, objGslbSiteRuntimeStats.numGapUpdTxed)&&
-  Objects.equals(this.numGsDelTxed, objGslbSiteRuntimeStats.numGsDelTxed)&&
-  Objects.equals(this.numGhmCrTxed, objGslbSiteRuntimeStats.numGhmCrTxed)&&
-  Objects.equals(this.numGhmUpdTxed, objGslbSiteRuntimeStats.numGhmUpdTxed)&&
-  Objects.equals(this.numGlbCrTxed, objGslbSiteRuntimeStats.numGlbCrTxed)&&
-  Objects.equals(this.numOfSkipOutstandingRequests, objGslbSiteRuntimeStats.numOfSkipOutstandingRequests)&&
-  Objects.equals(this.numGeoDelTxed, objGslbSiteRuntimeStats.numGeoDelTxed)&&
-  Objects.equals(this.numGhmDelRxed, objGslbSiteRuntimeStats.numGhmDelRxed)&&
-  Objects.equals(this.numGpkiDelRxed, objGslbSiteRuntimeStats.numGpkiDelRxed)&&
-  Objects.equals(this.numGeoCrTxed, objGslbSiteRuntimeStats.numGeoCrTxed)&&
-  Objects.equals(this.numOfTimeouts, objGslbSiteRuntimeStats.numOfTimeouts)&&
-  Objects.equals(this.numGpkiCrRxed, objGslbSiteRuntimeStats.numGpkiCrRxed)&&
-  Objects.equals(this.numGpkiUpdRxed, objGslbSiteRuntimeStats.numGpkiUpdRxed)&&
-  Objects.equals(this.numGlbUpdRxed, objGslbSiteRuntimeStats.numGlbUpdRxed)&&
-  Objects.equals(this.numHealthMsgsTxed, objGslbSiteRuntimeStats.numHealthMsgsTxed)&&
-  Objects.equals(this.numFileCrTxed, objGslbSiteRuntimeStats.numFileCrTxed)&&
+  Objects.equals(this.numGlbDelTxed, objGslbSiteRuntimeStats.numGlbDelTxed)&&
   Objects.equals(this.numGlbDelRxed, objGslbSiteRuntimeStats.numGlbDelRxed)&&
-  Objects.equals(this.numGeoDelRxed, objGslbSiteRuntimeStats.numGeoDelRxed)&&
-  Objects.equals(this.numGapDelRxed, objGslbSiteRuntimeStats.numGapDelRxed)&&
+  Objects.equals(this.numGlbUpdTxed, objGslbSiteRuntimeStats.numGlbUpdTxed)&&
+  Objects.equals(this.numGlbUpdRxed, objGslbSiteRuntimeStats.numGlbUpdRxed)&&
+  Objects.equals(this.numGsCrTxed, objGslbSiteRuntimeStats.numGsCrTxed)&&
+  Objects.equals(this.numGsCrRxed, objGslbSiteRuntimeStats.numGsCrRxed)&&
+  Objects.equals(this.numGsDelTxed, objGslbSiteRuntimeStats.numGsDelTxed)&&
+  Objects.equals(this.numGsDelRxed, objGslbSiteRuntimeStats.numGsDelRxed)&&
   Objects.equals(this.numGsUpdTxed, objGslbSiteRuntimeStats.numGsUpdTxed)&&
-  Objects.equals(this.numGhmUpdRxed, objGslbSiteRuntimeStats.numGhmUpdRxed);
+  Objects.equals(this.numGsUpdRxed, objGslbSiteRuntimeStats.numGsUpdRxed)&&
+  Objects.equals(this.numGhmCrTxed, objGslbSiteRuntimeStats.numGhmCrTxed)&&
+  Objects.equals(this.numGhmCrRxed, objGslbSiteRuntimeStats.numGhmCrRxed)&&
+  Objects.equals(this.numGhmDelTxed, objGslbSiteRuntimeStats.numGhmDelTxed)&&
+  Objects.equals(this.numGhmDelRxed, objGslbSiteRuntimeStats.numGhmDelRxed)&&
+  Objects.equals(this.numGhmUpdTxed, objGslbSiteRuntimeStats.numGhmUpdTxed)&&
+  Objects.equals(this.numGhmUpdRxed, objGslbSiteRuntimeStats.numGhmUpdRxed)&&
+  Objects.equals(this.numHealthMsgsTxed, objGslbSiteRuntimeStats.numHealthMsgsTxed)&&
+  Objects.equals(this.numHealthMsgsRxed, objGslbSiteRuntimeStats.numHealthMsgsRxed)&&
+  Objects.equals(this.numOfTimeouts, objGslbSiteRuntimeStats.numOfTimeouts)&&
+  Objects.equals(this.numOfEventsGenerated, objGslbSiteRuntimeStats.numOfEventsGenerated)&&
+  Objects.equals(this.numOfBadResponses, objGslbSiteRuntimeStats.numOfBadResponses)&&
+  Objects.equals(this.numOfSkipOutstandingRequests, objGslbSiteRuntimeStats.numOfSkipOutstandingRequests)&&
+  Objects.equals(this.numGeoCrTxed, objGslbSiteRuntimeStats.numGeoCrTxed)&&
+  Objects.equals(this.numGeoCrRxed, objGslbSiteRuntimeStats.numGeoCrRxed)&&
+  Objects.equals(this.numGeoDelTxed, objGslbSiteRuntimeStats.numGeoDelTxed)&&
+  Objects.equals(this.numGeoDelRxed, objGslbSiteRuntimeStats.numGeoDelRxed)&&
+  Objects.equals(this.numGeoUpdTxed, objGslbSiteRuntimeStats.numGeoUpdTxed)&&
+  Objects.equals(this.numGeoUpdRxed, objGslbSiteRuntimeStats.numGeoUpdRxed)&&
+  Objects.equals(this.numGapCrTxed, objGslbSiteRuntimeStats.numGapCrTxed)&&
+  Objects.equals(this.numGapCrRxed, objGslbSiteRuntimeStats.numGapCrRxed)&&
+  Objects.equals(this.numGapDelTxed, objGslbSiteRuntimeStats.numGapDelTxed)&&
+  Objects.equals(this.numGapDelRxed, objGslbSiteRuntimeStats.numGapDelRxed)&&
+  Objects.equals(this.numGapUpdTxed, objGslbSiteRuntimeStats.numGapUpdTxed)&&
+  Objects.equals(this.numGapUpdRxed, objGslbSiteRuntimeStats.numGapUpdRxed)&&
+  Objects.equals(this.numFileCrTxed, objGslbSiteRuntimeStats.numFileCrTxed)&&
+  Objects.equals(this.numFileDelTxed, objGslbSiteRuntimeStats.numFileDelTxed)&&
+  Objects.equals(this.numGpkiCrTxed, objGslbSiteRuntimeStats.numGpkiCrTxed)&&
+  Objects.equals(this.numGpkiCrRxed, objGslbSiteRuntimeStats.numGpkiCrRxed)&&
+  Objects.equals(this.numGpkiDelTxed, objGslbSiteRuntimeStats.numGpkiDelTxed)&&
+  Objects.equals(this.numGpkiDelRxed, objGslbSiteRuntimeStats.numGpkiDelRxed)&&
+  Objects.equals(this.numGpkiUpdTxed, objGslbSiteRuntimeStats.numGpkiUpdTxed)&&
+  Objects.equals(this.numGpkiUpdRxed, objGslbSiteRuntimeStats.numGpkiUpdRxed);
 }
 
 @Override

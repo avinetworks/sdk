@@ -228,15 +228,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkSecurityRule objNetworkSecurityRule = (NetworkSecurityRule) o;
-  return   Objects.equals(this.index, objNetworkSecurityRule.index)&&
+  return   Objects.equals(this.name, objNetworkSecurityRule.name)&&
+  Objects.equals(this.index, objNetworkSecurityRule.index)&&
   Objects.equals(this.enable, objNetworkSecurityRule.enable)&&
-  Objects.equals(this.name, objNetworkSecurityRule.name)&&
-  Objects.equals(this.age, objNetworkSecurityRule.age)&&
-  Objects.equals(this.createdBy, objNetworkSecurityRule.createdBy)&&
-  Objects.equals(this.rlParam, objNetworkSecurityRule.rlParam)&&
-  Objects.equals(this.action, objNetworkSecurityRule.action)&&
   Objects.equals(this.match, objNetworkSecurityRule.match)&&
-  Objects.equals(this.log, objNetworkSecurityRule.log);
+  Objects.equals(this.action, objNetworkSecurityRule.action)&&
+  Objects.equals(this.log, objNetworkSecurityRule.log)&&
+  Objects.equals(this.rlParam, objNetworkSecurityRule.rlParam)&&
+  Objects.equals(this.age, objNetworkSecurityRule.age)&&
+  Objects.equals(this.createdBy, objNetworkSecurityRule.createdBy);
 }
 
 @Override

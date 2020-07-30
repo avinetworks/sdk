@@ -177,12 +177,12 @@ public boolean equals(java.lang.Object o) {
   }
   MetricThresoldUpDetails objMetricThresoldUpDetails = (MetricThresoldUpDetails) o;
   return   Objects.equals(this.metricName, objMetricThresoldUpDetails.metricName)&&
-  Objects.equals(this.server, objMetricThresoldUpDetails.server)&&
-  Objects.equals(this.threshold, objMetricThresoldUpDetails.threshold)&&
-  Objects.equals(this.entityUuid, objMetricThresoldUpDetails.entityUuid)&&
+  Objects.equals(this.metricId, objMetricThresoldUpDetails.metricId)&&
   Objects.equals(this.currentValue, objMetricThresoldUpDetails.currentValue)&&
+  Objects.equals(this.threshold, objMetricThresoldUpDetails.threshold)&&
+  Objects.equals(this.server, objMetricThresoldUpDetails.server)&&
   Objects.equals(this.poolUuid, objMetricThresoldUpDetails.poolUuid)&&
-  Objects.equals(this.metricId, objMetricThresoldUpDetails.metricId);
+  Objects.equals(this.entityUuid, objMetricThresoldUpDetails.entityUuid);
 }
 
 @Override

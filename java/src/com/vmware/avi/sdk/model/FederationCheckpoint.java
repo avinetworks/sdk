@@ -195,12 +195,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FederationCheckpoint objFederationCheckpoint = (FederationCheckpoint) o;
-  return   Objects.equals(this.description, objFederationCheckpoint.description)&&
-  Objects.equals(this.isFederated, objFederationCheckpoint.isFederated)&&
+  return   Objects.equals(this.uuid, objFederationCheckpoint.uuid)&&
   Objects.equals(this.name, objFederationCheckpoint.name)&&
   Objects.equals(this.date, objFederationCheckpoint.date)&&
-  Objects.equals(this.tenantRef, objFederationCheckpoint.tenantRef)&&
-  Objects.equals(this.uuid, objFederationCheckpoint.uuid);
+  Objects.equals(this.isFederated, objFederationCheckpoint.isFederated)&&
+  Objects.equals(this.description, objFederationCheckpoint.description)&&
+  Objects.equals(this.tenantRef, objFederationCheckpoint.tenantRef);
 }
 
 @Override

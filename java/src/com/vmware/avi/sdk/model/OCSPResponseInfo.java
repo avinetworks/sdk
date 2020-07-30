@@ -200,12 +200,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   OCSPResponseInfo objOCSPResponseInfo = (OCSPResponseInfo) o;
-  return   Objects.equals(this.revocationReason, objOCSPResponseInfo.revocationReason)&&
+  return   Objects.equals(this.ocspResponse, objOCSPResponseInfo.ocspResponse)&&
   Objects.equals(this.certStatus, objOCSPResponseInfo.certStatus)&&
-  Objects.equals(this.ocspResponse, objOCSPResponseInfo.ocspResponse)&&
-  Objects.equals(this.revocationTime, objOCSPResponseInfo.revocationTime)&&
-  Objects.equals(this.nextUpdate, objOCSPResponseInfo.nextUpdate)&&
   Objects.equals(this.thisUpdate, objOCSPResponseInfo.thisUpdate)&&
+  Objects.equals(this.nextUpdate, objOCSPResponseInfo.nextUpdate)&&
+  Objects.equals(this.revocationTime, objOCSPResponseInfo.revocationTime)&&
+  Objects.equals(this.revocationReason, objOCSPResponseInfo.revocationReason)&&
   Objects.equals(this.ocspRespFromResponderUrl, objOCSPResponseInfo.ocspRespFromResponderUrl);
 }
 

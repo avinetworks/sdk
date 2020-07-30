@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigSeGrpFlvUpdate objConfigSeGrpFlvUpdate = (ConfigSeGrpFlvUpdate) o;
-  return   Objects.equals(this.newFlv, objConfigSeGrpFlvUpdate.newFlv)&&
-  Objects.equals(this.tenantName, objConfigSeGrpFlvUpdate.tenantName)&&
-  Objects.equals(this.oldFlv, objConfigSeGrpFlvUpdate.oldFlv)&&
+  return   Objects.equals(this.seGroupUuid, objConfigSeGrpFlvUpdate.seGroupUuid)&&
   Objects.equals(this.seGroupName, objConfigSeGrpFlvUpdate.seGroupName)&&
-  Objects.equals(this.seGroupUuid, objConfigSeGrpFlvUpdate.seGroupUuid)&&
-  Objects.equals(this.tenantUuid, objConfigSeGrpFlvUpdate.tenantUuid);
+  Objects.equals(this.oldFlv, objConfigSeGrpFlvUpdate.oldFlv)&&
+  Objects.equals(this.newFlv, objConfigSeGrpFlvUpdate.newFlv)&&
+  Objects.equals(this.tenantUuid, objConfigSeGrpFlvUpdate.tenantUuid)&&
+  Objects.equals(this.tenantName, objConfigSeGrpFlvUpdate.tenantName);
 }
 
 @Override

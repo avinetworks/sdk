@@ -263,16 +263,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureSetup objAzureSetup = (AzureSetup) o;
-  return   Objects.equals(this.status, objAzureSetup.status)&&
-  Objects.equals(this.vips, objAzureSetup.vips)&&
-  Objects.equals(this.resourceGroup, objAzureSetup.resourceGroup)&&
-  Objects.equals(this.reason, objAzureSetup.reason)&&
-  Objects.equals(this.vnetId, objAzureSetup.vnetId)&&
-  Objects.equals(this.vsUuids, objAzureSetup.vsUuids)&&
+  return   Objects.equals(this.ccId, objAzureSetup.ccId)&&
   Objects.equals(this.subscriptionId, objAzureSetup.subscriptionId)&&
-  Objects.equals(this.ccId, objAzureSetup.ccId)&&
+  Objects.equals(this.vnetId, objAzureSetup.vnetId)&&
+  Objects.equals(this.resourceGroup, objAzureSetup.resourceGroup)&&
+  Objects.equals(this.albId, objAzureSetup.albId)&&
   Objects.equals(this.nicId, objAzureSetup.nicId)&&
-  Objects.equals(this.albId, objAzureSetup.albId);
+  Objects.equals(this.status, objAzureSetup.status)&&
+  Objects.equals(this.reason, objAzureSetup.reason)&&
+  Objects.equals(this.vips, objAzureSetup.vips)&&
+  Objects.equals(this.vsUuids, objAzureSetup.vsUuids);
 }
 
 @Override

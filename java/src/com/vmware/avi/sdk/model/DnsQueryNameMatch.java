@@ -131,9 +131,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsQueryNameMatch objDnsQueryNameMatch = (DnsQueryNameMatch) o;
-  return   Objects.equals(this.stringGroupRefs, objDnsQueryNameMatch.stringGroupRefs)&&
+  return   Objects.equals(this.matchCriteria, objDnsQueryNameMatch.matchCriteria)&&
   Objects.equals(this.queryDomainNames, objDnsQueryNameMatch.queryDomainNames)&&
-  Objects.equals(this.matchCriteria, objDnsQueryNameMatch.matchCriteria);
+  Objects.equals(this.stringGroupRefs, objDnsQueryNameMatch.stringGroupRefs);
 }
 
 @Override

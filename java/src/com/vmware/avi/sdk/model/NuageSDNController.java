@@ -262,17 +262,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NuageSDNController objNuageSDNController = (NuageSDNController) o;
-  return   Objects.equals(this.nuageOrganization, objNuageSDNController.nuageOrganization)&&
-  Objects.equals(this.nuageVsdHost, objNuageSDNController.nuageVsdHost)&&
-  Objects.equals(this.seNetwork, objNuageSDNController.seNetwork)&&
-  Objects.equals(this.nuagePassword, objNuageSDNController.nuagePassword)&&
+  return   Objects.equals(this.nuageVsdHost, objNuageSDNController.nuageVsdHost)&&
   Objects.equals(this.nuagePort, objNuageSDNController.nuagePort)&&
-  Objects.equals(this.seUser, objNuageSDNController.seUser)&&
-  Objects.equals(this.seEnterprise, objNuageSDNController.seEnterprise)&&
   Objects.equals(this.nuageUsername, objNuageSDNController.nuageUsername)&&
+  Objects.equals(this.nuagePassword, objNuageSDNController.nuagePassword)&&
+  Objects.equals(this.nuageOrganization, objNuageSDNController.nuageOrganization)&&
   Objects.equals(this.seDomain, objNuageSDNController.seDomain)&&
-  Objects.equals(this.sePolicyGroup, objNuageSDNController.sePolicyGroup)&&
-  Objects.equals(this.seZone, objNuageSDNController.seZone);
+  Objects.equals(this.seZone, objNuageSDNController.seZone)&&
+  Objects.equals(this.seNetwork, objNuageSDNController.seNetwork)&&
+  Objects.equals(this.seEnterprise, objNuageSDNController.seEnterprise)&&
+  Objects.equals(this.seUser, objNuageSDNController.seUser)&&
+  Objects.equals(this.sePolicyGroup, objNuageSDNController.sePolicyGroup);
 }
 
 @Override

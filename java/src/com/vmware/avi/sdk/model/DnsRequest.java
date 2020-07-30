@@ -309,18 +309,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRequest objDnsRequest = (DnsRequest) o;
-  return   Objects.equals(this.identifier, objDnsRequest.identifier)&&
-  Objects.equals(this.optRecord, objDnsRequest.optRecord)&&
-  Objects.equals(this.checkingDisabled, objDnsRequest.checkingDisabled)&&
-  Objects.equals(this.answerRecordsCount, objDnsRequest.answerRecordsCount)&&
-  Objects.equals(this.clientLocation, objDnsRequest.clientLocation)&&
+  return   Objects.equals(this.queryOrResponse, objDnsRequest.queryOrResponse)&&
   Objects.equals(this.opcode, objDnsRequest.opcode)&&
   Objects.equals(this.recursionDesired, objDnsRequest.recursionDesired)&&
+  Objects.equals(this.checkingDisabled, objDnsRequest.checkingDisabled)&&
   Objects.equals(this.authenticData, objDnsRequest.authenticData)&&
+  Objects.equals(this.questionCount, objDnsRequest.questionCount)&&
+  Objects.equals(this.answerRecordsCount, objDnsRequest.answerRecordsCount)&&
   Objects.equals(this.nameserverRecordsCount, objDnsRequest.nameserverRecordsCount)&&
-  Objects.equals(this.queryOrResponse, objDnsRequest.queryOrResponse)&&
   Objects.equals(this.additionalRecordsCount, objDnsRequest.additionalRecordsCount)&&
-  Objects.equals(this.questionCount, objDnsRequest.questionCount);
+  Objects.equals(this.optRecord, objDnsRequest.optRecord)&&
+  Objects.equals(this.clientLocation, objDnsRequest.clientLocation)&&
+  Objects.equals(this.identifier, objDnsRequest.identifier);
 }
 
 @Override

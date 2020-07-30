@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SchedulerActionDetails objSchedulerActionDetails = (SchedulerActionDetails) o;
-  return   Objects.equals(this.controlScriptOutput, objSchedulerActionDetails.controlScriptOutput)&&
+  return   Objects.equals(this.schedulerUuid, objSchedulerActionDetails.schedulerUuid)&&
   Objects.equals(this.executionDatestamp, objSchedulerActionDetails.executionDatestamp)&&
   Objects.equals(this.backupUri, objSchedulerActionDetails.backupUri)&&
-  Objects.equals(this.status, objSchedulerActionDetails.status)&&
-  Objects.equals(this.schedulerUuid, objSchedulerActionDetails.schedulerUuid);
+  Objects.equals(this.controlScriptOutput, objSchedulerActionDetails.controlScriptOutput)&&
+  Objects.equals(this.status, objSchedulerActionDetails.status);
 }
 
 @Override

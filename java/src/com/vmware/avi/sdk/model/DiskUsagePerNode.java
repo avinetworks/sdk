@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DiskUsagePerNode objDiskUsagePerNode = (DiskUsagePerNode) o;
-  return   Objects.equals(this.diskInfo, objDiskUsagePerNode.diskInfo)&&
-  Objects.equals(this.name, objDiskUsagePerNode.name);
+  return   Objects.equals(this.name, objDiskUsagePerNode.name)&&
+  Objects.equals(this.diskInfo, objDiskUsagePerNode.diskInfo);
 }
 
 @Override

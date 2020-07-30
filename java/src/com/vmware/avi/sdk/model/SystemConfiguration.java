@@ -517,25 +517,25 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SystemConfiguration objSystemConfiguration = (SystemConfiguration) o;
-  return   Objects.equals(this.emailConfiguration, objSystemConfiguration.emailConfiguration)&&
-  Objects.equals(this.globalTenantConfig, objSystemConfiguration.globalTenantConfig)&&
-  Objects.equals(this.welcomeWorkflowComplete, objSystemConfiguration.welcomeWorkflowComplete)&&
-  Objects.equals(this.secureChannelConfiguration, objSystemConfiguration.secureChannelConfiguration)&&
-  Objects.equals(this.uuid, objSystemConfiguration.uuid)&&
+  return   Objects.equals(this.uuid, objSystemConfiguration.uuid)&&
   Objects.equals(this.dnsConfiguration, objSystemConfiguration.dnsConfiguration)&&
-  Objects.equals(this.sshHmacs, objSystemConfiguration.sshHmacs)&&
-  Objects.equals(this.dnsVirtualserviceRefs, objSystemConfiguration.dnsVirtualserviceRefs)&&
+  Objects.equals(this.ntpConfiguration, objSystemConfiguration.ntpConfiguration)&&
+  Objects.equals(this.portalConfiguration, objSystemConfiguration.portalConfiguration)&&
+  Objects.equals(this.globalTenantConfig, objSystemConfiguration.globalTenantConfig)&&
+  Objects.equals(this.emailConfiguration, objSystemConfiguration.emailConfiguration)&&
+  Objects.equals(this.adminAuthConfiguration, objSystemConfiguration.adminAuthConfiguration)&&
   Objects.equals(this.dockerMode, objSystemConfiguration.dockerMode)&&
-  Objects.equals(this.proxyConfiguration, objSystemConfiguration.proxyConfiguration)&&
   Objects.equals(this.snmpConfiguration, objSystemConfiguration.snmpConfiguration)&&
   Objects.equals(this.linuxConfiguration, objSystemConfiguration.linuxConfiguration)&&
-  Objects.equals(this.portalConfiguration, objSystemConfiguration.portalConfiguration)&&
-  Objects.equals(this.fipsMode, objSystemConfiguration.fipsMode)&&
-  Objects.equals(this.ntpConfiguration, objSystemConfiguration.ntpConfiguration)&&
-  Objects.equals(this.adminAuthConfiguration, objSystemConfiguration.adminAuthConfiguration)&&
+  Objects.equals(this.proxyConfiguration, objSystemConfiguration.proxyConfiguration)&&
   Objects.equals(this.mgmtIpAccessControl, objSystemConfiguration.mgmtIpAccessControl)&&
   Objects.equals(this.sshCiphers, objSystemConfiguration.sshCiphers)&&
-  Objects.equals(this.defaultLicenseTier, objSystemConfiguration.defaultLicenseTier);
+  Objects.equals(this.sshHmacs, objSystemConfiguration.sshHmacs)&&
+  Objects.equals(this.dnsVirtualserviceRefs, objSystemConfiguration.dnsVirtualserviceRefs)&&
+  Objects.equals(this.defaultLicenseTier, objSystemConfiguration.defaultLicenseTier)&&
+  Objects.equals(this.secureChannelConfiguration, objSystemConfiguration.secureChannelConfiguration)&&
+  Objects.equals(this.welcomeWorkflowComplete, objSystemConfiguration.welcomeWorkflowComplete)&&
+  Objects.equals(this.fipsMode, objSystemConfiguration.fipsMode);
 }
 
 @Override

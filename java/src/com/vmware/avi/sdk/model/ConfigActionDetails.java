@@ -197,14 +197,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigActionDetails objConfigActionDetails = (ConfigActionDetails) o;
-  return   Objects.equals(this.status, objConfigActionDetails.status)&&
-  Objects.equals(this.resourceName, objConfigActionDetails.resourceName)&&
-  Objects.equals(this.errorMessage, objConfigActionDetails.errorMessage)&&
-  Objects.equals(this.actionName, objConfigActionDetails.actionName)&&
+  return   Objects.equals(this.path, objConfigActionDetails.path)&&
   Objects.equals(this.user, objConfigActionDetails.user)&&
+  Objects.equals(this.status, objConfigActionDetails.status)&&
+  Objects.equals(this.resourceType, objConfigActionDetails.resourceType)&&
+  Objects.equals(this.resourceName, objConfigActionDetails.resourceName)&&
+  Objects.equals(this.actionName, objConfigActionDetails.actionName)&&
   Objects.equals(this.parameterData, objConfigActionDetails.parameterData)&&
-  Objects.equals(this.path, objConfigActionDetails.path)&&
-  Objects.equals(this.resourceType, objConfigActionDetails.resourceType);
+  Objects.equals(this.errorMessage, objConfigActionDetails.errorMessage);
 }
 
 @Override

@@ -180,12 +180,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsScaleoutParams objVsScaleoutParams = (VsScaleoutParams) o;
-  return   Objects.equals(this.newVcpus, objVsScaleoutParams.newVcpus)&&
-  Objects.equals(this.uuid, objVsScaleoutParams.uuid)&&
-  Objects.equals(this.toHostRef, objVsScaleoutParams.toHostRef)&&
+  return   Objects.equals(this.uuid, objVsScaleoutParams.uuid)&&
   Objects.equals(this.toSeRef, objVsScaleoutParams.toSeRef)&&
-  Objects.equals(this.adminUp, objVsScaleoutParams.adminUp)&&
   Objects.equals(this.toNewSe, objVsScaleoutParams.toNewSe)&&
+  Objects.equals(this.toHostRef, objVsScaleoutParams.toHostRef)&&
+  Objects.equals(this.adminUp, objVsScaleoutParams.adminUp)&&
+  Objects.equals(this.newVcpus, objVsScaleoutParams.newVcpus)&&
   Objects.equals(this.vipId, objVsScaleoutParams.vipId);
 }
 

@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecurityMgrDebugFilter objSecurityMgrDebugFilter = (SecurityMgrDebugFilter) o;
-  return   Objects.equals(this.enableAdaptiveConfig, objSecurityMgrDebugFilter.enableAdaptiveConfig)&&
-  Objects.equals(this.entityRef, objSecurityMgrDebugFilter.entityRef);
+  return   Objects.equals(this.entityRef, objSecurityMgrDebugFilter.entityRef)&&
+  Objects.equals(this.enableAdaptiveConfig, objSecurityMgrDebugFilter.enableAdaptiveConfig);
 }
 
 @Override

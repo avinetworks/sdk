@@ -109,8 +109,8 @@ public boolean equals(java.lang.Object o) {
   }
   GslbSiteCfgSyncInfo objGslbSiteCfgSyncInfo = (GslbSiteCfgSyncInfo) o;
   return   Objects.equals(this.syncState, objGslbSiteCfgSyncInfo.syncState)&&
-  Objects.equals(this.erroredObjects, objGslbSiteCfgSyncInfo.erroredObjects)&&
-  Objects.equals(this.lastChangedTime, objGslbSiteCfgSyncInfo.lastChangedTime);
+  Objects.equals(this.lastChangedTime, objGslbSiteCfgSyncInfo.lastChangedTime)&&
+  Objects.equals(this.erroredObjects, objGslbSiteCfgSyncInfo.erroredObjects);
 }
 
 @Override

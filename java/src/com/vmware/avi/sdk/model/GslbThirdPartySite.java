@@ -230,12 +230,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbThirdPartySite objGslbThirdPartySite = (GslbThirdPartySite) o;
-  return   Objects.equals(this.ratio, objGslbThirdPartySite.ratio)&&
+  return   Objects.equals(this.clusterUuid, objGslbThirdPartySite.clusterUuid)&&
   Objects.equals(this.name, objGslbThirdPartySite.name)&&
   Objects.equals(this.enabled, objGslbThirdPartySite.enabled)&&
   Objects.equals(this.location, objGslbThirdPartySite.location)&&
   Objects.equals(this.hmProxies, objGslbThirdPartySite.hmProxies)&&
-  Objects.equals(this.clusterUuid, objGslbThirdPartySite.clusterUuid)&&
+  Objects.equals(this.ratio, objGslbThirdPartySite.ratio)&&
   Objects.equals(this.uuid, objGslbThirdPartySite.uuid);
 }
 

@@ -465,24 +465,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertConfig objAlertConfig = (AlertConfig) o;
-  return   Objects.equals(this.category, objAlertConfig.category)&&
-  Objects.equals(this.throttle, objAlertConfig.throttle)&&
-  Objects.equals(this.description, objAlertConfig.description)&&
+  return   Objects.equals(this.uuid, objAlertConfig.uuid)&&
   Objects.equals(this.name, objAlertConfig.name)&&
-  Objects.equals(this.actionGroupRef, objAlertConfig.actionGroupRef)&&
-  Objects.equals(this.objectType, objAlertConfig.objectType)&&
-  Objects.equals(this.enabled, objAlertConfig.enabled)&&
-  Objects.equals(this.autoscaleAlert, objAlertConfig.autoscaleAlert)&&
   Objects.equals(this.summary, objAlertConfig.summary)&&
+  Objects.equals(this.description, objAlertConfig.description)&&
+  Objects.equals(this.alertRule, objAlertConfig.alertRule)&&
+  Objects.equals(this.threshold, objAlertConfig.threshold)&&
+  Objects.equals(this.throttle, objAlertConfig.throttle)&&
   Objects.equals(this.rollingWindow, objAlertConfig.rollingWindow)&&
+  Objects.equals(this.expiryTime, objAlertConfig.expiryTime)&&
   Objects.equals(this.source, objAlertConfig.source)&&
   Objects.equals(this.objUuid, objAlertConfig.objUuid)&&
-  Objects.equals(this.alertRule, objAlertConfig.alertRule)&&
+  Objects.equals(this.category, objAlertConfig.category)&&
   Objects.equals(this.recommendation, objAlertConfig.recommendation)&&
-  Objects.equals(this.threshold, objAlertConfig.threshold)&&
-  Objects.equals(this.expiryTime, objAlertConfig.expiryTime)&&
-  Objects.equals(this.tenantRef, objAlertConfig.tenantRef)&&
-  Objects.equals(this.uuid, objAlertConfig.uuid);
+  Objects.equals(this.enabled, objAlertConfig.enabled)&&
+  Objects.equals(this.actionGroupRef, objAlertConfig.actionGroupRef)&&
+  Objects.equals(this.autoscaleAlert, objAlertConfig.autoscaleAlert)&&
+  Objects.equals(this.objectType, objAlertConfig.objectType)&&
+  Objects.equals(this.tenantRef, objAlertConfig.tenantRef);
 }
 
 @Override

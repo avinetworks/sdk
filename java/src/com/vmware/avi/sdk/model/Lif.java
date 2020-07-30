@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Lif objLif = (Lif) o;
-  return   Objects.equals(this.subnet, objLif.subnet)&&
-  Objects.equals(this.lif, objLif.lif)&&
-  Objects.equals(this.cifs, objLif.cifs)&&
-  Objects.equals(this.lifLabel, objLif.lifLabel);
+  return   Objects.equals(this.lif, objLif.lif)&&
+  Objects.equals(this.lifLabel, objLif.lifLabel)&&
+  Objects.equals(this.subnet, objLif.subnet)&&
+  Objects.equals(this.cifs, objLif.cifs);
 }
 
 @Override

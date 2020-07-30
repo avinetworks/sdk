@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsSwitchoverParams objVsSwitchoverParams = (VsSwitchoverParams) o;
-  return   Objects.equals(this.vipId, objVsSwitchoverParams.vipId)&&
-  Objects.equals(this.uuid, objVsSwitchoverParams.uuid)&&
-  Objects.equals(this.seUuid, objVsSwitchoverParams.seUuid);
+  return   Objects.equals(this.uuid, objVsSwitchoverParams.uuid)&&
+  Objects.equals(this.seUuid, objVsSwitchoverParams.seUuid)&&
+  Objects.equals(this.vipId, objVsSwitchoverParams.vipId);
 }
 
 @Override

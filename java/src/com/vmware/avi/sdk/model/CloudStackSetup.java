@@ -134,11 +134,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudStackSetup objCloudStackSetup = (CloudStackSetup) o;
-  return   Objects.equals(this.privilege, objCloudStackSetup.privilege)&&
-  Objects.equals(this.ccId, objCloudStackSetup.ccId)&&
-  Objects.equals(this.apiUrl, objCloudStackSetup.apiUrl)&&
+  return   Objects.equals(this.apiUrl, objCloudStackSetup.apiUrl)&&
+  Objects.equals(this.accessKeyId, objCloudStackSetup.accessKeyId)&&
+  Objects.equals(this.privilege, objCloudStackSetup.privilege)&&
   Objects.equals(this.errorString, objCloudStackSetup.errorString)&&
-  Objects.equals(this.accessKeyId, objCloudStackSetup.accessKeyId);
+  Objects.equals(this.ccId, objCloudStackSetup.ccId);
 }
 
 @Override

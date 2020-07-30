@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
   }
   BurstLicenseDetails objBurstLicenseDetails = (BurstLicenseDetails) o;
   return   Objects.equals(this.seName, objBurstLicenseDetails.seName)&&
-  Objects.equals(this.startTime, objBurstLicenseDetails.startTime)&&
-  Objects.equals(this.endTime, objBurstLicenseDetails.endTime)&&
   Objects.equals(this.seUuid, objBurstLicenseDetails.seUuid)&&
-  Objects.equals(this.cores, objBurstLicenseDetails.cores);
+  Objects.equals(this.startTime, objBurstLicenseDetails.startTime)&&
+  Objects.equals(this.cores, objBurstLicenseDetails.cores)&&
+  Objects.equals(this.endTime, objBurstLicenseDetails.endTime);
 }
 
 @Override

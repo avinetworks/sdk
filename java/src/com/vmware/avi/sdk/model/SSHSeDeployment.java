@@ -123,10 +123,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSHSeDeployment objSSHSeDeployment = (SSHSeDeployment) o;
-  return   Objects.equals(this.hostOs, objSSHSeDeployment.hostOs)&&
+  return   Objects.equals(this.sshUser, objSSHSeDeployment.sshUser)&&
   Objects.equals(this.sudoUser, objSSHSeDeployment.sudoUser)&&
   Objects.equals(this.password, objSSHSeDeployment.password)&&
-  Objects.equals(this.sshUser, objSSHSeDeployment.sshUser);
+  Objects.equals(this.hostOs, objSSHSeDeployment.hostOs);
 }
 
 @Override

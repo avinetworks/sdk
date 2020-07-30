@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmAddVnic objRmAddVnic = (RmAddVnic) o;
-  return   Objects.equals(this.networkName, objRmAddVnic.networkName)&&
-  Objects.equals(this.networkUuid, objRmAddVnic.networkUuid)&&
+  return   Objects.equals(this.networkUuid, objRmAddVnic.networkUuid)&&
+  Objects.equals(this.networkName, objRmAddVnic.networkName)&&
   Objects.equals(this.subnet, objRmAddVnic.subnet);
 }
 

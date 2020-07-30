@@ -101,8 +101,8 @@ public boolean equals(java.lang.Object o) {
   }
   ControllerSize objControllerSize = (ControllerSize) o;
   return   Objects.equals(this.flavor, objControllerSize.flavor)&&
-  Objects.equals(this.minMemory, objControllerSize.minMemory)&&
-  Objects.equals(this.minCpus, objControllerSize.minCpus);
+  Objects.equals(this.minCpus, objControllerSize.minCpus)&&
+  Objects.equals(this.minMemory, objControllerSize.minMemory);
 }
 
 @Override

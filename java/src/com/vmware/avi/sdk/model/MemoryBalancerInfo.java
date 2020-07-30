@@ -167,9 +167,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MemoryBalancerInfo objMemoryBalancerInfo = (MemoryBalancerInfo) o;
-  return   Objects.equals(this.memoryUsed, objMemoryBalancerInfo.memoryUsed)&&
-  Objects.equals(this.process, objMemoryBalancerInfo.process)&&
+  return   Objects.equals(this.process, objMemoryBalancerInfo.process)&&
   Objects.equals(this.pid, objMemoryBalancerInfo.pid)&&
+  Objects.equals(this.memoryUsed, objMemoryBalancerInfo.memoryUsed)&&
   Objects.equals(this.limit, objMemoryBalancerInfo.limit)&&
   Objects.equals(this.child, objMemoryBalancerInfo.child)&&
   Objects.equals(this.controllerMemory, objMemoryBalancerInfo.controllerMemory);

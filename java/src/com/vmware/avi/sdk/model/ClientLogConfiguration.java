@@ -148,9 +148,9 @@ public boolean equals(java.lang.Object o) {
   }
   ClientLogConfiguration objClientLogConfiguration = (ClientLogConfiguration) o;
   return   Objects.equals(this.enableSignificantLogCollection, objClientLogConfiguration.enableSignificantLogCollection)&&
-  Objects.equals(this.nonSignificantLogProcessing, objClientLogConfiguration.nonSignificantLogProcessing)&&
   Objects.equals(this.significantLogProcessing, objClientLogConfiguration.significantLogProcessing)&&
-  Objects.equals(this.filteredLogProcessing, objClientLogConfiguration.filteredLogProcessing);
+  Objects.equals(this.filteredLogProcessing, objClientLogConfiguration.filteredLogProcessing)&&
+  Objects.equals(this.nonSignificantLogProcessing, objClientLogConfiguration.nonSignificantLogProcessing);
 }
 
 @Override

@@ -569,27 +569,27 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HealthMonitor objHealthMonitor = (HealthMonitor) o;
-  return   Objects.equals(this.httpsMonitor, objHealthMonitor.httpsMonitor)&&
-  Objects.equals(this.radiusMonitor, objHealthMonitor.radiusMonitor)&&
-  Objects.equals(this.successfulChecks, objHealthMonitor.successfulChecks)&&
-  Objects.equals(this.uuid, objHealthMonitor.uuid)&&
-  Objects.equals(this.dnsMonitor, objHealthMonitor.dnsMonitor)&&
-  Objects.equals(this.failedChecks, objHealthMonitor.failedChecks)&&
-  Objects.equals(this.tcpMonitor, objHealthMonitor.tcpMonitor)&&
-  Objects.equals(this.authentication, objHealthMonitor.authentication)&&
-  Objects.equals(this.externalMonitor, objHealthMonitor.externalMonitor)&&
-  Objects.equals(this.type, objHealthMonitor.type)&&
-  Objects.equals(this.receiveTimeout, objHealthMonitor.receiveTimeout)&&
-  Objects.equals(this.description, objHealthMonitor.description)&&
-  Objects.equals(this.udpMonitor, objHealthMonitor.udpMonitor)&&
-  Objects.equals(this.httpMonitor, objHealthMonitor.httpMonitor)&&
-  Objects.equals(this.monitorPort, objHealthMonitor.monitorPort)&&
-  Objects.equals(this.allowDuplicateMonitors, objHealthMonitor.allowDuplicateMonitors)&&
+  return   Objects.equals(this.uuid, objHealthMonitor.uuid)&&
   Objects.equals(this.name, objHealthMonitor.name)&&
-  Objects.equals(this.disableQuickstart, objHealthMonitor.disableQuickstart)&&
-  Objects.equals(this.isFederated, objHealthMonitor.isFederated)&&
-  Objects.equals(this.sipMonitor, objHealthMonitor.sipMonitor)&&
   Objects.equals(this.sendInterval, objHealthMonitor.sendInterval)&&
+  Objects.equals(this.receiveTimeout, objHealthMonitor.receiveTimeout)&&
+  Objects.equals(this.successfulChecks, objHealthMonitor.successfulChecks)&&
+  Objects.equals(this.failedChecks, objHealthMonitor.failedChecks)&&
+  Objects.equals(this.type, objHealthMonitor.type)&&
+  Objects.equals(this.tcpMonitor, objHealthMonitor.tcpMonitor)&&
+  Objects.equals(this.httpMonitor, objHealthMonitor.httpMonitor)&&
+  Objects.equals(this.httpsMonitor, objHealthMonitor.httpsMonitor)&&
+  Objects.equals(this.externalMonitor, objHealthMonitor.externalMonitor)&&
+  Objects.equals(this.udpMonitor, objHealthMonitor.udpMonitor)&&
+  Objects.equals(this.dnsMonitor, objHealthMonitor.dnsMonitor)&&
+  Objects.equals(this.monitorPort, objHealthMonitor.monitorPort)&&
+  Objects.equals(this.sipMonitor, objHealthMonitor.sipMonitor)&&
+  Objects.equals(this.radiusMonitor, objHealthMonitor.radiusMonitor)&&
+  Objects.equals(this.disableQuickstart, objHealthMonitor.disableQuickstart)&&
+  Objects.equals(this.allowDuplicateMonitors, objHealthMonitor.allowDuplicateMonitors)&&
+  Objects.equals(this.authentication, objHealthMonitor.authentication)&&
+  Objects.equals(this.isFederated, objHealthMonitor.isFederated)&&
+  Objects.equals(this.description, objHealthMonitor.description)&&
   Objects.equals(this.tenantRef, objHealthMonitor.tenantRef);
 }
 

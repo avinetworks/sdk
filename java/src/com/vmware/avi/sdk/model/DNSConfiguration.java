@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DNSConfiguration objDNSConfiguration = (DNSConfiguration) o;
-  return   Objects.equals(this.searchDomain, objDNSConfiguration.searchDomain)&&
-  Objects.equals(this.serverList, objDNSConfiguration.serverList);
+  return   Objects.equals(this.serverList, objDNSConfiguration.serverList)&&
+  Objects.equals(this.searchDomain, objDNSConfiguration.searchDomain);
 }
 
 @Override

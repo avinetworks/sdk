@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AwsZoneConfig objAwsZoneConfig = (AwsZoneConfig) o;
-  return   Objects.equals(this.mgmtNetworkName, objAwsZoneConfig.mgmtNetworkName)&&
-  Objects.equals(this.mgmtNetworkUuid, objAwsZoneConfig.mgmtNetworkUuid)&&
-  Objects.equals(this.availabilityZone, objAwsZoneConfig.availabilityZone);
+  return   Objects.equals(this.availabilityZone, objAwsZoneConfig.availabilityZone)&&
+  Objects.equals(this.mgmtNetworkName, objAwsZoneConfig.mgmtNetworkName)&&
+  Objects.equals(this.mgmtNetworkUuid, objAwsZoneConfig.mgmtNetworkUuid);
 }
 
 @Override

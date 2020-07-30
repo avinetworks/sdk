@@ -218,15 +218,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsMgrDebugFilter objMetricsMgrDebugFilter = (MetricsMgrDebugFilter) o;
-  return   Objects.equals(this.loggingFreq, objMetricsMgrDebugFilter.loggingFreq)&&
-  Objects.equals(this.logFirstN, objMetricsMgrDebugFilter.logFirstN)&&
-  Objects.equals(this.obj, objMetricsMgrDebugFilter.obj)&&
-  Objects.equals(this.skipMetricsDbWrites, objMetricsMgrDebugFilter.skipMetricsDbWrites)&&
-  Objects.equals(this.metricInstanceId, objMetricsMgrDebugFilter.metricInstanceId)&&
-  Objects.equals(this.licenseGracePeriod, objMetricsMgrDebugFilter.licenseGracePeriod)&&
-  Objects.equals(this.skipClusterMapCheck, objMetricsMgrDebugFilter.skipClusterMapCheck)&&
+  return   Objects.equals(this.obj, objMetricsMgrDebugFilter.obj)&&
   Objects.equals(this.entity, objMetricsMgrDebugFilter.entity)&&
-  Objects.equals(this.disableHwTraining, objMetricsMgrDebugFilter.disableHwTraining);
+  Objects.equals(this.skipMetricsDbWrites, objMetricsMgrDebugFilter.skipMetricsDbWrites)&&
+  Objects.equals(this.loggingFreq, objMetricsMgrDebugFilter.loggingFreq)&&
+  Objects.equals(this.logFirstN, objMetricsMgrDebugFilter.logFirstN)&&
+  Objects.equals(this.metricInstanceId, objMetricsMgrDebugFilter.metricInstanceId)&&
+  Objects.equals(this.skipClusterMapCheck, objMetricsMgrDebugFilter.skipClusterMapCheck)&&
+  Objects.equals(this.disableHwTraining, objMetricsMgrDebugFilter.disableHwTraining)&&
+  Objects.equals(this.licenseGracePeriod, objMetricsMgrDebugFilter.licenseGracePeriod);
 }
 
 @Override

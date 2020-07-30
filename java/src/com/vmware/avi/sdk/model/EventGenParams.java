@@ -152,11 +152,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   EventGenParams objEventGenParams = (EventGenParams) o;
-  return   Objects.equals(this.cluster, objEventGenParams.cluster)&&
-  Objects.equals(this.virtualservice, objEventGenParams.virtualservice)&&
+  return   Objects.equals(this.virtualservice, objEventGenParams.virtualservice)&&
   Objects.equals(this.events, objEventGenParams.events)&&
-  Objects.equals(this.pool, objEventGenParams.pool)&&
-  Objects.equals(this.sslkeyandcertificate, objEventGenParams.sslkeyandcertificate);
+  Objects.equals(this.cluster, objEventGenParams.cluster)&&
+  Objects.equals(this.sslkeyandcertificate, objEventGenParams.sslkeyandcertificate)&&
+  Objects.equals(this.pool, objEventGenParams.pool);
 }
 
 @Override

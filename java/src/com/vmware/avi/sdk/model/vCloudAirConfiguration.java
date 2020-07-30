@@ -201,14 +201,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   vCloudAirConfiguration objvCloudAirConfiguration = (vCloudAirConfiguration) o;
-  return   Objects.equals(this.vcaOrgnization, objvCloudAirConfiguration.vcaOrgnization)&&
-  Objects.equals(this.vcaUsername, objvCloudAirConfiguration.vcaUsername)&&
-  Objects.equals(this.vcaMgmtNetwork, objvCloudAirConfiguration.vcaMgmtNetwork)&&
+  return   Objects.equals(this.vcaUsername, objvCloudAirConfiguration.vcaUsername)&&
   Objects.equals(this.vcaPassword, objvCloudAirConfiguration.vcaPassword)&&
-  Objects.equals(this.vcaInstance, objvCloudAirConfiguration.vcaInstance)&&
+  Objects.equals(this.vcaHost, objvCloudAirConfiguration.vcaHost)&&
   Objects.equals(this.privilege, objvCloudAirConfiguration.privilege)&&
+  Objects.equals(this.vcaInstance, objvCloudAirConfiguration.vcaInstance)&&
+  Objects.equals(this.vcaOrgnization, objvCloudAirConfiguration.vcaOrgnization)&&
   Objects.equals(this.vcaVdc, objvCloudAirConfiguration.vcaVdc)&&
-  Objects.equals(this.vcaHost, objvCloudAirConfiguration.vcaHost);
+  Objects.equals(this.vcaMgmtNetwork, objvCloudAirConfiguration.vcaMgmtNetwork);
 }
 
 @Override

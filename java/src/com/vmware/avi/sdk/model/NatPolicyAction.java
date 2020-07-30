@@ -90,8 +90,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NatPolicyAction objNatPolicyAction = (NatPolicyAction) o;
-  return   Objects.equals(this.natInfo, objNatPolicyAction.natInfo)&&
-  Objects.equals(this.type, objNatPolicyAction.type);
+  return   Objects.equals(this.type, objNatPolicyAction.type)&&
+  Objects.equals(this.natInfo, objNatPolicyAction.natInfo);
 }
 
 @Override

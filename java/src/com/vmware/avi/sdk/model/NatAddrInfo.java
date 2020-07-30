@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NatAddrInfo objNatAddrInfo = (NatAddrInfo) o;
-  return   Objects.equals(this.natIpRange, objNatAddrInfo.natIpRange)&&
-  Objects.equals(this.natIp, objNatAddrInfo.natIp);
+  return   Objects.equals(this.natIp, objNatAddrInfo.natIp)&&
+  Objects.equals(this.natIpRange, objNatAddrInfo.natIpRange);
 }
 
 @Override

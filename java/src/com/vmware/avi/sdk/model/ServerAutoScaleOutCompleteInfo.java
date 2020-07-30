@@ -175,12 +175,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerAutoScaleOutCompleteInfo objServerAutoScaleOutCompleteInfo = (ServerAutoScaleOutCompleteInfo) o;
-  return   Objects.equals(this.scaledOutServers, objServerAutoScaleOutCompleteInfo.scaledOutServers)&&
+  return   Objects.equals(this.poolRef, objServerAutoScaleOutCompleteInfo.poolRef)&&
   Objects.equals(this.nscaleout, objServerAutoScaleOutCompleteInfo.nscaleout)&&
-  Objects.equals(this.reasonCode, objServerAutoScaleOutCompleteInfo.reasonCode)&&
-  Objects.equals(this.reason, objServerAutoScaleOutCompleteInfo.reason)&&
+  Objects.equals(this.scaledOutServers, objServerAutoScaleOutCompleteInfo.scaledOutServers)&&
   Objects.equals(this.launchConfigUuid, objServerAutoScaleOutCompleteInfo.launchConfigUuid)&&
-  Objects.equals(this.poolRef, objServerAutoScaleOutCompleteInfo.poolRef);
+  Objects.equals(this.reason, objServerAutoScaleOutCompleteInfo.reason)&&
+  Objects.equals(this.reasonCode, objServerAutoScaleOutCompleteInfo.reasonCode);
 }
 
 @Override

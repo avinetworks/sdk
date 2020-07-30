@@ -134,8 +134,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPReselectRespCode objHTTPReselectRespCode = (HTTPReselectRespCode) o;
-  return   Objects.equals(this.ranges, objHTTPReselectRespCode.ranges)&&
-  Objects.equals(this.codes, objHTTPReselectRespCode.codes)&&
+  return   Objects.equals(this.codes, objHTTPReselectRespCode.codes)&&
+  Objects.equals(this.ranges, objHTTPReselectRespCode.ranges)&&
   Objects.equals(this.respCodeBlock, objHTTPReselectRespCode.respCodeBlock);
 }
 

@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertTestSyslogSnmpParams objAlertTestSyslogSnmpParams = (AlertTestSyslogSnmpParams) o;
-  return   Objects.equals(this.text, objAlertTestSyslogSnmpParams.text)&&
-  Objects.equals(this.uuid, objAlertTestSyslogSnmpParams.uuid);
+  return   Objects.equals(this.uuid, objAlertTestSyslogSnmpParams.uuid)&&
+  Objects.equals(this.text, objAlertTestSyslogSnmpParams.text);
 }
 
 @Override

@@ -192,13 +192,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CC_AgentProperties objCC_AgentProperties = (CC_AgentProperties) o;
-  return   Objects.equals(this.vnicRetriesDelay, objCC_AgentProperties.vnicRetriesDelay)&&
-  Objects.equals(this.asyncRetriesDelay, objCC_AgentProperties.asyncRetriesDelay)&&
-  Objects.equals(this.vnicRetries, objCC_AgentProperties.vnicRetries)&&
-  Objects.equals(this.pollDurationTarget, objCC_AgentProperties.pollDurationTarget)&&
+  return   Objects.equals(this.pollDurationTarget, objCC_AgentProperties.pollDurationTarget)&&
   Objects.equals(this.pollSlowTarget, objCC_AgentProperties.pollSlowTarget)&&
   Objects.equals(this.pollFastTarget, objCC_AgentProperties.pollFastTarget)&&
-  Objects.equals(this.asyncRetries, objCC_AgentProperties.asyncRetries);
+  Objects.equals(this.asyncRetries, objCC_AgentProperties.asyncRetries)&&
+  Objects.equals(this.asyncRetriesDelay, objCC_AgentProperties.asyncRetriesDelay)&&
+  Objects.equals(this.vnicRetries, objCC_AgentProperties.vnicRetries)&&
+  Objects.equals(this.vnicRetriesDelay, objCC_AgentProperties.vnicRetriesDelay);
 }
 
 @Override

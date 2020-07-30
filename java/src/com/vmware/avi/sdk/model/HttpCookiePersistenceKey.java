@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HttpCookiePersistenceKey objHttpCookiePersistenceKey = (HttpCookiePersistenceKey) o;
-  return   Objects.equals(this.hmacKey, objHttpCookiePersistenceKey.hmacKey)&&
-  Objects.equals(this.name, objHttpCookiePersistenceKey.name)&&
-  Objects.equals(this.aesKey, objHttpCookiePersistenceKey.aesKey);
+  return   Objects.equals(this.name, objHttpCookiePersistenceKey.name)&&
+  Objects.equals(this.aesKey, objHttpCookiePersistenceKey.aesKey)&&
+  Objects.equals(this.hmacKey, objHttpCookiePersistenceKey.hmacKey);
 }
 
 @Override

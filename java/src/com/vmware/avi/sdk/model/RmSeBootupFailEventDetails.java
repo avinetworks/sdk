@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmSeBootupFailEventDetails objRmSeBootupFailEventDetails = (RmSeBootupFailEventDetails) o;
-  return   Objects.equals(this.seName, objRmSeBootupFailEventDetails.seName)&&
-  Objects.equals(this.reason, objRmSeBootupFailEventDetails.reason)&&
+  return   Objects.equals(this.reason, objRmSeBootupFailEventDetails.reason)&&
+  Objects.equals(this.seName, objRmSeBootupFailEventDetails.seName)&&
   Objects.equals(this.hostName, objRmSeBootupFailEventDetails.hostName);
 }
 

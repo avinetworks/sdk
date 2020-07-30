@@ -79,8 +79,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsClientIpMatch objDnsClientIpMatch = (DnsClientIpMatch) o;
-  return   Objects.equals(this.useEdnsClientSubnetIp, objDnsClientIpMatch.useEdnsClientSubnetIp)&&
-  Objects.equals(this.clientIp, objDnsClientIpMatch.clientIp);
+  return   Objects.equals(this.clientIp, objDnsClientIpMatch.clientIp)&&
+  Objects.equals(this.useEdnsClientSubnetIp, objDnsClientIpMatch.useEdnsClientSubnetIp);
 }
 
 @Override

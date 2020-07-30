@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IPPersistenceProfile objIPPersistenceProfile = (IPPersistenceProfile) o;
-  return   Objects.equals(this.ipMask, objIPPersistenceProfile.ipMask)&&
-  Objects.equals(this.ipPersistentTimeout, objIPPersistenceProfile.ipPersistentTimeout);
+  return   Objects.equals(this.ipPersistentTimeout, objIPPersistenceProfile.ipPersistentTimeout)&&
+  Objects.equals(this.ipMask, objIPPersistenceProfile.ipMask);
 }
 
 @Override

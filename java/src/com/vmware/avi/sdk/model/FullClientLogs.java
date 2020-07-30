@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   FullClientLogs objFullClientLogs = (FullClientLogs) o;
-  return   Objects.equals(this.duration, objFullClientLogs.duration)&&
+  return   Objects.equals(this.enabled, objFullClientLogs.enabled)&&
+  Objects.equals(this.duration, objFullClientLogs.duration)&&
   Objects.equals(this.allHeaders, objFullClientLogs.allHeaders)&&
-  Objects.equals(this.throttle, objFullClientLogs.throttle)&&
-  Objects.equals(this.enabled, objFullClientLogs.enabled);
+  Objects.equals(this.throttle, objFullClientLogs.throttle);
 }
 
 @Override

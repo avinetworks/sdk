@@ -197,14 +197,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SSLCertificateDescription objSSLCertificateDescription = (SSLCertificateDescription) o;
-  return   Objects.equals(this.locality, objSSLCertificateDescription.locality)&&
-  Objects.equals(this.distinguishedName, objSSLCertificateDescription.distinguishedName)&&
-  Objects.equals(this.country, objSSLCertificateDescription.country)&&
+  return   Objects.equals(this.commonName, objSSLCertificateDescription.commonName)&&
+  Objects.equals(this.emailAddress, objSSLCertificateDescription.emailAddress)&&
   Objects.equals(this.organizationUnit, objSSLCertificateDescription.organizationUnit)&&
-  Objects.equals(this.state, objSSLCertificateDescription.state)&&
-  Objects.equals(this.commonName, objSSLCertificateDescription.commonName)&&
   Objects.equals(this.organization, objSSLCertificateDescription.organization)&&
-  Objects.equals(this.emailAddress, objSSLCertificateDescription.emailAddress);
+  Objects.equals(this.locality, objSSLCertificateDescription.locality)&&
+  Objects.equals(this.state, objSSLCertificateDescription.state)&&
+  Objects.equals(this.country, objSSLCertificateDescription.country)&&
+  Objects.equals(this.distinguishedName, objSSLCertificateDescription.distinguishedName);
 }
 
 @Override

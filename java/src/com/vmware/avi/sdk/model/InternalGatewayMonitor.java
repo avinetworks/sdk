@@ -139,10 +139,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   InternalGatewayMonitor objInternalGatewayMonitor = (InternalGatewayMonitor) o;
-  return   Objects.equals(this.gatewayMonitorSuccessThreshold, objInternalGatewayMonitor.gatewayMonitorSuccessThreshold)&&
+  return   Objects.equals(this.gatewayMonitorInterval, objInternalGatewayMonitor.gatewayMonitorInterval)&&
   Objects.equals(this.gatewayMonitorFailureThreshold, objInternalGatewayMonitor.gatewayMonitorFailureThreshold)&&
-  Objects.equals(this.disableGatewayMonitor, objInternalGatewayMonitor.disableGatewayMonitor)&&
-  Objects.equals(this.gatewayMonitorInterval, objInternalGatewayMonitor.gatewayMonitorInterval);
+  Objects.equals(this.gatewayMonitorSuccessThreshold, objInternalGatewayMonitor.gatewayMonitorSuccessThreshold)&&
+  Objects.equals(this.disableGatewayMonitor, objInternalGatewayMonitor.disableGatewayMonitor);
 }
 
 @Override

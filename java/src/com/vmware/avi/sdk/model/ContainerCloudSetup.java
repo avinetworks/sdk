@@ -341,18 +341,18 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ContainerCloudSetup objContainerCloudSetup = (ContainerCloudSetup) o;
-  return   Objects.equals(this.missingHosts, objContainerCloudSetup.missingHosts)&&
-  Objects.equals(this.failedHosts, objContainerCloudSetup.failedHosts)&&
+  return   Objects.equals(this.ccId, objContainerCloudSetup.ccId)&&
+  Objects.equals(this.masterNodes, objContainerCloudSetup.masterNodes)&&
+  Objects.equals(this.cloudAccess, objContainerCloudSetup.cloudAccess)&&
+  Objects.equals(this.fleetEndpoint, objContainerCloudSetup.fleetEndpoint)&&
   Objects.equals(this.seDeployMethodAccess, objContainerCloudSetup.seDeployMethodAccess)&&
-  Objects.equals(this.hosts, objContainerCloudSetup.hosts)&&
   Objects.equals(this.reason, objContainerCloudSetup.reason)&&
   Objects.equals(this.version, objContainerCloudSetup.version)&&
-  Objects.equals(this.masterNodes, objContainerCloudSetup.masterNodes)&&
-  Objects.equals(this.fleetEndpoint, objContainerCloudSetup.fleetEndpoint)&&
-  Objects.equals(this.newHosts, objContainerCloudSetup.newHosts)&&
-  Objects.equals(this.cloudAccess, objContainerCloudSetup.cloudAccess)&&
   Objects.equals(this.seName, objContainerCloudSetup.seName)&&
-  Objects.equals(this.ccId, objContainerCloudSetup.ccId);
+  Objects.equals(this.hosts, objContainerCloudSetup.hosts)&&
+  Objects.equals(this.newHosts, objContainerCloudSetup.newHosts)&&
+  Objects.equals(this.missingHosts, objContainerCloudSetup.missingHosts)&&
+  Objects.equals(this.failedHosts, objContainerCloudSetup.failedHosts);
 }
 
 @Override

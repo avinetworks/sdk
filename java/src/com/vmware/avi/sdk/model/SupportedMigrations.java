@@ -263,15 +263,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SupportedMigrations objSupportedMigrations = (SupportedMigrations) o;
-  return   Objects.equals(this.seMinFreeDiskSize, objSupportedMigrations.seMinFreeDiskSize)&&
+  return   Objects.equals(this.apiVersion, objSupportedMigrations.apiVersion)&&
   Objects.equals(this.versions, objSupportedMigrations.versions)&&
-  Objects.equals(this.controllerMinFreeDiskSize, objSupportedMigrations.controllerMinFreeDiskSize)&&
-  Objects.equals(this.seHostMinFreeDiskSize, objSupportedMigrations.seHostMinFreeDiskSize)&&
-  Objects.equals(this.controllerHostMinFreeDiskSize, objSupportedMigrations.controllerHostMinFreeDiskSize)&&
-  Objects.equals(this.rollbackControllerDiskSpace, objSupportedMigrations.rollbackControllerDiskSpace)&&
   Objects.equals(this.maxActiveVersions, objSupportedMigrations.maxActiveVersions)&&
-  Objects.equals(this.rollbackSeDiskSpace, objSupportedMigrations.rollbackSeDiskSpace)&&
-  Objects.equals(this.apiVersion, objSupportedMigrations.apiVersion);
+  Objects.equals(this.controllerMinFreeDiskSize, objSupportedMigrations.controllerMinFreeDiskSize)&&
+  Objects.equals(this.seMinFreeDiskSize, objSupportedMigrations.seMinFreeDiskSize)&&
+  Objects.equals(this.controllerHostMinFreeDiskSize, objSupportedMigrations.controllerHostMinFreeDiskSize)&&
+  Objects.equals(this.seHostMinFreeDiskSize, objSupportedMigrations.seHostMinFreeDiskSize)&&
+  Objects.equals(this.rollbackControllerDiskSpace, objSupportedMigrations.rollbackControllerDiskSpace)&&
+  Objects.equals(this.rollbackSeDiskSpace, objSupportedMigrations.rollbackSeDiskSpace);
 }
 
 @Override

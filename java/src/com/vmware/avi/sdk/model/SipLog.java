@@ -182,12 +182,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SipLog objSipLog = (SipLog) o;
-  return   Objects.equals(this.sipContactHdr, objSipLog.sipContactHdr)&&
-  Objects.equals(this.sipToHdr, objSipLog.sipToHdr)&&
+  return   Objects.equals(this.sipMessages, objSipLog.sipMessages)&&
+  Objects.equals(this.serverProtocol, objSipLog.serverProtocol)&&
   Objects.equals(this.sipCallidHdr, objSipLog.sipCallidHdr)&&
-  Objects.equals(this.sipMessages, objSipLog.sipMessages)&&
   Objects.equals(this.sipFromHdr, objSipLog.sipFromHdr)&&
-  Objects.equals(this.serverProtocol, objSipLog.serverProtocol);
+  Objects.equals(this.sipToHdr, objSipLog.sipToHdr)&&
+  Objects.equals(this.sipContactHdr, objSipLog.sipContactHdr);
 }
 
 @Override

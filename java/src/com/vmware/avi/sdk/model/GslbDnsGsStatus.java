@@ -150,10 +150,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbDnsGsStatus objGslbDnsGsStatus = (GslbDnsGsStatus) o;
-  return   Objects.equals(this.state, objGslbDnsGsStatus.state)&&
-  Objects.equals(this.type, objGslbDnsGsStatus.type)&&
-  Objects.equals(this.numPartialUpdates, objGslbDnsGsStatus.numPartialUpdates)&&
+  return   Objects.equals(this.type, objGslbDnsGsStatus.type)&&
   Objects.equals(this.lastChangedTime, objGslbDnsGsStatus.lastChangedTime)&&
+  Objects.equals(this.state, objGslbDnsGsStatus.state)&&
+  Objects.equals(this.numPartialUpdates, objGslbDnsGsStatus.numPartialUpdates)&&
   Objects.equals(this.partialUpdateThreshold, objGslbDnsGsStatus.partialUpdateThreshold);
 }
 

@@ -158,11 +158,11 @@ public boolean equals(java.lang.Object o) {
   }
   OpenstackLogin objOpenstackLogin = (OpenstackLogin) o;
   return   Objects.equals(this.username, objOpenstackLogin.username)&&
-  Objects.equals(this.region, objOpenstackLogin.region)&&
-  Objects.equals(this.keystoneHost, objOpenstackLogin.keystoneHost)&&
-  Objects.equals(this.authUrl, objOpenstackLogin.authUrl)&&
   Objects.equals(this.password, objOpenstackLogin.password)&&
-  Objects.equals(this.adminTenant, objOpenstackLogin.adminTenant);
+  Objects.equals(this.adminTenant, objOpenstackLogin.adminTenant)&&
+  Objects.equals(this.keystoneHost, objOpenstackLogin.keystoneHost)&&
+  Objects.equals(this.region, objOpenstackLogin.region)&&
+  Objects.equals(this.authUrl, objOpenstackLogin.authUrl);
 }
 
 @Override

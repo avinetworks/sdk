@@ -173,10 +173,10 @@ public boolean equals(java.lang.Object o) {
   DnsRuleMatchTarget objDnsRuleMatchTarget = (DnsRuleMatchTarget) o;
   return   Objects.equals(this.clientIp, objDnsRuleMatchTarget.clientIp)&&
   Objects.equals(this.protocol, objDnsRuleMatchTarget.protocol)&&
-  Objects.equals(this.clientIpAddress, objDnsRuleMatchTarget.clientIpAddress)&&
+  Objects.equals(this.queryName, objDnsRuleMatchTarget.queryName)&&
   Objects.equals(this.queryType, objDnsRuleMatchTarget.queryType)&&
   Objects.equals(this.geoLocation, objDnsRuleMatchTarget.geoLocation)&&
-  Objects.equals(this.queryName, objDnsRuleMatchTarget.queryName);
+  Objects.equals(this.clientIpAddress, objDnsRuleMatchTarget.clientIpAddress);
 }
 
 @Override

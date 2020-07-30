@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeVersion objSeVersion = (SeVersion) o;
-  return   Objects.equals(this.version, objSeVersion.version)&&
-  Objects.equals(this.name, objSeVersion.name)&&
+  return   Objects.equals(this.name, objSeVersion.name)&&
+  Objects.equals(this.version, objSeVersion.version)&&
   Objects.equals(this.patch, objSeVersion.patch);
 }
 

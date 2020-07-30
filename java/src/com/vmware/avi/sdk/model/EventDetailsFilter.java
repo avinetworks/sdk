@@ -94,8 +94,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   EventDetailsFilter objEventDetailsFilter = (EventDetailsFilter) o;
-  return   Objects.equals(this.eventDetailsValue, objEventDetailsFilter.eventDetailsValue)&&
-  Objects.equals(this.eventDetailsKey, objEventDetailsFilter.eventDetailsKey)&&
+  return   Objects.equals(this.eventDetailsKey, objEventDetailsFilter.eventDetailsKey)&&
+  Objects.equals(this.eventDetailsValue, objEventDetailsFilter.eventDetailsValue)&&
   Objects.equals(this.comparator, objEventDetailsFilter.comparator);
 }
 

@@ -190,13 +190,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GCPCloudRouterUpdate objGCPCloudRouterUpdate = (GCPCloudRouterUpdate) o;
-  return   Objects.equals(this.fip, objGCPCloudRouterUpdate.fip)&&
-  Objects.equals(this.errorString, objGCPCloudRouterUpdate.errorString)&&
-  Objects.equals(this.routerUrl, objGCPCloudRouterUpdate.routerUrl)&&
-  Objects.equals(this.vip, objGCPCloudRouterUpdate.vip)&&
+  return   Objects.equals(this.ccId, objGCPCloudRouterUpdate.ccId)&&
   Objects.equals(this.vsUuid, objGCPCloudRouterUpdate.vsUuid)&&
-  Objects.equals(this.action, objGCPCloudRouterUpdate.action)&&
-  Objects.equals(this.ccId, objGCPCloudRouterUpdate.ccId);
+  Objects.equals(this.errorString, objGCPCloudRouterUpdate.errorString)&&
+  Objects.equals(this.vip, objGCPCloudRouterUpdate.vip)&&
+  Objects.equals(this.fip, objGCPCloudRouterUpdate.fip)&&
+  Objects.equals(this.routerUrl, objGCPCloudRouterUpdate.routerUrl)&&
+  Objects.equals(this.action, objGCPCloudRouterUpdate.action);
 }
 
 @Override

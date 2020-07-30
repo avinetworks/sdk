@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeGatewayHeartbeatSuccessDetails objSeGatewayHeartbeatSuccessDetails = (SeGatewayHeartbeatSuccessDetails) o;
-  return   Objects.equals(this.vrfUuid, objSeGatewayHeartbeatSuccessDetails.vrfUuid)&&
+  return   Objects.equals(this.gatewayIp, objSeGatewayHeartbeatSuccessDetails.gatewayIp)&&
   Objects.equals(this.vrfName, objSeGatewayHeartbeatSuccessDetails.vrfName)&&
-  Objects.equals(this.gatewayIp, objSeGatewayHeartbeatSuccessDetails.gatewayIp);
+  Objects.equals(this.vrfUuid, objSeGatewayHeartbeatSuccessDetails.vrfUuid);
 }
 
 @Override

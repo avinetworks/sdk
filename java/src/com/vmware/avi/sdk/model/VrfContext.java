@@ -394,20 +394,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VrfContext objVrfContext = (VrfContext) o;
-  return   Objects.equals(this.cloudRef, objVrfContext.cloudRef)&&
-  Objects.equals(this.bfdProfile, objVrfContext.bfdProfile)&&
-  Objects.equals(this.uuid, objVrfContext.uuid)&&
+  return   Objects.equals(this.uuid, objVrfContext.uuid)&&
+  Objects.equals(this.name, objVrfContext.name)&&
   Objects.equals(this.staticRoutes, objVrfContext.staticRoutes)&&
-  Objects.equals(this.description, objVrfContext.description)&&
-  Objects.equals(this.labels, objVrfContext.labels)&&
-  Objects.equals(this.lldpEnable, objVrfContext.lldpEnable)&&
-  Objects.equals(this.tenantRef, objVrfContext.tenantRef)&&
+  Objects.equals(this.bgpProfile, objVrfContext.bgpProfile)&&
   Objects.equals(this.systemDefault, objVrfContext.systemDefault)&&
   Objects.equals(this.gatewayMon, objVrfContext.gatewayMon)&&
   Objects.equals(this.internalGatewayMonitor, objVrfContext.internalGatewayMonitor)&&
   Objects.equals(this.debugvrfcontext, objVrfContext.debugvrfcontext)&&
-  Objects.equals(this.bgpProfile, objVrfContext.bgpProfile)&&
-  Objects.equals(this.name, objVrfContext.name);
+  Objects.equals(this.labels, objVrfContext.labels)&&
+  Objects.equals(this.bfdProfile, objVrfContext.bfdProfile)&&
+  Objects.equals(this.lldpEnable, objVrfContext.lldpEnable)&&
+  Objects.equals(this.description, objVrfContext.description)&&
+  Objects.equals(this.tenantRef, objVrfContext.tenantRef)&&
+  Objects.equals(this.cloudRef, objVrfContext.cloudRef);
 }
 
 @Override

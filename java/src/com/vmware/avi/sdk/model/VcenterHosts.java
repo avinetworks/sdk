@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VcenterHosts objVcenterHosts = (VcenterHosts) o;
-  return   Objects.equals(this.include, objVcenterHosts.include)&&
-  Objects.equals(this.hostRefs, objVcenterHosts.hostRefs);
+  return   Objects.equals(this.hostRefs, objVcenterHosts.hostRefs)&&
+  Objects.equals(this.include, objVcenterHosts.include);
 }
 
 @Override

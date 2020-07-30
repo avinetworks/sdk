@@ -188,13 +188,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VISetvNicNwReq objVISetvNicNwReq = (VISetvNicNwReq) o;
-  return   Objects.equals(this.vcenterVnicInfo, objVISetvNicNwReq.vcenterVnicInfo)&&
-  Objects.equals(this.vcenterSevmMor, objVISetvNicNwReq.vcenterSevmMor)&&
-  Objects.equals(this.sevmUuid, objVISetvNicNwReq.sevmUuid)&&
-  Objects.equals(this.rmCookie, objVISetvNicNwReq.rmCookie)&&
-  Objects.equals(this.dcUuid, objVISetvNicNwReq.dcUuid)&&
+  return   Objects.equals(this.sevmUuid, objVISetvNicNwReq.sevmUuid)&&
+  Objects.equals(this.cloudUuid, objVISetvNicNwReq.cloudUuid)&&
   Objects.equals(this.vcenterAdmin, objVISetvNicNwReq.vcenterAdmin)&&
-  Objects.equals(this.cloudUuid, objVISetvNicNwReq.cloudUuid);
+  Objects.equals(this.dcUuid, objVISetvNicNwReq.dcUuid)&&
+  Objects.equals(this.vcenterVnicInfo, objVISetvNicNwReq.vcenterVnicInfo)&&
+  Objects.equals(this.vcenterSevmMor, objVISetvNicNwReq.vcenterSevmMor)&&
+  Objects.equals(this.rmCookie, objVISetvNicNwReq.rmCookie);
 }
 
 @Override

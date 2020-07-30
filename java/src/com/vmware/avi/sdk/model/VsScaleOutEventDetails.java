@@ -209,14 +209,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsScaleOutEventDetails objVsScaleOutEventDetails = (VsScaleOutEventDetails) o;
-  return   Objects.equals(this.rpcStatus, objVsScaleOutEventDetails.rpcStatus)&&
+  return   Objects.equals(this.vsUuid, objVsScaleOutEventDetails.vsUuid)&&
   Objects.equals(this.seRequested, objVsScaleOutEventDetails.seRequested)&&
+  Objects.equals(this.seAssigned, objVsScaleOutEventDetails.seAssigned)&&
+  Objects.equals(this.rpcStatus, objVsScaleOutEventDetails.rpcStatus)&&
+  Objects.equals(this.errorMessage, objVsScaleOutEventDetails.errorMessage)&&
   Objects.equals(this.scaleStatus, objVsScaleOutEventDetails.scaleStatus)&&
   Objects.equals(this.ip, objVsScaleOutEventDetails.ip)&&
-  Objects.equals(this.errorMessage, objVsScaleOutEventDetails.errorMessage)&&
-  Objects.equals(this.vsUuid, objVsScaleOutEventDetails.vsUuid)&&
-  Objects.equals(this.ip6, objVsScaleOutEventDetails.ip6)&&
-  Objects.equals(this.seAssigned, objVsScaleOutEventDetails.seAssigned);
+  Objects.equals(this.ip6, objVsScaleOutEventDetails.ip6);
 }
 
 @Override

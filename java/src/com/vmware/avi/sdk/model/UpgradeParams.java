@@ -219,13 +219,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   UpgradeParams objUpgradeParams = (UpgradeParams) o;
-  return   Objects.equals(this.seGroupOptions, objUpgradeParams.seGroupOptions)&&
+  return   Objects.equals(this.imageRef, objUpgradeParams.imageRef)&&
   Objects.equals(this.controllerPatchRef, objUpgradeParams.controllerPatchRef)&&
-  Objects.equals(this.system, objUpgradeParams.system)&&
   Objects.equals(this.sePatchRef, objUpgradeParams.sePatchRef)&&
-  Objects.equals(this.imageRef, objUpgradeParams.imageRef)&&
-  Objects.equals(this.skipWarnings, objUpgradeParams.skipWarnings)&&
-  Objects.equals(this.seGroupRefs, objUpgradeParams.seGroupRefs);
+  Objects.equals(this.system, objUpgradeParams.system)&&
+  Objects.equals(this.seGroupOptions, objUpgradeParams.seGroupOptions)&&
+  Objects.equals(this.seGroupRefs, objUpgradeParams.seGroupRefs)&&
+  Objects.equals(this.skipWarnings, objUpgradeParams.skipWarnings);
 }
 
 @Override

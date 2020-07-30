@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthTacacsPlusAttributeValuePair objAuthTacacsPlusAttributeValuePair = (AuthTacacsPlusAttributeValuePair) o;
-  return   Objects.equals(this.mandatory, objAuthTacacsPlusAttributeValuePair.mandatory)&&
-  Objects.equals(this.name, objAuthTacacsPlusAttributeValuePair.name)&&
-  Objects.equals(this.value, objAuthTacacsPlusAttributeValuePair.value);
+  return   Objects.equals(this.name, objAuthTacacsPlusAttributeValuePair.name)&&
+  Objects.equals(this.value, objAuthTacacsPlusAttributeValuePair.value)&&
+  Objects.equals(this.mandatory, objAuthTacacsPlusAttributeValuePair.mandatory);
 }
 
 @Override

@@ -73,8 +73,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Tag objTag = (Tag) o;
-  return   Objects.equals(this.type, objTag.type)&&
-  Objects.equals(this.value, objTag.value);
+  return   Objects.equals(this.value, objTag.value)&&
+  Objects.equals(this.type, objTag.type);
 }
 
 @Override

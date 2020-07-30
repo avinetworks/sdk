@@ -116,9 +116,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RollbackPatchSeGroupParams objRollbackPatchSeGroupParams = (RollbackPatchSeGroupParams) o;
-  return   Objects.equals(this.skipWarnings, objRollbackPatchSeGroupParams.skipWarnings)&&
-  Objects.equals(this.seGroupOptions, objRollbackPatchSeGroupParams.seGroupOptions)&&
-  Objects.equals(this.seGroupRefs, objRollbackPatchSeGroupParams.seGroupRefs);
+  return   Objects.equals(this.seGroupRefs, objRollbackPatchSeGroupParams.seGroupRefs)&&
+  Objects.equals(this.skipWarnings, objRollbackPatchSeGroupParams.skipWarnings)&&
+  Objects.equals(this.seGroupOptions, objRollbackPatchSeGroupParams.seGroupOptions);
 }
 
 @Override

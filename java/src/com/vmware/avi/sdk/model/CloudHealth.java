@@ -178,13 +178,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudHealth objCloudHealth = (CloudHealth) o;
-  return   Objects.equals(this.vtype, objCloudHealth.vtype)&&
+  return   Objects.equals(this.ccId, objCloudHealth.ccId)&&
+  Objects.equals(this.vtype, objCloudHealth.vtype)&&
   Objects.equals(this.errorString, objCloudHealth.errorString)&&
-  Objects.equals(this.lastFail, objCloudHealth.lastFail)&&
-  Objects.equals(this.ccId, objCloudHealth.ccId)&&
   Objects.equals(this.numFails, objCloudHealth.numFails)&&
-  Objects.equals(this.lastOk, objCloudHealth.lastOk)&&
-  Objects.equals(this.firstFail, objCloudHealth.firstFail);
+  Objects.equals(this.firstFail, objCloudHealth.firstFail)&&
+  Objects.equals(this.lastFail, objCloudHealth.lastFail)&&
+  Objects.equals(this.lastOk, objCloudHealth.lastOk);
 }
 
 @Override

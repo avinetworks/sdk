@@ -126,8 +126,8 @@ public boolean equals(java.lang.Object o) {
   }
   AllSeUpgradeEventDetails objAllSeUpgradeEventDetails = (AllSeUpgradeEventDetails) o;
   return   Objects.equals(this.numSe, objAllSeUpgradeEventDetails.numSe)&&
-  Objects.equals(this.notes, objAllSeUpgradeEventDetails.notes)&&
   Objects.equals(this.numVs, objAllSeUpgradeEventDetails.numVs)&&
+  Objects.equals(this.notes, objAllSeUpgradeEventDetails.notes)&&
   Objects.equals(this.request, objAllSeUpgradeEventDetails.request);
 }
 

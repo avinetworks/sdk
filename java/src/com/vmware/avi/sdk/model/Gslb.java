@@ -532,23 +532,23 @@ public boolean equals(java.lang.Object o) {
   }
   Gslb objGslb = (Gslb) o;
   return   Objects.equals(this.uuid, objGslb.uuid)&&
-  Objects.equals(this.tenantRef, objGslb.tenantRef)&&
-  Objects.equals(this.maintenanceMode, objGslb.maintenanceMode)&&
-  Objects.equals(this.viewId, objGslb.viewId)&&
-  Objects.equals(this.description, objGslb.description)&&
-  Objects.equals(this.thirdPartySites, objGslb.thirdPartySites)&&
-  Objects.equals(this.sites, objGslb.sites)&&
-  Objects.equals(this.clientIpAddrGroup, objGslb.clientIpAddrGroup)&&
-  Objects.equals(this.errorResyncInterval, objGslb.errorResyncInterval)&&
-  Objects.equals(this.sendInterval, objGslb.sendInterval)&&
+  Objects.equals(this.name, objGslb.name)&&
   Objects.equals(this.dnsConfigs, objGslb.dnsConfigs)&&
-  Objects.equals(this.isFederated, objGslb.isFederated)&&
-  Objects.equals(this.replicationPolicy, objGslb.replicationPolicy)&&
+  Objects.equals(this.sites, objGslb.sites)&&
   Objects.equals(this.leaderClusterUuid, objGslb.leaderClusterUuid)&&
-  Objects.equals(this.asyncInterval, objGslb.asyncInterval)&&
+  Objects.equals(this.sendInterval, objGslb.sendInterval)&&
   Objects.equals(this.clearOnMaxRetries, objGslb.clearOnMaxRetries)&&
+  Objects.equals(this.viewId, objGslb.viewId)&&
+  Objects.equals(this.thirdPartySites, objGslb.thirdPartySites)&&
+  Objects.equals(this.clientIpAddrGroup, objGslb.clientIpAddrGroup)&&
+  Objects.equals(this.asyncInterval, objGslb.asyncInterval)&&
+  Objects.equals(this.errorResyncInterval, objGslb.errorResyncInterval)&&
+  Objects.equals(this.replicationPolicy, objGslb.replicationPolicy)&&
   Objects.equals(this.sendIntervalPriorToMaintenanceMode, objGslb.sendIntervalPriorToMaintenanceMode)&&
-  Objects.equals(this.name, objGslb.name);
+  Objects.equals(this.maintenanceMode, objGslb.maintenanceMode)&&
+  Objects.equals(this.isFederated, objGslb.isFederated)&&
+  Objects.equals(this.description, objGslb.description)&&
+  Objects.equals(this.tenantRef, objGslb.tenantRef);
 }
 
 @Override

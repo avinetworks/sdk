@@ -166,11 +166,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Application objApplication = (Application) o;
-  return   Objects.equals(this.description, objApplication.description)&&
-  Objects.equals(this.virtualserviceRefs, objApplication.virtualserviceRefs)&&
+  return   Objects.equals(this.uuid, objApplication.uuid)&&
   Objects.equals(this.name, objApplication.name)&&
-  Objects.equals(this.tenantRef, objApplication.tenantRef)&&
-  Objects.equals(this.uuid, objApplication.uuid);
+  Objects.equals(this.virtualserviceRefs, objApplication.virtualserviceRefs)&&
+  Objects.equals(this.description, objApplication.description)&&
+  Objects.equals(this.tenantRef, objApplication.tenantRef);
 }
 
 @Override

@@ -148,11 +148,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPServerReselect objHTTPServerReselect = (HTTPServerReselect) o;
-  return   Objects.equals(this.retryNonidempotent, objHTTPServerReselect.retryNonidempotent)&&
+  return   Objects.equals(this.enabled, objHTTPServerReselect.enabled)&&
   Objects.equals(this.svrRespCode, objHTTPServerReselect.svrRespCode)&&
   Objects.equals(this.numRetries, objHTTPServerReselect.numRetries)&&
-  Objects.equals(this.retryTimeout, objHTTPServerReselect.retryTimeout)&&
-  Objects.equals(this.enabled, objHTTPServerReselect.enabled);
+  Objects.equals(this.retryNonidempotent, objHTTPServerReselect.retryNonidempotent)&&
+  Objects.equals(this.retryTimeout, objHTTPServerReselect.retryTimeout);
 }
 
 @Override

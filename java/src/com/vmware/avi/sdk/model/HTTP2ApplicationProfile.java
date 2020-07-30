@@ -44,7 +44,7 @@ public class HTTP2ApplicationProfile  {
    * This is the getter method this will return the attribute value.
    * The initial flow control window size in kb for http/2 streams.
    * Allowed values are 64-32768.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 64.
    * @return http2InitialWindowSize
    */
@@ -56,7 +56,7 @@ public class HTTP2ApplicationProfile  {
    * This is the setter method to the attribute.
    * The initial flow control window size in kb for http/2 streams.
    * Allowed values are 64-32768.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 64.
    * @param http2InitialWindowSize set the http2InitialWindowSize.
    */
@@ -68,7 +68,7 @@ public class HTTP2ApplicationProfile  {
    * This is the getter method this will return the attribute value.
    * The max number of concurrent streams over a client side http/2 connection.
    * Allowed values are 1-256.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 128.
    * @return maxHttp2ConcurrentStreamsPerConnection
    */
@@ -80,7 +80,7 @@ public class HTTP2ApplicationProfile  {
    * This is the setter method to the attribute.
    * The max number of concurrent streams over a client side http/2 connection.
    * Allowed values are 1-256.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 128.
    * @param maxHttp2ConcurrentStreamsPerConnection set the maxHttp2ConcurrentStreamsPerConnection.
    */
@@ -94,7 +94,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited control frames on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @return maxHttp2ControlFramesPerConnection
    */
@@ -108,7 +108,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited control frames on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @param maxHttp2ControlFramesPerConnection set the maxHttp2ControlFramesPerConnection.
    */
@@ -122,7 +122,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited empty data frames over a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @return maxHttp2EmptyDataFramesPerConnection
    */
@@ -136,7 +136,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited empty data frames over a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @param maxHttp2EmptyDataFramesPerConnection set the maxHttp2EmptyDataFramesPerConnection.
    */
@@ -149,7 +149,7 @@ public class HTTP2ApplicationProfile  {
    * The maximum size in bytes of the compressed request header field.
    * The limit applies equally to both name and value.
    * Allowed values are 1-8192.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 4096.
    * @return maxHttp2HeaderFieldSize
    */
@@ -162,7 +162,7 @@ public class HTTP2ApplicationProfile  {
    * The maximum size in bytes of the compressed request header field.
    * The limit applies equally to both name and value.
    * Allowed values are 1-8192.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 4096.
    * @param maxHttp2HeaderFieldSize set the maxHttp2HeaderFieldSize.
    */
@@ -176,7 +176,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited frames can be queued on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @return maxHttp2QueuedFramesToClientPerConnection
    */
@@ -190,7 +190,7 @@ public class HTTP2ApplicationProfile  {
    * '0' means unlimited.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited frames can be queued on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @param maxHttp2QueuedFramesToClientPerConnection set the maxHttp2QueuedFramesToClientPerConnection.
    */
@@ -203,7 +203,7 @@ public class HTTP2ApplicationProfile  {
    * The maximum number of requests over a client side http/2 connection.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited requests on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @return maxHttp2RequestsPerConnection
    */
@@ -216,7 +216,7 @@ public class HTTP2ApplicationProfile  {
    * The maximum number of requests over a client side http/2 connection.
    * Allowed values are 0-10000.
    * Special values are 0- 'unlimited requests on a client side http/2 connection'.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as 1000.
    * @param maxHttp2RequestsPerConnection set the maxHttp2RequestsPerConnection.
    */
@@ -234,12 +234,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTP2ApplicationProfile objHTTP2ApplicationProfile = (HTTP2ApplicationProfile) o;
-  return   Objects.equals(this.maxHttp2RequestsPerConnection, objHTTP2ApplicationProfile.maxHttp2RequestsPerConnection)&&
+  return   Objects.equals(this.maxHttp2ControlFramesPerConnection, objHTTP2ApplicationProfile.maxHttp2ControlFramesPerConnection)&&
   Objects.equals(this.maxHttp2QueuedFramesToClientPerConnection, objHTTP2ApplicationProfile.maxHttp2QueuedFramesToClientPerConnection)&&
-  Objects.equals(this.maxHttp2HeaderFieldSize, objHTTP2ApplicationProfile.maxHttp2HeaderFieldSize)&&
-  Objects.equals(this.maxHttp2ControlFramesPerConnection, objHTTP2ApplicationProfile.maxHttp2ControlFramesPerConnection)&&
-  Objects.equals(this.maxHttp2ConcurrentStreamsPerConnection, objHTTP2ApplicationProfile.maxHttp2ConcurrentStreamsPerConnection)&&
   Objects.equals(this.maxHttp2EmptyDataFramesPerConnection, objHTTP2ApplicationProfile.maxHttp2EmptyDataFramesPerConnection)&&
+  Objects.equals(this.maxHttp2ConcurrentStreamsPerConnection, objHTTP2ApplicationProfile.maxHttp2ConcurrentStreamsPerConnection)&&
+  Objects.equals(this.maxHttp2RequestsPerConnection, objHTTP2ApplicationProfile.maxHttp2RequestsPerConnection)&&
+  Objects.equals(this.maxHttp2HeaderFieldSize, objHTTP2ApplicationProfile.maxHttp2HeaderFieldSize)&&
   Objects.equals(this.http2InitialWindowSize, objHTTP2ApplicationProfile.http2InitialWindowSize);
 }
 

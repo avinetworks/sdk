@@ -233,14 +233,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DNSRegisterInfo objDNSRegisterInfo = (DNSRegisterInfo) o;
-  return   Objects.equals(this.fip, objDNSRegisterInfo.fip)&&
-  Objects.equals(this.vsNames, objDNSRegisterInfo.vsNames)&&
-  Objects.equals(this.vipId, objDNSRegisterInfo.vipId)&&
-  Objects.equals(this.dnsInfo, objDNSRegisterInfo.dnsInfo)&&
+  return   Objects.equals(this.vipId, objDNSRegisterInfo.vipId)&&
+  Objects.equals(this.vsUuids, objDNSRegisterInfo.vsUuids)&&
   Objects.equals(this.vip, objDNSRegisterInfo.vip)&&
+  Objects.equals(this.fip, objDNSRegisterInfo.fip)&&
+  Objects.equals(this.dnsInfo, objDNSRegisterInfo.dnsInfo)&&
+  Objects.equals(this.vsNames, objDNSRegisterInfo.vsNames)&&
   Objects.equals(this.error, objDNSRegisterInfo.error)&&
-  Objects.equals(this.totalRecords, objDNSRegisterInfo.totalRecords)&&
-  Objects.equals(this.vsUuids, objDNSRegisterInfo.vsUuids);
+  Objects.equals(this.totalRecords, objDNSRegisterInfo.totalRecords);
 }
 
 @Override

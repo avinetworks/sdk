@@ -870,41 +870,41 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeBootupProperties objSeBootupProperties = (SeBootupProperties) o;
-  return   Objects.equals(this.distributeQueues, objSeBootupProperties.distributeQueues)&&
-  Objects.equals(this.seDpdkPmd, objSeBootupProperties.seDpdkPmd)&&
-  Objects.equals(this.sePcapPktCount, objSeBootupProperties.sePcapPktCount)&&
-  Objects.equals(this.dockerBackendPortstart, objSeBootupProperties.dockerBackendPortstart)&&
-  Objects.equals(this.seLogBufferChunkCount, objSeBootupProperties.seLogBufferChunkCount)&&
+  return   Objects.equals(this.tcpSyncacheHashsize, objSeBootupProperties.tcpSyncacheHashsize)&&
+  Objects.equals(this.logAgentTraceEnabled, objSeBootupProperties.logAgentTraceEnabled)&&
+  Objects.equals(this.logAgentDebugEnabled, objSeBootupProperties.logAgentDebugEnabled)&&
+  Objects.equals(this.seEmulatedCores, objSeBootupProperties.seEmulatedCores)&&
+  Objects.equals(this.seTxBatchSize, objSeBootupProperties.seTxBatchSize)&&
+  Objects.equals(this.l7ConnsPerCore, objSeBootupProperties.l7ConnsPerCore)&&
+  Objects.equals(this.sslSessCachePerVs, objSeBootupProperties.sslSessCachePerVs)&&
+  Objects.equals(this.l7ResvdListenConnsPerCore, objSeBootupProperties.l7ResvdListenConnsPerCore)&&
+  Objects.equals(this.sslSessCacheTimeout, objSeBootupProperties.sslSessCacheTimeout)&&
+  Objects.equals(this.seLro, objSeBootupProperties.seLro)&&
+  Objects.equals(this.seRumSamplingNavPercent, objSeBootupProperties.seRumSamplingNavPercent)&&
+  Objects.equals(this.seRumSamplingResPercent, objSeBootupProperties.seRumSamplingResPercent)&&
+  Objects.equals(this.seRumSamplingNavInterval, objSeBootupProperties.seRumSamplingNavInterval)&&
   Objects.equals(this.seRumSamplingResInterval, objSeBootupProperties.seRumSamplingResInterval)&&
   Objects.equals(this.seDpCompression, objSeBootupProperties.seDpCompression)&&
+  Objects.equals(this.seDpdkPmd, objSeBootupProperties.seDpdkPmd)&&
   Objects.equals(this.seTunnelMode, objSeBootupProperties.seTunnelMode)&&
-  Objects.equals(this.seRumSamplingNavPercent, objSeBootupProperties.seRumSamplingNavPercent)&&
   Objects.equals(this.seUseDpdk, objSeBootupProperties.seUseDpdk)&&
-  Objects.equals(this.seEmulatedCores, objSeBootupProperties.seEmulatedCores)&&
-  Objects.equals(this.distributeVnics, objSeBootupProperties.distributeVnics)&&
-  Objects.equals(this.seLogBufferConnBlockingDequeue, objSeBootupProperties.seLogBufferConnBlockingDequeue)&&
-  Objects.equals(this.seLro, objSeBootupProperties.seLro)&&
-  Objects.equals(this.l7ResvdListenConnsPerCore, objSeBootupProperties.l7ResvdListenConnsPerCore)&&
-  Objects.equals(this.seLogBufferConnlogSize, objSeBootupProperties.seLogBufferConnlogSize)&&
-  Objects.equals(this.dockerBackendPortend, objSeBootupProperties.dockerBackendPortend)&&
-  Objects.equals(this.seRumSamplingNavInterval, objSeBootupProperties.seRumSamplingNavInterval)&&
-  Objects.equals(this.seLogBufferEventsBlockingDequeue, objSeBootupProperties.seLogBufferEventsBlockingDequeue)&&
-  Objects.equals(this.tcpSyncacheHashsize, objSeBootupProperties.tcpSyncacheHashsize)&&
-  Objects.equals(this.seTxBatchSize, objSeBootupProperties.seTxBatchSize)&&
-  Objects.equals(this.sePcapPktSz, objSeBootupProperties.sePcapPktSz)&&
-  Objects.equals(this.geoDbGranularity, objSeBootupProperties.geoDbGranularity)&&
-  Objects.equals(this.seLogBufferAppBlockingDequeue, objSeBootupProperties.seLogBufferAppBlockingDequeue)&&
-  Objects.equals(this.fairQueueingEnabled, objSeBootupProperties.fairQueueingEnabled)&&
-  Objects.equals(this.logAgentDebugEnabled, objSeBootupProperties.logAgentDebugEnabled)&&
-  Objects.equals(this.seIpEncapIpc, objSeBootupProperties.seIpEncapIpc)&&
+  Objects.equals(this.seLogBufferChunkCount, objSeBootupProperties.seLogBufferChunkCount)&&
   Objects.equals(this.seLogBufferApplogSize, objSeBootupProperties.seLogBufferApplogSize)&&
-  Objects.equals(this.seRumSamplingResPercent, objSeBootupProperties.seRumSamplingResPercent)&&
+  Objects.equals(this.seLogBufferConnlogSize, objSeBootupProperties.seLogBufferConnlogSize)&&
   Objects.equals(this.seLogBufferEventsSize, objSeBootupProperties.seLogBufferEventsSize)&&
-  Objects.equals(this.sslSessCacheTimeout, objSeBootupProperties.sslSessCacheTimeout)&&
+  Objects.equals(this.seIpEncapIpc, objSeBootupProperties.seIpEncapIpc)&&
+  Objects.equals(this.seLogBufferAppBlockingDequeue, objSeBootupProperties.seLogBufferAppBlockingDequeue)&&
+  Objects.equals(this.seLogBufferConnBlockingDequeue, objSeBootupProperties.seLogBufferConnBlockingDequeue)&&
+  Objects.equals(this.seLogBufferEventsBlockingDequeue, objSeBootupProperties.seLogBufferEventsBlockingDequeue)&&
+  Objects.equals(this.sePcapPktSz, objSeBootupProperties.sePcapPktSz)&&
+  Objects.equals(this.sePcapPktCount, objSeBootupProperties.sePcapPktCount)&&
+  Objects.equals(this.fairQueueingEnabled, objSeBootupProperties.fairQueueingEnabled)&&
+  Objects.equals(this.dockerBackendPortstart, objSeBootupProperties.dockerBackendPortstart)&&
+  Objects.equals(this.dockerBackendPortend, objSeBootupProperties.dockerBackendPortend)&&
+  Objects.equals(this.distributeVnics, objSeBootupProperties.distributeVnics)&&
   Objects.equals(this.seL3EncapIpc, objSeBootupProperties.seL3EncapIpc)&&
-  Objects.equals(this.sslSessCachePerVs, objSeBootupProperties.sslSessCachePerVs)&&
-  Objects.equals(this.logAgentTraceEnabled, objSeBootupProperties.logAgentTraceEnabled)&&
-  Objects.equals(this.l7ConnsPerCore, objSeBootupProperties.l7ConnsPerCore);
+  Objects.equals(this.distributeQueues, objSeBootupProperties.distributeQueues)&&
+  Objects.equals(this.geoDbGranularity, objSeBootupProperties.geoDbGranularity);
 }
 
 @Override

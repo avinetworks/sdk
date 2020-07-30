@@ -187,12 +187,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PriorityLabels objPriorityLabels = (PriorityLabels) o;
-  return   Objects.equals(this.description, objPriorityLabels.description)&&
+  return   Objects.equals(this.uuid, objPriorityLabels.uuid)&&
   Objects.equals(this.name, objPriorityLabels.name)&&
   Objects.equals(this.equivalentLabels, objPriorityLabels.equivalentLabels)&&
+  Objects.equals(this.description, objPriorityLabels.description)&&
   Objects.equals(this.tenantRef, objPriorityLabels.tenantRef)&&
-  Objects.equals(this.cloudRef, objPriorityLabels.cloudRef)&&
-  Objects.equals(this.uuid, objPriorityLabels.uuid);
+  Objects.equals(this.cloudRef, objPriorityLabels.cloudRef);
 }
 
 @Override

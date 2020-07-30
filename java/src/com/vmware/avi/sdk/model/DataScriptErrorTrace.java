@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DataScriptErrorTrace objDataScriptErrorTrace = (DataScriptErrorTrace) o;
-  return   Objects.equals(this.stackTrace, objDataScriptErrorTrace.stackTrace)&&
-  Objects.equals(this.event, objDataScriptErrorTrace.event)&&
-  Objects.equals(this.error, objDataScriptErrorTrace.error);
+  return   Objects.equals(this.error, objDataScriptErrorTrace.error)&&
+  Objects.equals(this.stackTrace, objDataScriptErrorTrace.stackTrace)&&
+  Objects.equals(this.event, objDataScriptErrorTrace.event);
 }
 
 @Override

@@ -98,9 +98,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NatMatchTarget objNatMatchTarget = (NatMatchTarget) o;
-  return   Objects.equals(this.services, objNatMatchTarget.services)&&
+  return   Objects.equals(this.sourceIp, objNatMatchTarget.sourceIp)&&
   Objects.equals(this.destinationIp, objNatMatchTarget.destinationIp)&&
-  Objects.equals(this.sourceIp, objNatMatchTarget.sourceIp);
+  Objects.equals(this.services, objNatMatchTarget.services);
 }
 
 @Override

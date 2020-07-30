@@ -332,16 +332,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSiteHealthStatus objGslbSiteHealthStatus = (GslbSiteHealthStatus) o;
-  return   Objects.equals(this.datapathGsinfo, objGslbSiteHealthStatus.datapathGsinfo)&&
+  return   Objects.equals(this.timestamp, objGslbSiteHealthStatus.timestamp)&&
   Objects.equals(this.swVersion, objGslbSiteHealthStatus.swVersion)&&
-  Objects.equals(this.timestamp, objGslbSiteHealthStatus.timestamp)&&
-  Objects.equals(this.geoTable, objGslbSiteHealthStatus.geoTable)&&
   Objects.equals(this.dnsInfo, objGslbSiteHealthStatus.dnsInfo)&&
-  Objects.equals(this.ghmTable, objGslbSiteHealthStatus.ghmTable)&&
-  Objects.equals(this.gapTable, objGslbSiteHealthStatus.gapTable)&&
   Objects.equals(this.controllerGsinfo, objGslbSiteHealthStatus.controllerGsinfo)&&
+  Objects.equals(this.datapathGsinfo, objGslbSiteHealthStatus.datapathGsinfo)&&
   Objects.equals(this.glbTable, objGslbSiteHealthStatus.glbTable)&&
-  Objects.equals(this.gsTable, objGslbSiteHealthStatus.gsTable);
+  Objects.equals(this.ghmTable, objGslbSiteHealthStatus.ghmTable)&&
+  Objects.equals(this.gsTable, objGslbSiteHealthStatus.gsTable)&&
+  Objects.equals(this.geoTable, objGslbSiteHealthStatus.geoTable)&&
+  Objects.equals(this.gapTable, objGslbSiteHealthStatus.gapTable);
 }
 
 @Override

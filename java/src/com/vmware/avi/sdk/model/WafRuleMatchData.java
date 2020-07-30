@@ -102,9 +102,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafRuleMatchData objWafRuleMatchData = (WafRuleMatchData) o;
-  return   Objects.equals(this.isInternal, objWafRuleMatchData.isInternal)&&
+  return   Objects.equals(this.matchElement, objWafRuleMatchData.matchElement)&&
   Objects.equals(this.matchValue, objWafRuleMatchData.matchValue)&&
-  Objects.equals(this.matchElement, objWafRuleMatchData.matchElement);
+  Objects.equals(this.isInternal, objWafRuleMatchData.isInternal);
 }
 
 @Override

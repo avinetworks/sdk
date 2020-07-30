@@ -561,28 +561,28 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrNWRuntime objVIMgrNWRuntime = (VIMgrNWRuntime) o;
-  return   Objects.equals(this.vmRefs, objVIMgrNWRuntime.vmRefs)&&
+  return   Objects.equals(this.type, objVIMgrNWRuntime.type)&&
+  Objects.equals(this.uuid, objVIMgrNWRuntime.uuid)&&
+  Objects.equals(this.name, objVIMgrNWRuntime.name)&&
+  Objects.equals(this.managedObjectId, objVIMgrNWRuntime.managedObjectId)&&
+  Objects.equals(this.datacenterUuid, objVIMgrNWRuntime.datacenterUuid)&&
+  Objects.equals(this.vlan, objVIMgrNWRuntime.vlan)&&
+  Objects.equals(this.dvs, objVIMgrNWRuntime.dvs)&&
+  Objects.equals(this.switchName, objVIMgrNWRuntime.switchName)&&
+  Objects.equals(this.numPorts, objVIMgrNWRuntime.numPorts)&&
+  Objects.equals(this.autoExpand, objVIMgrNWRuntime.autoExpand)&&
+  Objects.equals(this.vlanRange, objVIMgrNWRuntime.vlanRange)&&
+  Objects.equals(this.MgmtNW, objVIMgrNWRuntime.MgmtNW)&&
+  Objects.equals(this.interestedNw, objVIMgrNWRuntime.interestedNw)&&
+  Objects.equals(this.ipSubnet, objVIMgrNWRuntime.ipSubnet)&&
+  Objects.equals(this.vmRefs, objVIMgrNWRuntime.vmRefs)&&
   Objects.equals(this.hostRefs, objVIMgrNWRuntime.hostRefs)&&
   Objects.equals(this.availabilityZone, objVIMgrNWRuntime.availabilityZone)&&
-  Objects.equals(this.tenantName, objVIMgrNWRuntime.tenantName)&&
-  Objects.equals(this.managedObjectId, objVIMgrNWRuntime.managedObjectId)&&
-  Objects.equals(this.switchName, objVIMgrNWRuntime.switchName)&&
   Objects.equals(this.vrfContextRef, objVIMgrNWRuntime.vrfContextRef)&&
-  Objects.equals(this.uuid, objVIMgrNWRuntime.uuid)&&
-  Objects.equals(this.datacenterUuid, objVIMgrNWRuntime.datacenterUuid)&&
-  Objects.equals(this.interestedNw, objVIMgrNWRuntime.interestedNw)&&
-  Objects.equals(this.numPorts, objVIMgrNWRuntime.numPorts)&&
-  Objects.equals(this.type, objVIMgrNWRuntime.type)&&
-  Objects.equals(this.ipSubnet, objVIMgrNWRuntime.ipSubnet)&&
-  Objects.equals(this.vlan, objVIMgrNWRuntime.vlan)&&
-  Objects.equals(this.MgmtNW, objVIMgrNWRuntime.MgmtNW)&&
-  Objects.equals(this.vlanRange, objVIMgrNWRuntime.vlanRange)&&
-  Objects.equals(this.cloudRef, objVIMgrNWRuntime.cloudRef)&&
-  Objects.equals(this.name, objVIMgrNWRuntime.name)&&
   Objects.equals(this.apicVrfContext, objVIMgrNWRuntime.apicVrfContext)&&
-  Objects.equals(this.autoExpand, objVIMgrNWRuntime.autoExpand)&&
+  Objects.equals(this.tenantName, objVIMgrNWRuntime.tenantName)&&
   Objects.equals(this.tenantRef, objVIMgrNWRuntime.tenantRef)&&
-  Objects.equals(this.dvs, objVIMgrNWRuntime.dvs);
+  Objects.equals(this.cloudRef, objVIMgrNWRuntime.cloudRef);
 }
 
 @Override

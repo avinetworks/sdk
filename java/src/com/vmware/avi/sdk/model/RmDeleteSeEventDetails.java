@@ -260,17 +260,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmDeleteSeEventDetails objRmDeleteSeEventDetails = (RmDeleteSeEventDetails) o;
-  return   Objects.equals(this.seGrpUuid, objRmDeleteSeEventDetails.seGrpUuid)&&
-  Objects.equals(this.cloudName, objRmDeleteSeEventDetails.cloudName)&&
+  return   Objects.equals(this.seName, objRmDeleteSeEventDetails.seName)&&
   Objects.equals(this.seCookie, objRmDeleteSeEventDetails.seCookie)&&
-  Objects.equals(this.statusCode, objRmDeleteSeEventDetails.statusCode)&&
-  Objects.equals(this.cloudUuid, objRmDeleteSeEventDetails.cloudUuid)&&
-  Objects.equals(this.seGrpName, objRmDeleteSeEventDetails.seGrpName)&&
-  Objects.equals(this.reason, objRmDeleteSeEventDetails.reason)&&
-  Objects.equals(this.hostName, objRmDeleteSeEventDetails.hostName)&&
-  Objects.equals(this.seName, objRmDeleteSeEventDetails.seName)&&
+  Objects.equals(this.seUuid, objRmDeleteSeEventDetails.seUuid)&&
   Objects.equals(this.hostUuid, objRmDeleteSeEventDetails.hostUuid)&&
-  Objects.equals(this.seUuid, objRmDeleteSeEventDetails.seUuid);
+  Objects.equals(this.hostName, objRmDeleteSeEventDetails.hostName)&&
+  Objects.equals(this.statusCode, objRmDeleteSeEventDetails.statusCode)&&
+  Objects.equals(this.reason, objRmDeleteSeEventDetails.reason)&&
+  Objects.equals(this.seGrpUuid, objRmDeleteSeEventDetails.seGrpUuid)&&
+  Objects.equals(this.seGrpName, objRmDeleteSeEventDetails.seGrpName)&&
+  Objects.equals(this.cloudUuid, objRmDeleteSeEventDetails.cloudUuid)&&
+  Objects.equals(this.cloudName, objRmDeleteSeEventDetails.cloudName);
 }
 
 @Override

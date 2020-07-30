@@ -249,15 +249,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AzureMarketplace objAzureMarketplace = (AzureMarketplace) o;
-  return   Objects.equals(this.status, objAzureMarketplace.status)&&
-  Objects.equals(this.publisher, objAzureMarketplace.publisher)&&
-  Objects.equals(this.resourceGroup, objAzureMarketplace.resourceGroup)&&
-  Objects.equals(this.offer, objAzureMarketplace.offer)&&
-  Objects.equals(this.reason, objAzureMarketplace.reason)&&
-  Objects.equals(this.vnetId, objAzureMarketplace.vnetId)&&
+  return   Objects.equals(this.ccId, objAzureMarketplace.ccId)&&
   Objects.equals(this.subscriptionId, objAzureMarketplace.subscriptionId)&&
-  Objects.equals(this.skus, objAzureMarketplace.skus)&&
-  Objects.equals(this.ccId, objAzureMarketplace.ccId);
+  Objects.equals(this.vnetId, objAzureMarketplace.vnetId)&&
+  Objects.equals(this.resourceGroup, objAzureMarketplace.resourceGroup)&&
+  Objects.equals(this.publisher, objAzureMarketplace.publisher)&&
+  Objects.equals(this.offer, objAzureMarketplace.offer)&&
+  Objects.equals(this.status, objAzureMarketplace.status)&&
+  Objects.equals(this.reason, objAzureMarketplace.reason)&&
+  Objects.equals(this.skus, objAzureMarketplace.skus);
 }
 
 @Override

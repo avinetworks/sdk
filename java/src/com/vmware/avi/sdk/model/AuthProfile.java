@@ -267,16 +267,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AuthProfile objAuthProfile = (AuthProfile) o;
-  return   Objects.equals(this.http, objAuthProfile.http)&&
-  Objects.equals(this.uuid, objAuthProfile.uuid)&&
-  Objects.equals(this.saml, objAuthProfile.saml)&&
-  Objects.equals(this.description, objAuthProfile.description)&&
-  Objects.equals(this.paAgentRef, objAuthProfile.paAgentRef)&&
-  Objects.equals(this.tacacsPlus, objAuthProfile.tacacsPlus)&&
-  Objects.equals(this.ldap, objAuthProfile.ldap)&&
+  return   Objects.equals(this.uuid, objAuthProfile.uuid)&&
+  Objects.equals(this.name, objAuthProfile.name)&&
   Objects.equals(this.type, objAuthProfile.type)&&
-  Objects.equals(this.tenantRef, objAuthProfile.tenantRef)&&
-  Objects.equals(this.name, objAuthProfile.name);
+  Objects.equals(this.ldap, objAuthProfile.ldap)&&
+  Objects.equals(this.http, objAuthProfile.http)&&
+  Objects.equals(this.tacacsPlus, objAuthProfile.tacacsPlus)&&
+  Objects.equals(this.saml, objAuthProfile.saml)&&
+  Objects.equals(this.paAgentRef, objAuthProfile.paAgentRef)&&
+  Objects.equals(this.description, objAuthProfile.description)&&
+  Objects.equals(this.tenantRef, objAuthProfile.tenantRef);
 }
 
 @Override

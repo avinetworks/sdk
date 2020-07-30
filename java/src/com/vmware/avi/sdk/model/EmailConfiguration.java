@@ -190,13 +190,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   EmailConfiguration objEmailConfiguration = (EmailConfiguration) o;
-  return   Objects.equals(this.mailServerPort, objEmailConfiguration.mailServerPort)&&
-  Objects.equals(this.disableTls, objEmailConfiguration.disableTls)&&
+  return   Objects.equals(this.smtpType, objEmailConfiguration.smtpType)&&
   Objects.equals(this.fromEmail, objEmailConfiguration.fromEmail)&&
-  Objects.equals(this.smtpType, objEmailConfiguration.smtpType)&&
-  Objects.equals(this.authPassword, objEmailConfiguration.authPassword)&&
+  Objects.equals(this.mailServerName, objEmailConfiguration.mailServerName)&&
+  Objects.equals(this.mailServerPort, objEmailConfiguration.mailServerPort)&&
   Objects.equals(this.authUsername, objEmailConfiguration.authUsername)&&
-  Objects.equals(this.mailServerName, objEmailConfiguration.mailServerName);
+  Objects.equals(this.authPassword, objEmailConfiguration.authPassword)&&
+  Objects.equals(this.disableTls, objEmailConfiguration.disableTls);
 }
 
 @Override

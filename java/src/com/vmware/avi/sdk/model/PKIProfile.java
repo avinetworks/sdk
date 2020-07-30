@@ -301,16 +301,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PKIProfile objPKIProfile = (PKIProfile) o;
-  return   Objects.equals(this.crls, objPKIProfile.crls)&&
-  Objects.equals(this.uuid, objPKIProfile.uuid)&&
-  Objects.equals(this.ignorePeerChain, objPKIProfile.ignorePeerChain)&&
-  Objects.equals(this.isFederated, objPKIProfile.isFederated)&&
-  Objects.equals(this.createdBy, objPKIProfile.createdBy)&&
-  Objects.equals(this.validateOnlyLeafCrl, objPKIProfile.validateOnlyLeafCrl)&&
+  return   Objects.equals(this.uuid, objPKIProfile.uuid)&&
+  Objects.equals(this.name, objPKIProfile.name)&&
   Objects.equals(this.caCerts, objPKIProfile.caCerts)&&
+  Objects.equals(this.crls, objPKIProfile.crls)&&
+  Objects.equals(this.ignorePeerChain, objPKIProfile.ignorePeerChain)&&
   Objects.equals(this.crlCheck, objPKIProfile.crlCheck)&&
-  Objects.equals(this.tenantRef, objPKIProfile.tenantRef)&&
-  Objects.equals(this.name, objPKIProfile.name);
+  Objects.equals(this.validateOnlyLeafCrl, objPKIProfile.validateOnlyLeafCrl)&&
+  Objects.equals(this.createdBy, objPKIProfile.createdBy)&&
+  Objects.equals(this.isFederated, objPKIProfile.isFederated)&&
+  Objects.equals(this.tenantRef, objPKIProfile.tenantRef);
 }
 
 @Override

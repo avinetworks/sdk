@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafExclusionType objWafExclusionType = (WafExclusionType) o;
-  return   Objects.equals(this.matchCase, objWafExclusionType.matchCase)&&
-  Objects.equals(this.matchOp, objWafExclusionType.matchOp);
+  return   Objects.equals(this.matchOp, objWafExclusionType.matchOp)&&
+  Objects.equals(this.matchCase, objWafExclusionType.matchCase);
 }
 
 @Override

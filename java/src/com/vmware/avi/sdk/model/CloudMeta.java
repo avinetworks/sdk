@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudMeta objCloudMeta = (CloudMeta) o;
-  return   Objects.equals(this.value, objCloudMeta.value)&&
-  Objects.equals(this.key, objCloudMeta.key);
+  return   Objects.equals(this.key, objCloudMeta.key)&&
+  Objects.equals(this.value, objCloudMeta.value);
 }
 
 @Override

@@ -150,9 +150,9 @@ public boolean equals(java.lang.Object o) {
   ErrorPage objErrorPage = (ErrorPage) o;
   return   Objects.equals(this.index, objErrorPage.index)&&
   Objects.equals(this.enable, objErrorPage.enable)&&
-  Objects.equals(this.errorRedirect, objErrorPage.errorRedirect)&&
   Objects.equals(this.match, objErrorPage.match)&&
-  Objects.equals(this.errorPageBodyRef, objErrorPage.errorPageBodyRef);
+  Objects.equals(this.errorPageBodyRef, objErrorPage.errorPageBodyRef)&&
+  Objects.equals(this.errorRedirect, objErrorPage.errorRedirect);
 }
 
 @Override

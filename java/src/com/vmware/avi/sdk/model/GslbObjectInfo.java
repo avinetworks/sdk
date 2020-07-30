@@ -126,9 +126,9 @@ public boolean equals(java.lang.Object o) {
   }
   GslbObjectInfo objGslbObjectInfo = (GslbObjectInfo) o;
   return   Objects.equals(this.state, objGslbObjectInfo.state)&&
-  Objects.equals(this.obj, objGslbObjectInfo.obj)&&
+  Objects.equals(this.pbName, objGslbObjectInfo.pbName)&&
   Objects.equals(this.objectUuid, objGslbObjectInfo.objectUuid)&&
-  Objects.equals(this.pbName, objGslbObjectInfo.pbName);
+  Objects.equals(this.obj, objGslbObjectInfo.obj);
 }
 
 @Override

@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDbDiskEventDetails objMetricsDbDiskEventDetails = (MetricsDbDiskEventDetails) o;
-  return   Objects.equals(this.metricsDeletedTables, objMetricsDbDiskEventDetails.metricsDeletedTables)&&
+  return   Objects.equals(this.metricsQuota, objMetricsDbDiskEventDetails.metricsQuota)&&
   Objects.equals(this.metricsFreeSz, objMetricsDbDiskEventDetails.metricsFreeSz)&&
-  Objects.equals(this.metricsQuota, objMetricsDbDiskEventDetails.metricsQuota);
+  Objects.equals(this.metricsDeletedTables, objMetricsDbDiskEventDetails.metricsDeletedTables);
 }
 
 @Override

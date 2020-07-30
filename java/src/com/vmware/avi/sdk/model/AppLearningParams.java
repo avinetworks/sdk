@@ -187,12 +187,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AppLearningParams objAppLearningParams = (AppLearningParams) o;
-  return   Objects.equals(this.enablePerUriLearning, objAppLearningParams.enablePerUriLearning)&&
-  Objects.equals(this.maxUris, objAppLearningParams.maxUris)&&
-  Objects.equals(this.minHitsToLearn, objAppLearningParams.minHitsToLearn)&&
-  Objects.equals(this.maxParams, objAppLearningParams.maxParams)&&
+  return   Objects.equals(this.samplingPercent, objAppLearningParams.samplingPercent)&&
   Objects.equals(this.updateInterval, objAppLearningParams.updateInterval)&&
-  Objects.equals(this.samplingPercent, objAppLearningParams.samplingPercent);
+  Objects.equals(this.maxUris, objAppLearningParams.maxUris)&&
+  Objects.equals(this.maxParams, objAppLearningParams.maxParams)&&
+  Objects.equals(this.enablePerUriLearning, objAppLearningParams.enablePerUriLearning)&&
+  Objects.equals(this.minHitsToLearn, objAppLearningParams.minHitsToLearn);
 }
 
 @Override

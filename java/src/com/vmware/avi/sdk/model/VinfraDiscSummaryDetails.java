@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VinfraDiscSummaryDetails objVinfraDiscSummaryDetails = (VinfraDiscSummaryDetails) o;
-  return   Objects.equals(this.numVms, objVinfraDiscSummaryDetails.numVms)&&
-  Objects.equals(this.numNws, objVinfraDiscSummaryDetails.numNws)&&
-  Objects.equals(this.numClusters, objVinfraDiscSummaryDetails.numClusters)&&
-  Objects.equals(this.vcenter, objVinfraDiscSummaryDetails.vcenter)&&
+  return   Objects.equals(this.vcenter, objVinfraDiscSummaryDetails.vcenter)&&
   Objects.equals(this.numDcs, objVinfraDiscSummaryDetails.numDcs)&&
-  Objects.equals(this.numHosts, objVinfraDiscSummaryDetails.numHosts);
+  Objects.equals(this.numHosts, objVinfraDiscSummaryDetails.numHosts)&&
+  Objects.equals(this.numClusters, objVinfraDiscSummaryDetails.numClusters)&&
+  Objects.equals(this.numVms, objVinfraDiscSummaryDetails.numVms)&&
+  Objects.equals(this.numNws, objVinfraDiscSummaryDetails.numNws);
 }
 
 @Override

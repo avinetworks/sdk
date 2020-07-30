@@ -178,13 +178,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudDnsUpdate objCloudDnsUpdate = (CloudDnsUpdate) o;
-  return   Objects.equals(this.dnsFqdn, objCloudDnsUpdate.dnsFqdn)&&
-  Objects.equals(this.fip, objCloudDnsUpdate.fip)&&
+  return   Objects.equals(this.ccId, objCloudDnsUpdate.ccId)&&
   Objects.equals(this.vtype, objCloudDnsUpdate.vtype)&&
-  Objects.equals(this.errorString, objCloudDnsUpdate.errorString)&&
-  Objects.equals(this.vip, objCloudDnsUpdate.vip)&&
   Objects.equals(this.vsUuid, objCloudDnsUpdate.vsUuid)&&
-  Objects.equals(this.ccId, objCloudDnsUpdate.ccId);
+  Objects.equals(this.errorString, objCloudDnsUpdate.errorString)&&
+  Objects.equals(this.dnsFqdn, objCloudDnsUpdate.dnsFqdn)&&
+  Objects.equals(this.vip, objCloudDnsUpdate.vip)&&
+  Objects.equals(this.fip, objCloudDnsUpdate.fip);
 }
 
 @Override

@@ -758,39 +758,39 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrVMRuntime objVIMgrVMRuntime = (VIMgrVMRuntime) o;
-  return   Objects.equals(this.cpuReservation, objVIMgrVMRuntime.cpuReservation)&&
-  Objects.equals(this.powerstate, objVIMgrVMRuntime.powerstate)&&
-  Objects.equals(this.vcenterVappname, objVIMgrVMRuntime.vcenterVappname)&&
-  Objects.equals(this.availabilityZone, objVIMgrVMRuntime.availabilityZone)&&
-  Objects.equals(this.initVnics, objVIMgrVMRuntime.initVnics)&&
-  Objects.equals(this.managedObjectId, objVIMgrVMRuntime.managedObjectId)&&
-  Objects.equals(this.creationInProgress, objVIMgrVMRuntime.creationInProgress)&&
-  Objects.equals(this.vmLbWeight, objVIMgrVMRuntime.vmLbWeight)&&
+  return   Objects.equals(this.type, objVIMgrVMRuntime.type)&&
   Objects.equals(this.uuid, objVIMgrVMRuntime.uuid)&&
-  Objects.equals(this.vcenterVappvendor, objVIMgrVMRuntime.vcenterVappvendor)&&
-  Objects.equals(this.vcenterVnicDiscovered, objVIMgrVMRuntime.vcenterVnicDiscovered)&&
-  Objects.equals(this.memory, objVIMgrVMRuntime.memory)&&
-  Objects.equals(this.vcenterDatacenterUuid, objVIMgrVMRuntime.vcenterDatacenterUuid)&&
-  Objects.equals(this.controllerVm, objVIMgrVMRuntime.controllerVm)&&
-  Objects.equals(this.type, objVIMgrVMRuntime.type)&&
-  Objects.equals(this.connectionState, objVIMgrVMRuntime.connectionState)&&
-  Objects.equals(this.vcenterVmType, objVIMgrVMRuntime.vcenterVmType)&&
-  Objects.equals(this.host, objVIMgrVMRuntime.host)&&
-  Objects.equals(this.vcenterSeType, objVIMgrVMRuntime.vcenterSeType)&&
-  Objects.equals(this.seVer, objVIMgrVMRuntime.seVer)&&
-  Objects.equals(this.controllerClusterUuid, objVIMgrVMRuntime.controllerClusterUuid)&&
-  Objects.equals(this.guestNic, objVIMgrVMRuntime.guestNic)&&
-  Objects.equals(this.numCpu, objVIMgrVMRuntime.numCpu)&&
-  Objects.equals(this.cloudRef, objVIMgrVMRuntime.cloudRef)&&
-  Objects.equals(this.vcenterRmCookie, objVIMgrVMRuntime.vcenterRmCookie)&&
   Objects.equals(this.name, objVIMgrVMRuntime.name)&&
-  Objects.equals(this.ovfAvisetypeField, objVIMgrVMRuntime.ovfAvisetypeField)&&
+  Objects.equals(this.managedObjectId, objVIMgrVMRuntime.managedObjectId)&&
+  Objects.equals(this.host, objVIMgrVMRuntime.host)&&
+  Objects.equals(this.powerstate, objVIMgrVMRuntime.powerstate)&&
+  Objects.equals(this.connectionState, objVIMgrVMRuntime.connectionState)&&
+  Objects.equals(this.vcenterDatacenterUuid, objVIMgrVMRuntime.vcenterDatacenterUuid)&&
+  Objects.equals(this.vcenterVmType, objVIMgrVMRuntime.vcenterVmType)&&
+  Objects.equals(this.vcenterVnicDiscovered, objVIMgrVMRuntime.vcenterVnicDiscovered)&&
+  Objects.equals(this.vcenterVappname, objVIMgrVMRuntime.vcenterVappname)&&
+  Objects.equals(this.vcenterVappvendor, objVIMgrVMRuntime.vcenterVappvendor)&&
   Objects.equals(this.vcenterTemplateVm, objVIMgrVMRuntime.vcenterTemplateVm)&&
-  Objects.equals(this.controllerIpAddr, objVIMgrVMRuntime.controllerIpAddr)&&
-  Objects.equals(this.memoryReservation, objVIMgrVMRuntime.memoryReservation)&&
+  Objects.equals(this.vcenterSeType, objVIMgrVMRuntime.vcenterSeType)&&
+  Objects.equals(this.creationInProgress, objVIMgrVMRuntime.creationInProgress)&&
+  Objects.equals(this.vcenterRmCookie, objVIMgrVMRuntime.vcenterRmCookie)&&
+  Objects.equals(this.numCpu, objVIMgrVMRuntime.numCpu)&&
+  Objects.equals(this.cpuShares, objVIMgrVMRuntime.cpuShares)&&
+  Objects.equals(this.cpuReservation, objVIMgrVMRuntime.cpuReservation)&&
+  Objects.equals(this.memory, objVIMgrVMRuntime.memory)&&
   Objects.equals(this.memShares, objVIMgrVMRuntime.memShares)&&
+  Objects.equals(this.memoryReservation, objVIMgrVMRuntime.memoryReservation)&&
+  Objects.equals(this.vmLbWeight, objVIMgrVMRuntime.vmLbWeight)&&
+  Objects.equals(this.controllerIpAddr, objVIMgrVMRuntime.controllerIpAddr)&&
+  Objects.equals(this.guestNic, objVIMgrVMRuntime.guestNic)&&
+  Objects.equals(this.controllerVm, objVIMgrVMRuntime.controllerVm)&&
+  Objects.equals(this.seVer, objVIMgrVMRuntime.seVer)&&
+  Objects.equals(this.initVnics, objVIMgrVMRuntime.initVnics)&&
+  Objects.equals(this.controllerClusterUuid, objVIMgrVMRuntime.controllerClusterUuid)&&
+  Objects.equals(this.availabilityZone, objVIMgrVMRuntime.availabilityZone)&&
+  Objects.equals(this.ovfAvisetypeField, objVIMgrVMRuntime.ovfAvisetypeField)&&
   Objects.equals(this.tenantRef, objVIMgrVMRuntime.tenantRef)&&
-  Objects.equals(this.cpuShares, objVIMgrVMRuntime.cpuShares);
+  Objects.equals(this.cloudRef, objVIMgrVMRuntime.cloudRef);
 }
 
 @Override

@@ -166,10 +166,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SecureChannelToken objSecureChannelToken = (SecureChannelToken) o;
-  return   Objects.equals(this.nodeUuid, objSecureChannelToken.nodeUuid)&&
-  Objects.equals(this.expiryTime, objSecureChannelToken.expiryTime)&&
-  Objects.equals(this.uuid, objSecureChannelToken.uuid)&&
+  return   Objects.equals(this.uuid, objSecureChannelToken.uuid)&&
   Objects.equals(this.name, objSecureChannelToken.name)&&
+  Objects.equals(this.expiryTime, objSecureChannelToken.expiryTime)&&
+  Objects.equals(this.nodeUuid, objSecureChannelToken.nodeUuid)&&
   Objects.equals(this.metadata, objSecureChannelToken.metadata);
 }
 

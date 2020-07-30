@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkSubnetInfo objNetworkSubnetInfo = (NetworkSubnetInfo) o;
-  return   Objects.equals(this.subnet, objNetworkSubnetInfo.subnet)&&
-  Objects.equals(this.used, objNetworkSubnetInfo.used)&&
-  Objects.equals(this.networkUuid, objNetworkSubnetInfo.networkUuid)&&
-  Objects.equals(this.free, objNetworkSubnetInfo.free)&&
+  return   Objects.equals(this.networkUuid, objNetworkSubnetInfo.networkUuid)&&
+  Objects.equals(this.networkName, objNetworkSubnetInfo.networkName)&&
+  Objects.equals(this.subnet, objNetworkSubnetInfo.subnet)&&
   Objects.equals(this.total, objNetworkSubnetInfo.total)&&
-  Objects.equals(this.networkName, objNetworkSubnetInfo.networkName);
+  Objects.equals(this.used, objNetworkSubnetInfo.used)&&
+  Objects.equals(this.free, objNetworkSubnetInfo.free);
 }
 
 @Override

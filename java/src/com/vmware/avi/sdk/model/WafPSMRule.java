@@ -320,15 +320,15 @@ public boolean equals(java.lang.Object o) {
   }
   WafPSMRule objWafPSMRule = (WafPSMRule) o;
   return   Objects.equals(this.index, objWafPSMRule.index)&&
-  Objects.equals(this.enable, objWafPSMRule.enable)&&
-  Objects.equals(this.name, objWafPSMRule.name)&&
-  Objects.equals(this.matchValuePattern, objWafPSMRule.matchValuePattern)&&
-  Objects.equals(this.matchElements, objWafPSMRule.matchElements)&&
-  Objects.equals(this.mode, objWafPSMRule.mode)&&
-  Objects.equals(this.matchCase, objWafPSMRule.matchCase)&&
-  Objects.equals(this.matchValueMaxLength, objWafPSMRule.matchValueMaxLength)&&
-  Objects.equals(this.paranoiaLevel, objWafPSMRule.paranoiaLevel)&&
   Objects.equals(this.ruleId, objWafPSMRule.ruleId)&&
+  Objects.equals(this.name, objWafPSMRule.name)&&
+  Objects.equals(this.enable, objWafPSMRule.enable)&&
+  Objects.equals(this.mode, objWafPSMRule.mode)&&
+  Objects.equals(this.paranoiaLevel, objWafPSMRule.paranoiaLevel)&&
+  Objects.equals(this.matchElements, objWafPSMRule.matchElements)&&
+  Objects.equals(this.matchValueMaxLength, objWafPSMRule.matchValueMaxLength)&&
+  Objects.equals(this.matchValuePattern, objWafPSMRule.matchValuePattern)&&
+  Objects.equals(this.matchCase, objWafPSMRule.matchCase)&&
   Objects.equals(this.description, objWafPSMRule.description);
 }
 

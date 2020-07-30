@@ -245,14 +245,14 @@ public boolean equals(java.lang.Object o) {
   }
   RateProfile objRateProfile = (RateProfile) o;
   return   Objects.equals(this.count, objRateProfile.count)&&
+  Objects.equals(this.burstSz, objRateProfile.burstSz)&&
+  Objects.equals(this.period, objRateProfile.period)&&
+  Objects.equals(this.explicitTracking, objRateProfile.explicitTracking)&&
+  Objects.equals(this.fineGrain, objRateProfile.fineGrain)&&
+  Objects.equals(this.action, objRateProfile.action)&&
   Objects.equals(this.httpHeader, objRateProfile.httpHeader)&&
   Objects.equals(this.httpCookie, objRateProfile.httpCookie)&&
-  Objects.equals(this.explicitTracking, objRateProfile.explicitTracking)&&
-  Objects.equals(this.period, objRateProfile.period)&&
-  Objects.equals(this.action, objRateProfile.action)&&
-  Objects.equals(this.burstSz, objRateProfile.burstSz)&&
-  Objects.equals(this.rateLimiter, objRateProfile.rateLimiter)&&
-  Objects.equals(this.fineGrain, objRateProfile.fineGrain);
+  Objects.equals(this.rateLimiter, objRateProfile.rateLimiter);
 }
 
 @Override

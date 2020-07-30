@@ -216,13 +216,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHmEventServerDetails objSeHmEventServerDetails = (SeHmEventServerDetails) o;
-  return   Objects.equals(this.sslErrorCode, objSeHmEventServerDetails.sslErrorCode)&&
-  Objects.equals(this.appInfo, objSeHmEventServerDetails.appInfo)&&
-  Objects.equals(this.ip, objSeHmEventServerDetails.ip)&&
-  Objects.equals(this.hostname, objSeHmEventServerDetails.hostname)&&
-  Objects.equals(this.shm, objSeHmEventServerDetails.shm)&&
+  return   Objects.equals(this.ip, objSeHmEventServerDetails.ip)&&
   Objects.equals(this.port, objSeHmEventServerDetails.port)&&
-  Objects.equals(this.failureCode, objSeHmEventServerDetails.failureCode);
+  Objects.equals(this.hostname, objSeHmEventServerDetails.hostname)&&
+  Objects.equals(this.failureCode, objSeHmEventServerDetails.failureCode)&&
+  Objects.equals(this.appInfo, objSeHmEventServerDetails.appInfo)&&
+  Objects.equals(this.shm, objSeHmEventServerDetails.shm)&&
+  Objects.equals(this.sslErrorCode, objSeHmEventServerDetails.sslErrorCode);
 }
 
 @Override

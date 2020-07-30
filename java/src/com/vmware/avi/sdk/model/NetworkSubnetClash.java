@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkSubnetClash objNetworkSubnetClash = (NetworkSubnetClash) o;
-  return   Objects.equals(this.networks, objNetworkSubnetClash.networks)&&
-  Objects.equals(this.ipNw, objNetworkSubnetClash.ipNw);
+  return   Objects.equals(this.ipNw, objNetworkSubnetClash.ipNw)&&
+  Objects.equals(this.networks, objNetworkSubnetClash.networks);
 }
 
 @Override

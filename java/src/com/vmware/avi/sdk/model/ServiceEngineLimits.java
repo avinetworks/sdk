@@ -249,15 +249,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServiceEngineLimits objServiceEngineLimits = (ServiceEngineLimits) o;
-  return   Objects.equals(this.ewVirtualservicesPerServiceengine, objServiceEngineLimits.ewVirtualservicesPerServiceengine)&&
-  Objects.equals(this.numLogicalIntfPerSe, objServiceEngineLimits.numLogicalIntfPerSe)&&
-  Objects.equals(this.numVirtualservicesRtMetrics, objServiceEngineLimits.numVirtualservicesRtMetrics)&&
-  Objects.equals(this.serviceengineCloudLimits, objServiceEngineLimits.serviceengineCloudLimits)&&
-  Objects.equals(this.nsVirtualservicesPerServiceengine, objServiceEngineLimits.nsVirtualservicesPerServiceengine)&&
-  Objects.equals(this.numVlanIntfPerSe, objServiceEngineLimits.numVlanIntfPerSe)&&
+  return   Objects.equals(this.nsVirtualservicesPerServiceengine, objServiceEngineLimits.nsVirtualservicesPerServiceengine)&&
+  Objects.equals(this.ewVirtualservicesPerServiceengine, objServiceEngineLimits.ewVirtualservicesPerServiceengine)&&
   Objects.equals(this.allVirtualservicesPerServiceengine, objServiceEngineLimits.allVirtualservicesPerServiceengine)&&
+  Objects.equals(this.numVirtualservicesRtMetrics, objServiceEngineLimits.numVirtualservicesRtMetrics)&&
+  Objects.equals(this.numVlanIntfPerPhyIntf, objServiceEngineLimits.numVlanIntfPerPhyIntf)&&
+  Objects.equals(this.numVlanIntfPerSe, objServiceEngineLimits.numVlanIntfPerSe)&&
   Objects.equals(this.numPhyIntfPerSe, objServiceEngineLimits.numPhyIntfPerSe)&&
-  Objects.equals(this.numVlanIntfPerPhyIntf, objServiceEngineLimits.numVlanIntfPerPhyIntf);
+  Objects.equals(this.numLogicalIntfPerSe, objServiceEngineLimits.numLogicalIntfPerSe)&&
+  Objects.equals(this.serviceengineCloudLimits, objServiceEngineLimits.serviceengineCloudLimits);
 }
 
 @Override

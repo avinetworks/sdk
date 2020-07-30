@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IptableRuleSet objIptableRuleSet = (IptableRuleSet) o;
-  return   Objects.equals(this.rules, objIptableRuleSet.rules)&&
-  Objects.equals(this.table, objIptableRuleSet.table)&&
-  Objects.equals(this.chain, objIptableRuleSet.chain);
+  return   Objects.equals(this.table, objIptableRuleSet.table)&&
+  Objects.equals(this.chain, objIptableRuleSet.chain)&&
+  Objects.equals(this.rules, objIptableRuleSet.rules);
 }
 
 @Override

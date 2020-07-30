@@ -455,24 +455,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   EventLog objEventLog = (EventLog) o;
-  return   Objects.equals(this.isSecurityEvent, objEventLog.isSecurityEvent)&&
+  return   Objects.equals(this.reportTimestamp, objEventLog.reportTimestamp)&&
   Objects.equals(this.objType, objEventLog.objType)&&
-  Objects.equals(this.tenantName, objEventLog.tenantName)&&
   Objects.equals(this.eventId, objEventLog.eventId)&&
-  Objects.equals(this.relatedUuids, objEventLog.relatedUuids)&&
-  Objects.equals(this.eventDetails, objEventLog.eventDetails)&&
-  Objects.equals(this.reasonCode, objEventLog.reasonCode)&&
-  Objects.equals(this.eventDescription, objEventLog.eventDescription)&&
   Objects.equals(this.module, objEventLog.module)&&
-  Objects.equals(this.reportTimestamp, objEventLog.reportTimestamp)&&
   Objects.equals(this.internal, objEventLog.internal)&&
-  Objects.equals(this.eventPages, objEventLog.eventPages)&&
   Objects.equals(this.context, objEventLog.context)&&
-  Objects.equals(this.objName, objEventLog.objName)&&
-  Objects.equals(this.detailsSummary, objEventLog.detailsSummary)&&
   Objects.equals(this.objUuid, objEventLog.objUuid)&&
-  Objects.equals(this.tenant, objEventLog.tenant)&&
-  Objects.equals(this.ignoreEventDetailsDisplay, objEventLog.ignoreEventDetailsDisplay);
+  Objects.equals(this.objName, objEventLog.objName)&&
+  Objects.equals(this.reasonCode, objEventLog.reasonCode)&&
+  Objects.equals(this.eventDetails, objEventLog.eventDetails)&&
+  Objects.equals(this.detailsSummary, objEventLog.detailsSummary)&&
+  Objects.equals(this.relatedUuids, objEventLog.relatedUuids)&&
+  Objects.equals(this.eventDescription, objEventLog.eventDescription)&&
+  Objects.equals(this.eventPages, objEventLog.eventPages)&&
+  Objects.equals(this.ignoreEventDetailsDisplay, objEventLog.ignoreEventDetailsDisplay)&&
+  Objects.equals(this.isSecurityEvent, objEventLog.isSecurityEvent)&&
+  Objects.equals(this.tenantName, objEventLog.tenantName)&&
+  Objects.equals(this.tenant, objEventLog.tenant);
 }
 
 @Override

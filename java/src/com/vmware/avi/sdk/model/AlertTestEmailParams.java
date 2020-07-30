@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertTestEmailParams objAlertTestEmailParams = (AlertTestEmailParams) o;
-  return   Objects.equals(this.text, objAlertTestEmailParams.text)&&
-  Objects.equals(this.uuid, objAlertTestEmailParams.uuid)&&
-  Objects.equals(this.subject, objAlertTestEmailParams.subject);
+  return   Objects.equals(this.uuid, objAlertTestEmailParams.uuid)&&
+  Objects.equals(this.subject, objAlertTestEmailParams.subject)&&
+  Objects.equals(this.text, objAlertTestEmailParams.text);
 }
 
 @Override

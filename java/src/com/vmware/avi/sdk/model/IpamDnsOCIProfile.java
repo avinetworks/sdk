@@ -146,11 +146,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IpamDnsOCIProfile objIpamDnsOCIProfile = (IpamDnsOCIProfile) o;
-  return   Objects.equals(this.vcnId, objIpamDnsOCIProfile.vcnId)&&
+  return   Objects.equals(this.tenancy, objIpamDnsOCIProfile.tenancy)&&
   Objects.equals(this.region, objIpamDnsOCIProfile.region)&&
-  Objects.equals(this.tenancy, objIpamDnsOCIProfile.tenancy)&&
   Objects.equals(this.cloudCredentialsRef, objIpamDnsOCIProfile.cloudCredentialsRef)&&
-  Objects.equals(this.vcnCompartmentId, objIpamDnsOCIProfile.vcnCompartmentId);
+  Objects.equals(this.vcnCompartmentId, objIpamDnsOCIProfile.vcnCompartmentId)&&
+  Objects.equals(this.vcnId, objIpamDnsOCIProfile.vcnId);
 }
 
 @Override

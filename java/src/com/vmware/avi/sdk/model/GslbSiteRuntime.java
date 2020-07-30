@@ -253,16 +253,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbSiteRuntime objGslbSiteRuntime = (GslbSiteRuntime) o;
-  return   Objects.equals(this.tenantName, objGslbSiteRuntime.tenantName)&&
-  Objects.equals(this.siteInfo, objGslbSiteRuntime.siteInfo)&&
-  Objects.equals(this.viewId, objGslbSiteRuntime.viewId)&&
-  Objects.equals(this.replicationStats, objGslbSiteRuntime.replicationStats)&&
+  return   Objects.equals(this.siteInfo, objGslbSiteRuntime.siteInfo)&&
   Objects.equals(this.siteCfg, objGslbSiteRuntime.siteCfg)&&
-  Objects.equals(this.rxedSiteHs, objGslbSiteRuntime.rxedSiteHs)&&
-  Objects.equals(this.sendInterval, objGslbSiteRuntime.sendInterval)&&
-  Objects.equals(this.glbUuid, objGslbSiteRuntime.glbUuid)&&
   Objects.equals(this.siteStats, objGslbSiteRuntime.siteStats)&&
-  Objects.equals(this.clearOnMaxRetries, objGslbSiteRuntime.clearOnMaxRetries);
+  Objects.equals(this.rxedSiteHs, objGslbSiteRuntime.rxedSiteHs)&&
+  Objects.equals(this.replicationStats, objGslbSiteRuntime.replicationStats)&&
+  Objects.equals(this.glbUuid, objGslbSiteRuntime.glbUuid)&&
+  Objects.equals(this.viewId, objGslbSiteRuntime.viewId)&&
+  Objects.equals(this.sendInterval, objGslbSiteRuntime.sendInterval)&&
+  Objects.equals(this.clearOnMaxRetries, objGslbSiteRuntime.clearOnMaxRetries)&&
+  Objects.equals(this.tenantName, objGslbSiteRuntime.tenantName);
 }
 
 @Override

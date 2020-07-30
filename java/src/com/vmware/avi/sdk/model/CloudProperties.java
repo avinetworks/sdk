@@ -196,11 +196,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudProperties objCloudProperties = (CloudProperties) o;
-  return   Objects.equals(this.info, objCloudProperties.info)&&
+  return   Objects.equals(this.uuid, objCloudProperties.uuid)&&
+  Objects.equals(this.ccVtypes, objCloudProperties.ccVtypes)&&
   Objects.equals(this.hypProps, objCloudProperties.hypProps)&&
-  Objects.equals(this.uuid, objCloudProperties.uuid)&&
   Objects.equals(this.ccProps, objCloudProperties.ccProps)&&
-  Objects.equals(this.ccVtypes, objCloudProperties.ccVtypes);
+  Objects.equals(this.info, objCloudProperties.info);
 }
 
 @Override

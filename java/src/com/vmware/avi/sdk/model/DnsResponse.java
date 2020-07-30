@@ -378,21 +378,21 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsResponse objDnsResponse = (DnsResponse) o;
-  return   Objects.equals(this.recursionAvailable, objDnsResponse.recursionAvailable)&&
-  Objects.equals(this.isWildcard, objDnsResponse.isWildcard)&&
-  Objects.equals(this.records, objDnsResponse.records)&&
-  Objects.equals(this.responseCode, objDnsResponse.responseCode)&&
-  Objects.equals(this.optRecord, objDnsResponse.optRecord)&&
-  Objects.equals(this.fallbackAlgorithmUsed, objDnsResponse.fallbackAlgorithmUsed)&&
-  Objects.equals(this.answerRecordsCount, objDnsResponse.answerRecordsCount)&&
-  Objects.equals(this.opcode, objDnsResponse.opcode)&&
-  Objects.equals(this.questionCount, objDnsResponse.questionCount)&&
-  Objects.equals(this.nameserverRecordsCount, objDnsResponse.nameserverRecordsCount)&&
+  return   Objects.equals(this.responseCode, objDnsResponse.responseCode)&&
   Objects.equals(this.authoritativeAnswer, objDnsResponse.authoritativeAnswer)&&
-  Objects.equals(this.queryOrResponse, objDnsResponse.queryOrResponse)&&
+  Objects.equals(this.truncation, objDnsResponse.truncation)&&
+  Objects.equals(this.recursionAvailable, objDnsResponse.recursionAvailable)&&
+  Objects.equals(this.answerRecordsCount, objDnsResponse.answerRecordsCount)&&
+  Objects.equals(this.nameserverRecordsCount, objDnsResponse.nameserverRecordsCount)&&
   Objects.equals(this.additionalRecordsCount, objDnsResponse.additionalRecordsCount)&&
+  Objects.equals(this.records, objDnsResponse.records)&&
+  Objects.equals(this.optRecord, objDnsResponse.optRecord)&&
+  Objects.equals(this.queryOrResponse, objDnsResponse.queryOrResponse)&&
+  Objects.equals(this.opcode, objDnsResponse.opcode)&&
   Objects.equals(this.recursionDesired, objDnsResponse.recursionDesired)&&
-  Objects.equals(this.truncation, objDnsResponse.truncation);
+  Objects.equals(this.questionCount, objDnsResponse.questionCount)&&
+  Objects.equals(this.isWildcard, objDnsResponse.isWildcard)&&
+  Objects.equals(this.fallbackAlgorithmUsed, objDnsResponse.fallbackAlgorithmUsed);
 }
 
 @Override

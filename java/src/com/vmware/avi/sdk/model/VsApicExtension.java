@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsApicExtension objVsApicExtension = (VsApicExtension) o;
-  return   Objects.equals(this.txnUuid, objVsApicExtension.txnUuid)&&
-  Objects.equals(this.vnic, objVsApicExtension.vnic)&&
-  Objects.equals(this.uuid, objVsApicExtension.uuid)&&
-  Objects.equals(this.seUuid, objVsApicExtension.seUuid);
+  return   Objects.equals(this.uuid, objVsApicExtension.uuid)&&
+  Objects.equals(this.txnUuid, objVsApicExtension.txnUuid)&&
+  Objects.equals(this.seUuid, objVsApicExtension.seUuid)&&
+  Objects.equals(this.vnic, objVsApicExtension.vnic);
 }
 
 @Override

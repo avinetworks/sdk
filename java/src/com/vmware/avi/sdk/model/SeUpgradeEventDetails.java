@@ -125,10 +125,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeUpgradeEventDetails objSeUpgradeEventDetails = (SeUpgradeEventDetails) o;
-  return   Objects.equals(this.notes, objSeUpgradeEventDetails.notes)&&
+  return   Objects.equals(this.seUuid, objSeUpgradeEventDetails.seUuid)&&
+  Objects.equals(this.seGrpUuid, objSeUpgradeEventDetails.seGrpUuid)&&
   Objects.equals(this.numVs, objSeUpgradeEventDetails.numVs)&&
-  Objects.equals(this.seUuid, objSeUpgradeEventDetails.seUuid)&&
-  Objects.equals(this.seGrpUuid, objSeUpgradeEventDetails.seGrpUuid);
+  Objects.equals(this.notes, objSeUpgradeEventDetails.notes);
 }
 
 @Override

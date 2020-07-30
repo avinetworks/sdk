@@ -206,13 +206,13 @@ public boolean equals(java.lang.Object o) {
   }
   vCenterConfiguration objvCenterConfiguration = (vCenterConfiguration) o;
   return   Objects.equals(this.username, objvCenterConfiguration.username)&&
+  Objects.equals(this.password, objvCenterConfiguration.password)&&
+  Objects.equals(this.vcenterUrl, objvCenterConfiguration.vcenterUrl)&&
+  Objects.equals(this.privilege, objvCenterConfiguration.privilege)&&
   Objects.equals(this.datacenter, objvCenterConfiguration.datacenter)&&
   Objects.equals(this.managementNetwork, objvCenterConfiguration.managementNetwork)&&
-  Objects.equals(this.vcenterTemplateSeLocation, objvCenterConfiguration.vcenterTemplateSeLocation)&&
   Objects.equals(this.managementIpSubnet, objvCenterConfiguration.managementIpSubnet)&&
-  Objects.equals(this.privilege, objvCenterConfiguration.privilege)&&
-  Objects.equals(this.vcenterUrl, objvCenterConfiguration.vcenterUrl)&&
-  Objects.equals(this.password, objvCenterConfiguration.password);
+  Objects.equals(this.vcenterTemplateSeLocation, objvCenterConfiguration.vcenterTemplateSeLocation);
 }
 
 @Override

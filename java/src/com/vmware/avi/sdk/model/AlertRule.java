@@ -160,11 +160,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AlertRule objAlertRule = (AlertRule) o;
-  return   Objects.equals(this.operator, objAlertRule.operator)&&
-  Objects.equals(this.sysEventRule, objAlertRule.sysEventRule)&&
-  Objects.equals(this.metricsRule, objAlertRule.metricsRule)&&
+  return   Objects.equals(this.sysEventRule, objAlertRule.sysEventRule)&&
+  Objects.equals(this.connAppLogRule, objAlertRule.connAppLogRule)&&
   Objects.equals(this.eventMatchFilter, objAlertRule.eventMatchFilter)&&
-  Objects.equals(this.connAppLogRule, objAlertRule.connAppLogRule);
+  Objects.equals(this.metricsRule, objAlertRule.metricsRule)&&
+  Objects.equals(this.operator, objAlertRule.operator);
 }
 
 @Override

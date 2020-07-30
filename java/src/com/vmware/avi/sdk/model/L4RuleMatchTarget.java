@@ -99,8 +99,8 @@ public boolean equals(java.lang.Object o) {
   }
   L4RuleMatchTarget objL4RuleMatchTarget = (L4RuleMatchTarget) o;
   return   Objects.equals(this.clientIp, objL4RuleMatchTarget.clientIp)&&
-  Objects.equals(this.protocol, objL4RuleMatchTarget.protocol)&&
-  Objects.equals(this.port, objL4RuleMatchTarget.port);
+  Objects.equals(this.port, objL4RuleMatchTarget.port)&&
+  Objects.equals(this.protocol, objL4RuleMatchTarget.protocol);
 }
 
 @Override

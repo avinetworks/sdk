@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeThreshEventDetails objSeThreshEventDetails = (SeThreshEventDetails) o;
-  return   Objects.equals(this.currValue, objSeThreshEventDetails.currValue)&&
-  Objects.equals(this.thresh, objSeThreshEventDetails.thresh);
+  return   Objects.equals(this.thresh, objSeThreshEventDetails.thresh)&&
+  Objects.equals(this.currValue, objSeThreshEventDetails.currValue);
 }
 
 @Override

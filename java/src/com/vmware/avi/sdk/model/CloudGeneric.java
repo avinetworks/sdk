@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudGeneric objCloudGeneric = (CloudGeneric) o;
-  return   Objects.equals(this.vtype, objCloudGeneric.vtype)&&
-  Objects.equals(this.errorString, objCloudGeneric.errorString)&&
-  Objects.equals(this.ccId, objCloudGeneric.ccId);
+  return   Objects.equals(this.ccId, objCloudGeneric.ccId)&&
+  Objects.equals(this.vtype, objCloudGeneric.vtype)&&
+  Objects.equals(this.errorString, objCloudGeneric.errorString);
 }
 
 @Override

@@ -71,8 +71,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CertificateAuthority objCertificateAuthority = (CertificateAuthority) o;
-  return   Objects.equals(this.caRef, objCertificateAuthority.caRef)&&
-  Objects.equals(this.name, objCertificateAuthority.name);
+  return   Objects.equals(this.name, objCertificateAuthority.name)&&
+  Objects.equals(this.caRef, objCertificateAuthority.caRef);
 }
 
 @Override

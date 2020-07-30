@@ -175,12 +175,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHBEventDetails objSeHBEventDetails = (SeHBEventDetails) o;
-  return   Objects.equals(this.remoteSeRef, objSeHBEventDetails.remoteSeRef)&&
+  return   Objects.equals(this.seRef1, objSeHBEventDetails.seRef1)&&
   Objects.equals(this.seRef2, objSeHBEventDetails.seRef2)&&
-  Objects.equals(this.seRef1, objSeHBEventDetails.seRef1)&&
+  Objects.equals(this.hbType, objSeHBEventDetails.hbType)&&
   Objects.equals(this.vsUuid, objSeHBEventDetails.vsUuid)&&
   Objects.equals(this.reportingSeRef, objSeHBEventDetails.reportingSeRef)&&
-  Objects.equals(this.hbType, objSeHBEventDetails.hbType);
+  Objects.equals(this.remoteSeRef, objSeHBEventDetails.remoteSeRef);
 }
 
 @Override

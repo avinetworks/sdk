@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRateLimiter objDnsRateLimiter = (DnsRateLimiter) o;
-  return   Objects.equals(this.action, objDnsRateLimiter.action)&&
-  Objects.equals(this.rateLimiterObject, objDnsRateLimiter.rateLimiterObject);
+  return   Objects.equals(this.rateLimiterObject, objDnsRateLimiter.rateLimiterObject)&&
+  Objects.equals(this.action, objDnsRateLimiter.action);
 }
 
 @Override

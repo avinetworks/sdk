@@ -137,10 +137,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterCloudDetails objClusterCloudDetails = (ClusterCloudDetails) o;
-  return   Objects.equals(this.tenantRef, objClusterCloudDetails.tenantRef)&&
-  Objects.equals(this.uuid, objClusterCloudDetails.uuid)&&
+  return   Objects.equals(this.uuid, objClusterCloudDetails.uuid)&&
+  Objects.equals(this.name, objClusterCloudDetails.name)&&
   Objects.equals(this.azureInfo, objClusterCloudDetails.azureInfo)&&
-  Objects.equals(this.name, objClusterCloudDetails.name);
+  Objects.equals(this.tenantRef, objClusterCloudDetails.tenantRef);
 }
 
 @Override

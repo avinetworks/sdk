@@ -236,13 +236,13 @@ public boolean equals(java.lang.Object o) {
   }
   NetworkSecurityPolicy objNetworkSecurityPolicy = (NetworkSecurityPolicy) o;
   return   Objects.equals(this.uuid, objNetworkSecurityPolicy.uuid)&&
-  Objects.equals(this.description, objNetworkSecurityPolicy.description)&&
-  Objects.equals(this.ipReputationDbRef, objNetworkSecurityPolicy.ipReputationDbRef)&&
-  Objects.equals(this.createdBy, objNetworkSecurityPolicy.createdBy)&&
+  Objects.equals(this.name, objNetworkSecurityPolicy.name)&&
   Objects.equals(this.rules, objNetworkSecurityPolicy.rules)&&
+  Objects.equals(this.createdBy, objNetworkSecurityPolicy.createdBy)&&
   Objects.equals(this.cloudConfigCksum, objNetworkSecurityPolicy.cloudConfigCksum)&&
-  Objects.equals(this.tenantRef, objNetworkSecurityPolicy.tenantRef)&&
-  Objects.equals(this.name, objNetworkSecurityPolicy.name);
+  Objects.equals(this.ipReputationDbRef, objNetworkSecurityPolicy.ipReputationDbRef)&&
+  Objects.equals(this.description, objNetworkSecurityPolicy.description)&&
+  Objects.equals(this.tenantRef, objNetworkSecurityPolicy.tenantRef);
 }
 
 @Override

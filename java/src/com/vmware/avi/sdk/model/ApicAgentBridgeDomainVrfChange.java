@@ -158,11 +158,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ApicAgentBridgeDomainVrfChange objApicAgentBridgeDomainVrfChange = (ApicAgentBridgeDomainVrfChange) o;
-  return   Objects.equals(this.poolList, objApicAgentBridgeDomainVrfChange.poolList)&&
-  Objects.equals(this.bridgeDomain, objApicAgentBridgeDomainVrfChange.bridgeDomain)&&
-  Objects.equals(this.vsList, objApicAgentBridgeDomainVrfChange.vsList)&&
+  return   Objects.equals(this.bridgeDomain, objApicAgentBridgeDomainVrfChange.bridgeDomain)&&
+  Objects.equals(this.oldVrf, objApicAgentBridgeDomainVrfChange.oldVrf)&&
   Objects.equals(this.newVrf, objApicAgentBridgeDomainVrfChange.newVrf)&&
-  Objects.equals(this.oldVrf, objApicAgentBridgeDomainVrfChange.oldVrf);
+  Objects.equals(this.vsList, objApicAgentBridgeDomainVrfChange.vsList)&&
+  Objects.equals(this.poolList, objApicAgentBridgeDomainVrfChange.poolList);
 }
 
 @Override

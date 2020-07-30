@@ -186,12 +186,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudInfo objCloudInfo = (CloudInfo) o;
-  return   Objects.equals(this.flavorRegexFilter, objCloudInfo.flavorRegexFilter)&&
-  Objects.equals(this.flavorProps, objCloudInfo.flavorProps)&&
+  return   Objects.equals(this.vtype, objCloudInfo.vtype)&&
   Objects.equals(this.htypes, objCloudInfo.htypes)&&
-  Objects.equals(this.vtype, objCloudInfo.vtype)&&
-  Objects.equals(this.controllerProps, objCloudInfo.controllerProps)&&
-  Objects.equals(this.ccaProps, objCloudInfo.ccaProps);
+  Objects.equals(this.flavorRegexFilter, objCloudInfo.flavorRegexFilter)&&
+  Objects.equals(this.flavorProps, objCloudInfo.flavorProps)&&
+  Objects.equals(this.ccaProps, objCloudInfo.ccaProps)&&
+  Objects.equals(this.controllerProps, objCloudInfo.controllerProps);
 }
 
 @Override

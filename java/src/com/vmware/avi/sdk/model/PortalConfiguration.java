@@ -370,20 +370,20 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   PortalConfiguration objPortalConfiguration = (PortalConfiguration) o;
-  return   Objects.equals(this.useUuidFromInput, objPortalConfiguration.useUuidFromInput)&&
+  return   Objects.equals(this.enableHttps, objPortalConfiguration.enableHttps)&&
   Objects.equals(this.redirectToHttps, objPortalConfiguration.redirectToHttps)&&
-  Objects.equals(this.httpsPort, objPortalConfiguration.httpsPort)&&
-  Objects.equals(this.disableRemoteCliShell, objPortalConfiguration.disableRemoteCliShell)&&
-  Objects.equals(this.enableClickjackingProtection, objPortalConfiguration.enableClickjackingProtection)&&
+  Objects.equals(this.enableHttp, objPortalConfiguration.enableHttp)&&
+  Objects.equals(this.sslkeyandcertificateRefs, objPortalConfiguration.sslkeyandcertificateRefs)&&
+  Objects.equals(this.useUuidFromInput, objPortalConfiguration.useUuidFromInput)&&
   Objects.equals(this.sslprofileRef, objPortalConfiguration.sslprofileRef)&&
-  Objects.equals(this.enableHttps, objPortalConfiguration.enableHttps)&&
+  Objects.equals(this.enableClickjackingProtection, objPortalConfiguration.enableClickjackingProtection)&&
   Objects.equals(this.allowBasicAuthentication, objPortalConfiguration.allowBasicAuthentication)&&
   Objects.equals(this.httpPort, objPortalConfiguration.httpPort)&&
-  Objects.equals(this.sslkeyandcertificateRefs, objPortalConfiguration.sslkeyandcertificateRefs)&&
+  Objects.equals(this.httpsPort, objPortalConfiguration.httpsPort)&&
+  Objects.equals(this.passwordStrengthCheck, objPortalConfiguration.passwordStrengthCheck)&&
+  Objects.equals(this.disableRemoteCliShell, objPortalConfiguration.disableRemoteCliShell)&&
   Objects.equals(this.disableSwagger, objPortalConfiguration.disableSwagger)&&
-  Objects.equals(this.enableHttp, objPortalConfiguration.enableHttp)&&
-  Objects.equals(this.apiForceTimeout, objPortalConfiguration.apiForceTimeout)&&
-  Objects.equals(this.passwordStrengthCheck, objPortalConfiguration.passwordStrengthCheck);
+  Objects.equals(this.apiForceTimeout, objPortalConfiguration.apiForceTimeout);
 }
 
 @Override

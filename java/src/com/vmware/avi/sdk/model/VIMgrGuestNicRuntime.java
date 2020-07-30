@@ -30,7 +30,7 @@ public class VIMgrGuestNicRuntime  {
     private List<VIMgrIPSubnetRuntime> guestIp = null;
 
     @JsonProperty("label")
-    private String label = "unknown";
+    private String label = "Unknown";
 
     @JsonProperty("mac_addr")
     private String macAddr = null;
@@ -141,7 +141,7 @@ public class VIMgrGuestNicRuntime  {
   /**
    * This is the getter method this will return the attribute value.
    * Placeholder for description of property label of obj type vimgrguestnicruntime field type str  type string.
-   * Default value when not specified in API or module is interpreted by Avi Controller as unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Unknown.
    * @return label
    */
   public String getLabel() {
@@ -151,7 +151,7 @@ public class VIMgrGuestNicRuntime  {
   /**
    * This is the setter method to the attribute.
    * Placeholder for description of property label of obj type vimgrguestnicruntime field type str  type string.
-   * Default value when not specified in API or module is interpreted by Avi Controller as unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Unknown.
    * @param label set the label.
    */
   public void setLabel(String  label) {
@@ -278,17 +278,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrGuestNicRuntime objVIMgrGuestNicRuntime = (VIMgrGuestNicRuntime) o;
-  return   Objects.equals(this.guestIp, objVIMgrGuestNicRuntime.guestIp)&&
-  Objects.equals(this.mgmtVnic, objVIMgrGuestNicRuntime.mgmtVnic)&&
-  Objects.equals(this.type, objVIMgrGuestNicRuntime.type)&&
-  Objects.equals(this.label, objVIMgrGuestNicRuntime.label)&&
-  Objects.equals(this.delPending, objVIMgrGuestNicRuntime.delPending)&&
-  Objects.equals(this.connected, objVIMgrGuestNicRuntime.connected)&&
+  return   Objects.equals(this.type, objVIMgrGuestNicRuntime.type)&&
+  Objects.equals(this.guestIp, objVIMgrGuestNicRuntime.guestIp)&&
   Objects.equals(this.macAddr, objVIMgrGuestNicRuntime.macAddr)&&
   Objects.equals(this.networkUuid, objVIMgrGuestNicRuntime.networkUuid)&&
-  Objects.equals(this.osPortUuid, objVIMgrGuestNicRuntime.osPortUuid)&&
+  Objects.equals(this.delPending, objVIMgrGuestNicRuntime.delPending)&&
   Objects.equals(this.networkName, objVIMgrGuestNicRuntime.networkName)&&
-  Objects.equals(this.aviInternalNetwork, objVIMgrGuestNicRuntime.aviInternalNetwork);
+  Objects.equals(this.aviInternalNetwork, objVIMgrGuestNicRuntime.aviInternalNetwork)&&
+  Objects.equals(this.mgmtVnic, objVIMgrGuestNicRuntime.mgmtVnic)&&
+  Objects.equals(this.connected, objVIMgrGuestNicRuntime.connected)&&
+  Objects.equals(this.label, objVIMgrGuestNicRuntime.label)&&
+  Objects.equals(this.osPortUuid, objVIMgrGuestNicRuntime.osPortUuid);
 }
 
 @Override

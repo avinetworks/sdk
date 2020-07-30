@@ -133,9 +133,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafPSMMatchElement objWafPSMMatchElement = (WafPSMMatchElement) o;
-  return   Objects.equals(this.subElement, objWafPSMMatchElement.subElement)&&
-  Objects.equals(this.index, objWafPSMMatchElement.index)&&
+  return   Objects.equals(this.index, objWafPSMMatchElement.index)&&
   Objects.equals(this.name, objWafPSMMatchElement.name)&&
+  Objects.equals(this.subElement, objWafPSMMatchElement.subElement)&&
   Objects.equals(this.excluded, objWafPSMMatchElement.excluded);
 }
 

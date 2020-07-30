@@ -75,8 +75,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MicroServiceMatch objMicroServiceMatch = (MicroServiceMatch) o;
-  return   Objects.equals(this.groupRef, objMicroServiceMatch.groupRef)&&
-  Objects.equals(this.matchCriteria, objMicroServiceMatch.matchCriteria);
+  return   Objects.equals(this.matchCriteria, objMicroServiceMatch.matchCriteria)&&
+  Objects.equals(this.groupRef, objMicroServiceMatch.groupRef);
 }
 
 @Override

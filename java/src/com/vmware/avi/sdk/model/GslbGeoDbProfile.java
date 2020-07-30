@@ -203,12 +203,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbGeoDbProfile objGslbGeoDbProfile = (GslbGeoDbProfile) o;
-  return   Objects.equals(this.description, objGslbGeoDbProfile.description)&&
-  Objects.equals(this.isFederated, objGslbGeoDbProfile.isFederated)&&
+  return   Objects.equals(this.uuid, objGslbGeoDbProfile.uuid)&&
   Objects.equals(this.name, objGslbGeoDbProfile.name)&&
   Objects.equals(this.entries, objGslbGeoDbProfile.entries)&&
-  Objects.equals(this.tenantRef, objGslbGeoDbProfile.tenantRef)&&
-  Objects.equals(this.uuid, objGslbGeoDbProfile.uuid);
+  Objects.equals(this.isFederated, objGslbGeoDbProfile.isFederated)&&
+  Objects.equals(this.description, objGslbGeoDbProfile.description)&&
+  Objects.equals(this.tenantRef, objGslbGeoDbProfile.tenantRef);
 }
 
 @Override

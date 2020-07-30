@@ -218,15 +218,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUpdateDetails objConfigUpdateDetails = (ConfigUpdateDetails) o;
-  return   Objects.equals(this.status, objConfigUpdateDetails.status)&&
-  Objects.equals(this.requestData, objConfigUpdateDetails.requestData)&&
-  Objects.equals(this.resourceName, objConfigUpdateDetails.resourceName)&&
-  Objects.equals(this.errorMessage, objConfigUpdateDetails.errorMessage)&&
-  Objects.equals(this.oldResourceData, objConfigUpdateDetails.oldResourceData)&&
+  return   Objects.equals(this.path, objConfigUpdateDetails.path)&&
   Objects.equals(this.user, objConfigUpdateDetails.user)&&
+  Objects.equals(this.status, objConfigUpdateDetails.status)&&
+  Objects.equals(this.resourceType, objConfigUpdateDetails.resourceType)&&
+  Objects.equals(this.resourceName, objConfigUpdateDetails.resourceName)&&
+  Objects.equals(this.requestData, objConfigUpdateDetails.requestData)&&
+  Objects.equals(this.errorMessage, objConfigUpdateDetails.errorMessage)&&
   Objects.equals(this.newResourceData, objConfigUpdateDetails.newResourceData)&&
-  Objects.equals(this.path, objConfigUpdateDetails.path)&&
-  Objects.equals(this.resourceType, objConfigUpdateDetails.resourceType);
+  Objects.equals(this.oldResourceData, objConfigUpdateDetails.oldResourceData);
 }
 
 @Override

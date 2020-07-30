@@ -226,15 +226,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerAutoScaleOutInfo objServerAutoScaleOutInfo = (ServerAutoScaleOutInfo) o;
-  return   Objects.equals(this.load, objServerAutoScaleOutInfo.load)&&
-  Objects.equals(this.numServersUp, objServerAutoScaleOutInfo.numServersUp)&&
-  Objects.equals(this.alertconfigRef, objServerAutoScaleOutInfo.alertconfigRef)&&
-  Objects.equals(this.availableCapacity, objServerAutoScaleOutInfo.availableCapacity)&&
-  Objects.equals(this.reasonCode, objServerAutoScaleOutInfo.reasonCode)&&
-  Objects.equals(this.alertconfigName, objServerAutoScaleOutInfo.alertconfigName)&&
+  return   Objects.equals(this.poolRef, objServerAutoScaleOutInfo.poolRef)&&
   Objects.equals(this.numScaleoutServers, objServerAutoScaleOutInfo.numScaleoutServers)&&
+  Objects.equals(this.numServersUp, objServerAutoScaleOutInfo.numServersUp)&&
   Objects.equals(this.reason, objServerAutoScaleOutInfo.reason)&&
-  Objects.equals(this.poolRef, objServerAutoScaleOutInfo.poolRef);
+  Objects.equals(this.reasonCode, objServerAutoScaleOutInfo.reasonCode)&&
+  Objects.equals(this.load, objServerAutoScaleOutInfo.load)&&
+  Objects.equals(this.availableCapacity, objServerAutoScaleOutInfo.availableCapacity)&&
+  Objects.equals(this.alertconfigRef, objServerAutoScaleOutInfo.alertconfigRef)&&
+  Objects.equals(this.alertconfigName, objServerAutoScaleOutInfo.alertconfigName);
 }
 
 @Override

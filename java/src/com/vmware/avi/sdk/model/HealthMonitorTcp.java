@@ -127,8 +127,8 @@ public boolean equals(java.lang.Object o) {
   HealthMonitorTcp objHealthMonitorTcp = (HealthMonitorTcp) o;
   return   Objects.equals(this.tcpRequest, objHealthMonitorTcp.tcpRequest)&&
   Objects.equals(this.tcpResponse, objHealthMonitorTcp.tcpResponse)&&
-  Objects.equals(this.tcpHalfOpen, objHealthMonitorTcp.tcpHalfOpen)&&
-  Objects.equals(this.maintenanceResponse, objHealthMonitorTcp.maintenanceResponse);
+  Objects.equals(this.maintenanceResponse, objHealthMonitorTcp.maintenanceResponse)&&
+  Objects.equals(this.tcpHalfOpen, objHealthMonitorTcp.tcpHalfOpen);
 }
 
 @Override

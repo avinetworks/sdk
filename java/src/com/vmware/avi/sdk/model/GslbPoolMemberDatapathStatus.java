@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbPoolMemberDatapathStatus objGslbPoolMemberDatapathStatus = (GslbPoolMemberDatapathStatus) o;
-  return   Objects.equals(this.operStatus, objGslbPoolMemberDatapathStatus.operStatus)&&
-  Objects.equals(this.siteUuid, objGslbPoolMemberDatapathStatus.siteUuid)&&
+  return   Objects.equals(this.siteUuid, objGslbPoolMemberDatapathStatus.siteUuid)&&
+  Objects.equals(this.operStatus, objGslbPoolMemberDatapathStatus.operStatus)&&
   Objects.equals(this.location, objGslbPoolMemberDatapathStatus.location);
 }
 

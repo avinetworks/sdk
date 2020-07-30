@@ -94,9 +94,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ClusterNodeAddEvent objClusterNodeAddEvent = (ClusterNodeAddEvent) o;
-  return   Objects.equals(this.ip, objClusterNodeAddEvent.ip)&&
-  Objects.equals(this.role, objClusterNodeAddEvent.role)&&
-  Objects.equals(this.nodeName, objClusterNodeAddEvent.nodeName);
+  return   Objects.equals(this.nodeName, objClusterNodeAddEvent.nodeName)&&
+  Objects.equals(this.ip, objClusterNodeAddEvent.ip)&&
+  Objects.equals(this.role, objClusterNodeAddEvent.role);
 }
 
 @Override

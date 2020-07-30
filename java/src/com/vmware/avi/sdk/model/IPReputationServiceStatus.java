@@ -83,8 +83,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   IPReputationServiceStatus objIPReputationServiceStatus = (IPReputationServiceStatus) o;
-  return   Objects.equals(this.lastSuccessfulUpdateCheck, objIPReputationServiceStatus.lastSuccessfulUpdateCheck)&&
-  Objects.equals(this.error, objIPReputationServiceStatus.error);
+  return   Objects.equals(this.error, objIPReputationServiceStatus.error)&&
+  Objects.equals(this.lastSuccessfulUpdateCheck, objIPReputationServiceStatus.lastSuccessfulUpdateCheck);
 }
 
 @Override

@@ -447,22 +447,22 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServerAutoScalePolicy objServerAutoScalePolicy = (ServerAutoScalePolicy) o;
-  return   Objects.equals(this.scaleoutAlertconfigRefs, objServerAutoScalePolicy.scaleoutAlertconfigRefs)&&
-  Objects.equals(this.maxScaleinAdjustmentStep, objServerAutoScalePolicy.maxScaleinAdjustmentStep)&&
+  return   Objects.equals(this.uuid, objServerAutoScalePolicy.uuid)&&
+  Objects.equals(this.name, objServerAutoScalePolicy.name)&&
   Objects.equals(this.intelligentAutoscale, objServerAutoScalePolicy.intelligentAutoscale)&&
+  Objects.equals(this.intelligentScaleoutMargin, objServerAutoScalePolicy.intelligentScaleoutMargin)&&
   Objects.equals(this.intelligentScaleinMargin, objServerAutoScalePolicy.intelligentScaleinMargin)&&
-  Objects.equals(this.uuid, objServerAutoScalePolicy.uuid)&&
+  Objects.equals(this.minSize, objServerAutoScalePolicy.minSize)&&
+  Objects.equals(this.maxSize, objServerAutoScalePolicy.maxSize)&&
+  Objects.equals(this.maxScaleoutAdjustmentStep, objServerAutoScalePolicy.maxScaleoutAdjustmentStep)&&
+  Objects.equals(this.maxScaleinAdjustmentStep, objServerAutoScalePolicy.maxScaleinAdjustmentStep)&&
+  Objects.equals(this.scaleoutCooldown, objServerAutoScalePolicy.scaleoutCooldown)&&
+  Objects.equals(this.scaleinCooldown, objServerAutoScalePolicy.scaleinCooldown)&&
+  Objects.equals(this.scaleoutAlertconfigRefs, objServerAutoScalePolicy.scaleoutAlertconfigRefs)&&
   Objects.equals(this.scaleinAlertconfigRefs, objServerAutoScalePolicy.scaleinAlertconfigRefs)&&
   Objects.equals(this.usePredictedLoad, objServerAutoScalePolicy.usePredictedLoad)&&
-  Objects.equals(this.intelligentScaleoutMargin, objServerAutoScalePolicy.intelligentScaleoutMargin)&&
   Objects.equals(this.description, objServerAutoScalePolicy.description)&&
-  Objects.equals(this.minSize, objServerAutoScalePolicy.minSize)&&
-  Objects.equals(this.scaleinCooldown, objServerAutoScalePolicy.scaleinCooldown)&&
-  Objects.equals(this.maxScaleoutAdjustmentStep, objServerAutoScalePolicy.maxScaleoutAdjustmentStep)&&
-  Objects.equals(this.scaleoutCooldown, objServerAutoScalePolicy.scaleoutCooldown)&&
-  Objects.equals(this.tenantRef, objServerAutoScalePolicy.tenantRef)&&
-  Objects.equals(this.maxSize, objServerAutoScalePolicy.maxSize)&&
-  Objects.equals(this.name, objServerAutoScalePolicy.name);
+  Objects.equals(this.tenantRef, objServerAutoScalePolicy.tenantRef);
 }
 
 @Override

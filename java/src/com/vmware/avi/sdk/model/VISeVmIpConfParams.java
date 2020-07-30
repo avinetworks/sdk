@@ -115,8 +115,8 @@ public boolean equals(java.lang.Object o) {
   VISeVmIpConfParams objVISeVmIpConfParams = (VISeVmIpConfParams) o;
   return   Objects.equals(this.mgmtIpType, objVISeVmIpConfParams.mgmtIpType)&&
   Objects.equals(this.mgmtIpAddr, objVISeVmIpConfParams.mgmtIpAddr)&&
-  Objects.equals(this.defaultGw, objVISeVmIpConfParams.defaultGw)&&
-  Objects.equals(this.mgmtNetMask, objVISeVmIpConfParams.mgmtNetMask);
+  Objects.equals(this.mgmtNetMask, objVISeVmIpConfParams.mgmtNetMask)&&
+  Objects.equals(this.defaultGw, objVISeVmIpConfParams.defaultGw);
 }
 
 @Override

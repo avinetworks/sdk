@@ -266,15 +266,15 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AnalyticsPolicy objAnalyticsPolicy = (AnalyticsPolicy) o;
-  return   Objects.equals(this.udfLogThrottle, objAnalyticsPolicy.udfLogThrottle)&&
-  Objects.equals(this.enabled, objAnalyticsPolicy.enabled)&&
-  Objects.equals(this.clientInsightsSampling, objAnalyticsPolicy.clientInsightsSampling)&&
-  Objects.equals(this.fullClientLogs, objAnalyticsPolicy.fullClientLogs)&&
+  return   Objects.equals(this.fullClientLogs, objAnalyticsPolicy.fullClientLogs)&&
   Objects.equals(this.clientLogFilters, objAnalyticsPolicy.clientLogFilters)&&
-  Objects.equals(this.metricsRealtimeUpdate, objAnalyticsPolicy.metricsRealtimeUpdate)&&
+  Objects.equals(this.udfLogThrottle, objAnalyticsPolicy.udfLogThrottle)&&
   Objects.equals(this.significantLogThrottle, objAnalyticsPolicy.significantLogThrottle)&&
   Objects.equals(this.clientInsights, objAnalyticsPolicy.clientInsights)&&
-  Objects.equals(this.allHeaders, objAnalyticsPolicy.allHeaders);
+  Objects.equals(this.metricsRealtimeUpdate, objAnalyticsPolicy.metricsRealtimeUpdate)&&
+  Objects.equals(this.clientInsightsSampling, objAnalyticsPolicy.clientInsightsSampling)&&
+  Objects.equals(this.allHeaders, objAnalyticsPolicy.allHeaders)&&
+  Objects.equals(this.enabled, objAnalyticsPolicy.enabled);
 }
 
 @Override

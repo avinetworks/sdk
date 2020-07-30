@@ -73,8 +73,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NTPServer objNTPServer = (NTPServer) o;
-  return   Objects.equals(this.keyNumber, objNTPServer.keyNumber)&&
-  Objects.equals(this.server, objNTPServer.server);
+  return   Objects.equals(this.server, objNTPServer.server)&&
+  Objects.equals(this.keyNumber, objNTPServer.keyNumber);
 }
 
 @Override

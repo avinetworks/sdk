@@ -272,16 +272,16 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrIPSubnetRuntime objVIMgrIPSubnetRuntime = (VIMgrIPSubnetRuntime) o;
-  return   Objects.equals(this.fipAvailable, objVIMgrIPSubnetRuntime.fipAvailable)&&
-  Objects.equals(this.uuid, objVIMgrIPSubnetRuntime.uuid)&&
-  Objects.equals(this.ipSubnet, objVIMgrIPSubnetRuntime.ipSubnet)&&
-  Objects.equals(this.floatingipSubnets, objVIMgrIPSubnetRuntime.floatingipSubnets)&&
-  Objects.equals(this.seRefCount, objVIMgrIPSubnetRuntime.seRefCount)&&
+  return   Objects.equals(this.prefix, objVIMgrIPSubnetRuntime.prefix)&&
   Objects.equals(this.refCount, objVIMgrIPSubnetRuntime.refCount)&&
-  Objects.equals(this.primary, objVIMgrIPSubnetRuntime.primary)&&
-  Objects.equals(this.prefix, objVIMgrIPSubnetRuntime.prefix)&&
+  Objects.equals(this.ipSubnet, objVIMgrIPSubnetRuntime.ipSubnet)&&
+  Objects.equals(this.seRefCount, objVIMgrIPSubnetRuntime.seRefCount)&&
+  Objects.equals(this.name, objVIMgrIPSubnetRuntime.name)&&
+  Objects.equals(this.uuid, objVIMgrIPSubnetRuntime.uuid)&&
+  Objects.equals(this.fipAvailable, objVIMgrIPSubnetRuntime.fipAvailable)&&
   Objects.equals(this.fipSubnetUuids, objVIMgrIPSubnetRuntime.fipSubnetUuids)&&
-  Objects.equals(this.name, objVIMgrIPSubnetRuntime.name);
+  Objects.equals(this.primary, objVIMgrIPSubnetRuntime.primary)&&
+  Objects.equals(this.floatingipSubnets, objVIMgrIPSubnetRuntime.floatingipSubnets);
 }
 
 @Override

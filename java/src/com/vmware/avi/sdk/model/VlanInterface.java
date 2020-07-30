@@ -225,14 +225,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VlanInterface objVlanInterface = (VlanInterface) o;
-  return   Objects.equals(this.ip6AutocfgEnabled, objVlanInterface.ip6AutocfgEnabled)&&
-  Objects.equals(this.enabled, objVlanInterface.enabled)&&
-  Objects.equals(this.ifName, objVlanInterface.ifName)&&
+  return   Objects.equals(this.ifName, objVlanInterface.ifName)&&
+  Objects.equals(this.vlanId, objVlanInterface.vlanId)&&
   Objects.equals(this.dhcpEnabled, objVlanInterface.dhcpEnabled)&&
-  Objects.equals(this.isMgmt, objVlanInterface.isMgmt)&&
   Objects.equals(this.vnicNetworks, objVlanInterface.vnicNetworks)&&
   Objects.equals(this.vrfRef, objVlanInterface.vrfRef)&&
-  Objects.equals(this.vlanId, objVlanInterface.vlanId);
+  Objects.equals(this.isMgmt, objVlanInterface.isMgmt)&&
+  Objects.equals(this.ip6AutocfgEnabled, objVlanInterface.ip6AutocfgEnabled)&&
+  Objects.equals(this.enabled, objVlanInterface.enabled);
 }
 
 @Override

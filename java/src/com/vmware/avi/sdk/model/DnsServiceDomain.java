@@ -123,9 +123,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsServiceDomain objDnsServiceDomain = (DnsServiceDomain) o;
-  return   Objects.equals(this.recordTtl, objDnsServiceDomain.recordTtl)&&
+  return   Objects.equals(this.domainName, objDnsServiceDomain.domainName)&&
+  Objects.equals(this.recordTtl, objDnsServiceDomain.recordTtl)&&
   Objects.equals(this.numDnsIp, objDnsServiceDomain.numDnsIp)&&
-  Objects.equals(this.domainName, objDnsServiceDomain.domainName)&&
   Objects.equals(this.passThrough, objDnsServiceDomain.passThrough);
 }
 

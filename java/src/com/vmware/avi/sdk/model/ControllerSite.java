@@ -171,10 +171,10 @@ public boolean equals(java.lang.Object o) {
   }
   ControllerSite objControllerSite = (ControllerSite) o;
   return   Objects.equals(this.uuid, objControllerSite.uuid)&&
-  Objects.equals(this.port, objControllerSite.port)&&
+  Objects.equals(this.name, objControllerSite.name)&&
   Objects.equals(this.address, objControllerSite.address)&&
-  Objects.equals(this.tenantRef, objControllerSite.tenantRef)&&
-  Objects.equals(this.name, objControllerSite.name);
+  Objects.equals(this.port, objControllerSite.port)&&
+  Objects.equals(this.tenantRef, objControllerSite.tenantRef);
 }
 
 @Override

@@ -639,32 +639,32 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIMgrHostRuntime objVIMgrHostRuntime = (VIMgrHostRuntime) o;
-  return   Objects.equals(this.vmRefs, objVIMgrHostRuntime.vmRefs)&&
+  return   Objects.equals(this.type, objVIMgrHostRuntime.type)&&
+  Objects.equals(this.uuid, objVIMgrHostRuntime.uuid)&&
+  Objects.equals(this.name, objVIMgrHostRuntime.name)&&
+  Objects.equals(this.managedObjectId, objVIMgrHostRuntime.managedObjectId)&&
+  Objects.equals(this.clusterName, objVIMgrHostRuntime.clusterName)&&
+  Objects.equals(this.clusterUuid, objVIMgrHostRuntime.clusterUuid)&&
+  Objects.equals(this.numCpuPackages, objVIMgrHostRuntime.numCpuPackages)&&
+  Objects.equals(this.numCpuCores, objVIMgrHostRuntime.numCpuCores)&&
+  Objects.equals(this.numCpuThreads, objVIMgrHostRuntime.numCpuThreads)&&
+  Objects.equals(this.cpuHz, objVIMgrHostRuntime.cpuHz)&&
+  Objects.equals(this.mem, objVIMgrHostRuntime.mem)&&
+  Objects.equals(this.pnics, objVIMgrHostRuntime.pnics)&&
+  Objects.equals(this.vmRefs, objVIMgrHostRuntime.vmRefs)&&
+  Objects.equals(this.mgmtPortgroup, objVIMgrHostRuntime.mgmtPortgroup)&&
   Objects.equals(this.powerstate, objVIMgrHostRuntime.powerstate)&&
   Objects.equals(this.maintenanceMode, objVIMgrHostRuntime.maintenanceMode)&&
   Objects.equals(this.connectionState, objVIMgrHostRuntime.connectionState)&&
-  Objects.equals(this.quarantinedPeriods, objVIMgrHostRuntime.quarantinedPeriods)&&
-  Objects.equals(this.managedObjectId, objVIMgrHostRuntime.managedObjectId)&&
-  Objects.equals(this.clusterUuid, objVIMgrHostRuntime.clusterUuid)&&
-  Objects.equals(this.numCpuThreads, objVIMgrHostRuntime.numCpuThreads)&&
-  Objects.equals(this.uuid, objVIMgrHostRuntime.uuid)&&
-  Objects.equals(this.clusterName, objVIMgrHostRuntime.clusterName)&&
-  Objects.equals(this.numCpuPackages, objVIMgrHostRuntime.numCpuPackages)&&
-  Objects.equals(this.type, objVIMgrHostRuntime.type)&&
-  Objects.equals(this.mgmtPortgroup, objVIMgrHostRuntime.mgmtPortgroup)&&
-  Objects.equals(this.quarantineStartTs, objVIMgrHostRuntime.quarantineStartTs)&&
-  Objects.equals(this.mem, objVIMgrHostRuntime.mem)&&
-  Objects.equals(this.seSuccessCnt, objVIMgrHostRuntime.seSuccessCnt)&&
   Objects.equals(this.quarantined, objVIMgrHostRuntime.quarantined)&&
-  Objects.equals(this.cloudRef, objVIMgrHostRuntime.cloudRef)&&
-  Objects.equals(this.name, objVIMgrHostRuntime.name)&&
-  Objects.equals(this.networkUuids, objVIMgrHostRuntime.networkUuids)&&
-  Objects.equals(this.cpuHz, objVIMgrHostRuntime.cpuHz)&&
+  Objects.equals(this.quarantineStartTs, objVIMgrHostRuntime.quarantineStartTs)&&
+  Objects.equals(this.quarantinedPeriods, objVIMgrHostRuntime.quarantinedPeriods)&&
   Objects.equals(this.cntlrAccessible, objVIMgrHostRuntime.cntlrAccessible)&&
+  Objects.equals(this.networkUuids, objVIMgrHostRuntime.networkUuids)&&
   Objects.equals(this.seFailCnt, objVIMgrHostRuntime.seFailCnt)&&
-  Objects.equals(this.numCpuCores, objVIMgrHostRuntime.numCpuCores)&&
-  Objects.equals(this.pnics, objVIMgrHostRuntime.pnics)&&
-  Objects.equals(this.tenantRef, objVIMgrHostRuntime.tenantRef);
+  Objects.equals(this.seSuccessCnt, objVIMgrHostRuntime.seSuccessCnt)&&
+  Objects.equals(this.tenantRef, objVIMgrHostRuntime.tenantRef)&&
+  Objects.equals(this.cloudRef, objVIMgrHostRuntime.cloudRef);
 }
 
 @Override

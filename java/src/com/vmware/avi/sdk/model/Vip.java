@@ -635,30 +635,30 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Vip objVip = (Vip) o;
-  return   Objects.equals(this.discoveredNetworks, objVip.discoveredNetworks)&&
+  return   Objects.equals(this.vipId, objVip.vipId)&&
+  Objects.equals(this.ipAddress, objVip.ipAddress)&&
+  Objects.equals(this.enabled, objVip.enabled)&&
   Objects.equals(this.networkRef, objVip.networkRef)&&
+  Objects.equals(this.portUuid, objVip.portUuid)&&
+  Objects.equals(this.subnetUuid, objVip.subnetUuid)&&
+  Objects.equals(this.subnet, objVip.subnet)&&
+  Objects.equals(this.discoveredNetworks, objVip.discoveredNetworks)&&
   Objects.equals(this.availabilityZone, objVip.availabilityZone)&&
+  Objects.equals(this.autoAllocateIp, objVip.autoAllocateIp)&&
+  Objects.equals(this.floatingIp, objVip.floatingIp)&&
+  Objects.equals(this.autoAllocateFloatingIp, objVip.autoAllocateFloatingIp)&&
   Objects.equals(this.floatingSubnetUuid, objVip.floatingSubnetUuid)&&
   Objects.equals(this.aviAllocatedVip, objVip.aviAllocatedVip)&&
-  Objects.equals(this.ip6Address, objVip.ip6Address)&&
-  Objects.equals(this.floatingSubnet6Uuid, objVip.floatingSubnet6Uuid)&&
-  Objects.equals(this.subnet, objVip.subnet)&&
-  Objects.equals(this.subnet6Uuid, objVip.subnet6Uuid)&&
   Objects.equals(this.aviAllocatedFip, objVip.aviAllocatedFip)&&
-  Objects.equals(this.placementNetworks, objVip.placementNetworks)&&
-  Objects.equals(this.prefixLength, objVip.prefixLength)&&
+  Objects.equals(this.ipamNetworkSubnet, objVip.ipamNetworkSubnet)&&
+  Objects.equals(this.ip6Address, objVip.ip6Address)&&
+  Objects.equals(this.subnet6Uuid, objVip.subnet6Uuid)&&
   Objects.equals(this.subnet6, objVip.subnet6)&&
-  Objects.equals(this.floatingIp, objVip.floatingIp)&&
-  Objects.equals(this.portUuid, objVip.portUuid)&&
-  Objects.equals(this.autoAllocateFloatingIp, objVip.autoAllocateFloatingIp)&&
-  Objects.equals(this.autoAllocateIpType, objVip.autoAllocateIpType)&&
-  Objects.equals(this.ipAddress, objVip.ipAddress)&&
-  Objects.equals(this.subnetUuid, objVip.subnetUuid)&&
-  Objects.equals(this.vipId, objVip.vipId)&&
   Objects.equals(this.floatingIp6, objVip.floatingIp6)&&
-  Objects.equals(this.autoAllocateIp, objVip.autoAllocateIp)&&
-  Objects.equals(this.enabled, objVip.enabled)&&
-  Objects.equals(this.ipamNetworkSubnet, objVip.ipamNetworkSubnet);
+  Objects.equals(this.floatingSubnet6Uuid, objVip.floatingSubnet6Uuid)&&
+  Objects.equals(this.autoAllocateIpType, objVip.autoAllocateIpType)&&
+  Objects.equals(this.placementNetworks, objVip.placementNetworks)&&
+  Objects.equals(this.prefixLength, objVip.prefixLength);
 }
 
 @Override

@@ -20,6 +20,9 @@ public class NsxtSegmentRuntime extends AviRestResource  {
     @JsonProperty("cloud_ref")
     private String cloudRef = null;
 
+    @JsonProperty("dhcp6_ranges")
+    private List<String> dhcp6Ranges = null;
+
     @JsonProperty("dhcp_enabled")
     private Boolean dhcpEnabled = true;
 
@@ -41,6 +44,9 @@ public class NsxtSegmentRuntime extends AviRestResource  {
     @JsonProperty("segment_gw")
     private String segmentGw = null;
 
+    @JsonProperty("segment_gw6")
+    private String segmentGw6 = null;
+
     @JsonProperty("segment_id")
     private String segmentId = null;
 
@@ -48,7 +54,10 @@ public class NsxtSegmentRuntime extends AviRestResource  {
     private String segname = null;
 
     @JsonProperty("subnet")
-    private IpAddrPrefix subnet = null;
+    private String subnet = null;
+
+    @JsonProperty("subnet6")
+    private String subnet6 = null;
 
     @JsonProperty("tenant_ref")
     private String tenantRef = null;
@@ -87,6 +96,39 @@ public class NsxtSegmentRuntime extends AviRestResource  {
    */
   public void setCloudRef(String  cloudRef) {
     this.cloudRef = cloudRef;
+  }
+  /**
+   * This is the getter method this will return the attribute value.
+   * V6 dhcp ranges configured in nsxt.
+   * Field introduced in 20.1.1.
+   * @return dhcp6Ranges
+   */
+  public List<String> getDhcp6Ranges() {
+    return dhcp6Ranges;
+  }
+
+  /**
+   * This is the setter method. this will set the dhcp6Ranges
+   * V6 dhcp ranges configured in nsxt.
+   * Field introduced in 20.1.1.
+   * @return dhcp6Ranges
+   */
+  public void setDhcp6Ranges(List<String>  dhcp6Ranges) {
+    this.dhcp6Ranges = dhcp6Ranges;
+  }
+
+  /**
+   * This is the setter method this will set the dhcp6Ranges
+   * V6 dhcp ranges configured in nsxt.
+   * Field introduced in 20.1.1.
+   * @return dhcp6Ranges
+   */
+  public NsxtSegmentRuntime addDhcp6RangesItem(String dhcp6RangesItem) {
+    if (this.dhcp6Ranges == null) {
+      this.dhcp6Ranges = new ArrayList<String>();
+    }
+    this.dhcp6Ranges.add(dhcp6RangesItem);
+    return this;
   }
 
   /**
@@ -248,6 +290,26 @@ public class NsxtSegmentRuntime extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
+   * V6 segment gateway.
+   * Field introduced in 20.1.1.
+   * @return segmentGw6
+   */
+  public String getSegmentGw6() {
+    return segmentGw6;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * V6 segment gateway.
+   * Field introduced in 20.1.1.
+   * @param segmentGw6 set the segmentGw6.
+   */
+  public void setSegmentGw6(String  segmentGw6) {
+    this.segmentGw6 = segmentGw6;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
    * Segment id.
    * Field introduced in 20.1.1.
    * @return segmentId
@@ -292,7 +354,7 @@ public class NsxtSegmentRuntime extends AviRestResource  {
    * Field introduced in 20.1.1.
    * @return subnet
    */
-  public IpAddrPrefix getSubnet() {
+  public String getSubnet() {
     return subnet;
   }
 
@@ -302,8 +364,28 @@ public class NsxtSegmentRuntime extends AviRestResource  {
    * Field introduced in 20.1.1.
    * @param subnet set the subnet.
    */
-  public void setSubnet(IpAddrPrefix subnet) {
+  public void setSubnet(String  subnet) {
     this.subnet = subnet;
+  }
+
+  /**
+   * This is the getter method this will return the attribute value.
+   * V6 segment cidr.
+   * Field introduced in 20.1.1.
+   * @return subnet6
+   */
+  public String getSubnet6() {
+    return subnet6;
+  }
+
+  /**
+   * This is the setter method to the attribute.
+   * V6 segment cidr.
+   * Field introduced in 20.1.1.
+   * @param subnet6 set the subnet6.
+   */
+  public void setSubnet6(String  subnet6) {
+    this.subnet6 = subnet6;
   }
 
   /**
@@ -417,21 +499,24 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NsxtSegmentRuntime objNsxtSegmentRuntime = (NsxtSegmentRuntime) o;
-  return   Objects.equals(this.vrfContextRef, objNsxtSegmentRuntime.vrfContextRef)&&
-  Objects.equals(this.subnet, objNsxtSegmentRuntime.subnet)&&
-  Objects.equals(this.uuid, objNsxtSegmentRuntime.uuid)&&
+  return   Objects.equals(this.uuid, objNsxtSegmentRuntime.uuid)&&
   Objects.equals(this.segmentId, objNsxtSegmentRuntime.segmentId)&&
-  Objects.equals(this.tier1Id, objNsxtSegmentRuntime.tier1Id)&&
-  Objects.equals(this.nwName, objNsxtSegmentRuntime.nwName)&&
+  Objects.equals(this.name, objNsxtSegmentRuntime.name)&&
+  Objects.equals(this.subnet, objNsxtSegmentRuntime.subnet)&&
   Objects.equals(this.dhcpEnabled, objNsxtSegmentRuntime.dhcpEnabled)&&
-  Objects.equals(this.dhcpRanges, objNsxtSegmentRuntime.dhcpRanges)&&
-  Objects.equals(this.segname, objNsxtSegmentRuntime.segname)&&
+  Objects.equals(this.nwRef, objNsxtSegmentRuntime.nwRef)&&
+  Objects.equals(this.nwName, objNsxtSegmentRuntime.nwName)&&
+  Objects.equals(this.vrfContextRef, objNsxtSegmentRuntime.vrfContextRef)&&
+  Objects.equals(this.tier1Id, objNsxtSegmentRuntime.tier1Id)&&
   Objects.equals(this.opaqueNetworkId, objNsxtSegmentRuntime.opaqueNetworkId)&&
   Objects.equals(this.segmentGw, objNsxtSegmentRuntime.segmentGw)&&
-  Objects.equals(this.cloudRef, objNsxtSegmentRuntime.cloudRef)&&
+  Objects.equals(this.dhcpRanges, objNsxtSegmentRuntime.dhcpRanges)&&
+  Objects.equals(this.segname, objNsxtSegmentRuntime.segname)&&
+  Objects.equals(this.subnet6, objNsxtSegmentRuntime.subnet6)&&
+  Objects.equals(this.segmentGw6, objNsxtSegmentRuntime.segmentGw6)&&
+  Objects.equals(this.dhcp6Ranges, objNsxtSegmentRuntime.dhcp6Ranges)&&
   Objects.equals(this.tenantRef, objNsxtSegmentRuntime.tenantRef)&&
-  Objects.equals(this.nwRef, objNsxtSegmentRuntime.nwRef)&&
-  Objects.equals(this.name, objNsxtSegmentRuntime.name);
+  Objects.equals(this.cloudRef, objNsxtSegmentRuntime.cloudRef);
 }
 
 @Override
@@ -439,6 +524,7 @@ public String toString() {
   StringBuilder sb = new StringBuilder();
   sb.append("class NsxtSegmentRuntime {\n");
       sb.append("    cloudRef: ").append(toIndentedString(cloudRef)).append("\n");
+        sb.append("    dhcp6Ranges: ").append(toIndentedString(dhcp6Ranges)).append("\n");
         sb.append("    dhcpEnabled: ").append(toIndentedString(dhcpEnabled)).append("\n");
         sb.append("    dhcpRanges: ").append(toIndentedString(dhcpRanges)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
@@ -446,9 +532,11 @@ public String toString() {
         sb.append("    nwRef: ").append(toIndentedString(nwRef)).append("\n");
         sb.append("    opaqueNetworkId: ").append(toIndentedString(opaqueNetworkId)).append("\n");
         sb.append("    segmentGw: ").append(toIndentedString(segmentGw)).append("\n");
+        sb.append("    segmentGw6: ").append(toIndentedString(segmentGw6)).append("\n");
         sb.append("    segmentId: ").append(toIndentedString(segmentId)).append("\n");
         sb.append("    segname: ").append(toIndentedString(segname)).append("\n");
         sb.append("    subnet: ").append(toIndentedString(subnet)).append("\n");
+        sb.append("    subnet6: ").append(toIndentedString(subnet6)).append("\n");
         sb.append("    tenantRef: ").append(toIndentedString(tenantRef)).append("\n");
         sb.append("    tier1Id: ").append(toIndentedString(tier1Id)).append("\n");
             sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");

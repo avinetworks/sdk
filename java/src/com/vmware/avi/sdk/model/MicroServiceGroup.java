@@ -190,12 +190,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MicroServiceGroup objMicroServiceGroup = (MicroServiceGroup) o;
-  return   Objects.equals(this.description, objMicroServiceGroup.description)&&
-  Objects.equals(this.createdBy, objMicroServiceGroup.createdBy)&&
+  return   Objects.equals(this.uuid, objMicroServiceGroup.uuid)&&
   Objects.equals(this.name, objMicroServiceGroup.name)&&
   Objects.equals(this.serviceRefs, objMicroServiceGroup.serviceRefs)&&
-  Objects.equals(this.tenantRef, objMicroServiceGroup.tenantRef)&&
-  Objects.equals(this.uuid, objMicroServiceGroup.uuid);
+  Objects.equals(this.createdBy, objMicroServiceGroup.createdBy)&&
+  Objects.equals(this.description, objMicroServiceGroup.description)&&
+  Objects.equals(this.tenantRef, objMicroServiceGroup.tenantRef);
 }
 
 @Override

@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsPoolNwFilterEventDetails objVsPoolNwFilterEventDetails = (VsPoolNwFilterEventDetails) o;
-  return   Objects.equals(this.filter, objVsPoolNwFilterEventDetails.filter)&&
-  Objects.equals(this.name, objVsPoolNwFilterEventDetails.name)&&
+  return   Objects.equals(this.name, objVsPoolNwFilterEventDetails.name)&&
+  Objects.equals(this.filter, objVsPoolNwFilterEventDetails.filter)&&
   Objects.equals(this.network, objVsPoolNwFilterEventDetails.network);
 }
 

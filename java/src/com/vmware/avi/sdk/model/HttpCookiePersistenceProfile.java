@@ -154,11 +154,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HttpCookiePersistenceProfile objHttpCookiePersistenceProfile = (HttpCookiePersistenceProfile) o;
-  return   Objects.equals(this.alwaysSendCookie, objHttpCookiePersistenceProfile.alwaysSendCookie)&&
-  Objects.equals(this.timeout, objHttpCookiePersistenceProfile.timeout)&&
+  return   Objects.equals(this.encryptionKey, objHttpCookiePersistenceProfile.encryptionKey)&&
   Objects.equals(this.cookieName, objHttpCookiePersistenceProfile.cookieName)&&
-  Objects.equals(this.encryptionKey, objHttpCookiePersistenceProfile.encryptionKey)&&
-  Objects.equals(this.key, objHttpCookiePersistenceProfile.key);
+  Objects.equals(this.key, objHttpCookiePersistenceProfile.key)&&
+  Objects.equals(this.timeout, objHttpCookiePersistenceProfile.timeout)&&
+  Objects.equals(this.alwaysSendCookie, objHttpCookiePersistenceProfile.alwaysSendCookie);
 }
 
 @Override

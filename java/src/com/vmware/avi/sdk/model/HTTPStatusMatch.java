@@ -118,9 +118,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPStatusMatch objHTTPStatusMatch = (HTTPStatusMatch) o;
-  return   Objects.equals(this.ranges, objHTTPStatusMatch.ranges)&&
+  return   Objects.equals(this.matchCriteria, objHTTPStatusMatch.matchCriteria)&&
   Objects.equals(this.statusCodes, objHTTPStatusMatch.statusCodes)&&
-  Objects.equals(this.matchCriteria, objHTTPStatusMatch.matchCriteria);
+  Objects.equals(this.ranges, objHTTPStatusMatch.ranges);
 }
 
 @Override

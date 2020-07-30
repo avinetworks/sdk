@@ -82,7 +82,7 @@ public class DockerRegistry  {
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @return privates
    */
-  public Boolean getPrivate() {
+  public Boolean getPrivates() {
     return privates;
   }
 
@@ -93,7 +93,7 @@ public class DockerRegistry  {
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @param privates set the privates.
    */
-  public void setPrivate(Boolean  privates) {
+  public void setPrivates(Boolean  privates) {
     this.privates = privates;
   }
 
@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DockerRegistry objDockerRegistry = (DockerRegistry) o;
-  return   Objects.equals(this.username, objDockerRegistry.username)&&
-  Objects.equals(this.oshiftRegistry, objDockerRegistry.oshiftRegistry)&&
+  return   Objects.equals(this.registry, objDockerRegistry.registry)&&
   Objects.equals(this.privates, objDockerRegistry.privates)&&
-  Objects.equals(this.registry, objDockerRegistry.registry)&&
+  Objects.equals(this.username, objDockerRegistry.username)&&
   Objects.equals(this.password, objDockerRegistry.password)&&
-  Objects.equals(this.seRepositoryPush, objDockerRegistry.seRepositoryPush);
+  Objects.equals(this.seRepositoryPush, objDockerRegistry.seRepositoryPush)&&
+  Objects.equals(this.oshiftRegistry, objDockerRegistry.oshiftRegistry);
 }
 
 @Override

@@ -126,9 +126,9 @@ public boolean equals(java.lang.Object o) {
   }
   SeHbRecoveredEventDetails objSeHbRecoveredEventDetails = (SeHbRecoveredEventDetails) o;
   return   Objects.equals(this.reportingSeRef, objSeHbRecoveredEventDetails.reportingSeRef)&&
-  Objects.equals(this.vsUuid, objSeHbRecoveredEventDetails.vsUuid)&&
+  Objects.equals(this.remoteSeRef, objSeHbRecoveredEventDetails.remoteSeRef)&&
   Objects.equals(this.hbType, objSeHbRecoveredEventDetails.hbType)&&
-  Objects.equals(this.remoteSeRef, objSeHbRecoveredEventDetails.remoteSeRef);
+  Objects.equals(this.vsUuid, objSeHbRecoveredEventDetails.vsUuid);
 }
 
 @Override

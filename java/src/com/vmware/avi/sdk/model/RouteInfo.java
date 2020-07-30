@@ -127,8 +127,8 @@ public boolean equals(java.lang.Object o) {
   RouteInfo objRouteInfo = (RouteInfo) o;
   return   Objects.equals(this.subnet, objRouteInfo.subnet)&&
   Objects.equals(this.nexthop, objRouteInfo.nexthop)&&
-  Objects.equals(this.networkNamespace, objRouteInfo.networkNamespace)&&
-  Objects.equals(this.ifName, objRouteInfo.ifName);
+  Objects.equals(this.ifName, objRouteInfo.ifName)&&
+  Objects.equals(this.networkNamespace, objRouteInfo.networkNamespace);
 }
 
 @Override

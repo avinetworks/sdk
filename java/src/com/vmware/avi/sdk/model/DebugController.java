@@ -200,13 +200,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugController objDebugController = (DebugController) o;
-  return   Objects.equals(this.subModule, objDebugController.subModule)&&
-  Objects.equals(this.logLevel, objDebugController.logLevel)&&
-  Objects.equals(this.uuid, objDebugController.uuid)&&
-  Objects.equals(this.filters, objDebugController.filters)&&
+  return   Objects.equals(this.uuid, objDebugController.uuid)&&
+  Objects.equals(this.name, objDebugController.name)&&
+  Objects.equals(this.subModule, objDebugController.subModule)&&
   Objects.equals(this.traceLevel, objDebugController.traceLevel)&&
-  Objects.equals(this.tenantRef, objDebugController.tenantRef)&&
-  Objects.equals(this.name, objDebugController.name);
+  Objects.equals(this.logLevel, objDebugController.logLevel)&&
+  Objects.equals(this.filters, objDebugController.filters)&&
+  Objects.equals(this.tenantRef, objDebugController.tenantRef);
 }
 
 @Override

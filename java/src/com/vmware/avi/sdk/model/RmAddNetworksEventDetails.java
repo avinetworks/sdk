@@ -191,12 +191,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   RmAddNetworksEventDetails objRmAddNetworksEventDetails = (RmAddNetworksEventDetails) o;
-  return   Objects.equals(this.vsName, objRmAddNetworksEventDetails.vsName)&&
-  Objects.equals(this.vsUuid, objRmAddNetworksEventDetails.vsUuid)&&
-  Objects.equals(this.reason, objRmAddNetworksEventDetails.reason)&&
-  Objects.equals(this.seUuid, objRmAddNetworksEventDetails.seUuid)&&
+  return   Objects.equals(this.seUuid, objRmAddNetworksEventDetails.seUuid)&&
   Objects.equals(this.seName, objRmAddNetworksEventDetails.seName)&&
-  Objects.equals(this.networks, objRmAddNetworksEventDetails.networks);
+  Objects.equals(this.networks, objRmAddNetworksEventDetails.networks)&&
+  Objects.equals(this.vsName, objRmAddNetworksEventDetails.vsName)&&
+  Objects.equals(this.vsUuid, objRmAddNetworksEventDetails.vsUuid)&&
+  Objects.equals(this.reason, objRmAddNetworksEventDetails.reason);
 }
 
 @Override

@@ -235,14 +235,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ALBServicesFileUpload objALBServicesFileUpload = (ALBServicesFileUpload) o;
-  return   Objects.equals(this.status, objALBServicesFileUpload.status)&&
-  Objects.equals(this.uuid, objALBServicesFileUpload.uuid)&&
-  Objects.equals(this.filePath, objALBServicesFileUpload.filePath)&&
-  Objects.equals(this.caseId, objALBServicesFileUpload.caseId)&&
-  Objects.equals(this.error, objALBServicesFileUpload.error)&&
-  Objects.equals(this.s3Directory, objALBServicesFileUpload.s3Directory)&&
+  return   Objects.equals(this.uuid, objALBServicesFileUpload.uuid)&&
+  Objects.equals(this.name, objALBServicesFileUpload.name)&&
   Objects.equals(this.tenantRef, objALBServicesFileUpload.tenantRef)&&
-  Objects.equals(this.name, objALBServicesFileUpload.name);
+  Objects.equals(this.caseId, objALBServicesFileUpload.caseId)&&
+  Objects.equals(this.s3Directory, objALBServicesFileUpload.s3Directory)&&
+  Objects.equals(this.status, objALBServicesFileUpload.status)&&
+  Objects.equals(this.error, objALBServicesFileUpload.error)&&
+  Objects.equals(this.filePath, objALBServicesFileUpload.filePath);
 }
 
 @Override

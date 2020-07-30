@@ -181,12 +181,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ControllerUpgradeState objControllerUpgradeState = (ControllerUpgradeState) o;
-  return   Objects.equals(this.controllerProgress, objControllerUpgradeState.controllerProgress)&&
-  Objects.equals(this.rollback, objControllerUpgradeState.rollback)&&
-  Objects.equals(this.notes, objControllerUpgradeState.notes)&&
+  return   Objects.equals(this.inProgress, objControllerUpgradeState.inProgress)&&
   Objects.equals(this.state, objControllerUpgradeState.state)&&
-  Objects.equals(this.inProgress, objControllerUpgradeState.inProgress)&&
-  Objects.equals(this.tasksCompleted, objControllerUpgradeState.tasksCompleted);
+  Objects.equals(this.tasksCompleted, objControllerUpgradeState.tasksCompleted)&&
+  Objects.equals(this.controllerProgress, objControllerUpgradeState.controllerProgress)&&
+  Objects.equals(this.rollback, objControllerUpgradeState.rollback)&&
+  Objects.equals(this.notes, objControllerUpgradeState.notes);
 }
 
 @Override

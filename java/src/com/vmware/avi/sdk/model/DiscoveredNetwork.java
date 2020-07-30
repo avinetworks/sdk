@@ -121,9 +121,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DiscoveredNetwork objDiscoveredNetwork = (DiscoveredNetwork) o;
-  return   Objects.equals(this.subnet, objDiscoveredNetwork.subnet)&&
-  Objects.equals(this.subnet6, objDiscoveredNetwork.subnet6)&&
-  Objects.equals(this.networkRef, objDiscoveredNetwork.networkRef);
+  return   Objects.equals(this.networkRef, objDiscoveredNetwork.networkRef)&&
+  Objects.equals(this.subnet, objDiscoveredNetwork.subnet)&&
+  Objects.equals(this.subnet6, objDiscoveredNetwork.subnet6);
 }
 
 @Override

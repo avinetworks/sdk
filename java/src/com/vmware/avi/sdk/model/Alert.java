@@ -621,28 +621,28 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Alert objAlert = (Alert) o;
-  return   Objects.equals(this.threshold, objAlert.threshold)&&
+  return   Objects.equals(this.uuid, objAlert.uuid)&&
+  Objects.equals(this.name, objAlert.name)&&
   Objects.equals(this.alertConfigRef, objAlert.alertConfigRef)&&
-  Objects.equals(this.metricInfo, objAlert.metricInfo)&&
-  Objects.equals(this.appEvents, objAlert.appEvents)&&
-  Objects.equals(this.uuid, objAlert.uuid)&&
-  Objects.equals(this.eventPages, objAlert.eventPages)&&
-  Objects.equals(this.objKey, objAlert.objKey)&&
-  Objects.equals(this.state, objAlert.state)&&
-  Objects.equals(this.connEvents, objAlert.connEvents)&&
-  Objects.equals(this.actionScriptOutput, objAlert.actionScriptOutput)&&
-  Objects.equals(this.events, objAlert.events)&&
-  Objects.equals(this.description, objAlert.description)&&
-  Objects.equals(this.timestamp, objAlert.timestamp)&&
+  Objects.equals(this.level, objAlert.level)&&
   Objects.equals(this.reason, objAlert.reason)&&
+  Objects.equals(this.state, objAlert.state)&&
+  Objects.equals(this.timestamp, objAlert.timestamp)&&
   Objects.equals(this.objUuid, objAlert.objUuid)&&
+  Objects.equals(this.objKey, objAlert.objKey)&&
+  Objects.equals(this.objName, objAlert.objName)&&
+  Objects.equals(this.threshold, objAlert.threshold)&&
+  Objects.equals(this.events, objAlert.events)&&
+  Objects.equals(this.appEvents, objAlert.appEvents)&&
+  Objects.equals(this.connEvents, objAlert.connEvents)&&
+  Objects.equals(this.metricInfo, objAlert.metricInfo)&&
+  Objects.equals(this.throttleCount, objAlert.throttleCount)&&
   Objects.equals(this.lastThrottleTimestamp, objAlert.lastThrottleTimestamp)&&
   Objects.equals(this.relatedUuids, objAlert.relatedUuids)&&
-  Objects.equals(this.name, objAlert.name)&&
-  Objects.equals(this.throttleCount, objAlert.throttleCount)&&
-  Objects.equals(this.level, objAlert.level)&&
+  Objects.equals(this.eventPages, objAlert.eventPages)&&
   Objects.equals(this.summary, objAlert.summary)&&
-  Objects.equals(this.objName, objAlert.objName)&&
+  Objects.equals(this.description, objAlert.description)&&
+  Objects.equals(this.actionScriptOutput, objAlert.actionScriptOutput)&&
   Objects.equals(this.tenantRef, objAlert.tenantRef);
 }
 

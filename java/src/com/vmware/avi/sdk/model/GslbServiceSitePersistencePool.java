@@ -157,11 +157,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbServiceSitePersistencePool objGslbServiceSitePersistencePool = (GslbServiceSitePersistencePool) o;
-  return   Objects.equals(this.numServersUp, objGslbServiceSitePersistencePool.numServersUp)&&
+  return   Objects.equals(this.uuid, objGslbServiceSitePersistencePool.uuid)&&
+  Objects.equals(this.name, objGslbServiceSitePersistencePool.name)&&
   Objects.equals(this.numServers, objGslbServiceSitePersistencePool.numServers)&&
-  Objects.equals(this.servers, objGslbServiceSitePersistencePool.servers)&&
-  Objects.equals(this.uuid, objGslbServiceSitePersistencePool.uuid)&&
-  Objects.equals(this.name, objGslbServiceSitePersistencePool.name);
+  Objects.equals(this.numServersUp, objGslbServiceSitePersistencePool.numServersUp)&&
+  Objects.equals(this.servers, objGslbServiceSitePersistencePool.servers);
 }
 
 @Override

@@ -216,13 +216,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafRuleLog objWafRuleLog = (WafRuleLog) o;
-  return   Objects.equals(this.ruleName, objWafRuleLog.ruleName)&&
+  return   Objects.equals(this.phase, objWafRuleLog.phase)&&
+  Objects.equals(this.ruleId, objWafRuleLog.ruleId)&&
   Objects.equals(this.ruleGroup, objWafRuleLog.ruleGroup)&&
-  Objects.equals(this.tags, objWafRuleLog.tags)&&
-  Objects.equals(this.matches, objWafRuleLog.matches)&&
   Objects.equals(this.msg, objWafRuleLog.msg)&&
-  Objects.equals(this.phase, objWafRuleLog.phase)&&
-  Objects.equals(this.ruleId, objWafRuleLog.ruleId);
+  Objects.equals(this.matches, objWafRuleLog.matches)&&
+  Objects.equals(this.tags, objWafRuleLog.tags)&&
+  Objects.equals(this.ruleName, objWafRuleLog.ruleName);
 }
 
 @Override

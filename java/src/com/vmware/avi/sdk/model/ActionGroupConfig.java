@@ -296,17 +296,17 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ActionGroupConfig objActionGroupConfig = (ActionGroupConfig) o;
-  return   Objects.equals(this.actionScriptConfigRef, objActionGroupConfig.actionScriptConfigRef)&&
+  return   Objects.equals(this.uuid, objActionGroupConfig.uuid)&&
+  Objects.equals(this.name, objActionGroupConfig.name)&&
+  Objects.equals(this.emailConfigRef, objActionGroupConfig.emailConfigRef)&&
+  Objects.equals(this.syslogConfigRef, objActionGroupConfig.syslogConfigRef)&&
+  Objects.equals(this.actionScriptConfigRef, objActionGroupConfig.actionScriptConfigRef)&&
+  Objects.equals(this.externalOnly, objActionGroupConfig.externalOnly)&&
+  Objects.equals(this.snmpTrapProfileRef, objActionGroupConfig.snmpTrapProfileRef)&&
   Objects.equals(this.autoscaleTriggerNotification, objActionGroupConfig.autoscaleTriggerNotification)&&
-  Objects.equals(this.uuid, objActionGroupConfig.uuid)&&
   Objects.equals(this.level, objActionGroupConfig.level)&&
   Objects.equals(this.description, objActionGroupConfig.description)&&
-  Objects.equals(this.snmpTrapProfileRef, objActionGroupConfig.snmpTrapProfileRef)&&
-  Objects.equals(this.externalOnly, objActionGroupConfig.externalOnly)&&
-  Objects.equals(this.syslogConfigRef, objActionGroupConfig.syslogConfigRef)&&
-  Objects.equals(this.emailConfigRef, objActionGroupConfig.emailConfigRef)&&
-  Objects.equals(this.tenantRef, objActionGroupConfig.tenantRef)&&
-  Objects.equals(this.name, objActionGroupConfig.name);
+  Objects.equals(this.tenantRef, objActionGroupConfig.tenantRef);
 }
 
 @Override

@@ -286,14 +286,14 @@ public boolean equals(java.lang.Object o) {
   }
   GslbPool objGslbPool = (GslbPool) o;
   return   Objects.equals(this.name, objGslbPool.name)&&
+  Objects.equals(this.priority, objGslbPool.priority)&&
   Objects.equals(this.algorithm, objGslbPool.algorithm)&&
   Objects.equals(this.consistentHashMask, objGslbPool.consistentHashMask)&&
-  Objects.equals(this.enabled, objGslbPool.enabled)&&
-  Objects.equals(this.priority, objGslbPool.priority)&&
-  Objects.equals(this.minHealthMonitorsUp, objGslbPool.minHealthMonitorsUp)&&
   Objects.equals(this.members, objGslbPool.members)&&
-  Objects.equals(this.consistentHashMask6, objGslbPool.consistentHashMask6)&&
+  Objects.equals(this.enabled, objGslbPool.enabled)&&
   Objects.equals(this.fallbackAlgorithm, objGslbPool.fallbackAlgorithm)&&
+  Objects.equals(this.consistentHashMask6, objGslbPool.consistentHashMask6)&&
+  Objects.equals(this.minHealthMonitorsUp, objGslbPool.minHealthMonitorsUp)&&
   Objects.equals(this.description, objGslbPool.description);
 }
 

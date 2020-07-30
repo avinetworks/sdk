@@ -42,7 +42,7 @@ public class DebugServiceEngine extends AviRestResource  {
     private List<DebugSeDataplane> flags = null;
 
     @JsonProperty("name")
-    private String name = "vm name unknown";
+    private String name = "VM name unknown";
 
     @JsonProperty("seagent_debug")
     private List<DebugSeAgent> seagentDebug = null;
@@ -180,7 +180,7 @@ public class DebugServiceEngine extends AviRestResource  {
    * Enables the use of kdump on se.
    * Requires se reboot.
    * Applicable only in case of vm based deployments.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @return enableKdump
    */
@@ -193,7 +193,7 @@ public class DebugServiceEngine extends AviRestResource  {
    * Enables the use of kdump on se.
    * Requires se reboot.
    * Applicable only in case of vm based deployments.
-   * Field introduced in 20.1.1.
+   * Field introduced in 18.2.10, 20.1.1.
    * Default value when not specified in API or module is interpreted by Avi Controller as false.
    * @param enableKdump set the enableKdump.
    */
@@ -254,7 +254,7 @@ public class DebugServiceEngine extends AviRestResource  {
   /**
    * This is the getter method this will return the attribute value.
    * Name of the object.
-   * Default value when not specified in API or module is interpreted by Avi Controller as vm name unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
    * @return name
    */
   public String getName() {
@@ -264,7 +264,7 @@ public class DebugServiceEngine extends AviRestResource  {
   /**
    * This is the setter method to the attribute.
    * Name of the object.
-   * Default value when not specified in API or module is interpreted by Avi Controller as vm name unknown.
+   * Default value when not specified in API or module is interpreted by Avi Controller as VM name unknown.
    * @param name set the name.
    */
   public void setName(String  name) {
@@ -384,19 +384,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DebugServiceEngine objDebugServiceEngine = (DebugServiceEngine) o;
-  return   Objects.equals(this.capture, objDebugServiceEngine.capture)&&
-  Objects.equals(this.uuid, objDebugServiceEngine.uuid)&&
+  return   Objects.equals(this.uuid, objDebugServiceEngine.uuid)&&
+  Objects.equals(this.name, objDebugServiceEngine.name)&&
   Objects.equals(this.seagentDebug, objDebugServiceEngine.seagentDebug)&&
+  Objects.equals(this.flags, objDebugServiceEngine.flags)&&
+  Objects.equals(this.cpuShares, objDebugServiceEngine.cpuShares)&&
   Objects.equals(this.fault, objDebugServiceEngine.fault)&&
   Objects.equals(this.debugIp, objDebugServiceEngine.debugIp)&&
-  Objects.equals(this.captureFilters, objDebugServiceEngine.captureFilters)&&
-  Objects.equals(this.name, objDebugServiceEngine.name)&&
-  Objects.equals(this.selogagentDebug, objDebugServiceEngine.selogagentDebug)&&
-  Objects.equals(this.flags, objDebugServiceEngine.flags)&&
-  Objects.equals(this.enableKdump, objDebugServiceEngine.enableKdump)&&
   Objects.equals(this.captureParams, objDebugServiceEngine.captureParams)&&
-  Objects.equals(this.tenantRef, objDebugServiceEngine.tenantRef)&&
-  Objects.equals(this.cpuShares, objDebugServiceEngine.cpuShares);
+  Objects.equals(this.capture, objDebugServiceEngine.capture)&&
+  Objects.equals(this.captureFilters, objDebugServiceEngine.captureFilters)&&
+  Objects.equals(this.selogagentDebug, objDebugServiceEngine.selogagentDebug)&&
+  Objects.equals(this.enableKdump, objDebugServiceEngine.enableKdump)&&
+  Objects.equals(this.tenantRef, objDebugServiceEngine.tenantRef);
 }
 
 @Override

@@ -178,13 +178,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VsMigrateParams objVsMigrateParams = (VsMigrateParams) o;
-  return   Objects.equals(this.newVcpus, objVsMigrateParams.newVcpus)&&
-  Objects.equals(this.uuid, objVsMigrateParams.uuid)&&
-  Objects.equals(this.toHostRef, objVsMigrateParams.toHostRef)&&
+  return   Objects.equals(this.uuid, objVsMigrateParams.uuid)&&
+  Objects.equals(this.fromSeRef, objVsMigrateParams.fromSeRef)&&
   Objects.equals(this.toSeRef, objVsMigrateParams.toSeRef)&&
-  Objects.equals(this.vipId, objVsMigrateParams.vipId)&&
   Objects.equals(this.toNewSe, objVsMigrateParams.toNewSe)&&
-  Objects.equals(this.fromSeRef, objVsMigrateParams.fromSeRef);
+  Objects.equals(this.toHostRef, objVsMigrateParams.toHostRef)&&
+  Objects.equals(this.newVcpus, objVsMigrateParams.newVcpus)&&
+  Objects.equals(this.vipId, objVsMigrateParams.vipId);
 }
 
 @Override

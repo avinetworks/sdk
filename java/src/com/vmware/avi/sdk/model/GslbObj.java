@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbObj objGslbObj = (GslbObj) o;
-  return   Objects.equals(this.gslbGeoDbProfileUuid, objGslbObj.gslbGeoDbProfileUuid)&&
+  return   Objects.equals(this.gslbUuid, objGslbObj.gslbUuid)&&
   Objects.equals(this.gslbServiceUuid, objGslbObj.gslbServiceUuid)&&
-  Objects.equals(this.gslbUuid, objGslbObj.gslbUuid);
+  Objects.equals(this.gslbGeoDbProfileUuid, objGslbObj.gslbGeoDbProfileUuid);
 }
 
 @Override

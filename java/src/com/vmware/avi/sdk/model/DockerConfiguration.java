@@ -676,32 +676,32 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DockerConfiguration objDockerConfiguration = (DockerConfiguration) o;
-  return   Objects.equals(this.eastWestPlacementSubnet, objDockerConfiguration.eastWestPlacementSubnet)&&
-  Objects.equals(this.enableEventSubscription, objDockerConfiguration.enableEventSubscription)&&
-  Objects.equals(this.feproxyVipsEnableProxyArp, objDockerConfiguration.feproxyVipsEnableProxyArp)&&
-  Objects.equals(this.disableAutoBackendServiceSync, objDockerConfiguration.disableAutoBackendServiceSync)&&
-  Objects.equals(this.containerPortMatchHttpService, objDockerConfiguration.containerPortMatchHttpService)&&
-  Objects.equals(this.servicesAccessibleAllInterfaces, objDockerConfiguration.servicesAccessibleAllInterfaces)&&
-  Objects.equals(this.fleetEndpoint, objDockerConfiguration.fleetEndpoint)&&
-  Objects.equals(this.sshUserRef, objDockerConfiguration.sshUserRef)&&
-  Objects.equals(this.seVolume, objDockerConfiguration.seVolume)&&
-  Objects.equals(this.httpContainerPorts, objDockerConfiguration.httpContainerPorts)&&
-  Objects.equals(this.seExcludeAttributes, objDockerConfiguration.seExcludeAttributes)&&
-  Objects.equals(this.seDeploymentMethod, objDockerConfiguration.seDeploymentMethod)&&
-  Objects.equals(this.dockerRegistrySe, objDockerConfiguration.dockerRegistrySe)&&
-  Objects.equals(this.sshSeDeployment, objDockerConfiguration.sshSeDeployment)&&
-  Objects.equals(this.feproxyContainerPortAsService, objDockerConfiguration.feproxyContainerPortAsService)&&
-  Objects.equals(this.useControllerImage, objDockerConfiguration.useControllerImage)&&
-  Objects.equals(this.coredumpDirectory, objDockerConfiguration.coredumpDirectory)&&
-  Objects.equals(this.disableAutoFrontendServiceSync, objDockerConfiguration.disableAutoFrontendServiceSync)&&
-  Objects.equals(this.seIncludeAttributes, objDockerConfiguration.seIncludeAttributes)&&
-  Objects.equals(this.appSyncFrequency, objDockerConfiguration.appSyncFrequency)&&
-  Objects.equals(this.ucpNodes, objDockerConfiguration.ucpNodes)&&
+  return   Objects.equals(this.ucpNodes, objDockerConfiguration.ucpNodes)&&
   Objects.equals(this.clientTlsKeyAndCertificateRef, objDockerConfiguration.clientTlsKeyAndCertificateRef)&&
-  Objects.equals(this.seSpawnRate, objDockerConfiguration.seSpawnRate)&&
   Objects.equals(this.caTlsKeyAndCertificateRef, objDockerConfiguration.caTlsKeyAndCertificateRef)&&
+  Objects.equals(this.containerPortMatchHttpService, objDockerConfiguration.containerPortMatchHttpService)&&
+  Objects.equals(this.httpContainerPorts, objDockerConfiguration.httpContainerPorts)&&
+  Objects.equals(this.eastWestPlacementSubnet, objDockerConfiguration.eastWestPlacementSubnet)&&
+  Objects.equals(this.seDeploymentMethod, objDockerConfiguration.seDeploymentMethod)&&
+  Objects.equals(this.fleetEndpoint, objDockerConfiguration.fleetEndpoint)&&
+  Objects.equals(this.dockerRegistrySe, objDockerConfiguration.dockerRegistrySe)&&
+  Objects.equals(this.seSpawnRate, objDockerConfiguration.seSpawnRate)&&
+  Objects.equals(this.appSyncFrequency, objDockerConfiguration.appSyncFrequency)&&
+  Objects.equals(this.disableAutoSeCreation, objDockerConfiguration.disableAutoSeCreation)&&
+  Objects.equals(this.disableAutoFrontendServiceSync, objDockerConfiguration.disableAutoFrontendServiceSync)&&
+  Objects.equals(this.disableAutoBackendServiceSync, objDockerConfiguration.disableAutoBackendServiceSync)&&
   Objects.equals(this.useContainerIpPort, objDockerConfiguration.useContainerIpPort)&&
-  Objects.equals(this.disableAutoSeCreation, objDockerConfiguration.disableAutoSeCreation);
+  Objects.equals(this.seVolume, objDockerConfiguration.seVolume)&&
+  Objects.equals(this.coredumpDirectory, objDockerConfiguration.coredumpDirectory)&&
+  Objects.equals(this.sshSeDeployment, objDockerConfiguration.sshSeDeployment)&&
+  Objects.equals(this.enableEventSubscription, objDockerConfiguration.enableEventSubscription)&&
+  Objects.equals(this.feproxyContainerPortAsService, objDockerConfiguration.feproxyContainerPortAsService)&&
+  Objects.equals(this.servicesAccessibleAllInterfaces, objDockerConfiguration.servicesAccessibleAllInterfaces)&&
+  Objects.equals(this.feproxyVipsEnableProxyArp, objDockerConfiguration.feproxyVipsEnableProxyArp)&&
+  Objects.equals(this.seExcludeAttributes, objDockerConfiguration.seExcludeAttributes)&&
+  Objects.equals(this.seIncludeAttributes, objDockerConfiguration.seIncludeAttributes)&&
+  Objects.equals(this.useControllerImage, objDockerConfiguration.useControllerImage)&&
+  Objects.equals(this.sshUserRef, objDockerConfiguration.sshUserRef);
 }
 
 @Override

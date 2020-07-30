@@ -135,10 +135,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   CloudRuntime objCloudRuntime = (CloudRuntime) o;
-  return   Objects.equals(this.networkSyncComplete, objCloudRuntime.networkSyncComplete)&&
-  Objects.equals(this.tenantRef, objCloudRuntime.tenantRef)&&
-  Objects.equals(this.uuid, objCloudRuntime.uuid)&&
-  Objects.equals(this.name, objCloudRuntime.name);
+  return   Objects.equals(this.uuid, objCloudRuntime.uuid)&&
+  Objects.equals(this.name, objCloudRuntime.name)&&
+  Objects.equals(this.networkSyncComplete, objCloudRuntime.networkSyncComplete)&&
+  Objects.equals(this.tenantRef, objCloudRuntime.tenantRef);
 }
 
 @Override

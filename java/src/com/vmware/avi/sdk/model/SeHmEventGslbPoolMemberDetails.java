@@ -193,12 +193,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeHmEventGslbPoolMemberDetails objSeHmEventGslbPoolMemberDetails = (SeHmEventGslbPoolMemberDetails) o;
-  return   Objects.equals(this.domain, objSeHmEventGslbPoolMemberDetails.domain)&&
-  Objects.equals(this.sslErrorCode, objSeHmEventGslbPoolMemberDetails.sslErrorCode)&&
+  return   Objects.equals(this.ip, objSeHmEventGslbPoolMemberDetails.ip)&&
+  Objects.equals(this.domain, objSeHmEventGslbPoolMemberDetails.domain)&&
+  Objects.equals(this.failureCode, objSeHmEventGslbPoolMemberDetails.failureCode)&&
   Objects.equals(this.appInfo, objSeHmEventGslbPoolMemberDetails.appInfo)&&
-  Objects.equals(this.ip, objSeHmEventGslbPoolMemberDetails.ip)&&
   Objects.equals(this.shm, objSeHmEventGslbPoolMemberDetails.shm)&&
-  Objects.equals(this.failureCode, objSeHmEventGslbPoolMemberDetails.failureCode);
+  Objects.equals(this.sslErrorCode, objSeHmEventGslbPoolMemberDetails.sslErrorCode);
 }
 
 @Override

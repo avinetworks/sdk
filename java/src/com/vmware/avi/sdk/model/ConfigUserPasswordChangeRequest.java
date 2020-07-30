@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigUserPasswordChangeRequest objConfigUserPasswordChangeRequest = (ConfigUserPasswordChangeRequest) o;
-  return   Objects.equals(this.status, objConfigUserPasswordChangeRequest.status)&&
-  Objects.equals(this.clientIp, objConfigUserPasswordChangeRequest.clientIp)&&
+  return   Objects.equals(this.userEmail, objConfigUserPasswordChangeRequest.userEmail)&&
   Objects.equals(this.user, objConfigUserPasswordChangeRequest.user)&&
-  Objects.equals(this.userEmail, objConfigUserPasswordChangeRequest.userEmail);
+  Objects.equals(this.clientIp, objConfigUserPasswordChangeRequest.clientIp)&&
+  Objects.equals(this.status, objConfigUserPasswordChangeRequest.status);
 }
 
 @Override

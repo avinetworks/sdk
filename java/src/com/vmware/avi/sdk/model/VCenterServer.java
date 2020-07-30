@@ -216,13 +216,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VCenterServer objVCenterServer = (VCenterServer) o;
-  return   Objects.equals(this.contentLib, objVCenterServer.contentLib)&&
-  Objects.equals(this.uuid, objVCenterServer.uuid)&&
-  Objects.equals(this.cloudRef, objVCenterServer.cloudRef)&&
-  Objects.equals(this.vcenterCredentialsRef, objVCenterServer.vcenterCredentialsRef)&&
+  return   Objects.equals(this.uuid, objVCenterServer.uuid)&&
+  Objects.equals(this.name, objVCenterServer.name)&&
   Objects.equals(this.vcenterUrl, objVCenterServer.vcenterUrl)&&
+  Objects.equals(this.vcenterCredentialsRef, objVCenterServer.vcenterCredentialsRef)&&
+  Objects.equals(this.contentLib, objVCenterServer.contentLib)&&
   Objects.equals(this.tenantRef, objVCenterServer.tenantRef)&&
-  Objects.equals(this.name, objVCenterServer.name);
+  Objects.equals(this.cloudRef, objVCenterServer.cloudRef);
 }
 
 @Override

@@ -378,19 +378,19 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbPoolMember objGslbPoolMember = (GslbPoolMember) o;
-  return   Objects.equals(this.ratio, objGslbPoolMember.ratio)&&
-  Objects.equals(this.description, objGslbPoolMember.description)&&
-  Objects.equals(this.ip, objGslbPoolMember.ip)&&
-  Objects.equals(this.hostname, objGslbPoolMember.hostname)&&
-  Objects.equals(this.enabled, objGslbPoolMember.enabled)&&
-  Objects.equals(this.fqdn, objGslbPoolMember.fqdn)&&
-  Objects.equals(this.publicIp, objGslbPoolMember.publicIp)&&
+  return   Objects.equals(this.clusterUuid, objGslbPoolMember.clusterUuid)&&
   Objects.equals(this.vsUuid, objGslbPoolMember.vsUuid)&&
+  Objects.equals(this.fqdn, objGslbPoolMember.fqdn)&&
+  Objects.equals(this.ip, objGslbPoolMember.ip)&&
+  Objects.equals(this.ratio, objGslbPoolMember.ratio)&&
+  Objects.equals(this.enabled, objGslbPoolMember.enabled)&&
   Objects.equals(this.location, objGslbPoolMember.location)&&
   Objects.equals(this.hmProxies, objGslbPoolMember.hmProxies)&&
-  Objects.equals(this.clusterUuid, objGslbPoolMember.clusterUuid)&&
   Objects.equals(this.cloudUuid, objGslbPoolMember.cloudUuid)&&
-  Objects.equals(this.resolveFqdnToV6, objGslbPoolMember.resolveFqdnToV6);
+  Objects.equals(this.publicIp, objGslbPoolMember.publicIp)&&
+  Objects.equals(this.hostname, objGslbPoolMember.hostname)&&
+  Objects.equals(this.resolveFqdnToV6, objGslbPoolMember.resolveFqdnToV6)&&
+  Objects.equals(this.description, objGslbPoolMember.description);
 }
 
 @Override

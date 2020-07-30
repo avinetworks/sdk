@@ -24,7 +24,7 @@ public class ProactiveSupportDefaults  {
     private Boolean attachTechSupport = true;
 
     @JsonProperty("case_severity")
-    private String caseSeverity = "severity 5";
+    private String caseSeverity = "Severity 5";
 
 
 
@@ -76,7 +76,7 @@ public class ProactiveSupportDefaults  {
    * This is the getter method this will return the attribute value.
    * Case severity to be used for proactive support case creation.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as severity 5.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Severity 5.
    * @return caseSeverity
    */
   public String getCaseSeverity() {
@@ -87,7 +87,7 @@ public class ProactiveSupportDefaults  {
    * This is the setter method to the attribute.
    * Case severity to be used for proactive support case creation.
    * Field introduced in 20.1.1.
-   * Default value when not specified in API or module is interpreted by Avi Controller as severity 5.
+   * Default value when not specified in API or module is interpreted by Avi Controller as Severity 5.
    * @param caseSeverity set the caseSeverity.
    */
   public void setCaseSeverity(String  caseSeverity) {
@@ -104,9 +104,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ProactiveSupportDefaults objProactiveSupportDefaults = (ProactiveSupportDefaults) o;
-  return   Objects.equals(this.attachCoreDump, objProactiveSupportDefaults.attachCoreDump)&&
-  Objects.equals(this.attachTechSupport, objProactiveSupportDefaults.attachTechSupport)&&
-  Objects.equals(this.caseSeverity, objProactiveSupportDefaults.caseSeverity);
+  return   Objects.equals(this.attachTechSupport, objProactiveSupportDefaults.attachTechSupport)&&
+  Objects.equals(this.caseSeverity, objProactiveSupportDefaults.caseSeverity)&&
+  Objects.equals(this.attachCoreDump, objProactiveSupportDefaults.attachCoreDump);
 }
 
 @Override

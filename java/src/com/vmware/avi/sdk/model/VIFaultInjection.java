@@ -146,9 +146,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VIFaultInjection objVIFaultInjection = (VIFaultInjection) o;
-  return   Objects.equals(this.status, objVIFaultInjection.status)&&
+  return   Objects.equals(this.api, objVIFaultInjection.api)&&
+  Objects.equals(this.status, objVIFaultInjection.status)&&
   Objects.equals(this.count, objVIFaultInjection.count)&&
-  Objects.equals(this.api, objVIFaultInjection.api)&&
   Objects.equals(this.networkUuid, objVIFaultInjection.networkUuid)&&
   Objects.equals(this.cloudUuid, objVIFaultInjection.cloudUuid);
 }

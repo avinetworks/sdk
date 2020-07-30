@@ -155,12 +155,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricLog objMetricLog = (MetricLog) o;
-  return   Objects.equals(this.timeSeries, objMetricLog.timeSeries)&&
-  Objects.equals(this.metricId, objMetricLog.metricId)&&
+  return   Objects.equals(this.metricId, objMetricLog.metricId)&&
   Objects.equals(this.value, objMetricLog.value)&&
   Objects.equals(this.reportTimestamp, objMetricLog.reportTimestamp)&&
+  Objects.equals(this.endTimestamp, objMetricLog.endTimestamp)&&
   Objects.equals(this.step, objMetricLog.step)&&
-  Objects.equals(this.endTimestamp, objMetricLog.endTimestamp);
+  Objects.equals(this.timeSeries, objMetricLog.timeSeries);
 }
 
 @Override

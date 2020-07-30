@@ -181,12 +181,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   NetworkProfile objNetworkProfile = (NetworkProfile) o;
-  return   Objects.equals(this.profile, objNetworkProfile.profile)&&
-  Objects.equals(this.description, objNetworkProfile.description)&&
+  return   Objects.equals(this.uuid, objNetworkProfile.uuid)&&
   Objects.equals(this.name, objNetworkProfile.name)&&
-  Objects.equals(this.connectionMirror, objNetworkProfile.connectionMirror)&&
+  Objects.equals(this.profile, objNetworkProfile.profile)&&
+  Objects.equals(this.description, objNetworkProfile.description)&&
   Objects.equals(this.tenantRef, objNetworkProfile.tenantRef)&&
-  Objects.equals(this.uuid, objNetworkProfile.uuid);
+  Objects.equals(this.connectionMirror, objNetworkProfile.connectionMirror);
 }
 
 @Override

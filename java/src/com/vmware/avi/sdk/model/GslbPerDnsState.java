@@ -236,13 +236,13 @@ public boolean equals(java.lang.Object o) {
   }
   GslbPerDnsState objGslbPerDnsState = (GslbPerDnsState) o;
   return   Objects.equals(this.uuid, objGslbPerDnsState.uuid)&&
-  Objects.equals(this.placementRules, objGslbPerDnsState.placementRules)&&
-  Objects.equals(this.operStatus, objGslbPerDnsState.operStatus)&&
-  Objects.equals(this.geoDownload, objGslbPerDnsState.geoDownload)&&
-  Objects.equals(this.seList, objGslbPerDnsState.seList)&&
+  Objects.equals(this.name, objGslbPerDnsState.name)&&
   Objects.equals(this.validDnsVs, objGslbPerDnsState.validDnsVs)&&
+  Objects.equals(this.operStatus, objGslbPerDnsState.operStatus)&&
+  Objects.equals(this.seList, objGslbPerDnsState.seList)&&
   Objects.equals(this.gslbDownload, objGslbPerDnsState.gslbDownload)&&
-  Objects.equals(this.name, objGslbPerDnsState.name);
+  Objects.equals(this.geoDownload, objGslbPerDnsState.geoDownload)&&
+  Objects.equals(this.placementRules, objGslbPerDnsState.placementRules);
 }
 
 @Override

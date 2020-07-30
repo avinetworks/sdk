@@ -100,9 +100,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VipPlacementNetwork objVipPlacementNetwork = (VipPlacementNetwork) o;
-  return   Objects.equals(this.subnet, objVipPlacementNetwork.subnet)&&
-  Objects.equals(this.subnet6, objVipPlacementNetwork.subnet6)&&
-  Objects.equals(this.networkRef, objVipPlacementNetwork.networkRef);
+  return   Objects.equals(this.networkRef, objVipPlacementNetwork.networkRef)&&
+  Objects.equals(this.subnet, objVipPlacementNetwork.subnet)&&
+  Objects.equals(this.subnet6, objVipPlacementNetwork.subnet6);
 }
 
 @Override

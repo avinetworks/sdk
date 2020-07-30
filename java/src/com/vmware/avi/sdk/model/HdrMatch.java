@@ -133,10 +133,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HdrMatch objHdrMatch = (HdrMatch) o;
-  return   Objects.equals(this.matchCase, objHdrMatch.matchCase)&&
+  return   Objects.equals(this.matchCriteria, objHdrMatch.matchCriteria)&&
   Objects.equals(this.hdr, objHdrMatch.hdr)&&
-  Objects.equals(this.value, objHdrMatch.value)&&
-  Objects.equals(this.matchCriteria, objHdrMatch.matchCriteria);
+  Objects.equals(this.matchCase, objHdrMatch.matchCase)&&
+  Objects.equals(this.value, objHdrMatch.value);
 }
 
 @Override

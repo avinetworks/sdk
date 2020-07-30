@@ -728,29 +728,29 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeUpgradeStatusSummary objSeUpgradeStatusSummary = (SeUpgradeStatusSummary) o;
-  return   Objects.equals(this.seAlreadyUpgradedAtStart, objSeUpgradeStatusSummary.seAlreadyUpgradedAtStart)&&
-  Objects.equals(this.seUpgradeRetryCompleted, objSeUpgradeStatusSummary.seUpgradeRetryCompleted)&&
+  return   Objects.equals(this.inProgress, objSeUpgradeStatusSummary.inProgress)&&
+  Objects.equals(this.state, objSeUpgradeStatusSummary.state)&&
+  Objects.equals(this.controllerVersion, objSeUpgradeStatusSummary.controllerVersion)&&
+  Objects.equals(this.notes, objSeUpgradeStatusSummary.notes)&&
+  Objects.equals(this.startTime, objSeUpgradeStatusSummary.startTime)&&
+  Objects.equals(this.endTime, objSeUpgradeStatusSummary.endTime)&&
   Objects.equals(this.duration, objSeUpgradeStatusSummary.duration)&&
+  Objects.equals(this.seGroupStatus, objSeUpgradeStatusSummary.seGroupStatus)&&
+  Objects.equals(this.seUpgradeNotStarted, objSeUpgradeStatusSummary.seUpgradeNotStarted)&&
+  Objects.equals(this.seUpgradeInProgress, objSeUpgradeStatusSummary.seUpgradeInProgress)&&
+  Objects.equals(this.seUpgradeCompleted, objSeUpgradeStatusSummary.seUpgradeCompleted)&&
   Objects.equals(this.seDisconnectedAtStart, objSeUpgradeStatusSummary.seDisconnectedAtStart)&&
+  Objects.equals(this.sePoweredoffAtStart, objSeUpgradeStatusSummary.sePoweredoffAtStart)&&
+  Objects.equals(this.seAlreadyUpgradedAtStart, objSeUpgradeStatusSummary.seAlreadyUpgradedAtStart)&&
+  Objects.equals(this.seIpMissingAtStart, objSeUpgradeStatusSummary.seIpMissingAtStart)&&
+  Objects.equals(this.seUpgradeFailed, objSeUpgradeStatusSummary.seUpgradeFailed)&&
+  Objects.equals(this.seUpgradeRetryInProgress, objSeUpgradeStatusSummary.seUpgradeRetryInProgress)&&
+  Objects.equals(this.seUpgradeRetryCompleted, objSeUpgradeStatusSummary.seUpgradeRetryCompleted)&&
   Objects.equals(this.seUpgradeRetryFailed, objSeUpgradeStatusSummary.seUpgradeRetryFailed)&&
   Objects.equals(this.seUpgradeErrors, objSeUpgradeStatusSummary.seUpgradeErrors)&&
-  Objects.equals(this.seGroupStatus, objSeUpgradeStatusSummary.seGroupStatus)&&
-  Objects.equals(this.seUpgradeInProgress, objSeUpgradeStatusSummary.seUpgradeInProgress)&&
-  Objects.equals(this.seUpgradeRetryInProgress, objSeUpgradeStatusSummary.seUpgradeRetryInProgress)&&
-  Objects.equals(this.controllerVersion, objSeUpgradeStatusSummary.controllerVersion)&&
-  Objects.equals(this.state, objSeUpgradeStatusSummary.state)&&
-  Objects.equals(this.seUpgradeSkipSuspended, objSeUpgradeStatusSummary.seUpgradeSkipSuspended)&&
-  Objects.equals(this.seIpMissingAtStart, objSeUpgradeStatusSummary.seIpMissingAtStart)&&
-  Objects.equals(this.startTime, objSeUpgradeStatusSummary.startTime)&&
-  Objects.equals(this.seUpgradeSuspended, objSeUpgradeStatusSummary.seUpgradeSuspended)&&
-  Objects.equals(this.seUpgradeCompleted, objSeUpgradeStatusSummary.seUpgradeCompleted)&&
-  Objects.equals(this.inProgress, objSeUpgradeStatusSummary.inProgress)&&
-  Objects.equals(this.seUpgradeNotStarted, objSeUpgradeStatusSummary.seUpgradeNotStarted)&&
   Objects.equals(this.vsErrors, objSeUpgradeStatusSummary.vsErrors)&&
-  Objects.equals(this.notes, objSeUpgradeStatusSummary.notes)&&
-  Objects.equals(this.endTime, objSeUpgradeStatusSummary.endTime)&&
-  Objects.equals(this.seUpgradeFailed, objSeUpgradeStatusSummary.seUpgradeFailed)&&
-  Objects.equals(this.sePoweredoffAtStart, objSeUpgradeStatusSummary.sePoweredoffAtStart);
+  Objects.equals(this.seUpgradeSuspended, objSeUpgradeStatusSummary.seUpgradeSuspended)&&
+  Objects.equals(this.seUpgradeSkipSuspended, objSeUpgradeStatusSummary.seUpgradeSkipSuspended);
 }
 
 @Override

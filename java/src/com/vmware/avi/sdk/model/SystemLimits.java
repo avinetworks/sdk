@@ -154,10 +154,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SystemLimits objSystemLimits = (SystemLimits) o;
-  return   Objects.equals(this.serviceengineLimits, objSystemLimits.serviceengineLimits)&&
-  Objects.equals(this.uuid, objSystemLimits.uuid)&&
+  return   Objects.equals(this.uuid, objSystemLimits.uuid)&&
+  Objects.equals(this.controllerSizes, objSystemLimits.controllerSizes)&&
   Objects.equals(this.controllerLimits, objSystemLimits.controllerLimits)&&
-  Objects.equals(this.controllerSizes, objSystemLimits.controllerSizes);
+  Objects.equals(this.serviceengineLimits, objSystemLimits.serviceengineLimits);
 }
 
 @Override

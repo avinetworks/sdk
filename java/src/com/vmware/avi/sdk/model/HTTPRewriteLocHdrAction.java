@@ -140,11 +140,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HTTPRewriteLocHdrAction objHTTPRewriteLocHdrAction = (HTTPRewriteLocHdrAction) o;
-  return   Objects.equals(this.keepQuery, objHTTPRewriteLocHdrAction.keepQuery)&&
-  Objects.equals(this.path, objHTTPRewriteLocHdrAction.path)&&
+  return   Objects.equals(this.protocol, objHTTPRewriteLocHdrAction.protocol)&&
+  Objects.equals(this.port, objHTTPRewriteLocHdrAction.port)&&
   Objects.equals(this.host, objHTTPRewriteLocHdrAction.host)&&
-  Objects.equals(this.protocol, objHTTPRewriteLocHdrAction.protocol)&&
-  Objects.equals(this.port, objHTTPRewriteLocHdrAction.port);
+  Objects.equals(this.path, objHTTPRewriteLocHdrAction.path)&&
+  Objects.equals(this.keepQuery, objHTTPRewriteLocHdrAction.keepQuery);
 }
 
 @Override

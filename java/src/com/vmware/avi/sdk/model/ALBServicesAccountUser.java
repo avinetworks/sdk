@@ -92,9 +92,9 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ALBServicesAccountUser objALBServicesAccountUser = (ALBServicesAccountUser) o;
-  return   Objects.equals(this.phone, objALBServicesAccountUser.phone)&&
-  Objects.equals(this.name, objALBServicesAccountUser.name)&&
-  Objects.equals(this.email, objALBServicesAccountUser.email);
+  return   Objects.equals(this.name, objALBServicesAccountUser.name)&&
+  Objects.equals(this.email, objALBServicesAccountUser.email)&&
+  Objects.equals(this.phone, objALBServicesAccountUser.phone);
 }
 
 @Override

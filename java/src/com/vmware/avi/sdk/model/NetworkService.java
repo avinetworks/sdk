@@ -240,13 +240,13 @@ public boolean equals(java.lang.Object o) {
   }
   NetworkService objNetworkService = (NetworkService) o;
   return   Objects.equals(this.uuid, objNetworkService.uuid)&&
-  Objects.equals(this.cloudRef, objNetworkService.cloudRef)&&
-  Objects.equals(this.serviceType, objNetworkService.serviceType)&&
-  Objects.equals(this.routingService, objNetworkService.routingService)&&
+  Objects.equals(this.name, objNetworkService.name)&&
   Objects.equals(this.seGroupRef, objNetworkService.seGroupRef)&&
   Objects.equals(this.vrfRef, objNetworkService.vrfRef)&&
+  Objects.equals(this.serviceType, objNetworkService.serviceType)&&
+  Objects.equals(this.routingService, objNetworkService.routingService)&&
   Objects.equals(this.tenantRef, objNetworkService.tenantRef)&&
-  Objects.equals(this.name, objNetworkService.name);
+  Objects.equals(this.cloudRef, objNetworkService.cloudRef);
 }
 
 @Override

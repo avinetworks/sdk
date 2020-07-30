@@ -167,12 +167,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeRateLimiters objSeRateLimiters = (SeRateLimiters) o;
-  return   Objects.equals(this.rstRl, objSeRateLimiters.rstRl)&&
-  Objects.equals(this.flowProbeRl, objSeRateLimiters.flowProbeRl)&&
-  Objects.equals(this.defaultRl, objSeRateLimiters.defaultRl)&&
-  Objects.equals(this.icmpRl, objSeRateLimiters.icmpRl)&&
+  return   Objects.equals(this.icmpRl, objSeRateLimiters.icmpRl)&&
   Objects.equals(this.icmpRspRl, objSeRateLimiters.icmpRspRl)&&
-  Objects.equals(this.arpRl, objSeRateLimiters.arpRl);
+  Objects.equals(this.arpRl, objSeRateLimiters.arpRl)&&
+  Objects.equals(this.rstRl, objSeRateLimiters.rstRl)&&
+  Objects.equals(this.flowProbeRl, objSeRateLimiters.flowProbeRl)&&
+  Objects.equals(this.defaultRl, objSeRateLimiters.defaultRl);
 }
 
 @Override

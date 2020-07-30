@@ -176,13 +176,13 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ConfigDeleteDetails objConfigDeleteDetails = (ConfigDeleteDetails) o;
-  return   Objects.equals(this.status, objConfigDeleteDetails.status)&&
-  Objects.equals(this.resourceName, objConfigDeleteDetails.resourceName)&&
-  Objects.equals(this.resourceData, objConfigDeleteDetails.resourceData)&&
-  Objects.equals(this.errorMessage, objConfigDeleteDetails.errorMessage)&&
+  return   Objects.equals(this.path, objConfigDeleteDetails.path)&&
   Objects.equals(this.user, objConfigDeleteDetails.user)&&
-  Objects.equals(this.path, objConfigDeleteDetails.path)&&
-  Objects.equals(this.resourceType, objConfigDeleteDetails.resourceType);
+  Objects.equals(this.status, objConfigDeleteDetails.status)&&
+  Objects.equals(this.resourceType, objConfigDeleteDetails.resourceType)&&
+  Objects.equals(this.resourceName, objConfigDeleteDetails.resourceName)&&
+  Objects.equals(this.errorMessage, objConfigDeleteDetails.errorMessage)&&
+  Objects.equals(this.resourceData, objConfigDeleteDetails.resourceData);
 }
 
 @Override

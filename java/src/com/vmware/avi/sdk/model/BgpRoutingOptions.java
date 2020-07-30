@@ -171,12 +171,12 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   BgpRoutingOptions objBgpRoutingOptions = (BgpRoutingOptions) o;
-  return   Objects.equals(this.learnRoutes, objBgpRoutingOptions.learnRoutes)&&
-  Objects.equals(this.advertiseDefaultRoute, objBgpRoutingOptions.advertiseDefaultRoute)&&
+  return   Objects.equals(this.label, objBgpRoutingOptions.label)&&
   Objects.equals(this.learnOnlyDefaultRoute, objBgpRoutingOptions.learnOnlyDefaultRoute)&&
+  Objects.equals(this.learnRoutes, objBgpRoutingOptions.learnRoutes)&&
+  Objects.equals(this.advertiseDefaultRoute, objBgpRoutingOptions.advertiseDefaultRoute)&&
   Objects.equals(this.advertiseLearnedRoutes, objBgpRoutingOptions.advertiseLearnedRoutes)&&
-  Objects.equals(this.maxLearnLimit, objBgpRoutingOptions.maxLearnLimit)&&
-  Objects.equals(this.label, objBgpRoutingOptions.label);
+  Objects.equals(this.maxLearnLimit, objBgpRoutingOptions.maxLearnLimit);
 }
 
 @Override

@@ -92,8 +92,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   VinfraVcenterConnectivityStatus objVinfraVcenterConnectivityStatus = (VinfraVcenterConnectivityStatus) o;
-  return   Objects.equals(this.datacenter, objVinfraVcenterConnectivityStatus.datacenter)&&
-  Objects.equals(this.vcenter, objVinfraVcenterConnectivityStatus.vcenter)&&
+  return   Objects.equals(this.vcenter, objVinfraVcenterConnectivityStatus.vcenter)&&
+  Objects.equals(this.datacenter, objVinfraVcenterConnectivityStatus.datacenter)&&
   Objects.equals(this.cloud, objVinfraVcenterConnectivityStatus.cloud);
 }
 

@@ -150,10 +150,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   HardwareSecurityModule objHardwareSecurityModule = (HardwareSecurityModule) o;
-  return   Objects.equals(this.rfs, objHardwareSecurityModule.rfs)&&
-  Objects.equals(this.sluna, objHardwareSecurityModule.sluna)&&
-  Objects.equals(this.type, objHardwareSecurityModule.type)&&
+  return   Objects.equals(this.type, objHardwareSecurityModule.type)&&
+  Objects.equals(this.rfs, objHardwareSecurityModule.rfs)&&
   Objects.equals(this.nethsm, objHardwareSecurityModule.nethsm)&&
+  Objects.equals(this.sluna, objHardwareSecurityModule.sluna)&&
   Objects.equals(this.cloudhsm, objHardwareSecurityModule.cloudhsm);
 }
 

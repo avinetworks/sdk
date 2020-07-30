@@ -134,9 +134,9 @@ public boolean equals(java.lang.Object o) {
   }
   GeoLocation objGeoLocation = (GeoLocation) o;
   return   Objects.equals(this.latitude, objGeoLocation.latitude)&&
-  Objects.equals(this.tag, objGeoLocation.tag)&&
+  Objects.equals(this.longitude, objGeoLocation.longitude)&&
   Objects.equals(this.name, objGeoLocation.name)&&
-  Objects.equals(this.longitude, objGeoLocation.longitude);
+  Objects.equals(this.tag, objGeoLocation.tag);
 }
 
 @Override

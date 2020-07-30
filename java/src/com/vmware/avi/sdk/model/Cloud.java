@@ -722,7 +722,7 @@ public class Cloud extends AviRestResource  {
 
   /**
    * This is the getter method this will return the attribute value.
-   * Placeholder for description of property oshiftk8s_configuration of obj type cloud field type str  type ref.
+   * Field deprecated in 20.1.1.
    * @return oshiftk8sConfiguration
    */
   public OShiftK8SConfiguration getOshiftk8SConfiguration() {
@@ -731,7 +731,7 @@ public class Cloud extends AviRestResource  {
 
   /**
    * This is the setter method to the attribute.
-   * Placeholder for description of property oshiftk8s_configuration of obj type cloud field type str  type ref.
+   * Field deprecated in 20.1.1.
    * @param oshiftk8sConfiguration set the oshiftk8sConfiguration.
    */
   public void setOshiftk8SConfiguration(OShiftK8SConfiguration oshiftk8sConfiguration) {
@@ -961,45 +961,45 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   Cloud objCloud = (Cloud) o;
-  return   Objects.equals(this.vcaConfiguration, objCloud.vcaConfiguration)&&
-  Objects.equals(this.proxyConfiguration, objCloud.proxyConfiguration)&&
-  Objects.equals(this.enableVipOnAllInterfaces, objCloud.enableVipOnAllInterfaces)&&
-  Objects.equals(this.dockerConfiguration, objCloud.dockerConfiguration)&&
-  Objects.equals(this.nsxConfiguration, objCloud.nsxConfiguration)&&
-  Objects.equals(this.oshiftk8sConfiguration, objCloud.oshiftk8sConfiguration)&&
-  Objects.equals(this.autoscalePollingInterval, objCloud.autoscalePollingInterval)&&
-  Objects.equals(this.mtu, objCloud.mtu)&&
-  Objects.equals(this.rancherConfiguration, objCloud.rancherConfiguration)&&
-  Objects.equals(this.vtype, objCloud.vtype)&&
-  Objects.equals(this.uuid, objCloud.uuid)&&
-  Objects.equals(this.objNamePrefix, objCloud.objNamePrefix)&&
-  Objects.equals(this.eastWestDnsProviderRef, objCloud.eastWestDnsProviderRef)&&
-  Objects.equals(this.customTags, objCloud.customTags)&&
-  Objects.equals(this.gcpConfiguration, objCloud.gcpConfiguration)&&
-  Objects.equals(this.eastWestIpamProviderRef, objCloud.eastWestIpamProviderRef)&&
-  Objects.equals(this.ipamProviderRef, objCloud.ipamProviderRef)&&
-  Objects.equals(this.apicMode, objCloud.apicMode)&&
-  Objects.equals(this.azureConfiguration, objCloud.azureConfiguration)&&
-  Objects.equals(this.mesosConfiguration, objCloud.mesosConfiguration)&&
-  Objects.equals(this.ip6AutocfgEnabled, objCloud.ip6AutocfgEnabled)&&
-  Objects.equals(this.openstackConfiguration, objCloud.openstackConfiguration)&&
-  Objects.equals(this.enableVipStaticRoutes, objCloud.enableVipStaticRoutes)&&
-  Objects.equals(this.dnsProviderRef, objCloud.dnsProviderRef)&&
-  Objects.equals(this.awsConfiguration, objCloud.awsConfiguration)&&
-  Objects.equals(this.cloudstackConfiguration, objCloud.cloudstackConfiguration)&&
-  Objects.equals(this.stateBasedDnsRegistration, objCloud.stateBasedDnsRegistration)&&
-  Objects.equals(this.seGroupTemplateRef, objCloud.seGroupTemplateRef)&&
-  Objects.equals(this.licenseTier, objCloud.licenseTier)&&
+  return   Objects.equals(this.uuid, objCloud.uuid)&&
   Objects.equals(this.name, objCloud.name)&&
-  Objects.equals(this.nsxtConfiguration, objCloud.nsxtConfiguration)&&
-  Objects.equals(this.dnsResolutionOnSe, objCloud.dnsResolutionOnSe)&&
-  Objects.equals(this.dhcpEnabled, objCloud.dhcpEnabled)&&
-  Objects.equals(this.linuxserverConfiguration, objCloud.linuxserverConfiguration)&&
-  Objects.equals(this.apicConfiguration, objCloud.apicConfiguration)&&
-  Objects.equals(this.preferStaticRoutes, objCloud.preferStaticRoutes)&&
-  Objects.equals(this.licenseType, objCloud.licenseType)&&
+  Objects.equals(this.vtype, objCloud.vtype)&&
   Objects.equals(this.vcenterConfiguration, objCloud.vcenterConfiguration)&&
-  Objects.equals(this.tenantRef, objCloud.tenantRef);
+  Objects.equals(this.openstackConfiguration, objCloud.openstackConfiguration)&&
+  Objects.equals(this.awsConfiguration, objCloud.awsConfiguration)&&
+  Objects.equals(this.apicMode, objCloud.apicMode)&&
+  Objects.equals(this.apicConfiguration, objCloud.apicConfiguration)&&
+  Objects.equals(this.cloudstackConfiguration, objCloud.cloudstackConfiguration)&&
+  Objects.equals(this.vcaConfiguration, objCloud.vcaConfiguration)&&
+  Objects.equals(this.mesosConfiguration, objCloud.mesosConfiguration)&&
+  Objects.equals(this.proxyConfiguration, objCloud.proxyConfiguration)&&
+  Objects.equals(this.linuxserverConfiguration, objCloud.linuxserverConfiguration)&&
+  Objects.equals(this.dockerConfiguration, objCloud.dockerConfiguration)&&
+  Objects.equals(this.rancherConfiguration, objCloud.rancherConfiguration)&&
+  Objects.equals(this.oshiftk8sConfiguration, objCloud.oshiftk8sConfiguration)&&
+  Objects.equals(this.azureConfiguration, objCloud.azureConfiguration)&&
+  Objects.equals(this.gcpConfiguration, objCloud.gcpConfiguration)&&
+  Objects.equals(this.nsxtConfiguration, objCloud.nsxtConfiguration)&&
+  Objects.equals(this.dhcpEnabled, objCloud.dhcpEnabled)&&
+  Objects.equals(this.mtu, objCloud.mtu)&&
+  Objects.equals(this.preferStaticRoutes, objCloud.preferStaticRoutes)&&
+  Objects.equals(this.enableVipStaticRoutes, objCloud.enableVipStaticRoutes)&&
+  Objects.equals(this.objNamePrefix, objCloud.objNamePrefix)&&
+  Objects.equals(this.licenseType, objCloud.licenseType)&&
+  Objects.equals(this.ipamProviderRef, objCloud.ipamProviderRef)&&
+  Objects.equals(this.dnsProviderRef, objCloud.dnsProviderRef)&&
+  Objects.equals(this.eastWestIpamProviderRef, objCloud.eastWestIpamProviderRef)&&
+  Objects.equals(this.eastWestDnsProviderRef, objCloud.eastWestDnsProviderRef)&&
+  Objects.equals(this.nsxConfiguration, objCloud.nsxConfiguration)&&
+  Objects.equals(this.customTags, objCloud.customTags)&&
+  Objects.equals(this.stateBasedDnsRegistration, objCloud.stateBasedDnsRegistration)&&
+  Objects.equals(this.ip6AutocfgEnabled, objCloud.ip6AutocfgEnabled)&&
+  Objects.equals(this.dnsResolutionOnSe, objCloud.dnsResolutionOnSe)&&
+  Objects.equals(this.enableVipOnAllInterfaces, objCloud.enableVipOnAllInterfaces)&&
+  Objects.equals(this.tenantRef, objCloud.tenantRef)&&
+  Objects.equals(this.licenseTier, objCloud.licenseTier)&&
+  Objects.equals(this.autoscalePollingInterval, objCloud.autoscalePollingInterval)&&
+  Objects.equals(this.seGroupTemplateRef, objCloud.seGroupTemplateRef);
 }
 
 @Override

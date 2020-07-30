@@ -144,10 +144,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   DnsRuleActionResponse objDnsRuleActionResponse = (DnsRuleActionResponse) o;
-  return   Objects.equals(this.authoritative, objDnsRuleActionResponse.authoritative)&&
-  Objects.equals(this.resourceRecordSets, objDnsRuleActionResponse.resourceRecordSets)&&
-  Objects.equals(this.rcode, objDnsRuleActionResponse.rcode)&&
-  Objects.equals(this.truncation, objDnsRuleActionResponse.truncation);
+  return   Objects.equals(this.rcode, objDnsRuleActionResponse.rcode)&&
+  Objects.equals(this.truncation, objDnsRuleActionResponse.truncation)&&
+  Objects.equals(this.authoritative, objDnsRuleActionResponse.authoritative)&&
+  Objects.equals(this.resourceRecordSets, objDnsRuleActionResponse.resourceRecordSets);
 }
 
 @Override

@@ -162,11 +162,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   WafLearning objWafLearning = (WafLearning) o;
-  return   Objects.equals(this.confidence, objWafLearning.confidence)&&
-  Objects.equals(this.enable, objWafLearning.enable)&&
+  return   Objects.equals(this.enable, objWafLearning.enable)&&
   Objects.equals(this.samplingPercent, objWafLearning.samplingPercent)&&
-  Objects.equals(this.argSummarizationThreshold, objWafLearning.argSummarizationThreshold)&&
-  Objects.equals(this.pathSummarizationThreshold, objWafLearning.pathSummarizationThreshold);
+  Objects.equals(this.confidence, objWafLearning.confidence)&&
+  Objects.equals(this.pathSummarizationThreshold, objWafLearning.pathSummarizationThreshold)&&
+  Objects.equals(this.argSummarizationThreshold, objWafLearning.argSummarizationThreshold);
 }
 
 @Override

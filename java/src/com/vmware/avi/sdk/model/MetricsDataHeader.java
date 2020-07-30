@@ -431,23 +431,23 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   MetricsDataHeader objMetricsDataHeader = (MetricsDataHeader) o;
-  return   Objects.equals(this.statistics, objMetricsDataHeader.statistics)&&
-  Objects.equals(this.metricsMinScale, objMetricsDataHeader.metricsMinScale)&&
-  Objects.equals(this.name, objMetricsDataHeader.name)&&
-  Objects.equals(this.objId, objMetricsDataHeader.objId)&&
-  Objects.equals(this.tenantUuid, objMetricsDataHeader.tenantUuid)&&
-  Objects.equals(this.metricsSumAggInvalid, objMetricsDataHeader.metricsSumAggInvalid)&&
-  Objects.equals(this.dimensionData, objMetricsDataHeader.dimensionData)&&
-  Objects.equals(this.priority, objMetricsDataHeader.priority)&&
-  Objects.equals(this.serviceengineUuid, objMetricsDataHeader.serviceengineUuid)&&
-  Objects.equals(this.missingIntervals, objMetricsDataHeader.missingIntervals)&&
-  Objects.equals(this.entityUuid, objMetricsDataHeader.entityUuid)&&
+  return   Objects.equals(this.name, objMetricsDataHeader.name)&&
   Objects.equals(this.units, objMetricsDataHeader.units)&&
+  Objects.equals(this.objId, objMetricsDataHeader.objId)&&
+  Objects.equals(this.statistics, objMetricsDataHeader.statistics)&&
   Objects.equals(this.poolUuid, objMetricsDataHeader.poolUuid)&&
-  Objects.equals(this.server, objMetricsDataHeader.server)&&
-  Objects.equals(this.objIdType, objMetricsDataHeader.objIdType)&&
+  Objects.equals(this.missingIntervals, objMetricsDataHeader.missingIntervals)&&
   Objects.equals(this.derivationData, objMetricsDataHeader.derivationData)&&
-  Objects.equals(this.metricDescription, objMetricsDataHeader.metricDescription);
+  Objects.equals(this.metricDescription, objMetricsDataHeader.metricDescription)&&
+  Objects.equals(this.dimensionData, objMetricsDataHeader.dimensionData)&&
+  Objects.equals(this.metricsMinScale, objMetricsDataHeader.metricsMinScale)&&
+  Objects.equals(this.server, objMetricsDataHeader.server)&&
+  Objects.equals(this.entityUuid, objMetricsDataHeader.entityUuid)&&
+  Objects.equals(this.objIdType, objMetricsDataHeader.objIdType)&&
+  Objects.equals(this.priority, objMetricsDataHeader.priority)&&
+  Objects.equals(this.metricsSumAggInvalid, objMetricsDataHeader.metricsSumAggInvalid)&&
+  Objects.equals(this.tenantUuid, objMetricsDataHeader.tenantUuid)&&
+  Objects.equals(this.serviceengineUuid, objMetricsDataHeader.serviceengineUuid);
 }
 
 @Override

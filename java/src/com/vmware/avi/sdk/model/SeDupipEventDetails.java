@@ -113,10 +113,10 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SeDupipEventDetails objSeDupipEventDetails = (SeDupipEventDetails) o;
-  return   Objects.equals(this.remoteMac, objSeDupipEventDetails.remoteMac)&&
+  return   Objects.equals(this.vnicName, objSeDupipEventDetails.vnicName)&&
   Objects.equals(this.vnicIp, objSeDupipEventDetails.vnicIp)&&
-  Objects.equals(this.localMac, objSeDupipEventDetails.localMac)&&
-  Objects.equals(this.vnicName, objSeDupipEventDetails.vnicName);
+  Objects.equals(this.remoteMac, objSeDupipEventDetails.remoteMac)&&
+  Objects.equals(this.localMac, objSeDupipEventDetails.localMac);
 }
 
 @Override

@@ -85,8 +85,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   GslbHealthMonitorProxy objGslbHealthMonitorProxy = (GslbHealthMonitorProxy) o;
-  return   Objects.equals(this.siteUuid, objGslbHealthMonitorProxy.siteUuid)&&
-  Objects.equals(this.proxyType, objGslbHealthMonitorProxy.proxyType);
+  return   Objects.equals(this.proxyType, objGslbHealthMonitorProxy.proxyType)&&
+  Objects.equals(this.siteUuid, objGslbHealthMonitorProxy.siteUuid);
 }
 
 @Override

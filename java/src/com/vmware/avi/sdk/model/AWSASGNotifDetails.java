@@ -201,14 +201,14 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   AWSASGNotifDetails objAWSASGNotifDetails = (AWSASGNotifDetails) o;
-  return   Objects.equals(this.eventType, objAWSASGNotifDetails.eventType)&&
-  Objects.equals(this.errorString, objAWSASGNotifDetails.errorString)&&
+  return   Objects.equals(this.ccId, objAWSASGNotifDetails.ccId)&&
   Objects.equals(this.asgName, objAWSASGNotifDetails.asgName)&&
-  Objects.equals(this.poolRef, objAWSASGNotifDetails.poolRef)&&
   Objects.equals(this.instanceId, objAWSASGNotifDetails.instanceId)&&
+  Objects.equals(this.eventType, objAWSASGNotifDetails.eventType)&&
   Objects.equals(this.instanceIpAddr, objAWSASGNotifDetails.instanceIpAddr)&&
   Objects.equals(this.vpcId, objAWSASGNotifDetails.vpcId)&&
-  Objects.equals(this.ccId, objAWSASGNotifDetails.ccId);
+  Objects.equals(this.errorString, objAWSASGNotifDetails.errorString)&&
+  Objects.equals(this.poolRef, objAWSASGNotifDetails.poolRef);
 }
 
 @Override

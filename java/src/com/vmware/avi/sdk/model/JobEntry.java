@@ -188,11 +188,11 @@ public boolean equals(java.lang.Object o) {
   }
   JobEntry objJobEntry = (JobEntry) o;
   return   Objects.equals(this.uuid, objJobEntry.uuid)&&
-  Objects.equals(this.expiresAt, objJobEntry.expiresAt)&&
+  Objects.equals(this.name, objJobEntry.name)&&
   Objects.equals(this.objKey, objJobEntry.objKey)&&
   Objects.equals(this.subjobs, objJobEntry.subjobs)&&
-  Objects.equals(this.tenantRef, objJobEntry.tenantRef)&&
-  Objects.equals(this.name, objJobEntry.name);
+  Objects.equals(this.expiresAt, objJobEntry.expiresAt)&&
+  Objects.equals(this.tenantRef, objJobEntry.tenantRef);
 }
 
 @Override

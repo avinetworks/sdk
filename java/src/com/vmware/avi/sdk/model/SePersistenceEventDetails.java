@@ -98,8 +98,8 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   SePersistenceEventDetails objSePersistenceEventDetails = (SePersistenceEventDetails) o;
-  return   Objects.equals(this.type, objSePersistenceEventDetails.type)&&
-  Objects.equals(this.pool, objSePersistenceEventDetails.pool)&&
+  return   Objects.equals(this.pool, objSePersistenceEventDetails.pool)&&
+  Objects.equals(this.type, objSePersistenceEventDetails.type)&&
   Objects.equals(this.entries, objSePersistenceEventDetails.entries);
 }
 

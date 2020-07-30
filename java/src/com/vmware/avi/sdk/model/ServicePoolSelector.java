@@ -148,11 +148,11 @@ public boolean equals(java.lang.Object o) {
     return false;
   }
   ServicePoolSelector objServicePoolSelector = (ServicePoolSelector) o;
-  return   Objects.equals(this.serviceProtocol, objServicePoolSelector.serviceProtocol)&&
-  Objects.equals(this.servicePort, objServicePoolSelector.servicePort)&&
-  Objects.equals(this.servicePortRangeEnd, objServicePoolSelector.servicePortRangeEnd)&&
+  return   Objects.equals(this.servicePort, objServicePoolSelector.servicePort)&&
   Objects.equals(this.servicePoolRef, objServicePoolSelector.servicePoolRef)&&
-  Objects.equals(this.servicePoolGroupRef, objServicePoolSelector.servicePoolGroupRef);
+  Objects.equals(this.serviceProtocol, objServicePoolSelector.serviceProtocol)&&
+  Objects.equals(this.servicePoolGroupRef, objServicePoolSelector.servicePoolGroupRef)&&
+  Objects.equals(this.servicePortRangeEnd, objServicePoolSelector.servicePortRangeEnd);
 }
 
 @Override
