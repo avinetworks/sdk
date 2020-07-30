@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi VSDataScriptSet Object API
     contact:
         name: Avi Networks Inc.
@@ -344,6 +344,29 @@ paths:
 
 
 definitions:
+    RateLimiter:
+        type: object
+        required:
+            -   count
+            -   period
+        properties:
+            burst_sz:
+                description: "Maximum number of connections, requests or packets to be let through instantaneously.  If this is less than count, it will have no effect. Allowed values are 0-1000000000. Field introduced in 18.2.9."
+                type: integer
+                format: int32
+            count:
+                description: "Maximum number of connections, requests or packets permitted each period. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1000000000
+                format: int32
+            name:
+                description: "Identifier for Rate Limit. Constructed according to context. Field introduced in 18.2.9."
+                type: string
+            period:
+                description: "Time value in seconds to enforce rate count. Allowed values are 1-1000000000. Field introduced in 18.2.9."
+                type: integer
+                default: 1
+                format: int32
     VSDataScript:
         type: object
         required:
@@ -399,6 +422,11 @@ definitions:
                 type: array
                 items:
                     type: string
+            rate_limiters:
+                description: "The Rate Limit definitions needed for this DataScript. The name is composed of the Virtual Service name and the DataScript name. Field introduced in 18.2.9."
+                type: array
+                items:
+                    $ref: '#/definitions/RateLimiter'
             string_group_refs:
                 description: "UUID of String Groups that could be referred by VSDataScriptSet objects. It is a reference to an object of type StringGroup."
                 type: array
@@ -427,3 +455,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/VSDataScriptSet"
+            next:
+                type: string

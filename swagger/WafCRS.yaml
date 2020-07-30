@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi WafCRS Object API
     contact:
         name: Avi Networks Inc.
@@ -425,6 +425,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/WafCRS"
+            next:
+                type: string
     WafExcludeListEntry:
         type: object
         properties:
@@ -483,11 +485,18 @@ definitions:
                 description: " Field introduced in 17.2.1."
                 type: integer
                 format: int32
+            is_sensitive:
+                description: "The rule field is sensitive and will not be displayed. Field introduced in 20.1.1."
+                type: boolean
             mode:
                 description: "WAF Rule mode. This can be detection or enforcement. If this is not set, the Policy mode is used. This only takes effect if the policy allows delegation. Enum options - WAF_MODE_DETECTION_ONLY, WAF_MODE_ENFORCEMENT. Field introduced in 18.1.5, 18.2.1."
                 type: string
             name:
                 description: "User-friendly optional name for a rule. Field introduced in 17.2.1."
+                type: string
+            phase:
+                description: "The execution phase where this rule will be executed. Enum options - WAF_PHASE_CONNECTION, WAF_PHASE_REQUEST_HEADER, WAF_PHASE_REQUEST_BODY, WAF_PHASE_RESPONSE_HEADER, WAF_PHASE_RESPONSE_BODY, WAF_PHASE_LOGGING. Field introduced in 20.1.1."
+                readOnly: True
                 type: string
             rule:
                 description: "Rule as per Modsec language. Field introduced in 17.2.1."

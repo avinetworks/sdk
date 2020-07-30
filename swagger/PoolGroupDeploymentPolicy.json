@@ -1,618 +1,621 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi PoolGroupDeploymentPolicy Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi PoolGroupDeploymentPolicy Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure poolgroupdeploymentpolicy <key>\n- show poolgroupdeploymentpolicy <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
         "/poolgroupdeploymentpolicy": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "PoolGroupDeploymentPolicy object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/PoolGroupDeploymentPolicyApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "PoolGroupDeploymentPolicy object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
-        }, 
+        },
         "/poolgroupdeploymentpolicy/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "PoolGroupDeploymentPolicy object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/PoolGroupDeploymentPolicy"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
+                }
+            },
+            "put": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "PoolGroupDeploymentPolicy object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "PoolGroupDeploymentPolicy object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/PoolGroupDeploymentPolicy"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "PoolGroupDeploymentPolicy object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            },
+            "delete": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "delete": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "204": {
-                        "description": "object deleted", 
+                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
-                    }, 
+                    },
                     "404": {
                         "description": "not found"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
+                }
             }
         }
-    }, 
+    },
     "definitions": {
         "PGDeploymentRule": {
-            "type": "object", 
+            "type": "object",
             "properties": {
-                "operator": {
-                    "default": "CO_GE", 
-                    "type": "string", 
-                    "description": " Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE."
-                }, 
-                "threshold": {
-                    "type": "number", 
-                    "description": "metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool.", 
-                    "format": "double"
-                }, 
                 "metric_id": {
-                    "default": "health.health_score_value", 
-                    "type": "string", 
-                    "description": "metric_id of PGDeploymentRule."
+                    "description": "metric_id of PGDeploymentRule.",
+                    "type": "string",
+                    "default": "health.health_score_value"
+                },
+                "operator": {
+                    "description": " Enum options - CO_EQ, CO_GT, CO_GE, CO_LT, CO_LE, CO_NE.",
+                    "type": "string",
+                    "default": "CO_GE"
+                },
+                "threshold": {
+                    "description": "metric threshold that is used as the pass fail. If it is not provided then it will simply compare it with current pool vs new pool.",
+                    "type": "number",
+                    "format": "double"
                 }
             }
-        }, 
+        },
         "PoolGroupDeploymentPolicy": {
+            "type": "object",
             "required": [
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "target_test_traffic_ratio": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Target traffic ratio before pool is made production. Allowed values are 1-100.", 
-                    "format": "int32"
-                }, 
-                "evaluation_duration": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Duration of evaluation period for automatic deployment. Allowed values are 60-86400.", 
-                    "format": "int32"
-                }, 
                 "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "test_traffic_ratio_rampup": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100.", 
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "auto_disable_old_prod_pools": {
+                    "description": "It will automatically disable old production pools once there is a new production candidate.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "description": {
+                    "description": "User defined description for the object.",
+                    "type": "string"
+                },
+                "evaluation_duration": {
+                    "description": "Duration of evaluation period for automatic deployment. Allowed values are 60-86400.",
+                    "type": "integer",
+                    "default": 300,
                     "format": "int32"
-                }, 
+                },
+                "name": {
+                    "description": "The name of the pool group deployment policy.",
+                    "type": "string"
+                },
                 "rules": {
+                    "description": "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/PGDeploymentRule"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property rules of obj type PoolGroupDeploymentPolicy field type str  type object"
-                }, 
-                "auto_disable_old_prod_pools": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "It will automatically disable old production pools once there is a new production candidate."
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the pool group deployment policy."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "The name of the pool group deployment policy."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "webhook_ref": {
-                    "type": "string", 
-                    "description": "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results. It is a reference to an object of type Webhook. Field introduced in 17.1.1."
-                }, 
+                    }
+                },
                 "scheme": {
-                    "default": "BLUE_GREEN", 
-                    "type": "string", 
-                    "description": "deployment scheme. Enum options - BLUE_GREEN, CANARY."
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
+                    "description": "deployment scheme. Enum options - BLUE_GREEN, CANARY.",
+                    "type": "string",
+                    "default": "BLUE_GREEN"
+                },
+                "target_test_traffic_ratio": {
+                    "description": "Target traffic ratio before pool is made production. Allowed values are 1-100.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "test_traffic_ratio_rampup": {
+                    "description": "Ratio of the traffic that is sent to the pool under test. test ratio of 100 means blue green. Allowed values are 1-100.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID of the pool group deployment policy.",
+                    "type": "string"
+                },
+                "webhook_ref": {
+                    "description": "Webhook configured with URL that Avi controller will pass back information about pool group, old and new pool information and current deployment rule results. It is a reference to an object of type Webhook. Field introduced in 17.1.1.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "PoolGroupDeploymentPolicyApiResponse": {
+            "type": "object",
             "required": [
-                "count", 
+                "count",
                 "results"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "count": {
-                    "type": "integer", 
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "results": {
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/PoolGroupDeploymentPolicy"
-                    }, 
-                    "type": "array"
+                    }
+                },
+                "next": {
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
         }
     }
 }

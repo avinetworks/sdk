@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi Backup Object API
     contact:
         name: Avi Networks Inc.
@@ -393,3 +393,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/Backup"
+            next:
+                type: string

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi SystemConfiguration Object API
     contact:
         name: Avi Networks Inc.
@@ -248,7 +248,7 @@ definitions:
             -   index
         properties:
             assign_policy:
-                description: "Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7."
+                description: "Assignment rule for the Object Access Policy. Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX. Field introduced in 18.2.7, 20.1.1."
                 type: string
             assign_role:
                 description: " Enum options - ASSIGN_ALL, ASSIGN_FROM_SELECT_LIST, ASSIGN_MATCHING_GROUP_NAME, ASSIGN_MATCHING_ATTRIBUTE_VALUE, ASSIGN_MATCHING_GROUP_REGEX, ASSIGN_MATCHING_ATTRIBUTE_REGEX."
@@ -270,12 +270,12 @@ definitions:
                 description: "Placeholder for description of property is_superuser of obj type AuthMappingRule field type str  type boolean"
                 type: boolean
             object_access_policy_refs:
-                description: "Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7."
+                description: "Object Access Policies to assign to user on successful match. It is a reference to an object of type ObjectAccessPolicy. Field introduced in 18.2.7, 20.1.1."
                 type: array
                 items:
                     type: string
             policy_attribute_name:
-                description: "Attribute name for Object Access Policy assignment. Field introduced in 18.2.7."
+                description: "Attribute name for Object Access Policy assignment. Field introduced in 18.2.7, 20.1.1."
                 type: string
             role_attribute_name:
                 description: "role_attribute_name of AuthMappingRule."
@@ -627,7 +627,7 @@ definitions:
                 type: string
                 default: "avinetworks"
             auth_type:
-                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA. Field introduced in 17.2.3."
+                description: "SNMP V3 user authentication type. Enum options - SNMP_V3_AUTH_MD5, SNMP_V3_AUTH_SHA, SNMP_V3_AUTH_SHA_224, SNMP_V3_AUTH_SHA_256, SNMP_V3_AUTH_SHA_384, SNMP_V3_AUTH_SHA_512. Field introduced in 17.2.3."
                 type: string
                 default: "SNMP_V3_AUTH_MD5"
             priv_passphrase:
@@ -652,9 +652,9 @@ definitions:
                 description: "Placeholder for description of property admin_auth_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/AdminAuthConfiguration'
             default_license_tier:
-                description: "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE_18. Field introduced in 17.2.5."
+                description: "Specifies the default license tier which would be used by new Clouds. Enum options - ENTERPRISE_16, ENTERPRISE, ENTERPRISE_18, BASIC. Field introduced in 17.2.5."
                 type: string
-                default: "ENTERPRISE_18"
+                default: "ENTERPRISE"
             dns_configuration:
                 description: "Placeholder for description of property dns_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/DNSConfiguration'
@@ -669,6 +669,9 @@ definitions:
             email_configuration:
                 description: "Placeholder for description of property email_configuration of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/EmailConfiguration'
+            fips_mode:
+                description: "Enable FIPS mode. Field introduced in 20.1.1."
+                type: boolean
             global_tenant_config:
                 description: "Placeholder for description of property global_tenant_config of obj type SystemConfiguration field type str  type object"
                 $ref: '#/definitions/TenantConfiguration'
@@ -726,6 +729,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/SystemConfiguration"
+            next:
+                type: string
     SysTestEmailParams:
         type: object
         required:

@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi  Object API
     contact:
         name: Avi Networks Inc.
@@ -1252,6 +1252,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/HealthScoreQueryResponse"
+            next:
+                type: string
     HealthScoreResourcesData:
         type: object
         required:
@@ -1949,6 +1951,13 @@ definitions:
                 type: string
             cert_chain_verified_score:
                 description: "Score  Chains for all certificates are verified."
+                type: number
+                format: double
+            cert_revoked_status:
+                description: "Certificate revoked status by OCSP Responder."
+                type: string
+            cert_revoked_status_score:
+                description: "Score  Certficate Revoked for VS."
                 type: number
                 format: double
             disable_client_renegotiation:

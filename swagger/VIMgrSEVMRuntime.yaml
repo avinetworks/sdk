@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi VIMgrSEVMRuntime Object API
     contact:
         name: Avi Networks Inc.
@@ -457,7 +457,7 @@ definitions:
                 description: "Unique object identifier of os_port."
                 type: string
             type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT."
                 type: string
     VIMgrIPSubnetRuntime:
         type: object
@@ -606,7 +606,7 @@ definitions:
                 description: " It is a reference to an object of type Tenant."
                 type: string
             type:
-                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP."
+                description: " Enum options - CLOUD_NONE, CLOUD_VCENTER, CLOUD_OPENSTACK, CLOUD_AWS, CLOUD_VCA, CLOUD_APIC, CLOUD_MESOS, CLOUD_LINUXSERVER, CLOUD_DOCKER_UCP, CLOUD_RANCHER, CLOUD_OSHIFT_K8S, CLOUD_AZURE, CLOUD_GCP, CLOUD_NSXT."
                 type: string
             url:
                 description: "url"
@@ -618,6 +618,12 @@ definitions:
             vcenter_datacenter_uuid:
                 description: "Unique object identifier of vcenter_datacenter."
                 type: string
+            vcenter_instance_uuid:
+                description: "ServiceEngine instance uuid from vCenter. Field introduced in 20.1.1."
+                type: string
+            vcenter_ref:
+                description: "ServiceEngine belongs to VCenter. It is a reference to an object of type VCenterServer. Field introduced in 20.1.1."
+                type: string
             vcenter_rm_cookie:
                 description: "vcenter_rm_cookie of VIMgrSEVMRuntime."
                 type: string
@@ -627,6 +633,9 @@ definitions:
             vcenter_template_vm:
                 description: "Placeholder for description of property vcenter_template_vm of obj type VIMgrSEVMRuntime field type str  type boolean"
                 type: boolean
+            vcenter_url:
+                description: "Service Engine deployed in vcenter. Field introduced in 20.1.1."
+                type: string
             vcenter_vAppName:
                 description: "vcenter_vAppName of VIMgrSEVMRuntime."
                 type: string
@@ -653,3 +662,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/VIMgrSEVMRuntime"
+            next:
+                type: string

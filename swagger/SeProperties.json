@@ -1,1583 +1,1586 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi SeProperties Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi SeProperties Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
-        }
-    }, 
-    "paths": {
-        "/seproperties": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SeProperties"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SeProperties object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SeProperties"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SeProperties"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
-            "patch": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/SeProperties"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "SeProperties object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/SeProperties"
-                        }
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }
-    }, 
-    "definitions": {
-        "SeBootupProperties": {
-            "type": "object", 
-            "properties": {
-                "distribute_queues": {
-                    "type": "boolean", 
-                    "description": "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1."
-                }, 
-                "se_dpdk_pmd": {
-                    "type": "integer", 
-                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.", 
-                    "format": "int32"
-                }, 
-                "se_pcap_pkt_count": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "docker_backend_portstart": {
-                    "default": 20480, 
-                    "type": "integer", 
-                    "description": "Start of the Local TCP port range used by SE for backend connections in docker environment.", 
-                    "format": "int32"
-                }, 
-                "se_log_buffer_chunk_count": {
-                    "default": 1024, 
-                    "type": "integer", 
-                    "description": "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
-                    "format": "int32"
-                }, 
-                "se_rum_sampling_res_interval": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "se_dp_compression": {
-                    "description": "Placeholder for description of property se_dp_compression of obj type SeBootupProperties field type str  type object", 
-                    "$ref": "#/definitions/SeBootupCompressionProperties"
-                }, 
-                "se_log_buffer_app_blocking_dequeue": {
-                    "type": "boolean", 
-                    "description": "Internal flag that blocks dataplane until all application logs are flushed to log-agent process."
-                }, 
-                "se_rum_sampling_nav_percent": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "se_use_dpdk": {
-                    "type": "integer", 
-                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.", 
-                    "format": "int32"
-                }, 
-                "se_emulated_cores": {
-                    "type": "integer", 
-                    "description": "Use this to emulate more/less cpus than is actually available. One datapath process is started for each core.", 
-                    "format": "int32"
-                }, 
-                "distribute_vnics": {
-                    "type": "boolean", 
-                    "description": "Deprecated. Field deprecated in 18.2.5."
-                }, 
-                "se_log_buffer_conn_blocking_dequeue": {
-                    "type": "boolean", 
-                    "description": "Internal flag that blocks dataplane until all connection logs are flushed to log-agent process."
-                }, 
-                "se_lro": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "l7_resvd_listen_conns_per_core": {
-                    "default": 256, 
-                    "type": "integer", 
-                    "description": "Number of reserved L7 listener connections per core.", 
-                    "format": "int32"
-                }, 
-                "se_log_buffer_connlog_size": {
-                    "default": 1024, 
-                    "type": "integer", 
-                    "description": "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
-                    "format": "int32"
-                }, 
-                "docker_backend_portend": {
-                    "default": 30720, 
-                    "type": "integer", 
-                    "description": "End of the Local TCP port range used by SE for backend connections in docker environment.", 
-                    "format": "int32"
-                }, 
-                "se_rum_sampling_nav_interval": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "se_log_buffer_events_blocking_dequeue": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Internal flag that blocks dataplane until all outstanding events are flushed to log-agent process."
-                }, 
-                "tcp_syncache_hashsize": {
-                    "default": 8192, 
-                    "type": "integer", 
-                    "description": "Size of the TCP SYN cache hash table.", 
-                    "format": "int32"
-                }, 
-                "se_tx_batch_size": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "se_pcap_pkt_sz": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "geo_db_granularity": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "se_tunnel_mode": {
-                    "type": "integer", 
-                    "description": "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "fair_queueing_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable or disable fair queueing for packet transmission among virtualservices on an SE."
-                }, 
-                "log_agent_debug_enabled": {
-                    "type": "boolean", 
-                    "description": "Enable debug logs by default on Service Engine. This includes all other debugging logs. Debug logs can also be explcitly enabled from the CLI shell."
-                }, 
-                "se_ip_encap_ipc": {
-                    "type": "integer", 
-                    "description": "Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encap.", 
-                    "format": "int32"
-                }, 
-                "se_log_buffer_applog_size": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
-                    "format": "int32"
-                }, 
-                "se_rum_sampling_res_percent": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "se_log_buffer_events_size": {
-                    "default": 512, 
-                    "type": "integer", 
-                    "description": "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.", 
-                    "format": "int32"
-                }, 
-                "ssl_sess_cache_timeout": {
-                    "default": 86400, 
-                    "type": "integer", 
-                    "description": "Number of ssl_sess_cache_timeout.", 
-                    "format": "int32"
-                }, 
-                "se_l3_encap_ipc": {
-                    "type": "integer", 
-                    "description": "Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IP.", 
-                    "format": "int32"
-                }, 
-                "ssl_sess_cache_per_vs": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "Number of ssl_sess_cache_per_vs.", 
-                    "format": "int32"
-                }, 
-                "log_agent_trace_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable trace logs by default on Service Engine. Configuration operations are logged along with other important logs by Service Engine."
-                }, 
-                "l7_conns_per_core": {
-                    "default": 16384, 
-                    "type": "integer", 
-                    "description": "Number of L7 connections that can be cached per core.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "AppHdr": {
-            "required": [
-                "hdr_match_case", 
-                "hdr_name", 
-                "hdr_string_op"
-            ], 
-            "type": "object", 
-            "properties": {
-                "hdr_name": {
-                    "type": "string", 
-                    "description": "hdr_name of AppHdr."
-                }, 
-                "hdr_match_case": {
-                    "type": "string", 
-                    "description": " Enum options - SENSITIVE, INSENSITIVE."
-                }, 
-                "hdr_string_op": {
-                    "type": "string", 
-                    "description": " Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH."
-                }
-            }
-        }, 
-        "DosThreshold": {
-            "required": [
-                "attack", 
-                "max_value", 
-                "min_value"
-            ], 
-            "type": "object", 
-            "properties": {
-                "max_value": {
-                    "type": "integer", 
-                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
-                    "format": "int32"
-                }, 
-                "attack": {
-                    "type": "string", 
-                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION."
-                }, 
-                "min_value": {
-                    "type": "integer", 
-                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SePropertiesApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/SeProperties"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "PortRange": {
-            "required": [
-                "end", 
-                "start"
-            ], 
-            "type": "object", 
-            "properties": {
-                "start": {
-                    "type": "integer", 
-                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.", 
-                    "format": "int32"
-                }, 
-                "end": {
-                    "type": "integer", 
-                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SeRuntimeCompressionProperties": {
-            "type": "object", 
-            "properties": {
-                "mobile_str": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Values that identify mobile browsers in order to enable aggressive compression."
-                }, 
-                "min_length": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "Minimum response content length to enable compression.", 
-                    "format": "int32"
-                }, 
-                "min_high_rtt": {
-                    "default": 200, 
-                    "type": "integer", 
-                    "description": "If client RTT is higher than this threshold, enable aggressive compression on the response.", 
-                    "format": "int32"
-                }, 
-                "max_low_rtt": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "If client RTT is higher than this threshold, enable normal compression on the response.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "IpAddr": {
-            "required": [
-                "addr", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
-                "addr": {
-                    "type": "string", 
-                    "description": "IP address."
-                }
-            }
-        }, 
-        "SeBootupCompressionProperties": {
-            "type": "object", 
-            "properties": {
-                "level_normal": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Level of compression to apply on content selected for normal compression.", 
-                    "format": "int32"
-                }, 
-                "window_size": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "window size used by compression, rounded to the last power of 2.", 
-                    "format": "int32"
-                }, 
-                "buf_size": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "Size of each buffer used for compression output, this should ideally be a multiple of pagesize.", 
-                    "format": "int32"
-                }, 
-                "hash_size": {
-                    "default": 16384, 
-                    "type": "integer", 
-                    "description": "hash size used by compression, rounded to the last power of 2.", 
-                    "format": "int32"
-                }, 
-                "level_aggressive": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Level of compression to apply on content selected for aggressive compression.", 
-                    "format": "int32"
-                }, 
-                "buf_num": {
-                    "default": 128, 
-                    "type": "integer", 
-                    "description": "Number of buffers to use for compression output.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "DosThresholdProfile": {
-            "required": [
-                "thresh_period"
-            ], 
-            "type": "object", 
-            "properties": {
-                "thresh_period": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.", 
-                    "format": "int32"
-                }, 
-                "thresh_info": {
-                    "items": {
-                        "$ref": "#/definitions/DosThreshold"
-                    }, 
-                    "type": "array", 
-                    "description": "Attack type, min and max values for DoS attack detection."
-                }
-            }
-        }, 
-        "SeAgentStateCacheProperties": {
-            "type": "object", 
-            "properties": {
-                "sc_thread_q_batch_dequeue_limit": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_stream_check_interval": {
-                    "default": 5000, 
-                    "type": "integer", 
-                    "description": "Interval for checking health of grpc streams to statecache_mgr. Allowed values are 1-90000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_thread_q_max_size": {
-                    "default": 4096, 
-                    "type": "integer", 
-                    "description": "Max elements in the Q between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_batch_buffer_flush_limit": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Max elements to flush in one shot from the internal buffer by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_state_ring_batch_dequeue_limit": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Max elements to dequeue in one shot from the state_ring by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_states_flush_interval": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_thread_sleep_interval": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Interval for grpc thread to sleep between doing work. Allowed values are 1-10000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }, 
-                "sc_shard_cleanup_max_time": {
-                    "default": 900, 
-                    "type": "integer", 
-                    "description": "Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SeRateLimiters": {
-            "type": "object", 
-            "properties": {
-                "rst_rl": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Rate limiter for number RST pkts sent in pps.", 
-                    "format": "int32"
-                }, 
-                "icmp_rl": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Rate limiter for ICMP requests in pps.", 
-                    "format": "int32"
-                }, 
-                "flow_probe_rl": {
-                    "default": 250, 
-                    "type": "integer", 
-                    "description": "Rate limiter for number of flow probes in pps.", 
-                    "format": "int32"
-                }, 
-                "default_rl": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Default Rate limiter in pps.", 
-                    "format": "int32"
-                }, 
-                "arp_rl": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Rate limiter for ARP packets in pps.", 
-                    "format": "int32"
-                }, 
-                "icmp_rsp_rl": {
-                    "default": 500, 
-                    "type": "integer", 
-                    "description": "Rate limiter for ICMP response in pps.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SeRuntimeProperties": {
-            "type": "object", 
-            "properties": {
-                "upstream_connpool_conn_life_tmo": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "mcache_store_out_enabled": {
-                    "type": "boolean", 
-                    "description": "enables mcache_store_out."
-                }, 
-                "upstream_keepalive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean"
-                }, 
-                "disable_tso": {
-                    "type": "boolean", 
-                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.4."
-                }, 
-                "upstream_connpool_core_max_cache": {
-                    "default": -1, 
-                    "type": "integer", 
-                    "description": "L7 Upstream Connection pool max cache size per core.", 
-                    "format": "int32"
-                }, 
-                "downstream_send_timeout": {
-                    "default": 3600000, 
-                    "type": "integer", 
-                    "description": "Timeout for downstream to become writable.", 
-                    "format": "int32"
-                }, 
-                "dp_hb_frequency": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled.", 
-                    "format": "int32"
-                }, 
-                "log_agent_max_active_adf_files_per_vs": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Maximum number of Virtual Service log files maintained for significant logs on the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_conns_per_server": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Number of concurrent connections to LDAP server by a single basic auth LDAP process.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_strategy": {
-                    "default": -1, 
-                    "type": "integer", 
-                    "description": "Number of upstream_connpool_strategy.", 
-                    "format": "int32"
-                }, 
-                "log_agent_file_sz_appl": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Maximum application log file size before rollover.", 
-                    "format": "int32"
-                }, 
-                "mcache_store_se_max_size": {
-                    "type": "integer", 
-                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.", 
-                    "format": "int64"
-                }, 
-                "se_dp_compression": {
-                    "description": "Placeholder for description of property se_dp_compression of obj type SeRuntimeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeRuntimeCompressionProperties"
-                }, 
-                "log_agent_max_logmessage_proto_sz": {
-                    "default": 65536, 
-                    "type": "integer", 
-                    "description": "Maximum size of serialized log message on the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "se_malloc_thresh": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "tcp_syncache_max_retransmit_default": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Default value for max number of retransmissions for a SYN packet.", 
-                    "format": "int32"
-                }, 
-                "disable_gro": {
-                    "type": "boolean", 
-                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.1."
-                }, 
-                "se_hb_persist_fudge_bits": {
-                    "default": 3, 
-                    "type": "integer", 
-                    "description": "Internal use only. Allowed values are 0-7.", 
-                    "format": "int32"
-                }, 
-                "dp_aggressive_hb_frequency": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled.", 
-                    "format": "int32"
-                }, 
-                "se_dp_vnic_stall_se_restart_window": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
-                    "format": "int32"
-                }, 
-                "user_defined_metric_age": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_conn_max_reuse": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_server_max_cache": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "dos_profile": {
-                    "description": "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object", 
-                    "$ref": "#/definitions/DosThresholdProfile"
-                }, 
-                "dp_aggressive_hb_timeout_count": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled.", 
-                    "format": "int32"
-                }, 
-                "se_metrics_rt_interval": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller.", 
-                    "format": "int32"
-                }, 
-                "service_ip_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "IP ranges on which there may be virtual services (for configuring iptables/routes)."
-                }, 
-                "persistence_mem_max": {
-                    "type": "integer", 
-                    "description": "Maximum memory in bytes allocated for persistence entries. Allowed values are 0-33554432.", 
-                    "format": "int32"
-                }, 
-                "se_metrics_rt_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration."
-                }, 
-                "http_rum_console_log": {
-                    "type": "boolean", 
-                    "description": "Enable Javascript console logs on the client browser when collecting client insights."
-                }, 
-                "log_agent_log_storage_min_sz": {
-                    "default": 1024, 
-                    "type": "integer", 
-                    "description": "Minimum storage allocated for logs irrespective of memory and cores.", 
-                    "format": "int32"
-                }, 
-                "se_random_tcp_drops": {
-                    "type": "boolean", 
-                    "description": "Internal use only. If enabled, randomly packets are dropped."
-                }, 
-                "se_dp_vnic_queue_stall_threshold": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "persistence_entries_low_watermark": {
-                    "default": 20000, 
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "se_dp_if_state_poll_interval": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Number of jiffies between polling interface state.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_cache_size": {
-                    "default": 100000, 
-                    "type": "integer", 
-                    "description": "Size of LDAP basicauth credentials cache used on the dataplane.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_connect_timeout": {
-                    "default": 10000, 
-                    "type": "integer", 
-                    "description": "LDAP basicauth default connection timeout enforced on connections to LDAP server.", 
-                    "format": "int32"
-                }, 
-                "log_agent_export_msg_buffer_size": {
-                    "default": 524288, 
-                    "type": "integer", 
-                    "description": "Maximum size of data sent by log-agent to Controller over the TCP connection.", 
-                    "format": "int32"
-                }, 
-                "app_headers": {
-                    "items": {
-                        "$ref": "#/definitions/AppHdr"
-                    }, 
-                    "type": "array", 
-                    "description": "Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object"
-                }, 
-                "log_message_max_file_list_size": {
-                    "default": 64, 
-                    "type": "integer", 
-                    "description": "Maximum number of file names in a log message.", 
-                    "format": "int32"
-                }, 
-                "log_agent_max_storage_excess_percent": {
-                    "default": 110, 
-                    "type": "integer", 
-                    "description": "Excess percentage threshold of disk size to trigger cleanup of logs on the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "admin_ssh_enabled": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Allow admin user ssh access to SE. Field introduced in 18.2.5."
-                }, 
-                "services_accessible_all_interfaces": {
-                    "type": "boolean", 
-                    "description": "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP."
-                }, 
-                "dupip_timeout_count": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_bind_timeout": {
-                    "default": 5000, 
-                    "type": "integer", 
-                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server.", 
-                    "format": "int32"
-                }, 
-                "enable_hsm_log": {
-                    "type": "boolean", 
-                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3."
-                }, 
-                "baremetal_dispatcher_handles_flows": {
-                    "type": "boolean", 
-                    "description": "Control if dispatcher core also handles TCP flows in baremetal SE."
-                }, 
-                "upstream_connpool_cache_thresh": {
-                    "default": -1, 
-                    "type": "integer", 
-                    "description": "L7 Upstream Connection pool cache threshold in percentage.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_request_timeout": {
-                    "default": 10000, 
-                    "type": "integer", 
-                    "description": "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server.", 
-                    "format": "int32"
-                }, 
-                "mcache_fetch_enabled": {
-                    "type": "boolean", 
-                    "description": "enables mcache_fetch."
-                }, 
-                "se_rate_limiters": {
-                    "description": "SE rate limiters.", 
-                    "$ref": "#/definitions/SeRateLimiters"
-                }, 
-                "upstream_connect_timeout": {
-                    "default": 3600000, 
-                    "type": "integer", 
-                    "description": "Timeout for backend connection.", 
-                    "format": "int32"
-                }, 
-                "connections_lossy_log_rate_limiter_threshold": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "Rate limit on maximum adf lossy log to pushper second.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_conn_idle_tmo": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "flow_table_max_entries_deprecated": {
-                    "default": 100000000, 
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "mcache_store_in_enabled": {
-                    "type": "boolean", 
-                    "description": "enables mcache_store."
-                }, 
-                "log_agent_unknown_vs_timer": {
-                    "default": 1800, 
-                    "type": "integer", 
-                    "description": "Timeout to purge unknown Virtual Service logs from the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "dupip_frequency": {
-                    "type": "integer", 
-                    "description": "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_conn_idle_thresh_tmo": {
-                    "default": -1, 
-                    "type": "integer", 
-                    "description": "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold.", 
-                    "format": "int32"
-                }, 
-                "log_agent_min_storage_per_vs": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Minimum storage allocated to any given VirtualService on the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "se_dp_log_nf_enqueue_percent": {
-                    "default": 70, 
-                    "type": "integer", 
-                    "description": "Internal buffer full indicator on the Service Engine beyond which the unfiltered logs are abandoned.", 
-                    "format": "int32"
-                }, 
-                "feproxy_vips_enable_proxy_arp": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable proxy ARP from Host interface for Front End  proxies."
-                }, 
-                "log_agent_file_sz_event": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Maximum event log file size before rollover.", 
-                    "format": "int32"
-                }, 
-                "se_dp_log_udf_enqueue_percent": {
-                    "default": 90, 
-                    "type": "integer", 
-                    "description": "Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned.", 
-                    "format": "int32"
-                }, 
-                "spdy_fwd_proxy_parse_enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean"
-                }, 
-                "se_dp_vnic_queue_stall_timeout": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "service_port_ranges": {
-                    "items": {
-                        "$ref": "#/definitions/PortRange"
-                    }, 
-                    "type": "array", 
-                    "description": "Port ranges on which there may be virtual services (for configuring iptables). Applicable in container ecosystems like Mesos."
-                }, 
-                "mcache_max_cache_size": {
-                    "type": "integer", 
-                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.", 
-                    "format": "int64"
-                }, 
-                "scaleout_udp_per_pkt": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled."
-                }, 
-                "se_dp_vnic_queue_stall_event_sleep": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "log_agent_pause_interval": {
-                    "type": "integer", 
-                    "description": "Time interval log-agent pauses between logs obtained from the dataplane.", 
-                    "format": "int32"
-                }, 
-                "se_memory_poison": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Internal use only. Enables poisoning of freed memory blocks."
-                }, 
-                "log_agent_conn_send_buffer_size": {
-                    "default": 16384, 
-                    "type": "integer", 
-                    "description": "Log-agent test property used to simulate slow TCP connections.", 
-                    "format": "int32"
-                }, 
-                "flow_table_batch_push_frequency": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "How often to push the flow table IPC messages in the main loop. The value is the number of times through the loop before pushing the batch. i.e, a value of 1 means every time through the loop.", 
-                    "format": "int32"
-                }, 
-                "max_throughput": {
-                    "default": 10000, 
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "upstream_connpool_enable": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Enable upstream connection pool."
-                }, 
-                "log_agent_export_wait_time": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Time log-agent waits before sending data to the Controller.", 
-                    "format": "int32"
-                }, 
-                "se_dp_hm_drops": {
-                    "type": "integer", 
-                    "description": "Internal only. Used to simulate SE - SE HB failure.", 
-                    "format": "int32"
-                }, 
-                "log_agent_file_sz_conn": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Maximum connection log file size before rollover.", 
-                    "format": "int32"
-                }, 
-                "se_mac_error_threshold_to_disable_promiscious": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "Number of packets with wrong mac after which SE attempts to disable promiscious mode.", 
-                    "format": "int32"
-                }, 
-                "se_packet_buffer_max": {
-                    "type": "integer", 
-                    "description": "Internal use only. Used to artificially reduce the available number of packet buffers.", 
-                    "format": "int32"
-                }, 
-                "disable_flow_probes": {
-                    "type": "boolean", 
-                    "description": "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1."
-                }, 
-                "lbaction_rq_per_request_max_retries": {
-                    "default": 22, 
-                    "type": "integer", 
-                    "description": "Maximum retries per request in the request queue.", 
-                    "format": "int32"
-                }, 
-                "lbaction_num_requests_to_dispatch": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Number of requests to dispatch from the request queue at a regular interval.", 
-                    "format": "int32"
-                }, 
-                "log_agent_file_sz_debug": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Maximum debug log file size before rollover.", 
-                    "format": "int32"
-                }, 
-                "se_dp_vnic_restart_on_queue_stall_count": {
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.", 
-                    "format": "int32"
-                }, 
-                "mcache_store_in_min_size": {
-                    "type": "integer", 
-                    "description": "min object size.", 
-                    "format": "int32"
-                }, 
-                "se_dump_core_on_assert": {
-                    "type": "boolean", 
-                    "description": "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1."
-                }, 
-                "lb_fail_max_time": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.1.1.", 
-                    "format": "int32"
-                }, 
-                "global_mtu": {
-                    "type": "integer", 
-                    "description": "Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used.", 
-                    "format": "int32"
-                }, 
-                "upstream_read_timeout": {
-                    "default": 3600000, 
-                    "type": "integer", 
-                    "description": "Timeout for data to be received from backend.", 
-                    "format": "int32"
-                }, 
-                "lb_batch_push_frequency": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field deprecated in 18.1.3. Field introduced in 17.2.8.", 
-                    "format": "int32"
-                }, 
-                "mcache_enabled": {
-                    "type": "boolean", 
-                    "description": "enables mcache - controls fetch/store/store_out."
-                }, 
-                "connections_udfnf_log_rate_limiter_threshold": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "Rate limit on maximum adf udf or nf log to pushper second.", 
-                    "format": "int32"
-                }, 
-                "upstream_send_timeout": {
-                    "default": 3600000, 
-                    "type": "integer", 
-                    "description": "Timeout for upstream to become writable.", 
-                    "format": "int32"
-                }, 
-                "log_agent_max_storage_ignore_percent": {
-                    "default": 20.0, 
-                    "type": "number", 
-                    "description": "Maximum storage on the disk not allocated for logs on the Service Engine.", 
-                    "format": "float"
-                }, 
-                "tcp_syn_cache_max": {
-                    "default": 32768, 
-                    "type": "integer", 
-                    "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_servers_failover_only": {
-                    "type": "boolean", 
-                    "description": "LDAP basicauth uses multiple ldap servers in the event of a failover only."
-                }, 
-                "se_handle_interface_routes": {
-                    "type": "boolean", 
-                    "description": "Accept/ignore interface routes (i.e, no next hop IP address)."
-                }, 
-                "log_agent_sleep_interval": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine.", 
-                    "format": "int32"
-                }, 
-                "flow_table_new_syn_max_entries": {
-                    "default": 40000, 
-                    "type": "integer", 
-                    "description": "Deprecated. Field deprecated in 17.2.5.", 
-                    "format": "int32"
-                }, 
-                "se_auth_ldap_reconnect_timeout": {
-                    "default": 10000, 
-                    "type": "integer", 
-                    "description": "LDAP basicauth default reconnect timeout enforced on connections to LDAP server.", 
-                    "format": "int32"
-                }, 
-                "ngx_free_connection_stack": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property ngx_free_connection_stack of obj type SeRuntimeProperties field type str  type boolean"
-                }, 
-                "dp_hb_timeout_count": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.", 
-                    "format": "int32"
-                }, 
-                "se_metrics_interval": {
-                    "default": 60000, 
-                    "type": "integer", 
-                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller.", 
-                    "format": "int32"
-                }, 
-                "log_agent_max_concurrent_rsync": {
-                    "default": 1024, 
-                    "type": "integer", 
-                    "description": "Maximum concurrent rsync requests initiated from log-agent to the Controller.", 
-                    "format": "int32"
-                }, 
-                "http_rum_min_content_length": {
-                    "default": 64, 
-                    "type": "integer", 
-                    "description": "Minimum response size content length to sample for client insights.", 
-                    "format": "int32"
-                }, 
-                "mcache_store_in_max_size": {
-                    "type": "integer", 
-                    "description": "max object size.", 
-                    "format": "int32"
-                }, 
-                "log_agent_compress_logs": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Flag to indicate if log files are compressed upon full on the Service Engine."
-                }
-            }
-        }, 
-        "SeAgentProperties": {
-            "type": "object", 
-            "properties": {
-                "vnic_rpc_retry_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6.", 
-                    "format": "int32"
-                }, 
-                "dp_enq_interval_msec": {
-                    "default": 20, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "sdb_scan_count": {
-                    "default": 1000, 
-                    "type": "integer", 
-                    "description": "SDB scan count. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "dp_reg_pending_max_wait_time": {
-                    "default": 75, 
-                    "type": "integer", 
-                    "description": "Max time to wait for dp registration before assert.", 
-                    "format": "int32"
-                }, 
-                "controller_echo_rpc_aggressive_timeout": {
-                    "default": 2000, 
-                    "type": "integer", 
-                    "description": "Aggressive Timeout used for se health check.", 
-                    "format": "int32"
-                }, 
-                "states_flush_interval": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.", 
-                    "format": "int32"
-                }, 
-                "dp_aggressive_enq_interval_msec": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "ns_helper_deq_interval_msec": {
-                    "default": 20, 
-                    "type": "integer", 
-                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "vnic_ip_delete_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "wait interval before deleting IP.", 
-                    "format": "int32"
-                }, 
-                "dp_max_wait_rsp_time_sec": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Number of dp_max_wait_rsp_time_sec.", 
-                    "format": "int32"
-                }, 
-                "send_se_ready_timeout": {
-                    "default": 300, 
-                    "type": "integer", 
-                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.", 
-                    "format": "int32"
-                }, 
-                "se_grp_change_disruptive": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3."
-                }, 
-                "controller_rpc_timeout": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Number of controller_rpc_timeout.", 
-                    "format": "int32"
-                }, 
-                "headless_timeout_sec": {
-                    "type": "integer", 
-                    "description": "Number of headless_timeout_sec.", 
-                    "format": "int32"
-                }, 
-                "dp_aggressive_deq_interval_msec": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "controller_echo_rpc_timeout": {
-                    "default": 2000, 
-                    "type": "integer", 
-                    "description": "Timeout used for se health check.", 
-                    "format": "int32"
-                }, 
-                "ignore_docker_mac_change": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean"
-                }, 
-                "sdb_pipeline_size": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "SDB pipeline size. Allowed values are 1-10000.", 
-                    "format": "int32"
-                }, 
-                "cpustats_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Number of cpustats_interval.", 
-                    "format": "int32"
-                }, 
-                "dp_batch_size": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "Number of dp_batch_size.", 
-                    "format": "int32"
-                }, 
-                "vnicdb_cmd_history_size": {
-                    "default": 256, 
-                    "type": "integer", 
-                    "description": "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.", 
-                    "format": "int32"
-                }, 
-                "vnic_probe_interval": {
-                    "default": 5, 
-                    "type": "integer", 
-                    "description": "Probe vnic interval.", 
-                    "format": "int32"
-                }, 
-                "debug_mode": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean"
-                }, 
-                "vnic_dhcp_ip_max_retries": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "DHCP ip max retries.", 
-                    "format": "int32"
-                }, 
-                "seagent_statecache_properties": {
-                    "description": "SeAgent properties for State Cache functionality. Field introduced in 18.2.5.", 
-                    "$ref": "#/definitions/SeAgentStateCacheProperties"
-                }, 
-                "dp_deq_interval_msec": {
-                    "default": 20, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "ctrl_reg_pending_max_wait_time": {
-                    "default": 150, 
-                    "type": "integer", 
-                    "description": "Max time to wait for ctrl registration before assert. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "controller_heartbeat_miss_limit": {
-                    "default": 6, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-20.", 
-                    "format": "int32"
-                }, 
-                "sdb_flush_interval": {
-                    "default": 100, 
-                    "type": "integer", 
-                    "description": "SDB pipeline flush interval. Allowed values are 1-10000.", 
-                    "format": "int32"
-                }, 
-                "controller_echo_miss_aggressive_limit": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Aggressive Count of HB misses for se health check failure. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "controller_heartbeat_timeout_sec": {
-                    "default": 12, 
-                    "type": "integer", 
-                    "description": " Allowed values are 1-60.", 
-                    "format": "int32"
-                }, 
-                "controller_registration_timeout_sec": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Number of controller_registration_timeout_sec.", 
-                    "format": "int32"
-                }, 
-                "controller_echo_miss_limit": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "Count of HB misses for se health check failure. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }, 
-                "vnic_dhcp_ip_check_interval": {
-                    "default": 6, 
-                    "type": "integer", 
-                    "description": "DHCP ip check interval. Allowed values are 1-1000.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "SeProperties": {
-            "type": "object", 
-            "properties": {
-                "se_agent_properties": {
-                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeAgentProperties"
-                }, 
-                "se_bootup_properties": {
-                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeBootupProperties"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "se_runtime_properties": {
-                    "description": "Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object", 
-                    "$ref": "#/definitions/SeRuntimeProperties"
-                }, 
-                "uuid": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "Unique object identifier of the object."
-                }
-            }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
+        },
+        "description": "CLI\n```\n- configure serviceengineproperties\n- show serviceengineproperties\n```\n"
+    },
     "securityDefinitions": {
         "basicAuth": {
-            "type": "basic", 
+            "type": "basic",
             "description": "basic authentication"
+        }
+    },
+    "basePath": "/api",
+    "paths": {
+        "/seproperties": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SeProperties"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SeProperties object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SeProperties"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SeProperties"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "SeProperties object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SeProperties"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/SeProperties"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AppHdr": {
+            "type": "object",
+            "required": [
+                "hdr_match_case",
+                "hdr_name",
+                "hdr_string_op"
+            ],
+            "properties": {
+                "hdr_match_case": {
+                    "description": " Enum options - SENSITIVE, INSENSITIVE.",
+                    "type": "string"
+                },
+                "hdr_name": {
+                    "description": "hdr_name of AppHdr.",
+                    "type": "string"
+                },
+                "hdr_string_op": {
+                    "description": " Enum options - BEGINS_WITH, DOES_NOT_BEGIN_WITH, CONTAINS, DOES_NOT_CONTAIN, ENDS_WITH, DOES_NOT_END_WITH, EQUALS, DOES_NOT_EQUAL, REGEX_MATCH, REGEX_DOES_NOT_MATCH.",
+                    "type": "string"
+                }
+            }
+        },
+        "DosThreshold": {
+            "type": "object",
+            "required": [
+                "attack",
+                "max_value",
+                "min_value"
+            ],
+            "properties": {
+                "attack": {
+                    "description": "Attack type. Enum options - LAND, SMURF, ICMP_PING_FLOOD, UNKOWN_PROTOCOL, TEARDROP, IP_FRAG_OVERRUN, IP_FRAG_TOOSMALL, IP_FRAG_FULL, IP_FRAG_INCOMPLETE, PORT_SCAN, TCP_NON_SYN_FLOOD_OLD, SYN_FLOOD, BAD_RST_FLOOD, MALFORMED_FLOOD, FAKE_SESSION, ZERO_WINDOW_STRESS, SMALL_WINDOW_STRESS, DOS_HTTP_TIMEOUT, DOS_HTTP_ERROR, DOS_HTTP_ABORT, DOS_SSL_ERROR, DOS_APP_ERROR, DOS_REQ_IP_RL_DROP, DOS_REQ_URI_RL_DROP, DOS_REQ_URI_SCAN_BAD_RL_DROP, DOS_REQ_URI_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_URI_RL_DROP, DOS_CONN_IP_RL_DROP, DOS_SLOW_URL, TCP_NON_SYN_FLOOD, DOS_REQ_CIP_SCAN_BAD_RL_DROP, DOS_REQ_CIP_SCAN_UNKNOWN_RL_DROP, DOS_REQ_IP_RL_DROP_BAD, DOS_REQ_URI_RL_DROP_BAD, DOS_REQ_IP_URI_RL_DROP_BAD, POLICY_DROPS, DOS_CONN_RL_DROP, DOS_REQ_RL_DROP, DOS_REQ_HDR_RL_DROP, DOS_REQ_CUSTOM_RL_DROP, DNS_ATTACK_REFLECTION.",
+                    "type": "string"
+                },
+                "max_value": {
+                    "description": "Maximum number of packets or connections or requests in a given interval of time to be deemed as attack.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "min_value": {
+                    "description": "Minimum number of packets or connections or requests in a given interval of time to be deemed as attack.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "DosThresholdProfile": {
+            "type": "object",
+            "required": [
+                "thresh_period"
+            ],
+            "properties": {
+                "thresh_info": {
+                    "description": "Attack type, min and max values for DoS attack detection.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DosThreshold"
+                    }
+                },
+                "thresh_period": {
+                    "description": "Timer value in seconds to collect DoS attack metrics based on threshold on the Service Engine for this Virtual Service.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                }
+            }
+        },
+        "IpAddr": {
+            "type": "object",
+            "required": [
+                "addr",
+                "type"
+            ],
+            "properties": {
+                "addr": {
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpAddrPrefix": {
+            "type": "object",
+            "required": [
+                "ip_addr",
+                "mask"
+            ],
+            "properties": {
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "PortRange": {
+            "type": "object",
+            "required": [
+                "end",
+                "start"
+            ],
+            "properties": {
+                "end": {
+                    "description": "TCP/UDP port range end (inclusive). Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start": {
+                    "description": "TCP/UDP port range start (inclusive). Allowed values are 1-65535.",
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "SeAgentProperties": {
+            "type": "object",
+            "properties": {
+                "controller_echo_miss_aggressive_limit": {
+                    "description": "Aggressive Count of HB misses for se health check failure. Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 2,
+                    "format": "int32"
+                },
+                "controller_echo_miss_limit": {
+                    "description": "Count of HB misses for se health check failure. Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "controller_echo_rpc_aggressive_timeout": {
+                    "description": "Aggressive Timeout used for se health check.",
+                    "type": "integer",
+                    "default": 2000,
+                    "format": "int32"
+                },
+                "controller_echo_rpc_timeout": {
+                    "description": "Timeout used for se health check.",
+                    "type": "integer",
+                    "default": 2000,
+                    "format": "int32"
+                },
+                "controller_heartbeat_miss_limit": {
+                    "description": " Allowed values are 1-20.",
+                    "type": "integer",
+                    "default": 6,
+                    "format": "int32"
+                },
+                "controller_heartbeat_timeout_sec": {
+                    "description": " Allowed values are 1-60.",
+                    "type": "integer",
+                    "default": 12,
+                    "format": "int32"
+                },
+                "controller_registration_timeout_sec": {
+                    "description": "Number of controller_registration_timeout_sec.",
+                    "type": "integer",
+                    "default": 30,
+                    "format": "int32"
+                },
+                "controller_rpc_timeout": {
+                    "description": "Number of controller_rpc_timeout.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "cpustats_interval": {
+                    "description": "Number of cpustats_interval.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "ctrl_reg_pending_max_wait_time": {
+                    "description": "Max time to wait for ctrl registration before assert. Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 150,
+                    "format": "int32"
+                },
+                "debug_mode": {
+                    "description": "Placeholder for description of property debug_mode of obj type SeAgentProperties field type str  type boolean",
+                    "type": "boolean"
+                },
+                "dp_aggressive_deq_interval_msec": {
+                    "description": " Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "dp_aggressive_enq_interval_msec": {
+                    "description": " Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "dp_batch_size": {
+                    "description": "Number of dp_batch_size.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "dp_deq_interval_msec": {
+                    "description": " Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "dp_enq_interval_msec": {
+                    "description": " Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "dp_max_wait_rsp_time_sec": {
+                    "description": "Number of dp_max_wait_rsp_time_sec.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
+                },
+                "dp_reg_pending_max_wait_time": {
+                    "description": "Max time to wait for dp registration before assert.",
+                    "type": "integer",
+                    "default": 75,
+                    "format": "int32"
+                },
+                "headless_timeout_sec": {
+                    "description": "Number of headless_timeout_sec.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ignore_docker_mac_change": {
+                    "description": "Placeholder for description of property ignore_docker_mac_change of obj type SeAgentProperties field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "ns_helper_deq_interval_msec": {
+                    "description": "Dequeue interval for receive queue from NS HELPER. Allowed values are 1-1000. Field introduced in 17.2.13, 18.1.3, 18.2.1.",
+                    "type": "integer",
+                    "default": 20,
+                    "format": "int32"
+                },
+                "sdb_flush_interval": {
+                    "description": "SDB pipeline flush interval. Allowed values are 1-10000.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_pipeline_size": {
+                    "description": "SDB pipeline size. Allowed values are 1-10000.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sdb_scan_count": {
+                    "description": "SDB scan count. Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "se_grp_change_disruptive": {
+                    "description": "Internal flag used to decide if SE restart is needed,when the se-group is changed. Field introduced in 18.2.3.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "seagent_statecache_properties": {
+                    "description": "SeAgent properties for State Cache functionality. Field introduced in 18.2.5.",
+                    "$ref": "#/definitions/SeAgentStateCacheProperties"
+                },
+                "send_se_ready_timeout": {
+                    "description": "Timeout for sending SE_READY without NS HELPER registration completion. Allowed values are 10-600. Field introduced in 17.2.13, 18.1.3, 18.2.1.",
+                    "type": "integer",
+                    "default": 300,
+                    "format": "int32"
+                },
+                "states_flush_interval": {
+                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.1, 17.2.14, 18.1.5.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "vnic_dhcp_ip_check_interval": {
+                    "description": "DHCP ip check interval. Allowed values are 1-1000.",
+                    "type": "integer",
+                    "default": 6,
+                    "format": "int32"
+                },
+                "vnic_dhcp_ip_max_retries": {
+                    "description": "DHCP ip max retries.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "vnic_ip_delete_interval": {
+                    "description": "wait interval before deleting IP.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "vnic_probe_interval": {
+                    "description": "Probe vnic interval.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "vnic_rpc_retry_interval": {
+                    "description": "Time interval for retrying the failed VNIC RPC requests. Field introduced in 18.2.6.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "vnicdb_cmd_history_size": {
+                    "description": "Size of vnicdb command history. Allowed values are 0-65535. Field introduced in 18.2.3.",
+                    "type": "integer",
+                    "default": 256,
+                    "format": "int32"
+                }
+            }
+        },
+        "SeAgentStateCacheProperties": {
+            "type": "object",
+            "properties": {
+                "sc_batch_buffer_flush_limit": {
+                    "description": "Max elements to flush in one shot from the internal buffer by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 300,
+                    "format": "int32"
+                },
+                "sc_shard_cleanup_max_time": {
+                    "description": "Max time to wait by the statecache thread before cleaning up connection to the controller shard. Allowed values are 1-1000000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 900,
+                    "format": "int32"
+                },
+                "sc_state_ring_batch_dequeue_limit": {
+                    "description": "Max elements to dequeue in one shot from the state_ring by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 300,
+                    "format": "int32"
+                },
+                "sc_states_flush_interval": {
+                    "description": "Interval for update of operational states to controller. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sc_stream_check_interval": {
+                    "description": "Interval for checking health of grpc streams to statecache_mgr. Allowed values are 1-90000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 5000,
+                    "format": "int32"
+                },
+                "sc_thread_q_batch_dequeue_limit": {
+                    "description": "Max elements to dequeue in one shot from the Q by the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "sc_thread_q_max_size": {
+                    "description": "Max elements in the Q between seagent main and the statecache thread. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
+                "sc_thread_sleep_interval": {
+                    "description": "Interval for grpc thread to sleep between doing work. Allowed values are 1-10000. Field introduced in 18.2.5.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                }
+            }
+        },
+        "SeBootupCompressionProperties": {
+            "type": "object",
+            "properties": {
+                "buf_num": {
+                    "description": "Number of buffers to use for compression output.",
+                    "type": "integer",
+                    "default": 128,
+                    "format": "int32"
+                },
+                "buf_size": {
+                    "description": "Size of each buffer used for compression output, this should ideally be a multiple of pagesize.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
+                "hash_size": {
+                    "description": "hash size used by compression, rounded to the last power of 2.",
+                    "type": "integer",
+                    "default": 16384,
+                    "format": "int32"
+                },
+                "level_aggressive": {
+                    "description": "Level of compression to apply on content selected for aggressive compression.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "level_normal": {
+                    "description": "Level of compression to apply on content selected for normal compression.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "window_size": {
+                    "description": "window size used by compression, rounded to the last power of 2.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                }
+            }
+        },
+        "SeBootupProperties": {
+            "type": "object",
+            "properties": {
+                "distribute_queues": {
+                    "description": "Deprecated. Field deprecated in 17.2.8. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "distribute_vnics": {
+                    "description": "Deprecated. Field deprecated in 18.2.5.",
+                    "type": "boolean"
+                },
+                "docker_backend_portend": {
+                    "description": "End of the Local TCP port range used by SE for backend connections in docker environment.",
+                    "type": "integer",
+                    "default": 30720,
+                    "format": "int32"
+                },
+                "docker_backend_portstart": {
+                    "description": "Start of the Local TCP port range used by SE for backend connections in docker environment.",
+                    "type": "integer",
+                    "default": 20480,
+                    "format": "int32"
+                },
+                "fair_queueing_enabled": {
+                    "description": "Enable or disable fair queueing for packet transmission among virtualservices on an SE.",
+                    "type": "boolean"
+                },
+                "geo_db_granularity": {
+                    "description": "Granularity or Resolution of co-ordinates used. When the value is 1 the co-ordinates provided in the geo-db are used as is (highest resolution.This value provides a 'zoom-out' value so that coarser co-ordinates are used. With higher resolution, logs can contain finer location information. But, lower resolution provides significant memory and cpu benefits on the service engine. Besides, given a smaller number of members that are separated geographically, a lower resolution is sufficient for correct load-balancing. Allowed values are 1-20. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "l7_conns_per_core": {
+                    "description": "Number of L7 connections that can be cached per core.",
+                    "type": "integer",
+                    "default": 16384,
+                    "format": "int32"
+                },
+                "l7_resvd_listen_conns_per_core": {
+                    "description": "Number of reserved L7 listener connections per core.",
+                    "type": "integer",
+                    "default": 256,
+                    "format": "int32"
+                },
+                "log_agent_debug_enabled": {
+                    "description": "Enable debug logs by default on Service Engine. This includes all other debugging logs. Debug logs can also be explcitly enabled from the CLI shell.",
+                    "type": "boolean"
+                },
+                "log_agent_trace_enabled": {
+                    "description": "Enable trace logs by default on Service Engine. Configuration operations are logged along with other important logs by Service Engine.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "se_dp_compression": {
+                    "description": "Placeholder for description of property se_dp_compression of obj type SeBootupProperties field type str  type object",
+                    "$ref": "#/definitions/SeBootupCompressionProperties"
+                },
+                "se_dpdk_pmd": {
+                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_emulated_cores": {
+                    "description": "Use this to emulate more/less cpus than is actually available. One datapath process is started for each core.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_ip_encap_ipc": {
+                    "description": "Determines if SE-SE IPC messages are encapsulated in an IP header       0        Automatically determine based on hypervisor type    1        Use IP encap unconditionally    ~[0,1]   Don't use IP encap.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_l3_encap_ipc": {
+                    "description": "Determines if SE-SE IPC messages use SE interface IP instead of VIP        0        Automatically determine based on hypervisor type    1        Use SE interface IP unconditionally    ~[0,1]   Don't use SE interface IP.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_log_buffer_app_blocking_dequeue": {
+                    "description": "Internal flag that blocks dataplane until all application logs are flushed to log-agent process.",
+                    "type": "boolean"
+                },
+                "se_log_buffer_applog_size": {
+                    "description": "Internal application log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
+                "se_log_buffer_chunk_count": {
+                    "description": "Number of internal buffer chunks to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.",
+                    "type": "integer",
+                    "default": 1024,
+                    "format": "int32"
+                },
+                "se_log_buffer_conn_blocking_dequeue": {
+                    "description": "Internal flag that blocks dataplane until all connection logs are flushed to log-agent process.",
+                    "type": "boolean"
+                },
+                "se_log_buffer_connlog_size": {
+                    "description": "Internal connection log buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.",
+                    "type": "integer",
+                    "default": 1024,
+                    "format": "int32"
+                },
+                "se_log_buffer_events_blocking_dequeue": {
+                    "description": "Internal flag that blocks dataplane until all outstanding events are flushed to log-agent process.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "se_log_buffer_events_size": {
+                    "description": "Internal events buffer size to use on Service Engine. Can be fine tuned for better performance of data plane in specific environments.",
+                    "type": "integer",
+                    "default": 512,
+                    "format": "int32"
+                },
+                "se_lro": {
+                    "description": "Deprecated. Field deprecated in 18.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_pcap_pkt_count": {
+                    "description": "Deprecated. Field deprecated in 18.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_pcap_pkt_sz": {
+                    "description": "Deprecated. Field deprecated in 18.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_rum_sampling_nav_interval": {
+                    "description": "Deprecated. Field deprecated in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_rum_sampling_nav_percent": {
+                    "description": "Deprecated. Field deprecated in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_rum_sampling_res_interval": {
+                    "description": "Deprecated. Field deprecated in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_rum_sampling_res_percent": {
+                    "description": "Deprecated. Field deprecated in 18.2.6.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_tunnel_mode": {
+                    "description": "Determines if DSR from secondary SE is active or not      0        Automatically determine based on hypervisor type    1        Disable DSR unconditionally    ~[0,1]   Enable DSR unconditionally. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_tx_batch_size": {
+                    "description": "Deprecated. Field deprecated in 18.2.5.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_use_dpdk": {
+                    "description": "This field has been moved to se_group properties 18.1.2 onwards. Field deprecated in 18.1.3.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ssl_sess_cache_per_vs": {
+                    "description": "Number of ssl_sess_cache_per_vs.",
+                    "type": "integer",
+                    "default": 4096,
+                    "format": "int32"
+                },
+                "ssl_sess_cache_timeout": {
+                    "description": "Number of ssl_sess_cache_timeout.",
+                    "type": "integer",
+                    "default": 86400,
+                    "format": "int32"
+                },
+                "tcp_syncache_hashsize": {
+                    "description": "Size of the TCP SYN cache hash table.",
+                    "type": "integer",
+                    "default": 8192,
+                    "format": "int32"
+                }
+            }
+        },
+        "SeProperties": {
+            "type": "object",
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "se_agent_properties": {
+                    "description": "Placeholder for description of property se_agent_properties of obj type SeProperties field type str  type object",
+                    "$ref": "#/definitions/SeAgentProperties"
+                },
+                "se_bootup_properties": {
+                    "description": "Placeholder for description of property se_bootup_properties of obj type SeProperties field type str  type object",
+                    "$ref": "#/definitions/SeBootupProperties"
+                },
+                "se_runtime_properties": {
+                    "description": "Placeholder for description of property se_runtime_properties of obj type SeProperties field type str  type object",
+                    "$ref": "#/definitions/SeRuntimeProperties"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Unique object identifier of the object.",
+                    "type": "string",
+                    "default": "default"
+                }
+            }
+        },
+        "SePropertiesApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SeProperties"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "SeRateLimiters": {
+            "type": "object",
+            "properties": {
+                "arp_rl": {
+                    "description": "Rate limiter for ARP packets in pps.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "default_rl": {
+                    "description": "Default Rate limiter in pps.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "flow_probe_rl": {
+                    "description": "Rate limiter for number of flow probes in pps.",
+                    "type": "integer",
+                    "default": 250,
+                    "format": "int32"
+                },
+                "icmp_rl": {
+                    "description": "Rate limiter for ICMP requests in pps.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "icmp_rsp_rl": {
+                    "description": "Rate limiter for ICMP response in pps.",
+                    "type": "integer",
+                    "default": 500,
+                    "format": "int32"
+                },
+                "rst_rl": {
+                    "description": "Rate limiter for number RST pkts sent in pps.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                }
+            }
+        },
+        "SeRuntimeCompressionProperties": {
+            "type": "object",
+            "properties": {
+                "max_low_rtt": {
+                    "description": "If client RTT is higher than this threshold, enable normal compression on the response.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "min_high_rtt": {
+                    "description": "If client RTT is higher than this threshold, enable aggressive compression on the response.",
+                    "type": "integer",
+                    "default": 200,
+                    "format": "int32"
+                },
+                "min_length": {
+                    "description": "Minimum response content length to enable compression.",
+                    "type": "integer",
+                    "default": 128,
+                    "format": "int32"
+                },
+                "mobile_str": {
+                    "description": "Values that identify mobile browsers in order to enable aggressive compression.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "SeRuntimeProperties": {
+            "type": "object",
+            "properties": {
+                "admin_ssh_enabled": {
+                    "description": "Allow admin user ssh access to SE. Field introduced in 18.2.5.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "app_headers": {
+                    "description": "Placeholder for description of property app_headers of obj type SeRuntimeProperties field type str  type object",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AppHdr"
+                    }
+                },
+                "baremetal_dispatcher_handles_flows": {
+                    "description": "Control if dispatcher core also handles TCP flows in baremetal SE.",
+                    "type": "boolean"
+                },
+                "connections_lossy_log_rate_limiter_threshold": {
+                    "description": "Rate limit on maximum adf lossy log to pushper second.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "connections_udfnf_log_rate_limiter_threshold": {
+                    "description": "Rate limit on maximum adf udf or nf log to pushper second.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "disable_flow_probes": {
+                    "description": "Disable Flow Probes for Scaled out VS'es. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "disable_gro": {
+                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.1.",
+                    "type": "boolean"
+                },
+                "disable_tso": {
+                    "description": "Deprecated. Field deprecated in 17.2.5. Field introduced in 17.2.4.",
+                    "type": "boolean"
+                },
+                "dos_profile": {
+                    "description": "Placeholder for description of property dos_profile of obj type SeRuntimeProperties field type str  type object",
+                    "$ref": "#/definitions/DosThresholdProfile"
+                },
+                "downstream_send_timeout": {
+                    "description": "Timeout for downstream to become writable.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "dp_aggressive_hb_frequency": {
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is enabled.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "dp_aggressive_hb_timeout_count": {
+                    "description": "Consecutive HB failures after which failure is reported to controller,when aggressive failure mode detection is enabled.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "dp_hb_frequency": {
+                    "description": "Frequency of SE - SE HB messages when aggressive failure mode detection is not enabled.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "dp_hb_timeout_count": {
+                    "description": "Consecutive HB failures after which failure is reported to controller, when aggressive failure mode detection is not enabled.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "dupip_frequency": {
+                    "description": "Frequency of ARP requests sent by SE for each VIP to detect duplicate IP when it loses conectivity to controller.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "dupip_timeout_count": {
+                    "description": "Number of ARP responses received for the VIP after which SE decides that the VIP has been moved and disables the VIP.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "enable_hsm_log": {
+                    "description": "Enable HSM luna engine logs. Field introduced in 16.4.8, 17.1.11, 17.2.3.",
+                    "type": "boolean"
+                },
+                "feproxy_vips_enable_proxy_arp": {
+                    "description": "Enable proxy ARP from Host interface for Front End  proxies.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "flow_table_batch_push_frequency": {
+                    "description": "How often to push the flow table IPC messages in the main loop. The value is the number of times through the loop before pushing the batch. i.e, a value of 1 means every time through the loop.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "flow_table_max_entries_deprecated": {
+                    "description": "Deprecated. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "default": 100000000,
+                    "format": "int32"
+                },
+                "flow_table_new_syn_max_entries": {
+                    "description": "Deprecated. Field deprecated in 17.2.5.",
+                    "type": "integer",
+                    "default": 40000,
+                    "format": "int32"
+                },
+                "global_mtu": {
+                    "description": "Overrides the MTU value received via DHCP or some other means. Use this when the infrastructure advertises an MTU that is not supported by all devices in the network. For example, in AWS or when an overlay is used.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "http_rum_console_log": {
+                    "description": "Enable Javascript console logs on the client browser when collecting client insights.",
+                    "type": "boolean"
+                },
+                "http_rum_min_content_length": {
+                    "description": "Minimum response size content length to sample for client insights.",
+                    "type": "integer",
+                    "default": 64,
+                    "format": "int32"
+                },
+                "lb_batch_push_frequency": {
+                    "description": "How often to push the LB IPC messages in the main loop. The value is the number of times the loop has to run before pushing the batch. i.e, a value of 1 means the batch is pushed every time the loop runs. Field deprecated in 18.1.3. Field introduced in 17.2.8.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "lb_fail_max_time": {
+                    "description": "Deprecated. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "default": 5,
+                    "format": "int32"
+                },
+                "lbaction_num_requests_to_dispatch": {
+                    "description": "Number of requests to dispatch from the request queue at a regular interval.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "lbaction_rq_per_request_max_retries": {
+                    "description": "Maximum retries per request in the request queue.",
+                    "type": "integer",
+                    "default": 22,
+                    "format": "int32"
+                },
+                "log_agent_compress_logs": {
+                    "description": "Flag to indicate if log files are compressed upon full on the Service Engine.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "log_agent_conn_send_buffer_size": {
+                    "description": "Log-agent test property used to simulate slow TCP connections.",
+                    "type": "integer",
+                    "default": 16384,
+                    "format": "int32"
+                },
+                "log_agent_export_msg_buffer_size": {
+                    "description": "Maximum size of data sent by log-agent to Controller over the TCP connection.",
+                    "type": "integer",
+                    "default": 524288,
+                    "format": "int32"
+                },
+                "log_agent_export_wait_time": {
+                    "description": "Time log-agent waits before sending data to the Controller.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "log_agent_file_sz_appl": {
+                    "description": "Maximum application log file size before rollover.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "log_agent_file_sz_conn": {
+                    "description": "Maximum connection log file size before rollover.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "log_agent_file_sz_debug": {
+                    "description": "Maximum debug log file size before rollover.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "log_agent_file_sz_event": {
+                    "description": "Maximum event log file size before rollover.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "log_agent_log_storage_min_sz": {
+                    "description": "Minimum storage allocated for logs irrespective of memory and cores.",
+                    "type": "integer",
+                    "default": 1024,
+                    "format": "int32"
+                },
+                "log_agent_max_active_adf_files_per_vs": {
+                    "description": "Maximum number of Virtual Service log files maintained for significant logs on the Service Engine.",
+                    "type": "integer",
+                    "default": 100,
+                    "format": "int32"
+                },
+                "log_agent_max_concurrent_rsync": {
+                    "description": "Maximum concurrent rsync requests initiated from log-agent to the Controller.",
+                    "type": "integer",
+                    "default": 1024,
+                    "format": "int32"
+                },
+                "log_agent_max_logmessage_proto_sz": {
+                    "description": "Maximum size of serialized log message on the Service Engine.",
+                    "type": "integer",
+                    "default": 65536,
+                    "format": "int32"
+                },
+                "log_agent_max_storage_excess_percent": {
+                    "description": "Excess percentage threshold of disk size to trigger cleanup of logs on the Service Engine.",
+                    "type": "integer",
+                    "default": 110,
+                    "format": "int32"
+                },
+                "log_agent_max_storage_ignore_percent": {
+                    "description": "Maximum storage on the disk not allocated for logs on the Service Engine.",
+                    "type": "number",
+                    "default": 20.0,
+                    "format": "float"
+                },
+                "log_agent_min_storage_per_vs": {
+                    "description": "Minimum storage allocated to any given VirtualService on the Service Engine.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "log_agent_pause_interval": {
+                    "description": "Time interval log-agent pauses between logs obtained from the dataplane.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "log_agent_sleep_interval": {
+                    "description": "Internal timer to stall log-agent and prevent it from hogging CPU cycles on the Service Engine.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "log_agent_unknown_vs_timer": {
+                    "description": "Timeout to purge unknown Virtual Service logs from the Service Engine.",
+                    "type": "integer",
+                    "default": 1800,
+                    "format": "int32"
+                },
+                "log_message_max_file_list_size": {
+                    "description": "Maximum number of file names in a log message.",
+                    "type": "integer",
+                    "default": 64,
+                    "format": "int32"
+                },
+                "max_throughput": {
+                    "description": "Deprecated. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "mcache_enabled": {
+                    "description": "enables mcache - controls fetch/store/store_out.",
+                    "type": "boolean"
+                },
+                "mcache_fetch_enabled": {
+                    "description": "enables mcache_fetch.",
+                    "type": "boolean"
+                },
+                "mcache_max_cache_size": {
+                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "mcache_store_in_enabled": {
+                    "description": "enables mcache_store.",
+                    "type": "boolean"
+                },
+                "mcache_store_in_max_size": {
+                    "description": "max object size.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "mcache_store_in_min_size": {
+                    "description": "min object size.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "mcache_store_out_enabled": {
+                    "description": "enables mcache_store_out.",
+                    "type": "boolean"
+                },
+                "mcache_store_se_max_size": {
+                    "description": "Use SE Group's app_cache_percent to set cache memory usage limit on SE. Field deprecated in 18.2.3.",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "ngx_free_connection_stack": {
+                    "description": "Placeholder for description of property ngx_free_connection_stack of obj type SeRuntimeProperties field type str  type boolean",
+                    "type": "boolean"
+                },
+                "persistence_entries_low_watermark": {
+                    "description": "Deprecated. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "default": 20000,
+                    "format": "int32"
+                },
+                "persistence_mem_max": {
+                    "description": "Maximum memory in bytes allocated for persistence entries. Allowed values are 0-33554432.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "scaleout_udp_per_pkt": {
+                    "description": "Enable punting of UDP packets from primary to other Service Engines. This applies to Virtual Services with Per-Packet Loadbalancing enabled.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "se_auth_ldap_bind_timeout": {
+                    "description": "LDAP basicauth default bind timeout enforced on connections to LDAP server.",
+                    "type": "integer",
+                    "default": 5000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_cache_size": {
+                    "description": "Size of LDAP basicauth credentials cache used on the dataplane.",
+                    "type": "integer",
+                    "default": 100000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_connect_timeout": {
+                    "description": "LDAP basicauth default connection timeout enforced on connections to LDAP server.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_conns_per_server": {
+                    "description": "Number of concurrent connections to LDAP server by a single basic auth LDAP process.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "se_auth_ldap_reconnect_timeout": {
+                    "description": "LDAP basicauth default reconnect timeout enforced on connections to LDAP server.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_request_timeout": {
+                    "description": "LDAP basicauth default login or group search request timeout enforced on connections to LDAP server.",
+                    "type": "integer",
+                    "default": 10000,
+                    "format": "int32"
+                },
+                "se_auth_ldap_servers_failover_only": {
+                    "description": "LDAP basicauth uses multiple ldap servers in the event of a failover only.",
+                    "type": "boolean"
+                },
+                "se_dp_compression": {
+                    "description": "Placeholder for description of property se_dp_compression of obj type SeRuntimeProperties field type str  type object",
+                    "$ref": "#/definitions/SeRuntimeCompressionProperties"
+                },
+                "se_dp_hm_drops": {
+                    "description": "Internal only. Used to simulate SE - SE HB failure.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_if_state_poll_interval": {
+                    "description": "Number of jiffies between polling interface state.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "se_dp_log_nf_enqueue_percent": {
+                    "description": "Internal buffer full indicator on the Service Engine beyond which the unfiltered logs are abandoned.",
+                    "type": "integer",
+                    "default": 70,
+                    "format": "int32"
+                },
+                "se_dp_log_udf_enqueue_percent": {
+                    "description": "Internal buffer full indicator on the Service Engine beyond which the user filtered logs are abandoned.",
+                    "type": "integer",
+                    "default": 90,
+                    "format": "int32"
+                },
+                "se_dp_vnic_queue_stall_event_sleep": {
+                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_vnic_queue_stall_threshold": {
+                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_vnic_queue_stall_timeout": {
+                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_vnic_restart_on_queue_stall_count": {
+                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dp_vnic_stall_se_restart_window": {
+                    "description": "Deprecated. Field deprecated in 18.2.5. Field introduced in 17.1.14, 17.2.5, 18.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_dump_core_on_assert": {
+                    "description": "Enable core dump on assert. Field introduced in 18.1.3, 18.2.1.",
+                    "type": "boolean"
+                },
+                "se_handle_interface_routes": {
+                    "description": "Accept/ignore interface routes (i.e, no next hop IP address).",
+                    "type": "boolean"
+                },
+                "se_hb_persist_fudge_bits": {
+                    "description": "Internal use only. Allowed values are 0-7.",
+                    "type": "integer",
+                    "default": 3,
+                    "format": "int32"
+                },
+                "se_mac_error_threshold_to_disable_promiscious": {
+                    "description": "Number of packets with wrong mac after which SE attempts to disable promiscious mode.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "se_malloc_thresh": {
+                    "description": "Deprecated. Field deprecated in 17.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_memory_poison": {
+                    "description": "Internal use only. Enables poisoning of freed memory blocks.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "se_metrics_interval": {
+                    "description": "Internal use only. Frequency (ms) of metrics updates from SE to controller.",
+                    "type": "integer",
+                    "default": 60000,
+                    "format": "int32"
+                },
+                "se_metrics_rt_enabled": {
+                    "description": "Internal use only. Enable or disable real time metrics irrespective of virtualservice or SE group configuration.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "se_metrics_rt_interval": {
+                    "description": "Internal use only. Frequency (ms) of realtime metrics updates from SE to controller.",
+                    "type": "integer",
+                    "default": 1000,
+                    "format": "int32"
+                },
+                "se_packet_buffer_max": {
+                    "description": "Internal use only. Used to artificially reduce the available number of packet buffers.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "se_random_tcp_drops": {
+                    "description": "Internal use only. If enabled, randomly packets are dropped.",
+                    "type": "boolean"
+                },
+                "se_rate_limiters": {
+                    "description": "SE rate limiters.",
+                    "$ref": "#/definitions/SeRateLimiters"
+                },
+                "service_ip_subnets": {
+                    "description": "IP ranges on which there may be virtual services (for configuring iptables/routes).",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
+                },
+                "service_port_ranges": {
+                    "description": "Port ranges on which there may be virtual services (for configuring iptables). Applicable in container ecosystems like Mesos.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PortRange"
+                    }
+                },
+                "services_accessible_all_interfaces": {
+                    "description": "Make service ports accessible on all Host interfaces in addition to East-West VIP and/or bridge IP.",
+                    "type": "boolean"
+                },
+                "spdy_fwd_proxy_parse_enable": {
+                    "description": "Placeholder for description of property spdy_fwd_proxy_parse_enable of obj type SeRuntimeProperties field type str  type boolean",
+                    "type": "boolean",
+                    "default": true
+                },
+                "tcp_syn_cache_max": {
+                    "description": "Maximum size of the SYN cache table. After this limit is reached, SYN cookies are used. This is per core of the serviceengine. Field deprecated in 17.2.5.",
+                    "type": "integer",
+                    "default": 32768,
+                    "format": "int32"
+                },
+                "tcp_syncache_max_retransmit_default": {
+                    "description": "Default value for max number of retransmissions for a SYN packet.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "upstream_connect_timeout": {
+                    "description": "Timeout for backend connection.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_connpool_cache_thresh": {
+                    "description": "L7 Upstream Connection pool cache threshold in percentage.",
+                    "type": "integer",
+                    "default": -1,
+                    "format": "int32"
+                },
+                "upstream_connpool_conn_idle_thresh_tmo": {
+                    "description": "Idle timeout value for a connection in the upstream connection pool, when the current cache size is above the threshold.",
+                    "type": "integer",
+                    "default": -1,
+                    "format": "int32"
+                },
+                "upstream_connpool_conn_idle_tmo": {
+                    "description": "Deprecated. Field deprecated in 18.2.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "upstream_connpool_conn_life_tmo": {
+                    "description": "Deprecated. Field deprecated in 18.2.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "upstream_connpool_conn_max_reuse": {
+                    "description": "Deprecated. Field deprecated in 18.2.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "upstream_connpool_core_max_cache": {
+                    "description": "L7 Upstream Connection pool max cache size per core.",
+                    "type": "integer",
+                    "default": -1,
+                    "format": "int32"
+                },
+                "upstream_connpool_enable": {
+                    "description": "Enable upstream connection pool.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "upstream_connpool_server_max_cache": {
+                    "description": "Deprecated. Field deprecated in 18.2.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "upstream_connpool_strategy": {
+                    "description": "Number of upstream_connpool_strategy.",
+                    "type": "integer",
+                    "default": -1,
+                    "format": "int32"
+                },
+                "upstream_keepalive": {
+                    "description": "Placeholder for description of property upstream_keepalive of obj type SeRuntimeProperties field type str  type boolean",
+                    "type": "boolean"
+                },
+                "upstream_read_timeout": {
+                    "description": "Timeout for data to be received from backend.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "upstream_send_timeout": {
+                    "description": "Timeout for upstream to become writable.",
+                    "type": "integer",
+                    "default": 3600000,
+                    "format": "int32"
+                },
+                "user_defined_metric_age": {
+                    "description": "Defines in seconds how long before an unused user-defined-metric is garbage collected. Field introduced in 17.1.5.",
+                    "type": "integer",
+                    "default": 60,
+                    "format": "int32"
+                }
+            }
         }
     }
 }

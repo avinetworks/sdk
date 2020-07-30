@@ -1,1180 +1,1183 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi IpamDnsProviderProfile Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n", 
+        "version": "20.1.1",
+        "title": "Avi IpamDnsProviderProfile Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure ipamdnsproviderprofile <key>\n- show ipamdnsproviderprofile <key>\n```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
         "/ipamdnsproviderprofile": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/IpamDnsProviderProfileApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "IpamDnsProviderProfile object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
-        }, 
+        },
         "/ipamdnsproviderprofile/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/IpamDnsProviderProfile"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
+                }
+            },
+            "put": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "IpamDnsProviderProfile object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "IpamDnsProviderProfile object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/IpamDnsProviderProfile"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/IpamDnsProviderProfile"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "IpamDnsProviderProfile object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/IpamDnsProviderProfile"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            },
+            "delete": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "delete": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "204": {
-                        "description": "object deleted", 
+                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
-                    }, 
+                    },
                     "404": {
                         "description": "not found"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }
-    }, 
-    "definitions": {
-        "IpamDnsOCIProfile": {
-            "type": "object", 
-            "properties": {
-                "vcn_id": {
-                    "type": "string", 
-                    "description": "Virtual Cloud network id where virtual ip will belong. Field introduced in 18.2.1,18.1.3."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "Region in which Oracle cloud resource resides. Field introduced in 18.2.1,18.1.3."
-                }, 
-                "tenancy": {
-                    "type": "string", 
-                    "description": "Oracle Cloud Id for tenant aka root compartment. Field introduced in 18.2.1,18.1.3."
-                }, 
-                "vcn_compartment_id": {
-                    "type": "string", 
-                    "description": "Oracle cloud compartment id in which VCN resides. Field introduced in 18.2.1,18.1.3."
-                }, 
-                "cloud_credentials_ref": {
-                    "type": "string", 
-                    "description": "Credentials to access oracle cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1,18.1.3."
                 }
             }
-        }, 
+        }
+    },
+    "definitions": {
         "AwsZoneNetwork": {
+            "type": "object",
             "required": [
                 "availability_zone"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "usable_network_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.3."
-                }, 
                 "availability_zone": {
-                    "type": "string", 
-                    "description": "Availability zone. Field introduced in 17.1.3."
-                }
-            }
-        }, 
-        "IpamDnsProviderProfileApiResponse": {
-            "required": [
-                "count", 
-                "results"
-            ], 
-            "type": "object", 
-            "properties": {
-                "count": {
-                    "type": "integer", 
-                    "format": "int32"
-                }, 
-                "results": {
-                    "items": {
-                        "$ref": "#/definitions/IpamDnsProviderProfile"
-                    }, 
-                    "type": "array"
-                }
-            }
-        }, 
-        "IpamDnsAzureProfile": {
-            "type": "object", 
-            "properties": {
-                "resource_group": {
-                    "type": "string", 
-                    "description": "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1."
-                }, 
-                "use_enhanced_ha": {
-                    "type": "boolean", 
-                    "description": "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Azure DNS. Field introduced in 17.2.1."
-                }, 
+                    "description": "Availability zone. Field introduced in 17.1.3.",
+                    "type": "string"
+                },
                 "usable_network_uuids": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.3.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1."
-                }, 
-                "egress_service_subnets": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Used for allocating egress service source IPs. Field introduced in 17.2.8."
-                }, 
-                "use_standard_alb": {
-                    "type": "boolean", 
-                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7."
-                }, 
-                "azure_serviceprincipal": {
-                    "description": "Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/AzureServicePrincipalCredentials"
-                }, 
-                "azure_userpass": {
-                    "description": "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/AzureUserPassCredentials"
-                }, 
-                "subscription_id": {
-                    "type": "string", 
-                    "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1."
-                }, 
-                "virtual_network_ids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1."
+                    }
                 }
             }
-        }, 
-        "IpAddrPrefix": {
-            "required": [
-                "ip_addr", 
-                "mask"
-            ], 
-            "type": "object", 
-            "properties": {
-                "ip_addr": {
-                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object", 
-                    "$ref": "#/definitions/IpAddr"
-                }, 
-                "mask": {
-                    "type": "integer", 
-                    "description": "Number of mask.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "TencentZoneNetwork": {
-            "required": [
-                "availability_zone", 
-                "usable_subnet_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "usable_subnet_id": {
-                    "type": "string", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
-                }, 
-                "availability_zone": {
-                    "type": "string", 
-                    "description": "Availability zone. Field introduced in 18.2.3."
-                }
-            }
-        }, 
-        "IpamDnsAwsProfile": {
-            "required": [
-                "vpc_id"
-            ], 
-            "type": "object", 
-            "properties": {
-                "use_iam_roles": {
-                    "type": "boolean", 
-                    "description": "Use IAM roles instead of access and secret key."
-                }, 
-                "publish_vip_to_public_zone": {
-                    "type": "boolean", 
-                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1."
-                }, 
-                "egress_service_subnets": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "A list of subnets used for source IP allocation for egress services in Openshift/k8s on Aws. Field introduced in 18.2.3."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "AWS region."
-                }, 
-                "access_key_id": {
-                    "type": "string", 
-                    "description": "AWS access key ID."
-                }, 
-                "secret_access_key": {
-                    "type": "string", 
-                    "description": "AWS secret access key."
-                }, 
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/AwsZoneNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 17.1.3."
-                }, 
-                "vpc": {
-                    "type": "string", 
-                    "description": "VPC name."
-                }, 
-                "ttl": {
-                    "default": 60, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.", 
-                    "format": "int32"
-                }, 
-                "iam_assume_role": {
-                    "type": "string", 
-                    "description": "IAM assume role for cross-account access. Field introduced in 17.1.1."
-                }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID."
-                }, 
-                "usable_network_uuids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1."
-                }
-            }
-        }, 
+        },
         "AzureServicePrincipalCredentials": {
-            "type": "object", 
+            "type": "object",
             "properties": {
-                "tenant_id": {
-                    "type": "string", 
-                    "description": "Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1."
-                }, 
                 "application_id": {
-                    "type": "string", 
-                    "description": "Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1."
-                }, 
+                    "description": "Application Id created for Avi Controller. Required for application id based authentication only. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
                 "authentication_token": {
-                    "type": "string", 
-                    "description": "Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1."
+                    "description": "Authentication token created for the Avi Controller application. Required for application id based authentication only. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "description": "Tenant ID for the subscription. Required for application id based authentication only. Field introduced in 17.2.1.",
+                    "type": "string"
                 }
             }
-        }, 
-        "IpamDnsTencentProfile": {
-            "required": [
-                "region", 
-                "vpc_id"
-            ], 
-            "type": "object", 
+        },
+        "AzureUserPassCredentials": {
+            "type": "object",
             "properties": {
-                "zones": {
-                    "items": {
-                        "$ref": "#/definitions/TencentZoneNetwork"
-                    }, 
-                    "type": "array", 
-                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 18.2.3."
-                }, 
-                "vpc_id": {
-                    "type": "string", 
-                    "description": "VPC ID. Field introduced in 18.2.3."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "VPC region. Field introduced in 18.2.3."
-                }, 
-                "usable_subnet_ids": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3."
-                }, 
-                "cloud_credentials_ref": {
-                    "type": "string", 
-                    "description": "Credentials to access Tencent cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.3."
-                }
-            }
-        }, 
-        "DnsServiceDomain": {
-            "required": [
-                "domain_name"
-            ], 
-            "type": "object", 
-            "properties": {
-                "record_ttl": {
-                    "type": "integer", 
-                    "description": "TTL value for DNS records. Allowed values are 1-604800.", 
-                    "format": "int32"
-                }, 
-                "num_dns_ip": {
-                    "default": 1, 
-                    "type": "integer", 
-                    "description": "Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- 'Return all IP addresses'.", 
-                    "format": "int32"
-                }, 
-                "domain_name": {
-                    "type": "string", 
-                    "description": "Service domain string used for FQDN."
-                }, 
-                "pass_through": {
-                    "default": true, 
-                    "type": "boolean", 
-                    "description": "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers."
-                }
-            }
-        }, 
-        "IpamDnsProviderProfile": {
-            "required": [
-                "name", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "proxy_configuration": {
-                    "description": " Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/ProxyConfiguration"
-                }, 
-                "infoblox_profile": {
-                    "description": "Provider details if type is Infoblox.", 
-                    "$ref": "#/definitions/IpamDnsInfobloxProfile"
-                }, 
-                "allocate_ip_in_vrf": {
-                    "type": "boolean", 
-                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4."
-                }, 
-                "oci_profile": {
-                    "description": "Provider details for Oracle Cloud. Field introduced in 18.2.1,18.1.3.", 
-                    "$ref": "#/definitions/IpamDnsOCIProfile"
-                }, 
-                "internal_profile": {
-                    "description": "Provider details if type is Avi.", 
-                    "$ref": "#/definitions/IpamDnsInternalProfile"
-                }, 
-                "aws_profile": {
-                    "description": "Provider details if type is AWS.", 
-                    "$ref": "#/definitions/IpamDnsAwsProfile"
-                }, 
-                "tencent_profile": {
-                    "description": "Provider details for Tencent Cloud. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/IpamDnsTencentProfile"
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the IPAM/DNS Provider profile."
-                }, 
-                "azure_profile": {
-                    "description": "Provider details if type is Microsoft Azure. Field introduced in 17.2.1.", 
-                    "$ref": "#/definitions/IpamDnsAzureProfile"
-                }, 
-                "openstack_profile": {
-                    "description": "Provider details if type is OpenStack.", 
-                    "$ref": "#/definitions/IpamDnsOpenstackProfile"
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "gcp_profile": {
-                    "description": "Provider details if type is Google Cloud.", 
-                    "$ref": "#/definitions/IpamDnsGCPProfile"
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "custom_profile": {
-                    "description": "Provider details if type is Custom. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/IpamDnsCustomProfile"
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "Name for the IPAM/DNS Provider profile."
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS."
-                }
-            }
-        }, 
-        "IpamDnsOpenstackProfile": {
-            "type": "object", 
-            "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "The username Avi Vantage will use when authenticating to Keystone."
-                }, 
-                "vip_network_name": {
-                    "type": "string", 
-                    "description": "Network to be used for VIP allocation."
-                }, 
-                "keystone_host": {
-                    "type": "string", 
-                    "description": "Keystone's hostname or IP address."
-                }, 
-                "region": {
-                    "type": "string", 
-                    "description": "Region name."
-                }, 
                 "password": {
-                    "type": "string", 
-                    "description": "The password Avi Vantage will use when authenticating to Keystone."
-                }, 
-                "tenant": {
-                    "type": "string", 
-                    "description": "OpenStack tenant name."
-                }
-            }
-        }, 
-        "InfobloxSubnet": {
-            "type": "object", 
-            "properties": {
-                "subnet": {
-                    "description": "IPv4 subnet to use for Infoblox allocation. Field introduced in 18.2.8.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }, 
-                "subnet6": {
-                    "description": "IPv6 subnet to use for Infoblox allocation. Field introduced in 18.2.8.", 
-                    "$ref": "#/definitions/IpAddrPrefix"
-                }
-            }
-        }, 
-        "IpamDnsInfobloxProfile": {
-            "required": [
-                "ip_address", 
-                "password", 
-                "username"
-            ], 
-            "type": "object", 
-            "properties": {
+                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "tenant_name": {
+                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
                 "username": {
-                    "type": "string", 
-                    "description": "Username for API access for Infoblox appliance."
-                }, 
-                "usable_alloc_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/InfobloxSubnet"
-                    }, 
-                    "type": "array", 
-                    "description": "Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8."
-                }, 
-                "network_view": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "Network view."
-                }, 
-                "usable_domains": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains to pick from Infoblox."
-                }, 
-                "wapi_version": {
-                    "default": "2.0", 
-                    "type": "string", 
-                    "description": "WAPI version."
-                }, 
-                "usable_subnets": {
-                    "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "This field is deprecated, use usable_alloc_subnets instead. Field deprecated in 18.2.8."
-                }, 
-                "dns_view": {
-                    "default": "default", 
-                    "type": "string", 
-                    "description": "DNS view."
-                }, 
-                "extensible_attributes": {
-                    "items": {
-                        "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for API access for Infoblox appliance."
-                }, 
-                "ip_address": {
-                    "description": "Address of Infoblox appliance.", 
-                    "$ref": "#/definitions/IpAddr"
+                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1.",
+                    "type": "string"
                 }
             }
-        }, 
+        },
         "CustomParams": {
+            "type": "object",
             "required": [
                 "name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "is_dynamic": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean"
-                }, 
+                    "description": "Placeholder for description of property is_dynamic of obj type CustomParams field type str  type boolean",
+                    "type": "boolean"
+                },
                 "is_sensitive": {
-                    "type": "boolean", 
-                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean"
-                }, 
+                    "description": "Placeholder for description of property is_sensitive of obj type CustomParams field type str  type boolean",
+                    "type": "boolean"
+                },
                 "name": {
-                    "type": "string", 
-                    "description": "Name of the object."
-                }, 
+                    "description": "Name of the object.",
+                    "type": "string"
+                },
                 "value": {
-                    "type": "string", 
-                    "description": "value of CustomParams."
+                    "description": "value of CustomParams.",
+                    "type": "string"
                 }
             }
-        }, 
-        "AzureUserPassCredentials": {
-            "type": "object", 
+        },
+        "DnsServiceDomain": {
+            "type": "object",
+            "required": [
+                "domain_name"
+            ],
             "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for Azure subscription. Required only for username password based authentication. Field introduced in 17.2.1."
-                }, 
-                "tenant_name": {
-                    "type": "string", 
-                    "description": "Tenant or the active directory associated with the subscription. Required for user name password authentication. Field introduced in 17.2.1."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for Azure subscription. Required only if username is provided. Field introduced in 17.2.1."
+                "domain_name": {
+                    "description": "Service domain string used for FQDN.",
+                    "type": "string"
+                },
+                "num_dns_ip": {
+                    "description": "Specifies the number of A records returned by Avi DNS Service. Allowed values are 0-20. Special values are 0- 'Return all IP addresses'.",
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                },
+                "pass_through": {
+                    "description": "Third-party Authoritative domain requests are delegated toDNS VirtualService's pool of nameservers.",
+                    "type": "boolean",
+                    "default": true
+                },
+                "record_ttl": {
+                    "description": "TTL value for DNS records. Allowed values are 1-604800.",
+                    "type": "integer",
+                    "format": "int32"
                 }
             }
-        }, 
+        },
+        "InfobloxSubnet": {
+            "type": "object",
+            "properties": {
+                "subnet": {
+                    "description": "IPv4 subnet to use for Infoblox allocation. Field introduced in 18.2.8, 20.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                },
+                "subnet6": {
+                    "description": "IPv6 subnet to use for Infoblox allocation. Field introduced in 18.2.8, 20.1.1.",
+                    "$ref": "#/definitions/IpAddrPrefix"
+                }
+            }
+        },
         "IpAddr": {
+            "type": "object",
             "required": [
-                "addr", 
+                "addr",
                 "type"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "type": {
-                    "type": "string", 
-                    "description": " Enum options - V4, DNS, V6."
-                }, 
                 "addr": {
-                    "type": "string", 
-                    "description": "IP address."
+                    "description": "IP address.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": " Enum options - V4, DNS, V6.",
+                    "type": "string"
                 }
             }
-        }, 
-        "IpamDnsGCPProfile": {
-            "type": "object", 
-            "properties": {
-                "vpc_network_name": {
-                    "type": "string", 
-                    "description": "Google Cloud Platform VPC Network Name. Field introduced in 18.1.2."
-                }, 
-                "use_gcp_network": {
-                    "type": "boolean", 
-                    "description": "Use Google Cloud Platform Network for Private VIP allocation. By default Avi Vantage Network is used for Private VIP allocation. Field introduced in 18.1.2."
-                }, 
-                "match_se_group_subnet": {
-                    "type": "boolean", 
-                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1."
-                }, 
-                "region_name": {
-                    "type": "string", 
-                    "description": "Google Cloud Platform Region Name. Field introduced in 18.1.2."
-                }, 
-                "network_host_project_id": {
-                    "type": "string", 
-                    "description": "Google Cloud Platform Network Host Project ID. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2."
-                }, 
-                "se_project_id": {
-                    "type": "string", 
-                    "description": "Google Cloud Platform Project ID. This is the project where service engines are hosted. This field is optional. By default it will use the value of the field network_host_project_id. Field introduced in 18.1.2."
-                }, 
-                "usable_network_refs": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
-                }
-            }
-        }, 
-        "ProxyConfiguration": {
+        },
+        "IpAddrPrefix": {
+            "type": "object",
             "required": [
-                "host", 
-                "port"
-            ], 
-            "type": "object", 
+                "ip_addr",
+                "mask"
+            ],
             "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Username for proxy."
-                }, 
-                "host": {
-                    "type": "string", 
-                    "description": "Proxy hostname or IP address."
-                }, 
-                "password": {
-                    "type": "string", 
-                    "description": "Password for proxy."
-                }, 
-                "port": {
-                    "type": "integer", 
-                    "description": "Proxy port.", 
+                "ip_addr": {
+                    "description": "Placeholder for description of property ip_addr of obj type IpAddrPrefix field type str  type object",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "mask": {
+                    "description": "Number of mask.",
+                    "type": "integer",
                     "format": "int32"
                 }
             }
-        }, 
-        "IpamDnsInternalProfile": {
-            "type": "object", 
+        },
+        "IpamDnsAwsProfile": {
+            "type": "object",
+            "required": [
+                "vpc_id"
+            ],
             "properties": {
-                "dns_service_domain": {
-                    "items": {
-                        "$ref": "#/definitions/DnsServiceDomain"
-                    }, 
-                    "type": "array", 
-                    "description": "List of service domains."
-                }, 
-                "usable_network_refs": {
+                "access_key_id": {
+                    "description": "AWS access key ID.",
+                    "type": "string"
+                },
+                "egress_service_subnets": {
+                    "description": "A list of subnets used for source IP allocation for egress services in Openshift/k8s on Aws. Field introduced in 18.2.3.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network."
-                }, 
-                "dns_virtualservice_ref": {
-                    "type": "string", 
-                    "description": "Avi VirtualService to be used for serving DNS records. It is a reference to an object of type VirtualService."
-                }, 
+                    }
+                },
+                "iam_assume_role": {
+                    "description": "IAM assume role for cross-account access. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "publish_vip_to_public_zone": {
+                    "description": "If enabled and the virtual service is not floating ip capable, vip will be published to both private and public zones. This flag is applicable only for AWS DNS profile. Field introduced in 17.2.10.",
+                    "type": "boolean"
+                },
+                "region": {
+                    "description": "AWS region.",
+                    "type": "string"
+                },
+                "secret_access_key": {
+                    "description": "AWS secret access key.",
+                    "type": "string"
+                },
                 "ttl": {
-                    "default": 30, 
-                    "type": "integer", 
-                    "description": "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800.", 
+                    "description": "Default TTL for all records. Allowed values are 1-172800. Field introduced in 17.1.3.",
+                    "type": "integer",
+                    "default": 60,
                     "format": "int32"
-                }
-            }
-        }, 
-        "IpamDnsCustomProfile": {
-            "type": "object", 
-            "properties": {
+                },
                 "usable_domains": {
+                    "description": "Usable domains to pick from Amazon Route 53. Field introduced in 17.1.1.",
+                    "type": "array",
                     "items": {
                         "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable domains. Field introduced in 17.2.2."
-                }, 
-                "usable_subnets": {
+                    }
+                },
+                "usable_network_uuids": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.1.1.",
+                    "type": "array",
                     "items": {
-                        "$ref": "#/definitions/IpAddrPrefix"
-                    }, 
-                    "type": "array", 
-                    "description": "Usable subnets. Field introduced in 17.2.2."
-                }, 
+                        "type": "string"
+                    }
+                },
+                "use_iam_roles": {
+                    "description": "Use IAM roles instead of access and secret key.",
+                    "type": "boolean"
+                },
+                "vpc": {
+                    "description": "VPC name.",
+                    "type": "string"
+                },
+                "vpc_id": {
+                    "description": "VPC ID.",
+                    "type": "string"
+                },
+                "zones": {
+                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 17.1.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AwsZoneNetwork"
+                    }
+                }
+            }
+        },
+        "IpamDnsAzureProfile": {
+            "type": "object",
+            "properties": {
+                "azure_serviceprincipal": {
+                    "description": "Service principal based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.",
+                    "$ref": "#/definitions/AzureServicePrincipalCredentials"
+                },
+                "azure_userpass": {
+                    "description": "User name password based credentials for azure. Only one of azure_userpass or azure_serviceprincipal is allowed. Field introduced in 17.2.1.",
+                    "$ref": "#/definitions/AzureUserPassCredentials"
+                },
+                "egress_service_subnets": {
+                    "description": "Used for allocating egress service source IPs. Field introduced in 17.2.8.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "resource_group": {
+                    "description": "Azure resource group dedicated for Avi Controller. Avi Controller will create all its resources in this resource group. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "subscription_id": {
+                    "description": "Subscription Id for the Azure subscription. Field introduced in 17.2.1.",
+                    "type": "string"
+                },
+                "usable_domains": {
+                    "description": "Usable domains to pick from Azure DNS. Field introduced in 17.2.1.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "usable_network_uuids": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 17.2.1.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "use_enhanced_ha": {
+                    "description": "Use Azure's enhanced HA features. This needs a public IP to be associated with the VIP. Field introduced in 17.2.1.",
+                    "type": "boolean"
+                },
+                "use_standard_alb": {
+                    "description": "Use Standard SKU Azure Load Balancer. By default Basic SKU Load Balancer is used. Field introduced in 17.2.7.",
+                    "type": "boolean"
+                },
+                "virtual_network_ids": {
+                    "description": "Virtual networks where Virtual IPs will belong. Field introduced in 17.2.1.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "IpamDnsCustomProfile": {
+            "type": "object",
+            "properties": {
                 "custom_ipam_dns_profile_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1."
-                }, 
+                    "description": " It is a reference to an object of type CustomIpamDnsProfile. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
                 "dynamic_params": {
+                    "description": "Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1.",
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/CustomParams"
-                    }, 
-                    "type": "array", 
-                    "description": "Custom parameters that will passed to the IPAM/DNS provider including but not limited to provider credentials and API version. Field introduced in 17.1.1."
+                    }
+                },
+                "usable_domains": {
+                    "description": "Usable domains. Field introduced in 17.2.2.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "usable_subnets": {
+                    "description": "Usable subnets. Field introduced in 17.2.2.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "IpamDnsGCPProfile": {
+            "type": "object",
+            "properties": {
+                "match_se_group_subnet": {
+                    "description": "Match SE group subnets for VIP placement. Default is to not match SE group subnets. Field introduced in 17.1.1.",
+                    "type": "boolean"
+                },
+                "network_host_project_id": {
+                    "description": "Google Cloud Platform Network Host Project ID. This is the host project in which Google Cloud Platform Network resides. Field introduced in 18.1.2.",
+                    "type": "string"
+                },
+                "region_name": {
+                    "description": "Google Cloud Platform Region Name. Field introduced in 18.1.2.",
+                    "type": "string"
+                },
+                "se_project_id": {
+                    "description": "Google Cloud Platform Project ID. This is the project where service engines are hosted. This field is optional. By default it will use the value of the field network_host_project_id. Field introduced in 18.1.2.",
+                    "type": "string"
+                },
+                "usable_network_refs": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "use_gcp_network": {
+                    "description": "Use Google Cloud Platform Network for Private VIP allocation. By default Avi Vantage Network is used for Private VIP allocation. Field introduced in 18.1.2.",
+                    "type": "boolean"
+                },
+                "vpc_network_name": {
+                    "description": "Google Cloud Platform VPC Network Name. Field introduced in 18.1.2.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpamDnsInfobloxProfile": {
+            "type": "object",
+            "required": [
+                "ip_address",
+                "password",
+                "username"
+            ],
+            "properties": {
+                "dns_view": {
+                    "description": "DNS view.",
+                    "type": "string",
+                    "default": "default"
+                },
+                "extensible_attributes": {
+                    "description": "Custom parameters that will passed to the Infoblox provider as extensible attributes. Field introduced in 18.2.7, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CustomParams"
+                    }
+                },
+                "ip_address": {
+                    "description": "Address of Infoblox appliance.",
+                    "$ref": "#/definitions/IpAddr"
+                },
+                "network_view": {
+                    "description": "Network view.",
+                    "type": "string",
+                    "default": "default"
+                },
+                "password": {
+                    "description": "Password for API access for Infoblox appliance.",
+                    "type": "string"
+                },
+                "usable_alloc_subnets": {
+                    "description": "Subnets to use for Infoblox IP allocation. Field introduced in 18.2.8, 20.1.1.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/InfobloxSubnet"
+                    }
+                },
+                "usable_domains": {
+                    "description": "Usable domains to pick from Infoblox.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "usable_subnets": {
+                    "description": "This field is deprecated, use usable_alloc_subnets instead. Field deprecated in 18.2.8.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpAddrPrefix"
+                    }
+                },
+                "username": {
+                    "description": "Username for API access for Infoblox appliance.",
+                    "type": "string"
+                },
+                "wapi_version": {
+                    "description": "WAPI version.",
+                    "type": "string",
+                    "default": "2.0"
+                }
+            }
+        },
+        "IpamDnsInternalProfile": {
+            "type": "object",
+            "properties": {
+                "dns_service_domain": {
+                    "description": "List of service domains.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DnsServiceDomain"
+                    }
+                },
+                "dns_virtualservice_ref": {
+                    "description": "Avi VirtualService to be used for serving DNS records. It is a reference to an object of type VirtualService.",
+                    "type": "string"
+                },
+                "ttl": {
+                    "description": "Default TTL for all records, overridden by TTL value for each service domain configured in DnsServiceDomain. Allowed values are 1-604800.",
+                    "type": "integer",
+                    "default": 30,
+                    "format": "int32"
+                },
+                "usable_network_refs": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. It is a reference to an object of type Network.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "IpamDnsOCIProfile": {
+            "type": "object",
+            "properties": {
+                "cloud_credentials_ref": {
+                    "description": "Credentials to access oracle cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.1,18.1.3.",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "Region in which Oracle cloud resource resides. Field introduced in 18.2.1,18.1.3.",
+                    "type": "string"
+                },
+                "tenancy": {
+                    "description": "Oracle Cloud Id for tenant aka root compartment. Field introduced in 18.2.1,18.1.3.",
+                    "type": "string"
+                },
+                "vcn_compartment_id": {
+                    "description": "Oracle cloud compartment id in which VCN resides. Field introduced in 18.2.1,18.1.3.",
+                    "type": "string"
+                },
+                "vcn_id": {
+                    "description": "Virtual Cloud network id where virtual ip will belong. Field introduced in 18.2.1,18.1.3.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpamDnsOpenstackProfile": {
+            "type": "object",
+            "properties": {
+                "keystone_host": {
+                    "description": "Keystone's hostname or IP address.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "The password Avi Vantage will use when authenticating to Keystone.",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "Region name.",
+                    "type": "string"
+                },
+                "tenant": {
+                    "description": "OpenStack tenant name.",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "The username Avi Vantage will use when authenticating to Keystone.",
+                    "type": "string"
+                },
+                "vip_network_name": {
+                    "description": "Network to be used for VIP allocation.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpamDnsProviderProfile": {
+            "type": "object",
+            "required": [
+                "name",
+                "type"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "allocate_ip_in_vrf": {
+                    "description": "If this flag is set, only allocate IP from networks in the Virtual Service VRF. Applicable for Avi Vantage IPAM only. Field introduced in 17.2.4.",
+                    "type": "boolean"
+                },
+                "aws_profile": {
+                    "description": "Provider details if type is AWS.",
+                    "$ref": "#/definitions/IpamDnsAwsProfile"
+                },
+                "azure_profile": {
+                    "description": "Provider details if type is Microsoft Azure. Field introduced in 17.2.1.",
+                    "$ref": "#/definitions/IpamDnsAzureProfile"
+                },
+                "custom_profile": {
+                    "description": "Provider details if type is Custom. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/IpamDnsCustomProfile"
+                },
+                "gcp_profile": {
+                    "description": "Provider details if type is Google Cloud.",
+                    "$ref": "#/definitions/IpamDnsGCPProfile"
+                },
+                "infoblox_profile": {
+                    "description": "Provider details if type is Infoblox.",
+                    "$ref": "#/definitions/IpamDnsInfobloxProfile"
+                },
+                "internal_profile": {
+                    "description": "Provider details if type is Avi.",
+                    "$ref": "#/definitions/IpamDnsInternalProfile"
+                },
+                "name": {
+                    "description": "Name for the IPAM/DNS Provider profile.",
+                    "type": "string"
+                },
+                "oci_profile": {
+                    "description": "Provider details for Oracle Cloud. Field introduced in 18.2.1,18.1.3.",
+                    "$ref": "#/definitions/IpamDnsOCIProfile"
+                },
+                "openstack_profile": {
+                    "description": "Provider details if type is OpenStack.",
+                    "$ref": "#/definitions/IpamDnsOpenstackProfile"
+                },
+                "proxy_configuration": {
+                    "description": " Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/ProxyConfiguration"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "tencent_profile": {
+                    "description": "Provider details for Tencent Cloud. Field introduced in 18.2.3.",
+                    "$ref": "#/definitions/IpamDnsTencentProfile"
+                },
+                "type": {
+                    "description": "Provider Type for the IPAM/DNS Provider profile. Enum options - IPAMDNS_TYPE_INFOBLOX, IPAMDNS_TYPE_AWS, IPAMDNS_TYPE_OPENSTACK, IPAMDNS_TYPE_GCP, IPAMDNS_TYPE_INFOBLOX_DNS, IPAMDNS_TYPE_CUSTOM, IPAMDNS_TYPE_CUSTOM_DNS, IPAMDNS_TYPE_AZURE, IPAMDNS_TYPE_OCI, IPAMDNS_TYPE_TENCENT, IPAMDNS_TYPE_INTERNAL, IPAMDNS_TYPE_INTERNAL_DNS, IPAMDNS_TYPE_AWS_DNS, IPAMDNS_TYPE_AZURE_DNS.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID of the IPAM/DNS Provider profile.",
+                    "type": "string"
+                }
+            }
+        },
+        "IpamDnsProviderProfileApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
+                "results"
+            ],
+            "properties": {
+                "count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/IpamDnsProviderProfile"
+                    }
+                },
+                "next": {
+                    "type": "string"
+                }
+            }
+        },
+        "IpamDnsTencentProfile": {
+            "type": "object",
+            "required": [
+                "region",
+                "vpc_id"
+            ],
+            "properties": {
+                "cloud_credentials_ref": {
+                    "description": "Credentials to access Tencent cloud. It is a reference to an object of type CloudConnectorUser. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "VPC region. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "usable_subnet_ids": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vpc_id": {
+                    "description": "VPC ID. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "zones": {
+                    "description": "Network configuration for Virtual IP per AZ. Field introduced in 18.2.3.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TencentZoneNetwork"
+                    }
+                }
+            }
+        },
+        "ProxyConfiguration": {
+            "type": "object",
+            "required": [
+                "host",
+                "port"
+            ],
+            "properties": {
+                "host": {
+                    "description": "Proxy hostname or IP address.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "Password for proxy.",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "Proxy port.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "username": {
+                    "description": "Username for proxy.",
+                    "type": "string"
+                }
+            }
+        },
+        "TencentZoneNetwork": {
+            "type": "object",
+            "required": [
+                "availability_zone",
+                "usable_subnet_id"
+            ],
+            "properties": {
+                "availability_zone": {
+                    "description": "Availability zone. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "usable_subnet_id": {
+                    "description": "Usable networks for Virtual IP. If VirtualService does not specify a network and auto_allocate_ip is set, then the first available network from this list will be chosen for IP allocation. Field introduced in 18.2.3.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

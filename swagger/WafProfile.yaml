@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi WafProfile Object API
     contact:
         name: Avi Networks Inc.
@@ -443,22 +443,21 @@ definitions:
                 default: 32
                 format: int32
             confidence_override:
-                description: "Configure thresholds for confidence labels. Field introduced in 18.2.3."
+                description: "Deprecated (Moved to WafPolicy). Configure thresholds for confidence labels. Field deprecated in 20.1.1. Field introduced in 18.2.3."
                 $ref: '#/definitions/AppLearningConfidenceOverride'
             cookie_format_version:
                 description: "0  For Netscape Cookies. 1  For version 1 cookies. Allowed values are 0-1. Field introduced in 17.2.1."
                 type: integer
                 format: int32
             enable_auto_rule_updates:
-                description: "Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field introduced in 18.2.3."
+                description: "Deprecated (Moved to WafPolicy). Enable Application Learning based rule updates on the WAF Profile. Rules will be programmed in dedicated WAF learning group. Field deprecated in 20.1.1. Field introduced in 18.2.3."
                 type: boolean
-                default: True
             ignore_incomplete_request_body_error:
                 description: "Ignore request body parsing errors due to partial scanning. Field introduced in 18.1.5, 18.2.1."
                 type: boolean
                 default: True
             learning_params:
-                description: "Parameters for tuning Application learning. Field introduced in 18.2.3."
+                description: "Deprecated (Moved to WafPolicy). Parameters for tuning Application learning. Field deprecated in 20.1.1. Field introduced in 18.2.3."
                 $ref: '#/definitions/AppLearningParams'
             max_execution_time:
                 description: "The maximum period of time WAF processing is allowed to take for a single request. A value of 0 (zero) means no limit and should not be chosen in production deployments. It is only used for exceptional situations where crashes of se_dp processes are acceptable. The behavior of the system if this time is exceeded depends on two other configuration settings, the WAF policy mode and the WAF failure mode. In WAF policy mode 'Detection', the request is allowed and flagged for both failure mode 'Closed' and 'Open'. In enforcement node, 'Closed' means the request is rejected, 'Open' means the request is allowed and flagged. Irrespective of these settings, no subsequent WAF rules of this or other phases will be executed once the maximum execution time has been exceeded. Allowed values are 0-5000. Field introduced in 17.2.12, 18.1.2."
@@ -466,13 +465,17 @@ definitions:
                 default: 50
                 format: int32
             min_confidence:
-                description: "Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field introduced in 18.2.3."
+                description: "Deprecated (Moved to WafPolicy) Minimum confidence label required for auto rule updates. Enum options - CONFIDENCE_VERY_HIGH, CONFIDENCE_HIGH, CONFIDENCE_PROBABLE, CONFIDENCE_LOW, CONFIDENCE_NONE. Field deprecated in 20.1.1. Field introduced in 18.2.3."
                 type: string
-                default: "CONFIDENCE_VERY_HIGH"
             regex_match_limit:
                 description: "Limit CPU utilization for each regular expression match when processing rules. Field introduced in 17.2.5."
                 type: integer
                 default: 30000
+                format: int32
+            regex_recursion_limit:
+                description: "Limit depth of recursion for each regular expression match when processing rules. Field introduced in 18.2.9."
+                type: integer
+                default: 10000
                 format: int32
             request_body_default_action:
                 description: "WAF default action for Request Body Phase. Field introduced in 17.2.1."
@@ -514,6 +517,10 @@ definitions:
                 description: "HTTP status code used by WAF Positive Security Model when rejecting a request. Enum options - HTTP_RESPONSE_CODE_0, HTTP_RESPONSE_CODE_100, HTTP_RESPONSE_CODE_101, HTTP_RESPONSE_CODE_200, HTTP_RESPONSE_CODE_201, HTTP_RESPONSE_CODE_202, HTTP_RESPONSE_CODE_203, HTTP_RESPONSE_CODE_204, HTTP_RESPONSE_CODE_205, HTTP_RESPONSE_CODE_206, HTTP_RESPONSE_CODE_300, HTTP_RESPONSE_CODE_301, HTTP_RESPONSE_CODE_302, HTTP_RESPONSE_CODE_303, HTTP_RESPONSE_CODE_304, HTTP_RESPONSE_CODE_305, HTTP_RESPONSE_CODE_307, HTTP_RESPONSE_CODE_400, HTTP_RESPONSE_CODE_401, HTTP_RESPONSE_CODE_402, HTTP_RESPONSE_CODE_403, HTTP_RESPONSE_CODE_404, HTTP_RESPONSE_CODE_405, HTTP_RESPONSE_CODE_406, HTTP_RESPONSE_CODE_407, HTTP_RESPONSE_CODE_408, HTTP_RESPONSE_CODE_409, HTTP_RESPONSE_CODE_410, HTTP_RESPONSE_CODE_411, HTTP_RESPONSE_CODE_412, HTTP_RESPONSE_CODE_413, HTTP_RESPONSE_CODE_414, HTTP_RESPONSE_CODE_415, HTTP_RESPONSE_CODE_416, HTTP_RESPONSE_CODE_417, HTTP_RESPONSE_CODE_426, HTTP_RESPONSE_CODE_470, HTTP_RESPONSE_CODE_475, HTTP_RESPONSE_CODE_500, HTTP_RESPONSE_CODE_501, HTTP_RESPONSE_CODE_502, HTTP_RESPONSE_CODE_503, HTTP_RESPONSE_CODE_504, HTTP_RESPONSE_CODE_505. Field introduced in 18.2.3."
                 type: string
                 default: "HTTP_RESPONSE_CODE_403"
+            xml_xxe_protection:
+                description: "Block or flag XML requests referring to External Entities. Field introduced in 20.1.1."
+                type: boolean
+                default: True
     WafDataFile:
         type: object
         required:
@@ -526,6 +533,10 @@ definitions:
             name:
                 description: "WAF Data File Name. Field introduced in 17.2.1."
                 type: string
+            type:
+                description: "WAF data file type. Enum options - WAF_DATAFILE_PM_FROM_FILE, WAF_DATAFILE_DTD, WAF_DATAFILE_XSD. Field introduced in 20.1.1."
+                type: string
+                default: "WAF_DATAFILE_PM_FROM_FILE"
     WafProfile:
         type: object
         required:
@@ -573,3 +584,5 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/WafProfile"
+            next:
+                type: string

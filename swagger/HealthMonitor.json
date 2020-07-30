@@ -1,900 +1,937 @@
 {
+    "swagger": "2.0",
     "info": {
-        "title": "Avi HealthMonitor Object API", 
-        "version": "18.2.8", 
-        "description": "CLI\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\nExamples\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {u'receive_timeout': 4, u'name': u'http-hmon', u'failed_checks': 3, u'send_interval': 10, u'http_monitor': {u'http_request': u'GET / HTTP/1.0'}, u'type': u'HEALTH_MONITOR_HTTP'}\n  ```\n", 
+        "version": "20.1.1",
+        "title": "Avi HealthMonitor Object API",
         "contact": {
-            "url": "https://avinetworks.com/contact-us", 
-            "name": "Avi Networks Inc.", 
+            "name": "Avi Networks Inc.",
+            "url": "https://avinetworks.com/contact-us",
             "email": "support@avinetworks.com"
+        },
+        "description": "CLI\n```\n- configure healthmonitor <key>\n- show healthmonitor <key>\n```\n\nExamples\n- **healthmonitor_example**: To create a basic HTTP health monitor that uses GET / to determine if the service is alive\n  ```json\n    {'name': 'http-hmon', 'send_interval': 10, 'receive_timeout': 4, 'failed_checks': 3, 'type': 'HEALTH_MONITOR_HTTP', 'http_monitor': {'http_request': 'GET / HTTP/1.0'}}\n  ```\n"
+    },
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "basic authentication"
         }
-    }, 
+    },
+    "basePath": "/api",
     "paths": {
-        "/healthmonitor/{uuid}/federated_info/": {
-            "get": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "type": "string"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }
-        }, 
         "/healthmonitor": {
-            "post": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HealthMonitor"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HealthMonitor object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HealthMonitor"
-                        }
-                    }
-                ], 
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "get": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "refers_to",
+                        "in": "query",
+                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "referred_by",
+                        "in": "query",
+                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid",
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HealthMonitorApiResponse"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that refers to another Avi resource. Its syntax is refers_to=<obj_type>:<obj_uuid>. Eg. get all virtual services referring to pool p1 will be refers_to=pool:pool_p1_uuid", 
-                        "name": "refers_to"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "Filter to request all objects that are referred by another Avi resource. Its syntax is referred_by=<obj_type>:<obj_uuid>. Eg. get all pools referred_by virtual service vs1 - referred_by=virtualservice:vs_vs1_uuid", 
-                        "name": "referred_by"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }
-                ], 
+                }
+            },
+            "post": {
                 "consumes": [
                     "application/json"
-                ]
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HealthMonitor object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HealthMonitor"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HealthMonitor"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
             }
-        }, 
+        },
         "/healthmonitor/{uuid}": {
-            "put": {
-                "security": [
-                    {
-                        "basicAuth": []
-                    }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
-                "responses": {
-                    "200": {
-                        "description": "OK", 
-                        "schema": {
-                            "$ref": "#/definitions/HealthMonitor"
-                        }
-                    }, 
-                    "401": {
-                        "description": "log in failed"
-                    }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HealthMonitor object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HealthMonitor"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
-                "consumes": [
-                    "application/json"
-                ]
-            }, 
             "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "X-Avi-Tenant",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.",
+                        "type": "string"
+                    },
+                    {
+                        "name": "include_name",
+                        "in": "query",
+                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "skip_default",
+                        "in": "query",
+                        "description": "Default values are not set.",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "join_subresources",
+                        "in": "query",
+                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.",
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HealthMonitor"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "List of fields to be returned for the resource. Some fields like name, URL, uuid etc. are always returned.", 
-                        "name": "fields"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "All the Avi REST reference URIs have a name suffix as URI#name. It is useful to get the referenced resource name without performing get on that object.", 
-                        "in": "query", 
-                        "name": "include_name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "boolean", 
-                        "description": "Default values are not set.", 
-                        "in": "query", 
-                        "name": "skip_default"
-                    }, 
-                    {
-                        "in": "query", 
-                        "type": "string", 
-                        "description": "It automatically returns additional dependent resources like runtime. Eg. join_subresources=runtime.", 
-                        "name": "join_subresources"
-                    }
-                ], 
+                }
+            },
+            "put": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HealthMonitor object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HealthMonitor"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/HealthMonitor"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
+                }
+            },
             "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "HealthMonitor object creation",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HealthMonitor"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK", 
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/HealthMonitor"
                         }
-                    }, 
+                    },
                     "401": {
                         "description": "log in failed"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "in": "body", 
-                        "description": "HealthMonitor object creation", 
-                        "name": "body", 
-                        "schema": {
-                            "$ref": "#/definitions/HealthMonitor"
-                        }
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            },
+            "delete": {
                 "consumes": [
                     "application/json"
-                ]
-            }, 
-            "delete": {
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "description": "object name",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "security": [
                     {
                         "basicAuth": []
                     }
-                ], 
-                "produces": [
-                    "application/json"
-                ], 
+                ],
                 "responses": {
                     "204": {
-                        "description": "object deleted", 
+                        "description": "object deleted",
                         "schema": {
                             "type": "string"
                         }
-                    }, 
+                    },
                     "404": {
                         "description": "not found"
                     }
-                }, 
-                "parameters": [
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "object name", 
-                        "in": "query", 
-                        "name": "name"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Tenant Header UUID", 
-                        "in": "header", 
-                        "name": "X-Avi-Tenant-UUID"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version.", 
-                        "in": "header", 
-                        "name": "X-Avi-Version"
-                    }, 
-                    {
-                        "required": false, 
-                        "type": "string", 
-                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests.", 
-                        "in": "header", 
-                        "name": "X-CSRFToken"
-                    }, 
-                    {
-                        "required": true, 
-                        "type": "string", 
-                        "description": "UUID of the object to fetch", 
-                        "in": "path", 
-                        "name": "uuid"
-                    }
-                ], 
+                }
+            }
+        },
+        "/healthmonitor/{uuid}/federated_info/": {
+            "get": {
                 "consumes": [
                     "application/json"
-                ]
-            }
-        }
-    }, 
-    "definitions": {
-        "HealthMonitorSSLAttributes": {
-            "required": [
-                "ssl_profile_ref"
-            ], 
-            "type": "object", 
-            "properties": {
-                "pki_profile_ref": {
-                    "type": "string", 
-                    "description": "PKI profile used to validate the SSL certificate presented by a server. It is a reference to an object of type PKIProfile. Field introduced in 17.1.1."
-                }, 
-                "ssl_key_and_certificate_ref": {
-                    "type": "string", 
-                    "description": "Service engines will present this SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 17.1.1."
-                }, 
-                "server_name": {
-                    "type": "string", 
-                    "description": "Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections indicating SNI is enabled. Field introduced in 18.2.3."
-                }, 
-                "ssl_profile_ref": {
-                    "type": "string", 
-                    "description": "SSL profile defines ciphers and SSL versions to be used for healthmonitor traffic to the back-end servers. It is a reference to an object of type SSLProfile. Field introduced in 17.1.1."
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "X-Avi-Tenant",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header"
+                    },
+                    {
+                        "name": "X-Avi-Tenant-UUID",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Tenant Header UUID"
+                    },
+                    {
+                        "name": "X-CSRFToken",
+                        "in": "header",
+                        "type": "string",
+                        "required": false,
+                        "description": "Avi Controller may send back CSRF token in the response cookies. The caller should update the request headers with this token else controller will reject requests."
+                    },
+                    {
+                        "name": "X-Avi-Version",
+                        "in": "header",
+                        "type": "string",
+                        "required": true,
+                        "description": "The caller is required to set Avi Version Header to the expected version of configuration. The response from the controller will provide and accept data according to the specified version. The controller will reject POST and PUT requests where the data is not compatible with the specified version."
+                    },
+                    {
+                        "in": "path",
+                        "name": "uuid",
+                        "description": "UUID of the object to fetch",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "security": [
+                    {
+                        "basicAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "log in failed"
+                    }
                 }
             }
-        }, 
-        "HealthMonitorApiResponse": {
+        }
+    },
+    "definitions": {
+        "HealthMonitor": {
+            "type": "object",
             "required": [
-                "count", 
+                "name",
+                "type"
+            ],
+            "properties": {
+                "_last_modified": {
+                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS).",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "allow_duplicate_monitors": {
+                    "description": "By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently. In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not desired. Use this knob to allow duplicates. Field introduced in 18.2.8.",
+                    "type": "boolean"
+                },
+                "authentication": {
+                    "description": "Authentication information for username/password. Field introduced in 20.1.1.",
+                    "$ref": "#/definitions/HealthMonitorAuthInfo"
+                },
+                "description": {
+                    "description": "User defined description for the object.",
+                    "type": "string"
+                },
+                "disable_quickstart": {
+                    "description": "During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7.",
+                    "type": "boolean"
+                },
+                "dns_monitor": {
+                    "description": "Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorDNS"
+                },
+                "external_monitor": {
+                    "description": "Placeholder for description of property external_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorExternal"
+                },
+                "failed_checks": {
+                    "description": "Number of continuous failed health checks before the server is marked down. Allowed values are 1-50.",
+                    "type": "integer",
+                    "default": 2,
+                    "format": "int32"
+                },
+                "http_monitor": {
+                    "description": "Placeholder for description of property http_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorHttp"
+                },
+                "https_monitor": {
+                    "description": "Placeholder for description of property https_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorHttp"
+                },
+                "is_federated": {
+                    "description": "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3.",
+                    "type": "boolean"
+                },
+                "monitor_port": {
+                    "description": "Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - 'Use server port'.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "name": {
+                    "description": "A user friendly name for this health monitor.",
+                    "type": "string"
+                },
+                "radius_monitor": {
+                    "description": "Health monitor for Radius. Field introduced in 18.2.3.",
+                    "$ref": "#/definitions/HealthMonitorRadius"
+                },
+                "receive_timeout": {
+                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.",
+                    "type": "integer",
+                    "default": 4,
+                    "format": "int32"
+                },
+                "send_interval": {
+                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.",
+                    "type": "integer",
+                    "default": 10,
+                    "format": "int32"
+                },
+                "sip_monitor": {
+                    "description": "Health monitor for SIP. Field introduced in 17.2.8, 18.1.3, 18.2.1.",
+                    "$ref": "#/definitions/HealthMonitorSIP"
+                },
+                "successful_checks": {
+                    "description": "Number of continuous successful health checks before server is marked up. Allowed values are 1-50.",
+                    "type": "integer",
+                    "default": 2,
+                    "format": "int32"
+                },
+                "tcp_monitor": {
+                    "description": "Placeholder for description of property tcp_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorTcp"
+                },
+                "tenant_ref": {
+                    "description": " It is a reference to an object of type Tenant.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS.",
+                    "type": "string"
+                },
+                "udp_monitor": {
+                    "description": "Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object",
+                    "$ref": "#/definitions/HealthMonitorUdp"
+                },
+                "url": {
+                    "description": "url",
+                    "readOnly": true,
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "UUID of the health monitor.",
+                    "type": "string"
+                }
+            }
+        },
+        "HealthMonitorApiResponse": {
+            "type": "object",
+            "required": [
+                "count",
                 "results"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
                 "count": {
-                    "type": "integer", 
+                    "type": "integer",
                     "format": "int32"
-                }, 
+                },
                 "results": {
+                    "type": "array",
                     "items": {
                         "$ref": "#/definitions/HealthMonitor"
-                    }, 
-                    "type": "array"
+                    }
+                },
+                "next": {
+                    "type": "string"
                 }
             }
-        }, 
-        "HealthMonitorSIP": {
-            "type": "object", 
-            "properties": {
-                "sip_monitor_transport": {
-                    "default": "SIP_UDP_PROTO", 
-                    "type": "string", 
-                    "description": "Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1."
-                }, 
-                "sip_request_code": {
-                    "default": "SIP_OPTIONS", 
-                    "type": "string", 
-                    "description": "Specify the SIP request to be sent to the server. By default, SIP OPTIONS request will be sent. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1."
-                }, 
-                "sip_response": {
-                    "default": "SIP/2.0", 
-                    "type": "string", 
-                    "description": "Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8, 18.1.3, 18.2.1."
-                }
-            }
-        }, 
-        "HealthMonitorRadius": {
+        },
+        "HealthMonitorAuthInfo": {
+            "type": "object",
             "required": [
-                "password", 
-                "shared_secret", 
+                "password",
                 "username"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "username": {
-                    "type": "string", 
-                    "description": "Radius monitor will query Radius server with this username. Field introduced in 18.2.3."
-                }, 
                 "password": {
-                    "type": "string", 
-                    "description": "Radius monitor will query Radius server with this password. Field introduced in 18.2.3."
-                }, 
-                "shared_secret": {
-                    "type": "string", 
-                    "description": "Radius monitor will query Radius server with this shared secret. Field introduced in 18.2.3."
+                    "description": "Password for server authentication. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "Username for server authentication. Field introduced in 20.1.1.",
+                    "type": "string"
                 }
             }
-        }, 
-        "HealthMonitorExternal": {
-            "required": [
-                "command_code"
-            ], 
-            "type": "object", 
-            "properties": {
-                "command_code": {
-                    "type": "string", 
-                    "description": "Command script provided inline."
-                }, 
-                "command_parameters": {
-                    "type": "string", 
-                    "description": "Optional arguments to feed into the script."
-                }, 
-                "command_variables": {
-                    "type": "string", 
-                    "description": "Environment variables to be fed into the script."
-                }, 
-                "command_path": {
-                    "type": "string", 
-                    "description": "Path of external health monitor script."
-                }
-            }
-        }, 
-        "HealthMonitor": {
-            "required": [
-                "name", 
-                "type"
-            ], 
-            "type": "object", 
-            "properties": {
-                "https_monitor": {
-                    "description": "Placeholder for description of property https_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorHttp"
-                }, 
-                "receive_timeout": {
-                    "default": 4, 
-                    "type": "integer", 
-                    "description": "A valid response from the server is expected within the receive timeout window.  This timeout must be less than the send interval.  If server status is regularly flapping up and down, consider increasing this value. Allowed values are 1-2400.", 
-                    "format": "int32"
-                }, 
-                "description": {
-                    "type": "string", 
-                    "description": "User defined description for the object."
-                }, 
-                "radius_monitor": {
-                    "description": "Health monitor for Radius. Field introduced in 18.2.3.", 
-                    "$ref": "#/definitions/HealthMonitorRadius"
-                }, 
-                "is_federated": {
-                    "type": "boolean", 
-                    "description": "This field describes the object's replication scope. If the field is set to false, then the object is visible within the controller-cluster and its associated service-engines.  If the field is set to true, then the object is replicated across the federation.  . Field introduced in 17.1.3."
-                }, 
-                "udp_monitor": {
-                    "description": "Placeholder for description of property udp_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorUdp"
-                }, 
-                "http_monitor": {
-                    "description": "Placeholder for description of property http_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorHttp"
-                }, 
-                "successful_checks": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Number of continuous successful health checks before server is marked up. Allowed values are 1-50.", 
-                    "format": "int32"
-                }, 
-                "monitor_port": {
-                    "type": "integer", 
-                    "description": "Use this port instead of the port defined for the server in the Pool. If the monitor succeeds to this port, the load balanced traffic will still be sent to the port of the server defined within the Pool. Allowed values are 1-65535. Special values are 0 - 'Use server port'.", 
-                    "format": "int32"
-                }, 
-                "allow_duplicate_monitors": {
-                    "type": "boolean", 
-                    "description": "By default, multiple instances of the same healthmonitor to the same server are suppressed intelligently. In rare cases, the monitor may have specific constructs that go beyond the server keys (ip, port, etc.) during which such suppression is not desired. Use this knob to allow duplicates. Field introduced in 18.2.8."
-                }, 
-                "_last_modified": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "UNIX time since epoch in microseconds. Units(MICROSECONDS)."
-                }, 
-                "disable_quickstart": {
-                    "type": "boolean", 
-                    "description": "During addition of a server or healthmonitors or during bootup, Avi performs sequential health checks rather than waiting for send-interval to kick in, to mark the server up as soon as possible. This knob may be used to turn this feature off. Field introduced in 18.2.7."
-                }, 
-                "url": {
-                    "readOnly": true, 
-                    "type": "string", 
-                    "description": "url"
-                }, 
-                "dns_monitor": {
-                    "description": "Placeholder for description of property dns_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorDNS"
-                }, 
-                "tenant_ref": {
-                    "type": "string", 
-                    "description": " It is a reference to an object of type Tenant."
-                }, 
-                "uuid": {
-                    "type": "string", 
-                    "description": "UUID of the health monitor."
-                }, 
-                "name": {
-                    "type": "string", 
-                    "description": "A user friendly name for this health monitor."
-                }, 
-                "failed_checks": {
-                    "default": 2, 
-                    "type": "integer", 
-                    "description": "Number of continuous failed health checks before the server is marked down. Allowed values are 1-50.", 
-                    "format": "int32"
-                }, 
-                "tcp_monitor": {
-                    "description": "Placeholder for description of property tcp_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorTcp"
-                }, 
-                "send_interval": {
-                    "default": 10, 
-                    "type": "integer", 
-                    "description": "Frequency, in seconds, that monitors are sent to a server. Allowed values are 1-3600.", 
-                    "format": "int32"
-                }, 
-                "external_monitor": {
-                    "description": "Placeholder for description of property external_monitor of obj type HealthMonitor field type str  type object", 
-                    "$ref": "#/definitions/HealthMonitorExternal"
-                }, 
-                "type": {
-                    "type": "string", 
-                    "description": "Type of the health monitor. Enum options - HEALTH_MONITOR_PING, HEALTH_MONITOR_TCP, HEALTH_MONITOR_HTTP, HEALTH_MONITOR_HTTPS, HEALTH_MONITOR_EXTERNAL, HEALTH_MONITOR_UDP, HEALTH_MONITOR_DNS, HEALTH_MONITOR_GSLB, HEALTH_MONITOR_SIP, HEALTH_MONITOR_RADIUS."
-                }, 
-                "sip_monitor": {
-                    "description": "Health monitor for SIP. Field introduced in 17.2.8, 18.1.3, 18.2.1.", 
-                    "$ref": "#/definitions/HealthMonitorSIP"
-                }
-            }
-        }, 
-        "HealthMonitorHttp": {
-            "type": "object", 
-            "properties": {
-                "http_request": {
-                    "default": "GET / HTTP/1.0", 
-                    "type": "string", 
-                    "description": "Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host  www.site.com Connection  Close."
-                }, 
-                "http_response_code": {
-                    "items": {
-                        "type": "string"
-                    }, 
-                    "type": "array", 
-                    "description": "List of HTTP response codes to match as successful.  Default is 2xx. Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX."
-                }, 
-                "exact_http_request": {
-                    "type": "boolean", 
-                    "description": "Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2."
-                }, 
-                "maintenance_response": {
-                    "type": "string", 
-                    "description": "Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down."
-                }, 
-                "http_response": {
-                    "type": "string", 
-                    "description": "Match for a keyword in the first 2Kb of the server header and body response."
-                }, 
-                "ssl_attributes": {
-                    "description": "SSL attributes for HTTPS health monitor. Field introduced in 17.1.1.", 
-                    "$ref": "#/definitions/HealthMonitorSSLAttributes"
-                }, 
-                "maintenance_code": {
-                    "items": {
-                        "type": "integer"
-                    }, 
-                    "type": "array", 
-                    "description": "Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down. Allowed values are 101-599.", 
-                    "format": "int32"
-                }
-            }
-        }, 
-        "HealthMonitorUdp": {
-            "type": "object", 
-            "properties": {
-                "maintenance_response": {
-                    "type": "string", 
-                    "description": "Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down."
-                }, 
-                "udp_request": {
-                    "type": "string", 
-                    "description": "Send UDP request."
-                }, 
-                "udp_response": {
-                    "type": "string", 
-                    "description": "Match for keyword in the UDP response."
-                }
-            }
-        }, 
+        },
         "HealthMonitorDNS": {
+            "type": "object",
             "required": [
                 "query_name"
-            ], 
-            "type": "object", 
+            ],
             "properties": {
-                "rcode": {
-                    "default": "RCODE_NO_ERROR", 
-                    "type": "string", 
-                    "description": "When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses. Enum options - RCODE_NO_ERROR, RCODE_ANYTHING."
-                }, 
-                "response_string": {
-                    "type": "string", 
-                    "description": "The resource record of the queried DNS server's response for the Request Name must include the IP address defined in this field. ."
-                }, 
-                "query_name": {
-                    "type": "string", 
-                    "description": "The DNS monitor will query the DNS server for the fully qualified name in this field."
-                }, 
                 "qtype": {
-                    "default": "DNS_QUERY_TYPE", 
-                    "type": "string", 
-                    "description": "  Query_Type  Response has atleast one answer of which      the resource record type matches the query type   Any_Type  Response should contain atleast one answer  AnyThing  An empty answer is enough. Enum options - DNS_QUERY_TYPE, DNS_ANY_TYPE, DNS_ANY_THING."
-                }, 
+                    "description": "  Query_Type  Response has atleast one answer of which      the resource record type matches the query type   Any_Type  Response should contain atleast one answer  AnyThing  An empty answer is enough. Enum options - DNS_QUERY_TYPE, DNS_ANY_TYPE, DNS_ANY_THING.",
+                    "type": "string",
+                    "default": "DNS_QUERY_TYPE"
+                },
+                "query_name": {
+                    "description": "The DNS monitor will query the DNS server for the fully qualified name in this field.",
+                    "type": "string"
+                },
+                "rcode": {
+                    "description": "When No Error is selected, a DNS query will be marked failed is any error code is returned by the server.  With Any selected, the monitor ignores error code in the responses. Enum options - RCODE_NO_ERROR, RCODE_ANYTHING.",
+                    "type": "string",
+                    "default": "RCODE_NO_ERROR"
+                },
                 "record_type": {
-                    "default": "DNS_RECORD_A", 
-                    "type": "string", 
-                    "description": "Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.5."
+                    "description": "Resource record type used in the healthmonitor DNS query, only A or AAAA type supported. Enum options - DNS_RECORD_OTHER, DNS_RECORD_A, DNS_RECORD_NS, DNS_RECORD_CNAME, DNS_RECORD_SOA, DNS_RECORD_PTR, DNS_RECORD_HINFO, DNS_RECORD_MX, DNS_RECORD_TXT, DNS_RECORD_RP, DNS_RECORD_DNSKEY, DNS_RECORD_AAAA, DNS_RECORD_SRV, DNS_RECORD_OPT, DNS_RECORD_RRSIG, DNS_RECORD_AXFR, DNS_RECORD_ANY. Field introduced in 18.2.5.",
+                    "type": "string",
+                    "default": "DNS_RECORD_A"
+                },
+                "response_string": {
+                    "description": "The resource record of the queried DNS server's response for the Request Name must include the IP address defined in this field. .",
+                    "type": "string"
                 }
             }
-        }, 
-        "HealthMonitorTcp": {
-            "type": "object", 
+        },
+        "HealthMonitorExternal": {
+            "type": "object",
+            "required": [
+                "command_code"
+            ],
             "properties": {
-                "tcp_request": {
-                    "type": "string", 
-                    "description": "Request data to send after completing the TCP handshake."
-                }, 
-                "maintenance_response": {
-                    "type": "string", 
-                    "description": "Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down."
-                }, 
-                "tcp_half_open": {
-                    "type": "boolean", 
-                    "description": "Configure TCP health monitor to use half-open TCP connections to monitor the health of backend servers thereby avoiding consumption of a full fledged server side connection and the overhead and logs associated with it.  This method is light-weight as it makes use of listener in server's kernel layer to measure the health and a child socket or user thread is not created on the server side."
-                }, 
-                "tcp_response": {
-                    "type": "string", 
-                    "description": "Match for the desired keyword in the first 2Kb of the server's TCP response. If this field is left blank, no server response is required."
+                "command_code": {
+                    "description": "Command script provided inline.",
+                    "type": "string"
+                },
+                "command_parameters": {
+                    "description": "Optional arguments to feed into the script.",
+                    "type": "string"
+                },
+                "command_path": {
+                    "description": "Path of external health monitor script.",
+                    "type": "string"
+                },
+                "command_variables": {
+                    "description": "Environment variables to be fed into the script.",
+                    "type": "string"
                 }
             }
-        }
-    }, 
-    "basePath": "/api", 
-    "swagger": "2.0", 
-    "securityDefinitions": {
-        "basicAuth": {
-            "type": "basic", 
-            "description": "basic authentication"
+        },
+        "HealthMonitorHttp": {
+            "type": "object",
+            "properties": {
+                "auth_type": {
+                    "description": "Type of the authentication method. Enum options - AUTH_BASIC, AUTH_NTLM. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "exact_http_request": {
+                    "description": "Use the exact http_request string as specified by user, without any automatic insert of headers like Host header. Field introduced in 17.1.6,17.2.2.",
+                    "type": "boolean"
+                },
+                "http_request": {
+                    "description": "Send an HTTP request to the server.  The default GET / HTTP/1.0 may be extended with additional headers or information.  For instance, GET /index.htm HTTP/1.1 Host  www.site.com Connection  Close.",
+                    "type": "string",
+                    "default": "GET / HTTP/1.0"
+                },
+                "http_request_body": {
+                    "description": "HTTP request body. Field introduced in 20.1.1.",
+                    "type": "string"
+                },
+                "http_response": {
+                    "description": "Match for a keyword in the first 2Kb of the server header and body response.",
+                    "type": "string"
+                },
+                "http_response_code": {
+                    "description": "List of HTTP response codes to match as successful.  Default is 2xx. Enum options - HTTP_ANY, HTTP_1XX, HTTP_2XX, HTTP_3XX, HTTP_4XX, HTTP_5XX.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "maintenance_code": {
+                    "description": "Match or look for this HTTP response code indicating server maintenance.  A successful match results in the server being marked down. Allowed values are 101-599.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "format": "int32"
+                },
+                "maintenance_response": {
+                    "description": "Match or look for this keyword in the first 2KB of server header and body response indicating server maintenance.  A successful match results in the server being marked down.",
+                    "type": "string"
+                },
+                "response_size": {
+                    "description": "Expected http/https response page size. Allowed values are 2048-16384. Field introduced in 20.1.1.",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "ssl_attributes": {
+                    "description": "SSL attributes for HTTPS health monitor. Field introduced in 17.1.1.",
+                    "$ref": "#/definitions/HealthMonitorSSLAttributes"
+                }
+            }
+        },
+        "HealthMonitorRadius": {
+            "type": "object",
+            "required": [
+                "password",
+                "shared_secret",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "description": "Radius monitor will query Radius server with this password. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "shared_secret": {
+                    "description": "Radius monitor will query Radius server with this shared secret. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "Radius monitor will query Radius server with this username. Field introduced in 18.2.3.",
+                    "type": "string"
+                }
+            }
+        },
+        "HealthMonitorSIP": {
+            "type": "object",
+            "properties": {
+                "sip_monitor_transport": {
+                    "description": "Specify the transport protocol TCP or UDP, to be used for SIP health monitor. The default transport is UDP. Enum options - SIP_UDP_PROTO, SIP_TCP_PROTO. Field introduced in 17.2.14, 18.1.5, 18.2.1.",
+                    "type": "string",
+                    "default": "SIP_UDP_PROTO"
+                },
+                "sip_request_code": {
+                    "description": "Specify the SIP request to be sent to the server. By default, SIP OPTIONS request will be sent. Enum options - SIP_OPTIONS. Field introduced in 17.2.8, 18.1.3, 18.2.1.",
+                    "type": "string",
+                    "default": "SIP_OPTIONS"
+                },
+                "sip_response": {
+                    "description": "Match for a keyword in the first 2KB of the server header and body response. By default, it matches for SIP/2.0. Field introduced in 17.2.8, 18.1.3, 18.2.1.",
+                    "type": "string",
+                    "default": "SIP/2.0"
+                }
+            }
+        },
+        "HealthMonitorSSLAttributes": {
+            "type": "object",
+            "required": [
+                "ssl_profile_ref"
+            ],
+            "properties": {
+                "pki_profile_ref": {
+                    "description": "PKI profile used to validate the SSL certificate presented by a server. It is a reference to an object of type PKIProfile. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "server_name": {
+                    "description": "Fully qualified DNS hostname which will be used in the TLS SNI extension in server connections indicating SNI is enabled. Field introduced in 18.2.3.",
+                    "type": "string"
+                },
+                "ssl_key_and_certificate_ref": {
+                    "description": "Service engines will present this SSL certificate to the server. It is a reference to an object of type SSLKeyAndCertificate. Field introduced in 17.1.1.",
+                    "type": "string"
+                },
+                "ssl_profile_ref": {
+                    "description": "SSL profile defines ciphers and SSL versions to be used for healthmonitor traffic to the back-end servers. It is a reference to an object of type SSLProfile. Field introduced in 17.1.1.",
+                    "type": "string"
+                }
+            }
+        },
+        "HealthMonitorTcp": {
+            "type": "object",
+            "properties": {
+                "maintenance_response": {
+                    "description": "Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.",
+                    "type": "string"
+                },
+                "tcp_half_open": {
+                    "description": "Configure TCP health monitor to use half-open TCP connections to monitor the health of backend servers thereby avoiding consumption of a full fledged server side connection and the overhead and logs associated with it.  This method is light-weight as it makes use of listener in server's kernel layer to measure the health and a child socket or user thread is not created on the server side.",
+                    "type": "boolean"
+                },
+                "tcp_request": {
+                    "description": "Request data to send after completing the TCP handshake.",
+                    "type": "string"
+                },
+                "tcp_response": {
+                    "description": "Match for the desired keyword in the first 2Kb of the server's TCP response. If this field is left blank, no server response is required.",
+                    "type": "string"
+                }
+            }
+        },
+        "HealthMonitorUdp": {
+            "type": "object",
+            "properties": {
+                "maintenance_response": {
+                    "description": "Match or look for this keyword in the first 2KB of server's response indicating server maintenance.  A successful match results in the server being marked down.",
+                    "type": "string"
+                },
+                "udp_request": {
+                    "description": "Send UDP request.",
+                    "type": "string"
+                },
+                "udp_response": {
+                    "description": "Match for keyword in the UDP response.",
+                    "type": "string"
+                }
+            }
         }
     }
 }

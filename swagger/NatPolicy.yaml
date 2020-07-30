@@ -2,7 +2,7 @@
 ---
 swagger: '2.0'
 info:
-    version: '18.2.8'
+    version: '20.1.1'
     title: Avi NatPolicy Object API
     contact:
         name: Avi Networks Inc.
@@ -409,6 +409,18 @@ definitions:
             end:
                 description: "Ending IP address of the range."
                 $ref: '#/definitions/IpAddr'
+    L4RuleProtocolMatch:
+        type: object
+        required:
+            -   match_criteria
+            -   protocol
+        properties:
+            match_criteria:
+                description: "Criterion to use for transport protocol matching. Enum options - IS_IN, IS_NOT_IN. Field introduced in 17.2.7."
+                type: string
+            protocol:
+                description: "Transport protocol to match. Enum options - PROTOCOL_ICMP, PROTOCOL_TCP, PROTOCOL_UDP. Field introduced in 17.2.7."
+                type: string
     NatAddrInfo:
         type: object
         properties:
@@ -474,6 +486,8 @@ definitions:
                 type: array
                 items:
                     $ref: "#/definitions/NatPolicy"
+            next:
+                type: string
     NatPolicyAction:
         type: object
         required:
@@ -535,6 +549,9 @@ definitions:
             destination_port:
                 description: "Destination Port of the packet. Field introduced in 18.2.5."
                 $ref: '#/definitions/PortMatch'
+            protocol:
+                description: "Protocol to match. Field introduced in 20.1.1."
+                $ref: '#/definitions/L4RuleProtocolMatch'
             source_port:
                 description: "Source Port of the packet. Field introduced in 18.2.5."
                 $ref: '#/definitions/PortMatch'
